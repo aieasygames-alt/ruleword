@@ -1,15 +1,24 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { VALID_WORDS } from './words'
+import { IDIOMS, getDailyIdiom, getRandomIdiom } from './idioms'
 import type { CellState } from './types'
 import { getTranslation, type Language } from './locales'
 import Mastermind from './Mastermind'
 
 type GameType = 'menu' | 'wordle' | 'mastermind'
 
-const WORD_LENGTH = 5
+const WORD_LENGTH_EN = 5
+const WORD_LENGTH_ZH = 4
 const MAX_GUESSES = 6
 
-const KEYBOARD_ROWS = [
+const KEYBOARD_ROWS_EN = [
+  ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+  ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'Backspace'],
+]
+
+// 中文拼音键盘
+const KEYBOARD_ROWS_ZH = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
   ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'Backspace'],
@@ -34,15 +43,29 @@ function getDayIndex(): number {
   return Math.floor((now - startDate) / 86400000)
 }
 
-// 根据日期获取单词
-function getDailyWord(): string {
+// 根据日期和语言获取单词/成语
+function getDailyWord(language: Language): string {
+  if (language === 'zh') {
+    return getDailyIdiom()
+  }
   const dayIndex = getDayIndex()
   return VALID_WORDS[dayIndex % VALID_WORDS.length]
 }
 
-// 获取随机单词（练习模式）
-function getRandomWord(): string {
+// 获取随机单词/成语（练习模式）
+function getRandomWord(language: Language): string {
+  if (language === 'zh') {
+    return getRandomIdiom()
+  }
   return VALID_WORDS[Math.floor(Math.random() * VALID_WORDS.length)]
+}
+
+// 验证单词/成语
+function isValidWord(word: string, language: Language): boolean {
+  if (language === 'zh') {
+    return IDIOMS.includes(word)
+  }
+  return VALID_WORDS.includes(word)
 }
 
 // 存储键名
@@ -181,7 +204,13 @@ function playSound(type: 'key' | 'success' | 'fail' | 'win', enabled: boolean) {
 export default function App() {
   const [gameType, setGameType] = useState<GameType>('menu')
   const [gameMode, setGameMode] = useState<GameMode>('daily')
-  const [solution, setSolution] = useState<string>(() => getDailyWord())
+  const [settings, setSettings] = useState<Settings>(loadSettings)
+
+  // 根据语言决定单词长度
+  const wordLength = settings.language === 'zh' ? WORD_LENGTH_ZH : WORD_LENGTH_EN
+  const keyboardRows = settings.language === 'zh' ? KEYBOARD_ROWS_ZH : KEYBOARD_ROWS_EN
+
+  const [solution, setSolution] = useState<string>(() => getDailyWord(settings.language))
   const [guesses, setGuesses] = useState<string[]>(() => {
     const save = loadSave()
     return save?.guesses ?? []
@@ -219,7 +248,6 @@ export default function App() {
     return new Set()
   })
   const [countdown, setCountdown] = useState(getTimeToNextWord())
-  const [settings, setSettings] = useState<Settings>(loadSettings)
   const [stats, setStats] = useState<Stats>(loadStats)
 
   const initializedRef = useRef(false)
@@ -229,11 +257,11 @@ export default function App() {
 
   const evaluate = useCallback(
     (word: string): CellState[] => {
-      const result: CellState[] = new Array(WORD_LENGTH).fill('absent')
+      const result: CellState[] = new Array(wordLength).fill('absent')
       const solutionChars = solution.split('')
       const wordChars = word.split('')
 
-      for (let i = 0; i < WORD_LENGTH; i++) {
+      for (let i = 0; i < wordLength; i++) {
         if (wordChars[i] === solutionChars[i]) {
           result[i] = 'correct'
           solutionChars[i] = '#'
@@ -241,7 +269,7 @@ export default function App() {
         }
       }
 
-      for (let i = 0; i < WORD_LENGTH; i++) {
+      for (let i = 0; i < wordLength; i++) {
         if (wordChars[i] === '*') continue
         const idx = solutionChars.indexOf(wordChars[i])
         if (idx !== -1) {
@@ -252,7 +280,7 @@ export default function App() {
 
       return result
     },
-    [solution]
+    [solution, wordLength]
   )
 
   const updateKeyStates = useCallback((word: string, states: CellState[]) => {
@@ -332,9 +360,9 @@ export default function App() {
   }, [generateShareText])
 
   const handleHint = useCallback(() => {
-    if (gameOver || hintsUsed >= WORD_LENGTH) return
+    if (gameOver || hintsUsed >= wordLength) return
 
-    for (let i = 0; i < WORD_LENGTH; i++) {
+    for (let i = 0; i < wordLength; i++) {
       if (!revealedHints.has(i)) {
         const newHints = new Set(revealedHints)
         newHints.add(i)
@@ -343,14 +371,14 @@ export default function App() {
         break
       }
     }
-  }, [gameOver, hintsUsed, revealedHints])
+  }, [gameOver, hintsUsed, revealedHints, wordLength])
 
   const handleKeyPress = useCallback(
     (key: string) => {
       if (gameOver) return
 
       if (key === 'Enter') {
-        if (current.length !== WORD_LENGTH) {
+        if (current.length !== wordLength) {
           setMessage(t.tooShort)
           setShakeRow(true)
           playSound('fail', settings.soundEnabled)
@@ -361,7 +389,7 @@ export default function App() {
           return
         }
 
-        if (!VALID_WORDS.includes(current)) {
+        if (!isValidWord(current, settings.language)) {
           setMessage(t.notInList)
           setShakeRow(true)
           playSound('fail', settings.soundEnabled)
@@ -406,7 +434,8 @@ export default function App() {
             setShowShare(true)
             playSound('win', settings.soundEnabled)
           } else if (isGameOver) {
-            setMessage(`${t.theWordWas} ${solution.toUpperCase()}`)
+            const displaySolution = settings.language === 'zh' ? solution : solution.toUpperCase()
+            setMessage(`${t.theWordWas} ${displaySolution}`)
             setGameOver(true)
             setWon(false)
             setShowShare(true)
@@ -442,18 +471,25 @@ export default function App() {
               hintsUsed,
             })
           }
-        }, WORD_LENGTH * 300 + 100)
+        }, wordLength * 300 + 100)
       } else if (key === 'Backspace') {
         setCurrent(current.slice(0, -1))
         playSound('key', settings.soundEnabled)
+      } else if (settings.language === 'zh') {
+        // Chinese mode: accept Chinese characters
+        if (/[\u4e00-\u9fff]/.test(key) && current.length < wordLength) {
+          setCurrent((c) => c + key)
+          playSound('key', settings.soundEnabled)
+        }
       } else if (/^[a-zA-Z]$/.test(key)) {
-        if (current.length < WORD_LENGTH) {
+        // English mode: accept English letters
+        if (current.length < wordLength) {
           setCurrent((c) => c + key.toLowerCase())
           playSound('key', settings.soundEnabled)
         }
       }
     },
-    [current, gameOver, guesses, solution, evaluate, updateKeyStates, settings.hardMode, settings.soundEnabled, validateHardMode, t, stats, hintsUsed, gameMode]
+    [current, gameOver, guesses, solution, evaluate, updateKeyStates, settings.hardMode, settings.soundEnabled, settings.language, validateHardMode, t, stats, hintsUsed, gameMode, wordLength]
   )
 
   // 键盘事件
@@ -483,7 +519,7 @@ export default function App() {
   const switchToDaily = () => {
     setGameMode('daily')
     const save = loadSave()
-    setSolution(getDailyWord())
+    setSolution(getDailyWord(settings.language))
     setGuesses(save?.guesses ?? [])
     setCurrent('')
     setGameOver(save?.gameOver ?? false)
@@ -501,7 +537,7 @@ export default function App() {
 
   const switchToPractice = () => {
     setGameMode('practice')
-    setSolution(getRandomWord())
+    setSolution(getRandomWord(settings.language))
     setGuesses([])
     setCurrent('')
     setGameOver(false)
@@ -514,7 +550,7 @@ export default function App() {
   }
 
   const playAgain = () => {
-    setSolution(getRandomWord())
+    setSolution(getRandomWord(settings.language))
     setGuesses([])
     setCurrent('')
     setGameOver(false)
@@ -538,6 +574,21 @@ export default function App() {
     const newSettings = { ...settings, language: newLang }
     setSettings(newSettings)
     saveSettings(newSettings)
+    // Reset game with new word in new language
+    if (gameMode === 'daily') {
+      setSolution(getDailyWord(newLang))
+    } else {
+      setSolution(getRandomWord(newLang))
+    }
+    setGuesses([])
+    setCurrent('')
+    setGameOver(false)
+    setWon(false)
+    setKeyStates({})
+    setHintsUsed(0)
+    setRevealedHints(new Set())
+    setShowShare(false)
+    setMessage('')
   }
 
   const toggleSound = () => {
@@ -581,12 +632,12 @@ export default function App() {
               <p><strong>📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</strong></p>
               <p className="pl-4">
                 {settings.language === 'zh'
-                  ? '在6次机会内猜出5个字母的英文单词。输入单词后按回车提交。'
+                  ? '在6次机会内猜出4字成语。输入汉字后按回车提交。'
                   : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
               </p>
               <div className="flex gap-2 pl-4 my-2">
-                <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '字母正确且位置正确' : 'Correct position'}</span>
-                <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '字母正确但位置错误' : 'Wrong position'}</span>
+                <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '字正确且位置正确' : 'Correct position'}</span>
+                <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '字正确但位置错误' : 'Wrong position'}</span>
               </div>
               <p className="mt-3"><strong>🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</strong></p>
               <p className="pl-4">
@@ -612,7 +663,7 @@ export default function App() {
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {settings.language === 'zh' ? '6次机会猜出5字母单词' : '6 tries to guess 5-letter word'}
+                    {settings.language === 'zh' ? '6次机会猜出4字成语' : '6 tries to guess 5-letter word'}
                   </p>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -761,12 +812,16 @@ export default function App() {
 
             return (
               <div key={row} className={`flex gap-1.5 ${isShaking ? 'animate-shake' : ''}`}>
-                {Array.from({ length: WORD_LENGTH }).map((_, i) => {
+                {Array.from({ length: wordLength }).map((_, i) => {
                   const char = word[i] ?? ''
                   const state = guesses[row] ? states[i] : undefined
                   const isFilled = char !== ''
                   const isRevealingCell = isRevealing && guesses[row]
                   const isHint = revealedHints.has(i) && row === guesses.length
+
+                  // For Chinese, don't uppercase; for English, do uppercase
+                  const displayChar = char || (isHint && row === guesses.length ? solution[i] : '')
+                  const finalChar = settings.language === 'zh' ? displayChar : displayChar.toUpperCase()
 
                   return (
                     <div
@@ -788,7 +843,7 @@ export default function App() {
                         animationDelay: isRevealingCell ? `${i * 300}ms` : isWinRow ? `${i * 100}ms` : '0ms',
                       }}
                     >
-                      <div className="cell-inner">{char || (isHint && row === guesses.length ? solution[i].toUpperCase() : '')}</div>
+                      <div className="cell-inner">{finalChar}</div>
                     </div>
                   )
                 })}
@@ -812,18 +867,18 @@ export default function App() {
         <div className="mb-2 flex gap-2">
           <button
             onClick={handleHint}
-            disabled={hintsUsed >= WORD_LENGTH}
+            disabled={hintsUsed >= wordLength}
             className={`px-4 py-3 rounded-lg text-sm font-semibold transition-colors ${
-              hintsUsed >= WORD_LENGTH ? 'bg-gray-700 text-gray-500' : 'bg-blue-600 hover:bg-blue-500'
+              hintsUsed >= wordLength ? 'bg-gray-700 text-gray-500' : 'bg-blue-600 hover:bg-blue-500'
             }`}
           >
-            💡 {t.hint} ({WORD_LENGTH - hintsUsed})
+            💡 {t.hint} ({wordLength - hintsUsed})
           </button>
           <button
             onClick={() => handleKeyPress('Enter')}
-            disabled={current.length !== WORD_LENGTH}
+            disabled={current.length !== wordLength}
             className={`px-6 py-3 rounded-lg text-sm font-bold transition-colors ${
-              current.length === WORD_LENGTH ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-gray-700 text-gray-500'
+              current.length === wordLength ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-gray-700 text-gray-500'
             }`}
           >
             {t.enter}
@@ -844,42 +899,62 @@ export default function App() {
       )}
 
       {/* Virtual Keyboard */}
-      <div className="w-full max-w-md space-y-2">
-        {KEYBOARD_ROWS.map((row, rowIdx) => (
-          <div key={rowIdx} className="flex justify-center gap-1.5">
-            {row.map((key) => {
-              const state = keyStates[key.toLowerCase()]
-              const isSpecial = key === 'Enter' || key === 'Backspace'
-
-              return (
-                <button
-                  key={key}
-                  onClick={() => handleKeyPress(key)}
-                  className={[
-                    'keyboard-key',
-                    keyBgClass,
-                    state === 'correct' && 'key-correct',
-                    state === 'present' && 'key-present',
-                    state === 'absent' && 'key-absent',
-                    isSpecial && 'key-special',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                >
-                  {key === 'Backspace' ? (
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414-6.414A2 2 0 0110.828 5H19a2 2 0 012 2v10a2 2 0 01-2 2h-8.172a2 2 0 01-1.414-.586L3 12z" />
-                    </svg>
-                  ) : key === 'Enter' ? (
-                    t.enter
-                  ) : (
-                    key.toUpperCase()
-                  )}
-                </button>
-              )
-            })}
+      <div className="w-full max-w-md">
+        {settings.language === 'zh' ? (
+          // Chinese mode: show IME hint and backspace
+          <div className="text-center space-y-3">
+            <div className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              {t.useIME || '请使用键盘输入汉字'}
+            </div>
+            <button
+              onClick={() => handleKeyPress('Backspace')}
+              className={`px-6 py-3 rounded-lg ${keyBgClass}`}
+            >
+              <svg className="w-6 h-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414-6.414A2 2 0 0110.828 5H19a2 2 0 012 2v10a2 2 0 01-2 2h-8.172a2 2 0 01-1.414-.586L3 12z" />
+              </svg>
+            </button>
           </div>
-        ))}
+        ) : (
+          // English mode: show full keyboard
+          <div className="space-y-2">
+            {keyboardRows.map((row, rowIdx) => (
+              <div key={rowIdx} className="flex justify-center gap-1.5">
+                {row.map((key) => {
+                  const state = keyStates[key.toLowerCase()]
+                  const isSpecial = key === 'Enter' || key === 'Backspace'
+
+                  return (
+                    <button
+                      key={key}
+                      onClick={() => handleKeyPress(key)}
+                      className={[
+                        'keyboard-key',
+                        keyBgClass,
+                        state === 'correct' && 'key-correct',
+                        state === 'present' && 'key-present',
+                        state === 'absent' && 'key-absent',
+                        isSpecial && 'key-special',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                    >
+                      {key === 'Backspace' ? (
+                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2M3 12l6.414-6.414A2 2 0 0110.828 5H19a2 2 0 012 2v10a2 2 0 01-2 2h-8.172a2 2 0 01-1.414-.586L3 12z" />
+                        </svg>
+                      ) : key === 'Enter' ? (
+                        t.enter
+                      ) : (
+                        key.toUpperCase()
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Countdown */}
