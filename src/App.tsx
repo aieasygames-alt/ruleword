@@ -2,6 +2,9 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { VALID_WORDS } from './words'
 import type { CellState } from './types'
 import { getTranslation, type Language } from './locales'
+import Mastermind from './Mastermind'
+
+type GameType = 'menu' | 'wordle' | 'mastermind'
 
 const WORD_LENGTH = 5
 const MAX_GUESSES = 6
@@ -176,6 +179,7 @@ function playSound(type: 'key' | 'success' | 'fail' | 'win', enabled: boolean) {
 }
 
 export default function App() {
+  const [gameType, setGameType] = useState<GameType>('menu')
   const [gameMode, setGameMode] = useState<GameMode>('daily')
   const [solution, setSolution] = useState<string>(() => getDailyWord())
   const [guesses, setGuesses] = useState<string[]>(() => {
@@ -557,6 +561,87 @@ export default function App() {
   const modalBgClass = settings.darkMode ? 'bg-slate-800' : 'bg-white'
   const keyBgClass = settings.darkMode ? 'bg-gray-500' : 'bg-gray-300 text-gray-900'
 
+  // Game selection menu
+  if (gameType === 'menu') {
+    return (
+      <div className={`min-h-screen flex flex-col items-center justify-center py-4 px-4 ${bgClass} ${textClass}`}>
+        <div className="max-w-md w-full text-center">
+          <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 RuleWord</h1>
+          <p className={`text-sm mb-8 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            {settings.language === 'zh' ? '选择一个游戏开始' : 'Choose a game to play'}
+          </p>
+
+          <div className="space-y-4">
+            {/* Wordle Game */}
+            <button
+              onClick={() => setGameType('wordle')}
+              className={`w-full p-6 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">📝</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '猜出5个字母的单词' : 'Guess the 5-letter word'}
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '对位' : 'Correct'}</span>
+                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '错位' : 'Present'}</span>
+                  </div>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Mastermind Game */}
+            <button
+              onClick={() => setGameType('mastermind')}
+              className={`w-full p-6 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔐</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '破解4个颜色的密码' : 'Crack the 4-color code'}
+                  </p>
+                  <div className="flex gap-2 mt-2">
+                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '对位' : 'Correct'}</span>
+                    <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '错位' : 'Wrong pos'}</span>
+                  </div>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+          </div>
+
+          {/* Settings Row */}
+          <div className={`mt-8 flex justify-center gap-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <button onClick={toggleLanguage} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm font-medium">
+              {settings.language === 'en' ? '中文' : 'English'}
+            </button>
+            <button onClick={toggleTheme} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
+              {settings.darkMode ? '☀️' : '🌙'}
+            </button>
+            <button onClick={toggleSound} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
+              {settings.soundEnabled ? '🔊' : '🔇'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Mastermind game
+  if (gameType === 'mastermind') {
+    return <Mastermind settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Wordle game (original)
   return (
     <div className={`min-h-screen flex flex-col items-center justify-between py-4 px-2 ${bgClass} ${textClass}`}>
       {/* Header */}
@@ -564,6 +649,11 @@ export default function App() {
         <div className={`flex items-center justify-between border-b ${borderClass} pb-3 mb-4`}>
           {/* 左侧按钮 */}
           <div className="flex items-center gap-1">
+            <button onClick={() => setGameType('menu')} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded" title={settings.language === 'zh' ? '返回菜单' : 'Back to menu'}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
             <button onClick={() => setShowHelp(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
