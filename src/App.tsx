@@ -12,7 +12,7 @@ const MAX_GUESSES = 6
 const KEYBOARD_ROWS = [
   ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
   ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-  ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', 'Backspace'],
+  ['z', 'x', 'c', 'v', 'b', 'n', 'm', 'Backspace'],
 ]
 
 type KeyState = Record<string, CellState | undefined>
@@ -567,27 +567,53 @@ export default function App() {
       <div className={`min-h-screen flex flex-col items-center justify-center py-4 px-4 ${bgClass} ${textClass}`}>
         <div className="max-w-md w-full text-center">
           <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 RuleWord</h1>
-          <p className={`text-sm mb-8 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-sm mb-6 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             {settings.language === 'zh' ? '选择一个游戏开始' : 'Choose a game to play'}
           </p>
+
+          {/* How to Play Section */}
+          <div className={`mb-6 p-4 rounded-xl ${modalBgClass} border ${borderClass} text-left`}>
+            <h3 className="font-bold mb-3 flex items-center gap-2">
+              <span>📖</span>
+              {settings.language === 'zh' ? '游戏玩法' : 'How to Play'}
+            </h3>
+            <div className={`text-sm space-y-2 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              <p><strong>📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</strong></p>
+              <p className="pl-4">
+                {settings.language === 'zh'
+                  ? '在6次机会内猜出5个字母的英文单词。输入单词后按回车提交。'
+                  : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
+              </p>
+              <div className="flex gap-2 pl-4 my-2">
+                <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '字母正确且位置正确' : 'Correct position'}</span>
+                <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '字母正确但位置错误' : 'Wrong position'}</span>
+              </div>
+              <p className="mt-3"><strong>🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</strong></p>
+              <p className="pl-4">
+                {settings.language === 'zh'
+                  ? '在8次机会内破解4个颜色的密码组合。'
+                  : 'Crack the 4-color code in 8 tries.'}
+              </p>
+              <div className="flex gap-2 pl-4 my-2">
+                <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '颜色对且位置对' : 'Correct'}</span>
+                <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '颜色对但位置错' : 'Wrong pos'}</span>
+              </div>
+            </div>
+          </div>
 
           <div className="space-y-4">
             {/* Wordle Game */}
             <button
               onClick={() => setGameType('wordle')}
-              className={`w-full p-6 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
             >
               <div className="flex items-center gap-4">
                 <div className="text-4xl">📝</div>
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {settings.language === 'zh' ? '猜出5个字母的单词' : 'Guess the 5-letter word'}
+                    {settings.language === 'zh' ? '6次机会猜出5字母单词' : '6 tries to guess 5-letter word'}
                   </p>
-                  <div className="flex gap-2 mt-2">
-                    <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '对位' : 'Correct'}</span>
-                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '错位' : 'Present'}</span>
-                  </div>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -598,19 +624,15 @@ export default function App() {
             {/* Mastermind Game */}
             <button
               onClick={() => setGameType('mastermind')}
-              className={`w-full p-6 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
             >
               <div className="flex items-center gap-4">
                 <div className="text-4xl">🔐</div>
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {settings.language === 'zh' ? '破解4个颜色的密码' : 'Crack the 4-color code'}
+                    {settings.language === 'zh' ? '8次机会破解颜色密码' : '8 tries to crack color code'}
                   </p>
-                  <div className="flex gap-2 mt-2">
-                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '对位' : 'Correct'}</span>
-                    <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '错位' : 'Wrong pos'}</span>
-                  </div>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -785,17 +807,26 @@ export default function App() {
         </div>
       </div>
 
-      {/* Hint Button */}
+      {/* Action Buttons - Hint and Submit */}
       {!gameOver && (
-        <div className="mb-2">
+        <div className="mb-2 flex gap-2">
           <button
             onClick={handleHint}
             disabled={hintsUsed >= WORD_LENGTH}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+            className={`px-4 py-3 rounded-lg text-sm font-semibold transition-colors ${
               hintsUsed >= WORD_LENGTH ? 'bg-gray-700 text-gray-500' : 'bg-blue-600 hover:bg-blue-500'
             }`}
           >
             💡 {t.hint} ({WORD_LENGTH - hintsUsed})
+          </button>
+          <button
+            onClick={() => handleKeyPress('Enter')}
+            disabled={current.length !== WORD_LENGTH}
+            className={`px-6 py-3 rounded-lg text-sm font-bold transition-colors ${
+              current.length === WORD_LENGTH ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-gray-700 text-gray-500'
+            }`}
+          >
+            {t.enter}
           </button>
         </div>
       )}
