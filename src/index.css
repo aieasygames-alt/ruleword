@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* Base styles */
+body {
+  font-family: 'Inter', 'Nunito Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent pull-to-refresh on mobile */
+html, body {
+  overscroll-behavior: none;
+}
+
 /* Cell styles */
 .cell {
   @apply w-14 h-14 border-2 border-gray-600 flex items-center justify-center
