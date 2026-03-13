@@ -251,6 +251,7 @@ export default function App() {
   const [stats, setStats] = useState<Stats>(loadStats)
 
   const initializedRef = useRef(false)
+  const hiddenInputRef = useRef<HTMLInputElement>(null)
 
   const dayNumber = getDayIndex() + 1
   const t = getTranslation(settings.language)
@@ -514,6 +515,28 @@ export default function App() {
     }, 1000)
     return () => clearInterval(timer)
   }, [])
+
+  // 中文模式下点击游戏区域时聚焦隐藏输入框
+  const focusHiddenInput = () => {
+    if (settings.language === 'zh' && hiddenInputRef.current && !gameOver) {
+      hiddenInputRef.current.focus()
+    }
+  }
+
+  // 处理隐藏输入框的输入
+  const handleHiddenInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (value && /[\u4e00-\u9fff]/.test(value[value.length - 1])) {
+      // 只处理新输入的中文字符
+      const newChar = value[value.length - 1]
+      if (current.length < wordLength) {
+        setCurrent((c) => c + newChar)
+        playSound('key', settings.soundEnabled)
+      }
+    }
+    // 清空输入框以便继续输入
+    e.target.value = ''
+  }, [current, wordLength, settings.soundEnabled])
 
   // 切换游戏模式
   const switchToDaily = () => {
@@ -799,8 +822,27 @@ export default function App() {
         )}
       </div>
 
+      {/* Hidden input for Chinese IME */}
+      {settings.language === 'zh' && (
+        <input
+          ref={hiddenInputRef}
+          type="text"
+          onChange={handleHiddenInput}
+          className="absolute opacity-0 pointer-events-none"
+          style={{ width: 0, height: 0 }}
+          inputMode="text"
+          autoCapitalize="off"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+        />
+      )}
+
       {/* Game Board */}
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div
+        className="flex-1 flex flex-col items-center justify-center"
+        onClick={focusHiddenInput}
+      >
         <div className="grid grid-rows-6 gap-1.5 mb-4">
           {Array.from({ length: MAX_GUESSES }).map((_, row) => {
             const word = guesses[row] ?? (row === guesses.length ? current : '')
@@ -903,9 +945,12 @@ export default function App() {
         {settings.language === 'zh' ? (
           // Chinese mode: show IME hint and backspace
           <div className="text-center space-y-3">
-            <div className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            <button
+              onClick={focusHiddenInput}
+              className={`text-sm px-4 py-2 rounded-lg ${settings.darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'} transition-colors`}
+            >
               {t.useIME || '请使用键盘输入汉字'}
-            </div>
+            </button>
             <button
               onClick={() => handleKeyPress('Backspace')}
               className={`px-6 py-3 rounded-lg ${keyBgClass}`}
