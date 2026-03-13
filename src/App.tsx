@@ -13,20 +13,79 @@ const KEYBOARD_ROWS = [
 
 type KeyState = Record<string, CellState | undefined>
 
-function getRandomWord(): string {
-  return VALID_WORDS[Math.floor(Math.random() * VALID_WORDS.length)]
+// 获取每日单词索引
+function getDayIndex(): number {
+  const startDate = new Date('2024-01-01').getTime()
+  const now = new Date().setHours(0, 0, 0, 0)
+  return Math.floor((now - startDate) / 86400000)
+}
+
+// 根据日期获取单词
+function getDailyWord(): string {
+  const dayIndex = getDayIndex()
+  return VALID_WORDS[dayIndex % VALID_WORDS.length]
+}
+
+// 本地存储键名
+const STORAGE_KEY = 'ruleword_save'
+
+type SaveData = {
+  dayIndex: number
+  guesses: string[]
+  gameOver: boolean
+  won: boolean
+}
+
+// 加载存档
+function loadSave(): SaveData | null {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY)
+    if (data) {
+      const parsed = JSON.parse(data) as SaveData
+      // 只恢复当天的存档
+      if (parsed.dayIndex === getDayIndex()) {
+        return parsed
+      }
+    }
+  } catch {
+    // ignore
+  }
+  return null
+}
+
+// 保存进度
+function saveSave(data: SaveData): void {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+// 清除存档
+function clearSave(): void {
+  localStorage.removeItem(STORAGE_KEY)
 }
 
 export default function App() {
-  const [solution, setSolution] = useState<string>(() => getRandomWord())
-  const [guesses, setGuesses] = useState<string[]>([])
+  const [solution] = useState<string>(() => getDailyWord())
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    const save = loadSave()
+    return save?.guesses ?? []
+  })
   const [current, setCurrent] = useState('')
-  const [gameOver, setGameOver] = useState(false)
-  const [won, setWon] = useState(false)
+  const [gameOver, setGameOver] = useState(() => {
+    const save = loadSave()
+    return save?.gameOver ?? false
+  })
+  const [won, setWon] = useState(() => {
+    const save = loadSave()
+    return save?.won ?? false
+  })
   const [message, setMessage] = useState('')
   const [keyStates, setKeyStates] = useState<KeyState>({})
   const [shakeRow, setShakeRow] = useState(false)
   const [revealingRow, setRevealingRow] = useState<number | null>(null)
+  const [showShare, setShowShare] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  const dayNumber = getDayIndex() + 1
 
   const evaluate = useCallback(
     (word: string): CellState[] => {
@@ -65,7 +124,6 @@ export default function App() {
         word.split('').forEach((char, i) => {
           const currentState = newStates[char]
           const newState = states[i]
-          // Priority: correct > present > absent
           if (
             currentState === 'correct' ||
             (currentState === 'present' && newState === 'absent')
@@ -80,6 +138,31 @@ export default function App() {
     []
   )
 
+  // 生成分享文本
+  const generateShareText = useCallback(() => {
+    const emoji: Record<CellState, string> = {
+      correct: '🟩',
+      present: '🟨',
+      absent: '⬛',
+      empty: '⬜',
+    }
+    const lines = [`RuleWord #${dayNumber} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
+    guesses.forEach((guess) => {
+      const states = evaluate(guess)
+      const line = states.map((s) => emoji[s]).join('')
+      lines.push(line)
+    })
+    return lines.join('\n')
+  }, [guesses, won, dayNumber, evaluate])
+
+  const handleShare = useCallback(() => {
+    const text = generateShareText()
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [generateShareText])
+
   const handleKeyPress = useCallback(
     (key: string) => {
       if (gameOver) return
@@ -91,7 +174,6 @@ export default function App() {
           return
         }
 
-        // 验证单词是否在词库中（可选：移除此检查允许任意单词）
         if (!VALID_WORDS.includes(current)) {
           setMessage('Not in word list')
           setShakeRow(true)
@@ -107,22 +189,34 @@ export default function App() {
         setRevealingRow(guesses.length)
         setGuesses(newGuesses)
 
-        // 延迟更新键盘状态和检查胜负
         setTimeout(() => {
           updateKeyStates(current, states)
           setRevealingRow(null)
 
-          if (current === solution) {
+          const isWin = current === solution
+          const isGameOver = isWin || newGuesses.length >= MAX_GUESSES
+
+          if (isWin) {
             setMessage('🎉 Brilliant!')
             setGameOver(true)
             setWon(true)
-          } else if (newGuesses.length >= MAX_GUESSES) {
-            setMessage(`The word was "${solution.toUpperCase()}"`)
+            setShowShare(true)
+          } else if (isGameOver) {
+            setMessage(solution.toUpperCase())
             setGameOver(true)
             setWon(false)
+            setShowShare(true)
           } else {
             setCurrent('')
           }
+
+          // 保存进度
+          saveSave({
+            dayIndex: getDayIndex(),
+            guesses: newGuesses,
+            gameOver: isGameOver,
+            won: isWin,
+          })
         }, WORD_LENGTH * 300 + 100)
       } else if (key === 'Backspace') {
         setCurrent(current.slice(0, -1))
@@ -139,49 +233,27 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       handleKeyPress(e.key)
     }
-
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [handleKeyPress])
 
-  const resetGame = () => {
-    setSolution(getRandomWord())
-    setGuesses([])
-    setCurrent('')
-    setGameOver(false)
-    setWon(false)
-    setMessage('')
-    setKeyStates({})
-    setRevealingRow(null)
-  }
+  // 初始化键盘状态
+  useEffect(() => {
+    guesses.forEach((guess) => {
+      updateKeyStates(guess, evaluate(guess))
+    })
+  }, [])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between py-4 px-2 bg-gray-900 text-white">
+    <div className="min-h-screen flex flex-col items-center justify-between py-4 px-2 bg-slate-900 text-white">
       {/* Header */}
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
-          <div className="w-10" />
+          <div className="w-10 text-left text-xs text-gray-400">
+            #{dayNumber}
+          </div>
           <h1 className="text-2xl font-bold tracking-wider">RuleWord</h1>
-          <button
-            onClick={resetGame}
-            className="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-gray-700 transition-colors"
-            title="New Game"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-              />
-            </svg>
-          </button>
+          <div className="w-10" />
         </div>
       </div>
 
@@ -190,15 +262,11 @@ export default function App() {
         <div className="grid grid-rows-6 gap-1.5 mb-4">
           {Array.from({ length: MAX_GUESSES }).map((_, row) => {
             const word = guesses[row] ?? (row === guesses.length ? current : '')
-            const states =
-              row < guesses.length
-                ? evaluate(guesses[row])
-                : row === guesses.length && revealingRow !== null
-                  ? []
-                  : []
+            const states = row < guesses.length ? evaluate(guesses[row]) : []
             const isRevealing = revealingRow === row
             const isCurrentRow = row === guesses.length && !gameOver
             const isShaking = shakeRow && isCurrentRow
+            const isWinRow = gameOver && won && row === guesses.length - 1
 
             return (
               <div
@@ -221,14 +289,19 @@ export default function App() {
                         state === 'absent' && guesses[row] && 'cell-absent',
                         isFilled && !state && 'cell-filled',
                         isRevealingCell && 'cell-reveal',
+                        isWinRow && 'cell-win',
                       ]
                         .filter(Boolean)
                         .join(' ')}
                       style={{
-                        animationDelay: isRevealingCell ? `${i * 300}ms` : '0ms',
+                        animationDelay: isRevealingCell
+                          ? `${i * 300}ms`
+                          : isWinRow
+                            ? `${i * 100}ms`
+                            : '0ms',
                       }}
                     >
-                      {char}
+                      <div className="cell-inner">{char}</div>
                     </div>
                   )
                 })}
@@ -241,8 +314,8 @@ export default function App() {
         <div className="h-8 flex items-center justify-center">
           {message && (
             <div
-              className={`px-4 py-2 rounded-lg font-semibold ${
-                won ? 'bg-green-600' : won === false && gameOver ? 'bg-red-600' : 'bg-gray-700'
+              className={`toast px-4 py-2 rounded-lg font-semibold ${
+                won ? 'bg-green-600' : won === false && gameOver ? 'bg-gray-700' : 'bg-gray-700'
               }`}
             >
               {message}
@@ -299,6 +372,43 @@ export default function App() {
           </div>
         ))}
       </div>
+
+      {/* Share Modal */}
+      {showShare && (
+        <div
+          className="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4"
+          onClick={() => setShowShare(false)}
+        >
+          <div
+            className="modal-content bg-slate-800 rounded-2xl p-6 max-w-sm w-full text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-bold mb-2">
+              {won ? '🎉 Excellent!' : '😢 Nice Try!'}
+            </h2>
+            <p className="text-gray-400 mb-4">
+              {won
+                ? `You got it in ${guesses.length} ${guesses.length === 1 ? 'try' : 'tries'}!`
+                : `The word was ${solution.toUpperCase()}`}
+            </p>
+            <div className="bg-slate-700 rounded-lg p-3 mb-4 font-mono text-sm whitespace-pre text-left">
+              {generateShareText()}
+            </div>
+            <button
+              onClick={handleShare}
+              className="w-full py-3 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-colors"
+            >
+              {copied ? '✓ Copied!' : '📋 Copy & Share'}
+            </button>
+            <button
+              onClick={() => setShowShare(false)}
+              className="mt-3 text-gray-400 hover:text-white"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
