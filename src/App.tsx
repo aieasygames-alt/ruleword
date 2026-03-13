@@ -476,14 +476,9 @@ export default function App() {
       } else if (key === 'Backspace') {
         setCurrent(current.slice(0, -1))
         playSound('key', settings.soundEnabled)
-      } else if (settings.language === 'zh') {
-        // Chinese mode: accept Chinese characters
-        if (/[\u4e00-\u9fff]/.test(key) && current.length < wordLength) {
-          setCurrent((c) => c + key)
-          playSound('key', settings.soundEnabled)
-        }
-      } else if (/^[a-zA-Z]$/.test(key)) {
-        // English mode: accept English letters
+      } else if (/^[a-zA-Z]$/.test(key) && settings.language === 'en') {
+        // English mode only: accept English letters
+        // Chinese mode: input is handled by hidden input's onChange
         if (current.length < wordLength) {
           setCurrent((c) => c + key.toLowerCase())
           playSound('key', settings.soundEnabled)
