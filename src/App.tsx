@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { VALID_WORDS } from './words'
 import type { CellState } from './types'
 import { getTranslation, type Language } from './locales'
@@ -13,6 +13,7 @@ const KEYBOARD_ROWS = [
 ]
 
 type KeyState = Record<string, CellState | undefined>
+type GameMode = 'daily' | 'practice'
 
 // 统计数据类型
 type Stats = {
@@ -36,6 +37,11 @@ function getDailyWord(): string {
   return VALID_WORDS[dayIndex % VALID_WORDS.length]
 }
 
+// 获取随机单词（练习模式）
+function getRandomWord(): string {
+  return VALID_WORDS[Math.floor(Math.random() * VALID_WORDS.length)]
+}
+
 // 存储键名
 const SAVE_KEY = 'ruleword_save'
 const STATS_KEY = 'ruleword_stats'
@@ -52,6 +58,8 @@ type SaveData = {
 type Settings = {
   hardMode: boolean
   language: Language
+  soundEnabled: boolean
+  darkMode: boolean
 }
 
 // 默认统计
@@ -104,7 +112,7 @@ function loadSettings(): Settings {
       return JSON.parse(data)
     }
   } catch {}
-  return { hardMode: false, language: 'en' }
+  return { hardMode: false, language: 'en', soundEnabled: true, darkMode: true }
 }
 
 function saveSettings(settings: Settings): void {
@@ -123,13 +131,66 @@ function getTimeToNextWord(): string {
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 }
 
+// 音效 URLs (使用 Web Audio API 生成)
+function playSound(type: 'key' | 'success' | 'fail' | 'win', enabled: boolean) {
+  if (!enabled) return
+
+  const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
+  const oscillator = audioContext.createOscillator()
+  const gainNode = audioContext.createGain()
+
+  oscillator.connect(gainNode)
+  gainNode.connect(audioContext.destination)
+
+  switch (type) {
+    case 'key':
+      oscillator.frequency.value = 300
+      gainNode.gain.value = 0.1
+      oscillator.start()
+      oscillator.stop(audioContext.currentTime + 0.05)
+      break
+    case 'success':
+      oscillator.frequency.value = 523
+      gainNode.gain.value = 0.1
+      oscillator.start()
+      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1)
+      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2)
+      oscillator.stop(audioContext.currentTime + 0.3)
+      break
+    case 'fail':
+      oscillator.frequency.value = 200
+      gainNode.gain.value = 0.1
+      oscillator.start()
+      oscillator.stop(audioContext.currentTime + 0.15)
+      break
+    case 'win':
+      oscillator.frequency.value = 523
+      gainNode.gain.value = 0.1
+      oscillator.start()
+      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.15)
+      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.3)
+      oscillator.frequency.setValueAtTime(1047, audioContext.currentTime + 0.45)
+      oscillator.stop(audioContext.currentTime + 0.6)
+      break
+  }
+}
+
 export default function App() {
-  const [solution] = useState<string>(() => getDailyWord())
-  const save = useMemo(() => loadSave(), [])
-  const [guesses, setGuesses] = useState<string[]>(() => save?.guesses ?? [])
+  const [gameMode, setGameMode] = useState<GameMode>('daily')
+  const [solution, setSolution] = useState<string>(() => getDailyWord())
+  const [guesses, setGuesses] = useState<string[]>(() => {
+    const save = loadSave()
+    return save?.guesses ?? []
+  })
   const [current, setCurrent] = useState('')
-  const [gameOver, setGameOver] = useState(() => save?.gameOver ?? false)
-  const [won, setWon] = useState(() => save?.won ?? false)
+  const [gameOver, setGameOver] = useState(() => {
+    const save = loadSave()
+    return save?.gameOver ?? false
+  })
+  const [won, setWon] = useState(() => {
+    const save = loadSave()
+    return save?.won ?? false
+  })
   const [message, setMessage] = useState('')
   const [keyStates, setKeyStates] = useState<KeyState>({})
   const [shakeRow, setShakeRow] = useState(false)
@@ -138,8 +199,12 @@ export default function App() {
   const [showStats, setShowStats] = useState(false)
   const [showHelp, setShowHelp] = useState(false)
   const [copied, setCopied] = useState(false)
-  const [hintsUsed, setHintsUsed] = useState(() => save?.hintsUsed ?? 0)
+  const [hintsUsed, setHintsUsed] = useState(() => {
+    const save = loadSave()
+    return save?.hintsUsed ?? 0
+  })
   const [revealedHints, setRevealedHints] = useState<Set<number>>(() => {
+    const save = loadSave()
     if (save?.guesses?.length && save.hintsUsed > 0) {
       const hints = new Set<number>()
       for (let i = 0; i < save.hintsUsed; i++) {
@@ -152,6 +217,8 @@ export default function App() {
   const [countdown, setCountdown] = useState(getTimeToNextWord())
   const [settings, setSettings] = useState<Settings>(loadSettings)
   const [stats, setStats] = useState<Stats>(loadStats)
+
+  const initializedRef = useRef(false)
 
   const dayNumber = getDayIndex() + 1
   const t = getTranslation(settings.language)
@@ -243,13 +310,15 @@ export default function App() {
       absent: '⬛',
       empty: '⬜',
     }
-    const lines = [`RuleWord #${dayNumber} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
+    const lines = gameMode === 'daily'
+      ? [`RuleWord #${dayNumber} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
+      : [`RuleWord ${t.practiceMode} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
     guesses.forEach((guess) => {
       const states = evaluate(guess)
       lines.push(states.map((s) => emoji[s]).join(''))
     })
     return lines.join('\n')
-  }, [guesses, won, dayNumber, evaluate])
+  }, [guesses, won, dayNumber, evaluate, gameMode, t])
 
   const handleShare = useCallback(() => {
     navigator.clipboard.writeText(generateShareText()).then(() => {
@@ -261,7 +330,6 @@ export default function App() {
   const handleHint = useCallback(() => {
     if (gameOver || hintsUsed >= WORD_LENGTH) return
 
-    // 找到一个未揭示的位置
     for (let i = 0; i < WORD_LENGTH; i++) {
       if (!revealedHints.has(i)) {
         const newHints = new Set(revealedHints)
@@ -281,6 +349,7 @@ export default function App() {
         if (current.length !== WORD_LENGTH) {
           setMessage(t.tooShort)
           setShakeRow(true)
+          playSound('fail', settings.soundEnabled)
           setTimeout(() => {
             setShakeRow(false)
             setMessage('')
@@ -291,6 +360,7 @@ export default function App() {
         if (!VALID_WORDS.includes(current)) {
           setMessage(t.notInList)
           setShakeRow(true)
+          playSound('fail', settings.soundEnabled)
           setTimeout(() => {
             setShakeRow(false)
             setMessage('')
@@ -304,6 +374,7 @@ export default function App() {
           if (error) {
             setMessage(error)
             setShakeRow(true)
+            playSound('fail', settings.soundEnabled)
             setTimeout(() => {
               setShakeRow(false)
               setMessage('')
@@ -329,17 +400,20 @@ export default function App() {
             setGameOver(true)
             setWon(true)
             setShowShare(true)
+            playSound('win', settings.soundEnabled)
           } else if (isGameOver) {
             setMessage(`${t.theWordWas} ${solution.toUpperCase()}`)
             setGameOver(true)
             setWon(false)
             setShowShare(true)
+            playSound('fail', settings.soundEnabled)
           } else {
             setCurrent('')
+            playSound('success', settings.soundEnabled)
           }
 
-          // 更新统计
-          if (isGameOver) {
+          // 更新统计（仅每日模式）
+          if (isGameOver && gameMode === 'daily') {
             const newStats = { ...stats }
             newStats.played++
             if (isWin) {
@@ -354,24 +428,28 @@ export default function App() {
             saveStats(newStats)
           }
 
-          // 保存进度
-          saveSave({
-            dayIndex: getDayIndex(),
-            guesses: newGuesses,
-            gameOver: isGameOver,
-            won: isWin,
-            hintsUsed,
-          })
+          // 保存进度（仅每日模式）
+          if (gameMode === 'daily') {
+            saveSave({
+              dayIndex: getDayIndex(),
+              guesses: newGuesses,
+              gameOver: isGameOver,
+              won: isWin,
+              hintsUsed,
+            })
+          }
         }, WORD_LENGTH * 300 + 100)
       } else if (key === 'Backspace') {
         setCurrent(current.slice(0, -1))
+        playSound('key', settings.soundEnabled)
       } else if (/^[a-zA-Z]$/.test(key)) {
         if (current.length < WORD_LENGTH) {
           setCurrent((c) => c + key.toLowerCase())
+          playSound('key', settings.soundEnabled)
         }
       }
     },
-    [current, gameOver, guesses, solution, evaluate, updateKeyStates, settings.hardMode, validateHardMode, t, stats, hintsUsed]
+    [current, gameOver, guesses, solution, evaluate, updateKeyStates, settings.hardMode, settings.soundEnabled, validateHardMode, t, stats, hintsUsed, gameMode]
   )
 
   // 键盘事件
@@ -383,7 +461,10 @@ export default function App() {
 
   // 初始化键盘状态
   useEffect(() => {
-    guesses.forEach((guess) => updateKeyStates(guess, evaluate(guess)))
+    if (!initializedRef.current) {
+      initializedRef.current = true
+      guesses.forEach((guess) => updateKeyStates(guess, evaluate(guess)))
+    }
   }, [])
 
   // 倒计时
@@ -393,6 +474,53 @@ export default function App() {
     }, 1000)
     return () => clearInterval(timer)
   }, [])
+
+  // 切换游戏模式
+  const switchToDaily = () => {
+    setGameMode('daily')
+    const save = loadSave()
+    setSolution(getDailyWord())
+    setGuesses(save?.guesses ?? [])
+    setCurrent('')
+    setGameOver(save?.gameOver ?? false)
+    setWon(save?.won ?? false)
+    setKeyStates({})
+    setHintsUsed(save?.hintsUsed ?? 0)
+    setRevealedHints(new Set())
+    setShowShare(false)
+    setMessage('')
+    // 重新加载键盘状态
+    if (save?.guesses) {
+      save.guesses.forEach((guess) => updateKeyStates(guess, evaluate(guess)))
+    }
+  }
+
+  const switchToPractice = () => {
+    setGameMode('practice')
+    setSolution(getRandomWord())
+    setGuesses([])
+    setCurrent('')
+    setGameOver(false)
+    setWon(false)
+    setKeyStates({})
+    setHintsUsed(0)
+    setRevealedHints(new Set())
+    setShowShare(false)
+    setMessage('')
+  }
+
+  const playAgain = () => {
+    setSolution(getRandomWord())
+    setGuesses([])
+    setCurrent('')
+    setGameOver(false)
+    setWon(false)
+    setKeyStates({})
+    setHintsUsed(0)
+    setRevealedHints(new Set())
+    setShowShare(false)
+    setMessage('')
+  }
 
   // 切换设置
   const toggleHardMode = () => {
@@ -408,22 +536,40 @@ export default function App() {
     saveSettings(newSettings)
   }
 
+  const toggleSound = () => {
+    const newSettings = { ...settings, soundEnabled: !settings.soundEnabled }
+    setSettings(newSettings)
+    saveSettings(newSettings)
+  }
+
+  const toggleTheme = () => {
+    const newSettings = { ...settings, darkMode: !settings.darkMode }
+    setSettings(newSettings)
+    saveSettings(newSettings)
+  }
+
   // 统计最大分布值
   const maxDist = Math.max(...stats.distribution, 1)
 
+  const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
+  const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
+  const borderClass = settings.darkMode ? 'border-gray-700' : 'border-gray-300'
+  const modalBgClass = settings.darkMode ? 'bg-slate-800' : 'bg-white'
+  const keyBgClass = settings.darkMode ? 'bg-gray-500' : 'bg-gray-300 text-gray-900'
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-between py-4 px-2 bg-slate-900 text-white">
+    <div className={`min-h-screen flex flex-col items-center justify-between py-4 px-2 ${bgClass} ${textClass}`}>
       {/* Header */}
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
+        <div className={`flex items-center justify-between border-b ${borderClass} pb-3 mb-4`}>
           {/* 左侧按钮 */}
-          <div className="flex items-center gap-2">
-            <button onClick={() => setShowHelp(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded">
+          <div className="flex items-center gap-1">
+            <button onClick={() => setShowHelp(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </button>
-            <button onClick={() => setShowStats(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded">
+            <button onClick={() => setShowStats(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
@@ -433,15 +579,61 @@ export default function App() {
           <h1 className="text-2xl font-bold tracking-wider">{t.title}</h1>
 
           {/* 右侧按钮 */}
-          <div className="flex items-center gap-2">
-            <button onClick={toggleLanguage} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded text-xs font-bold">
+          <div className="flex items-center gap-1">
+            <button onClick={toggleSound} className={`w-8 h-8 flex items-center justify-center rounded text-xs ${settings.soundEnabled ? 'text-green-500' : 'text-gray-500'}`}>
+              {settings.soundEnabled ? (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+              )}
+            </button>
+            <button onClick={toggleTheme} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
+              {settings.darkMode ? (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </button>
+            <button onClick={toggleLanguage} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded text-xs font-bold">
               {settings.language === 'en' ? '中' : 'EN'}
             </button>
-            <button onClick={toggleHardMode} className={`w-8 h-8 flex items-center justify-center rounded text-xs ${settings.hardMode ? 'bg-yellow-500 text-black' : 'hover:bg-gray-700'}`}>
+            <button onClick={toggleHardMode} className={`w-8 h-8 flex items-center justify-center rounded text-xs ${settings.hardMode ? 'bg-yellow-500 text-black' : 'hover:bg-gray-700/30'}`}>
               H
             </button>
           </div>
         </div>
+
+        {/* Mode Tabs */}
+        <div className="flex justify-center gap-2 mb-2">
+          <button
+            onClick={switchToDaily}
+            className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${gameMode === 'daily' ? 'bg-green-600 text-white' : settings.darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-200 text-gray-600'}`}
+          >
+            {t.daily}
+          </button>
+          <button
+            onClick={switchToPractice}
+            className={`px-4 py-1 rounded-full text-sm font-semibold transition-colors ${gameMode === 'practice' ? 'bg-blue-600 text-white' : settings.darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-200 text-gray-600'}`}
+          >
+            {t.practice}
+          </button>
+        </div>
+
+        {/* Day Number */}
+        {gameMode === 'daily' && (
+          <div className="text-center text-xs text-gray-400 mb-2">
+            #{dayNumber}
+          </div>
+        )}
       </div>
 
       {/* Game Board */}
@@ -469,6 +661,7 @@ export default function App() {
                       key={i}
                       className={[
                         'cell',
+                        settings.darkMode ? '' : 'border-gray-400',
                         state === 'correct' && 'cell-correct',
                         state === 'present' && 'cell-present',
                         state === 'absent' && guesses[row] && 'cell-absent',
@@ -495,7 +688,7 @@ export default function App() {
         {/* Message */}
         <div className="h-8 flex items-center justify-center">
           {message && (
-            <div className={`toast px-4 py-2 rounded-lg font-semibold ${won ? 'bg-green-600' : 'bg-gray-700'}`}>
+            <div className={`toast px-4 py-2 rounded-lg font-semibold ${won ? 'bg-green-600' : settings.darkMode ? 'bg-gray-700' : 'bg-gray-600 text-white'}`}>
               {message}
             </div>
           )}
@@ -517,6 +710,18 @@ export default function App() {
         </div>
       )}
 
+      {/* Play Again Button (Practice Mode) */}
+      {gameOver && gameMode === 'practice' && (
+        <div className="mb-2">
+          <button
+            onClick={playAgain}
+            className="px-6 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold transition-colors"
+          >
+            {t.playAgain}
+          </button>
+        </div>
+      )}
+
       {/* Virtual Keyboard */}
       <div className="w-full max-w-md space-y-2">
         {KEYBOARD_ROWS.map((row, rowIdx) => (
@@ -531,6 +736,7 @@ export default function App() {
                   onClick={() => handleKeyPress(key)}
                   className={[
                     'keyboard-key',
+                    keyBgClass,
                     state === 'correct' && 'key-correct',
                     state === 'present' && 'key-present',
                     state === 'absent' && 'key-absent',
@@ -556,17 +762,17 @@ export default function App() {
       </div>
 
       {/* Countdown */}
-      {gameOver && (
+      {gameOver && gameMode === 'daily' && (
         <div className="mt-3 text-center text-sm text-gray-400">
           <div>{t.nextWord}</div>
-          <div className="text-xl font-mono font-bold text-white">{countdown}</div>
+          <div className="text-xl font-mono font-bold">{settings.darkMode ? '' : 'text-gray-900'}{countdown}</div>
         </div>
       )}
 
       {/* Stats Modal */}
       {showStats && (
         <div className="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowStats(false)}>
-          <div className="modal-content bg-slate-800 rounded-2xl p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
+          <div className={`modal-content ${modalBgClass} rounded-2xl p-6 max-w-sm w-full`} onClick={(e) => e.stopPropagation()}>
             <h2 className="text-xl font-bold text-center mb-4">{t.statistics}</h2>
 
             {/* Stats Grid */}
@@ -596,7 +802,7 @@ export default function App() {
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-4 text-right text-sm">{i + 1}</div>
                   <div
-                    className={`h-5 flex items-center px-2 text-xs font-bold ${won && guesses.length === i + 1 && gameOver ? 'bg-green-600' : 'bg-gray-600'}`}
+                    className={`h-5 flex items-center px-2 text-xs font-bold ${won && guesses.length === i + 1 && gameOver ? 'bg-green-600' : settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`}
                     style={{ width: `${Math.max((count / maxDist) * 100, 8)}%`, minWidth: '30px' }}
                   >
                     {count}
@@ -606,14 +812,14 @@ export default function App() {
             </div>
 
             {/* Countdown in stats */}
-            {gameOver && (
+            {gameOver && gameMode === 'daily' && (
               <div className="mt-4 text-center">
                 <div className="text-sm text-gray-400">{t.nextWord}</div>
                 <div className="text-xl font-mono font-bold">{countdown}</div>
               </div>
             )}
 
-            <button onClick={() => setShowStats(false)} className="mt-4 w-full py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+            <button onClick={() => setShowStats(false)} className={`mt-4 w-full py-2 rounded-lg ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
               {t.close}
             </button>
           </div>
@@ -623,7 +829,7 @@ export default function App() {
       {/* Help Modal */}
       {showHelp && (
         <div className="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowHelp(false)}>
-          <div className="modal-content bg-slate-800 rounded-2xl p-6 max-w-sm w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div className={`modal-content ${modalBgClass} rounded-2xl p-6 max-w-sm w-full max-h-[80vh] overflow-y-auto`} onClick={(e) => e.stopPropagation()}>
             <h2 className="text-xl font-bold text-center mb-4">{t.howToPlayTitle}</h2>
 
             <div className="space-y-4 text-sm">
@@ -633,21 +839,21 @@ export default function App() {
 
               <div className="space-y-2 mt-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-green-600 flex items-center justify-center font-bold">W</div>
+                  <div className="w-8 h-8 bg-green-600 flex items-center justify-center font-bold text-white">W</div>
                   <span className="text-xs text-gray-300">{t.greenMeaning}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-yellow-500 flex items-center justify-center font-bold">O</div>
+                  <div className="w-8 h-8 bg-yellow-500 flex items-center justify-center font-bold text-white">O</div>
                   <span className="text-xs text-gray-300">{t.yellowMeaning}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gray-700 flex items-center justify-center font-bold">R</div>
+                  <div className="w-8 h-8 bg-gray-700 flex items-center justify-center font-bold text-white">R</div>
                   <span className="text-xs text-gray-300">{t.grayMeaning}</span>
                 </div>
               </div>
             </div>
 
-            <button onClick={() => setShowHelp(false)} className="mt-6 w-full py-2 bg-gray-700 hover:bg-gray-600 rounded-lg">
+            <button onClick={() => setShowHelp(false)} className={`mt-6 w-full py-2 rounded-lg ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
               {t.close}
             </button>
           </div>
@@ -657,17 +863,22 @@ export default function App() {
       {/* Share Modal */}
       {showShare && (
         <div className="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setShowShare(false)}>
-          <div className="modal-content bg-slate-800 rounded-2xl p-6 max-w-sm w-full text-center" onClick={(e) => e.stopPropagation()}>
+          <div className={`modal-content ${modalBgClass} rounded-2xl p-6 max-w-sm w-full text-center`} onClick={(e) => e.stopPropagation()}>
             <h2 className="text-2xl font-bold mb-2">{won ? t.excellent : t.niceTry}</h2>
             <p className="text-gray-400 mb-4">
               {won ? `${t.gotIt} ${guesses.length} ${guesses.length === 1 ? t.try : t.tries}!` : `${t.theWordWas} ${solution.toUpperCase()}`}
             </p>
-            <div className="bg-slate-700 rounded-lg p-3 mb-4 font-mono text-sm whitespace-pre text-left">
+            <div className={`${settings.darkMode ? 'bg-slate-700' : 'bg-gray-200'} rounded-lg p-3 mb-4 font-mono text-sm whitespace-pre text-left`}>
               {generateShareText()}
             </div>
-            <button onClick={handleShare} className="w-full py-3 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-colors">
+            <button onClick={handleShare} className="w-full py-3 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-colors text-white">
               {copied ? t.copied : t.copyShare}
             </button>
+            {gameMode === 'practice' && (
+              <button onClick={playAgain} className="mt-3 w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold text-white">
+                {t.playAgain}
+              </button>
+            )}
             <button onClick={() => setShowShare(false)} className="mt-3 text-gray-400 hover:text-white">
               {t.close}
             </button>

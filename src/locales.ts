@@ -42,6 +42,13 @@ export const translations = {
     newGame: 'New Game',
     daily: 'Daily',
     practice: 'Practice',
+    practiceMode: 'Practice Mode',
+    dailyMode: 'Daily Mode',
+    playAgain: 'Play Again',
+    sound: 'Sound',
+    theme: 'Theme',
+    lightTheme: 'Light',
+    darkTheme: 'Dark',
   },
   zh: {
     title: 'RuleWord',
@@ -83,6 +90,13 @@ export const translations = {
     newGame: '新游戏',
     daily: '每日',
     practice: '练习',
+    practiceMode: '练习模式',
+    dailyMode: '每日模式',
+    playAgain: '再来一局',
+    sound: '音效',
+    theme: '主题',
+    lightTheme: '浅色',
+    darkTheme: '深色',
   },
 }
 
