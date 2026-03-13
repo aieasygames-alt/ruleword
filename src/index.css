@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* Cell styles */
+.cell {
+  @apply w-14 h-14 border-2 border-gray-600 flex items-center justify-center
+         text-2xl font-bold uppercase transition-colors duration-300;
+}
+
+.cell-filled {
+  @apply border-gray-400;
+}
+
+.cell-correct {
+  @apply bg-green-600 border-green-600 text-white;
+}
+
+.cell-present {
+  @apply bg-yellow-500 border-yellow-500 text-white;
+}
+
+.cell-absent {
+  @apply bg-gray-700 border-gray-700 text-white;
+}
+
+/* Reveal animation */
+.cell-reveal {
+  animation: flip 0.5s ease forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* Shake animation */
+.animate-shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Keyboard styles */
+.keyboard-key {
+  @apply h-14 flex items-center justify-center rounded-md font-bold uppercase
+         bg-gray-500 text-white transition-colors duration-150
+         hover:bg-gray-400 active:scale-95 cursor-pointer select-none;
+  min-width: 2.5rem;
+  flex: 1;
+  max-width: 3rem;
+}
+
+.key-special {
+  @apply text-xs px-2;
+  min-width: 4rem;
+  max-width: 4.5rem;
+  flex: 1.5;
+}
+
+.key-correct {
+  @apply bg-green-600 hover:bg-green-500;
+}
+
+.key-present {
+  @apply bg-yellow-500 hover:bg-yellow-400;
+}
+
+.key-absent {
+  @apply bg-gray-800 hover:bg-gray-700;
+}
+
+/* Win animation */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .cell {
+    @apply w-12 h-12 text-xl;
+  }
+
+  .keyboard-key {
+    @apply h-12 text-sm;
+    min-width: 2rem;
+    max-width: 2.5rem;
+  }
+
+  .key-special {
+    min-width: 3rem;
+    max-width: 3.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .cell {
+    @apply w-10 h-10 text-lg;
+  }
+
+  .keyboard-key {
+    @apply h-11 text-xs;
+    min-width: 1.75rem;
+    max-width: 2.25rem;
+  }
+
+  .key-special {
+    min-width: 2.5rem;
+    max-width: 3rem;
+  }
+}
