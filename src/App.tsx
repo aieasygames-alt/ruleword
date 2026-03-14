@@ -8,6 +8,7 @@ import WordList from './WordList'
 import Dictionary from './Dictionary'
 import Crosswordle from './Crosswordle'
 import GameGuide from './GameGuide'
+import Feedback from './Feedback'
 
 type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle'
 
@@ -1270,6 +1271,9 @@ export default function App() {
           initialGame="wordle"
         />
       )}
+
+      {/* Feedback Component */}
+      <Feedback language={settings.language} />
     </div>
   )
 }
