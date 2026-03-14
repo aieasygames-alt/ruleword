@@ -396,6 +396,18 @@ function checkGrid(grid: Cell[][], puzzle: WordDef[], size: GridSize): { cells: 
     }
   }
 
+  // 重新计算是否全部正确（基于最终的 cell states）
+  allCorrect = true
+  puzzle.forEach(word => {
+    for (let i = 0; i < word.letters.length; i++) {
+      const row = word.direction === 'horizontal' ? word.startRow : word.startRow + i
+      const col = word.direction === 'horizontal' ? word.startCol + i : word.startCol
+      if (row < size && col < size && newStates[row][col] !== 'correct') {
+        allCorrect = false
+      }
+    }
+  })
+
   return { cells: newStates, isCorrect: allCorrect }
 }
 
