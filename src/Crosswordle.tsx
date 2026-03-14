@@ -687,19 +687,6 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
             ))}
           </div>
         )}
-              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
-                history.length > 0
-                  ? 'bg-blue-600 hover:bg-blue-500 text-white'
-                  : 'bg-gray-400 text-gray-600 cursor-not-allowed'
-              }`}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-              </svg>
-              {settings.language === 'zh' ? '撤销' : 'Undo'} {history.length > 0 && `(${history.length})`}
-            </button>
-          </div>
-        )}
 
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
