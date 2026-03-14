@@ -32,11 +32,31 @@ type Settings = {
   darkMode: boolean
 }
 
+// 简单的种子随机数生成器 (Mulberry32)
+function mulberry32(seed: number) {
+  return function() {
+    let t = seed += 0x6D2B79F5
+    t = Math.imul(t ^ t >>> 15, t | 1)
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61)
+    return ((t ^ t >>> 14) >>> 0) / 4294967296
+  }
+}
+
 // 生成随机密码
 function generateCode(): Color[] {
   const code: Color[] = []
   for (let i = 0; i < CODE_LENGTH; i++) {
     code.push(COLORS[Math.floor(Math.random() * COLORS.length)])
+  }
+  return code
+}
+
+// 根据种子生成密码（用于挑战模式）
+function generateCodeBySeed(seed: number): Color[] {
+  const rng = mulberry32(seed)
+  const code: Color[] = []
+  for (let i = 0; i < CODE_LENGTH; i++) {
+    code.push(COLORS[Math.floor(rng() * COLORS.length)])
   }
   return code
 }
@@ -129,6 +149,9 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
   const [won, setWon] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
   const [showGameGuide, setShowGameGuide] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [challengeCopied, setChallengeCopied] = useState(false)
+  const [challengeSeed, setChallengeSeed] = useState<number | null>(null)
 
   const initializedRef = useRef(false)
   const t = getTranslation(settings.language)
@@ -177,6 +200,60 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
 
     setCurrentGuess([])
   }, [currentGuess, answer, attempts, feedbacks, settings.soundEnabled])
+
+  // 生成分享文本
+  const generateShareText = useCallback(() => {
+    const lines = [
+      `🔐 Mastermind ${won ? attempts.length : 'X'}/${MAX_ATTEMPTS}`,
+    ]
+    feedbacks.forEach((feedback) => {
+      const row = feedback.cells.map((cell) => {
+        if (cell === 'correct') return '🟢'
+        if (cell === 'wrongPosition') return '⚪'
+        return '🔴'
+      }).join('')
+      lines.push(row)
+    })
+    return lines.join('\n')
+  }, [feedbacks, won, attempts.length])
+
+  const handleShare = useCallback(() => {
+    navigator.clipboard.writeText(generateShareText()).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [generateShareText])
+
+  // 生成挑战链接
+  const generateChallengeLink = useCallback(() => {
+    const seed = Math.floor(Math.random() * 1000000)
+    const baseUrl = window.location.origin
+    return `${baseUrl}?challenge=mastermind&seed=${seed}`
+  }, [])
+
+  const handleChallengeShare = useCallback(() => {
+    navigator.clipboard.writeText(generateChallengeLink()).then(() => {
+      setChallengeCopied(true)
+      setTimeout(() => setChallengeCopied(false), 2000)
+    })
+  }, [generateChallengeLink])
+
+  // 解析 URL 参数，处理挑战模式
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const challenge = params.get('challenge')
+    const seed = params.get('seed')
+
+    if (challenge === 'mastermind' && seed) {
+      const seedNum = parseInt(seed, 10)
+      if (!isNaN(seedNum)) {
+        setChallengeSeed(seedNum)
+        setAnswer(generateCodeBySeed(seedNum))
+        // 清除 URL 参数
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    }
+  }, [])
 
   const newGame = useCallback(() => {
     setAnswer(generateCode())
@@ -387,6 +464,22 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
               className="mt-4 px-6 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold text-white"
             >
               {settings.language === 'zh' ? '再来一局' : 'Play Again'}
+            </button>
+            <button
+              onClick={handleShare}
+              className="mt-2 px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold text-white"
+            >
+              {copied
+                ? (settings.language === 'zh' ? '已复制!' : 'Copied!')
+                : (settings.language === 'zh' ? '分享战绩' : 'Share Result')}
+            </button>
+            <button
+              onClick={handleChallengeShare}
+              className="mt-2 px-6 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold text-white"
+            >
+              {challengeCopied
+                ? (settings.language === 'zh' ? '链接已复制!' : 'Link copied!')
+                : (settings.language === 'zh' ? '🔗 挑战好友' : '🔗 Challenge Friends')}
             </button>
           </div>
         )}

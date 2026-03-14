@@ -1,6 +1,19 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import GameGuide from './GameGuide'
 
+// 简单的种子随机数生成器 (Mulberry32)
+// 简单的种子随机数生成器 (Mulberry32)
+function mulberry32(seed: number) {
+  let state = seed
+  return function() {
+    state += 0x6D2B79F5
+    let t = state
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+  }
+}
+
 // 网格尺寸类型
 type GridSize = 3 | 7 | 9
 
@@ -454,6 +467,9 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [stats, setStats] = useState<Stats>(() => loadStats())
   const [showGameGuide, setShowGameGuide] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const [challengeCopied, setChallengeCopied] = useState(false)
+  const [challengeSeed, setChallengeSeed] = useState<number | null>(null)
 
   const gridConfig = GRID_CONFIGS[gridSize]
 
@@ -599,6 +615,77 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
     if (state === 'wrong') return 'bg-gray-400'
     return settings.darkMode ? 'bg-gray-700' : 'bg-gray-200'
   }, [cellStates, settings.darkMode])
+
+  // 生成分享文本
+  const generateShareText = useCallback(() => {
+    const stars = swapsLeft >= 10 ? '⭐⭐⭐' : swapsLeft >= 5 ? '⭐⭐' : '⭐'
+    const lines = [
+      `🔤 Crosswordle ${gridSize}x${gridSize} ${won ? stars : 'X'} (${swapsLeft} ${settings.language === 'zh' ? '次剩余' : 'swaps left'})`,
+    ]
+    // 添加网格状态
+    const size = gridConfig.size
+    for (let r = 0; r < size; r++) {
+      let rowStr = ''
+      for (let c = 0; c < size; c++) {
+        const state = cellStates[r]?.[c]
+        if (state === 'correct') rowStr += '🟢'
+        else if (state === 'wrongPosition') rowStr += '🟡'
+        else rowStr += '⬜'
+      }
+      lines.push(rowStr)
+    }
+    return lines.join('\n')
+  }, [cellStates, won, swapsLeft, gridSize, gridConfig.size, settings.language])
+
+  const handleShare = useCallback(() => {
+    navigator.clipboard.writeText(generateShareText()).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }, [generateShareText])
+
+  // 生成挑战链接
+  const generateChallengeLink = useCallback(() => {
+    const seed = Math.floor(Math.random() * 1000000)
+    const baseUrl = window.location.origin
+    return `${baseUrl}?challenge=crosswordle&seed=${seed}&size=${gridSize}`
+  }, [gridSize])
+
+  const handleChallengeShare = useCallback(() => {
+    navigator.clipboard.writeText(generateChallengeLink()).then(() => {
+      setChallengeCopied(true)
+      setTimeout(() => setChallengeCopied(false), 2000)
+    })
+  }, [generateChallengeLink])
+
+  // 解析 URL 参数，处理挑战模式
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const challenge = params.get('challenge')
+    const seed = params.get('seed')
+    const size = params.get('size')
+
+    if (challenge === 'crosswordle' && seed) {
+      const seedNum = parseInt(seed, 10)
+      const sizeNum = parseInt(size || '3', 10) as GridSize
+      if (!isNaN(seedNum)) {
+        setChallengeSeed(seedNum)
+        // 根据种子选择谜题
+        const rng = mulberry32(seedNum)
+        const puzzleLibrary = getPuzzleForSize(sizeNum || 3)
+        const puzzleIndex = Math.floor(rng() * puzzleLibrary.length)
+        const selectedPuzzle = puzzleLibrary[puzzleIndex]
+        setPuzzle(selectedPuzzle)
+        setGridSize(sizeNum || 3)
+        const newGrid = generateShuffledGrid(selectedPuzzle, sizeNum || 3)
+        setGrid(newGrid.grid)
+        setSwapsLeft(GRID_CONFIGS[sizeNum || 3].maxSwaps)
+        setCellStates(Array(GRID_CONFIGS[sizeNum || 3].size).fill(null).map(() => Array(GRID_CONFIGS[sizeNum || 3].size).fill('empty')))
+        // 清除 URL 参数
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    }
+  }, [])
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -832,6 +919,22 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
               ? (settings.language === 'zh' ? '明天再战' : 'Come back tomorrow')
               : (settings.language === 'zh' ? '再来一局' : 'Play Again')
             }
+          </button>
+          <button
+            onClick={handleShare}
+            className="mt-2 px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold text-white"
+          >
+            {copied
+              ? (settings.language === 'zh' ? '已复制!' : 'Copied!')
+              : (settings.language === 'zh' ? '分享战绩' : 'Share Result')}
+          </button>
+          <button
+            onClick={handleChallengeShare}
+            className="mt-2 px-6 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold text-white"
+          >
+            {challengeCopied
+              ? (settings.language === 'zh' ? '链接已复制!' : 'Link copied!')
+              : (settings.language === 'zh' ? '🔗 挑战好友' : '🔗 Challenge Friends')}
           </button>
         </div>
       )}

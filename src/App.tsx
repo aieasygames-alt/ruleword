@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { VALID_WORDS } from './words'
-import { IDIOMS, getDailyIdiom, getRandomIdiom } from './idioms'
+import { VALID_WORDS, getWordBySeed } from './words'
+import { IDIOMS, getDailyIdiom, getRandomIdiom, getIdiomBySeed } from './idioms'
 import type { CellState } from './types'
 import { getTranslation, type Language } from './locales'
 import Mastermind from './Mastermind'
@@ -11,6 +11,14 @@ import GameGuide from './GameGuide'
 import Feedback from './Feedback'
 
 type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle'
+
+// 根据种子获取单词/成语
+function getWordBySeedWithLang(seed: number, language: Language): string {
+  if (language === 'zh') {
+    return getIdiomBySeed(seed)
+  }
+  return getWordBySeed(seed)
+}
 
 const WORD_LENGTH_EN = 5
 const WORD_LENGTH_ZH = 4
@@ -212,6 +220,7 @@ export default function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings)
   const [showHowToPlay, setShowHowToPlay] = useState(false)
   const [showGameGuide, setShowGameGuide] = useState(false)
+  const [challengeSeed, setChallengeSeed] = useState<number | null>(null)
 
   // 根据语言决定单词长度
   const wordLength = settings.language === 'zh' ? WORD_LENGTH_ZH : WORD_LENGTH_EN
@@ -240,6 +249,7 @@ export default function App() {
   const [showHelp, setShowHelp] = useState(false)
   const [showWordList, setShowWordList] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [challengeCopied, setChallengeCopied] = useState(false)
   const [hintsUsed, setHintsUsed] = useState(() => {
     const save = loadSave()
     return save?.hintsUsed ?? 0
@@ -257,6 +267,24 @@ export default function App() {
   })
   const [countdown, setCountdown] = useState(getTimeToNextWord())
   const [stats, setStats] = useState<Stats>(loadStats)
+
+  // 解析 URL 参数，处理挑战模式
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const challenge = params.get('challenge')
+    const seed = params.get('seed')
+
+    if (challenge === 'wordle' && seed) {
+      const seedNum = parseInt(seed, 10)
+      if (!isNaN(seedNum)) {
+        setChallengeSeed(seedNum)
+        setGameMode('challenge')
+        setSolution(getWordBySeedWithLang(seedNum, settings.language))
+        // 清除 URL 参数，避免刷新时重置
+        window.history.replaceState({}, '', window.location.pathname)
+      }
+    }
+  }, [settings.language])
 
   const initializedRef = useRef(false)
   const hiddenInputRef = useRef<HTMLInputElement>(null)
@@ -367,6 +395,22 @@ export default function App() {
       setTimeout(() => setCopied(false), 2000)
     })
   }, [generateShareText])
+
+  // 生成挑战链接
+  const generateChallengeLink = useCallback(() => {
+    const seed = Math.floor(Math.random() * 1000000)
+    const baseUrl = window.location.origin
+    return `${baseUrl}?challenge=wordle&seed=${seed}`
+  }, [])
+
+  // 复制挑战链接
+  const handleChallengeShare = useCallback(() => {
+    const link = generateChallengeLink()
+    navigator.clipboard.writeText(link).then(() => {
+      setChallengeCopied(true)
+      setTimeout(() => setChallengeCopied(false), 2000)
+    })
+  }, [generateChallengeLink])
 
   const handleHint = useCallback(() => {
     if (gameOver || hintsUsed >= wordLength) return
@@ -1241,6 +1285,11 @@ export default function App() {
             </div>
             <button onClick={handleShare} className="w-full py-3 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-colors text-white">
               {copied ? t.copied : t.copyShare}
+            </button>
+            <button onClick={handleChallengeShare} className="mt-3 w-full py-3 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold transition-colors text-white">
+              {challengeCopied
+                ? (settings.language === 'zh' ? '链接已复制!' : 'Link copied!')
+                : (settings.language === 'zh' ? '🔗 挑战好友' : '🔗 Challenge Friends')}
             </button>
             {gameMode === 'practice' && (
               <button onClick={playAgain} className="mt-3 w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold text-white">

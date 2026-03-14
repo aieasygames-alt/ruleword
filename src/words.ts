@@ -1,4 +1,15 @@
 // 常用5字母英文单词库
+
+// 简单的种子随机数生成器 (Mulberry32)
+function mulberry32(seed: number) {
+  return function() {
+    let t = seed += 0x6D2B79F5
+    t = Math.imul(t ^ t >>> 15, t | 1)
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61)
+    return ((t ^ t >>> 14) >>> 0) / 4294967296
+  }
+}
+
 export const WORDS = [
   // 科技相关
   'react', 'rules', 'input', 'logic', 'state', 'hooks', 'array', 'bytes', 'cache', 'debug',
@@ -89,3 +100,10 @@ export const WORDS = [
 
 // 验证单词是否为5字母
 export const VALID_WORDS = WORDS.filter(w => w.length === 5)
+
+// 根据种子获取单词（用于挑战模式）
+export function getWordBySeed(seed: number): string {
+  const rng = mulberry32(seed)
+  const index = Math.floor(rng() * VALID_WORDS.length)
+  return VALID_WORDS[index]
+}

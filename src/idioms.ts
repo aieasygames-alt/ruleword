@@ -1,5 +1,15 @@
 // 常用四字成语词库
 
+// 简单的种子随机数生成器 (Mulberry32)
+function mulberry32(seed: number) {
+  return function() {
+    let t = seed += 0x6D2B79F5
+    t = Math.imul(t ^ t >>> 15, t | 1)
+    t ^= t + Math.imul(t ^ t >>> 7, t | 61)
+    return ((t ^ t >>> 14) >>> 0) / 4294967296
+  }
+}
+
 export const IDIOMS = [
   // 常见成语
   '一举两得', '一鸣惊人', '一石二鸟', '一诺千金', '一目了然',
@@ -145,6 +155,13 @@ export const IDIOMS = [
 // 获取随机成语
 export function getRandomIdiom(): string {
   return IDIOMS[Math.floor(Math.random() * IDIOMS.length)]
+}
+
+// 根据种子获取成语（用于挑战模式）
+export function getIdiomBySeed(seed: number): string {
+  const rng = mulberry32(seed)
+  const index = Math.floor(rng() * IDIOMS.length)
+  return IDIOMS[index]
 }
 
 // 验证成语是否在词库中
