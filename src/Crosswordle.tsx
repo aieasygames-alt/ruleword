@@ -605,42 +605,30 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl font-bold">Crosswordle</h1>
-            <span className={`text-xs px-2 py-1 rounded-full ${
-              gameMode === 'daily'
-                ? 'bg-purple-600 text-white'
-                : gameMode === 'unlimited'
-                ? 'bg-orange-600 text-white'
-                : 'bg-blue-600 text-white'
-            }`}>
-              {gameMode === 'daily'
-                ? (settings.language === 'zh' ? '每日' : 'Daily')
-                : gameMode === 'unlimited'
-                ? (settings.language === 'zh' ? '无限' : 'Unlimited')
-                : (settings.language === 'zh' ? '练习' : 'Practice')
-              }
-              {gameMode !== 'daily' && ` (${gridSize}×${gridSize})`}
-            </span>
-          </div>
-          <button
-            onClick={() => {
-              const nextMode = gameMode === 'daily' ? 'unlimited' : gameMode === 'unlimited' ? 'practice' : 'daily'
-              initializeGame(nextMode)
-            }}
-            className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
-            title={
-              gameMode === 'daily'
-                ? (settings.language === 'zh' ? '切换到无限模式' : 'Switch to Unlimited')
-                : gameMode === 'unlimited'
-                ? (settings.language === 'zh' ? '切换到练习模式' : 'Switch to Practice')
-                : (settings.language === 'zh' ? '切换到每日模式' : 'Switch to Daily')
-            }
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
+          <h1 className="text-xl font-bold">Crosswordle</h1>
+        </div>
+
+        {/* Game Mode Selector */}
+        <div className="flex justify-center gap-2 mb-3">
+          {[
+            { id: 'daily' as GameMode, label: settings.language === 'zh' ? '每日' : 'Daily', color: 'purple' },
+            { id: 'unlimited' as GameMode, label: settings.language === 'zh' ? '无限' : 'Unlimited', color: 'orange' },
+            { id: 'practice' as GameMode, label: settings.language === 'zh' ? '练习' : 'Practice', color: 'blue' }
+          ].map((mode) => (
+            <button
+              key={mode.id}
+              onClick={() => initializeGame(mode.id)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                gameMode === mode.id
+                  ? `bg-${mode.color}-600 text-white`
+                  : settings.darkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {mode.label}
+            </button>
+          ))}
         </div>
 
         {/* Undo Button */}
