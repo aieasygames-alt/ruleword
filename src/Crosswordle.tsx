@@ -1,18 +1,59 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { getTranslation, type Language } from './locales'
 
-const GRID_SIZE = 3 // 3x3 网格
-const MAX_SWAPS = 15 // 最大交换次数
+// 网格尺寸类型
+type GridSize = 3 | 7 | 9
+
+// 默认网格大小
+const DEFAULT_GRID_SIZE: GridSize = 3
+const MAX_SWAPS_BASE = 15 // 基础最大交换次数
 const STORAGE_KEY = 'crosswordle_save'
 const STATS_KEY = 'crosswordle_stats'
+const SETTINGS_KEY = 'crosswordle_settings'
 
 // 字母格子的状态
 type CellState = 'correct' | 'wrongPosition' | 'wrong' | 'empty'
 
 // 游戏模式
-type GameMode = 'daily' | 'practice'
+type GameMode = 'daily' | 'practice' | 'unlimited'
 
-// 网格中的每个格子
+// 网格配置
+interface GridConfig {
+  size: GridSize
+  maxSwaps: number
+  cellSize: string // CSS class for cell size
+}
+
+// 网格配置映射
+const GRID_CONFIGS: Record<GridSize, GridConfig> = {
+  3: { size: 3, maxSwaps: 15, cellSize: 'w-20 h-20' },
+  7: { size: 7, maxSwaps: 40, cellSize: 'w-12 h-12' },
+  9: { size: 9, maxSwaps: 60, cellSize: 'w-10 h-10' },
+}
+
+// Crosswordle 设置类型
+interface CrosswordleSettings {
+  gridSize: GridSize
+}
+
+// 加载 Crosswordle 设置
+function loadCrosswordleSettings(): CrosswordleSettings {
+  try {
+    const data = localStorage.getItem(SETTINGS_KEY)
+    return data ? JSON.parse(data) : { gridSize: DEFAULT_GRID_SIZE }
+  } catch {
+    return { gridSize: DEFAULT_GRID_SIZE }
+  }
+}
+
+// 保存 Crosswordle 设置
+function saveCrosswordleSettings(settings: CrosswordleSettings) {
+  try {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings))
+  } catch (e) {
+    console.error('Failed to save settings:', e)
+  }
+}
 interface Cell {
   letter: string
   state: CellState
@@ -85,6 +126,76 @@ const CROSSWORD_PUZZLES_EN: WordDef[][] = [
     { letters: 'UP', direction: 'vertical', startRow: 0, startCol: 1 },
   ],
 ]
+
+// 7x7 交叉词库
+const CROSSWORD_PUZZLES_7X7: WordDef[][] = [
+  [
+    { letters: 'COUNTRY', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'COUNT', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'TREE', direction: 'vertical', startRow: 0, startCol: 6 },
+  ],
+  [
+    { letters: 'PLAYING', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'PLAY', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'PING', direction: 'vertical', startRow: 0, startCol: 4 },
+  ],
+  [
+    { letters: 'FOREST', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'FOR', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'REST', direction: 'vertical', startRow: 0, startCol: 3 },
+  ],
+  [
+    { letters: 'SUMMER', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'SUM', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'MER', direction: 'vertical', startRow: 0, startCol: 4 },
+  ],
+  [
+    { letters: 'WINTER', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'WIN', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'NET', direction: 'vertical', startRow: 0, startCol: 3 },
+  ],
+]
+
+// 9x9 交叉词库
+const CROSSWORD_PUZZLES_9X9: WordDef[][] = [
+  [
+    { letters: 'BEAUTIFUL', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'BEAUTY', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'FULL', direction: 'vertical', startRow: 0, startCol: 6 },
+  ],
+  [
+    { letters: 'WONDERFUL', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'WONDER', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'FULL', direction: 'vertical', startRow: 0, startCol: 6 },
+  ],
+  [
+    { letters: 'CHALLENGE', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'CHANGE', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'LEVEL', direction: 'vertical', startRow: 0, startCol: 5 },
+  ],
+  [
+    { letters: 'DANGEROUS', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'DANGER', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'ROUS', direction: 'vertical', startRow: 0, startCol: 5 },
+  ],
+  [
+    { letters: 'IMPORTANT', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'IMPORT', direction: 'vertical', startRow: 0, startCol: 0 },
+    { letters: 'ANT', direction: 'vertical', startRow: 0, startCol: 6 },
+  ],
+]
+
+// 获取对应尺寸的谜题库
+function getPuzzleForSize(size: GridSize): WordDef[][] {
+  switch (size) {
+    case 7:
+      return CROSSWORD_PUZZLES_7X7
+    case 9:
+      return CROSSWORD_PUZZLES_9X9
+    default:
+      return CROSSWORD_PUZZLES_EN
+  }
+}
 
 // 获取每日谜题索引
 function getDailyPuzzleIndex(): number {
@@ -184,9 +295,9 @@ function updateStats(won: boolean, swapsLeft: number): Stats {
 }
 
 // 生成打乱的网格
-function generateShuffledGrid(puzzle: WordDef[]): Cell[][] {
-  const grid: Cell[][] = Array(GRID_SIZE).fill(null).map(() =>
-    Array(GRID_SIZE).fill(null).map(() => ({ letter: '', state: 'empty' as CellState, row: 0, col: 0 }))
+function generateShuffledGrid(puzzle: WordDef[], size: GridSize): Cell[][] {
+  const grid: Cell[][] = Array(size).fill(null).map(() =>
+    Array(size).fill(null).map(() => ({ letter: '', state: 'empty' as CellState, row: 0, col: 0 }))
   )
 
   // 先填充正确答案
@@ -194,7 +305,7 @@ function generateShuffledGrid(puzzle: WordDef[]): Cell[][] {
     for (let i = 0; i < word.letters.length; i++) {
       const row = word.direction === 'horizontal' ? word.startRow : word.startRow + i
       const col = word.direction === 'horizontal' ? word.startCol + i : word.startCol
-      if (row < GRID_SIZE && col < GRID_SIZE) {
+      if (row < size && col < size) {
         grid[row][col] = {
           letter: word.letters[i],
           state: 'empty',
@@ -209,8 +320,8 @@ function generateShuffledGrid(puzzle: WordDef[]): Cell[][] {
   const letters: string[] = []
   const positions: { row: number; col: number }[] = []
 
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
       if (grid[r][c].letter) {
         letters.push(grid[r][c].letter)
         positions.push({ row: r, col: c })
@@ -233,9 +344,9 @@ function generateShuffledGrid(puzzle: WordDef[]): Cell[][] {
 }
 
 // 检查网格是否正确
-function checkGrid(grid: Cell[][], puzzle: WordDef[]): { cells: CellState[][], isCorrect: boolean } {
-  const newStates: CellState[][] = Array(GRID_SIZE).fill(null).map(() =>
-    Array(GRID_SIZE).fill('empty' as CellState)
+function checkGrid(grid: Cell[][], puzzle: WordDef[], size: GridSize): { cells: CellState[][], isCorrect: boolean } {
+  const newStates: CellState[][] = Array(size).fill(null).map(() =>
+    Array(size).fill('empty' as CellState)
   )
 
   let allCorrect = true
@@ -245,7 +356,7 @@ function checkGrid(grid: Cell[][], puzzle: WordDef[]): { cells: CellState[][], i
       const row = word.direction === 'horizontal' ? word.startRow : word.startRow + i
       const col = word.direction === 'horizontal' ? word.startCol + i : word.startCol
 
-      if (row < GRID_SIZE && col < GRID_SIZE) {
+      if (row < size && col < size) {
         const currentLetter = grid[row][col].letter
         const correctLetter = word.letters[i]
 
@@ -262,8 +373,8 @@ function checkGrid(grid: Cell[][], puzzle: WordDef[]): { cells: CellState[][], i
   })
 
   // 对于交叉点，如果任一方向是correct则设为correct
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
       // 检查这个位置是否被多个单词覆盖
       const coveredBy = puzzle.filter(word => {
         if (word.direction === 'horizontal') {
@@ -320,26 +431,44 @@ interface CrosswordleProps {
 
 export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
   const [gameMode, setGameMode] = useState<GameMode>('daily')
+  const [gridSize, setGridSize] = useState<GridSize>(() => loadCrosswordleSettings().gridSize)
   const [grid, setGrid] = useState<Cell[][]>([])
   const [cellStates, setCellStates] = useState<CellState[][]>([])
   const [puzzle, setPuzzle] = useState<WordDef[]>(CROSSWORD_PUZZLES_EN[0])
   const [selectedCell, setSelectedCell] = useState<{ row: number; col: number } | null>(null)
-  const [swapsLeft, setSwapsLeft] = useState(MAX_SWAPS)
+  const [swapsLeft, setSwapsLeft] = useState(GRID_CONFIGS[3].maxSwaps)
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
   const [history, setHistory] = useState<HistoryEntry[]>([])
   const [stats, setStats] = useState<Stats>(() => loadStats())
 
+  const gridConfig = GRID_CONFIGS[gridSize]
   const t = getTranslation(settings.language)
 
-  const initializeGame = useCallback((mode?: GameMode) => {
+  const initializeGame = useCallback((mode?: GameMode, size?: GridSize) => {
     const newMode = mode || gameMode
+    const newSize = size || gridSize
     setGameMode(newMode)
+    setGridSize(newSize)
+
+    // 切换到 unlimited 模式时自动调整网格大小
+    let actualMode = newMode
+    let actualSize = newSize
+
+    if (newMode === 'unlimited' && newSize === 3) {
+      actualSize = 7 // unlimited 模式默认使用 7x7
+      setGridSize(7)
+    }
+
+    const newConfig = GRID_CONFIGS[actualSize]
+    const puzzleLibrary = getPuzzleForSize(actualSize)
 
     let puzzleIndex: number
-    if (newMode === 'daily') {
-      puzzleIndex = getDailyPuzzleIndex()
-      // 尝试加载每日模式的存档
+    if (actualMode === 'daily') {
+      // 每日模式只支持 3x3
+      const dailySize = 3
+      setGridSize(dailySize)
+      puzzleIndex = getDailyPuzzleIndex() % CROSSWORD_PUZZLES_EN.length
       const save = loadSave()
       const todayIndex = getDailyPuzzleIndex()
       if (save && save.dayIndex === todayIndex && save.gameMode === 'daily') {
@@ -348,26 +477,26 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         setSwapsLeft(save.swapsLeft)
         setGameOver(save.gameOver)
         setWon(save.won)
-        setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
+        setCellStates(Array(3).fill(null).map(() => Array(3).fill('empty')))
         setHistory([])
         setSelectedCell(null)
         return
       }
     } else {
-      puzzleIndex = Math.floor(Math.random() * CROSSWORD_PUZZLES_EN.length)
+      puzzleIndex = Math.floor(Math.random() * puzzleLibrary.length)
     }
 
-    const selectedPuzzle = CROSSWORD_PUZZLES_EN[puzzleIndex]
+    const selectedPuzzle = puzzleLibrary[puzzleIndex]
     setPuzzle(selectedPuzzle)
-    const newGrid = generateShuffledGrid(selectedPuzzle)
+    const newGrid = generateShuffledGrid(selectedPuzzle, actualSize)
     setGrid(newGrid)
-    setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
-    setSwapsLeft(MAX_SWAPS)
+    setCellStates(Array(actualSize).fill(null).map(() => Array(actualSize).fill('empty')))
+    setSwapsLeft(newConfig.maxSwaps)
     setGameOver(false)
     setWon(false)
     setHistory([])
     setSelectedCell(null)
-  }, [gameMode])
+  }, [gameMode, gridSize])
 
   useEffect(() => {
     initializeGame()
@@ -402,7 +531,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       playSound('swap', settings.soundEnabled)
 
       // 检查是否完成
-      const result = checkGrid(newGrid, puzzle)
+      const result = checkGrid(newGrid, puzzle, gridSize)
       setCellStates(result.cells)
 
       const newSwapsLeft = swapsLeft - 1
@@ -413,14 +542,14 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         setWon(true)
         setGameOver(true)
         playSound('win', settings.soundEnabled)
-        // 更新统计（只对练习模式）
-        if (gameMode === 'practice') {
+        // 更新统计（只对练习和无限模式）
+        if (gameMode === 'practice' || gameMode === 'unlimited') {
           setStats(updateStats(true, newSwapsLeft))
         }
       } else if (isGameOver) {
         setGameOver(true)
-        // 更新统计（只对练习模式）
-        if (gameMode === 'practice') {
+        // 更新统计（只对练习和无限模式）
+        if (gameMode === 'practice' || gameMode === 'unlimited') {
           setStats(updateStats(false, 0))
         }
       }
@@ -481,15 +610,32 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
             <span className={`text-xs px-2 py-1 rounded-full ${
               gameMode === 'daily'
                 ? 'bg-purple-600 text-white'
+                : gameMode === 'unlimited'
+                ? 'bg-orange-600 text-white'
                 : 'bg-blue-600 text-white'
             }`}>
-              {gameMode === 'daily' ? (settings.language === 'zh' ? '每日' : 'Daily') : (settings.language === 'zh' ? '练习' : 'Practice')}
+              {gameMode === 'daily'
+                ? (settings.language === 'zh' ? '每日' : 'Daily')
+                : gameMode === 'unlimited'
+                ? (settings.language === 'zh' ? '无限' : 'Unlimited')
+                : (settings.language === 'zh' ? '练习' : 'Practice')
+              }
+              {gameMode !== 'daily' && ` (${gridSize}×${gridSize})`}
             </span>
           </div>
           <button
-            onClick={() => initializeGame(gameMode === 'daily' ? 'practice' : 'daily')}
+            onClick={() => {
+              const nextMode = gameMode === 'daily' ? 'unlimited' : gameMode === 'unlimited' ? 'practice' : 'daily'
+              initializeGame(nextMode)
+            }}
             className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
-            title={gameMode === 'daily' ? (settings.language === 'zh' ? '切换到练习模式' : 'Switch to Practice') : (settings.language === 'zh' ? '切换到每日模式' : 'Switch to Daily')}
+            title={
+              gameMode === 'daily'
+                ? (settings.language === 'zh' ? '切换到无限模式' : 'Switch to Unlimited')
+                : gameMode === 'unlimited'
+                ? (settings.language === 'zh' ? '切换到练习模式' : 'Switch to Practice')
+                : (settings.language === 'zh' ? '切换到每日模式' : 'Switch to Daily')
+            }
           >
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -517,20 +663,60 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
           </div>
         )}
 
+        {/* Grid Size Selector (仅 unlimited 模式) */}
+        {gameMode !== 'daily' && (
+          <div className="flex justify-center gap-2 mb-3">
+            {[3, 7, 9].map((size) => (
+              <button
+                key={size}
+                onClick={() => {
+                  setGridSize(size as GridSize)
+                  saveCrosswordleSettings({ gridSize: size as GridSize })
+                  initializeGame(gameMode, size as GridSize)
+                }}
+                className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                  gridSize === size
+                    ? 'bg-green-600 text-white'
+                    : settings.darkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                {size}×{size}
+              </button>
+            ))}
+          </div>
+        )}
+              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
+                history.length > 0
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                  : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+              </svg>
+              {settings.language === 'zh' ? '撤销' : 'Undo'} {history.length > 0 && `(${history.length})`}
+            </button>
+          </div>
+        )}
+
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
           {gameMode === 'daily'
-            ? (settings.language === 'zh' ? '每日挑战' : 'Daily Challenge')
-            : (settings.language === 'zh' ? '练习模式' : 'Practice Mode')
+            ? (settings.language === 'zh' ? '每日挑战 (3×3)' : 'Daily Challenge (3×3)')
+            : gameMode === 'unlimited'
+            ? `${settings.language === 'zh' ? '无限模式' : 'Unlimited'} (${gridSize}×${gridSize})`
+            : `${settings.language === 'zh' ? '练习模式' : 'Practice'} (${gridSize}×${gridSize})`
           } • {settings.language === 'zh' ? '剩余' : ''} {swapsLeft} {settings.language === 'zh' ? '次交换' : 'swaps left'}
         </div>
 
         {/* Swap Counter */}
-        <div className="flex justify-center gap-2 mt-3">
-          {Array.from({ length: MAX_SWAPS }).map((_, i) => (
+        <div className="flex justify-center gap-1 mt-3 flex-wrap">
+          {Array.from({ length: gridConfig.maxSwaps }).map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-2 rounded-full ${
+              className={`w-1.5 h-1.5 rounded-full ${
                 i < swapsLeft
                   ? 'bg-green-500'
                   : 'bg-gray-600'
@@ -542,7 +728,13 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
 
       {/* Game Board */}
       <div className="flex-1 flex flex-col items-center justify-center">
-        <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)` }}>
+        <div
+          className="grid gap-1.5"
+          style={{
+            gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+            maxWidth: gridSize === 9 ? '400px' : gridSize === 7 ? '350px' : '300px'
+          }}
+        >
           {grid.map((row, r) =>
             row.map((cell, c) => (
               <button
@@ -550,8 +742,9 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
                 onClick={() => cell.letter && handleCellClick(r, c)}
                 disabled={!cell.letter || gameOver}
                 className={`
-                  w-20 h-20 rounded-lg flex items-center justify-center text-3xl font-bold
+                  ${gridConfig.cellSize} rounded-lg flex items-center justify-center font-bold
                   transition-all duration-200
+                  ${gridSize === 3 ? 'text-3xl' : gridSize === 7 ? 'text-lg' : 'text-base'}
                   ${getCellColor(r, c)}
                   ${!cell.letter ? 'invisible' : 'visible'}
                   ${selectedCell?.row === r && selectedCell?.col === c ? 'ring-4 ring-blue-500 scale-105' : ''}
@@ -604,8 +797,8 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
             </>
           )}
 
-          {/* 统计信息（仅练习模式） */}
-          {gameMode === 'practice' && (
+          {/* 统计信息（练习和无限模式） */}
+          {(gameMode === 'practice' || gameMode === 'unlimited') && (
             <div className={`mt-4 pt-4 border-t ${settings.darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
               <div className={`grid grid-cols-3 gap-4 text-center ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 <div>
