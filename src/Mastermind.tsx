@@ -241,8 +241,8 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>
           {settings.language === 'zh'
-            ? '猜出4个颜色的正确组合！🟢=正确位置 ⚪=错误位置 ⬛=错误'
-            : 'Guess the 4-color code! 🟢=Correct ⚪=Wrong position ⬛=Wrong'}
+            ? '猜出4个颜色的正确组合！🟢=正确位置 ⚪=错误位置 🔴=错误'
+            : 'Guess the 4-color code! 🟢=Correct ⚪=Wrong position 🔴=Wrong'}
         </div>
       </div>
 
@@ -278,7 +278,7 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
                           <div className="w-full h-full bg-white border border-gray-400 rounded-b-lg" />
                         )}
                         {feedback === 'wrong' && (
-                          <div className="w-full h-full bg-gray-900 rounded-b-lg" />
+                          <div className="w-full h-full bg-red-600 rounded-b-lg" />
                         )}
                       </div>
                     </div>
