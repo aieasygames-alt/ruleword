@@ -663,30 +663,34 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
           </div>
         )}
 
-        {/* Grid Size Selector (仅 unlimited 模式) */}
-        {gameMode !== 'daily' && (
-          <div className="flex justify-center gap-2 mb-3">
-            {[3, 7, 9].map((size) => (
+        {/* Grid Size Selector - 始终显示 */}
+        <div className="flex justify-center gap-2 mb-3">
+          {[3, 7, 9].map((size) => {
+            const isDisabled = gameMode === 'daily' && size !== 3
+            return (
               <button
                 key={size}
                 onClick={() => {
+                  if (isDisabled) return
                   setGridSize(size as GridSize)
                   saveCrosswordleSettings({ gridSize: size as GridSize })
                   initializeGame(gameMode, size as GridSize)
                 }}
+                disabled={isDisabled}
                 className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                   gridSize === size
                     ? 'bg-green-600 text-white'
                     : settings.darkMode
                     ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                }`}
+                } ${isDisabled ? 'opacity-40 cursor-not-allowed hover:bg-opacity-100' : ''}`}
+                title={isDisabled ? (settings.language === 'zh' ? '每日模式仅支持 3×3' : 'Daily mode only supports 3×3') : ''}
               >
                 {size}×{size}
               </button>
-            ))}
-          </div>
-        )}
+            )
+          })}
+        </div>
 
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
