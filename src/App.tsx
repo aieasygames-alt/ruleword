@@ -7,6 +7,7 @@ import Mastermind from './Mastermind'
 import WordList from './WordList'
 import Dictionary from './Dictionary'
 import Crosswordle from './Crosswordle'
+import GameGuide from './GameGuide'
 
 type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle'
 
@@ -209,6 +210,7 @@ export default function App() {
   const [gameMode, setGameMode] = useState<GameMode>('daily')
   const [settings, setSettings] = useState<Settings>(loadSettings)
   const [showHowToPlay, setShowHowToPlay] = useState(false)
+  const [showGameGuide, setShowGameGuide] = useState(false)
 
   // 根据语言决定单词长度
   const wordLength = settings.language === 'zh' ? WORD_LENGTH_ZH : WORD_LENGTH_EN
@@ -685,51 +687,68 @@ export default function App() {
             </button>
 
             {showHowToPlay && (
-              <div className={`px-4 pb-4 text-sm space-y-3 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                {/* Word Guess */}
-                <div>
-                  <p className="font-semibold">📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</p>
-                  <p className="pl-4 mt-1">
-                    {settings.language === 'zh'
-                      ? '在6次机会内猜出4字成语。输入汉字后按回车提交。'
-                      : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
-                  </p>
-                  <div className="flex gap-2 pl-4 mt-2">
-                    <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '正确位置' : 'Correct'}</span>
-                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '错误位置' : 'Wrong pos'}</span>
+              <>
+                <div className={`px-4 pb-4 text-sm space-y-3 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                  {/* Word Guess */}
+                  <div>
+                    <p className="font-semibold">📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</p>
+                    <p className="pl-4 mt-1">
+                      {settings.language === 'zh'
+                        ? '在6次机会内猜出4字成语。输入汉字后按回车提交。'
+                        : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
+                    </p>
+                    <div className="flex gap-2 pl-4 mt-2">
+                      <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '正确位置' : 'Correct'}</span>
+                      <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '错误位置' : 'Wrong pos'}</span>
+                    </div>
+                  </div>
+
+                  {/* Mastermind */}
+                  <div>
+                    <p className="font-semibold">🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</p>
+                    <p className="pl-4 mt-1">
+                      {settings.language === 'zh'
+                        ? '在8次机会内破解4个颜色的密码组合。'
+                        : 'Crack the 4-color code in 8 tries.'}
+                    </p>
+                    <div className="flex gap-2 pl-4 mt-2">
+                      <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
+                      <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '位置错误' : 'Wrong pos'}</span>
+                      <span className="text-xs px-2 py-1 bg-red-600 rounded text-white">🔴 {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
+                    </div>
+                  </div>
+
+                  {/* Crosswordle */}
+                  <div>
+                    <p className="font-semibold">🔤 {settings.language === 'zh' ? '字母交换填字' : 'Crosswordle'}:</p>
+                    <p className="pl-4 mt-1">
+                      {settings.language === 'zh'
+                        ? '通过交换字母位置解开交叉单词谜题，在限制次数内完成。'
+                        : 'Swap letters to solve crossword puzzles. Complete within the swap limit.'}
+                    </p>
+                    <div className="flex gap-2 pl-4 mt-2">
+                      <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
+                      <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟡 {settings.language === 'zh' ? '在词中' : 'In word'}</span>
+                      <span className="text-xs px-2 py-1 bg-gray-400 rounded">⬜ {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Mastermind */}
-                <div>
-                  <p className="font-semibold">🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</p>
-                  <p className="pl-4 mt-1">
-                    {settings.language === 'zh'
-                      ? '在8次机会内破解4个颜色的密码组合。'
-                      : 'Crack the 4-color code in 8 tries.'}
-                  </p>
-                  <div className="flex gap-2 pl-4 mt-2">
-                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
-                    <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '位置错误' : 'Wrong pos'}</span>
-                    <span className="text-xs px-2 py-1 bg-red-600 rounded text-white">🔴 {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
-                  </div>
-                </div>
-
-                {/* Crosswordle */}
-                <div>
-                  <p className="font-semibold">🔤 {settings.language === 'zh' ? '字母交换填字' : 'Crosswordle'}:</p>
-                  <p className="pl-4 mt-1">
-                    {settings.language === 'zh'
-                      ? '通过交换字母位置解开交叉单词谜题，在限制次数内完成。'
-                      : 'Swap letters to solve crossword puzzles. Complete within the swap limit.'}
-                  </p>
-                  <div className="flex gap-2 pl-4 mt-2">
-                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
-                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟡 {settings.language === 'zh' ? '在词中' : 'In word'}</span>
-                    <span className="text-xs px-2 py-1 bg-gray-400 rounded">⬜ {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
-                  </div>
-                </div>
-              </div>
+                {/* Detailed Guide Button */}
+                <button
+                  onClick={() => setShowGameGuide(true)}
+                  className={`w-full mt-4 py-3 rounded-xl font-medium text-sm flex items-center justify-center gap-2 transition-colors ${
+                    settings.darkMode
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white'
+                      : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white'
+                  }`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  {settings.language === 'zh' ? '查看详细游戏指南' : 'View Detailed Game Guide'}
+                </button>
+              </>
             )}
           </div>
 
@@ -805,6 +824,15 @@ export default function App() {
             </button>
           </div>
         </div>
+
+        {/* Game Guide Modal */}
+        {showGameGuide && (
+          <GameGuide
+            language={settings.language}
+            darkMode={settings.darkMode}
+            onClose={() => setShowGameGuide(false)}
+          />
+        )}
       </div>
     )
   }
@@ -840,6 +868,11 @@ export default function App() {
             <button onClick={() => setShowHelp(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+            <button onClick={() => setShowGameGuide(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded" title={settings.language === 'zh' ? '详细指南' : 'Game Guide'}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </button>
             <button onClick={() => setShowStats(true)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
@@ -1225,6 +1258,16 @@ export default function App() {
           language={settings.language}
           darkMode={settings.darkMode}
           onClose={() => setShowWordList(false)}
+        />
+      )}
+
+      {/* Game Guide Modal */}
+      {showGameGuide && (
+        <GameGuide
+          language={settings.language}
+          darkMode={settings.darkMode}
+          onClose={() => setShowGameGuide(false)}
+          initialGame="wordle"
         />
       )}
     </div>

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import { getTranslation, type Language } from './locales'
+import GameGuide from './GameGuide'
 
 const CODE_LENGTH = 4
 const MAX_ATTEMPTS = 8
@@ -127,6 +128,7 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
   const [showAnswer, setShowAnswer] = useState(false)
+  const [showGameGuide, setShowGameGuide] = useState(false)
 
   const initializedRef = useRef(false)
   const t = getTranslation(settings.language)
@@ -228,14 +230,25 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
             </svg>
           </button>
           <h1 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h1>
-          <button
-            onClick={newGame}
-            className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
-          >
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowGameGuide(true)}
+              className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
+              title={settings.language === 'zh' ? '游戏指南' : 'Game Guide'}
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </button>
+            <button
+              onClick={newGame}
+              className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Instructions */}
@@ -432,6 +445,16 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
             {settings.language === 'zh' ? '键盘: 1-6 选颜色, Enter 提交, Backspace 删除' : 'Keys: 1-6 colors, Enter submit, Backspace delete'}
           </div>
         </div>
+      )}
+
+      {/* Game Guide */}
+      {showGameGuide && (
+        <GameGuide
+          language={settings.language}
+          darkMode={settings.darkMode}
+          onClose={() => setShowGameGuide(false)}
+          initialGame="mastermind"
+        />
       )}
     </div>
   )
