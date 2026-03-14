@@ -3,9 +3,13 @@ import { getTranslation, type Language } from './locales'
 
 const GRID_SIZE = 3 // 3x3 网格
 const MAX_SWAPS = 15 // 最大交换次数
+const STORAGE_KEY = 'crosswordle_save'
 
 // 字母格子的状态
 type CellState = 'correct' | 'wrongPosition' | 'wrong' | 'empty'
+
+// 游戏模式
+type GameMode = 'daily' | 'practice'
 
 // 网格中的每个格子
 interface Cell {
@@ -13,6 +17,12 @@ interface Cell {
   state: CellState
   row: number
   col: number
+}
+
+// 历史记录（用于撤销）
+interface HistoryEntry {
+  grid: Cell[][]
+  swapsLeft: number
 }
 
 // 单词定义（交叉词）
@@ -23,7 +33,7 @@ interface WordDef {
   startCol: number
 }
 
-// 简单的3x3交叉词库
+// 扩展的3x3交叉词库
 const CROSSWORD_PUZZLES_EN: WordDef[][] = [
   [
     { letters: 'CAT', direction: 'horizontal', startRow: 0, startCol: 0 },
@@ -45,12 +55,76 @@ const CROSSWORD_PUZZLES_EN: WordDef[][] = [
     { letters: 'PEN', direction: 'horizontal', startRow: 0, startCol: 0 },
     { letters: 'EN', direction: 'vertical', startRow: 0, startCol: 2 },
   ],
+  [
+    { letters: 'BAT', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'AT', direction: 'vertical', startRow: 0, startCol: 1 },
+  ],
+  [
+    { letters: 'HAT', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'AT', direction: 'vertical', startRow: 0, startCol: 1 },
+  ],
+  [
+    { letters: 'CAR', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'AR', direction: 'vertical', startRow: 0, startCol: 1 },
+  ],
+  [
+    { letters: 'MAP', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'AP', direction: 'vertical', startRow: 0, startCol: 1 },
+  ],
+  [
+    { letters: 'RUN', direction: 'horizontal', startRow: 1, startCol: 0 },
+    { letters: 'UN', direction: 'vertical', startRow: 0, startCol: 2 },
+  ],
+  [
+    { letters: 'FUN', direction: 'horizontal', startRow: 1, startCol: 0 },
+    { letters: 'UN', direction: 'vertical', startRow: 0, startCol: 2 },
+  ],
+  [
+    { letters: 'CUP', direction: 'horizontal', startRow: 0, startCol: 0 },
+    { letters: 'UP', direction: 'vertical', startRow: 0, startCol: 1 },
+  ],
 ]
+
+// 获取每日谜题索引
+function getDailyPuzzleIndex(): number {
+  const startDate = new Date('2024-01-01').getTime()
+  const now = new Date().setHours(0, 0, 0, 0)
+  return Math.floor((now - startDate) / 86400000) % CROSSWORD_PUZZLES_EN.length
+}
 
 type Settings = {
   language: Language
   soundEnabled: boolean
   darkMode: boolean
+}
+
+// 保存数据类型
+type SaveData = {
+  dayIndex: number
+  grid: Cell[][]
+  swapsLeft: number
+  gameOver: boolean
+  won: boolean
+  gameMode: GameMode
+}
+
+// 加载保存数据
+function loadSave(): SaveData | null {
+  try {
+    const data = localStorage.getItem(STORAGE_KEY)
+    return data ? JSON.parse(data) : null
+  } catch {
+    return null
+  }
+}
+
+// 保存游戏数据
+function saveGame(data: SaveData) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch (e) {
+    console.error('Failed to save game:', e)
+  }
 }
 
 // 生成打乱的网格
@@ -189,6 +263,7 @@ interface CrosswordleProps {
 }
 
 export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
+  const [gameMode, setGameMode] = useState<GameMode>('daily')
   const [grid, setGrid] = useState<Cell[][]>([])
   const [cellStates, setCellStates] = useState<CellState[][]>([])
   const [puzzle, setPuzzle] = useState<WordDef[]>(CROSSWORD_PUZZLES_EN[0])
@@ -196,20 +271,46 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
   const [swapsLeft, setSwapsLeft] = useState(MAX_SWAPS)
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
+  const [history, setHistory] = useState<HistoryEntry[]>([])
 
   const t = getTranslation(settings.language)
 
-  const initializeGame = useCallback(() => {
-    const randomPuzzle = CROSSWORD_PUZZLES_EN[Math.floor(Math.random() * CROSSWORD_PUZZLES_EN.length)]
-    setPuzzle(randomPuzzle)
-    const newGrid = generateShuffledGrid(randomPuzzle)
+  const initializeGame = useCallback((mode?: GameMode) => {
+    const newMode = mode || gameMode
+    setGameMode(newMode)
+
+    let puzzleIndex: number
+    if (newMode === 'daily') {
+      puzzleIndex = getDailyPuzzleIndex()
+      // 尝试加载每日模式的存档
+      const save = loadSave()
+      const todayIndex = getDailyPuzzleIndex()
+      if (save && save.dayIndex === todayIndex && save.gameMode === 'daily') {
+        setPuzzle(CROSSWORD_PUZZLES_EN[save.dayIndex])
+        setGrid(save.grid)
+        setSwapsLeft(save.swapsLeft)
+        setGameOver(save.gameOver)
+        setWon(save.won)
+        setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
+        setHistory([])
+        setSelectedCell(null)
+        return
+      }
+    } else {
+      puzzleIndex = Math.floor(Math.random() * CROSSWORD_PUZZLES_EN.length)
+    }
+
+    const selectedPuzzle = CROSSWORD_PUZZLES_EN[puzzleIndex]
+    setPuzzle(selectedPuzzle)
+    const newGrid = generateShuffledGrid(selectedPuzzle)
     setGrid(newGrid)
     setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
     setSwapsLeft(MAX_SWAPS)
     setGameOver(false)
     setWon(false)
+    setHistory([])
     setSelectedCell(null)
-  }, [])
+  }, [gameMode])
 
   useEffect(() => {
     initializeGame()
@@ -225,6 +326,12 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       // 取消选择
       setSelectedCell(null)
     } else {
+      // 保存历史记录
+      const historyEntry: HistoryEntry = {
+        grid: grid.map(r => r.map(c => ({ ...c }))),
+        swapsLeft: swapsLeft
+      }
+
       // 交换字母
       const newGrid = grid.map(r => r.map(c => ({ ...c })))
       const temp = newGrid[row][col].letter
@@ -234,21 +341,50 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       setGrid(newGrid)
       setSelectedCell(null)
       setSwapsLeft(prev => prev - 1)
+      setHistory(prev => [...prev, historyEntry])
       playSound('swap', settings.soundEnabled)
 
       // 检查是否完成
       const result = checkGrid(newGrid, puzzle)
       setCellStates(result.cells)
 
-      if (result.isCorrect) {
+      const newSwapsLeft = swapsLeft - 1
+      const isWin = result.isCorrect
+      const isGameOver = isWin || newSwapsLeft <= 0
+
+      if (isWin) {
         setWon(true)
         setGameOver(true)
         playSound('win', settings.soundEnabled)
-      } else if (swapsLeft - 1 <= 0) {
+      } else if (isGameOver) {
         setGameOver(true)
       }
+
+      // 保存每日模式进度
+      if (gameMode === 'daily') {
+        saveGame({
+          dayIndex: getDailyPuzzleIndex(),
+          grid: newGrid,
+          swapsLeft: newSwapsLeft,
+          gameOver: isGameOver,
+          won: isWin,
+          gameMode: 'daily'
+        })
+      }
     }
-  }, [selectedCell, grid, puzzle, gameOver, swapsLeft, settings.soundEnabled])
+  }, [selectedCell, grid, puzzle, gameOver, swapsLeft, settings.soundEnabled, gameMode])
+
+  // 撤销功能
+  const handleUndo = useCallback(() => {
+    if (history.length === 0 || gameOver) return
+
+    const lastState = history[history.length - 1]
+    setGrid(lastState.grid)
+    setSwapsLeft(lastState.swapsLeft)
+    setHistory(prev => prev.slice(0, -1))
+    setSelectedCell(null)
+    setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
+  }, [history, gameOver])
 
   const getCellColor = useCallback((row: number, col: number) => {
     const state = cellStates[row]?.[col]
@@ -266,7 +402,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
     <div className={`min-h-screen flex flex-col items-center py-4 px-2 ${bgClass} ${textClass}`}>
       {/* Header */}
       <div className="w-full max-w-md mb-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-3">
           <button
             onClick={onBack}
             className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
@@ -275,7 +411,46 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-xl font-bold">Crosswordle</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl font-bold">Crosswordle</h1>
+            <span className={`text-xs px-2 py-1 rounded-full ${
+              gameMode === 'daily'
+                ? 'bg-purple-600 text-white'
+                : 'bg-blue-600 text-white'
+            }`}>
+              {gameMode === 'daily' ? (settings.language === 'zh' ? '每日' : 'Daily') : (settings.language === 'zh' ? '练习' : 'Practice')}
+            </span>
+          </div>
+          <button
+            onClick={() => initializeGame(gameMode === 'daily' ? 'practice' : 'daily')}
+            className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
+            title={gameMode === 'daily' ? (settings.language === 'zh' ? '切换到练习模式' : 'Switch to Practice') : (settings.language === 'zh' ? '切换到每日模式' : 'Switch to Daily')}
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Undo Button */}
+        {!gameOver && (
+          <div className="flex justify-center mb-3">
+            <button
+              onClick={handleUndo}
+              disabled={history.length === 0}
+              className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
+                history.length > 0
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                  : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+              }`}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+              </svg>
+              {settings.language === 'zh' ? '撤销' : 'Undo'} {history.length > 0 && `(${history.length})`}
+            </button>
+          </div>
+        )}
           <button
             onClick={initializeGame}
             className={`p-2 rounded-lg ${settings.darkMode ? 'hover:bg-slate-700' : 'hover:bg-gray-200'}`}
@@ -287,8 +462,11 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         </div>
 
         {/* Instructions */}
-        <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>
-          Swap letters to make all words green! {swapsLeft} swaps left
+        <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+          {gameMode === 'daily'
+            ? (settings.language === 'zh' ? '每日挑战' : 'Daily Challenge')
+            : (settings.language === 'zh' ? '练习模式' : 'Practice Mode')
+          } • {settings.language === 'zh' ? '剩余' : ''} {swapsLeft} {settings.language === 'zh' ? '次交换' : 'swaps left'}
         </div>
 
         {/* Swap Counter */}
@@ -335,15 +513,15 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         <div className={`mt-6 flex gap-4 text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
           <div className="flex items-center gap-1">
             <div className="w-4 h-4 rounded bg-green-500" />
-            <span>Correct</span>
+            <span>{settings.language === 'zh' ? '正确' : 'Correct'}</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-4 rounded bg-yellow-500" />
-            <span>Wrong position</span>
+            <span>{settings.language === 'zh' ? '在词中' : 'In word'}</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-4 rounded bg-gray-400" />
-            <span>Wrong</span>
+            <span>{settings.language === 'zh' ? '错误' : 'Wrong'}</span>
           </div>
         </div>
       </div>
@@ -358,7 +536,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
                 {settings.language === 'zh' ? '完美破解！' : 'Perfect!'}
               </div>
               <div className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                {swapsLeft} swaps remaining - {swapsLeft >= 10 ? '⭐⭐⭐' : swapsLeft >= 5 ? '⭐⭐' : '⭐'}
+                {settings.language === 'zh' ? '剩余' : ''} {swapsLeft} {settings.language === 'zh' ? '次交换' : 'swaps remaining'} - {swapsLeft >= 10 ? '⭐⭐⭐' : swapsLeft >= 5 ? '⭐⭐' : '⭐'}
               </div>
             </>
           ) : (
@@ -370,10 +548,13 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
             </>
           )}
           <button
-            onClick={initializeGame}
+            onClick={() => initializeGame(gameMode)}
             className="mt-4 px-6 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold text-white"
           >
-            {settings.language === 'zh' ? '再来一局' : 'Play Again'}
+            {gameMode === 'daily'
+              ? (settings.language === 'zh' ? '明天再战' : 'Come back tomorrow')
+              : (settings.language === 'zh' ? '再来一局' : 'Play Again')
+            }
           </button>
         </div>
       )}
@@ -382,13 +563,15 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       {!gameOver && (
         <div className={`w-full max-w-md ${cardBgClass} rounded-t-2xl p-4`}>
           <div className={`text-center text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            <p className="font-semibold mb-2">How to play:</p>
+            <p className="font-semibold mb-2">
+              {settings.language === 'zh' ? '游戏说明：' : 'How to play:'}
+            </p>
             <ol className="text-left list-decimal list-inside space-y-1">
-              <li>Tap two letters to swap them</li>
-              <li>🟢 Green = correct position</li>
-              <li>🟡 Yellow = in the word, wrong position</li>
-              <li>⬜ Gray = wrong letter</li>
-              <li>Solve all words before running out of swaps!</li>
+              <li>{settings.language === 'zh' ? '点击两个字母进行交换' : 'Tap two letters to swap them'}</li>
+              <li>🟢 {settings.language === 'zh' ? '绿色 = 位置正确' : 'Green = correct position'}</li>
+              <li>🟡 {settings.language === 'zh' ? '黄色 = 在单词中但位置错误' : 'Yellow = in word, wrong position'}</li>
+              <li>⬜ {settings.language === 'zh' ? '灰色 = 字母错误' : 'Gray = wrong letter'}</li>
+              <li>{settings.language === 'zh' ? '用完交换次数前解开所有单词！' : 'Solve all words before running out of swaps!'}</li>
             </ol>
           </div>
         </div>
