@@ -208,6 +208,7 @@ export default function App() {
   const [gameType, setGameType] = useState<GameType>('menu')
   const [gameMode, setGameMode] = useState<GameMode>('daily')
   const [settings, setSettings] = useState<Settings>(loadSettings)
+  const [showHowToPlay, setShowHowToPlay] = useState(false)
 
   // 根据语言决定单词长度
   const wordLength = settings.language === 'zh' ? WORD_LENGTH_ZH : WORD_LENGTH_EN
@@ -644,34 +645,92 @@ export default function App() {
             {settings.language === 'zh' ? '选择一个游戏开始' : 'Choose a game to play'}
           </p>
 
-          {/* How to Play Section */}
-          <div className={`mb-6 p-4 rounded-xl ${modalBgClass} border ${borderClass} text-left`}>
-            <h3 className="font-bold mb-3 flex items-center gap-2">
-              <span>📖</span>
-              {settings.language === 'zh' ? '游戏玩法' : 'How to Play'}
-            </h3>
-            <div className={`text-sm space-y-2 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              <p><strong>📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</strong></p>
-              <p className="pl-4">
-                {settings.language === 'zh'
-                  ? '在6次机会内猜出4字成语。输入汉字后按回车提交。'
-                  : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
-              </p>
-              <div className="flex gap-2 pl-4 my-2">
-                <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '字正确且位置正确' : 'Correct position'}</span>
-                <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '字正确但位置错误' : 'Wrong position'}</span>
+          {/* Dictionary Button */}
+          <button
+            onClick={() => setGameType('dictionary')}
+            className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass} mb-4`}
+          >
+            <div className="flex items-center gap-4">
+              <div className="text-4xl">📖</div>
+              <div className="flex-1">
+                <h2 className="text-xl font-bold">{settings.language === 'zh' ? '词库词典' : 'Dictionary'}</h2>
+                <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  {settings.language === 'zh' ? '浏览所有成语和单词' : 'Browse all words and idioms'}
+                </p>
               </div>
-              <p className="mt-3"><strong>🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</strong></p>
-              <p className="pl-4">
-                {settings.language === 'zh'
-                  ? '在8次机会内破解4个颜色的密码组合。'
-                  : 'Crack the 4-color code in 8 tries.'}
-              </p>
-              <div className="flex gap-2 pl-4 my-2">
-                <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '颜色对且位置对' : 'Correct'}</span>
-                <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '颜色对但位置错' : 'Wrong pos'}</span>
-              </div>
+              <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </div>
+          </button>
+
+          {/* How to Play Section */}
+          <div className={`mb-6 rounded-xl ${modalBgClass} border ${borderClass} text-left overflow-hidden`}>
+            <button
+              onClick={() => setShowHowToPlay(!showHowToPlay)}
+              className="w-full p-4 flex items-center justify-between hover:bg-gray-500/10 transition-colors"
+            >
+              <h3 className="font-bold flex items-center gap-2">
+                <span>📖</span>
+                {settings.language === 'zh' ? '游戏玩法' : 'How to Play'}
+              </h3>
+              <svg
+                className={`w-5 h-5 transition-transform ${showHowToPlay ? 'rotate-180' : ''}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {showHowToPlay && (
+              <div className={`px-4 pb-4 text-sm space-y-3 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                {/* Word Guess */}
+                <div>
+                  <p className="font-semibold">📝 {settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}:</p>
+                  <p className="pl-4 mt-1">
+                    {settings.language === 'zh'
+                      ? '在6次机会内猜出4字成语。输入汉字后按回车提交。'
+                      : 'Guess the 5-letter word in 6 tries. Type and press Enter to submit.'}
+                  </p>
+                  <div className="flex gap-2 pl-4 mt-2">
+                    <span className="text-xs px-2 py-1 bg-green-600 rounded">🟩 {settings.language === 'zh' ? '正确位置' : 'Correct'}</span>
+                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟨 {settings.language === 'zh' ? '错误位置' : 'Wrong pos'}</span>
+                  </div>
+                </div>
+
+                {/* Mastermind */}
+                <div>
+                  <p className="font-semibold">🔐 {settings.language === 'zh' ? '密码破译' : 'Mastermind'}:</p>
+                  <p className="pl-4 mt-1">
+                    {settings.language === 'zh'
+                      ? '在8次机会内破解4个颜色的密码组合。'
+                      : 'Crack the 4-color code in 8 tries.'}
+                  </p>
+                  <div className="flex gap-2 pl-4 mt-2">
+                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
+                    <span className="text-xs px-2 py-1 bg-white text-gray-800 rounded">⚪ {settings.language === 'zh' ? '位置错误' : 'Wrong pos'}</span>
+                    <span className="text-xs px-2 py-1 bg-red-600 rounded text-white">🔴 {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
+                  </div>
+                </div>
+
+                {/* Crosswordle */}
+                <div>
+                  <p className="font-semibold">🔤 {settings.language === 'zh' ? '字母交换填字' : 'Crosswordle'}:</p>
+                  <p className="pl-4 mt-1">
+                    {settings.language === 'zh'
+                      ? '通过交换字母位置解开交叉单词谜题，在限制次数内完成。'
+                      : 'Swap letters to solve crossword puzzles. Complete within the swap limit.'}
+                  </p>
+                  <div className="flex gap-2 pl-4 mt-2">
+                    <span className="text-xs px-2 py-1 bg-green-500 rounded">🟢 {settings.language === 'zh' ? '正确' : 'Correct'}</span>
+                    <span className="text-xs px-2 py-1 bg-yellow-500 rounded">🟡 {settings.language === 'zh' ? '在词中' : 'In word'}</span>
+                    <span className="text-xs px-2 py-1 bg-gray-400 rounded">⬜ {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-4">
@@ -705,25 +764,6 @@ export default function App() {
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {settings.language === 'zh' ? '8次机会破解颜色密码' : '8 tries to crack color code'}
-                  </p>
-                </div>
-                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </button>
-
-            {/* Dictionary */}
-            <button
-              onClick={() => setGameType('dictionary')}
-              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
-            >
-              <div className="flex items-center gap-4">
-                <div className="text-4xl">📖</div>
-                <div className="flex-1">
-                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '词库词典' : 'Dictionary'}</h2>
-                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {settings.language === 'zh' ? '浏览所有成语和单词' : 'Browse all words and idioms'}
                   </p>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
