@@ -5,8 +5,9 @@ import type { CellState } from './types'
 import { getTranslation, type Language } from './locales'
 import Mastermind from './Mastermind'
 import WordList from './WordList'
+import Dictionary from './Dictionary'
 
-type GameType = 'menu' | 'wordle' | 'mastermind'
+type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary'
 
 const WORD_LENGTH_EN = 5
 const WORD_LENGTH_ZH = 4
@@ -710,6 +711,25 @@ export default function App() {
                 </svg>
               </div>
             </button>
+
+            {/* Dictionary */}
+            <button
+              onClick={() => setGameType('dictionary')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">📖</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '词库词典' : 'Dictionary'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '浏览所有成语和单词' : 'Browse all words and idioms'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
           </div>
 
           {/* Settings Row */}
@@ -732,6 +752,11 @@ export default function App() {
   // Mastermind game
   if (gameType === 'mastermind') {
     return <Mastermind settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Dictionary page
+  if (gameType === 'dictionary') {
+    return <Dictionary settings={settings} onBack={() => setGameType('menu')} />
   }
 
   // Wordle game (original)
