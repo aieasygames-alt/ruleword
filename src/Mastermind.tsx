@@ -16,9 +16,13 @@ const COLOR_EMOJI: Record<Color, string> = {
   purple: '🟣',
 }
 
+// 每个格子的反馈状态
+type CellFeedback = 'correct' | 'wrongPosition' | 'wrong'
+
 type Feedback = {
-  green: number // correct color, correct position
-  white: number // correct color, wrong position
+  cells: CellFeedback[] // 每个格子的具体反馈
+  green: number // 正确位置的数量
+  white: number // 错误位置的数量
 }
 
 type Settings = {
@@ -36,33 +40,38 @@ function generateCode(): Color[] {
   return code
 }
 
-// 评估猜测
+// 评估猜测，返回每个格子的详细反馈
 function evaluate(guess: Color[], answer: Color[]): Feedback {
+  const cells: CellFeedback[] = Array(CODE_LENGTH).fill('wrong')
   let green = 0
   let white = 0
+
   const answerCopy = [...answer]
   const guessCopy = [...guess]
 
   // First pass: find exact matches (green)
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] === answerCopy[i]) {
+      cells[i] = 'correct'
       green++
       answerCopy[i] = null as unknown as Color
       guessCopy[i] = null as unknown as Color
     }
   }
 
-  // Second pass: find color matches (white)
+  // Second pass: find color matches (white) - 但要标记为错位
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] === null) continue
+
     const idx = answerCopy.indexOf(guessCopy[i])
     if (idx !== -1) {
+      cells[i] = 'wrongPosition'
       white++
       answerCopy[idx] = null as unknown as Color
     }
   }
 
-  return { green, white }
+  return { cells, green, white }
 }
 
 // 音效
@@ -232,8 +241,8 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'} mt-2`}>
           {settings.language === 'zh'
-            ? '猜出4个颜色的正确组合！🟢=对位 ⚪=错位'
-            : 'Guess the 4-color code! 🟢=Correct ⚪=Wrong position'}
+            ? '猜出4个颜色的正确组合！🟢=正确位置 ⚪=错误位置 ⬛=错误'
+            : 'Guess the 4-color code! 🟢=Correct ⚪=Wrong position ⬛=Wrong'}
         </div>
       </div>
 
@@ -244,30 +253,37 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
           {attempts.map((attempt, row) => (
             <div key={row} className="flex items-center gap-3">
               <div className="flex gap-1.5">
-                {attempt.map((color, i) => (
-                  <div
-                    key={i}
-                    className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl
-                      ${color === 'red' ? 'bg-red-500' : ''}
-                      ${color === 'orange' ? 'bg-orange-500' : ''}
-                      ${color === 'yellow' ? 'bg-yellow-500' : ''}
-                      ${color === 'green' ? 'bg-green-500' : ''}
-                      ${color === 'blue' ? 'bg-blue-500' : ''}
-                      ${color === 'purple' ? 'bg-purple-500' : ''}
-                    `}
-                  >
-                    {COLOR_EMOJI[color]}
-                  </div>
-                ))}
-              </div>
-              {/* Feedback */}
-              <div className="flex gap-1">
-                {Array.from({ length: feedbacks[row]?.green || 0 }).map((_, i) => (
-                  <div key={`g-${i}`} className="w-3 h-3 rounded-full bg-green-500" />
-                ))}
-                {Array.from({ length: feedbacks[row]?.white || 0 }).map((_, i) => (
-                  <div key={`w-${i}`} className="w-3 h-3 rounded-full bg-white border border-gray-400" />
-                ))}
+                {attempt.map((color, i) => {
+                  const feedback = feedbacks[row]?.cells[i]
+                  return (
+                    <div key={i} className="flex flex-col items-center">
+                      <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl
+                          ${color === 'red' ? 'bg-red-500' : ''}
+                          ${color === 'orange' ? 'bg-orange-500' : ''}
+                          ${color === 'yellow' ? 'bg-yellow-500' : ''}
+                          ${color === 'green' ? 'bg-green-500' : ''}
+                          ${color === 'blue' ? 'bg-blue-500' : ''}
+                          ${color === 'purple' ? 'bg-purple-500' : ''}
+                        `}
+                      >
+                        {COLOR_EMOJI[color]}
+                      </div>
+                      {/* 状态条 */}
+                      <div className="w-12 h-1.5 rounded-b-lg mt-0.5">
+                        {feedback === 'correct' && (
+                          <div className="w-full h-full bg-green-500 rounded-b-lg" />
+                        )}
+                        {feedback === 'wrongPosition' && (
+                          <div className="w-full h-full bg-white border border-gray-400 rounded-b-lg" />
+                        )}
+                        {feedback === 'wrong' && (
+                          <div className="w-full h-full bg-gray-900 rounded-b-lg" />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
           ))}
