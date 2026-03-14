@@ -25,9 +25,10 @@ const FEEDBACK_TYPES = [
 
 interface FeedbackProps {
   language: 'zh' | 'en'
+  inline?: boolean  // 内联模式（在首页底部显示）
 }
 
-const Feedback: React.FC<FeedbackProps> = ({ language }) => {
+const Feedback: React.FC<FeedbackProps> = ({ language, inline = false }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
@@ -117,17 +118,32 @@ const Feedback: React.FC<FeedbackProps> = ({ language }) => {
 
   return (
     <>
-      {/* 悬浮反馈按钮 */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 font-medium"
-        aria-label={t.feedback}
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-        </svg>
-        <span className="hidden sm:inline">{t.feedback}</span>
-      </button>
+      {/* 反馈按钮 - 根据模式显示不同样式 */}
+      {inline ? (
+        // 内联模式 - 在首页底部显示
+        <button
+          onClick={() => setIsOpen(true)}
+          className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+          aria-label={t.feedback}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          {t.feedback}
+        </button>
+      ) : (
+        // 悬浮模式 - 在其他页面显示
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 font-medium"
+          aria-label={t.feedback}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+          <span className="hidden sm:inline">{t.feedback}</span>
+        </button>
+      )}
 
       {/* 反馈弹窗 */}
       {isOpen && (

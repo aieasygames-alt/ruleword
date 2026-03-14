@@ -824,6 +824,11 @@ export default function App() {
               {settings.soundEnabled ? '🔊' : '🔇'}
             </button>
           </div>
+
+          {/* Feedback Button */}
+          <div className="mt-4">
+            <Feedback language={settings.language} inline />
+          </div>
         </div>
 
         {/* Game Guide Modal */}
@@ -1271,9 +1276,6 @@ export default function App() {
           initialGame="wordle"
         />
       )}
-
-      {/* Feedback Component */}
-      <Feedback language={settings.language} />
     </div>
   )
 }
