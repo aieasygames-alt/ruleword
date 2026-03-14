@@ -823,10 +823,6 @@ export default function App() {
             <button onClick={toggleSound} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
               {settings.soundEnabled ? '🔊' : '🔇'}
             </button>
-          </div>
-
-          {/* Feedback Button */}
-          <div className="mt-4">
             <Feedback language={settings.language} inline />
           </div>
         </div>
