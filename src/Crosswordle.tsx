@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { getTranslation, type Language } from './locales'
 
 // 网格尺寸类型
 type GridSize = 3 | 7 | 9
@@ -443,7 +442,6 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
   const [stats, setStats] = useState<Stats>(() => loadStats())
 
   const gridConfig = GRID_CONFIGS[gridSize]
-  const t = getTranslation(settings.language)
 
   const initializeGame = useCallback((mode?: GameMode, size?: GridSize) => {
     const newMode = mode || gameMode
@@ -611,16 +609,16 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         {/* Game Mode Selector */}
         <div className="flex justify-center gap-2 mb-3">
           {[
-            { id: 'daily' as GameMode, label: settings.language === 'zh' ? '每日' : 'Daily', color: 'purple' },
-            { id: 'unlimited' as GameMode, label: settings.language === 'zh' ? '无限' : 'Unlimited', color: 'orange' },
-            { id: 'practice' as GameMode, label: settings.language === 'zh' ? '练习' : 'Practice', color: 'blue' }
+            { id: 'daily' as GameMode, label: settings.language === 'zh' ? '每日' : 'Daily', colorClass: 'bg-purple-600' },
+            { id: 'unlimited' as GameMode, label: settings.language === 'zh' ? '无限' : 'Unlimited', colorClass: 'bg-orange-600' },
+            { id: 'practice' as GameMode, label: settings.language === 'zh' ? '练习' : 'Practice', colorClass: 'bg-blue-600' }
           ].map((mode) => (
             <button
               key={mode.id}
               onClick={() => initializeGame(mode.id)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 gameMode === mode.id
-                  ? `bg-${mode.color}-600 text-white`
+                  ? `${mode.colorClass} text-white`
                   : settings.darkMode
                   ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
