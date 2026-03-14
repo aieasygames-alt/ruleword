@@ -218,7 +218,7 @@ function getDailyPuzzleIndex(): number {
 }
 
 type Settings = {
-  language: Language
+  language: 'zh' | 'en'
   soundEnabled: boolean
   darkMode: boolean
 }
@@ -605,8 +605,8 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
     setSwapsLeft(lastState.swapsLeft)
     setHistory(prev => prev.slice(0, -1))
     setSelectedCell(null)
-    setCellStates(Array(GRID_SIZE).fill(null).map(() => Array(GRID_SIZE).fill('empty')))
-  }, [history, gameOver])
+    setCellStates(Array(gridSize).fill(null).map(() => Array(gridSize).fill('empty')))
+  }, [history, gameOver, gridSize])
 
   const getCellColor = useCallback((row: number, col: number) => {
     const state = cellStates[row]?.[col]
@@ -678,7 +678,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         setPuzzle(selectedPuzzle)
         setGridSize(sizeNum || 3)
         const newGrid = generateShuffledGrid(selectedPuzzle, sizeNum || 3)
-        setGrid(newGrid.grid)
+        setGrid(newGrid)
         setSwapsLeft(GRID_CONFIGS[sizeNum || 3].maxSwaps)
         setCellStates(Array(GRID_CONFIGS[sizeNum || 3].size).fill(null).map(() => Array(GRID_CONFIGS[sizeNum || 3].size).fill('empty')))
         // 清除 URL 参数
