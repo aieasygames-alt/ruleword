@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import emailjs from '@emailjs/browser'
 
-// EmailJS 配置 - 请替换为你自己的配置
+// EmailJS 配置
 const EMAILJS_CONFIG = {
-  serviceId: 'YOUR_SERVICE_ID',      // 替换为你的 Service ID
-  templateId: 'YOUR_TEMPLATE_ID',    // 替换为你的 Template ID
-  publicKey: 'YOUR_PUBLIC_KEY',      // 替换为你的 Public Key
+  serviceId: 'service_2v1599e',
+  templateId: 'template_9ee29rl',
+  publicKey: 'A73GlvN7cp09bDjon',
 }
 
 type FeedbackType = 'bug' | 'feature' | 'game' | 'other'
@@ -67,22 +67,22 @@ const Feedback: React.FC<FeedbackProps> = ({ language }) => {
     setError('')
 
     try {
-      // 检查是否配置了 EmailJS
-      if (EMAILJS_CONFIG.serviceId === 'YOUR_SERVICE_ID') {
-        // 未配置时，模拟成功并打印到控制台
-        console.log('Feedback submitted:', formData)
-        setIsSuccess(true)
-        setIsSubmitting(false)
-        return
-      }
-
       const templateParams = {
-        to_email: 'your-email@example.com',  // 替换为你的邮箱
+        to_email: 'your-email@example.com',
         from_name: formData.email || 'Anonymous',
         from_email: formData.email || 'Not provided',
         message_type: FEEDBACK_TYPES.find(t => t.value === formData.type)?.[language === 'zh' ? 'label' : 'labelEn'],
         message: formData.message,
         reply_to: formData.email || 'Not provided',
+        submit_time: new Date().toLocaleString('en-US', {
+          timeZone: 'UTC',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }) + ' UTC',
       }
 
       await emailjs.send(
