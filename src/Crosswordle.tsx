@@ -4,6 +4,7 @@ import { getTranslation, type Language } from './locales'
 const GRID_SIZE = 3 // 3x3 网格
 const MAX_SWAPS = 15 // 最大交换次数
 const STORAGE_KEY = 'crosswordle_save'
+const STATS_KEY = 'crosswordle_stats'
 
 // 字母格子的状态
 type CellState = 'correct' | 'wrongPosition' | 'wrong' | 'empty'
@@ -108,6 +109,24 @@ type SaveData = {
   gameMode: GameMode
 }
 
+// 统计数据类型
+type Stats = {
+  played: number
+  won: number
+  currentStreak: number
+  maxStreak: number
+  bestSwaps: number // 最少剩余交换次数
+}
+
+// 默认统计
+const defaultStats: Stats = {
+  played: 0,
+  won: 0,
+  currentStreak: 0,
+  maxStreak: 0,
+  bestSwaps: 0,
+}
+
 // 加载保存数据
 function loadSave(): SaveData | null {
   try {
@@ -125,6 +144,43 @@ function saveGame(data: SaveData) {
   } catch (e) {
     console.error('Failed to save game:', e)
   }
+}
+
+// 加载统计数据
+function loadStats(): Stats {
+  try {
+    const data = localStorage.getItem(STATS_KEY)
+    return data ? { ...defaultStats, ...JSON.parse(data) } : defaultStats
+  } catch {
+    return defaultStats
+  }
+}
+
+// 保存统计数据
+function saveStats(stats: Stats) {
+  try {
+    localStorage.setItem(STATS_KEY, JSON.stringify(stats))
+  } catch (e) {
+    console.error('Failed to save stats:', e)
+  }
+}
+
+// 更新统计数据
+function updateStats(won: boolean, swapsLeft: number): Stats {
+  const stats = loadStats()
+  stats.played++
+
+  if (won) {
+    stats.won++
+    stats.currentStreak++
+    stats.maxStreak = Math.max(stats.maxStreak, stats.currentStreak)
+    stats.bestSwaps = Math.max(stats.bestSwaps, swapsLeft)
+  } else {
+    stats.currentStreak = 0
+  }
+
+  saveStats(stats)
+  return stats
 }
 
 // 生成打乱的网格
@@ -272,6 +328,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
   const [history, setHistory] = useState<HistoryEntry[]>([])
+  const [stats, setStats] = useState<Stats>(() => loadStats())
 
   const t = getTranslation(settings.language)
 
@@ -356,8 +413,16 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         setWon(true)
         setGameOver(true)
         playSound('win', settings.soundEnabled)
+        // 更新统计（只对练习模式）
+        if (gameMode === 'practice') {
+          setStats(updateStats(true, newSwapsLeft))
+        }
       } else if (isGameOver) {
         setGameOver(true)
+        // 更新统计（只对练习模式）
+        if (gameMode === 'practice') {
+          setStats(updateStats(false, 0))
+        }
       }
 
       // 保存每日模式进度
@@ -538,6 +603,34 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
               </div>
             </>
           )}
+
+          {/* 统计信息（仅练习模式） */}
+          {gameMode === 'practice' && (
+            <div className={`mt-4 pt-4 border-t ${settings.darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+              <div className={`grid grid-cols-3 gap-4 text-center ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <div>
+                  <div className="text-2xl font-bold text-blue-600">{stats.played}</div>
+                  <div className="text-xs">{settings.language === 'zh' ? '已玩' : 'Played'}</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {stats.played > 0 ? Math.round((stats.won / stats.played) * 100) : 0}%
+                  </div>
+                  <div className="text-xs">{settings.language === 'zh' ? '胜率' : 'Win Rate'}</div>
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-purple-600">{stats.currentStreak}</div>
+                  <div className="text-xs">{settings.language === 'zh' ? '连胜' : 'Streak'}</div>
+                </div>
+              </div>
+              {stats.bestSwaps > 0 && (
+                <div className={`mt-3 text-xs ${settings.darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                  {settings.language === 'zh' ? '最佳成绩：' : 'Best: '} {settings.language === 'zh' ? '剩余' : ''} {stats.bestSwaps} {settings.language === 'zh' ? '次交换' : 'swaps'}
+                </div>
+              )}
+            </div>
+          )}
+
           <button
             onClick={() => initializeGame(gameMode)}
             className="mt-4 px-6 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-semibold text-white"
