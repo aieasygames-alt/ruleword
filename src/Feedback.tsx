@@ -68,7 +68,6 @@ const Feedback: React.FC<FeedbackProps> = ({ language }) => {
 
     try {
       const templateParams = {
-        to_email: 'your-email@example.com',
         from_name: formData.email || 'Anonymous',
         from_email: formData.email || 'Not provided',
         message_type: FEEDBACK_TYPES.find(t => t.value === formData.type)?.[language === 'zh' ? 'label' : 'labelEn'],
@@ -121,7 +120,7 @@ const Feedback: React.FC<FeedbackProps> = ({ language }) => {
       {/* 悬浮反馈按钮 */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 font-medium"
+        className="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-2 font-medium"
         aria-label={t.feedback}
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
