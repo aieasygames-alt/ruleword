@@ -183,6 +183,9 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           tip4Desc: 'Sometimes a number can only go in one cell within a row, column, or box, even if that cell has multiple candidates.',
           tip5Title: 'Take Your Time',
           tip5Desc: 'Sudoku is about logic, not speed. Think through each move carefully and enjoy the process!',
+          whyEntertaining: 'Why is Sudoku So Entertaining?',
+          whyDesc: 'Sudoku combines logical deduction with the satisfaction of puzzle-solving. Each number you place brings you closer to the solution, creating a rewarding experience.',
+          whyDesc2: 'The game offers endless variety—no two puzzles are the same. Whether you have 5 minutes or an hour, Sudoku provides the perfect mental workout!',
         },
       },
     },
@@ -349,6 +352,9 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           tip4Desc: '有时一个数字在某行、列或宫格中只能放在一个格子里，即使该格子有多个候选数字。',
           tip5Title: '慢慢来',
           tip5Desc: '数独是逻辑游戏，不是速度游戏。仔细思考每一步，享受解题过程！',
+          whyEntertaining: '为什么数独如此有趣？',
+          whyDesc: '数独将逻辑推理与解谜的满足感完美结合。每填入一个数字都让你离答案更近一步，带来成就感。',
+          whyDesc2: '游戏提供无尽的多样性——没有两个谜题是相同的。无论你有5分钟还是一小时，数独都是完美的脑力锻炼！',
         },
       },
     },
@@ -413,7 +419,8 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
             <p className={`mb-4 font-medium ${subTextClass}`}>{game.colors}</p>
           )}
 
-          {/* Color indicators */}
+          {/* Color indicators - only for wordle, mastermind, crosswordle */}
+          {activeGame !== 'sudoku' && 'greenTitle' in game && (
           <div className="space-y-3 mb-4">
             <div className="flex items-start gap-3">
               <div className="w-6 h-6 rounded bg-green-500 flex-shrink-0 mt-0.5" />
@@ -430,7 +437,7 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
                   <span className={` ${subTextClass}`}> {game.whiteDesc}</span>
                 </div>
               </div>
-            ) : (
+            ) : 'yellowTitle' in game ? (
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded bg-yellow-500 flex-shrink-0 mt-0.5" />
                 <div>
@@ -438,7 +445,7 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
                   <span className={` ${subTextClass}`}> {game.yellowDesc}</span>
                 </div>
               </div>
-            )}
+            ) : null}
             {'redTitle' in game ? (
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded bg-red-500 flex-shrink-0 mt-0.5" />
@@ -447,7 +454,7 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
                   <span className={` ${subTextClass}`}> {game.redDesc}</span>
                 </div>
               </div>
-            ) : (
+            ) : 'grayTitle' in game ? (
               <div className="flex items-start gap-3">
                 <div className={`w-6 h-6 rounded flex-shrink-0 mt-0.5 ${darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} />
                 <div>
@@ -455,8 +462,36 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
                   <span className={` ${subTextClass}`}> {game.grayDesc}</span>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
+          )}
+
+          {/* Rules - only for sudoku */}
+          {activeGame === 'sudoku' && 'rule1Title' in game && (
+          <div className="space-y-3 mb-4">
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded bg-blue-500 flex-shrink-0 mt-0.5 flex items-center justify-center text-white text-xs font-bold">R</div>
+              <div>
+                <span className="font-semibold">{game.rule1Title}</span>
+                <span className={` ${subTextClass}`}> {game.rule1Desc}</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded bg-blue-500 flex-shrink-0 mt-0.5 flex items-center justify-center text-white text-xs font-bold">C</div>
+              <div>
+                <span className="font-semibold">{game.rule2Title}</span>
+                <span className={` ${subTextClass}`}> {game.rule2Desc}</span>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded bg-blue-500 flex-shrink-0 mt-0.5 flex items-center justify-center text-white text-xs font-bold">3</div>
+              <div>
+                <span className="font-semibold">{game.rule3Title}</span>
+                <span className={` ${subTextClass}`}> {game.rule3Desc}</span>
+              </div>
+            </div>
+          </div>
+          )}
 
           {'submit' in game && (
             <p className={`mb-4 ${subTextClass}`}>{game.submit}</p>

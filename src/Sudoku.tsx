@@ -390,7 +390,7 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
 
   // 计时器
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: ReturnType<typeof setInterval>
     if (isRunning && !gameWon) {
       interval = setInterval(() => {
         setTimer(t => t + 1)

@@ -39,7 +39,7 @@ const KEYBOARD_ROWS_ZH = [
 ]
 
 type KeyState = Record<string, CellState | undefined>
-type GameMode = 'daily' | 'practice'
+type GameMode = 'daily' | 'practice' | 'challenge'
 
 // 统计数据类型
 type Stats = {

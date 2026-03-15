@@ -1,10 +1,14 @@
 import { useState, useMemo } from 'react'
 import { WORD_DICTIONARY, getWordsByLetter, getAllLetters, searchWords, type WordEntry } from './wordDictionary'
 import { IDIOM_DICTIONARY, getIdiomsByChar, getAllFirstChars, searchIdioms, type IdiomEntry } from './idiomDictionary'
-import type { Language, Settings } from './locales'
+import type { Language } from './locales'
 
 interface DictionaryProps {
-  settings: Settings
+  settings: {
+    language: Language
+    darkMode: boolean
+    soundEnabled: boolean
+  }
   onBack: () => void
 }
 
