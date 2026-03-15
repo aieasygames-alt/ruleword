@@ -479,36 +479,34 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
     setGameMode(newMode)
     setGridSize(newSize)
 
-    // 切换到 unlimited 模式时自动调整网格大小
-    let actualMode = newMode
-    let actualSize = newSize
-
-    if (newMode === 'unlimited' && newSize === 3) {
-      actualSize = 7 // unlimited 模式默认使用 7x7
-      setGridSize(7)
-    }
+    // 所有模式都支持 3×3, 7×7, 9×9
+    const actualSize = newSize
 
     const newConfig = GRID_CONFIGS[actualSize]
     const puzzleLibrary = getPuzzleForSize(actualSize)
 
     let puzzleIndex: number
-    if (actualMode === 'daily') {
-      // 每日模式只支持 3x3
-      const dailySize = 3
-      setGridSize(dailySize)
-      puzzleIndex = getDailyPuzzleIndex() % CROSSWORD_PUZZLES_EN.length
+    if (newMode === 'daily') {
+      // 每日模式支持所有尺寸，使用尺寸特定的每日谜题索引
+      puzzleIndex = getDailyPuzzleIndex() % puzzleLibrary.length
       const save = loadSave()
       const todayIndex = getDailyPuzzleIndex()
+      // 检查是否有匹配当前尺寸的存档
       if (save && save.dayIndex === todayIndex && save.gameMode === 'daily') {
-        setPuzzle(CROSSWORD_PUZZLES_EN[save.dayIndex])
-        setGrid(save.grid)
-        setSwapsLeft(save.swapsLeft)
-        setGameOver(save.gameOver)
-        setWon(save.won)
-        setCellStates(Array(3).fill(null).map(() => Array(3).fill('empty')))
-        setHistory([])
-        setSelectedCell(null)
-        return
+        const savedGrid = save.grid
+        const savedSize = savedGrid.length as GridSize
+        // 如果存档尺寸与当前选择的尺寸匹配，则恢复存档
+        if (savedSize === actualSize) {
+          setPuzzle(puzzleLibrary[puzzleIndex])
+          setGrid(save.grid)
+          setSwapsLeft(save.swapsLeft)
+          setGameOver(save.gameOver)
+          setWon(save.won)
+          setCellStates(Array(actualSize).fill(null).map(() => Array(actualSize).fill('empty')))
+          setHistory([])
+          setSelectedCell(null)
+          return
+        }
       }
     } else {
       puzzleIndex = Math.floor(Math.random() * puzzleLibrary.length)
@@ -762,25 +760,21 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         {/* Grid Size Selector - 始终显示 */}
         <div className="flex justify-center gap-2 mb-3">
           {[3, 7, 9].map((size) => {
-            const isDisabled = gameMode === 'daily' && size !== 3
             return (
               <button
                 key={size}
                 onClick={() => {
-                  if (isDisabled) return
                   setGridSize(size as GridSize)
                   saveCrosswordleSettings({ gridSize: size as GridSize })
                   initializeGame(gameMode, size as GridSize)
                 }}
-                disabled={isDisabled}
                 className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                   gridSize === size
                     ? 'bg-green-600 text-white'
                     : settings.darkMode
                     ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                } ${isDisabled ? 'opacity-40 cursor-not-allowed hover:bg-opacity-100' : ''}`}
-                title={isDisabled ? (settings.language === 'zh' ? '每日模式仅支持 3×3' : 'Daily mode only supports 3×3') : ''}
+                }`}
               >
                 {size}×{size}
               </button>
@@ -791,7 +785,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         {/* Instructions */}
         <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
           {gameMode === 'daily'
-            ? (settings.language === 'zh' ? '每日挑战 (3×3)' : 'Daily Challenge (3×3)')
+            ? `${settings.language === 'zh' ? '每日挑战' : 'Daily Challenge'} (${gridSize}×${gridSize})`
             : gameMode === 'unlimited'
             ? `${settings.language === 'zh' ? '无限模式' : 'Unlimited'} (${gridSize}×${gridSize})`
             : `${settings.language === 'zh' ? '练习模式' : 'Practice'} (${gridSize}×${gridSize})`
