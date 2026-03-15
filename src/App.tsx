@@ -696,17 +696,17 @@ export default function App() {
           {/* Dictionary Button */}
           <button
             onClick={() => setGameType('dictionary')}
-            className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass} mb-4`}
+            className={`w-full p-3 rounded-xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass} mb-4`}
           >
-            <div className="flex items-center gap-4">
-              <div className="text-4xl">📖</div>
+            <div className="flex items-center gap-3">
+              <div className="text-2xl">📖</div>
               <div className="flex-1">
-                <h2 className="text-xl font-bold">{settings.language === 'zh' ? '词库词典' : 'Dictionary'}</h2>
-                <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <h2 className="text-base font-bold">{settings.language === 'zh' ? '词库词典' : 'Dictionary'}</h2>
+                <p className={`text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   {settings.language === 'zh' ? '浏览所有成语和单词' : 'Browse all words and idioms'}
                 </p>
               </div>
-              <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </div>
@@ -799,7 +799,7 @@ export default function App() {
           </div>
 
           <div className="space-y-4">
-            {/* Wordle Game */}
+            {/* Word Guess */}
             <button
               onClick={() => setGameType('wordle')}
               className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
@@ -810,25 +810,6 @@ export default function App() {
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '猜词游戏' : 'Word Guess'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {settings.language === 'zh' ? '6次机会猜出4字成语' : '6 tries to guess 5-letter word'}
-                  </p>
-                </div>
-                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </button>
-
-            {/* Mastermind Game */}
-            <button
-              onClick={() => setGameType('mastermind')}
-              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
-            >
-              <div className="flex items-center gap-4">
-                <div className="text-4xl">🔐</div>
-                <div className="flex-1">
-                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h2>
-                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {settings.language === 'zh' ? '8次机会破解颜色密码' : '8 tries to crack color code'}
                   </p>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -867,6 +848,25 @@ export default function App() {
                   <h2 className="text-xl font-bold">Sudoku</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {settings.language === 'zh' ? '经典数字逻辑游戏' : 'Classic number logic puzzle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Mastermind */}
+            <button
+              onClick={() => setGameType('mastermind')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔐</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '密码破译' : 'Mastermind'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '8次机会破解颜色密码' : '8 tries to crack color code'}
                   </p>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
