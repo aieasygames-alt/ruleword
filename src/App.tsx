@@ -778,6 +778,21 @@ export default function App() {
                       <span className="text-xs px-2 py-1 bg-gray-400 rounded">⬜ {settings.language === 'zh' ? '错误' : 'Wrong'}</span>
                     </div>
                   </div>
+
+                  {/* Sudoku */}
+                  <div>
+                    <p className="font-semibold">🧩 Sudoku:</p>
+                    <p className="pl-4 mt-1">
+                      {settings.language === 'zh'
+                        ? '在9×9网格中填入1-9，每行、每列、每个3×3宫格内数字不重复。'
+                        : 'Fill 1-9 in a 9×9 grid. Each row, column, and 3×3 box must contain unique digits.'}
+                    </p>
+                    <div className="flex gap-2 pl-4 mt-2">
+                      <span className="text-xs px-2 py-1 bg-blue-500 rounded text-white">💡 {settings.language === 'zh' ? '提示' : 'Hint'}</span>
+                      <span className="text-xs px-2 py-1 bg-yellow-500 rounded">📝 {settings.language === 'zh' ? '笔记' : 'Notes'}</span>
+                      <span className="text-xs px-2 py-1 bg-red-500 rounded text-white">🔴 {settings.language === 'zh' ? '错误' : 'Error'}</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Detailed Guide Button */}
