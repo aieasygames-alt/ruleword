@@ -7,10 +7,11 @@ import Mastermind from './Mastermind'
 import WordList from './WordList'
 import Dictionary from './Dictionary'
 import Crosswordle from './Crosswordle'
+import Sudoku from './Sudoku'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
 
-type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle'
+type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku'
 
 // 根据种子获取单词/成语
 function getWordBySeedWithLang(seed: number, language: Language): string {
@@ -854,6 +855,25 @@ export default function App() {
                 </svg>
               </div>
             </button>
+
+            {/* Sudoku */}
+            <button
+              onClick={() => setGameType('sudoku')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧩</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">Sudoku</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典数字逻辑游戏' : 'Classic number logic puzzle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
           </div>
 
           {/* Settings Row */}
@@ -896,6 +916,11 @@ export default function App() {
   // Crosswordle game
   if (gameType === 'crosswordle') {
     return <Crosswordle settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Sudoku game
+  if (gameType === 'sudoku') {
+    return <Sudoku settings={settings} onBack={() => setGameType('menu')} />
   }
 
   // Wordle game (original)

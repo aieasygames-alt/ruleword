@@ -4,10 +4,10 @@ type GameGuideProps = {
   language: 'en' | 'zh'
   darkMode: boolean
   onClose: () => void
-  initialGame?: 'wordle' | 'mastermind' | 'crosswordle'
+  initialGame?: 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku'
 }
 
-type GameType = 'wordle' | 'mastermind' | 'crosswordle'
+type GameType = 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku'
 
 export default function GameGuide({ language, darkMode, onClose, initialGame = 'wordle' }: GameGuideProps) {
   const [activeGame, setActiveGame] = useState<GameType>(initialGame)
@@ -136,6 +136,54 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           tip5Title: 'Practice Makes Perfect',
           tip5Desc: 'First-time players shouldn\'t go immediately into Daily Mode until they learn how the system and swapping mechanics work. Try Practice Mode first to understand the game without pressure!',
         },
+        sudoku: {
+          name: 'Sudoku',
+          intro: 'Sudoku is the classic number logic puzzle that has captivated millions worldwide! Fill a 9×9 grid with digits 1-9 so that each row, column, and 3×3 box contains all digits without repetition.',
+          intro2: 'If you enjoy logical deduction and brain training, this game is perfect for you. With multiple difficulty levels and daily challenges, there\'s always a new puzzle to solve!',
+          note: 'Sudoku is a logic-based number placement puzzle. The objective is to fill the grid so each row, column, and 3×3 sub-grid contains all digits from 1 to 9.',
+          howToPlay: 'How to Play',
+          mechanics: 'Game Mechanics',
+          mechanicsIntro: 'The puzzle consists of a 9×9 grid divided into nine 3×3 boxes. Some cells already contain numbers (these are fixed and cannot be changed). Your goal is to fill in the empty cells with the correct numbers.',
+          rule1Title: 'Rule 1: Rows',
+          rule1Desc: 'Each row must contain the digits 1-9, with no repetition.',
+          rule2Title: 'Rule 2: Columns',
+          rule2Desc: 'Each column must contain the digits 1-9, with no repetition.',
+          rule3Title: 'Rule 3: 3×3 Boxes',
+          rule3Desc: 'Each of the nine 3×3 sub-grids must contain the digits 1-9, with no repetition.',
+          controls: 'Select an empty cell by clicking on it, then enter a number (1-9) using the number pad or keyboard. If you make a mistake, you can clear the cell or enter a different number. Use the Notes feature to mark possible candidates!',
+          features: 'Special Features',
+          hintTitle: 'Hints',
+          hintDesc: 'Stuck? Use the Hint button to reveal the correct number for a random empty cell. You get 3 hints per game, so use them wisely!',
+          notesTitle: 'Notes Mode',
+          notesDesc: 'Toggle Notes mode to mark multiple candidate numbers in a cell. This helps you track possibilities while solving. Click the Notes button to switch between number and notes input.',
+          errorHighlight: 'Error Highlighting',
+          errorHighlightDesc: 'If you enter a wrong number, it will be highlighted in red. This helps you identify mistakes quickly.',
+          gameModes: 'Game Modes',
+          dailyMode: 'Daily',
+          dailyDesc: 'One puzzle per day per difficulty level. Compete with players worldwide! Your progress is saved automatically.',
+          unlimitedMode: 'Unlimited',
+          unlimitedDesc: 'Endless random puzzles! Perfect for practice and improving your skills.',
+          practiceMode: 'Practice',
+          practiceDesc: 'Choose any difficulty and play as many puzzles as you want. Great for learning!',
+          difficulty: 'Difficulty Levels',
+          easyDesc: 'Easy: 35 cells removed. Great for beginners!',
+          mediumDesc: 'Medium: 45 cells removed. A balanced challenge.',
+          hardDesc: 'Hard: 52 cells removed. For experienced players.',
+          expertDesc: 'Expert: 58 cells removed. The ultimate test!',
+          stats: 'Statistics',
+          statsDesc: 'Track your progress: games played, games won, and best time for each difficulty level.',
+          tips: 'Gameplay Tips',
+          tip1Title: 'Start with Singles',
+          tip1Desc: 'Look for cells where only one number can fit. Scan rows, columns, and boxes to find these "naked singles".',
+          tip2Title: 'Use Notes Wisely',
+          tip2Desc: 'Mark candidate numbers in empty cells. This helps you spot patterns and eliminate possibilities.',
+          tip3Title: 'Process of Elimination',
+          tip3Desc: 'If a number can\'t go anywhere else in a row/column/box, it must go in the remaining cell.',
+          tip4Title: 'Look for Hidden Singles',
+          tip4Desc: 'Sometimes a number can only go in one cell within a row, column, or box, even if that cell has multiple candidates.',
+          tip5Title: 'Take Your Time',
+          tip5Desc: 'Sudoku is about logic, not speed. Think through each move carefully and enjoy the process!',
+        },
       },
     },
     zh: {
@@ -254,6 +302,54 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           tip5Title: '熟能生巧',
           tip5Desc: '新手玩家不应该立即进入每日模式，直到他们了解系统和交换机制的工作原理。先尝试练习模式，在没有压力的情况下了解游戏！',
         },
+        sudoku: {
+          name: '数独',
+          intro: '数独是风靡全球的经典数字逻辑益智游戏！在9×9的网格中填入1-9的数字，使每行、每列和每个3×3宫格内的数字不重复。',
+          intro2: '如果你喜欢逻辑推理和脑力训练，这个游戏非常适合你。多种难度级别和每日挑战，总有新谜题等你来解！',
+          note: '数独是基于逻辑的数字填充游戏。目标是在网格中填入数字，使每行、每列和每个3×3宫格都包含1到9的所有数字。',
+          howToPlay: '如何玩',
+          mechanics: '游戏规则',
+          mechanicsIntro: '谜题由9×9的网格组成，分为九个3×3宫格。一些格子已经填有数字（这些是固定的，不能更改）。你的目标是正确填入空白格子的数字。',
+          rule1Title: '规则1：行',
+          rule1Desc: '每行必须包含1-9的数字，不能重复。',
+          rule2Title: '规则2：列',
+          rule2Desc: '每列必须包含1-9的数字，不能重复。',
+          rule3Title: '规则3：3×3宫格',
+          rule3Desc: '每个3×3宫格必须包含1-9的数字，不能重复。',
+          controls: '点击空白格子选中它，然后使用数字键盘或键盘输入数字（1-9）。如果输入错误，可以清除格子或输入不同的数字。使用笔记功能标记可能的候选数字！',
+          features: '特色功能',
+          hintTitle: '提示',
+          hintDesc: '卡住了？使用提示按钮为随机空白格子显示正确数字。每局游戏有3次提示机会，请谨慎使用！',
+          notesTitle: '笔记模式',
+          notesDesc: '切换笔记模式，在格子中标记多个候选数字。这有助于解题时追踪可能性。点击笔记按钮在数字和笔记输入之间切换。',
+          errorHighlight: '错误高亮',
+          errorHighlightDesc: '如果输入错误的数字，会以红色高亮显示。这有助于快速发现错误。',
+          gameModes: '游戏模式',
+          dailyMode: '每日挑战',
+          dailyDesc: '每个难度级别每天一题，与全球玩家竞争！进度自动保存。',
+          unlimitedMode: '无限模式',
+          unlimitedDesc: '无尽的随机谜题！适合练习和提升技能。',
+          practiceMode: '练习模式',
+          practiceDesc: '选择任意难度，玩任意多的谜题。非常适合学习！',
+          difficulty: '难度级别',
+          easyDesc: '简单：移除35个数字。适合初学者！',
+          mediumDesc: '中等：移除45个数字。平衡的挑战。',
+          hardDesc: '困难：移除52个数字。适合有经验的玩家。',
+          expertDesc: '专家：移除58个数字。终极挑战！',
+          stats: '统计数据',
+          statsDesc: '追踪你的进度：游戏次数、获胜次数和每个难度级别的最佳时间。',
+          tips: '游戏技巧',
+          tip1Title: '从唯一数开始',
+          tip1Desc: '寻找只有一个数字可以填入的格子。扫描行、列和宫格找到这些"显性唯一数"。',
+          tip2Title: '善用笔记',
+          tip2Desc: '在空白格子中标记候选数字。这有助于发现模式和排除可能性。',
+          tip3Title: '排除法',
+          tip3Desc: '如果一个数字在某行/列/宫格中不能放在其他地方，它必须放在剩余的格子里。',
+          tip4Title: '寻找隐性唯一数',
+          tip4Desc: '有时一个数字在某行、列或宫格中只能放在一个格子里，即使该格子有多个候选数字。',
+          tip5Title: '慢慢来',
+          tip5Desc: '数独是逻辑游戏，不是速度游戏。仔细思考每一步，享受解题过程！',
+        },
       },
     },
   }
@@ -278,7 +374,7 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
 
       {/* Game Tabs */}
       <div className={`sticky top-[60px] ${cardBgClass} border-b ${borderClass} p-2 flex gap-2 overflow-x-auto`}>
-        {(['wordle', 'mastermind', 'crosswordle'] as GameType[]).map((g) => (
+        {(['wordle', 'mastermind', 'crosswordle', 'sudoku'] as GameType[]).map((g) => (
           <button
             key={g}
             onClick={() => setActiveGame(g)}
