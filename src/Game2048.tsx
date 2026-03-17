@@ -205,8 +205,8 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
   const move = useCallback((direction: Direction) => {
     if (gameOver || (won && !continueAfterWin)) return
 
-    // 旋转次数：左=0，上=1，右=2，下=3
-    const rotations: Record<Direction, number> = { left: 0, up: 1, right: 2, down: 3 }
+    // 旋转次数：左=0，上=3，右=2，下=1
+    const rotations: Record<Direction, number> = { left: 0, up: 3, right: 2, down: 1 }
 
     let rotatedGrid = rotateGrid(grid, rotations[direction])
     let totalScore = 0
