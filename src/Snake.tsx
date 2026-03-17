@@ -3,6 +3,7 @@ import GameGuide from './GameGuide'
 
 type Direction = 'up' | 'down' | 'left' | 'right'
 type GameMode = 'daily' | 'practice'
+type Difficulty = 'easy' | 'normal' | 'hard'
 
 interface Position {
   x: number
@@ -19,7 +20,13 @@ const STATS_KEY = 'snake_stats'
 
 const GRID_SIZE = 20
 const CELL_SIZE = 16
-const INITIAL_SPEED = 150 // ms
+
+// 难度配置：初始速度 -> 最快速度
+const DIFFICULTY_SPEED: Record<Difficulty, { initial: number; min: number }> = {
+  easy: { initial: 250, min: 150 },   // 慢速，适合新手
+  normal: { initial: 180, min: 100 }, // 正常速度
+  hard: { initial: 120, min: 60 },    // 快速，挑战模式
+}
 
 // 加载统计
 function loadStats(): Stats {
@@ -50,6 +57,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
   const [food, setFood] = useState<Position>({ x: 15, y: 15 })
   const [direction, setDirection] = useState<Direction>('right')
   const [gameMode, setGameMode] = useState<GameMode>('practice')
+  const [difficulty, setDifficulty] = useState<Difficulty>('normal')
   const [score, setScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [isPaused, setIsPaused] = useState(true)
@@ -72,6 +80,10 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
     gameOver: settings.language === 'zh' ? '游戏结束！' : 'Game Over!',
     yourScore: settings.language === 'zh' ? '你的分数' : 'Your Score',
     howToPlay: settings.language === 'zh' ? '使用方向键或WASD控制蛇的移动方向' : 'Use arrow keys or WASD to control the snake',
+    difficulty: settings.language === 'zh' ? '难度' : 'Speed',
+    easy: settings.language === 'zh' ? '简单' : 'Slow',
+    normal: settings.language === 'zh' ? '普通' : 'Normal',
+    hard: settings.language === 'zh' ? '困难' : 'Fast',
   }
 
   // 生成随机食物位置
@@ -160,7 +172,9 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
   // 启动/停止游戏循环
   useEffect(() => {
     if (!isPaused && !gameOver) {
-      gameLoopRef.current = setInterval(gameLoop, INITIAL_SPEED - Math.min(score, 100))
+      const speedConfig = DIFFICULTY_SPEED[difficulty]
+      const speed = Math.max(speedConfig.min, speedConfig.initial - Math.floor(score / 10) * 5)
+      gameLoopRef.current = setInterval(gameLoop, speed)
     } else {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current)
     }
@@ -168,7 +182,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
     return () => {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current)
     }
-  }, [isPaused, gameOver, gameLoop, score])
+  }, [isPaused, gameOver, gameLoop, score, difficulty])
 
   // 键盘控制
   useEffect(() => {
@@ -290,6 +304,24 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
               }`}
             >
               {mode === 'daily' ? t.daily : t.practice}
+            </button>
+          ))}
+        </div>
+
+        {/* Difficulty Selector */}
+        <div className="flex justify-center gap-2 mb-3">
+          <span className="text-xs opacity-70 self-center">{t.difficulty}:</span>
+          {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => (
+            <button
+              key={d}
+              onClick={() => { setDifficulty(d); if (!gameOver && !isPaused) setIsPaused(true); }}
+              className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                difficulty === d
+                  ? d === 'easy' ? 'bg-green-600 text-white' : d === 'normal' ? 'bg-blue-600 text-white' : 'bg-red-600 text-white'
+                  : settings.darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {t[d]}
             </button>
           ))}
         </div>
