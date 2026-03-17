@@ -8,10 +8,24 @@ import WordList from './WordList'
 import Dictionary from './Dictionary'
 import Crosswordle from './Crosswordle'
 import Sudoku from './Sudoku'
+import Minesweeper from './Minesweeper'
+import Game2048 from './Game2048'
+import Snake from './Snake'
+import Memory from './Memory'
+import Tetris from './Tetris'
+import TicTacToe from './TicTacToe'
+import ConnectFour from './ConnectFour'
+import WhackAMole from './WhackAMole'
+import SimonSays from './SimonSays'
+import FifteenPuzzle from './FifteenPuzzle'
+import LightsOut from './LightsOut'
+import BrickBreaker from './BrickBreaker'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
+import Home from './Home'
+import { usePageMeta } from './hooks/usePageMeta'
 
-type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku'
+type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker'
 
 // 根据种子获取单词/成语
 function getWordBySeedWithLang(seed: number, language: Language): string {
@@ -221,6 +235,9 @@ export default function App() {
   const [settings, setSettings] = useState<Settings>(loadSettings)
   const [showHowToPlay, setShowHowToPlay] = useState(false)
   const [showGameGuide, setShowGameGuide] = useState(false)
+
+  // Update page meta based on current game
+  usePageMeta(gameType === 'menu' ? undefined : gameType, settings.language)
   const [challengeSeed, setChallengeSeed] = useState<number | null>(null)
 
   // 根据语言决定单词长度
@@ -889,33 +906,261 @@ export default function App() {
                 </svg>
               </div>
             </button>
+
+            {/* Minesweeper */}
+            <button
+              onClick={() => setGameType('minesweeper')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧨</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '扫雷' : 'Minesweeper'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典扫雷益智游戏' : 'Classic mine-finding puzzle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* 2048 */}
+            <button
+              onClick={() => setGameType('game2048')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧱</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">2048</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '数字合并挑战' : 'Merge numbers challenge'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Snake */}
+            <button
+              onClick={() => setGameType('snake')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🐍</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '贪吃蛇' : 'Snake'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典贪吃蛇游戏' : 'Classic snake game'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Memory */}
+            <button
+              onClick={() => setGameType('memory')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🃏</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '记忆翻牌' : 'Memory'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '翻转卡片找到配对' : 'Flip cards to find pairs'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Tetris */}
+            <button
+              onClick={() => setGameType('tetris')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧱</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">Tetris</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典俄罗斯方块' : 'Classic block puzzle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Tic-Tac-Toe */}
+            <button
+              onClick={() => setGameType('tictactoe')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">⭕</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '井字棋' : 'Tic-Tac-Toe'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典双人策略游戏' : 'Classic strategy game'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Connect Four */}
+            <button
+              onClick={() => setGameType('connectfour')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔴</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '四子棋' : 'Connect Four'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '连成四子获胜' : 'Connect four to win'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Whack-a-Mole */}
+            <button
+              onClick={() => setGameType('whackamole')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔨</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '打地鼠' : 'Whack-a-Mole'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '快速反应打地鼠' : 'Quick reflexes game'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Simon Says */}
+            <button
+              onClick={() => setGameType('simonsays')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔴</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '西蒙说' : 'Simon Says'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '记忆颜色序列' : 'Memory color sequence'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* 15 Puzzle */}
+            <button
+              onClick={() => setGameType('fifteenpuzzle')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔢</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '数字推盘' : '15 Puzzle'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '滑动数字排序' : 'Slide numbers in order'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Lights Out */}
+            <button
+              onClick={() => setGameType('lightsout')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">💡</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '熄灯游戏' : 'Lights Out'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '关闭所有灯泡' : 'Turn off all lights'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Brick Breaker */}
+            <button
+              onClick={() => setGameType('brickbreaker')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧱</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '打砖块' : 'Brick Breaker'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '经典弹球游戏' : 'Classic ball and paddle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
           </div>
 
-          {/* Settings Row */}
-          <div className={`mt-8 flex justify-center gap-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-            <button onClick={toggleLanguage} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm font-medium">
-              {settings.language === 'en' ? '中文' : 'English'}
-            </button>
-            <button onClick={toggleTheme} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
-              {settings.darkMode ? '☀️' : '🌙'}
-            </button>
-            <button onClick={toggleSound} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
-              {settings.soundEnabled ? '🔊' : '🔇'}
-            </button>
-            <Feedback language={settings.language} inline />
-          </div>
+        {/* Settings Row */}
+        <div className={`mt-8 flex justify-center gap-4 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+          <button onClick={toggleLanguage} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm font-medium">
+            {settings.language === 'en' ? '中文' : 'English'}
+          </button>
+          <button onClick={toggleTheme} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
+            {settings.darkMode ? '☀️' : '🌙'}
+          </button>
+          <button onClick={toggleSound} className="px-3 py-1 rounded hover:bg-gray-700/30 text-sm">
+            {settings.soundEnabled ? '🔊' : '🔇'}
+          </button>
+          <Feedback language={settings.language} inline />
         </div>
-
-        {/* Game Guide Modal */}
-        {showGameGuide && (
-          <GameGuide
-            language={settings.language}
-            darkMode={settings.darkMode}
-            onClose={() => setShowGameGuide(false)}
-          />
-        )}
       </div>
-    )
+
+      {/* Game Guide Modal */}
+      {showGameGuide && (
+        <GameGuide
+          language={settings.language}
+          darkMode={settings.darkMode}
+          onClose={() => setShowGameGuide(false)}
+        />
+      )}
+    </div>
+  )
   }
 
   // Mastermind game
@@ -936,6 +1181,66 @@ export default function App() {
   // Sudoku game
   if (gameType === 'sudoku') {
     return <Sudoku settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Minesweeper game
+  if (gameType === 'minesweeper') {
+    return <Minesweeper settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // 2048 game
+  if (gameType === 'game2048') {
+    return <Game2048 settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Snake game
+  if (gameType === 'snake') {
+    return <Snake settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Memory game
+  if (gameType === 'memory') {
+    return <Memory settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Tetris game
+  if (gameType === 'tetris') {
+    return <Tetris settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Tic-Tac-Toe game
+  if (gameType === 'tictactoe') {
+    return <TicTacToe settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Connect Four game
+  if (gameType === 'connectfour') {
+    return <ConnectFour settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Whack-a-Mole game
+  if (gameType === 'whackamole') {
+    return <WhackAMole settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Simon Says game
+  if (gameType === 'simonsays') {
+    return <SimonSays settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // 15 Puzzle game
+  if (gameType === 'fifteenpuzzle') {
+    return <FifteenPuzzle settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Lights Out game
+  if (gameType === 'lightsout') {
+    return <LightsOut settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Brick Breaker game
+  if (gameType === 'brickbreaker') {
+    return <BrickBreaker settings={settings} onBack={() => setGameType('menu')} />
   }
 
   // Wordle game (original)

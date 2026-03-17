@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/*.png', 'robots.txt'],
       manifest: {
-        name: 'RuleWord - Word Guessing Game',
+        name: 'RuleWord - Free Online Mini Games',
         short_name: 'RuleWord',
-        description: 'A fun 5-letter word guessing game. Guess the word in 6 tries!',
+        description: 'Play 17+ free online mini games: Wordle, Sudoku, 2048, Tetris, Snake, Minesweeper and more!',
         start_url: '/',
         display: 'standalone',
         background_color: '#0f172a',
@@ -75,5 +75,16 @@ export default defineConfig({
       }
     })
   ],
-  base: '/'
+  base: '/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['react-router-dom']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600
+  }
 })

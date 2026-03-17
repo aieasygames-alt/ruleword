@@ -1,13 +1,13 @@
 {
-  "name": "RuleWord - Word Guessing Game",
+  "name": "RuleWord - Free Online Mini Games",
   "short_name": "RuleWord",
-  "description": "A fun 5-letter word guessing game. Guess the word in 6 tries! Challenge yourself and your friends with this addictive word puzzle game.",
+  "description": "Play 17+ free online mini games: Wordle, Sudoku, 2048, Tetris, Snake, Minesweeper and more! No download required.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "orientation": "portrait",
-  "categories": ["games", "entertainment"],
+  "categories": ["games", "entertainment", "puzzle"],
   "lang": "en-US",
   "icons": [
     {
@@ -56,10 +56,31 @@
   ],
   "shortcuts": [
     {
-      "name": "Play Game",
-      "short_name": "Play",
-      "description": "Start a new word guessing game",
-      "url": "/",
+      "name": "Word Guess",
+      "short_name": "Wordle",
+      "description": "Play the daily word guessing game",
+      "url": "/game/wordle",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Sudoku",
+      "short_name": "Sudoku",
+      "description": "Play classic Sudoku puzzle",
+      "url": "/game/sudoku",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "2048",
+      "short_name": "2048",
+      "description": "Merge numbers to reach 2048",
+      "url": "/game/game2048",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tetris",
+      "short_name": "Tetris",
+      "description": "Classic block stacking game",
+      "url": "/game/tetris",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ],
