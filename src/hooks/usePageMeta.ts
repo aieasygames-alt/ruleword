@@ -346,9 +346,9 @@ const gameMetas: Record<string, { en: PageMeta; zh: PageMeta }> = {
 }
 
 const defaultMeta: PageMeta = {
-  title: 'RuleWord - Free Online Mini Games Collection',
-  description: 'Play 17+ free online mini games: Wordle, Sudoku, 2048, Tetris, Snake, Minesweeper and more! No download required.',
-  keywords: 'free online games, word games, puzzle games, sudoku, tetris, snake, 2048'
+  title: 'RuleWord - Free Online Puzzle Games Collection',
+  description: 'Play 27+ free online puzzle games: Wordle, Sudoku, 2048, Tetris, Nonogram, Skyscrapers, Minesweeper and more! No download required.',
+  keywords: 'free online games, puzzle games, wordle, sudoku, 2048, tetris, nonogram, minesweeper'
 }
 
 export function usePageMeta(gameId?: string, language: 'en' | 'zh' = 'en') {
