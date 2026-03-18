@@ -27,6 +27,7 @@ const games = [
   { id: 'game2048', name: '2048', nameZh: '2048', icon: '🔢', desc: 'Merge numbers challenge', descZh: '数字合并挑战', category: 'logic', featured: true },
   { id: 'fifteenpuzzle', name: '15 Puzzle', nameZh: '数字推盘', icon: '🔲', desc: 'Slide numbers in order', descZh: '滑动数字排序', category: 'logic' },
   { id: 'lightsout', name: 'Lights Out', nameZh: '熄灯游戏', icon: '💡', desc: 'Turn off all lights', descZh: '关闭所有灯泡', category: 'logic' },
+  { id: 'bullpen', name: 'Bullpen', nameZh: '牛栏逻辑', icon: '🐂', desc: 'Sudoku meets Minesweeper', descZh: '数独与扫雷的结合', category: 'logic', featured: true },
 
   // 策略对战 / Strategy
   { id: 'mastermind', name: 'Mastermind', nameZh: '密码破译', icon: '🔐', desc: '8 tries to crack color code', descZh: '8次机会破解密码', category: 'strategy', featured: true },

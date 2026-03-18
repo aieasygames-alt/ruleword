@@ -7,7 +7,7 @@ type GameGuideProps = {
   initialGame?: 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker'
 }
 
-type GameType = 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker'
+type GameType = 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen'
 
 export default function GameGuide({ language, darkMode, onClose, initialGame = 'wordle' }: GameGuideProps) {
   const [activeGame, setActiveGame] = useState<GameType>(initialGame)
@@ -599,7 +599,45 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           whyDesc: 'Brick Breaker offers satisfying, rhythmic gameplay. Watching bricks disappear never gets old!',
           whyDesc2: 'The game tests your reflexes and precision. Each level cleared brings a sense of accomplishment!',
         },
-      },
+        bullpen: {
+          name: 'Bullpen',
+          intro: 'Bullpen is a clean, logic-based puzzle game where every bull must be placed just right! It\'s like Sudoku meets Minesweeper!',
+          intro2: 'Simple rules, deep strategy! Perfect for puzzle enthusiasts!',
+          howToPlay: 'How to Play',
+          mechanics: 'Game Mechanics',
+          mechanicsIntro: 'Place bulls in the grid so that each pen, row, and column has exactly the right number of bulls!',
+          rule1Title: 'Place Bulls',
+          rule1Desc: 'Click an empty cell to place a bull (🐂). Click again to mark as grass (🌱). Click again to clear.',
+          rule2Title: 'Pen Constraint',
+          rule2Desc: 'Each colored pen region must exactly 1 bull (2 in hard mode)!',
+          rule3Title: 'Row & Column',
+          rule3Desc: 'Each row and column needs exactly 1 bull (2 in hard mode)!',
+          rule4Title: 'No Touching',
+          rule4Desc: 'Bulls cannot touch each other, not even diagonally!',
+          controls: 'Click cells to place or mark, or clear. Use logic to deduce where bulls must be!',
+          gameModes: 'Game Modes',
+          dailyMode: 'Daily',
+          dailyDesc: 'One new puzzle each day. Everyone solves the same challenge!',
+          practiceMode: 'Practice',
+          practiceDesc: 'Unlimited random puzzles. Master the logic!',
+          difficulty: 'Difficulty Levels',
+          easyDesc: 'Easy: 5×5 grid. Perfect for beginners!',
+          normalDesc: 'Normal: 7×7 grid. Standard challenge.',
+          hardDesc: 'Hard: 8×8 grid with 2 bulls per pen! Complex patterns!',
+          tips: 'Gameplay Tips',
+          tip1Title: 'Work Systematically',
+          tip1Desc: 'Start from the edges and work inward. Eliminate impossibilities first!',
+          tip2Title: 'Use Deduction',
+          tip2Desc: 'If a row has 1 bull and all other cells are either marked or or known, the row is complete!',
+          tip3Title: 'Track Constraints',
+          tip3Desc: 'Keep track of which pens, rows, and columns still need bulls. Use process of elimination!',
+          tip4Title: 'Think Ahead',
+          tip4Desc: 'Each placement affects future moves. Plan several steps ahead!',
+          whyEntertaining: 'Why is Bullpen so fun?',
+          whyDesc: 'Bullpen combines simple rules with deep logical deduction. Each puzzle is a satisfying mental challenge!',
+          whyDesc2: 'The game teaches systematic thinking. Watching all bulls finally find their places is incredibly rewarding!',
+        },
+      }
     },
     zh: {
       title: '游戏指南',
@@ -1178,10 +1216,18 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           tip4Desc: '没有时间限制。慢慢来，做出受控的移动！',
           whyEntertaining: '为什么打砖块如此有趣？',
           whyDesc: '打砖块提供令人满足的、有节奏的游戏体验。看着砖块消失永远不会腻！',
-          whyDesc2: '游戏测试你的反应和精确度。每清除一关都带来成就感！',
+          whyDesc2: '游戏测试你的反应和精确度.每清除一关都带来成就感！',
         },
-      },
-    },
+        bullpen: {
+          name: '牛栏逻辑',
+          intro: '牛栏逻辑是一款简洁的逻辑益智游戏，每头公牛都必须精确放置！就像数独与扫雷的结合！',
+          intro2: '简单规则，深度策略！非常适合益智游戏爱好者！',
+          whyEntertaining: '牛栏逻辑为什么这么有趣？',
+          whyDesc: '牛栏逻辑将简单规则与深度逻辑推理结合。每个谜题都是令人满足的心理挑战！',
+          whyDesc2: '游戏教会系统化思考。看着所有公牛最终找到正确位置非常令人满足！',
+        },
+      }
+    }
   }
 
   const t = translations[language]
@@ -1204,7 +1250,7 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
 
       {/* Game Tabs */}
       <div className={`sticky top-[60px] ${cardBgClass} border-b ${borderClass} p-2 flex gap-2 overflow-x-auto`}>
-        {(['wordle', 'mastermind', 'crosswordle', 'sudoku', 'minesweeper', 'game2048', 'snake', 'memory', 'tetris', 'tictactoe', 'connectfour', 'whackamole', 'simonsays', 'fifteenpuzzle', 'lightsout', 'brickbreaker'] as GameType[]).map((g) => (
+        {(['wordle', 'mastermind', 'crosswordle', 'sudoku', 'minesweeper', 'game2048', 'snake', 'memory', 'tetris', 'tictactoe', 'connectfour', 'whackamole', 'simonsays', 'fifteenpuzzle', 'lightsout', 'brickbreaker', 'bullpen'] as GameType[]).map((g) => (
           <button
             key={g}
             onClick={() => setActiveGame(g)}

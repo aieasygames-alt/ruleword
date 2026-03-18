@@ -20,12 +20,13 @@ import SimonSays from './SimonSays'
 import FifteenPuzzle from './FifteenPuzzle'
 import LightsOut from './LightsOut'
 import BrickBreaker from './BrickBreaker'
+import Bullpen from './Bullpen'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
 import Home from './Home'
 import { usePageMeta } from './hooks/usePageMeta'
 
-type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker'
+type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen'
 
 // 根据种子获取单词/成语
 function getWordBySeedWithLang(seed: number, language: Language): string {
@@ -1241,6 +1242,11 @@ export default function App() {
   // Brick Breaker game
   if (gameType === 'brickbreaker') {
     return <BrickBreaker settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Bullpen game
+  if (gameType === 'bullpen') {
+    return <Bullpen settings={settings} onBack={() => setGameType('menu')} />
   }
 
   // Wordle game (original)

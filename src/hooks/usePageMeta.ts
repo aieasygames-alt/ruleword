@@ -199,6 +199,18 @@ const gameMetas: Record<string, { en: PageMeta; zh: PageMeta }> = {
       keywords: '打砖块, 弹球游戏, 街机游戏, 经典游戏, 免费游戏'
     }
   },
+  bullpen: {
+    en: {
+      title: 'Bullpen - RuleWord | Free Logic Puzzle Game',
+      description: 'Play Bullpen for free! A clean logic puzzle where every bull must be placed just right. Like Sudoku meets Minesweeper.',
+      keywords: 'bullpen, logic puzzle, deduction game, sudoku-like, free puzzle game'
+    },
+    zh: {
+      title: '牛栏逻辑 - RuleWord | 免费逻辑益智游戏',
+      description: '免费玩牛栏逻辑！简洁的逻辑益智游戏，每头公牛都必须精确放置. 就像数独与扫雷的结合.',
+      keywords: '牛栏逻辑, 逻辑谜题, 推理游戏, 类数独, 免费益智游戏'
+    }
+  },
   dictionary: {
     en: {
       title: 'Dictionary - RuleWord | Free Online Dictionary',
