@@ -1,13 +1,13 @@
 import { useState } from 'react'
 
+type GameType = 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen'
+
 type GameGuideProps = {
   language: 'en' | 'zh'
   darkMode: boolean
   onClose: () => void
-  initialGame?: 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker'
+  initialGame?: GameType
 }
-
-type GameType = 'wordle' | 'mastermind' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen'
 
 export default function GameGuide({ language, darkMode, onClose, initialGame = 'wordle' }: GameGuideProps) {
   const [activeGame, setActiveGame] = useState<GameType>(initialGame)
@@ -1222,6 +1222,36 @@ export default function GameGuide({ language, darkMode, onClose, initialGame = '
           name: '牛栏逻辑',
           intro: '牛栏逻辑是一款简洁的逻辑益智游戏，每头公牛都必须精确放置！就像数独与扫雷的结合！',
           intro2: '简单规则，深度策略！非常适合益智游戏爱好者！',
+          howToPlay: '如何玩',
+          mechanics: '游戏机制',
+          mechanicsIntro: '在网格中放置公牛，使每个围栏、行和列都有正确数量的公牛！',
+          rule1Title: '放置公牛',
+          rule1Desc: '点击空格放置公牛(🐂)。再次点击标记为草地(🌱)。再点击清除。',
+          rule2Title: '围栏约束',
+          rule2Desc: '每个彩色围栏区域必须有1头公牛(困难模式为2头)！',
+          rule3Title: '行列约束',
+          rule3Desc: '每行每列都需要1头公牛(困难模式为2头)！',
+          rule4Title: '不能相邻',
+          rule4Desc: '公牛之间不能相邻，包括对角线方向！',
+          controls: '点击格子放置、标记或清除。用逻辑推导公牛的位置！',
+          gameModes: '游戏模式',
+          dailyMode: '每日挑战',
+          dailyDesc: '每天一个新谜题。所有人解决相同的挑战！',
+          practiceMode: '练习模式',
+          practiceDesc: '无限随机谜题。掌握逻辑技巧！',
+          difficulty: '难度等级',
+          easyDesc: '简单：5×5网格。适合初学者！',
+          normalDesc: '普通：7×7网格。标准挑战。',
+          hardDesc: '困难：8×8网格，每个围栏2头公牛！复杂模式！',
+          tips: '游戏技巧',
+          tip1Title: '系统化思考',
+          tip1Desc: '从边缘开始，逐步向内。先排除不可能的位置！',
+          tip2Title: '逻辑推导',
+          tip2Desc: '如果一行已有1头公牛且其他格子都已确定，这行就完成了！',
+          tip3Title: '追踪约束',
+          tip3Desc: '记录哪些围栏、行和列还需要公牛。使用排除法！',
+          tip4Title: '提前规划',
+          tip4Desc: '每步放置都会影响后续。提前规划几步！',
           whyEntertaining: '牛栏逻辑为什么这么有趣？',
           whyDesc: '牛栏逻辑将简单规则与深度逻辑推理结合。每个谜题都是令人满足的心理挑战！',
           whyDesc2: '游戏教会系统化思考。看着所有公牛最终找到正确位置非常令人满足！',
