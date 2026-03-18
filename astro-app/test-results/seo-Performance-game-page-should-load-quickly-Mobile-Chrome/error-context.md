@@ -1,0 +1,228 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - link "R" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]: R
+        - link [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img [ref=e10]
+      - heading "🧩 Sudoku" [level=1] [ref=e12]
+      - generic [ref=e13]:
+        - button "Select language" [ref=e16]:
+          - generic [ref=e17]: 🌐
+          - img [ref=e18]
+        - button "💬" [ref=e20]:
+          - generic [ref=e21]: 💬
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - button [ref=e27]:
+            - img [ref=e28]
+          - heading "Sudoku" [level=1] [ref=e30]
+          - generic [ref=e31]:
+            - generic [ref=e32]: 00:14
+            - button [ref=e33]:
+              - img [ref=e34]
+        - generic [ref=e36]:
+          - button "Daily" [ref=e37]
+          - button "Unlimited" [ref=e38]
+          - button "Practice" [ref=e39]
+        - generic [ref=e40]:
+          - button "Easy" [ref=e41]
+          - button "Medium" [ref=e42]
+          - button "Hard" [ref=e43]
+          - button "Expert" [ref=e44]
+        - button "💡 Hint (3)" [ref=e46]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - button "4" [ref=e49]:
+            - generic [ref=e50]: "4"
+          - button [ref=e51]
+          - button "6" [ref=e52]:
+            - generic [ref=e53]: "6"
+          - button "5" [ref=e54]:
+            - generic [ref=e55]: "5"
+          - button [ref=e56]
+          - button [ref=e57]
+          - button "1" [ref=e58]:
+            - generic [ref=e59]: "1"
+          - button "8" [ref=e60]:
+            - generic [ref=e61]: "8"
+          - button [ref=e62]
+          - button "8" [ref=e63]:
+            - generic [ref=e64]: "8"
+          - button "5" [ref=e65]:
+            - generic [ref=e66]: "5"
+          - button "2" [ref=e67]:
+            - generic [ref=e68]: "2"
+          - button "9" [ref=e69]:
+            - generic [ref=e70]: "9"
+          - button [ref=e71]
+          - button [ref=e72]
+          - button [ref=e73]
+          - button [ref=e74]
+          - button "4" [ref=e75]:
+            - generic [ref=e76]: "4"
+          - button [ref=e77]
+          - button [ref=e78]
+          - button [ref=e79]
+          - button [ref=e80]
+          - button [ref=e81]
+          - button [ref=e82]
+          - button [ref=e83]
+          - button "2" [ref=e84]:
+            - generic [ref=e85]: "2"
+          - button [ref=e86]
+          - button [ref=e87]
+          - button [ref=e88]
+          - button "8" [ref=e89]:
+            - generic [ref=e90]: "8"
+          - button "4" [ref=e91]:
+            - generic [ref=e92]: "4"
+          - button "9" [ref=e93]:
+            - generic [ref=e94]: "9"
+          - button [ref=e95]
+          - button "3" [ref=e96]:
+            - generic [ref=e97]: "3"
+          - button "6" [ref=e98]:
+            - generic [ref=e99]: "6"
+          - button "1" [ref=e100]:
+            - generic [ref=e101]: "1"
+          - button [ref=e102]
+          - button "1" [ref=e103]:
+            - generic [ref=e104]: "1"
+          - button "3" [ref=e105]:
+            - generic [ref=e106]: "3"
+          - button "2" [ref=e107]:
+            - generic [ref=e108]: "2"
+          - button [ref=e109]
+          - button [ref=e110]
+          - button [ref=e111]
+          - button "5" [ref=e112]:
+            - generic [ref=e113]: "5"
+          - button "7" [ref=e114]:
+            - generic [ref=e115]: "7"
+          - button "5" [ref=e116]:
+            - generic [ref=e117]: "5"
+          - button "6" [ref=e118]:
+            - generic [ref=e119]: "6"
+          - button [ref=e120]
+          - button [ref=e121]
+          - button "7" [ref=e122]:
+            - generic [ref=e123]: "7"
+          - button "1" [ref=e124]:
+            - generic [ref=e125]: "1"
+          - button "8" [ref=e126]:
+            - generic [ref=e127]: "8"
+          - button "9" [ref=e128]:
+            - generic [ref=e129]: "9"
+          - button "2" [ref=e130]:
+            - generic [ref=e131]: "2"
+          - button "3" [ref=e132]:
+            - generic [ref=e133]: "3"
+          - button [ref=e134]
+          - button [ref=e135]
+          - button "6" [ref=e136]:
+            - generic [ref=e137]: "6"
+          - button "8" [ref=e138]:
+            - generic [ref=e139]: "8"
+          - button "9" [ref=e140]:
+            - generic [ref=e141]: "9"
+          - button [ref=e142]
+          - button [ref=e143]
+          - button "5" [ref=e144]:
+            - generic [ref=e145]: "5"
+          - button "7" [ref=e146]:
+            - generic [ref=e147]: "7"
+          - button [ref=e148]
+          - button "9" [ref=e149]:
+            - generic [ref=e150]: "9"
+          - button [ref=e151]
+          - button "5" [ref=e152]:
+            - generic [ref=e153]: "5"
+          - button "4" [ref=e154]:
+            - generic [ref=e155]: "4"
+          - button "2" [ref=e156]:
+            - generic [ref=e157]: "2"
+          - button "3" [ref=e158]:
+            - generic [ref=e159]: "3"
+          - button "6" [ref=e160]:
+            - generic [ref=e161]: "6"
+          - button [ref=e162]
+          - button "4" [ref=e163]:
+            - generic [ref=e164]: "4"
+          - button [ref=e165]
+          - button [ref=e166]
+          - button [ref=e167]
+          - button "2" [ref=e168]:
+            - generic [ref=e169]: "2"
+          - button "9" [ref=e170]:
+            - generic [ref=e171]: "9"
+          - button "1" [ref=e172]:
+            - generic [ref=e173]: "1"
+          - button "8" [ref=e174]:
+            - generic [ref=e175]: "8"
+        - generic [ref=e176]:
+          - button "1" [ref=e177]
+          - button "2" [ref=e178]
+          - button "3" [ref=e179]
+          - button "4" [ref=e180]
+          - button "5" [ref=e181]
+          - button "6" [ref=e182]
+          - button "7" [ref=e183]
+          - button "8" [ref=e184]
+          - button "9" [ref=e185]
+        - generic [ref=e186]:
+          - button "📝 Notes" [ref=e187]
+          - button "🗑️ Clear" [ref=e188]
+          - button "📊 Stats" [ref=e189]
+  - generic [ref=e191]:
+    - 'heading "Sudoku: How to Play" [level=2] [ref=e192]'
+    - generic [ref=e193]:
+      - paragraph [ref=e194]: Sudoku is the classic 9x9 number logic puzzle that has captivated millions worldwide. Fill in the grid so that every row, column, and 3x3 box contains the digits 1-9. No math required - just pure logical deduction!
+      - heading "How to Play" [level=3] [ref=e195]
+      - paragraph [ref=e196]: Click on an empty cell and enter a number from 1-9. Each row, column, and 3x3 box must contain all digits 1-9 exactly once. Use the notes feature to pencil in possible candidates. Wrong entries are highlighted in red.
+      - heading "Tips" [level=3] [ref=e197]
+      - list [ref=e198]:
+        - listitem [ref=e199]:
+          - generic [ref=e200]: •
+          - generic [ref=e201]: Start with rows, columns, or boxes that have the most filled cells
+        - listitem [ref=e202]:
+          - generic [ref=e203]: •
+          - generic [ref=e204]: Use the process of elimination - if a number can only go in one cell, place it
+        - listitem [ref=e205]:
+          - generic [ref=e206]: •
+          - generic [ref=e207]: Look for "naked pairs" - two cells that can only contain the same two numbers
+        - listitem [ref=e208]:
+          - generic [ref=e209]: •
+          - generic [ref=e210]: Use notes to track all possible candidates for each cell
+    - generic [ref=e211]:
+      - heading "More Games" [level=3] [ref=e212]
+      - generic [ref=e213]:
+        - link "🔢 2048" [ref=e214] [cursor=pointer]:
+          - /url: /games/2048/
+          - generic [ref=e215]: 🔢
+          - generic [ref=e216]: "2048"
+        - link "💣 Minesweeper" [ref=e217] [cursor=pointer]:
+          - /url: /games/minesweeper/
+          - generic [ref=e218]: 💣
+          - generic [ref=e219]: Minesweeper
+        - link "🖼️ Nonogram" [ref=e220] [cursor=pointer]:
+          - /url: /games/nonogram/
+          - generic [ref=e221]: 🖼️
+          - generic [ref=e222]: Nonogram
+        - link "🏙️ Skyscrapers" [ref=e223] [cursor=pointer]:
+          - /url: /games/skyscrapers/
+          - generic [ref=e224]: 🏙️
+          - generic [ref=e225]: Skyscrapers
+  - contentinfo [ref=e226]:
+    - generic [ref=e227]:
+      - generic [ref=e228]: © 2026 RuleWord · Sudoku
+      - generic [ref=e229]: 47+ Free Games
+```

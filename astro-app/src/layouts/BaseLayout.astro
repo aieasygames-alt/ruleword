@@ -1,0 +1,117 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description?: string
+  keywords?: string
+  canonicalPath?: string
+  ogImage?: string
+  gameType?: string
+}
+
+const {
+  title,
+  description = 'Play 27+ free online puzzle games: Wordle, Sudoku, 2048, Tetris, Nonogram, Skyscrapers, Minesweeper and more! No download required.',
+  keywords = 'free online games, puzzle games, wordle, sudoku, 2048, tetris, nonogram, minesweeper',
+  canonicalPath = '/',
+  ogImage = '/icons/og-image.png',
+  gameType
+} = Astro.props
+
+const canonicalUrl = `https://ruleword.com${canonicalPath}`
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com${ogImage}`
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="RuleWord" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={gameType ? 'game' : 'website'} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="RuleWord" />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ruleword" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5396G592M6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-5396G592M6');
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    {gameType ? (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "VideoGame",
+        "name": title.split(' - ')[0],
+        "description": description,
+        "url": canonicalUrl,
+        "applicationCategory": "GameApplication",
+        "gamePlatform": ["Web Browser", "Mobile Web"],
+        "operatingSystem": "Any",
+        "genre": gameType,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      })} />
+    ) : (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "RuleWord",
+        "description": "Play 27+ free online puzzle games: Wordle, Sudoku, 2048, Tetris, Nonogram and more!",
+        "url": "https://ruleword.com",
+        "applicationCategory": "GameApplication",
+        "operatingSystem": "Any",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "genre": ["Puzzle", "Word Game", "Arcade", "Strategy"]
+      })} />
+    )}
+  </head>
+  <body class="bg-slate-900 text-white">
+    <slot />
+  </body>
+</html>

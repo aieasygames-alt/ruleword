@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/* Base styles */
+body {
+  font-family: 'Inter', 'Nunito Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent pull-to-refresh on mobile */
+html, body {
+  overscroll-behavior: none;
+}
+
+/* Cell styles */
+.cell {
+  @apply w-14 h-14 border-2 border-gray-600 flex items-center justify-center
+         text-2xl font-bold uppercase;
+  perspective: 1000px;
+}
+
+.cell-filled {
+  @apply border-gray-400;
+  animation: pop 0.1s ease;
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.cell-correct {
+  @apply bg-green-600 border-green-600 text-white;
+}
+
+.cell-present {
+  @apply bg-yellow-500 border-yellow-500 text-white;
+}
+
+.cell-absent {
+  @apply bg-gray-700 border-gray-700 text-white;
+}
+
+/* 3D Flip Animation */
+.cell-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.cell-reveal .cell-inner {
+  animation: flip3d 0.6s ease forwards;
+}
+
+@keyframes flip3d {
+  0% {
+    transform: rotateX(0deg);
+  }
+  50% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* Win bounce animation */
+.cell-win {
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Shake animation */
+.animate-shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Keyboard styles */
+.keyboard-key {
+  @apply h-14 flex items-center justify-center rounded-md font-bold uppercase
+         bg-gray-500 text-white transition-colors duration-150
+         hover:bg-gray-400 active:scale-95 cursor-pointer select-none;
+  min-width: 2.5rem;
+  flex: 1;
+  max-width: 3rem;
+}
+
+.key-special {
+  @apply text-xs px-2;
+  min-width: 4rem;
+  max-width: 4.5rem;
+  flex: 1.5;
+}
+
+.key-correct {
+  @apply bg-green-600 hover:bg-green-500;
+}
+
+.key-present {
+  @apply bg-yellow-500 hover:bg-yellow-400;
+}
+
+.key-absent {
+  @apply bg-gray-800 hover:bg-gray-700;
+}
+
+/* Toast message */
+.toast {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Share modal */
+.modal-overlay {
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .cell {
+    @apply w-12 h-12 text-xl;
+  }
+
+  .keyboard-key {
+    @apply h-12 text-sm;
+    min-width: 2rem;
+    max-width: 2.5rem;
+  }
+
+  .key-special {
+    min-width: 3rem;
+    max-width: 3.5rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .cell {
+    @apply w-10 h-10 text-lg;
+  }
+
+  .keyboard-key {
+    @apply h-11 text-xs;
+    min-width: 1.75rem;
+    max-width: 2.25rem;
+  }
+
+  .key-special {
+    min-width: 2.5rem;
+    max-width: 3rem;
+  }
+}
