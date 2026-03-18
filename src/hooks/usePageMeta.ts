@@ -211,6 +211,126 @@ const gameMetas: Record<string, { en: PageMeta; zh: PageMeta }> = {
       keywords: '牛栏逻辑, 逻辑谜题, 推理游戏, 类数独, 免费益智游戏'
     }
   },
+  nonogram: {
+    en: {
+      title: 'Nonogram - RuleWord | Free Picture Logic Puzzle',
+      description: 'Play Nonogram for free! Fill cells to reveal hidden pictures. Also known as Picross or Griddlers.',
+      keywords: 'nonogram, picross, griddlers, picture puzzle, logic puzzle, free game'
+    },
+    zh: {
+      title: '数织 - RuleWord | 免费图画逻辑谜题',
+      description: '免费玩数织！填充格子揭示隐藏图案。也叫十字绣或Picross。',
+      keywords: '数织, 十字绣, 图画谜题, 逻辑谜题, 免费游戏'
+    }
+  },
+  kakuro: {
+    en: {
+      title: 'Kakuro - RuleWord | Free Number Crossword Puzzle',
+      description: 'Play Kakuro for free! Fill digits so they sum to clues. Like a crossword with numbers!',
+      keywords: 'kakuro, number crossword, math puzzle, sum puzzle, free game'
+    },
+    zh: {
+      title: '数和 - RuleWord | 免费数字填字谜题',
+      description: '免费玩数和！填入数字使总和等于提示。就像数字版填字游戏！',
+      keywords: '数和, 数字填字, 数学谜题, 求和谜题, 免费游戏'
+    }
+  },
+  hitori: {
+    en: {
+      title: 'Hitori - RuleWord | Free Japanese Logic Puzzle',
+      description: 'Play Hitori for free! Shade cells to eliminate duplicates. No two same numbers in any row or column!',
+      keywords: 'hitori, japanese puzzle, logic puzzle, number puzzle, free game'
+    },
+    zh: {
+      title: '数一 - RuleWord | 免费日语逻辑谜题',
+      description: '免费玩数一！涂黑格子消除重复。行列中不能有相同数字！',
+      keywords: '数一, 日语谜题, 逻辑谜题, 数字谜题, 免费游戏'
+    }
+  },
+  skyscrapers: {
+    en: {
+      title: 'Skyscrapers - RuleWord | Free Building Placement Puzzle',
+      description: 'Play Skyscrapers for free! Place buildings by visibility clues. A unique twist on Latin squares!',
+      keywords: 'skyscrapers, building puzzle, latin square, visibility puzzle, free game'
+    },
+    zh: {
+      title: '摩天大楼 - RuleWord | 免费建筑放置谜题',
+      description: '免费玩摩天大楼！根据可见性提示放置建筑。拉丁方阵的独特变体！',
+      keywords: '摩天大楼, 建筑谜题, 拉丁方阵, 可见性谜题, 免费游戏'
+    }
+  },
+  kenken: {
+    en: {
+      title: 'KenKen - RuleWord | Free Math Logic Puzzle',
+      description: 'Play KenKen for free! Sudoku meets arithmetic. Fill the grid using math operations!',
+      keywords: 'kenken, calcudoku, math puzzle, sudoku variant, free game'
+    },
+    zh: {
+      title: '算独 - RuleWord | 免费数学逻辑谜题',
+      description: '免费玩算独！数独与算术的结合。使用数学运算填充网格！',
+      keywords: '算独, 数学谜题, 数独变体, 免费游戏'
+    }
+  },
+  threes: {
+    en: {
+      title: 'Threes - RuleWord | Free Number Merging Game',
+      description: 'Play Threes for free! Slide and merge numbers. 1+2=3, then match same numbers to double!',
+      keywords: 'threes, number merge, sliding puzzle, 2048 alternative, free game'
+    },
+    zh: {
+      title: '三消数字 - RuleWord | 免费数字合并游戏',
+      description: '免费玩三消数字！滑动合并数字。1+2=3，然后匹配相同数字翻倍！',
+      keywords: '三消数字, 数字合并, 滑动谜题, 2048替代, 免费游戏'
+    }
+  },
+  suguru: {
+    en: {
+      title: 'Suguru - RuleWord | Free Number Block Puzzle',
+      description: 'Play Suguru for free! Fill regions with unique consecutive numbers. Mini-Sudoku in each region!',
+      keywords: 'suguru, number blocks, region puzzle, logic puzzle, free game'
+    },
+    zh: {
+      title: '数块 - RuleWord | 免费数字方块谜题',
+      description: '免费玩数块！用唯一连续数字填充区域。每个区域都是迷你数独！',
+      keywords: '数块, 数字方块, 区域谜题, 逻辑谜题, 免费游戏'
+    }
+  },
+  hashiwokakero: {
+    en: {
+      title: 'Bridges - RuleWord | Free Island Connection Puzzle',
+      description: 'Play Bridges (Hashiwokakero) for free! Connect islands with bridges. Build a connected network!',
+      keywords: 'bridges, hashiwokakero, island puzzle, connection game, free game'
+    },
+    zh: {
+      title: '桥梁 - RuleWord | 免费岛屿连接谜题',
+      description: '免费玩桥梁！用桥梁连接岛屿。构建连通网络！',
+      keywords: '桥梁, 岛屿谜题, 连接游戏, 免费游戏'
+    }
+  },
+  slitherlink: {
+    en: {
+      title: 'Slitherlink - RuleWord | Free Loop Drawing Puzzle',
+      description: 'Play Slitherlink for free! Draw a single loop around number clues. Topology meets logic!',
+      keywords: 'slitherlink, loop puzzle, topology game, logic puzzle, free game'
+    },
+    zh: {
+      title: '连环线 - RuleWord | 免费循环绘制谜题',
+      description: '免费玩连环线！围绕数字提示画一条单环。拓扑与逻辑的结合！',
+      keywords: '连环线, 循环谜题, 拓扑游戏, 逻辑谜题, 免费游戏'
+    }
+  },
+  binary: {
+    en: {
+      title: 'Binary - RuleWord | Free 0 and 1 Logic Puzzle',
+      description: 'Play Binary (Takuzu) for free! Fill with 0s and 1s. No three in a row, equal count in each row!',
+      keywords: 'binary, takuzu, 0 1 puzzle, logic puzzle, free game'
+    },
+    zh: {
+      title: '0和1 - RuleWord | 免费二进制逻辑谜题',
+      description: '免费玩0和1！用0和1填充。无三连，每行等量！',
+      keywords: '0和1, 二进制, 逻辑谜题, 免费游戏'
+    }
+  },
   dictionary: {
     en: {
       title: 'Dictionary - RuleWord | Free Online Dictionary',

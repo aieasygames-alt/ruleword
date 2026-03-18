@@ -21,12 +21,22 @@ import FifteenPuzzle from './FifteenPuzzle'
 import LightsOut from './LightsOut'
 import BrickBreaker from './BrickBreaker'
 import Bullpen from './Bullpen'
+import Nonogram from './Nonogram'
+import Kakuro from './Kakuro'
+import Hitori from './Hitori'
+import Skyscrapers from './Skyscrapers'
+import KenKen from './KenKen'
+import Threes from './Threes'
+import Suguru from './Suguru'
+import Hashiwokakero from './Hashiwokakero'
+import Slitherlink from './Slitherlink'
+import Binary from './Binary'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
 import Home from './Home'
 import { usePageMeta } from './hooks/usePageMeta'
 
-type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen'
+type GameType = 'menu' | 'wordle' | 'mastermind' | 'dictionary' | 'crosswordle' | 'sudoku' | 'minesweeper' | 'game2048' | 'snake' | 'memory' | 'tetris' | 'tictactoe' | 'connectfour' | 'whackamole' | 'simonsays' | 'fifteenpuzzle' | 'lightsout' | 'brickbreaker' | 'bullpen' | 'nonogram' | 'kakuro' | 'hitori' | 'skyscrapers' | 'kenken' | 'threes' | 'suguru' | 'hashiwokakero' | 'slitherlink' | 'binary'
 
 // 根据种子获取单词/成语
 function getWordBySeedWithLang(seed: number, language: Language): string {
@@ -1142,11 +1152,201 @@ export default function App() {
               className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
             >
               <div className="flex items-center gap-4">
-                <div className="text-4xl">🧱</div>
+                <div className="text-4xl">🏓</div>
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">{settings.language === 'zh' ? '打砖块' : 'Brick Breaker'}</h2>
                   <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {settings.language === 'zh' ? '经典弹球游戏' : 'Classic ball and paddle'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Nonogram */}
+            <button
+              onClick={() => setGameType('nonogram')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🖼️</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '数织' : 'Nonogram'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '填充格子画出图案' : 'Fill cells to reveal picture'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Kakuro */}
+            <button
+              onClick={() => setGameType('kakuro')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">➕</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '数和' : 'Kakuro'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '填数字使和等于提示' : 'Fill numbers to match sums'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Hitori */}
+            <button
+              onClick={() => setGameType('hitori')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">⬛</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '数一' : 'Hitori'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '涂黑数字使行列无重复' : 'Shade cells to remove duplicates'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Skyscrapers */}
+            <button
+              onClick={() => setGameType('skyscrapers')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🏙️</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '摩天大楼' : 'Skyscrapers'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '根据高度提示排列数字' : 'Place buildings by visibility'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* KenKen */}
+            <button
+              onClick={() => setGameType('kenken')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🔢</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '算独' : 'KenKen'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '结合四则运算的数独' : 'Sudoku with math operations'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Threes */}
+            <button
+              onClick={() => setGameType('threes')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">3️⃣</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '三消数字' : 'Threes'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '滑动合并数字挑战' : 'Slide and merge numbers'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Suguru */}
+            <button
+              onClick={() => setGameType('suguru')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🧩</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '数块' : 'Suguru'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '区域内填1-N不重复' : 'Fill regions with unique numbers'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Hashiwokakero */}
+            <button
+              onClick={() => setGameType('hashiwokakero')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">🌉</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '桥梁' : 'Bridges'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '连接岛屿形成通路' : 'Connect islands with bridges'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Slitherlink */}
+            <button
+              onClick={() => setGameType('slitherlink')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">⭕</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '连环线' : 'Slitherlink'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '画线围成数字提示的环' : 'Draw a single loop around clues'}
+                  </p>
+                </div>
+                <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </button>
+
+            {/* Binary */}
+            <button
+              onClick={() => setGameType('binary')}
+              className={`w-full p-5 rounded-2xl text-left transition-transform hover:scale-[1.02] ${modalBgClass} border ${borderClass}`}
+            >
+              <div className="flex items-center gap-4">
+                <div className="text-4xl">01️⃣</div>
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold">{settings.language === 'zh' ? '0和1' : 'Binary'}</h2>
+                  <p className={`text-sm ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {settings.language === 'zh' ? '填充二进制使行列平衡' : 'Fill 0s and 1s, no three in a row'}
                   </p>
                 </div>
                 <svg className="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1266,6 +1466,56 @@ export default function App() {
   // Bullpen game
   if (gameType === 'bullpen') {
     return <Bullpen settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Nonogram game
+  if (gameType === 'nonogram') {
+    return <Nonogram settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Kakuro game
+  if (gameType === 'kakuro') {
+    return <Kakuro settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Hitori game
+  if (gameType === 'hitori') {
+    return <Hitori settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Skyscrapers game
+  if (gameType === 'skyscrapers') {
+    return <Skyscrapers settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // KenKen game
+  if (gameType === 'kenken') {
+    return <KenKen settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Threes game
+  if (gameType === 'threes') {
+    return <Threes settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Suguru game
+  if (gameType === 'suguru') {
+    return <Suguru settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Hashiwokakero game
+  if (gameType === 'hashiwokakero') {
+    return <Hashiwokakero settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Slitherlink game
+  if (gameType === 'slitherlink') {
+    return <Slitherlink settings={settings} onBack={() => setGameType('menu')} />
+  }
+
+  // Binary game
+  if (gameType === 'binary') {
+    return <Binary settings={settings} onBack={() => setGameType('menu')} />
   }
 
   // Wordle game (original)
