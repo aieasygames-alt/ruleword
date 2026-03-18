@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "cd astro-app && pnpm dev",
-    "build": "cd astro-app && pnpm build",
+    "build": "cd astro-app && pnpm install && pnpm build",
     "preview": "cd astro-app && pnpm preview",
     "deploy": "pnpm build && gh-pages -d astro-app/dist"
   },
