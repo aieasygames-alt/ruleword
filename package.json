@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "cd astro-app && pnpm dev",
-    "build": "cd astro-app && pnpm install && pnpm build",
+    "build": "rm -rf dist && cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
     "preview": "cd astro-app && pnpm preview",
-    "deploy": "pnpm build && gh-pages -d astro-app/dist"
+    "deploy": "pnpm build && gh-pages -d dist"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
