@@ -170,8 +170,8 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
 
       if (direction === 'left') {
         for (let r = 0; r < size; r++) {
-          const { row, score, moved } = moveRow(newGrid[r])
-          if (moved) {
+          const { row, score, moved: rowMoved } = moveRow(newGrid[r])
+          if (rowMoved) {
             newGrid[r] = row
             moved = true
             mergeScore += score
@@ -179,9 +179,9 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
         }
       } else if (direction === 'right') {
         for (let r = 0; r < size; r++) {
-          const { row, score, moved } = moveRow([...newGrid[r]].reverse())
+          const { row, score, moved: rowMoved } = moveRow([...newGrid[r]].reverse())
           const reversed = row.reverse()
-          if (moved) {
+          if (rowMoved) {
             newGrid[r] = reversed
             moved = true
             mergeScore += score
@@ -190,8 +190,8 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
       } else if (direction === 'up') {
         for (let c = 0; c < size; c++) {
           const col = newGrid.map(row => row[c])
-          const { row, score, moved } = moveRow(col)
-          if (moved) {
+          const { row, score, moved: rowMoved } = moveRow(col)
+          if (rowMoved) {
             for (let r = 0; r < size; r++) {
               newGrid[r][c] = row[r]
             }
@@ -202,9 +202,9 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
       } else if (direction === 'down') {
         for (let c = 0; c < size; c++) {
           const col = [...newGrid.map(row => row[c])].reverse()
-          const { row, score, moved } = moveRow(col)
+          const { row, score, moved: rowMoved } = moveRow(col)
           const reversed = row.reverse()
-          if (moved) {
+          if (rowMoved) {
             for (let r = 0; r < size; r++) {
               newGrid[r][c] = reversed[r]
             }
