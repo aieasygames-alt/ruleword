@@ -9,9 +9,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/*.png', 'robots.txt'],
       manifest: {
-        name: 'RuleWord - Free Online Mini Games',
+        name: 'RuleWord - Free Online Puzzle Games',
         short_name: 'RuleWord',
-        description: 'Play 17+ free online mini games: Wordle, Sudoku, 2048, Tetris, Snake, Minesweeper and more!',
+        description: 'Play 27+ free online puzzle games: Wordle, Sudoku, 2048, Tetris, Nonogram, Minesweeper and more!',
         start_url: '/',
         display: 'standalone',
         background_color: '#0f172a',

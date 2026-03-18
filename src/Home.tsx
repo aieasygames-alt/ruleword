@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
 
+// Home page - v2.0 with 27+ games
 type Settings = {
   darkMode: boolean
   soundEnabled: boolean
