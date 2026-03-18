@@ -527,6 +527,193 @@ export const gameGuidesEn: Record<string, GameGuideContent> = {
       'Don\'t stay on turtles too long - some dive!',
     ],
   },
+  yajilin: {
+    name: 'Yajilin',
+    intro: 'Yajilin is a Japanese logic puzzle where you shade cells and draw a single continuous loop through all remaining cells!',
+    howToPlay: 'Shade some cells black so that no two black cells touch. Draw a single loop through all non-shaded, non-clue cells. Clues show how many black cells are in the indicated direction.',
+    tips: [
+      'Start with clue cells - they tell you where black cells must be',
+      'Black cells cannot touch each other orthogonally',
+      'The loop must visit every white cell exactly once',
+      'Use process of elimination for cells that cannot be black',
+    ],
+  },
+  castlewall: {
+    name: 'Castle Wall',
+    intro: 'Castle Wall is a logic puzzle where you draw walls to form a single closed loop. Clues indicate how many wall segments are visible in each direction!',
+    howToPlay: 'Click cells to cycle between wall, no-wall, and unknown. Draw a single closed loop of walls. Clues show the number of visible wall segments in that direction.',
+    tips: [
+      'Start with 0 clues - they mean no walls in that direction',
+      'Walls must connect to form a single loop',
+      'Use the clue numbers to limit possibilities',
+      'Mark cells that definitely cannot be walls',
+    ],
+  },
+  shakashaka: {
+    name: 'Shakashaka',
+    intro: 'Shakashaka is a puzzle where you place triangles to form rectangles. Fill the white areas with black triangles so all white regions become rectangles!',
+    howToPlay: 'Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.',
+    tips: [
+      'Look for areas that can only be one shape',
+      'Use clue cells to determine triangle placements',
+      'Rectangles can be any size, including 1x1',
+      'Check that white areas don\'t form L-shapes',
+    ],
+  },
+  aqre: {
+    name: 'Aqre',
+    intro: 'Aqre is a shading puzzle where you blacken cells. No row or column can have more than 2 consecutive black cells!',
+    howToPlay: 'Click cells to shade them black or mark them as white. No two black cells can touch diagonally. Each row and column can have at most 2 consecutive black cells.',
+    tips: [
+      'Use clues to determine how many blacks are visible',
+      'Avoid creating runs of 3+ consecutive blacks',
+      'White cells must be connected',
+      'Start with constrained areas near clues',
+    ],
+  },
+  tapa: {
+    name: 'Tapa',
+    intro: 'Tapa is a shading puzzle where you create a connected wall of black cells. Clues show lengths of consecutive black cell runs in the 8 surrounding cells!',
+    howToPlay: 'Click cells to shade them black. All black cells must be connected. Clue numbers show lengths of consecutive black runs around that cell.',
+    tips: [
+      'All black cells must connect to form a single wall',
+      'No 2x2 area can be completely black',
+      'Multiple numbers mean separate runs with gaps',
+      '0 clues mean all surrounding cells are white',
+    ],
+  },
+  spaceinvaders: {
+    name: 'Space Invaders',
+    intro: 'Space Invaders is the classic arcade shooter! Destroy all alien invaders before they reach Earth. Watch out for their bombs!',
+    howToPlay: 'Use arrow keys to move left/right and Space to shoot. Destroy all aliens to advance. Aliens move faster as their numbers decrease. You have 3 lives.',
+    tips: [
+      'Stay under the invaders for easier shots',
+      'Shoot from edges when possible',
+      'Watch for the speeding up as enemies decrease',
+      'Use predictable movement patterns to aim',
+    ],
+  },
+  asteroids: {
+    name: 'Asteroids',
+    intro: 'Asteroids is the classic vector arcade game! Pilot your ship, destroy asteroids, and survive as long as possible in deep space!',
+    howToPlay: 'Use arrow keys: Left/Right to rotate, Up to thrust, Space to shoot. Large asteroids split into smaller ones. Don\'t get hit by any asteroid!',
+    tips: [
+      'Keep moving - staying still is dangerous',
+      'Clear small asteroids first - they\'re harder to hit',
+      'Use momentum to drift and shoot',
+      'The ship wraps around screen edges',
+    ],
+  },
+  pacman: {
+    name: 'Pac-Man',
+    intro: 'Pac-Man is the legendary maze game! Eat all dots while avoiding ghosts. Power pellets let you eat ghosts for bonus points!',
+    howToPlay: 'Use arrow keys to guide Pac-Man through the maze. Eat all dots to win. Avoid ghosts unless powered up. Power pellets make ghosts vulnerable temporarily.',
+    tips: [
+      'Learn ghost patterns - each has unique behavior',
+      'Save power pellets for emergencies',
+      'Clear one side of the maze at a time',
+      'Use tunnels to escape ghosts',
+    ],
+  },
+  breakoutgame: {
+    name: 'Breakout',
+    intro: 'Breakout is the classic brick-breaking game! Use your paddle to bounce the ball and destroy all bricks. Don\'t let the ball fall!',
+    howToPlay: 'Use arrow keys to move the paddle. Bounce the ball to break bricks. Clear all bricks to win. You have 3 lives - lose one when ball falls below paddle.',
+    tips: [
+      'Angle your shots to hit more bricks',
+      'Aim for the top to cascade through rows',
+      'Keep the ball near center for control',
+      'Speed increases as you progress',
+    ],
+  },
+  chess: {
+    name: 'Chess',
+    intro: 'Chess is the world\'s most popular strategy game. Capture the opponent\'s king by outmaneuvering their pieces in this battle of wits!',
+    howToPlay: 'Click a piece to select it, then click a valid square to move. Green dots show valid moves. Capture the enemy king to win. Each piece has unique movement rules.',
+    tips: [
+      'Control the center of the board early',
+      'Develop your pieces (knights, bishops) before attacks',
+      'Castle early to protect your king',
+      'Think several moves ahead',
+    ],
+  },
+  chinesechess: {
+    name: 'Chinese Chess',
+    intro: 'Chinese Chess (Xiangqi) is the classic strategy game of China. Capture the enemy general using unique pieces with specialized movements!',
+    howToPlay: 'Click a piece to select it, then click a valid square to move. Pieces include General, Advisors, Elephants, Horses, Chariots, Cannons, and Soldiers.',
+    tips: [
+      'The General cannot leave the palace',
+      'Cannons need a screen piece to capture',
+      'Horses can be blocked by adjacent pieces',
+      'Control the river crossing points',
+    ],
+  },
+  sudokux: {
+    name: 'Sudoku X',
+    intro: 'Sudoku X adds diagonal constraints to classic Sudoku. Each row, column, 3x3 box, AND both main diagonals must contain 1-9!',
+    howToPlay: 'Click a cell and enter 1-9. Each row, column, 3x3 box, and both diagonals must contain all digits 1-9 exactly once. Blue cells highlight diagonal constraints.',
+    tips: [
+      'Use diagonals as additional constraints',
+      'Diagonal cells have fewer possible values',
+      'Start with diagonal intersections',
+      'Classic Sudoku strategies still apply',
+    ],
+  },
+  killersudoku: {
+    name: 'Killer Sudoku',
+    intro: 'Killer Sudoku combines Sudoku with sum cages. Fill the grid so rows, columns, and boxes have 1-9, while cage sums match their clues!',
+    howToPlay: 'Each cage shows a sum in the corner. Numbers in each cage must add up to that sum. No number can repeat within a cage. Standard Sudoku rules also apply.',
+    tips: [
+      'Look for cages with only one possible combination',
+      'Small cages (sum 3, 4) are easiest to solve first',
+      'Use Sudoku elimination with cage constraints',
+      'Track which numbers are used in each cage',
+    ],
+  },
+  battleship: {
+    name: 'Battleship',
+    intro: 'Battleship is the classic naval combat game! Place your fleet, then find and destroy enemy ships before they sink yours!',
+    howToPlay: 'First place your ships on your board (click to place, button to rotate). Then click enemy board to fire. Red = hit, Blue = miss. Sink all enemy ships to win!',
+    tips: [
+      'Spread out your shots initially',
+      'After a hit, fire adjacent cells to find ship direction',
+      'Place ships in unpredictable patterns',
+      'Remember the ship sizes to track what\'s left',
+    ],
+  },
+  wordle: {
+    name: 'Wordle',
+    intro: 'Wordle is the viral word-guessing game! Guess the 5-letter word in 6 tries. Green = correct, Yellow = wrong position, Gray = not in word.',
+    howToPlay: 'Type a 5-letter word and press Enter. Green letters are correct in the right spot. Yellow letters are in the word but wrong position. Gray letters are not in the word.',
+    tips: [
+      'Start with words containing common letters (R, S, T, L, N)',
+      'Use different letters each guess initially',
+      'Yellow letters help narrow positions',
+      'Think about common word patterns',
+    ],
+  },
+  spellingbee: {
+    name: 'Spelling Bee',
+    intro: 'Spelling Bee challenges you to make words using 7 letters. Every word must include the center letter. Find long words and pangrams for bonus points!',
+    howToPlay: 'Make words of 4+ letters using the honeycomb letters. Every word must contain the center letter. Pangrams (using all 7 letters) earn bonus points!',
+    tips: [
+      'Always include the center letter',
+      'Look for plural forms of words',
+      'Find the pangram for big points',
+      'Common endings: -ING, -ED, -ER',
+    ],
+  },
+  connections: {
+    name: 'Connections',
+    intro: 'Connections challenges you to group 16 words into 4 categories of 4. Find the hidden connections between words!',
+    howToPlay: 'Select 4 words you think belong together, then submit. If correct, the category is revealed. You have 4 mistakes allowed. Solve all 4 groups to win!',
+    tips: [
+      'Look for words that could fit multiple categories',
+      'Start with the most obvious connections',
+      'Be careful with tricky words that seem related',
+      'Yellow is easiest, purple is hardest',
+    ],
+  },
 }
 
 // Get guide for a specific game

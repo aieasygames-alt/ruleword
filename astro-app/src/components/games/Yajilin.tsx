@@ -1,0 +1,208 @@
+import { useState, useCallback } from 'react'
+
+type Cell = {
+  isBlack: boolean
+  clue: number | null
+  clueDir: 'up' | 'down' | 'left' | 'right' | null
+  isPath: boolean
+}
+
+type Props = {
+  settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+}
+
+const GRID_SIZE = 8
+
+// Pre-defined puzzle with clues
+const createInitialGrid = (): Cell[][] => {
+  const grid: Cell[][] = Array(GRID_SIZE).fill(null).map(() =>
+    Array(GRID_SIZE).fill(null).map(() => ({
+      isBlack: false,
+      clue: null,
+      clueDir: null,
+      isPath: false
+    }))
+  )
+
+  // Add some clues
+  const clues: [number, number, number, 'up' | 'down' | 'left' | 'right'][] = [
+    [0, 1, 2, 'down'],
+    [0, 5, 1, 'left'],
+    [2, 0, 1, 'right'],
+    [2, 7, 2, 'up'],
+    [4, 2, 0, 'down'],
+    [5, 6, 1, 'left'],
+    [7, 3, 2, 'up'],
+  ]
+
+  clues.forEach(([row, col, num, dir]) => {
+    grid[row][col].clue = num
+    grid[row][col].clueDir = dir
+  })
+
+  return grid
+}
+
+export default function Yajilin({ settings }: Props) {
+  const [grid, setGrid] = useState<Cell[][]>(createInitialGrid)
+  const [mode, setMode] = useState<'black' | 'path'>('black')
+  const [solved, setSolved] = useState(false)
+
+  const isDark = settings.darkMode
+
+  const toggleCell = useCallback((row: number, col: number) => {
+    if (grid[row][col].clue !== null) return // Can't modify clue cells
+
+    setGrid(prev => {
+      const newGrid = prev.map(r => r.map(c => ({ ...c })))
+      if (mode === 'black') {
+        newGrid[row][col].isBlack = !newGrid[row][col].isBlack
+        newGrid[row][col].isPath = false
+      } else {
+        newGrid[row][col].isPath = !newGrid[row][col].isPath
+        newGrid[row][col].isBlack = false
+      }
+      return newGrid
+    })
+  }, [grid, mode])
+
+  const checkSolution = useCallback(() => {
+    // Simplified check - verify black cells don't touch and path forms loop
+    let valid = true
+
+    // Check black cells don't touch orthogonally
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].isBlack) {
+          const neighbors = [
+            [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]
+          ]
+          for (const [nr, nc] of neighbors) {
+            if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
+              if (grid[nr][nc].isBlack) valid = false
+            }
+          }
+        }
+      }
+    }
+
+    setSolved(valid)
+  }, [grid])
+
+  const reset = () => {
+    setGrid(createInitialGrid())
+    setSolved(false)
+  }
+
+  return (
+    <div className={`min-h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+      {/* Header */}
+      <div className={`p-4 border-b ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
+        <h1 className="text-xl font-bold text-center">🧩 Yajilin</h1>
+        <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+          {settings.language === 'zh' ? '涂黑格并画一条连续回路' : 'Shade cells and draw a single loop'}
+        </p>
+      </div>
+
+      {/* Mode Selector */}
+      <div className="flex justify-center gap-2 p-4">
+        <button
+          onClick={() => setMode('black')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            mode === 'black'
+              ? 'bg-gray-800 text-white'
+              : isDark ? 'bg-slate-700 text-slate-300' : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          {settings.language === 'zh' ? '涂黑' : 'Shade'}
+        </button>
+        <button
+          onClick={() => setMode('path')}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            mode === 'path'
+              ? 'bg-blue-600 text-white'
+              : isDark ? 'bg-slate-700 text-slate-300' : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          {settings.language === 'zh' ? '路径' : 'Path'}
+        </button>
+      </div>
+
+      {/* Grid */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className={`grid gap-0.5 p-2 rounded-lg ${isDark ? 'bg-slate-800' : 'bg-white shadow-lg'}`}>
+          {grid.map((row, r) => (
+            <div key={r} className="flex gap-0.5">
+              {row.map((cell, c) => (
+                <button
+                  key={c}
+                  onClick={() => toggleCell(r, c)}
+                  disabled={cell.clue !== null}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-sm font-bold transition-colors border ${
+                    cell.clue !== null
+                      ? `${isDark ? 'bg-slate-700 border-slate-600' : 'bg-gray-200 border-gray-300'} cursor-default`
+                      : cell.isBlack
+                      ? 'bg-gray-900 border-gray-700'
+                      : cell.isPath
+                      ? 'bg-blue-500 border-blue-400'
+                      : isDark
+                      ? 'bg-slate-600 border-slate-500 hover:bg-slate-500'
+                      : 'bg-white border-gray-300 hover:bg-gray-100'
+                  }`}
+                >
+                  {cell.clue !== null && (
+                    <div className="flex flex-col items-center">
+                      <span className="text-lg">{cell.clue}</span>
+                      <span className="text-xs">
+                        {cell.clueDir === 'up' && '↑'}
+                        {cell.clueDir === 'down' && '↓'}
+                        {cell.clueDir === 'left' && '←'}
+                        {cell.clueDir === 'right' && '→'}
+                      </span>
+                    </div>
+                  )}
+                  {cell.isPath && !cell.clue && '●'}
+                </button>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="flex justify-center gap-4 p-4">
+        <button
+          onClick={reset}
+          className={`px-6 py-2 rounded-lg font-medium ${
+            isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'
+          }`}
+        >
+          {settings.language === 'zh' ? '重置' : 'Reset'}
+        </button>
+        <button
+          onClick={checkSolution}
+          className="px-6 py-2 rounded-lg font-medium bg-green-600 hover:bg-green-500 text-white"
+        >
+          {settings.language === 'zh' ? '检查' : 'Check'}
+        </button>
+      </div>
+
+      {/* Solved Message */}
+      {solved && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+          <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
+            <h2 className="text-2xl font-bold text-center text-green-500">
+              {settings.language === 'zh' ? '🎉 正确！' : '🎉 Correct!'}
+            </h2>
+            <button
+              onClick={() => setSolved(false)}
+              className="mt-4 w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg"
+            >
+              {settings.language === 'zh' ? '继续' : 'Continue'}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

@@ -40,6 +40,13 @@ export const games: GameConfig[] = [
   { slug: 'heyawake', id: 'heyawake', name: 'Heyawake', nameZh: '屋的分', icon: '🏠', desc: 'Room partition puzzle', descZh: '房间分割逻辑谜题', category: 'logic', color: 'from-blue-500 to-indigo-600' },
   { slug: 'masyu', id: 'masyu', name: 'Masyu', nameZh: '真珠路', icon: '⚪', desc: 'Pearl loop puzzle', descZh: '珍珠画线回路谜题', category: 'logic', featured: true, color: 'from-slate-400 to-gray-600' },
   { slug: 'fillomino', id: 'fillomino', name: 'Fillomino', nameZh: '填满分', icon: '🧩', desc: 'Fill regions with numbers', descZh: '数字区域填充', category: 'logic', color: 'from-emerald-500 to-green-600' },
+  { slug: 'yajilin', id: 'yajilin', name: 'Yajilin', nameZh: '耶吉林', icon: '🔵', desc: 'Draw loop, shade cells', descZh: '画回路并涂黑格', category: 'logic', color: 'from-blue-500 to-indigo-600' },
+  { slug: 'castle-wall', id: 'castlewall', name: 'Castle Wall', nameZh: '城墙', icon: '🏰', desc: 'Draw castle walls', descZh: '画城墙包围数字', category: 'logic', color: 'from-amber-600 to-orange-700' },
+  { slug: 'shakashaka', id: 'shakashaka', name: 'Shakashaka', nameZh: '斜斜', icon: '📐', desc: 'Place triangles for rectangles', descZh: '放置三角形形成矩形', category: 'logic', color: 'from-violet-500 to-purple-600' },
+  { slug: 'aqre', id: 'aqre', name: 'Aqre', nameZh: '阿克雷', icon: '🔲', desc: 'Shade with no 3 consecutive', descZh: '涂黑格不超过连续3个', category: 'logic', color: 'from-purple-500 to-indigo-600' },
+  { slug: 'tapa', id: 'tapa', name: 'Tapa', nameZh: '塔帕', icon: '⬛', desc: 'Shade connected cells', descZh: '涂黑格子形成连续墙', category: 'logic', color: 'from-gray-600 to-slate-700' },
+  { slug: 'sudoku-x', id: 'sudokux', name: 'Sudoku X', nameZh: 'X数独', icon: '❌', desc: 'Sudoku with diagonals', descZh: '对角线数独', category: 'logic', color: 'from-red-500 to-orange-600' },
+  { slug: 'killer-sudoku', id: 'killersudoku', name: 'Killer Sudoku', nameZh: '杀手数独', icon: '💀', desc: 'Sudoku with sum cages', descZh: '带求和笼的数独', category: 'logic', featured: true, color: 'from-slate-700 to-gray-800' },
 
   // Strategy
   { slug: 'mastermind', id: 'mastermind', name: 'Mastermind', nameZh: '密码破译', icon: '🔐', desc: '8 tries to crack code', descZh: '8次机会破解密码', category: 'strategy', featured: true, color: 'from-fuchsia-500 to-pink-600' },
@@ -49,6 +56,9 @@ export const games: GameConfig[] = [
   { slug: 'gomoku', id: 'gomoku', name: 'Gomoku', nameZh: '五子棋', icon: '⚫', desc: 'Connect five to win', descZh: '五子连珠获胜', category: 'strategy', featured: true, color: 'from-amber-700 to-amber-900' },
   { slug: 'checkers', id: 'checkers', name: 'Checkers', nameZh: '跳棋', icon: '🔴', desc: 'Classic draughts game', descZh: '经典跳棋对战', category: 'strategy', color: 'from-red-600 to-rose-700' },
   { slug: 'dots-and-boxes', id: 'dotsandboxes', name: 'Dots and Boxes', nameZh: '点格棋', icon: '📦', desc: 'Complete boxes to score', descZh: '完成方格得分', category: 'strategy', color: 'from-indigo-500 to-blue-600' },
+  { slug: 'chess', id: 'chess', name: 'Chess', nameZh: '国际象棋', icon: '♔', desc: 'Classic chess game', descZh: '经典国际象棋', category: 'strategy', featured: true, color: 'from-gray-600 to-slate-800' },
+  { slug: 'chinese-chess', id: 'chinesechess', name: 'Chinese Chess', nameZh: '中国象棋', icon: '象棋', desc: 'Xiangqi classic game', descZh: '经典中国象棋', category: 'strategy', featured: true, color: 'from-red-600 to-amber-700' },
+  { slug: 'battleship', id: 'battleship', name: 'Battleship', nameZh: '战舰', icon: '🚢', desc: 'Sink enemy ships', descZh: '击沉敌方战舰', category: 'strategy', featured: true, color: 'from-blue-600 to-indigo-700' },
 
   // Arcade
   { slug: 'tetris', id: 'tetris', name: 'Tetris', nameZh: '俄罗斯方块', icon: '🧱', desc: 'Classic block puzzle', descZh: '经典俄罗斯方块', category: 'arcade', featured: true, color: 'from-blue-500 to-cyan-600' },
@@ -56,6 +66,10 @@ export const games: GameConfig[] = [
   { slug: 'brick-breaker', id: 'brickbreaker', name: 'Brick Breaker', nameZh: '打砖块', icon: '🏓', desc: 'Classic ball and paddle', descZh: '经典弹球游戏', category: 'arcade', color: 'from-purple-500 to-indigo-600' },
   { slug: 'pong', id: 'pong', name: 'Pong', nameZh: '乒乓球', icon: '🏓', desc: 'Classic arcade paddle game', descZh: '经典街机乒乓球', category: 'arcade', featured: true, color: 'from-cyan-500 to-blue-600' },
   { slug: 'frogger', id: 'frogger', name: 'Frogger', nameZh: '青蛙过河', icon: '🐸', desc: 'Cross road and river', descZh: '穿越马路和河流', category: 'arcade', featured: true, color: 'from-green-500 to-lime-600' },
+  { slug: 'space-invaders', id: 'spaceinvaders', name: 'Space Invaders', nameZh: '太空侵略者', icon: '👾', desc: 'Classic alien shooter', descZh: '经典外星人射击', category: 'arcade', featured: true, color: 'from-purple-600 to-indigo-700' },
+  { slug: 'asteroids', id: 'asteroids', name: 'Asteroids', nameZh: '小行星', icon: '☄️', desc: 'Destroy asteroids', descZh: '摧毁小行星', category: 'arcade', color: 'from-slate-600 to-gray-800' },
+  { slug: 'pac-man', id: 'pacman', name: 'Pac-Man', nameZh: '吃豆人', icon: '🟡', desc: 'Eat dots, avoid ghosts', descZh: '吃豆子躲避幽灵', category: 'arcade', featured: true, color: 'from-yellow-400 to-amber-500' },
+  { slug: 'breakout', id: 'breakoutgame', name: 'Breakout', nameZh: '打砖块', icon: '🧱', desc: 'Break all bricks', descZh: '打掉所有砖块', category: 'arcade', color: 'from-rose-500 to-pink-600' },
 
   // Memory
   { slug: 'memory', id: 'memory', name: 'Memory', nameZh: '记忆翻牌', icon: '🃏', desc: 'Flip cards to find pairs', descZh: '翻转卡片找到配对', category: 'memory', color: 'from-pink-500 to-rose-600' },
@@ -70,6 +84,9 @@ export const games: GameConfig[] = [
   // More Word Games
   { slug: 'anagrams', id: 'anagrams', name: 'Anagrams', nameZh: '字谜重组', icon: '🔀', desc: 'Unscramble letters', descZh: '重组字母成词', category: 'word', color: 'from-violet-500 to-purple-600' },
   { slug: 'boggle', id: 'boggle', name: 'Boggle', nameZh: '字母方阵', icon: '🎲', desc: 'Find words in grid', descZh: '在网格中找词', category: 'word', featured: true, color: 'from-orange-500 to-red-600' },
+  { slug: 'wordle', id: 'wordle', name: 'Wordle', nameZh: '猜词', icon: '🟩', desc: '5-letter word guessing', descZh: '5字母猜词游戏', category: 'word', featured: true, color: 'from-green-500 to-emerald-600' },
+  { slug: 'spelling-bee', id: 'spellingbee', name: 'Spelling Bee', nameZh: '拼字蜜蜂', icon: '🐝', desc: 'Make words from letters', descZh: '用字母拼写单词', category: 'word', featured: true, color: 'from-yellow-400 to-amber-500' },
+  { slug: 'connections', id: 'connections', name: 'Connections', nameZh: '词语连线', icon: '🔗', desc: 'Group related words', descZh: '分组相关词语', category: 'word', featured: true, color: 'from-yellow-500 to-orange-600' },
 
   // More Strategy Games
   { slug: 'nim', id: 'nim', name: 'Nim', nameZh: '尼姆博弈', icon: '🪨', desc: 'Mathematical strategy', descZh: '数学策略博弈', category: 'strategy', color: 'from-slate-500 to-gray-600' },

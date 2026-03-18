@@ -62,6 +62,23 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'fillomino': () => import('./games/Fillomino'),
   'pong': () => import('./games/Pong'),
   'frogger': () => import('./games/Frogger'),
+  'yajilin': () => import('./games/Yajilin'),
+  'castlewall': () => import('./games/CastleWall'),
+  'shakashaka': () => import('./games/Shakashaka'),
+  'aqre': () => import('./games/Aqre'),
+  'tapa': () => import('./games/Tapa'),
+  'spaceinvaders': () => import('./games/SpaceInvaders'),
+  'asteroids': () => import('./games/Asteroids'),
+  'pacman': () => import('./games/PacMan'),
+  'breakoutgame': () => import('./games/BreakoutGame'),
+  'chess': () => import('./games/Chess'),
+  'chinesechess': () => import('./games/ChineseChess'),
+  'sudokux': () => import('./games/SudokuX'),
+  'killersudoku': () => import('./games/KillerSudoku'),
+  'battleship': () => import('./games/Battleship'),
+  'wordle': () => import('./games/Wordle'),
+  'spellingbee': () => import('./games/SpellingBee'),
+  'connections': () => import('./games/Connections'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {
