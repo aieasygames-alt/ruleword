@@ -250,25 +250,60 @@ const Bullpen: React.FC<BullpenProps> = ({ settings, onBack }) => {
     return totalBulls - placedBulls
   }, [grid, config])
 
-  // 验证是否完成
+  // 验证是否完成（检查所有约束是否满足）
   const checkComplete = useCallback((currentGrid: CellState[][]) => {
-    if (!currentGrid.length || !solution.length) return false
+    if (!currentGrid.length || !pens.length) return false
     const { size, bullsPerLine } = config
 
     // 检查公牛数量
     const bullCount = currentGrid.flat().filter(c => c === 'bull').length
     if (bullCount !== size * bullsPerLine) return false
 
-    // 检查每个位置是否正确
+    // 检查每行
+    for (let r = 0; r < size; r++) {
+      const rowBulls = currentGrid[r].filter(c => c === 'bull').length
+      if (rowBulls !== bullsPerLine) return false
+    }
+
+    // 检查每列
+    for (let c = 0; c < size; c++) {
+      const colBulls = currentGrid.filter(row => row[c] === 'bull').length
+      if (colBulls !== bullsPerLine) return false
+    }
+
+    // 检查每个围栏
+    const penBulls: Record<number, number> = {}
     for (let r = 0; r < size; r++) {
       for (let c = 0; c < size; c++) {
-        const isBull = currentGrid[r][c] === 'bull'
-        if (isBull !== solution[r][c]) return false
+        const pen = pens[r][c]
+        if (currentGrid[r][c] === 'bull') {
+          penBulls[pen] = (penBulls[pen] || 0) + 1
+        }
+      }
+    }
+    const uniquePens = new Set(pens.flat())
+    for (const pen of uniquePens) {
+      if ((penBulls[pen] || 0) !== bullsPerLine) return false
+    }
+
+    // 检查公牛是否相邻（包括对角线）
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (currentGrid[r][c] !== 'bull') continue
+        for (let dr = -1; dr <= 1; dr++) {
+          for (let dc = -1; dc <= 1; dc++) {
+            if (dr === 0 && dc === 0) continue
+            const nr = r + dr, nc = c + dc
+            if (nr >= 0 && nr < size && nc >= 0 && nc < size && currentGrid[nr][nc] === 'bull') {
+              return false
+            }
+          }
+        }
       }
     }
 
     return true
-  }, [solution, config])
+  }, [pens, config])
 
   // 检查约束违规
   const checkViolations = useCallback((currentGrid: CellState[][], row: number, col: number): string[] => {
