@@ -1,23 +1,46 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import LanguageSelector from '../components/LanguageSelector'
 import { games } from '../data/games'
-import { i18n, type Language, languages } from '../data/i18n'
 
-const featuredGames = games.filter(g => g.featured)
+const featuredGames = games.filter(g => g.featured).slice(0, 8)
 
-// Get language from URL parameter, default to 'en'
-const urlLang = Astro.url.searchParams.get('lang') as string
-const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
-const t = i18n[lang]
-
-// Helper to get localized game name/desc
-const getGameName = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
-const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc
+// All translations
+const translations = {
+  en: {
+    freeGames: 'Free Games',
+    title: 'Free Online Puzzle Games',
+    subtitle: 'Classic puzzles, strategy games, arcade fun. No downloads, play instantly.',
+    featured: 'Featured Games',
+    allGames: 'All Games',
+    gamesCount: 'games',
+    feedback: 'Feedback',
+    copyright: '© 2026 RuleWord'
+  },
+  'zh-CN': {
+    freeGames: '免费游戏',
+    title: '免费在线益智游戏',
+    subtitle: '经典益智、策略对战、街机游戏，无需下载，即开即玩',
+    featured: '热门推荐',
+    allGames: '全部游戏',
+    gamesCount: '款游戏',
+    feedback: '反馈',
+    copyright: '© 2026 RuleWord'
+  },
+  'zh-TW': {
+    freeGames: '免費遊戲',
+    title: '免費線上益智遊戲',
+    subtitle: '經典益智、策略對戰、街機遊戲，無需下載，即開即玩',
+    featured: '熱門推薦',
+    allGames: '全部遊戲',
+    gamesCount: '款遊戲',
+    feedback: '反饋',
+    copyright: '© 2026 RuleWord'
+  }
+}
 ---
 
-<BaseLayout title="RuleWord - Free Online Puzzle Games | 27+ Games">
-  <div class="min-h-screen bg-slate-950 text-white">
+<BaseLayout title="RuleWord - Free Online Puzzle Games | 67+ Games">
+  <div class="min-h-screen bg-slate-950 text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -28,23 +51,32 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
             </div>
             <div>
               <h1 class="text-xl font-bold tracking-tight">RuleWord</h1>
-              <p class="text-xs text-slate-400 -mt-0.5">{games.length}+ {t.home.freeGames}</p>
+              <p class="text-xs text-slate-400 -mt-0.5"><span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span></p>
             </div>
           </div>
 
           <!-- Right: Language and Feedback -->
           <div class="flex items-center gap-2">
-            <LanguageSelector client:load currentLang={lang} onLanguageChange={(newLang: Language) => {
-              const url = new URL(window.location.href)
-              url.searchParams.set('lang', newLang)
-              window.location.href = url.toString()
-            }} />
+            <div class="relative">
+              <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
+                <span class="text-lg">🌐</span>
+                <span class="hidden sm:inline" id="current-lang">English</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
+                <button onclick="setLang('en')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="en">English</button>
+                <button onclick="setLang('zh-CN')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-CN">简体中文</button>
+                <button onclick="setLang('zh-TW')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-TW">繁體中文</button>
+              </div>
+            </div>
             <button
               id="feedback-btn"
               class="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition-all text-sm font-medium"
             >
               <span>💬</span>
-              <span class="hidden sm:inline">{t.nav.feedback}</span>
+              <span class="hidden sm:inline" data-i18n="feedback">Feedback</span>
             </button>
           </div>
         </div>
@@ -59,11 +91,11 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
       </div>
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
-          {t.home.title}
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight" data-i18n="title">
+          Free Online Puzzle Games
         </h2>
-        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-8">
-          {t.home.subtitle}
+        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-8" data-i18n="subtitle">
+          Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
         </p>
       </div>
     </div>
@@ -74,19 +106,24 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">⭐</span>
-          <h3 class="text-xl font-bold">{t.home.featured}</h3>
+          <h3 class="text-xl font-bold" data-i18n="featured">Featured Games</h3>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {featuredGames.map(game => (
             <a
               href={`/games/${game.slug}`}
-              class={`group relative overflow-hidden rounded-2xl aspect-square p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
+              class={`group relative overflow-hidden rounded-2xl aspect-[2/1] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
+              data-game-id={game.id}
+              data-name={game.name}
+              data-name-zh={game.nameZh}
+              data-desc={game.desc}
+              data-desc-zh={game.descZh}
             >
               <div class="relative z-10 h-full flex flex-col justify-between">
-                <div class="text-4xl lg:text-5xl">{game.icon}</div>
+                <div class="text-2xl lg:text-3xl">{game.icon}</div>
                 <div>
-                  <h4 class="font-bold text-white text-lg mb-1">{getGameName(game)}</h4>
-                  <p class="text-white/80 text-sm line-clamp-2">{getGameDesc(game)}</p>
+                  <h4 class="font-bold text-white text-base mb-0.5 game-name">{game.name}</h4>
+                  <p class="text-white/80 text-xs line-clamp-1 game-desc">{game.desc}</p>
                 </div>
               </div>
             </a>
@@ -98,22 +135,27 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
       <section>
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">🎮</span>
-          <h3 class="text-xl font-bold">{t.home.allGames}</h3>
-          <span class="text-sm text-slate-400">{games.length} {t.home.gamesCount}</span>
+          <h3 class="text-xl font-bold" data-i18n="allGames">All Games</h3>
+          <span class="text-sm text-slate-400">{games.length} <span data-i18n="gamesCount">games</span></span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map(game => (
             <a
               href={`/games/${game.slug}`}
               class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
+              data-game-id={game.id}
+              data-name={game.name}
+              data-name-zh={game.nameZh}
+              data-desc={game.desc}
+              data-desc-zh={game.descZh}
             >
               <div class="flex items-start gap-4">
                 <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
                   <span class="text-2xl">{game.icon}</span>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h4 class="font-bold text-lg mb-1">{getGameName(game)}</h4>
-                  <p class="text-sm text-slate-400 line-clamp-2">{getGameDesc(game)}</p>
+                  <h4 class="font-bold text-lg mb-1 game-name">{game.name}</h4>
+                  <p class="text-sm text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
                 </div>
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -143,7 +185,7 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
             <span class="font-semibold text-slate-400">RuleWord</span>
           </div>
           <p class="text-sm text-slate-400">
-            {t.footer.copyright} · {games.length}+ {t.home.freeGames}
+            <span data-i18n="copyright">© 2026 RuleWord</span> · <span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span>
           </p>
         </div>
       </div>
@@ -191,7 +233,95 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
     </div>
   </div>
 
-  <script>
+  <script define:vars={{ translations }}>
+    // Translations data
+    const i18n = translations
+
+    // Language names
+    const langNames = {
+      'en': 'English',
+      'zh-CN': '简体中文',
+      'zh-TW': '繁體中文'
+    }
+
+    // Get current language from URL or default to 'en'
+    function getLang() {
+      const params = new URLSearchParams(window.location.search)
+      const lang = params.get('lang')
+      if (lang === 'zh-CN' || lang === 'zh-TW' || lang === 'en') {
+        return lang
+      }
+      return 'en'
+    }
+
+    // Set language
+    function setLang(lang) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('lang', lang)
+      window.location.href = url.toString()
+    }
+    window.setLang = setLang
+
+    // Apply translations
+    function applyTranslations(lang) {
+      const t = i18n[lang] || i18n['en']
+
+      // Update i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n')
+        if (t[key]) {
+          el.textContent = t[key]
+        }
+      })
+
+      // Update game names and descriptions
+      document.querySelectorAll('[data-game-id]').forEach(el => {
+        const nameEl = el.querySelector('.game-name')
+        const descEl = el.querySelector('.game-desc')
+        if (nameEl) {
+          nameEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
+            ? el.getAttribute('data-name-zh')
+            : el.getAttribute('data-name')
+        }
+        if (descEl) {
+          descEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
+            ? el.getAttribute('data-desc-zh')
+            : el.getAttribute('data-desc')
+        }
+      })
+
+      // Update current lang button
+      document.getElementById('current-lang').textContent = langNames[lang] || 'English'
+
+      // Update active state in dropdown
+      document.querySelectorAll('[data-lang-code]').forEach(btn => {
+        const code = btn.getAttribute('data-lang-code')
+        if (code === lang) {
+          btn.classList.add('text-green-400')
+          btn.classList.remove('text-slate-300')
+        } else {
+          btn.classList.remove('text-green-400')
+          btn.classList.add('text-slate-300')
+        }
+      })
+    }
+
+    // Language dropdown toggle
+    document.getElementById('lang-btn').addEventListener('click', () => {
+      document.getElementById('lang-dropdown').classList.toggle('hidden')
+    })
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#lang-btn') && !e.target.closest('#lang-dropdown')) {
+        document.getElementById('lang-dropdown').classList.add('hidden')
+      }
+    })
+
+    // Apply translations on load
+    const currentLang = getLang()
+    applyTranslations(currentLang)
+
     // Feedback modal
     document.getElementById('feedback-btn')?.addEventListener('click', () => {
       document.getElementById('feedback-modal')?.classList.remove('hidden')
@@ -199,16 +329,16 @@ const getGameDesc = (game: typeof games[0]) => lang === 'zh-CN' || lang === 'zh-
 
     document.getElementById('feedback-form')?.addEventListener('submit', async (e) => {
       e.preventDefault()
-      const form = e.target as HTMLFormElement
-      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement
+      const form = e.target
+      const submitBtn = form.querySelector('button[type="submit"]')
 
       submitBtn.disabled = true
       submitBtn.textContent = 'Sending...'
 
       const data = {
-        type: (document.getElementById('feedback-type') as HTMLSelectElement).value,
-        message: (document.getElementById('feedback-message') as HTMLTextAreaElement).value,
-        email: (document.getElementById('feedback-email') as HTMLInputElement).value,
+        type: document.getElementById('feedback-type').value,
+        message: document.getElementById('feedback-message').value,
+        email: document.getElementById('feedback-email').value,
       }
 
       try {

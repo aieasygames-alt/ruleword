@@ -100,7 +100,7 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
     })
   }, [searchQuery, activeCategory])
 
-  const featuredGames = games.filter(g => g.featured)
+  const featuredGames = games.filter(g => g.featured).slice(0, 8)
 
   const handleGameClick = (gameId: string) => {
     onSelectGame?.(gameId)
@@ -231,23 +231,23 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
                 <button
                   key={game.id}
                   onClick={() => handleGameClick(game.id)}
-                  className={`group relative overflow-hidden rounded-2xl aspect-square p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/20 bg-gradient-to-br ${game.color}`}
+                  className={`group relative overflow-hidden rounded-2xl aspect-[2/1] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-black/20 bg-gradient-to-br ${game.color}`}
                   style={{ animationDelay: `${i * 50}ms` }}
                 >
                   {/* Shine effect */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                   <div className="relative z-10 h-full flex flex-col justify-between">
-                    <div className="text-4xl lg:text-5xl">{game.icon}</div>
+                    <div className="text-2xl lg:text-3xl">{game.icon}</div>
                     <div>
-                      <h4 className="font-bold text-white text-lg mb-1">{lang === 'zh' ? game.nameZh : game.name}</h4>
-                      <p className="text-white/80 text-sm line-clamp-2">{lang === 'zh' ? game.descZh : game.desc}</p>
+                      <h4 className="font-bold text-white text-base mb-0.5">{lang === 'zh' ? game.nameZh : game.name}</h4>
+                      <p className="text-white/80 text-xs line-clamp-1">{lang === 'zh' ? game.descZh : game.desc}</p>
                     </div>
                   </div>
 
                   {/* Play button overlay */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all bg-black/30 backdrop-blur-sm">
-                    <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition-transform">
+                    <div className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition-transform">
                       <svg className="w-6 h-6 text-gray-900 ml-1" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                       </svg>
