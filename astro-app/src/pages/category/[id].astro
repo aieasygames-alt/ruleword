@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { games } from '../../data/games'
-import { languages, categoryI18n, categoryDescriptions, type Language } from '../../data/i18n'
+import { languages, categoryI18n, categoryDescriptions, i18n, type Language } from '../../data/i18n'
 
 // Generate static paths for all categories - inline data to avoid hoisting issues
 export function getStaticPaths() {
@@ -21,6 +21,11 @@ export function getStaticPaths() {
 const { category } = Astro.props
 const categoryGames = games.filter(g => g.category === category.id)
 const allLanguages = languages
+
+// Default language for server render (client will update based on localStorage)
+const defaultLang: Language = 'en'
+const defaultT = i18n[defaultLang]
+const defaultF = defaultT.feedback
 ---
 
 <BaseLayout title={`${category.en} - RuleWord | Free Online Games`}>

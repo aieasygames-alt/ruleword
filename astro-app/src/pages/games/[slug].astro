@@ -1,10 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import GameWrapper from '../../components/GameWrapper'
-import LanguageSelector from '../../components/LanguageSelector'
 import { games, categories } from '../../data/games'
 import { getGameGuide } from '../../data/gameGuides'
-import { i18n, type Language, languages } from '../../data/i18n'
+import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
 
 export function getStaticPaths() {
   return games.map(game => ({
@@ -23,9 +22,10 @@ const t = i18n[lang]
 // Get game guide content for SEO (localized)
 const gameGuide = getGameGuide(game.id, lang)
 
-// Get category for gameType
+// Get category for gameType with i18n
 const category = categories.find(c => c.id === game.category)
-const gameType = category?.name || 'Puzzle'
+const categoryData = categoryI18n[lang]?.[game.category]
+const gameType = categoryData?.name || category?.name || 'Puzzle'
 
 // Build keywords from game info
 const keywords = `${game.name}, ${game.nameZh}, ${game.desc}, ${game.descZh}, free online game, puzzle game`
@@ -33,6 +33,9 @@ const keywords = `${game.name}, ${game.nameZh}, ${game.desc}, ${game.descZh}, fr
 // Helper for localized game name
 const getGameName = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
 const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc
+
+// Feedback i18n data
+const f = t.feedback
 ---
 
 <BaseLayout
@@ -49,7 +52,7 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
         <div class="flex items-center justify-between h-14">
           <!-- Left: Logo -->
           <div class="flex items-center gap-4">
-            <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <a href={`/?lang=${lang}`} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
               <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
                 R
               </div>
@@ -64,11 +67,22 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
 
           <!-- Right: Language and Feedback -->
           <div class="flex items-center gap-2">
-            <LanguageSelector client:load currentLang={lang} onLanguageChange={(newLang: Language) => {
-              const url = new URL(window.location.href)
-              url.searchParams.set('lang', newLang)
-              window.location.href = url.toString()
-            }} />
+            <div class="relative">
+              <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
+                <span class="text-lg">🌐</span>
+                <span class="hidden sm:inline" id="current-lang">{languages.find(l => l.code === lang)?.nativeName || 'English'}</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
+                {languages.map(l => (
+                  <button data-lang={l.code} class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300">
+                    {l.nativeName}
+                  </button>
+                ))}
+              </div>
+            </div>
             <button
               id="feedback-btn"
               class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition-all text-sm font-medium"
@@ -142,12 +156,12 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
     </footer>
   </div>
 
-  <!-- Feedback Modal -->
+  <!-- Feedback Modal (Localized) -->
   <div id="feedback-modal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('feedback-modal').classList.add('hidden')"></div>
     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-slate-800 rounded-2xl p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold">💬 Feedback</h3>
+        <h3 class="text-lg font-bold">💬 {f.title}</h3>
         <button onclick="document.getElementById('feedback-modal').classList.add('hidden')" class="text-slate-400 hover:text-white">
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -156,35 +170,94 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
       </div>
       <form id="feedback-form" class="space-y-4">
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Type</label>
+          <label class="block text-sm text-slate-300 mb-1">{f.type}</label>
           <select id="feedback-type" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white">
-            <option value="bug">🐛 Bug Report</option>
-            <option value="feature">💡 Feature Request</option>
-            <option value="game">🎮 Game Feedback</option>
-            <option value="other">📝 Other</option>
+            <option value="bug">🐛 {f.bugReport}</option>
+            <option value="feature">💡 {f.featureRequest}</option>
+            <option value="game">🎮 {f.gameFeedback}</option>
+            <option value="other">📝 {f.other}</option>
           </select>
         </div>
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Message</label>
-          <textarea id="feedback-message" rows="4" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder="Describe your feedback..."></textarea>
+          <label class="block text-sm text-slate-300 mb-1">{f.message}</label>
+          <textarea id="feedback-message" rows="4" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder={f.messagePlaceholder}></textarea>
         </div>
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Email (optional)</label>
-          <input type="email" id="feedback-email" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder="For reply" />
+          <label class="block text-sm text-slate-300 mb-1">{f.email}</label>
+          <input type="email" id="feedback-email" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder={f.emailPlaceholder} />
         </div>
         <input type="hidden" id="feedback-game" value={game.name} />
         <button type="submit" class="w-full py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-medium transition-all">
-          Send Feedback
+          {f.send}
         </button>
       </form>
       <div id="feedback-success" class="hidden text-center py-8">
         <div class="text-4xl mb-2">✅</div>
-        <p class="text-green-400 font-medium">Thank you for your feedback!</p>
+        <p class="text-green-400 font-medium">{f.success}</p>
       </div>
     </div>
   </div>
 
-  <script>
+  <script define:vars={{ languages: languages, currentLang: lang, feedbackText: t.feedback }}>
+    // Language detection - check localStorage if URL param missing
+    const validLangs = languages.map(l => l.code);
+
+    function getStoredLang() {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang');
+      if (urlLang && validLangs.includes(urlLang)) {
+        localStorage.setItem('ruleword-lang', urlLang);
+        return urlLang;
+      }
+      const stored = localStorage.getItem('ruleword-lang');
+      if (stored && validLangs.includes(stored)) {
+        // Redirect to URL with lang param
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', stored);
+        window.location.href = url.toString();
+        return stored;
+      }
+      return currentLang;
+    }
+
+    // If URL doesn't have lang but localStorage does, redirect
+    const params = new URLSearchParams(window.location.search);
+    if (!params.get('lang')) {
+      const stored = localStorage.getItem('ruleword-lang');
+      if (stored && validLangs.includes(stored) && stored !== currentLang) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('lang', stored);
+        window.location.href = url.toString();
+      }
+    }
+
+    // Language dropdown
+    const langBtn = document.getElementById('lang-btn');
+    const langDropdown = document.getElementById('lang-dropdown');
+
+    langBtn?.addEventListener('click', () => {
+      langDropdown?.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#lang-btn') && !e.target.closest('#lang-dropdown')) {
+        langDropdown?.classList.add('hidden');
+      }
+    });
+
+    // Language selection
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newLang = btn.getAttribute('data-lang');
+        if (newLang) {
+          localStorage.setItem('ruleword-lang', newLang);
+          const url = new URL(window.location.href);
+          url.searchParams.set('lang', newLang);
+          window.location.href = url.toString();
+        }
+      });
+    });
+
     // Feedback modal
     document.getElementById('feedback-btn')?.addEventListener('click', () => {
       document.getElementById('feedback-modal')?.classList.remove('hidden')
@@ -192,17 +265,17 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
 
     document.getElementById('feedback-form')?.addEventListener('submit', async (e) => {
       e.preventDefault()
-      const form = e.target as HTMLFormElement
-      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement
+      const form = e.target
+      const submitBtn = form.querySelector('button[type="submit"]')
 
       submitBtn.disabled = true
-      submitBtn.textContent = 'Sending...'
+      submitBtn.textContent = feedbackText.sending
 
       const data = {
-        type: (document.getElementById('feedback-type') as HTMLSelectElement).value,
-        message: (document.getElementById('feedback-message') as HTMLTextAreaElement).value,
-        email: (document.getElementById('feedback-email') as HTMLInputElement).value,
-        game: (document.getElementById('feedback-game') as HTMLInputElement).value,
+        type: document.getElementById('feedback-type').value,
+        message: document.getElementById('feedback-message').value,
+        email: document.getElementById('feedback-email').value,
+        game: document.getElementById('feedback-game').value,
       }
 
       try {
@@ -229,8 +302,8 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
         }
       } catch (err) {
         submitBtn.disabled = false
-        submitBtn.textContent = 'Send Feedback'
-        alert('Failed to send feedback. Please try again.')
+        submitBtn.textContent = feedbackText.send
+        alert(feedbackText.fail)
       }
     })
   </script>
