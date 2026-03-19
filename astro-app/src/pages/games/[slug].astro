@@ -4,6 +4,7 @@ import GameWrapper from '../../components/GameWrapper'
 import { games, categories } from '../../data/games'
 import { getGameGuide } from '../../data/gameGuides'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
+import { gameGuidesEn } from '../../data/gameGuides'
 
 export function getStaticPaths() {
   return games.map(game => ({
@@ -19,8 +20,12 @@ const urlLang = Astro.url.searchParams.get('lang') as string
 const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
 const t = i18n[lang]
 
-// Get game guide content for SEO (localized)
-const gameGuide = getGameGuide(game.id, lang)
+// Get game guide content for all languages (for client-side switching)
+const gameGuideEn = getGameGuide(game.id, 'en')
+const gameGuideZhCN = getGameGuide(game.id, 'zh-CN')
+
+// For SEO, use English as default
+const gameGuide = gameGuideEn
 
 // Get category for gameType with i18n
 const category = categories.find(c => c.id === game.category)
@@ -106,21 +111,21 @@ const f = t.feedback
     </main>
 
     <!-- SEO Game Guide Section -->
-    {gameGuide && (
+    {gameGuideEn && (
       <section class="bg-slate-900/50 border-t border-slate-800 py-12 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-2xl font-bold mb-4">{getGameName()}: {t.game.howToPlay}</h2>
+          <h2 class="text-2xl font-bold mb-4" id="guide-title">{getGameName()}: <span data-i18n="howToPlay">{t.game.howToPlay}</span></h2>
 
           <div class="prose prose-invert max-w-none">
-            <p class="text-slate-300 text-lg mb-6">{gameGuide.intro}</p>
+            <p class="text-slate-300 text-lg mb-6" id="guide-intro" data-intro-en={gameGuideEn.intro} data-intro-zh={gameGuideZhCN?.intro || gameGuideEn.intro}>{gameGuideEn.intro}</p>
 
-            <h3 class="text-xl font-semibold text-white mt-8 mb-4">{t.game.howToPlay}</h3>
-            <p class="text-slate-300 mb-6">{gameGuide.howToPlay}</p>
+            <h3 class="text-xl font-semibold text-white mt-8 mb-4" data-i18n="howToPlay">{t.game.howToPlay}</h3>
+            <p class="text-slate-300 mb-6" id="guide-howtoplay" data-howtoplay-en={gameGuideEn.howToPlay} data-howtoplay-zh={gameGuideZhCN?.howToPlay || gameGuideEn.howToPlay}>{gameGuideEn.howToPlay}</p>
 
-            <h3 class="text-xl font-semibold text-white mt-8 mb-4">{t.game.tips}</h3>
-            <ul class="space-y-3">
-              {gameGuide.tips.map(tip => (
-                <li class="flex items-start gap-3 text-slate-300">
+            <h3 class="text-xl font-semibold text-white mt-8 mb-4" data-i18n="tips">{t.game.tips}</h3>
+            <ul class="space-y-3" id="guide-tips">
+              {gameGuideEn.tips.map((tip, i) => (
+                <li class="flex items-start gap-3 text-slate-300" data-tip-en={tip} data-tip-zh={(gameGuideZhCN?.tips || gameGuideEn.tips)[i]}>
                   <span class="text-green-400 mt-1">•</span>
                   <span>{tip}</span>
                 </li>
@@ -130,15 +135,16 @@ const f = t.feedback
 
           <!-- Related Games -->
           <div class="mt-12 pt-8 border-t border-slate-800">
-            <h3 class="text-lg font-semibold mb-4">{t.home.allGames}</h3>
-            <div class="flex flex-wrap gap-2">
+            <h3 class="text-lg font-semibold mb-4" data-i18n="allGames">{t.home.allGames}</h3>
+            <div class="flex flex-wrap gap-2" id="related-games">
               {games.filter(g => g.category === game.category && g.id !== game.id).slice(0, 4).map(g => (
                 <a
-                  href={`/games/${g.slug}/?lang=${lang}`}
-                  class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm flex items-center gap-2"
+                  href={`/games/${g.slug}/`}
+                  class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm flex items-center gap-2 related-game"
+                  data-name-en={g.name} data-name-zh={g.nameZh}
                 >
                   <span>{g.icon}</span>
-                  <span>{lang === 'zh-CN' || lang === 'zh-TW' ? g.nameZh : g.name}</span>
+                  <span class="game-name">{g.name}</span>
                 </a>
               ))}
             </div>
@@ -198,11 +204,12 @@ const f = t.feedback
     </div>
   </div>
 
-  <script define:vars={{ languages: languages, currentLang: lang, feedbackText: t.feedback }}>
+  <script define:vars={{ languages: languages, currentLang: lang, feedbackText: t.feedback, i18nData: i18n }}>
     // Language detection - check localStorage if URL param missing
     const validLangs = languages.map(l => l.code);
+    const translations = i18nData;
 
-    function getStoredLang() {
+    function getCurrentLang() {
       const params = new URLSearchParams(window.location.search);
       const urlLang = params.get('lang');
       if (urlLang && validLangs.includes(urlLang)) {
@@ -211,23 +218,82 @@ const f = t.feedback
       }
       const stored = localStorage.getItem('ruleword-lang');
       if (stored && validLangs.includes(stored)) {
-        // Redirect to URL with lang param
-        const url = new URL(window.location.href);
-        url.searchParams.set('lang', stored);
-        window.location.href = url.toString();
         return stored;
       }
-      return currentLang;
+      // Check browser language
+      const browserLang = navigator.language || navigator.userLanguage;
+      if (browserLang) {
+        if (browserLang.startsWith('zh-CN') || browserLang === 'zh-Hans') return 'zh-CN';
+        if (browserLang.startsWith('zh-TW') || browserLang === 'zh-Hant' || browserLang.startsWith('zh-HK')) return 'zh-TW';
+        if (browserLang.startsWith('zh')) return 'zh-CN';
+        if (browserLang.startsWith('fr')) return 'fr';
+        if (browserLang.startsWith('de')) return 'de';
+        if (browserLang.startsWith('es')) return 'es';
+        if (browserLang.startsWith('ru')) return 'ru';
+        if (browserLang.startsWith('ja')) return 'ja';
+      }
+      return 'en';
     }
 
-    // If URL doesn't have lang but localStorage does, redirect
-    const params = new URLSearchParams(window.location.search);
-    if (!params.get('lang')) {
-      const stored = localStorage.getItem('ruleword-lang');
-      if (stored && validLangs.includes(stored) && stored !== currentLang) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('lang', stored);
-        window.location.href = url.toString();
+    // Update game guide content based on language
+    function updateGuideContent(lang) {
+      const isZh = lang === 'zh-CN' || lang === 'zh-TW';
+
+      // Update intro
+      const introEl = document.getElementById('guide-intro');
+      if (introEl) {
+        introEl.textContent = isZh ? introEl.getAttribute('data-intro-zh') : introEl.getAttribute('data-intro-en');
+      }
+
+      // Update how to play
+      const howToPlayEl = document.getElementById('guide-howtoplay');
+      if (howToPlayEl) {
+        howToPlayEl.textContent = isZh ? howToPlayEl.getAttribute('data-howtoplay-zh') : howToPlayEl.getAttribute('data-howtoplay-en');
+      }
+
+      // Update tips
+      document.querySelectorAll('#guide-tips li').forEach(li => {
+        const span = li.querySelector('span:last-child');
+        if (span) {
+          span.textContent = isZh ? li.getAttribute('data-tip-zh') : li.getAttribute('data-tip-en');
+        }
+      });
+
+      // Update related game names
+      document.querySelectorAll('.related-game').forEach(a => {
+        const nameSpan = a.querySelector('.game-name');
+        if (nameSpan) {
+          nameSpan.textContent = isZh ? a.getAttribute('data-name-zh') : a.getAttribute('data-name-en');
+        }
+        // Update href with lang param
+        const href = a.getAttribute('href');
+        if (href) {
+          const url = new URL(href, window.location.origin);
+          url.searchParams.set('lang', lang);
+          a.setAttribute('href', url.pathname + url.search);
+        }
+      });
+
+      // Update UI text (howToPlay, tips, etc.)
+      const t = translations[lang] || translations['en'];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t.game && t.game[key]) {
+          el.textContent = t.game[key];
+        } else if (t.home && t.home[key]) {
+          el.textContent = t.home[key];
+        }
+      });
+    }
+
+    // Apply language on load
+    const initialLang = getCurrentLang();
+    if (initialLang !== 'en') {
+      updateGuideContent(initialLang);
+      // Update current lang button text
+      const langObj = languages.find(l => l.code === initialLang);
+      if (langObj) {
+        document.getElementById('current-lang').textContent = langObj.nativeName;
       }
     }
 
@@ -245,15 +311,29 @@ const f = t.feedback
       }
     });
 
-    // Language selection
+    // Language selection - update content without page reload
     document.querySelectorAll('[data-lang]').forEach(btn => {
       btn.addEventListener('click', () => {
         const newLang = btn.getAttribute('data-lang');
         if (newLang) {
           localStorage.setItem('ruleword-lang', newLang);
+
+          // Update URL without reload
           const url = new URL(window.location.href);
           url.searchParams.set('lang', newLang);
-          window.location.href = url.toString();
+          window.history.pushState({}, '', url.toString());
+
+          // Update content dynamically
+          updateGuideContent(newLang);
+
+          // Update current lang button text
+          const langObj = languages.find(l => l.code === newLang);
+          if (langObj) {
+            document.getElementById('current-lang').textContent = langObj.nativeName;
+          }
+
+          // Close dropdown
+          langDropdown?.classList.add('hidden');
         }
       });
     });

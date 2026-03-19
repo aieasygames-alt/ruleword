@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { games, categories } from '../data/games'
-import { languages, i18n, getGameName, getGameDesc, type Language } from '../data/i18n'
+import { languages, i18n, categoryI18n, getGameName, getGameDesc, type Language } from '../data/i18n'
 
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
 const categoryList = categories.filter(c => c.id !== 'all')
 
 // Get all language codes for dropdown
 const allLanguages = languages
+const categoryI18nData = categoryI18n
 ---
 
 <BaseLayout title="RuleWord - Free Online Puzzle Games | 67+ Games">
@@ -267,11 +268,12 @@ const allLanguages = languages
     </div>
   </div>
 
-  <script define:vars={{ i18n, allLanguages, games }}>
+  <script define:vars={{ i18n, allLanguages, games, categoryI18nData }}>
     // All i18n data
     const translations = i18n
     const languageList = allLanguages
     const gameData = games
+    const catI18n = categoryI18nData
 
     // Language names mapping
     const langNativeNames = {}
@@ -361,6 +363,15 @@ const allLanguages = languages
           const descEl = el.querySelector('.game-desc')
           if (nameEl) nameEl.textContent = getGameNameByLang(game, lang)
           if (descEl) descEl.textContent = getGameDescByLang(game, lang)
+        }
+      })
+
+      // Update category names
+      document.querySelectorAll('[data-category-id]').forEach(el => {
+        const categoryId = el.getAttribute('data-category-id')
+        const catNameEl = el.querySelector('.category-name')
+        if (categoryId && catNameEl && catI18n[lang] && catI18n[lang][categoryId]) {
+          catNameEl.textContent = catI18n[lang][categoryId].name
         }
       })
 
