@@ -324,27 +324,27 @@ const translations = {
       })
 
       // Update category names
+      const catId = window.location.pathname.replace(/\/+$/, '').split('/').pop()
       document.querySelectorAll('.category-name').forEach(el => {
-        const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
-        if (categoryId && categoryNames[categoryId]) {
-          el.textContent = categoryNames[categoryId][lang] || categoryNames[categoryId]['en']
+        if (catId && categoryNames[catId]) {
+          el.textContent = categoryNames[catId][lang] || categoryNames[catId]['en']
         }
       })
 
       // Update category description (show Chinese name)
       document.querySelectorAll('.category-desc').forEach(el => {
-        const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
-        if (categoryId && categoryNames[categoryId]) {
+        if (catId && categoryNames[catId]) {
           if (lang === 'zh-CN' || lang === 'zh-TW') {
-            el.textContent = categoryNames[categoryId]['en']
+            el.textContent = categoryNames[catId]['en']
           } else {
-            el.textContent = categoryNames[categoryId]['zh-CN']
+            el.textContent = categoryNames[catId]['zh-CN']
           }
         }
       })
 
       // Update category description section
-      const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
+      let categoryId = window.location.pathname.replace(/\/+$/, '').split('/').pop()
+      console.log('Category ID:', categoryId, 'Available:', Object.keys(categoryDescriptions))
       if (categoryId && categoryDescriptions[categoryId]) {
         const descData = categoryDescriptions[categoryId][lang] || categoryDescriptions[categoryId]['en']
         const titleEl = document.querySelector('.category-desc-title')
