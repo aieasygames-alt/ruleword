@@ -1,124 +1,29 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { games, categories } from '../../data/games'
+import { games } from '../../data/games'
+import { languages, categoryI18n, categoryDescriptions, type Language } from '../../data/i18n'
 
-// Generate static paths for all categories (except 'all')
+// Generate static paths for all categories - inline data to avoid hoisting issues
 export function getStaticPaths() {
-  return categories
-    .filter(c => c.id !== 'all')
-    .map(category => ({
-      params: { id: category.id },
-      props: { category }
-    }))
+  const categories = [
+    { id: 'word', icon: '🔤', en: 'Word Games', zh: '文字游戏' },
+    { id: 'logic', icon: '🧩', en: 'Logic & Numbers', zh: '数字逻辑' },
+    { id: 'strategy', icon: '♟️', en: 'Strategy', zh: '策略对战' },
+    { id: 'arcade', icon: '👾', en: 'Arcade', zh: '经典街机' },
+    { id: 'memory', icon: '🧠', en: 'Memory & Reflex', zh: '记忆反应' },
+  ]
+  return categories.map(cat => ({
+    params: { id: cat.id },
+    props: { category: cat }
+  }))
 }
 
 const { category } = Astro.props
 const categoryGames = games.filter(g => g.category === category.id)
-
-// All translations
-// Category descriptions for SEO
-const categoryDescriptions = {
-  word: {
-    en: {
-      title: 'Word Games - Expand Your Vocabulary',
-      desc: 'Word games are perfect for language learners and vocabulary enthusiasts. Our collection includes classic word puzzles like Wordle, Crosswordle, and Hangman, as well as challenging games like Boggle and Spelling Bee. These games help improve your spelling, expand your vocabulary, and sharpen your language skills while having fun. Play daily to keep your mind sharp and learn new words!'
-    },
-    'zh-CN': {
-      title: '文字游戏 - 扩展您的词汇量',
-      desc: '文字游戏非常适合语言学习者和词汇爱好者。我们的合集包括猜词、填字游戏和猜单词等经典文字谜题，以及字母方阵和拼字蜜蜂等挑战性游戏。这些游戏有助于提高拼写能力、扩展词汇量，在娱乐中锻炼语言技能。每天玩一玩，保持头脑敏锐，学习新单词！'
-    },
-    'zh-TW': {
-      title: '文字遊戲 - 擴展您的詞彙量',
-      desc: '文字遊戲非常適合語言學習者和詞彙愛好者。我們的合集包括猜詞、填字遊戲和猜單詞等經典文字謎題，以及字母方陣和拼字蜜蜂等挑戰性遊戲。這些遊戲有助於提高拼寫能力、擴展詞彙量，在娛樂中鍛鍊語言技能。每天玩一玩，保持頭腦敏銳，學習新單詞！'
-    }
-  },
-  logic: {
-    en: {
-      title: 'Logic & Number Puzzles - Train Your Brain',
-      desc: 'Logic puzzles are excellent for developing critical thinking and problem-solving skills. Our collection features Sudoku, Nonogram, 2048, and many other brain-teasing puzzles. From simple number games to complex logic challenges like Skyscrapers and KenKen, there\'s something for every skill level. Regular practice with these puzzles can improve concentration, logical reasoning, and mental agility.'
-    },
-    'zh-CN': {
-      title: '数字逻辑 - 训练您的大脑',
-      desc: '逻辑谜题非常适合培养批判性思维和解决问题的能力。我们的合集包含数独、数织、2048等众多烧脑谜题。从简单的数字游戏到摩天楼和贤贤数独等复杂逻辑挑战，适合各种技能水平。经常练习这些谜题可以提高专注力、逻辑推理能力和思维敏捷度。'
-    },
-    'zh-TW': {
-      title: '數字邏輯 - 訓練您的大腦',
-      desc: '邏輯謎題非常適合培養批判性思維和解決問題的能力。我們的合集包含數獨、數織、2048等眾多燒腦謎題。從簡單的數字遊戲到摩天樓和賢賢數獨等複雜邏輯挑戰，適合各種技能水平。經常練習這些謎題可以提高專注力、邏輯推理能力和思維敏捷度。'
-    }
-  },
-  strategy: {
-    en: {
-      title: 'Strategy Games - Outsmart Your Opponent',
-      desc: 'Strategy games challenge you to think ahead and plan your moves carefully. Play classic board games like Chess, Chinese Chess, Gomoku, and Reversi against AI opponents. These games teach valuable lessons about planning, anticipating opponent moves, and adapting strategies. Perfect for players who enjoy competitive thinking and tactical gameplay.'
-    },
-    'zh-CN': {
-      title: '策略对战 - 智胜对手',
-      desc: '策略游戏考验您的前瞻思维和周密计划能力。与AI对战国际象棋、中国象棋、五子棋和黑白棋等经典棋盘游戏。这些游戏教会您规划、预判对手行动和灵活应变的宝贵经验。非常适合喜欢竞争思维和战术对局的玩家。'
-    },
-    'zh-TW': {
-      title: '策略對戰 - 智勝對手',
-      desc: '策略遊戲考驗您的前瞻思維和周密計劃能力。與AI對戰國際象棋、中國象棋、五子棋和黑白棋等經典棋盤遊戲。這些遊戲教會您規劃、預判對手行動和靈活應變的寶貴經驗。非常適合喜歡競爭思維和戰術對局的玩家。'
-    }
-  },
-  arcade: {
-    en: {
-      title: 'Arcade Games - Classic Fun Reimagined',
-      desc: 'Relive the golden age of arcade gaming with our collection of classic titles. Play Tetris, Pac-Man, Snake, Space Invaders, and other nostalgic favorites. These timeless games offer simple yet addictive gameplay that has entertained generations. Perfect for quick gaming sessions when you need a break from work or study.'
-    },
-    'zh-CN': {
-      title: '经典街机 - 重温黄金时代',
-      desc: '通过我们的经典游戏合集重温街机游戏的黄金时代。玩俄罗斯方块、吃豆人、贪吃蛇、太空侵略者和其他怀旧经典。这些永恒的游戏提供简单而令人上瘾的游戏体验，娱乐了几代人。非常适合工作或学习间隙的快速游戏时光。'
-    },
-    'zh-TW': {
-      title: '經典街機 - 重溫黃金時代',
-      desc: '透過我們的經典遊戲合集重溫街機遊戲的黃金時代。玩俄羅斯方塊、吃豆人、貪吃蛇、太空侵略者和其他懷舊經典。這些永恆的遊戲提供簡單而令人上癮的遊戲體驗，娛樂了幾代人。非常適合工作或學習間隙的快速遊戲時光。'
-    }
-  },
-  memory: {
-    en: {
-      title: 'Memory & Reflex Games - Sharpen Your Mind',
-      desc: 'Memory and reflex games are designed to train your brain and improve reaction times. Challenge yourself with pattern memory, number sequences, and quick-reflex tests. These games are scientifically proven to enhance short-term memory, attention span, and cognitive processing speed. Great for all ages, from kids developing focus to adults maintaining mental sharpness.'
-    },
-    'zh-CN': {
-      title: '记忆反应 - 锻炼您的思维',
-      desc: '记忆和反应游戏专为训练大脑和提高反应速度而设计。挑战图案记忆、数字序列和快速反应测试。科学证明这些游戏可以增强短期记忆、注意力持续时间和认知处理速度。适合所有年龄段，从培养专注力的孩子到保持头脑敏锐的成年人。'
-    },
-    'zh-TW': {
-      title: '記憶反應 - 鍛鍊您的思維',
-      desc: '記憶和反應遊戲專為訓練大腦和提高反應速度而設計。挑戰圖案記憶、數字序列和快速反應測試。科學證明這些遊戲可以增強短期記憶、注意力持續時間和認知處理速度。適合所有年齡段，從培養專注力的孩子到保持頭腦敏銳的成年人。'
-    }
-  }
-}
-
-const translations = {
-  en: {
-    freeGames: 'Free Games',
-    allGames: 'All Games',
-    gamesCount: 'games',
-    backHome: 'Back to Home',
-    noGames: 'No games in this category',
-    aboutCategory: 'About This Category'
-  },
-  'zh-CN': {
-    freeGames: '免费游戏',
-    allGames: '全部游戏',
-    gamesCount: '款游戏',
-    backHome: '返回首页',
-    noGames: '此分类暂无游戏',
-    aboutCategory: '关于此分类'
-  },
-  'zh-TW': {
-    freeGames: '免費遊戲',
-    allGames: '全部遊戲',
-    gamesCount: '款遊戲',
-    backHome: '返回首頁',
-    noGames: '此分類暫無遊戲',
-    aboutCategory: '關於此分類'
-  }
-}
+const allLanguages = languages
 ---
 
-<BaseLayout title={`${category.name} - RuleWord | Free Online Games`}>
+<BaseLayout title={`${category.en} - RuleWord | Free Online Games`}>
   <div class="min-h-screen bg-slate-950 text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -130,7 +35,7 @@ const translations = {
             </div>
             <div>
               <h1 class="text-xl font-bold tracking-tight">RuleWord</h1>
-              <p class="text-xs text-slate-400 -mt-0.5">{games.length}+ <span data-i18n="freeGames">Free Games</span></p>
+              <p class="text-xs text-slate-400 -mt-0.5"><span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span></p>
             </div>
           </a>
 
@@ -145,9 +50,11 @@ const translations = {
                 </svg>
               </button>
               <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
-                <button onclick="setLang('en')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="en">English</button>
-                <button onclick="setLang('zh-CN')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-CN">简体中文</button>
-                <button onclick="setLang('zh-TW')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-TW">繁體中文</button>
+                {allLanguages.map(lang => (
+                  <button onclick={`setLang('${lang.code}')`} class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code={lang.code}>
+                    {lang.nativeName}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -165,17 +72,17 @@ const translations = {
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
         <!-- Breadcrumb -->
         <div class="flex items-center justify-center gap-2 mb-4 text-sm text-slate-400">
-          <a href="/" class="hover:text-white transition-colors" data-i18n="backHome">Back to Home</a>
+          <a href="/" class="hover:text-white transition-colors" data-i18n="backToHome">Back to Home</a>
           <span>/</span>
           <span class="text-2xl">{category.icon}</span>
-          <span class="category-name text-white font-medium">{category.name}</span>
+          <span class="category-name text-white font-medium">{category.en}</span>
         </div>
 
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight category-name">
-          {category.name}
+          {category.en}
         </h2>
-        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-2 category-desc">
-          {category.nameZh}
+        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-2 category-subtitle">
+          {category.zh}
         </p>
         <p class="text-sm text-slate-500">
           {categoryGames.length} <span data-i18n="gamesCount">games</span>
@@ -196,11 +103,7 @@ const translations = {
             <a
               href={`/games/${game.slug}`}
               class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
-              data-game-id={game.id}
-              data-name={game.name}
-              data-name-zh={game.nameZh}
-              data-desc={game.desc}
-              data-desc-zh={game.descZh}
+              data-game-slug={game.slug}
             >
               <div class="flex items-start gap-4">
                 <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
@@ -256,105 +159,123 @@ const translations = {
     </footer>
   </div>
 
-  <script define:vars={{ translations, categoryDescriptions }}>
-    // Translations data
-    const i18n = translations
+  <script define:vars={{ allLanguages, categoryI18n, categoryDescriptions, games, category }}>
+    // Category definitions
+    const catDefs = CATEGORY_DATA
+    const languageList = allLanguages
+    const catI18n = categoryI18n
+    const catDesc = categoryDescriptions
+    const gameData = games
+    const currentCategory = category.id
 
-    // Category names
-    const categoryNames = {
-      'word': { en: 'Word Games', 'zh-CN': '文字游戏', 'zh-TW': '文字遊戲' },
-      'logic': { en: 'Logic & Numbers', 'zh-CN': '数字逻辑', 'zh-TW': '數字邏輯' },
-      'strategy': { en: 'Strategy', 'zh-CN': '策略对战', 'zh-TW': '策略對戰' },
-      'arcade': { en: 'Arcade', 'zh-CN': '经典街机', 'zh-TW': '經典街機' },
-      'memory': { en: 'Memory & Reflex', 'zh-CN': '记忆反应', 'zh-TW': '記憶反應' },
-      'tools': { en: 'Tools', 'zh-CN': '工具', 'zh-TW': '工具' }
-    }
+    // Language names mapping
+    const langNativeNames = {}
+    languageList.forEach(l => { langNativeNames[l.code] = l.nativeName })
 
-    // Language names
-    const langNames = {
-      'en': 'English',
-      'zh-CN': '简体中文',
-      'zh-TW': '繁體中文'
-    }
-
-    // Get current language from URL or default to 'en'
+    // Get current language
     function getLang() {
       const params = new URLSearchParams(window.location.search)
-      const lang = params.get('lang')
-      if (lang === 'zh-CN' || lang === 'zh-TW' || lang === 'en') {
-        return lang
+      const urlLang = params.get('lang')
+      const validLangs = languageList.map(l => l.code)
+      if (urlLang && validLangs.includes(urlLang)) {
+        localStorage.setItem('ruleword-lang', urlLang)
+        return urlLang
+      }
+      const savedLang = localStorage.getItem('ruleword-lang')
+      if (savedLang && validLangs.includes(savedLang)) return savedLang
+      const browserLang = navigator.language || navigator.userLanguage
+      if (browserLang) {
+        if (browserLang.startsWith('zh-CN') || browserLang === 'zh-Hans') return 'zh-CN'
+        if (browserLang.startsWith('zh-TW') || browserLang === 'zh-Hant' || browserLang.startsWith('zh-HK')) return 'zh-TW'
+        if (browserLang.startsWith('zh')) return 'zh-CN'
+        if (browserLang.startsWith('fr')) return 'fr'
+        if (browserLang.startsWith('de')) return 'de'
+        if (browserLang.startsWith('es')) return 'es'
+        if (browserLang.startsWith('ru')) return 'ru'
+        if (browserLang.startsWith('ja')) return 'ja'
       }
       return 'en'
     }
 
     // Set language
     function setLang(lang) {
+      localStorage.setItem('ruleword-lang', lang)
       const url = new URL(window.location.href)
       url.searchParams.set('lang', lang)
       window.location.href = url.toString()
     }
     window.setLang = setLang
 
+    // Get game name/desc by language
+    function getGameNameByLang(game, lang) {
+      if (lang === 'zh-CN' || lang === 'zh-TW') return game.nameZh
+      return game.name
+    }
+    function getGameDescByLang(game, lang) {
+      if (lang === 'zh-CN' || lang === 'zh-TW') return game.descZh
+      return game.desc
+    }
+
     // Apply translations
     function applyTranslations(lang) {
-      const t = i18n[lang] || i18n['en']
-
-      // Update i18n elements
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n')
-        if (t[key]) {
-          el.textContent = t[key]
-        }
-      })
-
-      // Update game names and descriptions
-      document.querySelectorAll('[data-game-id]').forEach(el => {
-        const nameEl = el.querySelector('.game-name')
-        const descEl = el.querySelector('.game-desc')
-        if (nameEl) {
-          nameEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
-            ? el.getAttribute('data-name-zh')
-            : el.getAttribute('data-name')
-        }
-        if (descEl) {
-          descEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
-            ? el.getAttribute('data-desc-zh')
-            : el.getAttribute('data-desc')
-        }
-      })
-
-      // Update category names
-      const catId = window.location.pathname.replace(/\/+$/, '').split('/').pop()
-      document.querySelectorAll('.category-name').forEach(el => {
-        if (catId && categoryNames[catId]) {
-          el.textContent = categoryNames[catId][lang] || categoryNames[catId]['en']
-        }
-      })
-
-      // Update category description (show Chinese name)
-      document.querySelectorAll('.category-desc').forEach(el => {
-        if (catId && categoryNames[catId]) {
+      // Update category name
+      const catData = catI18n[lang] && catI18n[lang][currentCategory]
+      if (catData) {
+        document.querySelectorAll('.category-name').forEach(el => {
+          el.textContent = catData.name
+        })
+        // Update subtitle: show English for Chinese users, show Chinese for others
+        document.querySelectorAll('.category-subtitle').forEach(el => {
+          const zhData = catI18n['zh-CN'] && catI18n['zh-CN'][currentCategory]
+          const enData = catI18n['en'] && catI18n['en'][currentCategory]
           if (lang === 'zh-CN' || lang === 'zh-TW') {
-            el.textContent = categoryNames[catId]['en']
+            el.textContent = enData ? enData.name : ''
           } else {
-            el.textContent = categoryNames[catId]['zh-CN']
+            el.textContent = zhData ? zhData.name : ''
           }
-        }
-      })
+        })
+      }
 
-      // Update category description section
-      let categoryId = window.location.pathname.replace(/\/+$/, '').split('/').pop()
-      console.log('Category ID:', categoryId, 'Available:', Object.keys(categoryDescriptions))
-      if (categoryId && categoryDescriptions[categoryId]) {
-        const descData = categoryDescriptions[categoryId][lang] || categoryDescriptions[categoryId]['en']
+      // Update category description
+      const descData = catDesc[lang] && catDesc[lang][currentCategory]
+      if (descData) {
         const titleEl = document.querySelector('.category-desc-title')
         const textEl = document.querySelector('.category-desc-text')
         if (titleEl) titleEl.textContent = descData.title
         if (textEl) textEl.textContent = descData.desc
       }
 
+      // Update game names and descriptions
+      document.querySelectorAll('[data-game-slug]').forEach(el => {
+        const slug = el.getAttribute('data-game-slug')
+        const game = gameData.find(g => g.slug === slug)
+        if (game) {
+          const nameEl = el.querySelector('.game-name')
+          const descEl = el.querySelector('.game-desc')
+          if (nameEl) nameEl.textContent = getGameNameByLang(game, lang)
+          if (descEl) descEl.textContent = getGameDescByLang(game, lang)
+        }
+      })
+
+      // Update UI text
+      const uiTexts = {
+        'backToHome': { en: 'Back to Home', 'zh-CN': '返回首页', 'zh-TW': '返回首頁', fr: 'Retour', de: 'Zurück', es: 'Volver', ru: 'На главную', ja: 'ホームに戻る' },
+        'gamesCount': { en: 'games', 'zh-CN': '款游戏', 'zh-TW': '款遊戲', fr: 'jeux', de: 'Spiele', es: 'juegos', ru: 'игр', ja: 'ゲーム' },
+        'freeGames': { en: 'Free Games', 'zh-CN': '免费游戏', 'zh-TW': '免費遊戲', fr: 'Jeux Gratuits', de: 'Kostenlose Spiele', es: 'Juegos Gratis', ru: 'Бесплатные Игры', ja: '無料ゲーム' },
+        'copyright': { en: '© 2026 RuleWord', 'zh-CN': '© 2026 RuleWord', 'zh-TW': '© 2026 RuleWord', fr: '© 2026 RuleWord', de: '© 2026 RuleWord', es: '© 2026 RuleWord', ru: '© 2026 RuleWord', ja: '© 2026 RuleWord' },
+        'aboutCategory': { en: 'About This Category', 'zh-CN': '关于此分类', 'zh-TW': '關於此分類', fr: 'À Propos', de: 'Über', es: 'Sobre', ru: 'О категории', ja: 'このカテゴリーについて' },
+        'noGames': { en: 'No games in this category', 'zh-CN': '此分类暂无游戏', 'zh-TW': '此分類暫無遊戲', fr: 'Aucun jeu', de: 'Keine Spiele', es: 'Sin juegos', ru: 'Нет игр', ja: 'ゲームがありません' }
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n')
+        if (uiTexts[key] && uiTexts[key][lang]) {
+          el.textContent = uiTexts[key][lang]
+        }
+      })
+
       // Update current lang button
-      document.getElementById('current-lang').textContent = langNames[lang] || 'English'
+      document.getElementById('current-lang').textContent = langNativeNames[lang] || 'English'
 
       // Update active state in dropdown
       document.querySelectorAll('[data-lang-code]').forEach(btn => {

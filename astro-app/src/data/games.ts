@@ -1,4 +1,6 @@
 // 游戏配置数据
+import type { Language } from './i18n'
+
 export interface GameConfig {
   slug: string
   id: string
@@ -10,6 +12,22 @@ export interface GameConfig {
   category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory'
   featured?: boolean
   color: string
+}
+
+// 获取本地化的游戏名称
+export function getGameName(game: GameConfig, lang: Language): string {
+  if (lang === 'zh-CN' || lang === 'zh-TW') {
+    return game.nameZh
+  }
+  return game.name
+}
+
+// 获取本地化的游戏描述
+export function getGameDesc(game: GameConfig, lang: Language): string {
+  if (lang === 'zh-CN' || lang === 'zh-TW') {
+    return game.descZh
+  }
+  return game.desc
 }
 
 export const games: GameConfig[] = [

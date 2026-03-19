@@ -1,88 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { games, categories } from '../data/games'
+import { languages, i18n, getGameName, getGameDesc, type Language } from '../data/i18n'
 
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
 const categoryList = categories.filter(c => c.id !== 'all')
 
-// All translations
-const translations = {
-  en: {
-    freeGames: 'Free Games',
-    title: 'Free Online Puzzle Games',
-    subtitle: 'Classic puzzles, strategy games, arcade fun. No downloads, play instantly.',
-    categories: 'Categories',
-    featured: 'Featured Games',
-    allGames: 'All Games',
-    gamesCount: 'games',
-    feedback: 'Feedback',
-    copyright: '© 2026 RuleWord',
-    aboutTitle: 'About RuleWord',
-    feature1Title: '100% Free & Unlimited',
-    feature1Desc: 'Play all games without any cost or time limits. No registration required.',
-    feature2Title: 'Instant Play, No Downloads',
-    feature2Desc: 'All games run directly in your browser. No app installation needed.',
-    feature3Title: 'Play Anywhere',
-    feature3Desc: 'Works on desktop, tablet, and mobile devices. Enjoy games on the go.',
-    feature4Title: 'Brain Training',
-    feature4Desc: 'Improve your logic, vocabulary, memory and reflexes with our puzzles.',
-    feature5Title: 'Multi-Language Support',
-    feature5Desc: 'Available in English, Simplified Chinese, and Traditional Chinese.',
-    feature6Title: 'Always Growing',
-    feature6Desc: 'New games added regularly. Fresh challenges await you every week.',
-    aboutDesc: 'RuleWord is your ultimate destination for free online puzzle games. We believe gaming should be simple, joyful, and accessible to everyone. Our collection features classic brain teasers like Sudoku, Wordle, and 2048, alongside strategy games like Chess and Gomoku. Whether you\'re looking to sharpen your mind during a break or challenge yourself with complex puzzles, RuleWord has something for everyone. No downloads, no ads interrupting your play—just pure fun, instantly available in your browser.'
-  },
-  'zh-CN': {
-    freeGames: '免费游戏',
-    title: '免费在线益智游戏',
-    subtitle: '经典益智、策略对战、街机游戏，无需下载，即开即玩',
-    categories: '游戏分类',
-    featured: '热门推荐',
-    allGames: '全部游戏',
-    gamesCount: '款游戏',
-    feedback: '反馈',
-    copyright: '© 2026 RuleWord',
-    aboutTitle: '关于 RuleWord',
-    feature1Title: '完全免费 无限畅玩',
-    feature1Desc: '所有游戏完全免费，无时间限制，无需注册即可畅玩。',
-    feature2Title: '即开即玩 无需下载',
-    feature2Desc: '所有游戏直接在浏览器中运行，无需安装任何应用程序。',
-    feature3Title: '随时随地畅玩',
-    feature3Desc: '支持电脑、平板和手机，随时随地享受游戏乐趣。',
-    feature4Title: '益智健脑',
-    feature4Desc: '通过数独、猜词等益智游戏锻炼逻辑思维、词汇量和记忆力。',
-    feature5Title: '多语言支持',
-    feature5Desc: '支持英语、简体中文和繁体中文，满足不同用户需求。',
-    feature6Title: '持续更新',
-    feature6Desc: '定期添加新游戏，每周都有新挑战等你来体验。',
-    aboutDesc: 'RuleWord 是您免费在线益智游戏的终极目的地。我们相信游戏应该简单、快乐、人人可及。我们的游戏合集包含数独、猜词、2048 等经典益智游戏，以及国际象棋、五子棋等策略游戏。无论您是想在休息时锻炼大脑，还是挑战复杂的谜题，RuleWord 都能满足您的需求。无需下载，无广告干扰——只需打开浏览器，即刻享受纯粹的游戏乐趣。'
-  },
-  'zh-TW': {
-    freeGames: '免費遊戲',
-    title: '免費線上益智遊戲',
-    subtitle: '經典益智、策略對戰、街機遊戲，無需下載，即開即玩',
-    categories: '遊戲分類',
-    featured: '熱門推薦',
-    allGames: '全部遊戲',
-    gamesCount: '款遊戲',
-    feedback: '反饋',
-    copyright: '© 2026 RuleWord',
-    aboutTitle: '關於 RuleWord',
-    feature1Title: '完全免費 無限暢玩',
-    feature1Desc: '所有遊戲完全免費，無時間限制，無需註冊即可暢玩。',
-    feature2Title: '即開即玩 無需下載',
-    feature2Desc: '所有遊戲直接在瀏覽器中運行，無需安裝任何應用程式。',
-    feature3Title: '隨時隨地暢玩',
-    feature3Desc: '支援電腦、平板和手機，隨時隨地享受遊戲樂趣。',
-    feature4Title: '益智健腦',
-    feature4Desc: '透過數獨、猜詞等益智遊戲鍛鍊邏輯思維、詞彙量和記憶力。',
-    feature5Title: '多語言支援',
-    feature5Desc: '支援英語、簡體中文和繁體中文，滿足不同用戶需求。',
-    feature6Title: '持續更新',
-    feature6Desc: '定期添加新遊戲，每週都有新挑戰等你來體驗。',
-    aboutDesc: 'RuleWord 是您免費線上益智遊戲的終極目的地。我們相信遊戲應該簡單、快樂、人人可及。我們的遊戲合集包含數獨、猜詞、2048 等經典益智遊戲，以及國際象棋、五子棋等策略遊戲。無論您是想在休息時鍛鍊大腦，還是挑戰複雜的謎題，RuleWord 都能滿足您的需求。無需下載，無廣告干擾——只需打開瀏覽器，即刻享受純粹的遊戲樂趣。'
-  }
-}
+// Get all language codes for dropdown
+const allLanguages = languages
 ---
 
 <BaseLayout title="RuleWord - Free Online Puzzle Games | 67+ Games">
@@ -112,9 +37,11 @@ const translations = {
                 </svg>
               </button>
               <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
-                <button onclick="setLang('en')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="en">English</button>
-                <button onclick="setLang('zh-CN')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-CN">简体中文</button>
-                <button onclick="setLang('zh-TW')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-TW">繁體中文</button>
+                {allLanguages.map(lang => (
+                  <button onclick={`setLang('${lang.code}')`} class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code={lang.code}>
+                    {lang.nativeName}
+                  </button>
+                ))}
               </div>
             </div>
             <button
@@ -154,14 +81,12 @@ const translations = {
           <span class="text-2xl">📂</span>
           <h3 class="text-xl font-bold" data-i18n="categories">Categories</h3>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {categoryList.map(cat => (
             <a
               href={`/category/${cat.id}`}
               class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-slate-900/80 border border-slate-800 hover:border-slate-600"
               data-category-id={cat.id}
-              data-name={cat.name}
-              data-name-zh={cat.nameZh}
             >
               <div class="text-3xl mb-2">{cat.icon}</div>
               <h4 class="font-medium text-white text-sm category-name">{cat.name}</h4>
@@ -182,11 +107,7 @@ const translations = {
             <a
               href={`/games/${game.slug}`}
               class={`group relative overflow-hidden rounded-2xl aspect-[2/1] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
-              data-game-id={game.id}
-              data-name={game.name}
-              data-name-zh={game.nameZh}
-              data-desc={game.desc}
-              data-desc-zh={game.descZh}
+              data-game-slug={game.slug}
             >
               <div class="relative z-10 h-full flex flex-col justify-between">
                 <div class="text-2xl lg:text-3xl">{game.icon}</div>
@@ -212,11 +133,7 @@ const translations = {
             <a
               href={`/games/${game.slug}`}
               class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
-              data-game-id={game.id}
-              data-name={game.name}
-              data-name-zh={game.nameZh}
-              data-desc={game.desc}
-              data-desc-zh={game.descZh}
+              data-game-slug={game.slug}
             >
               <div class="flex items-start gap-4">
                 <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
@@ -272,7 +189,7 @@ const translations = {
             <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🌐</div>
               <h4 class="font-bold text-white mb-2" data-i18n="feature5Title">Multi-Language Support</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature5Desc">Available in English, Simplified Chinese, and Traditional Chinese.</p>
+              <p class="text-sm text-slate-400" data-i18n="feature5Desc">Available in 8 languages including English, Chinese, Japanese and more.</p>
             </div>
             <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🆕</div>
@@ -284,7 +201,7 @@ const translations = {
           <!-- About Paragraph -->
           <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 text-center">
             <p class="text-slate-300 leading-relaxed" data-i18n="aboutDesc">
-              RuleWord is your ultimate destination for free online puzzle games. We believe gaming should be simple, joyful, and accessible to everyone. Our collection features classic brain teasers like Sudoku, Wordle, and 2048, alongside strategy games like Chess and Gomoku. Whether you're looking to sharpen your mind during a break or challenge yourself with complex puzzles, RuleWord has something for everyone. No downloads, no ads interrupting your play—just pure fun, instantly available in your browser.
+              RuleWord is your ultimate destination for free online puzzle games...
             </p>
           </div>
         </div>
@@ -350,65 +267,105 @@ const translations = {
     </div>
   </div>
 
-  <script define:vars={{ translations }}>
-    // Translations data
-    const i18n = translations
+  <script define:vars={{ i18n, allLanguages, games }}>
+    // All i18n data
+    const translations = i18n
+    const languageList = allLanguages
+    const gameData = games
 
-    // Language names
-    const langNames = {
-      'en': 'English',
-      'zh-CN': '简体中文',
-      'zh-TW': '繁體中文'
-    }
+    // Language names mapping
+    const langNativeNames = {}
+    languageList.forEach(l => { langNativeNames[l.code] = l.nativeName })
 
-    // Get current language from URL or default to 'en'
+    // Get current language from URL or localStorage or browser
     function getLang() {
       const params = new URLSearchParams(window.location.search)
-      const lang = params.get('lang')
-      if (lang === 'zh-CN' || lang === 'zh-TW' || lang === 'en') {
-        return lang
+      const urlLang = params.get('lang')
+
+      // Check if URL language is valid
+      const validLangs = languageList.map(l => l.code)
+      if (urlLang && validLangs.includes(urlLang)) {
+        localStorage.setItem('ruleword-lang', urlLang)
+        return urlLang
       }
+
+      // Check localStorage
+      const savedLang = localStorage.getItem('ruleword-lang')
+      if (savedLang && validLangs.includes(savedLang)) {
+        return savedLang
+      }
+
+      // Check browser language
+      const browserLang = navigator.language || navigator.userLanguage
+      if (browserLang) {
+        if (browserLang.startsWith('zh-CN') || browserLang === 'zh-Hans') return 'zh-CN'
+        if (browserLang.startsWith('zh-TW') || browserLang === 'zh-Hant' || browserLang.startsWith('zh-HK')) return 'zh-TW'
+        if (browserLang.startsWith('zh')) return 'zh-CN'
+        if (browserLang.startsWith('fr')) return 'fr'
+        if (browserLang.startsWith('de')) return 'de'
+        if (browserLang.startsWith('es')) return 'es'
+        if (browserLang.startsWith('ru')) return 'ru'
+        if (browserLang.startsWith('ja')) return 'ja'
+      }
+
       return 'en'
     }
 
     // Set language
     function setLang(lang) {
+      localStorage.setItem('ruleword-lang', lang)
       const url = new URL(window.location.href)
       url.searchParams.set('lang', lang)
       window.location.href = url.toString()
     }
     window.setLang = setLang
 
+    // Get game name by language
+    function getGameNameByLang(game, lang) {
+      if (lang === 'zh-CN' || lang === 'zh-TW') {
+        return game.nameZh
+      }
+      return game.name
+    }
+
+    // Get game desc by language
+    function getGameDescByLang(game, lang) {
+      if (lang === 'zh-CN' || lang === 'zh-TW') {
+        return game.descZh
+      }
+      return game.desc
+    }
+
     // Apply translations
     function applyTranslations(lang) {
-      const t = i18n[lang] || i18n['en']
+      const t = translations[lang] || translations['en']
 
       // Update i18n elements
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n')
-        if (t[key]) {
+        if (t.home && t.home[key]) {
+          el.textContent = t.home[key]
+        } else if (t.nav && t.nav[key]) {
+          el.textContent = t.nav[key]
+        } else if (t[key]) {
           el.textContent = t[key]
         }
       })
 
       // Update game names and descriptions
-      document.querySelectorAll('[data-game-id]').forEach(el => {
-        const nameEl = el.querySelector('.game-name')
-        const descEl = el.querySelector('.game-desc')
-        if (nameEl) {
-          nameEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
-            ? el.getAttribute('data-name-zh')
-            : el.getAttribute('data-name')
-        }
-        if (descEl) {
-          descEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
-            ? el.getAttribute('data-desc-zh')
-            : el.getAttribute('data-desc')
+      document.querySelectorAll('[data-game-slug]').forEach(el => {
+        const slug = el.getAttribute('data-game-slug')
+        const game = gameData.find(g => g.slug === slug)
+        if (game) {
+          const nameEl = el.querySelector('.game-name')
+          const descEl = el.querySelector('.game-desc')
+          if (nameEl) nameEl.textContent = getGameNameByLang(game, lang)
+          if (descEl) descEl.textContent = getGameDescByLang(game, lang)
         }
       })
 
       // Update current lang button
-      document.getElementById('current-lang').textContent = langNames[lang] || 'English'
+      document.getElementById('current-lang').textContent = langNativeNames[lang] || 'English'
 
       // Update active state in dropdown
       document.querySelectorAll('[data-lang-code]').forEach(btn => {
