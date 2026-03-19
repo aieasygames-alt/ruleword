@@ -7,7 +7,7 @@ export interface GameConfig {
   icon: string
   desc: string
   descZh: string
-  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory' | 'tools'
+  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory'
   featured?: boolean
   color: string
 }
@@ -79,7 +79,7 @@ export const games: GameConfig[] = [
   { slug: 'pattern-memory', id: 'patternmemory', name: 'Pattern Memory', nameZh: '图案记忆', icon: '🎨', desc: 'Memorize colored patterns', descZh: '记忆彩色图案', category: 'memory', featured: true, color: 'from-fuchsia-500 to-purple-600' },
 
   // Tools
-  { slug: 'dictionary', id: 'dictionary', name: 'Dictionary', nameZh: '词典', icon: '📚', desc: 'Word definitions', descZh: '单词定义与更多', category: 'tools', color: 'from-gray-500 to-slate-600' },
+  // Dictionary has been integrated into Wordle game
 
   // More Word Games
   { slug: 'anagrams', id: 'anagrams', name: 'Anagrams', nameZh: '字谜重组', icon: '🔀', desc: 'Unscramble letters', descZh: '重组字母成词', category: 'word', color: 'from-violet-500 to-purple-600' },
@@ -105,7 +105,6 @@ export const categories = [
   { id: 'strategy', name: 'Strategy', nameZh: '策略对战', icon: '🎯' },
   { id: 'arcade', name: 'Arcade', nameZh: '经典街机', icon: '👾' },
   { id: 'memory', name: 'Memory & Reflex', nameZh: '记忆反应', icon: '🧠' },
-  { id: 'tools', name: 'Tools', nameZh: '工具', icon: '🔧' },
 ]
 
 export function getGameBySlug(slug: string): GameConfig | undefined {

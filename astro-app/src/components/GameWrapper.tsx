@@ -50,7 +50,6 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'gomoku': () => import('./games/Gomoku'),
   'checkers': () => import('./games/Checkers'),
   'dotsandboxes': () => import('./games/DotsAndBoxes'),
-  'dictionary': () => import('./games/Dictionary'),
   'wordlist': () => import('./games/WordList'),
   'reactiontest': () => import('./games/ReactionTest'),
   'simongame': () => import('./games/SimonGame'),
