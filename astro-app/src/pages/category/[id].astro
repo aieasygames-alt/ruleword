@@ -1,0 +1,290 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { games, categories } from '../../data/games'
+
+// Generate static paths for all categories (except 'all')
+export function getStaticPaths() {
+  return categories
+    .filter(c => c.id !== 'all')
+    .map(category => ({
+      params: { id: category.id },
+      props: { category }
+    }))
+}
+
+const { category } = Astro.props
+const categoryGames = games.filter(g => g.category === category.id)
+
+// All translations
+const translations = {
+  en: {
+    freeGames: 'Free Games',
+    allGames: 'All Games',
+    gamesCount: 'games',
+    backHome: 'Back to Home',
+    noGames: 'No games in this category'
+  },
+  'zh-CN': {
+    freeGames: '免费游戏',
+    allGames: '全部游戏',
+    gamesCount: '款游戏',
+    backHome: '返回首页',
+    noGames: '此分类暂无游戏'
+  },
+  'zh-TW': {
+    freeGames: '免費遊戲',
+    allGames: '全部遊戲',
+    gamesCount: '款遊戲',
+    backHome: '返回首頁',
+    noGames: '此分類暫無遊戲'
+  }
+}
+---
+
+<BaseLayout title={`${category.name} - RuleWord | Free Online Games`}>
+  <div class="min-h-screen bg-slate-950 text-white" id="app">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-green-500/25">
+              R
+            </div>
+            <div>
+              <h1 class="text-xl font-bold tracking-tight">RuleWord</h1>
+              <p class="text-xs text-slate-400 -mt-0.5">{games.length}+ <span data-i18n="freeGames">Free Games</span></p>
+            </div>
+          </a>
+
+          <!-- Right: Language -->
+          <div class="flex items-center gap-2">
+            <div class="relative">
+              <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
+                <span class="text-lg">🌐</span>
+                <span class="hidden sm:inline" id="current-lang">English</span>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
+                <button onclick="setLang('en')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="en">English</button>
+                <button onclick="setLang('zh-CN')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-CN">简体中文</button>
+                <button onclick="setLang('zh-TW')" class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code="zh-TW">繁體中文</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-green-500"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-blue-500"></div>
+      </div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
+        <!-- Breadcrumb -->
+        <div class="flex items-center justify-center gap-2 mb-4 text-sm text-slate-400">
+          <a href="/" class="hover:text-white transition-colors" data-i18n="backHome">Back to Home</a>
+          <span>/</span>
+          <span class="text-2xl">{category.icon}</span>
+          <span class="category-name text-white font-medium">{category.name}</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight category-name">
+          {category.name}
+        </h2>
+        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-2 category-desc">
+          {category.nameZh}
+        </p>
+        <p class="text-sm text-slate-500">
+          {categoryGames.length} <span data-i18n="gamesCount">games</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      {categoryGames.length === 0 ? (
+        <div class="text-center py-20 text-slate-400">
+          <p class="text-6xl mb-4">🎮</p>
+          <p class="text-xl" data-i18n="noGames">No games in this category</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {categoryGames.map(game => (
+            <a
+              href={`/games/${game.slug}`}
+              class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
+              data-game-id={game.id}
+              data-name={game.name}
+              data-name-zh={game.nameZh}
+              data-desc={game.desc}
+              data-desc-zh={game.descZh}
+            >
+              <div class="flex items-start gap-4">
+                <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
+                  <span class="text-2xl">{game.icon}</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-bold text-lg mb-1 game-name">{game.name}</h4>
+                  <p class="text-sm text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
+                </div>
+                <svg class="w-5 h-5 text-slate-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              {game.featured && (
+                <div class="absolute top-3 right-3">
+                  <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-amber-400 to-orange-500 text-white">
+                    ⭐
+                  </span>
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      )}
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 bg-slate-900/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm">
+              R
+            </div>
+            <span class="font-semibold text-slate-400">RuleWord</span>
+          </div>
+          <p class="text-sm text-slate-400">
+            <span data-i18n="copyright">© 2026 RuleWord</span> · {games.length}+ <span data-i18n="freeGames">Free Games</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script define:vars={{ translations }}>
+    // Translations data
+    const i18n = translations
+
+    // Category names
+    const categoryNames = {
+      'word': { en: 'Word Games', 'zh-CN': '文字游戏', 'zh-TW': '文字遊戲' },
+      'logic': { en: 'Logic & Numbers', 'zh-CN': '数字逻辑', 'zh-TW': '數字邏輯' },
+      'strategy': { en: 'Strategy', 'zh-CN': '策略对战', 'zh-TW': '策略對戰' },
+      'arcade': { en: 'Arcade', 'zh-CN': '经典街机', 'zh-TW': '經典街機' },
+      'memory': { en: 'Memory & Reflex', 'zh-CN': '记忆反应', 'zh-TW': '記憶反應' },
+      'tools': { en: 'Tools', 'zh-CN': '工具', 'zh-TW': '工具' }
+    }
+
+    // Language names
+    const langNames = {
+      'en': 'English',
+      'zh-CN': '简体中文',
+      'zh-TW': '繁體中文'
+    }
+
+    // Get current language from URL or default to 'en'
+    function getLang() {
+      const params = new URLSearchParams(window.location.search)
+      const lang = params.get('lang')
+      if (lang === 'zh-CN' || lang === 'zh-TW' || lang === 'en') {
+        return lang
+      }
+      return 'en'
+    }
+
+    // Set language
+    function setLang(lang) {
+      const url = new URL(window.location.href)
+      url.searchParams.set('lang', lang)
+      window.location.href = url.toString()
+    }
+    window.setLang = setLang
+
+    // Apply translations
+    function applyTranslations(lang) {
+      const t = i18n[lang] || i18n['en']
+
+      // Update i18n elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n')
+        if (t[key]) {
+          el.textContent = t[key]
+        }
+      })
+
+      // Update game names and descriptions
+      document.querySelectorAll('[data-game-id]').forEach(el => {
+        const nameEl = el.querySelector('.game-name')
+        const descEl = el.querySelector('.game-desc')
+        if (nameEl) {
+          nameEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
+            ? el.getAttribute('data-name-zh')
+            : el.getAttribute('data-name')
+        }
+        if (descEl) {
+          descEl.textContent = lang === 'zh-CN' || lang === 'zh-TW'
+            ? el.getAttribute('data-desc-zh')
+            : el.getAttribute('data-desc')
+        }
+      })
+
+      // Update category names
+      document.querySelectorAll('.category-name').forEach(el => {
+        const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
+        if (categoryId && categoryNames[categoryId]) {
+          el.textContent = categoryNames[categoryId][lang] || categoryNames[categoryId]['en']
+        }
+      })
+
+      // Update category description (show Chinese name)
+      document.querySelectorAll('.category-desc').forEach(el => {
+        const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
+        if (categoryId && categoryNames[categoryId]) {
+          if (lang === 'zh-CN' || lang === 'zh-TW') {
+            el.textContent = categoryNames[categoryId]['en']
+          } else {
+            el.textContent = categoryNames[categoryId]['zh-CN']
+          }
+        }
+      })
+
+      // Update current lang button
+      document.getElementById('current-lang').textContent = langNames[lang] || 'English'
+
+      // Update active state in dropdown
+      document.querySelectorAll('[data-lang-code]').forEach(btn => {
+        const code = btn.getAttribute('data-lang-code')
+        if (code === lang) {
+          btn.classList.add('text-green-400')
+          btn.classList.remove('text-slate-300')
+        } else {
+          btn.classList.remove('text-green-400')
+          btn.classList.add('text-slate-300')
+        }
+      })
+    }
+
+    // Language dropdown toggle
+    document.getElementById('lang-btn').addEventListener('click', () => {
+      document.getElementById('lang-dropdown').classList.toggle('hidden')
+    })
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#lang-btn') && !e.target.closest('#lang-dropdown')) {
+        document.getElementById('lang-dropdown').classList.add('hidden')
+      }
+    })
+
+    // Apply translations on load
+    const currentLang = getLang()
+    applyTranslations(currentLang)
+  </script>
+</BaseLayout>

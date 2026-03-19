@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { games } from '../data/games'
+import { games, categories } from '../data/games'
 
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
+const categoryList = categories.filter(c => c.id !== 'all')
 
 // All translations
 const translations = {
@@ -10,6 +11,7 @@ const translations = {
     freeGames: 'Free Games',
     title: 'Free Online Puzzle Games',
     subtitle: 'Classic puzzles, strategy games, arcade fun. No downloads, play instantly.',
+    categories: 'Categories',
     featured: 'Featured Games',
     allGames: 'All Games',
     gamesCount: 'games',
@@ -20,6 +22,7 @@ const translations = {
     freeGames: '免费游戏',
     title: '免费在线益智游戏',
     subtitle: '经典益智、策略对战、街机游戏，无需下载，即开即玩',
+    categories: '游戏分类',
     featured: '热门推荐',
     allGames: '全部游戏',
     gamesCount: '款游戏',
@@ -30,6 +33,7 @@ const translations = {
     freeGames: '免費遊戲',
     title: '免費線上益智遊戲',
     subtitle: '經典益智、策略對戰、街機遊戲，無需下載，即開即玩',
+    categories: '遊戲分類',
     featured: '熱門推薦',
     allGames: '全部遊戲',
     gamesCount: '款遊戲',
@@ -102,6 +106,29 @@ const translations = {
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      <!-- Categories Section -->
+      <section class="mt-8 mb-12">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl">📂</span>
+          <h3 class="text-xl font-bold" data-i18n="categories">Categories</h3>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {categoryList.map(cat => (
+            <a
+              href={`/category/${cat.id}`}
+              class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-slate-900/80 border border-slate-800 hover:border-slate-600"
+              data-category-id={cat.id}
+              data-name={cat.name}
+              data-name-zh={cat.nameZh}
+            >
+              <div class="text-3xl mb-2">{cat.icon}</div>
+              <h4 class="font-medium text-white text-sm category-name">{cat.name}</h4>
+              <p class="text-xs text-slate-500 mt-1">{games.filter(g => g.category === cat.id).length} <span data-i18n="gamesCount">games</span></p>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <!-- Featured Section -->
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
