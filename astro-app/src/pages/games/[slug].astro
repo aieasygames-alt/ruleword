@@ -15,8 +15,13 @@ export function getStaticPaths() {
 
 const { game } = Astro.props
 
-// Get game guide content for SEO
-const gameGuide = getGameGuide(game.id)
+// Get language from URL parameter, default to 'en'
+const urlLang = Astro.url.searchParams.get('lang') as string
+const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
+const t = i18n[lang]
+
+// Get game guide content for SEO (localized)
+const gameGuide = getGameGuide(game.id, lang)
 
 // Get category for gameType
 const category = categories.find(c => c.id === game.category)
@@ -24,11 +29,6 @@ const gameType = category?.name || 'Puzzle'
 
 // Build keywords from game info
 const keywords = `${game.name}, ${game.nameZh}, ${game.desc}, ${game.descZh}, free online game, puzzle game`
-
-// Get language from URL parameter, default to 'en'
-const urlLang = Astro.url.searchParams.get('lang') as string
-const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
-const t = i18n[lang]
 
 // Helper for localized game name
 const getGameName = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
@@ -95,7 +95,7 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
     {gameGuide && (
       <section class="bg-slate-900/50 border-t border-slate-800 py-12 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-2xl font-bold mb-4">{game.name}: {t.game.howToPlay}</h2>
+          <h2 class="text-2xl font-bold mb-4">{getGameName()}: {t.game.howToPlay}</h2>
 
           <div class="prose prose-invert max-w-none">
             <p class="text-slate-300 text-lg mb-6">{gameGuide.intro}</p>
@@ -116,15 +116,15 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
 
           <!-- Related Games -->
           <div class="mt-12 pt-8 border-t border-slate-800">
-            <h3 class="text-lg font-semibold mb-4">More Games</h3>
+            <h3 class="text-lg font-semibold mb-4">{t.home.allGames}</h3>
             <div class="flex flex-wrap gap-2">
               {games.filter(g => g.category === game.category && g.id !== game.id).slice(0, 4).map(g => (
                 <a
-                  href={`/games/${g.slug}/`}
+                  href={`/games/${g.slug}/?lang=${lang}`}
                   class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm flex items-center gap-2"
                 >
                   <span>{g.icon}</span>
-                  <span>{g.name}</span>
+                  <span>{lang === 'zh-CN' || lang === 'zh-TW' ? g.nameZh : g.name}</span>
                 </a>
               ))}
             </div>
@@ -136,7 +136,7 @@ const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : g
     <!-- Footer -->
     <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 sm:px-6">
       <div class="max-w-7xl mx-auto flex items-center justify-between text-sm text-slate-400">
-        <span>{t.home.copyright} · {game.name}</span>
+        <span>{t.home.copyright} · {getGameName()}</span>
         <span>{games.length}+ {t.home.freeGames}</span>
       </div>
     </footer>
