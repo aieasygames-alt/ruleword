@@ -16,27 +16,104 @@ const { category } = Astro.props
 const categoryGames = games.filter(g => g.category === category.id)
 
 // All translations
+// Category descriptions for SEO
+const categoryDescriptions = {
+  word: {
+    en: {
+      title: 'Word Games - Expand Your Vocabulary',
+      desc: 'Word games are perfect for language learners and vocabulary enthusiasts. Our collection includes classic word puzzles like Wordle, Crosswordle, and Hangman, as well as challenging games like Boggle and Spelling Bee. These games help improve your spelling, expand your vocabulary, and sharpen your language skills while having fun. Play daily to keep your mind sharp and learn new words!'
+    },
+    'zh-CN': {
+      title: '文字游戏 - 扩展您的词汇量',
+      desc: '文字游戏非常适合语言学习者和词汇爱好者。我们的合集包括猜词、填字游戏和猜单词等经典文字谜题，以及字母方阵和拼字蜜蜂等挑战性游戏。这些游戏有助于提高拼写能力、扩展词汇量，在娱乐中锻炼语言技能。每天玩一玩，保持头脑敏锐，学习新单词！'
+    },
+    'zh-TW': {
+      title: '文字遊戲 - 擴展您的詞彙量',
+      desc: '文字遊戲非常適合語言學習者和詞彙愛好者。我們的合集包括猜詞、填字遊戲和猜單詞等經典文字謎題，以及字母方陣和拼字蜜蜂等挑戰性遊戲。這些遊戲有助於提高拼寫能力、擴展詞彙量，在娛樂中鍛鍊語言技能。每天玩一玩，保持頭腦敏銳，學習新單詞！'
+    }
+  },
+  logic: {
+    en: {
+      title: 'Logic & Number Puzzles - Train Your Brain',
+      desc: 'Logic puzzles are excellent for developing critical thinking and problem-solving skills. Our collection features Sudoku, Nonogram, 2048, and many other brain-teasing puzzles. From simple number games to complex logic challenges like Skyscrapers and KenKen, there\'s something for every skill level. Regular practice with these puzzles can improve concentration, logical reasoning, and mental agility.'
+    },
+    'zh-CN': {
+      title: '数字逻辑 - 训练您的大脑',
+      desc: '逻辑谜题非常适合培养批判性思维和解决问题的能力。我们的合集包含数独、数织、2048等众多烧脑谜题。从简单的数字游戏到摩天楼和贤贤数独等复杂逻辑挑战，适合各种技能水平。经常练习这些谜题可以提高专注力、逻辑推理能力和思维敏捷度。'
+    },
+    'zh-TW': {
+      title: '數字邏輯 - 訓練您的大腦',
+      desc: '邏輯謎題非常適合培養批判性思維和解決問題的能力。我們的合集包含數獨、數織、2048等眾多燒腦謎題。從簡單的數字遊戲到摩天樓和賢賢數獨等複雜邏輯挑戰，適合各種技能水平。經常練習這些謎題可以提高專注力、邏輯推理能力和思維敏捷度。'
+    }
+  },
+  strategy: {
+    en: {
+      title: 'Strategy Games - Outsmart Your Opponent',
+      desc: 'Strategy games challenge you to think ahead and plan your moves carefully. Play classic board games like Chess, Chinese Chess, Gomoku, and Reversi against AI opponents. These games teach valuable lessons about planning, anticipating opponent moves, and adapting strategies. Perfect for players who enjoy competitive thinking and tactical gameplay.'
+    },
+    'zh-CN': {
+      title: '策略对战 - 智胜对手',
+      desc: '策略游戏考验您的前瞻思维和周密计划能力。与AI对战国际象棋、中国象棋、五子棋和黑白棋等经典棋盘游戏。这些游戏教会您规划、预判对手行动和灵活应变的宝贵经验。非常适合喜欢竞争思维和战术对局的玩家。'
+    },
+    'zh-TW': {
+      title: '策略對戰 - 智勝對手',
+      desc: '策略遊戲考驗您的前瞻思維和周密計劃能力。與AI對戰國際象棋、中國象棋、五子棋和黑白棋等經典棋盤遊戲。這些遊戲教會您規劃、預判對手行動和靈活應變的寶貴經驗。非常適合喜歡競爭思維和戰術對局的玩家。'
+    }
+  },
+  arcade: {
+    en: {
+      title: 'Arcade Games - Classic Fun Reimagined',
+      desc: 'Relive the golden age of arcade gaming with our collection of classic titles. Play Tetris, Pac-Man, Snake, Space Invaders, and other nostalgic favorites. These timeless games offer simple yet addictive gameplay that has entertained generations. Perfect for quick gaming sessions when you need a break from work or study.'
+    },
+    'zh-CN': {
+      title: '经典街机 - 重温黄金时代',
+      desc: '通过我们的经典游戏合集重温街机游戏的黄金时代。玩俄罗斯方块、吃豆人、贪吃蛇、太空侵略者和其他怀旧经典。这些永恒的游戏提供简单而令人上瘾的游戏体验，娱乐了几代人。非常适合工作或学习间隙的快速游戏时光。'
+    },
+    'zh-TW': {
+      title: '經典街機 - 重溫黃金時代',
+      desc: '透過我們的經典遊戲合集重溫街機遊戲的黃金時代。玩俄羅斯方塊、吃豆人、貪吃蛇、太空侵略者和其他懷舊經典。這些永恆的遊戲提供簡單而令人上癮的遊戲體驗，娛樂了幾代人。非常適合工作或學習間隙的快速遊戲時光。'
+    }
+  },
+  memory: {
+    en: {
+      title: 'Memory & Reflex Games - Sharpen Your Mind',
+      desc: 'Memory and reflex games are designed to train your brain and improve reaction times. Challenge yourself with pattern memory, number sequences, and quick-reflex tests. These games are scientifically proven to enhance short-term memory, attention span, and cognitive processing speed. Great for all ages, from kids developing focus to adults maintaining mental sharpness.'
+    },
+    'zh-CN': {
+      title: '记忆反应 - 锻炼您的思维',
+      desc: '记忆和反应游戏专为训练大脑和提高反应速度而设计。挑战图案记忆、数字序列和快速反应测试。科学证明这些游戏可以增强短期记忆、注意力持续时间和认知处理速度。适合所有年龄段，从培养专注力的孩子到保持头脑敏锐的成年人。'
+    },
+    'zh-TW': {
+      title: '記憶反應 - 鍛鍊您的思維',
+      desc: '記憶和反應遊戲專為訓練大腦和提高反應速度而設計。挑戰圖案記憶、數字序列和快速反應測試。科學證明這些遊戲可以增強短期記憶、注意力持續時間和認知處理速度。適合所有年齡段，從培養專注力的孩子到保持頭腦敏銳的成年人。'
+    }
+  }
+}
+
 const translations = {
   en: {
     freeGames: 'Free Games',
     allGames: 'All Games',
     gamesCount: 'games',
     backHome: 'Back to Home',
-    noGames: 'No games in this category'
+    noGames: 'No games in this category',
+    aboutCategory: 'About This Category'
   },
   'zh-CN': {
     freeGames: '免费游戏',
     allGames: '全部游戏',
     gamesCount: '款游戏',
     backHome: '返回首页',
-    noGames: '此分类暂无游戏'
+    noGames: '此分类暂无游戏',
+    aboutCategory: '关于此分类'
   },
   'zh-TW': {
     freeGames: '免費遊戲',
     allGames: '全部遊戲',
     gamesCount: '款遊戲',
     backHome: '返回首頁',
-    noGames: '此分類暫無遊戲'
+    noGames: '此分類暫無遊戲',
+    aboutCategory: '關於此分類'
   }
 }
 ---
@@ -150,6 +227,17 @@ const translations = {
       )}
     </main>
 
+    <!-- Category Description Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+      <div class="max-w-4xl mx-auto">
+        <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+          <h3 class="text-xl font-bold mb-4" data-i18n="aboutCategory">About This Category</h3>
+          <h4 class="text-lg font-semibold text-white mb-3 category-desc-title"></h4>
+          <p class="text-slate-300 leading-relaxed category-desc-text"></p>
+        </div>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="border-t border-slate-800 bg-slate-900/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -168,7 +256,7 @@ const translations = {
     </footer>
   </div>
 
-  <script define:vars={{ translations }}>
+  <script define:vars={{ translations, categoryDescriptions }}>
     // Translations data
     const i18n = translations
 
@@ -254,6 +342,16 @@ const translations = {
           }
         }
       })
+
+      // Update category description section
+      const categoryId = window.location.pathname.split('/').pop()?.replace(/\/$/, '')
+      if (categoryId && categoryDescriptions[categoryId]) {
+        const descData = categoryDescriptions[categoryId][lang] || categoryDescriptions[categoryId]['en']
+        const titleEl = document.querySelector('.category-desc-title')
+        const textEl = document.querySelector('.category-desc-text')
+        if (titleEl) titleEl.textContent = descData.title
+        if (textEl) textEl.textContent = descData.desc
+      }
 
       // Update current lang button
       document.getElementById('current-lang').textContent = langNames[lang] || 'English'
