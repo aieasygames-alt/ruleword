@@ -39,7 +39,7 @@ const allLanguages = languages
             </div>
           </a>
 
-          <!-- Right: Language -->
+          <!-- Right: Language and Feedback -->
           <div class="flex items-center gap-2">
             <div class="relative">
               <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
@@ -57,6 +57,13 @@ const allLanguages = languages
                 ))}
               </div>
             </div>
+            <button
+              id="feedback-btn"
+              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition-all text-sm font-medium"
+            >
+              <span>💬</span>
+              <span class="hidden sm:inline" data-i18n="feedback">Feedback</span>
+            </button>
           </div>
         </div>
       </div>
