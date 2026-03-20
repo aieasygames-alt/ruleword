@@ -1412,6 +1412,117 @@ const gameGuidesZhCN: GameGuides = {
       '利用数字约束推断黑色格子',
     ],
   },
+  // New games - Skill & Puzzle categories
+  mahjongsolitaire: {
+    name: 'Mahjong Solitaire',
+    intro: 'Mahjong Solitaire is a classic tile-matching puzzle game! Remove matching pairs of tiles that are free on at least one side. Clear the entire board to win!',
+    howToPlay: 'Click on two matching tiles that are "free" (at least one left or right side is open, and no tile is on top). The tiles will be removed. Continue until all tiles are cleared or no more moves are possible.',
+    tips: [
+      'Focus on removing tiles from the top layers first',
+      'Plan ahead - some matches may block future moves',
+      'Look for tiles that appear 3 or 4 times - matching them opens more options',
+      'Use hints if stuck, but try to spot patterns yourself',
+    ],
+  },
+  sokoban: {
+    name: 'Sokoban',
+    intro: 'Sokoban is the classic warehouse puzzle game! Push boxes onto target spots. You can only push, not pull. Plan your moves carefully - one wrong move and you might get stuck!',
+    howToPlay: 'Use arrow keys or WASD to move the player. Push boxes by walking into them. Get all boxes onto the target spots to complete each level. Boxes can only be pushed, never pulled.',
+    tips: [
+      'Never push a box into a corner - it cannot be retrieved',
+      'Think several moves ahead before pushing a box',
+      'Use the undo feature to experiment without restarting',
+      'Some levels require pushing boxes in a specific order',
+    ],
+  },
+  typingtest: {
+    name: 'Typing Test',
+    intro: 'Test your typing speed and accuracy! Type the displayed words as fast and accurately as possible. Track your WPM (words per minute) and improve your keyboard skills!',
+    howToPlay: 'Words appear on screen - type them exactly as shown. Press space after each word to move to the next. Your WPM and accuracy are tracked in real-time.',
+    tips: [
+      'Focus on accuracy first, speed comes with practice',
+      'Keep your eyes on the screen, not the keyboard',
+      'Use all ten fingers for maximum speed',
+      'Practice regularly to build muscle memory',
+    ],
+  },
+  aimtrainer: {
+    name: 'Aim Trainer',
+    intro: 'Improve your mouse precision and reaction time! Click targets as they appear. Track your accuracy, reaction time, and score. Perfect for FPS gamers looking to warm up!',
+    howToPlay: 'Click on targets as they appear on screen. Different modes offer varied challenges: Classic (hit before timeout), Tracking (follow moving target), Flick (rapid target acquisition).',
+    tips: [
+      'Keep your wrist relaxed for smoother movements',
+      'Focus on accuracy over speed initially',
+      'Use a consistent mouse sensitivity',
+      'Practice daily for noticeable improvement',
+    ],
+  },
+  chimptest: {
+    name: 'Chimp Test',
+    intro: 'Can you beat a chimpanzee at memory? This famous test challenges you to remember the positions of numbers 1-9 in order. Most chimpanzees outperform humans!',
+    howToPlay: 'Numbers flash briefly on screen. After they disappear, click the squares in order from 1 to 9. Get them all right to advance to higher levels with more numbers.',
+    tips: [
+      'Use chunking - group numbers into patterns',
+      'Associate positions with spatial memory',
+      'Stay calm and focused during the flash',
+      'Practice to improve your working memory capacity',
+    ],
+  },
+  matchthree: {
+    name: 'Match-3',
+    intro: 'The classic gem-matching puzzle! Swap adjacent gems to match 3 or more in a row or column. Create combos and chain reactions for bonus points!',
+    howToPlay: 'Click on a gem, then click an adjacent gem to swap them. Match 3 or more gems of the same color to remove them. New gems fall from above. Reach the target score before running out of moves.',
+    tips: [
+      'Look for matches at the bottom to trigger chain reactions',
+      'Plan moves that create multiple matches simultaneously',
+      'Save special gems for when you really need them',
+      'Focus on completing objectives over high scores',
+    ],
+  },
+  bubbleshooter: {
+    name: 'Bubble Shooter',
+    intro: 'Pop colorful bubbles in this addictive arcade game! Shoot bubbles to match 3 or more of the same color. Clear the board before bubbles reach the bottom!',
+    howToPlay: 'Aim and click to shoot bubbles upward. Match 3 or more bubbles of the same color to pop them. Clear all bubbles to win. Don\'t let bubbles reach the bottom line!',
+    tips: [
+      'Aim for bubble clusters to maximize pops',
+      'Use wall bounces to reach difficult angles',
+      'Clear bubbles from the top to drop large sections',
+      'Plan several shots ahead',
+    ],
+  },
+  speedmath: {
+    name: 'Speed Math',
+    intro: 'Race against time to solve arithmetic problems! Test your mental math skills with addition, subtraction, multiplication, and division. Build streaks for bonus points!',
+    howToPlay: 'Solve the math problem shown and enter your answer. Press Enter or click Submit. Correct answers build your streak for bonus points. Wrong answers reset your streak.',
+    tips: [
+      'Start with easier difficulty to build speed',
+      'Use mental math tricks like rounding',
+      'Focus on maintaining accuracy under time pressure',
+      'Build streaks for maximum points',
+    ],
+  },
+  jigsaw: {
+    name: 'Jigsaw Puzzle',
+    intro: 'Classic jigsaw puzzle fun! Arrange numbered tiles in the correct order. Click two pieces to swap their positions. Multiple difficulty levels from easy to challenging!',
+    howToPlay: 'Click on a piece to select it, then click another piece to swap their positions. Arrange all pieces in numerical order to complete the puzzle. Try to minimize moves and time.',
+    tips: [
+      'Start by placing corner and edge pieces',
+      'Look for sequential numbers that are close together',
+      'Use the preview image as reference',
+      'Work on one section at a time',
+    ],
+  },
+  colormatch: {
+    name: 'Color Match',
+    intro: 'Test your color perception and cognitive flexibility! Identify the COLOR of the word, not the word itself. This is the famous Stroop Effect test!',
+    howToPlay: 'A word appears in a certain color. Click the button that matches the COLOR you see, not the word. For example, if "RED" appears in blue text, click BLUE.',
+    tips: [
+      'Focus on the color, ignore the word',
+      'Trust your first instinct',
+      'Practice improves your cognitive flexibility',
+      'Stay calm when the word and color conflict',
+    ],
+  },
 }
 
 // Get guide for a specific game with language support

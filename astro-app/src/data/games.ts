@@ -9,7 +9,7 @@ export interface GameConfig {
   icon: string
   desc: string
   descZh: string
-  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory'
+  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory' | 'skill' | 'puzzle'
   featured?: boolean
   color: string
 }
@@ -103,6 +103,20 @@ export const games: GameConfig[] = [
   { slug: 'number-memory', id: 'numbermemory', name: 'Number Memory', nameZh: '数字记忆', icon: '🔢', desc: 'Remember increasingly long number sequences! Starting with 3 digits, how far can you go? Train your working memory with this challenging test.', descZh: '记忆越来越长的数字序列！从3位数字开始，你能走多远？用这个挑战性测试训练你的工作记忆。', category: 'memory', featured: true, color: 'from-cyan-500 to-blue-600' },
   { slug: 'pattern-memory', id: 'patternmemory', name: 'Pattern Memory', nameZh: '图案记忆', icon: '🎨', desc: 'Memorize colorful grid patterns! Study the pattern, then recreate it from memory. Difficulty increases with grid size. Visual memory training!', descZh: '记忆彩色网格图案！观察图案，然后凭记忆重新创建。难度随网格大小增加。视觉记忆训练！', category: 'memory', featured: true, color: 'from-fuchsia-500 to-purple-600' },
   { slug: 'reaction-test', id: 'reactiontest', name: 'Reaction Test', nameZh: '反应测试', icon: '⚡', desc: 'Test your reaction speed! Wait for the screen to turn green, then click as fast as possible. Track your best times and challenge friends!', descZh: '测试你的反应速度！等待屏幕变绿，然后尽快点击。记录你的最佳时间并挑战朋友！', category: 'memory', featured: true, color: 'from-yellow-500 to-orange-600' },
+
+  // Skill Games (新分类)
+  { slug: 'typing-test', id: 'typingtest', name: 'Typing Test', nameZh: '打字测试', icon: '⌨️', desc: 'Test your typing speed and accuracy! Type the words as fast as you can. Track your WPM (words per minute) and improve your keyboard skills.', descZh: '测试你的打字速度和准确率！尽快输入单词。跟踪你的WPM（每分钟字数）并提升键盘技能。', category: 'skill', featured: true, color: 'from-blue-500 to-indigo-600' },
+  { slug: 'aim-trainer', id: 'aimtrainer', name: 'Aim Trainer', nameZh: '瞄准训练', icon: '🎯', desc: 'Improve your mouse precision and reaction time! Click targets as they appear randomly. Track your accuracy, speed, and score. Perfect for FPS gamers!', descZh: '提升鼠标精准度和反应时间！点击随机出现的目标。跟踪你的准确率、速度和得分。FPS玩家必备！', category: 'skill', featured: true, color: 'from-red-500 to-orange-600' },
+  { slug: 'chimp-test', id: 'chimptest', name: 'Chimp Test', nameZh: '黑猩猩测试', icon: '🐒', desc: 'Can you beat a chimpanzee at memory? Remember the positions of numbers 1-9 in order, then click them from memory. Most chimps outperform humans!', descZh: '你能在记忆力上打败黑猩猩吗？记住1-9数字的位置顺序，然后凭记忆点击它们。大多数黑猩猩都胜过人类！', category: 'skill', featured: true, color: 'from-amber-500 to-yellow-600' },
+  { slug: 'speed-math', id: 'speedmath', name: 'Speed Math', nameZh: '速算挑战', icon: '➗', desc: 'Race against time to solve arithmetic problems! Addition, subtraction, multiplication, and division. Train your mental math skills and beat your high score!', descZh: '限时解决算术问题！加减乘除，训练你的心算能力，打破最高分！', category: 'skill', color: 'from-green-500 to-emerald-600' },
+  { slug: 'color-match', id: 'colormatch', name: 'Color Match', nameZh: '颜色匹配', icon: '🎨', desc: 'Test your color perception! Match colors quickly and accurately. A fun way to train your visual processing speed and color recognition.', descZh: '测试你的颜色感知！快速准确地匹配颜色。训练视觉处理速度和颜色识别的有趣方式。', category: 'skill', color: 'from-pink-500 to-purple-600' },
+
+  // Puzzle Games (新分类)
+  { slug: 'mahjong-solitaire', id: 'mahjongsolitaire', name: 'Mahjong Solitaire', nameZh: '麻将配对', icon: '🀄', desc: 'Classic tile-matching puzzle! Remove matching pairs of tiles that are free on at least one side. Clear the board to win. Relaxing and addictive!', descZh: '经典麻将配对游戏！移除至少一边自由的匹配牌对。清空棋盘获胜。轻松上瘾！', category: 'puzzle', featured: true, color: 'from-emerald-500 to-teal-600' },
+  { slug: 'sokoban', id: 'sokoban', name: 'Sokoban', nameZh: '推箱子', icon: '📦', desc: 'The classic warehouse puzzle! Push boxes onto target spots. You can only push, not pull. Plan your moves carefully - one wrong move and you\'re stuck!', descZh: '经典仓库谜题！将箱子推到目标位置。只能推不能拉。仔细规划移动 - 一步错就可能卡住！', category: 'puzzle', featured: true, color: 'from-amber-600 to-orange-700' },
+  { slug: 'match-three', id: 'matchthree', name: 'Match-3', nameZh: '三消游戏', icon: '💎', desc: 'Swap adjacent gems to match 3 or more in a row! Create combos and chain reactions for bonus points. The most popular casual game mechanic!', descZh: '交换相邻宝石匹配3个或更多！创造连击和连锁反应获得额外分数。最流行的休闲游戏机制！', category: 'puzzle', featured: true, color: 'from-purple-500 to-pink-600' },
+  { slug: 'bubble-shooter', id: 'bubbleshooter', name: 'Bubble Shooter', nameZh: '泡泡龙', icon: '🫧', desc: 'Shoot colorful bubbles to match 3 or more! Clear the board before bubbles reach the bottom. Aim carefully and create chain reactions!', descZh: '发射彩色泡泡匹配3个或更多！在泡泡到达底部前清空棋盘。仔细瞄准，创造连锁反应！', category: 'puzzle', color: 'from-cyan-500 to-blue-600' },
+  { slug: 'jigsaw', id: 'jigsaw', name: 'Jigsaw Puzzle', nameZh: '拼图游戏', icon: '🧩', desc: 'Classic jigsaw puzzle fun! Drag pieces to complete beautiful images. Multiple difficulty levels from easy 4x4 to challenging 10x10 grids.', descZh: '经典拼图乐趣！拖动碎片完成美丽图片。多种难度从简单4x4到挑战性10x10网格。', category: 'puzzle', color: 'from-orange-500 to-amber-600' },
 ]
 
 export const categories = [
@@ -112,4 +126,6 @@ export const categories = [
   { id: 'strategy', name: 'Strategy', nameZh: '策略对战', icon: '♟️', desc: 'Strategy and board games' },
   { id: 'arcade', name: 'Arcade', nameZh: '经典街机', icon: '👾', desc: 'Classic arcade games' },
   { id: 'memory', name: 'Memory & Reflex', nameZh: '记忆反应', icon: '🧠', desc: 'Memory and reflex training' },
+  { id: 'skill', name: 'Skill Games', nameZh: '技能挑战', icon: '🎯', desc: 'Test and improve your skills' },
+  { id: 'puzzle', name: 'Puzzle', nameZh: '拼图消除', icon: '🧩', desc: 'Relaxing puzzle and matching games' },
 ]

@@ -78,6 +78,17 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'wordle': () => import('./games/Wordle'),
   'spellingbee': () => import('./games/SpellingBee'),
   'connections': () => import('./games/Connections'),
+  // New games - Skill & Puzzle categories
+  'mahjongsolitaire': () => import('./games/MahjongSolitaire'),
+  'sokoban': () => import('./games/Sokoban'),
+  'typingtest': () => import('./games/TypingTest'),
+  'aimtrainer': () => import('./games/AimTrainer'),
+  'chimptest': () => import('./games/ChimpTest'),
+  'matchthree': () => import('./games/MatchThree'),
+  'bubbleshooter': () => import('./games/BubbleShooter'),
+  'speedmath': () => import('./games/SpeedMath'),
+  'jigsaw': () => import('./games/Jigsaw'),
+  'colormatch': () => import('./games/ColorMatch'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {
