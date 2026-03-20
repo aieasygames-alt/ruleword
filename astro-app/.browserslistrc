@@ -1,0 +1,11 @@
+# Support browsers used by > 1% of users globally
+> 0.5%
+last 2 versions
+# Firefox ESR
+not dead
+# Chrome/Edge since 2020
+Chrome >= 86
+Edge >= 86
+Safari >= 14
+iOS >= 14
+Firefox >= 78

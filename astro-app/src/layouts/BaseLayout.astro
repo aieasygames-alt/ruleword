@@ -110,6 +110,88 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
         "genre": ["Puzzle", "Word Game", "Arcade", "Strategy"]
       })} />
     )}
+    <!-- Browser Upgrade Notice -->
+    <style>
+      .browser-upgrade {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        padding: 20px;
+      }
+      .browser-upgrade-content {
+        max-width: 600px;
+        text-align: center;
+        animation: fadeIn 0.5s ease;
+      }
+      .browser-upgrade-content h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #f8fafc;
+      }
+      .browser-upgrade-content p {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #cbd5e1;
+        margin-bottom: 1.5rem;
+      }
+      .browser-upgrade-content a {
+        display: inline-block;
+        padding: 12px 24px;
+        margin: 8px;
+        background: #3b82f6;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+      .browser-upgrade-content a:hover {
+        background: #2563eb;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+    <script>
+      (function() {
+        // Check for Chrome 86 or older
+        var isChrome = /Chrome\/(\d+)/.test(navigator.userAgent);
+        var chromeVersion = isChrome ? parseInt(/Chrome\/(\d+)/.exec(navigator.userAgent)[1]) : Infinity;
+        var isOldChrome = isChrome && chromeVersion <= 86;
+
+        // Check for other old browsers
+        var isOldSafari = /Version\/(\d+)/.test(navigator.userAgent) && parseInt(/Version\/(\d+)/.exec(navigator.userAgent)[1]) < 14;
+        var isOldFirefox = /Firefox\/(\d+)/.test(navigator.userAgent) && parseInt(/Firefox\/(\d+)/.exec(navigator.userAgent)[1]) < 78;
+        var isOldEdge = /Edg\/(\d+)/.test(navigator.userAgent) && parseInt(/Edg\/(\d+)/.exec(navigator.userAgent)[1]) < 86;
+
+        if (isOldChrome || isOldSafari || isOldFirefox || isOldEdge) {
+          document.addEventListener('DOMContentLoaded', function() {
+            var html = `
+              <div class="browser-upgrade">
+                <div class="browser-upgrade-content">
+                  <h1>🚀 Browser Update Required</h1>
+                  <p>Your browser version is too old to display this website correctly. Please update your browser to the latest version for the best experience.</p>
+                  <p><strong>Recommended browsers:</strong></p>
+                  <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">Download Chrome</a>
+                  <a href="https://www.microsoft.com/edge" target="_blank" rel="noopener">Download Edge</a>
+                  <a href="https://www.mozilla.org/firefox/" target="_blank" rel="noopener">Download Firefox</a>
+                  <a href="https://www.apple.com/safari/" target="_blank" rel="noopener">Download Safari</a>
+                </div>
+              </div>
+            `;
+            document.body.insertAdjacentHTML('afterbegin', html);
+          });
+        }
+      })();
+    </script>
   </head>
   <body class="bg-slate-900 text-white">
     <slot />
