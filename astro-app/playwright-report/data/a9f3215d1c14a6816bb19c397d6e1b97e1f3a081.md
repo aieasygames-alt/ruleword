@@ -1,0 +1,72 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+      - heading "⚪ Reversi" [level=1] [ref=e9]
+      - generic [ref=e10]:
+        - button "🌐" [ref=e12]:
+          - generic [ref=e13]: 🌐
+          - img [ref=e14]
+        - button "💬" [ref=e16]:
+          - generic [ref=e17]: 💬
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - button "← Back" [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e27]: "2"
+          - generic [ref=e28]: "-"
+          - generic [ref=e30]: "2"
+        - button "New Game" [ref=e32]
+      - main [ref=e33]:
+        - generic [ref=e34]: Your turn (Black)
+        - paragraph [ref=e116]: Click on a highlighted cell to place your piece. Capture opponent's pieces by sandwiching them between your pieces.
+  - generic [ref=e118]:
+    - 'heading "Reversi: How to Play" [level=2] [ref=e119]'
+    - generic [ref=e120]:
+      - paragraph [ref=e121]: Reversi (Othello) is a classic strategy board game. Place your disc to flip opponent pieces between your discs. The player with more discs at the end wins!
+      - heading "How to Play" [level=3] [ref=e122]
+      - paragraph [ref=e123]: Click on a valid cell to place your disc. You must flip at least one opponent disc. Discs are flipped when sandwiched between your discs. Game ends when no moves remain.
+      - heading "Tips" [level=3] [ref=e124]
+      - list [ref=e125]:
+        - listitem [ref=e126]:
+          - generic [ref=e127]: •
+          - generic [ref=e128]: Control corners - they can never be flipped
+        - listitem [ref=e129]:
+          - generic [ref=e130]: •
+          - generic [ref=e131]: Avoid spaces next to corners early in the game
+        - listitem [ref=e132]:
+          - generic [ref=e133]: •
+          - generic [ref=e134]: Focus on stable discs that can't be flipped
+        - listitem [ref=e135]:
+          - generic [ref=e136]: •
+          - generic [ref=e137]: Mobility matters - keep your move options open
+    - generic [ref=e138]:
+      - heading "All Games" [level=3] [ref=e139]
+      - generic [ref=e140]:
+        - link "🔐 Mastermind" [ref=e141] [cursor=pointer]:
+          - /url: /games/mastermind/
+          - generic [ref=e142]: 🔐
+          - generic [ref=e143]: Mastermind
+        - link "⭕ Tic-Tac-Toe" [ref=e144] [cursor=pointer]:
+          - /url: /games/tic-tac-toe/
+          - generic [ref=e145]: ⭕
+          - generic [ref=e146]: Tic-Tac-Toe
+        - link "🔴 Connect Four" [ref=e147] [cursor=pointer]:
+          - /url: /games/connect-four/
+          - generic [ref=e148]: 🔴
+          - generic [ref=e149]: Connect Four
+        - link "⚫ Gomoku" [ref=e150] [cursor=pointer]:
+          - /url: /games/gomoku/
+          - generic [ref=e151]: ⚫
+          - generic [ref=e152]: Gomoku
+  - contentinfo [ref=e153]:
+    - generic [ref=e154]:
+      - generic [ref=e155]: © 2026 RuleWord · Reversi
+      - generic [ref=e156]: 63+ Free Games
+```

@@ -1,0 +1,85 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+      - heading "🔐 Mastermind" [level=1] [ref=e9]
+      - generic [ref=e10]:
+        - button "🌐" [ref=e12]:
+          - generic [ref=e13]: 🌐
+          - img [ref=e14]
+        - button "💬" [ref=e16]:
+          - generic [ref=e17]: 💬
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - button [ref=e23]:
+            - img [ref=e24]
+          - heading "Mastermind" [level=1] [ref=e26]
+          - generic [ref=e27]:
+            - button "Game Guide" [ref=e28]:
+              - img [ref=e29]
+            - button [ref=e31]:
+              - img [ref=e32]
+        - generic [ref=e34]: Guess the 4-color code! 🟢=Correct ⚪=Wrong position 🔴=Wrong
+      - generic [ref=e85]:
+        - generic [ref=e86]:
+          - button "🔴" [ref=e87]
+          - button "🟠" [ref=e88]
+          - button "🟡" [ref=e89]
+          - button "🟢" [ref=e90]
+          - button "🔵" [ref=e91]
+          - button "🟣" [ref=e92]
+        - generic [ref=e93]:
+          - button "Delete" [disabled] [ref=e94]
+          - button "Submit" [disabled] [ref=e95]
+        - generic [ref=e96]: "Keys: 1-6 colors, Enter submit, Backspace delete"
+  - generic [ref=e98]:
+    - 'heading "Mastermind: How to Play" [level=2] [ref=e99]'
+    - generic [ref=e100]:
+      - paragraph [ref=e101]: Mastermind is the classic code-breaking puzzle game. Guess the secret 4-color code within 8 attempts using logical deduction and the feedback clues provided after each guess.
+      - heading "How to Play" [level=3] [ref=e102]
+      - paragraph [ref=e103]: "Select 4 colors to make your guess. After submitting, you'll see feedback: green dots mean correct color in correct position, white dots mean correct color in wrong position. Use this feedback to deduce the secret code."
+      - heading "Tips" [level=3] [ref=e104]
+      - list [ref=e105]:
+        - listitem [ref=e106]:
+          - generic [ref=e107]: •
+          - generic [ref=e108]: Start with 4 different colors to maximize information
+        - listitem [ref=e109]:
+          - generic [ref=e110]: •
+          - generic [ref=e111]: Pay attention to which colors are completely absent
+        - listitem [ref=e112]:
+          - generic [ref=e113]: •
+          - generic [ref=e114]: Remember that colors can repeat in the code
+        - listitem [ref=e115]:
+          - generic [ref=e116]: •
+          - generic [ref=e117]: Systematically test color positions based on feedback
+    - generic [ref=e118]:
+      - heading "All Games" [level=3] [ref=e119]
+      - generic [ref=e120]:
+        - link "⭕ Tic-Tac-Toe" [ref=e121] [cursor=pointer]:
+          - /url: /games/tic-tac-toe/
+          - generic [ref=e122]: ⭕
+          - generic [ref=e123]: Tic-Tac-Toe
+        - link "🔴 Connect Four" [ref=e124] [cursor=pointer]:
+          - /url: /games/connect-four/
+          - generic [ref=e125]: 🔴
+          - generic [ref=e126]: Connect Four
+        - link "⚪ Reversi" [ref=e127] [cursor=pointer]:
+          - /url: /games/reversi/
+          - generic [ref=e128]: ⚪
+          - generic [ref=e129]: Reversi
+        - link "⚫ Gomoku" [ref=e130] [cursor=pointer]:
+          - /url: /games/gomoku/
+          - generic [ref=e131]: ⚫
+          - generic [ref=e132]: Gomoku
+  - contentinfo [ref=e133]:
+    - generic [ref=e134]:
+      - generic [ref=e135]: © 2026 RuleWord · Mastermind
+      - generic [ref=e136]: 63+ Free Games
+```

@@ -1,0 +1,81 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+      - heading "🎲 Boggle" [level=1] [ref=e9]
+      - generic [ref=e10]:
+        - button "🌐" [ref=e12]:
+          - generic [ref=e13]: 🌐
+          - img [ref=e14]
+        - button "💬" [ref=e16]:
+          - generic [ref=e17]: 💬
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - button "← Back" [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]: Time
+            - generic [ref=e27]: 2:00
+          - generic [ref=e28]:
+            - generic [ref=e29]: Score
+            - generic [ref=e30]: "0"
+          - generic [ref=e31]:
+            - generic [ref=e32]: Words
+            - generic [ref=e33]: "0"
+        - button "New" [ref=e34]
+      - main [ref=e35]:
+        - generic [ref=e36]:
+          - generic [ref=e37]: 🎲
+          - heading "Boggle" [level=1] [ref=e38]
+          - paragraph [ref=e39]: Find as many words as possible in 2:00! Click adjacent letters to form words (3+ letters).
+          - button "Start Game" [ref=e40]
+  - generic [ref=e42]:
+    - 'heading "Boggle: How to Play" [level=2] [ref=e43]'
+    - generic [ref=e44]:
+      - paragraph [ref=e45]: Boggle is the classic word search game. Find as many words as possible by connecting adjacent letters in the 4x4 grid within 2 minutes!
+      - heading "How to Play" [level=3] [ref=e46]
+      - paragraph [ref=e47]: Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.
+      - heading "Tips" [level=3] [ref=e48]
+      - list [ref=e49]:
+        - listitem [ref=e50]:
+          - generic [ref=e51]: •
+          - generic [ref=e52]: Start with common letter patterns and prefixes
+        - listitem [ref=e53]:
+          - generic [ref=e54]: •
+          - generic [ref=e55]: Look for plural forms ending in S
+        - listitem [ref=e56]:
+          - generic [ref=e57]: •
+          - generic [ref=e58]: Scan systematically through starting letters
+        - listitem [ref=e59]:
+          - generic [ref=e60]: •
+          - generic [ref=e61]: Practice finding longer words for higher scores
+    - generic [ref=e62]:
+      - heading "All Games" [level=3] [ref=e63]
+      - generic [ref=e64]:
+        - link "🔤 Crosswordle" [ref=e65] [cursor=pointer]:
+          - /url: /games/crosswordle/
+          - generic [ref=e66]: 🔤
+          - generic [ref=e67]: Crosswordle
+        - link "🔍 Word Search" [ref=e68] [cursor=pointer]:
+          - /url: /games/word-search/
+          - generic [ref=e69]: 🔍
+          - generic [ref=e70]: Word Search
+        - link "📝 Hangman" [ref=e71] [cursor=pointer]:
+          - /url: /games/hangman/
+          - generic [ref=e72]: 📝
+          - generic [ref=e73]: Hangman
+        - link "🔀 Anagrams" [ref=e74] [cursor=pointer]:
+          - /url: /games/anagrams/
+          - generic [ref=e75]: 🔀
+          - generic [ref=e76]: Anagrams
+  - contentinfo [ref=e77]:
+    - generic [ref=e78]:
+      - generic [ref=e79]: © 2026 RuleWord · Boggle
+      - generic [ref=e80]: 63+ Free Games
+```

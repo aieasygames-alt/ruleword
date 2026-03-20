@@ -1,0 +1,74 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R RuleWord" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+        - generic [ref=e9]: RuleWord
+      - heading "🧱 Tetris" [level=1] [ref=e10]
+      - generic [ref=e11]:
+        - button "🌐 English" [ref=e13]:
+          - generic [ref=e14]: 🌐
+          - generic [ref=e15]: English
+          - img [ref=e16]
+        - button "💬 Feedback" [ref=e18]:
+          - generic [ref=e19]: 💬
+          - generic [ref=e20]: Feedback
+  - main [ref=e21]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - button [ref=e26]:
+          - img [ref=e27]
+        - heading "Tetris" [level=1] [ref=e29]
+      - generic [ref=e30]:
+        - generic [ref=e31]: 🧱
+        - heading "Tetris" [level=2] [ref=e32]
+        - button "Start Game" [ref=e33]
+        - paragraph [ref=e34]: Arrow keys/WASD to move, Space to hard drop
+  - generic [ref=e36]:
+    - 'heading "Tetris: How to Play" [level=2] [ref=e37]'
+    - generic [ref=e38]:
+      - paragraph [ref=e39]: Tetris is the iconic falling block puzzle game. Rotate and move falling tetrominoes to create complete horizontal lines. Clear lines to score points and prevent the stack from reaching the top.
+      - heading "How to Play" [level=3] [ref=e40]
+      - paragraph [ref=e41]: Use arrow keys to move and rotate falling blocks. Left/Right to move, Up to rotate, Down to soft drop. Complete horizontal lines are cleared. The game speeds up as you progress.
+      - heading "Tips" [level=3] [ref=e42]
+      - list [ref=e43]:
+        - listitem [ref=e44]:
+          - generic [ref=e45]: •
+          - generic [ref=e46]: Leave space for the long I-piece on one side
+        - listitem [ref=e47]:
+          - generic [ref=e48]: •
+          - generic [ref=e49]: Avoid creating holes that can't be filled
+        - listitem [ref=e50]:
+          - generic [ref=e51]: •
+          - generic [ref=e52]: Think ahead about where each piece will fit best
+        - listitem [ref=e53]:
+          - generic [ref=e54]: •
+          - generic [ref=e55]: Use hard drop for faster placement when certain
+    - generic [ref=e56]:
+      - heading "All Games" [level=3] [ref=e57]
+      - generic [ref=e58]:
+        - link "🐍 Snake" [ref=e59] [cursor=pointer]:
+          - /url: /games/snake/
+          - generic [ref=e60]: 🐍
+          - generic [ref=e61]: Snake
+        - link "🏓 Brick Breaker" [ref=e62] [cursor=pointer]:
+          - /url: /games/brick-breaker/
+          - generic [ref=e63]: 🏓
+          - generic [ref=e64]: Brick Breaker
+        - link "🏓 Pong" [ref=e65] [cursor=pointer]:
+          - /url: /games/pong/
+          - generic [ref=e66]: 🏓
+          - generic [ref=e67]: Pong
+        - link "🐸 Frogger" [ref=e68] [cursor=pointer]:
+          - /url: /games/frogger/
+          - generic [ref=e69]: 🐸
+          - generic [ref=e70]: Frogger
+  - contentinfo [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e73]: © 2026 RuleWord · Tetris
+      - generic [ref=e74]: 63+ Free Games
+```

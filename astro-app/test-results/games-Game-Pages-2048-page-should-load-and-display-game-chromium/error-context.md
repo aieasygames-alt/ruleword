@@ -1,0 +1,87 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R RuleWord" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+        - generic [ref=e9]: RuleWord
+      - heading "🔢 2048" [level=1] [ref=e10]
+      - generic [ref=e11]:
+        - button "🌐 English" [ref=e13]:
+          - generic [ref=e14]: 🌐
+          - generic [ref=e15]: English
+          - img [ref=e16]
+        - button "💬 Feedback" [ref=e18]:
+          - generic [ref=e19]: 💬
+          - generic [ref=e20]: Feedback
+  - main [ref=e21]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - button [ref=e26]:
+            - img [ref=e27]
+          - heading "🧱 2048" [level=1] [ref=e29]
+          - button [ref=e30]:
+            - img [ref=e31]
+        - generic [ref=e33]:
+          - button "Daily" [ref=e34]
+          - button "Practice" [ref=e35]
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e38]: Score
+            - generic [ref=e39]: "0"
+          - generic [ref=e40]:
+            - generic [ref=e41]: Best
+            - generic [ref=e42]: "0"
+          - button "🔄" [ref=e43]
+        - paragraph [ref=e44]: Use arrow keys or swipe to merge same numbers!
+      - generic [ref=e46]:
+        - generic [ref=e52]: "2"
+        - generic [ref=e54]: "2"
+  - generic [ref=e64]:
+    - 'heading "2048: How to Play" [level=2] [ref=e65]'
+    - generic [ref=e66]:
+      - paragraph [ref=e67]: 2048 is the addictive sliding tile puzzle game. Slide numbered tiles in any direction to merge matching numbers. When two tiles with the same number collide, they merge into one with double the value. Reach 2048 to win!
+      - heading "How to Play" [level=3] [ref=e68]
+      - paragraph [ref=e69]: Use arrow keys (or swipe on mobile) to slide all tiles in that direction. Tiles with the same value merge when they collide. A new tile (2 or 4) appears after each move. The game ends when no more moves are possible.
+      - heading "Tips" [level=3] [ref=e70]
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - generic [ref=e73]: •
+          - generic [ref=e74]: Keep your highest tile in a corner and build around it
+        - listitem [ref=e75]:
+          - generic [ref=e76]: •
+          - generic [ref=e77]: Never move your highest tile away from its corner
+        - listitem [ref=e78]:
+          - generic [ref=e79]: •
+          - generic [ref=e80]: Try to keep tiles in descending order along one edge
+        - listitem [ref=e81]:
+          - generic [ref=e82]: •
+          - generic [ref=e83]: Plan ahead - each move affects the entire board
+    - generic [ref=e84]:
+      - heading "All Games" [level=3] [ref=e85]
+      - generic [ref=e86]:
+        - link "🧩 Sudoku" [ref=e87] [cursor=pointer]:
+          - /url: /games/sudoku/
+          - generic [ref=e88]: 🧩
+          - generic [ref=e89]: Sudoku
+        - link "💣 Minesweeper" [ref=e90] [cursor=pointer]:
+          - /url: /games/minesweeper/
+          - generic [ref=e91]: 💣
+          - generic [ref=e92]: Minesweeper
+        - link "🖼️ Nonogram" [ref=e93] [cursor=pointer]:
+          - /url: /games/nonogram/
+          - generic [ref=e94]: 🖼️
+          - generic [ref=e95]: Nonogram
+        - link "🏙️ Skyscrapers" [ref=e96] [cursor=pointer]:
+          - /url: /games/skyscrapers/
+          - generic [ref=e97]: 🏙️
+          - generic [ref=e98]: Skyscrapers
+  - contentinfo [ref=e99]:
+    - generic [ref=e100]:
+      - generic [ref=e101]: © 2026 RuleWord · 2048
+      - generic [ref=e102]: 63+ Free Games
+```

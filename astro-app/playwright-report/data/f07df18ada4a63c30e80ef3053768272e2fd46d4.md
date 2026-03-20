@@ -1,0 +1,88 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+      - heading "🏓 Pong" [level=1] [ref=e9]
+      - generic [ref=e10]:
+        - button "🌐" [ref=e12]:
+          - generic [ref=e13]: 🌐
+          - img [ref=e14]
+        - button "💬" [ref=e16]:
+          - generic [ref=e17]: 💬
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - button "← Back" [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]: You
+            - generic [ref=e27]: "0"
+          - generic [ref=e28]: "-"
+          - generic [ref=e29]:
+            - generic [ref=e30]: AI
+            - generic [ref=e31]: "0"
+        - button "Menu" [ref=e32]
+      - main [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]: 🏓
+          - heading "Pong" [level=1] [ref=e36]
+          - paragraph [ref=e37]: Classic arcade game - First to 7 wins!
+          - generic [ref=e38]:
+            - paragraph [ref=e39]: "Difficulty:"
+            - generic [ref=e40]:
+              - button "easy" [ref=e41]
+              - button "medium" [ref=e42]
+              - button "hard" [ref=e43]
+          - button "Start Game" [ref=e44]
+          - generic [ref=e45]:
+            - paragraph [ref=e46]: "Controls: ↑/↓ or W/S to move paddle"
+            - paragraph [ref=e47]: Press P or ESC to pause
+  - generic [ref=e49]:
+    - 'heading "Pong: How to Play" [level=2] [ref=e50]'
+    - generic [ref=e51]:
+      - paragraph [ref=e52]: Pong is the classic arcade game that started it all! Use your paddle to bounce the ball past your opponent. First to 7 wins!
+      - heading "How to Play" [level=3] [ref=e53]
+      - paragraph [ref=e54]: Use arrow keys or W/S to move your paddle up and down. Hit the ball to send it back. Score when the ball passes your opponent's paddle. Choose difficulty for AI challenge level.
+      - heading "Tips" [level=3] [ref=e55]
+      - list [ref=e56]:
+        - listitem [ref=e57]:
+          - generic [ref=e58]: •
+          - generic [ref=e59]: Position yourself based on ball trajectory early
+        - listitem [ref=e60]:
+          - generic [ref=e61]: •
+          - generic [ref=e62]: Hit the ball with different paddle positions to angle shots
+        - listitem [ref=e63]:
+          - generic [ref=e64]: •
+          - generic [ref=e65]: In harder modes, anticipate ball bounces
+        - listitem [ref=e66]:
+          - generic [ref=e67]: •
+          - generic [ref=e68]: Control the pace - don't just react
+    - generic [ref=e69]:
+      - heading "All Games" [level=3] [ref=e70]
+      - generic [ref=e71]:
+        - link "🧱 Tetris" [ref=e72] [cursor=pointer]:
+          - /url: /games/tetris/
+          - generic [ref=e73]: 🧱
+          - generic [ref=e74]: Tetris
+        - link "🐍 Snake" [ref=e75] [cursor=pointer]:
+          - /url: /games/snake/
+          - generic [ref=e76]: 🐍
+          - generic [ref=e77]: Snake
+        - link "🏓 Brick Breaker" [ref=e78] [cursor=pointer]:
+          - /url: /games/brick-breaker/
+          - generic [ref=e79]: 🏓
+          - generic [ref=e80]: Brick Breaker
+        - link "🐸 Frogger" [ref=e81] [cursor=pointer]:
+          - /url: /games/frogger/
+          - generic [ref=e82]: 🐸
+          - generic [ref=e83]: Frogger
+  - contentinfo [ref=e84]:
+    - generic [ref=e85]:
+      - generic [ref=e86]: © 2026 RuleWord · Pong
+      - generic [ref=e87]: 63+ Free Games
+```

@@ -1,0 +1,83 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e5]:
+      - link "R" [ref=e7] [cursor=pointer]:
+        - /url: /?lang=en
+        - generic [ref=e8]: R
+      - heading "🐸 Frogger" [level=1] [ref=e9]
+      - generic [ref=e10]:
+        - button "🌐" [ref=e12]:
+          - generic [ref=e13]: 🌐
+          - img [ref=e14]
+        - button "💬" [ref=e16]:
+          - generic [ref=e17]: 💬
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - button "← Back" [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - generic [ref=e26]: Score
+            - generic [ref=e27]: "0"
+          - generic [ref=e28]:
+            - generic [ref=e29]: Level
+            - generic [ref=e30]: "1"
+          - generic [ref=e31]:
+            - generic [ref=e32]: Lives
+            - generic [ref=e33]: ❤️❤️❤️
+      - main [ref=e34]:
+        - generic [ref=e35]:
+          - generic [ref=e36]: 🐸
+          - heading "Frogger" [level=1] [ref=e37]
+          - paragraph [ref=e38]: Help the frog cross the busy road and dangerous river to reach the goal zones!
+          - button "Start Game" [ref=e39]
+          - generic [ref=e40]:
+            - paragraph [ref=e41]: "Controls: Arrow keys or WASD"
+            - paragraph [ref=e42]: Fill all 5 goal slots to advance!
+  - generic [ref=e44]:
+    - 'heading "Frogger: How to Play" [level=2] [ref=e45]'
+    - generic [ref=e46]:
+      - paragraph [ref=e47]: Frogger is the classic arcade game where you guide a frog across busy roads and dangerous rivers. Fill all 5 goal zones to advance!
+      - heading "How to Play" [level=3] [ref=e48]
+      - paragraph [ref=e49]: Use arrow keys or WASD to hop. Cross roads avoiding cars and trucks. Cross rivers by jumping on logs and turtles. Reach the goal zones at the top to score!
+      - heading "Tips" [level=3] [ref=e50]
+      - list [ref=e51]:
+        - listitem [ref=e52]:
+          - generic [ref=e53]: •
+          - generic [ref=e54]: Time your road crossings between vehicles
+        - listitem [ref=e55]:
+          - generic [ref=e56]: •
+          - generic [ref=e57]: On logs and turtles, you move with them
+        - listitem [ref=e58]:
+          - generic [ref=e59]: •
+          - generic [ref=e60]: Watch for gaps in traffic and log patterns
+        - listitem [ref=e61]:
+          - generic [ref=e62]: •
+          - generic [ref=e63]: Don't stay on turtles too long - some dive!
+    - generic [ref=e64]:
+      - heading "All Games" [level=3] [ref=e65]
+      - generic [ref=e66]:
+        - link "🧱 Tetris" [ref=e67] [cursor=pointer]:
+          - /url: /games/tetris/
+          - generic [ref=e68]: 🧱
+          - generic [ref=e69]: Tetris
+        - link "🐍 Snake" [ref=e70] [cursor=pointer]:
+          - /url: /games/snake/
+          - generic [ref=e71]: 🐍
+          - generic [ref=e72]: Snake
+        - link "🏓 Brick Breaker" [ref=e73] [cursor=pointer]:
+          - /url: /games/brick-breaker/
+          - generic [ref=e74]: 🏓
+          - generic [ref=e75]: Brick Breaker
+        - link "🏓 Pong" [ref=e76] [cursor=pointer]:
+          - /url: /games/pong/
+          - generic [ref=e77]: 🏓
+          - generic [ref=e78]: Pong
+  - contentinfo [ref=e79]:
+    - generic [ref=e80]:
+      - generic [ref=e81]: © 2026 RuleWord · Frogger
+      - generic [ref=e82]: 63+ Free Games
+```
