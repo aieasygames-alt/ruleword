@@ -1427,5 +1427,5 @@ export function getGameGuide(gameId: string, lang: Language = 'en'): GameGuideCo
   return gameGuidesEn[gameId]
 }
 
-// Export English guides for SEO purposes
-export { gameGuidesEn }
+// Export English and Chinese guides
+export { gameGuidesEn, gameGuidesZhCN }
