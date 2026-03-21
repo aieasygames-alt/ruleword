@@ -1,0 +1,25 @@
+{
+  "id": "chimptest",
+  "slug": "chimp-test",
+  "icon": "🐒",
+  "category": "skill",
+  "featured": true,
+  "color": "from-amber-500 to-yellow-600",
+  "en": {
+    "name": "Chimp Test",
+    "desc": "Can you beat a chimpanzee at memory? Remember the positions of numbers 1-9 in order, then click them from memory. Most chimps outperform humans!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "黑猩猩测试",
+    "desc": "你能在记忆力上打败黑猩猩吗？记住1-9数字的位置顺序，然后凭记忆点击它们。大多数黑猩猩都胜过人类！",
+    "howToPlay": "Numbers flash briefly on screen. After they disappear, click the squares in order from 1 to 9. Get them all right to advance to higher levels with more numbers.",
+    "tips": [
+      "Use chunking - group numbers into patterns",
+      "Associate positions with spatial memory",
+      "Stay calm and focused during the flash",
+      "Practice to improve your working memory capacity"
+    ]
+  }
+}

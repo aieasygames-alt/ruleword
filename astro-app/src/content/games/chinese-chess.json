@@ -1,0 +1,30 @@
+{
+  "id": "chinesechess",
+  "slug": "chinese-chess",
+  "icon": "象棋",
+  "category": "strategy",
+  "featured": true,
+  "color": "from-red-600 to-amber-700",
+  "en": {
+    "name": "Chinese Chess",
+    "desc": "Xiangqi - the ancient Chinese strategy game! Each piece has unique movement rules. Capture the general to win. A cultural treasure for 2000+ years!",
+    "howToPlay": "Click a piece to select it, then click a valid square to move. Pieces include General, Advisors, Elephants, Horses, Chariots, Cannons, and Soldiers.",
+    "tips": [
+      "The General cannot leave the palace",
+      "Cannons need a screen piece to capture",
+      "Horses can be blocked by adjacent pieces",
+      "Control the river crossing points"
+    ]
+  },
+  "zh": {
+    "name": "中国象棋",
+    "desc": "中国古老的策略游戏！每枚棋子都有独特的移动规则。将死对方主帅获胜。传承2000多年的文化瑰宝！",
+    "howToPlay": "点击棋子选择它，然后点击有效位置移动。棋子包括将/帅、士、象、马、车、炮和兵/卒。",
+    "tips": [
+      "将/帅不能离开九宫",
+      "炮需要炮架才能吃子",
+      "马可以被相邻的棋子蹩脚",
+      "控制河界渡河点"
+    ]
+  }
+}

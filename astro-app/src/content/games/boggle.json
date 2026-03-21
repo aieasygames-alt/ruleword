@@ -1,0 +1,30 @@
+{
+  "id": "boggle",
+  "slug": "boggle",
+  "icon": "🎲",
+  "category": "word",
+  "featured": true,
+  "color": "from-orange-500 to-red-600",
+  "en": {
+    "name": "Boggle",
+    "desc": "Race against time to find as many words as possible in a 4x4 letter grid. Connect adjacent letters to form words and boost your score. A classic word hunt challenge!",
+    "howToPlay": "Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.",
+    "tips": [
+      "Start with common letter patterns and prefixes",
+      "Look for plural forms ending in S",
+      "Scan systematically through starting letters",
+      "Practice finding longer words for higher scores"
+    ]
+  },
+  "zh": {
+    "name": "字母方阵",
+    "desc": "限时挑战！在4x4字母网格中找出尽可能多的单词。连接相邻字母组成单词，获取高分。经典单词搜寻挑战！",
+    "howToPlay": "点击相邻字母（水平、垂直、对角线）形成3个以上字母的单词。每个字母在每个单词中只能使用一次。较长的单词得分更高。",
+    "tips": [
+      "从常见的字母模式和前缀开始",
+      "寻找以S结尾的复数形式",
+      "系统地扫描起始字母",
+      "练习找到更长的单词以获得更高的分数"
+    ]
+  }
+}

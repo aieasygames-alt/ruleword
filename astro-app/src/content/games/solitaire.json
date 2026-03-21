@@ -1,0 +1,20 @@
+{
+  "id": "solitaire",
+  "slug": "solitaire",
+  "icon": "🃏",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-blue-500 to-indigo-600",
+  "en": {
+    "name": "Solitaire",
+    "desc": "The classic Windows card game! Arrange cards in descending order, alternating colors. Move all cards to foundation piles to win. Timeless entertainment!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "纸牌接龙",
+    "desc": "经典Windows纸牌游戏！按降序排列卡牌，交替颜色。将所有卡牌移到基础堆获胜。永恒的娱乐！",
+    "howToPlay": "",
+    "tips": []
+  }
+}

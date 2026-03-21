@@ -1,0 +1,30 @@
+{
+  "id": "mastermind",
+  "slug": "mastermind",
+  "icon": "🔐",
+  "category": "strategy",
+  "featured": true,
+  "color": "from-fuchsia-500 to-pink-600",
+  "en": {
+    "name": "Mastermind",
+    "desc": "Crack the secret code! You have 8 attempts to guess the correct color sequence. Use peg feedback to deduce the right combination. Classic code-breaking fun!",
+    "howToPlay": "Select 4 colors to make your guess. After submitting, you'll see feedback: green dots mean correct color in correct position, white dots mean correct color in wrong position. Use this feedback to deduce the secret code.",
+    "tips": [
+      "Start with 4 different colors to maximize information",
+      "Pay attention to which colors are completely absent",
+      "Remember that colors can repeat in the code",
+      "Systematically test color positions based on feedback"
+    ]
+  },
+  "zh": {
+    "name": "密码破译",
+    "desc": "破解密码！8次机会猜测正确的颜色序列。利用反馈推断正确组合。经典密码破解乐趣！",
+    "howToPlay": "选择4种颜色进行猜测。提交后，你会看到反馈：绿色圆点表示颜色和位置都正确，白色圆点表示颜色正确但位置错误。利用这些反馈推断出秘密密码。",
+    "tips": [
+      "首先使用4种不同的颜色以获取最多信息",
+      "注意哪些颜色完全不出现",
+      "记住颜色可以在密码中重复",
+      "根据反馈系统地测试颜色位置"
+    ]
+  }
+}

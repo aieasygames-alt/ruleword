@@ -1,0 +1,30 @@
+{
+  "id": "wordsearch",
+  "slug": "word-search",
+  "icon": "🔍",
+  "category": "word",
+  "featured": true,
+  "color": "from-emerald-500 to-teal-600",
+  "en": {
+    "name": "Word Search",
+    "desc": "Classic word search puzzle! Find hidden words horizontally, vertically, or diagonally in a grid of letters. Great for improving pattern recognition and vocabulary skills.",
+    "howToPlay": "Click and drag to select letters that form a word. Words can be horizontal, vertical, diagonal, and even backwards. Found words are crossed off the list.",
+    "tips": [
+      "Scan for less common letters like Q, X, Z first",
+      "Look for the first letter of each target word",
+      "Check all directions including diagonals",
+      "Work systematically from top to bottom"
+    ]
+  },
+  "zh": {
+    "name": "找词游戏",
+    "desc": "经典找词游戏！在字母网格中水平、垂直或对角线方向寻找隐藏的单词。非常适合提升模式识别和词汇能力。",
+    "howToPlay": "点击并拖动选择形成单词的字母。单词可以是水平、垂直、对角线，甚至反向。找到的单词会从列表中划掉。",
+    "tips": [
+      "首先扫描较少见的字母，如Q, X, Z",
+      "寻找每个目标单词的第一个字母",
+      "检查所有方向，包括对角线",
+      "从上到下系统地工作"
+    ]
+  }
+}

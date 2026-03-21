@@ -1,0 +1,29 @@
+{
+  "id": "threes",
+  "slug": "threes",
+  "icon": "3️⃣",
+  "category": "logic",
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Threes",
+    "desc": "The original sliding number puzzle! Slide tiles to combine matching numbers. 1+2=3, then combine 3s into 6s, 6s into 12s, and beyond. Addictive and strategic!",
+    "howToPlay": "Swipe to slide all tiles. Combine 1 and 2 to make 3. Match same numbers (3+3, 6+6, etc.) to merge. New tiles appear after each move.",
+    "tips": [
+      "Always keep 1s and 2s adjacent to combine them",
+      "Build high numbers in corners",
+      "Plan moves to avoid trapping small numbers",
+      "The next tile preview helps you plan"
+    ]
+  },
+  "zh": {
+    "name": "三消",
+    "desc": "原创滑动数字谜题！滑动方块合并相同数字。1+2=3，然后将3合成6，6合成12，以此类推。令人上瘾的策略游戏！",
+    "howToPlay": "滑动方块合并相邻的相同数字。1和2合并成3。然后3+3=6，6+6=12等。最高数字优先保留在角落。",
+    "tips": [
+      "优先合并1和2配对",
+      "保持最高方块在角落",
+      "避免填满棋盘",
+      "规划你的移动以创建合并机会"
+    ]
+  }
+}

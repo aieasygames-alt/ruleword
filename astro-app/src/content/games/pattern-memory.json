@@ -1,0 +1,30 @@
+{
+  "id": "patternmemory",
+  "slug": "pattern-memory",
+  "icon": "🎨",
+  "category": "memory",
+  "featured": true,
+  "color": "from-fuchsia-500 to-purple-600",
+  "en": {
+    "name": "Pattern Memory",
+    "desc": "Memorize colorful grid patterns! Study the pattern, then recreate it from memory. Difficulty increases with grid size. Visual memory training!",
+    "howToPlay": "Watch the colored pattern appear on the grid. When it disappears, click cells to recreate the exact pattern. Each level adds more complexity.",
+    "tips": [
+      "Use mnemonic devices like creating shapes or stories",
+      "Remember colors by position groups",
+      "Focus on one area at a time",
+      "Practice spatial memory exercises"
+    ]
+  },
+  "zh": {
+    "name": "图案记忆",
+    "desc": "记忆彩色网格图案！观察图案，然后凭记忆重新创建。难度随网格大小增加。视觉记忆训练！",
+    "howToPlay": "观看高亮格子的序列。点击相同的格子重复序列。每个新回合增加一个格子。按错格子或顺序错误则游戏结束。",
+    "tips": [
+      "在心里将图案分组记忆",
+      "使用空间关联（如对角线、角落）",
+      "大声说出来帮助记忆",
+      "练习以提高你的视觉记忆"
+    ]
+  }
+}

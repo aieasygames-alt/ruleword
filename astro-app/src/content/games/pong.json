@@ -1,0 +1,30 @@
+{
+  "id": "pong",
+  "slug": "pong",
+  "icon": "🏓",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Pong",
+    "desc": "The granddaddy of video games! A simple tennis simulation that started the gaming revolution. Play against the AI in this timeless 1972 classic.",
+    "howToPlay": "Use arrow keys or W/S to move your paddle up and down. Hit the ball to send it back. Score when the ball passes your opponent's paddle. Choose difficulty for AI challenge level.",
+    "tips": [
+      "Position yourself based on ball trajectory early",
+      "Hit the ball with different paddle positions to angle shots",
+      "In harder modes, anticipate ball bounces",
+      "Control the pace - don't just react"
+    ]
+  },
+  "zh": {
+    "name": "乒乓球",
+    "desc": "电子游戏的鼻祖！简单的网球模拟开启了游戏革命。在这款1972年的永恒经典中与AI对战。",
+    "howToPlay": "使用方向键或W/S上下移动挡板。击球将其反弹回去。球穿过对手挡板得分。选择难度设置AI挑战级别。",
+    "tips": [
+      "根据球的轨迹早期定位",
+      "使用不同挡板位置击球来改变角度",
+      "在困难模式下，预判球的反弹",
+      "控制节奏——不要只是反应"
+    ]
+  }
+}

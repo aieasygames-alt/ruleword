@@ -1,0 +1,25 @@
+{
+  "id": "matchthree",
+  "slug": "match-three",
+  "icon": "💎",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-purple-500 to-pink-600",
+  "en": {
+    "name": "Match-3",
+    "desc": "Swap adjacent gems to match 3 or more in a row! Create combos and chain reactions for bonus points. The most popular casual game mechanic!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "三消游戏",
+    "desc": "交换相邻宝石匹配3个或更多！创造连击和连锁反应获得额外分数。最流行的休闲游戏机制！",
+    "howToPlay": "Click on a gem, then click an adjacent gem to swap them. Match 3 or more gems of the same color to remove them. New gems fall from above. Reach the target score before running out of moves.",
+    "tips": [
+      "Look for matches at the bottom to trigger chain reactions",
+      "Plan moves that create multiple matches simultaneously",
+      "Save special gems for when you really need them",
+      "Focus on completing objectives over high scores"
+    ]
+  }
+}

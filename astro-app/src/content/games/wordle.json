@@ -1,0 +1,30 @@
+{
+  "id": "wordle",
+  "slug": "wordle",
+  "icon": "🟩",
+  "category": "word",
+  "featured": true,
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Wordle",
+    "desc": "The viral word puzzle sensation! You have 6 attempts to guess a hidden 5-letter word. Color-coded feedback helps you narrow down the answer. Daily puzzles await!",
+    "howToPlay": "Type a 5-letter word and press Enter. Green letters are correct in the right spot. Yellow letters are in the word but wrong position. Gray letters are not in the word.",
+    "tips": [
+      "Start with words containing common letters (R, S, T, L, N)",
+      "Use different letters each guess initially",
+      "Yellow letters help narrow positions",
+      "Think about common word patterns"
+    ]
+  },
+  "zh": {
+    "name": "猜词",
+    "desc": "风靡全球的猜词游戏！6次机会猜测隐藏的5字母单词。颜色提示帮助您缩小答案范围。每日谜题等你挑战！",
+    "howToPlay": "输入一个5字母单词并按回车。绿色字母表示位置正确。黄色字母表示在单词中但位置错误。灰色字母表示不在单词中。",
+    "tips": [
+      "从包含常用字母的单词开始（R, S, T, L, N）",
+      "最初的猜测尽量使用不同的字母",
+      "黄色字母帮助缩小位置范围",
+      "思考常见的单词模式"
+    ]
+  }
+}

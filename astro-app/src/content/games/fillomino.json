@@ -1,0 +1,29 @@
+{
+  "id": "fillomino",
+  "slug": "fillomino",
+  "icon": "🧩",
+  "category": "logic",
+  "color": "from-emerald-500 to-green-600",
+  "en": {
+    "name": "Fillomino",
+    "desc": "Divide the grid into regions! Fill each cell with a number equal to its region size. Same-sized regions cannot share an edge. A polyomino puzzle!",
+    "howToPlay": "Click a cell and enter a number (1-9). Same numbers must form connected regions. Each region size must equal its number. Different regions with the same number cannot touch.",
+    "tips": [
+      "Given numbers are anchors - regions must match their value",
+      "Small regions (1, 2) are easiest to place first",
+      "Watch for conflicts where same-numbered regions would touch",
+      "Count cells carefully - each region needs exactly its number of cells"
+    ]
+  },
+  "zh": {
+    "name": "填满分",
+    "desc": "将网格划分为区域！每个格子填入等于其区域大小的数字。相同大小的区域不能共享边。多连块谜题！",
+    "howToPlay": "点击单元格并输入数字（1-9）。相同数字必须形成连通区域。每个区域的大小必须等于其数字。不同区域不能有相同数字且相邻。",
+    "tips": [
+      "给定数字是锚点——区域必须匹配其值",
+      "小区域（1、2）最容易放置",
+      "注意相同数字区域可能接触的冲突",
+      "仔细计数——每个区域需要恰好其数字数量的格子"
+    ]
+  }
+}

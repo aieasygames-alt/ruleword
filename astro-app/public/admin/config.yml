@@ -1,0 +1,99 @@
+backend:
+  name: github
+  repo: aieasygames-alt/ruleword
+  branch: main
+
+# 本地开发模式 - 自动检测
+local_backend: true
+
+# 媒体文件存储
+media_folder: "public/images/games"
+public_folder: "/images/games"
+
+# 多语言支持
+i18n:
+  structure: multiple_files
+  locales: ['en', 'zh-CN', 'zh-TW']
+  default_locale: 'en'
+
+collections:
+  # 游戏内容管理
+  - name: "games"
+    label: "🎮 Games"
+    label_singular: "Game"
+    folder: "src/content/games"
+    format: "json"
+    extension: "json"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{icon}} {{en.name}}"
+    fields:
+      - { label: "Game ID", name: "id", widget: "string", hint: "Unique identifier for the game component" }
+      - { label: "Slug (URL)", name: "slug", widget: "string", hint: "URL path, e.g. 'wordle' becomes /games/wordle/" }
+      - { label: "Icon (Emoji)", name: "icon", widget: "string", hint: "Single emoji character" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "🔤 Word Games", value: "word" }
+          - { label: "🧩 Logic & Numbers", value: "logic" }
+          - { label: "♟️ Strategy", value: "strategy" }
+          - { label: "👾 Arcade", value: "arcade" }
+          - { label: "🧠 Memory & Reflex", value: "memory" }
+          - { label: "🎯 Skill Games", value: "skill" }
+          - { label: "🧩 Puzzle", value: "puzzle" }
+      - { label: "Featured on Homepage", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Tailwind Color Gradient", name: "color", widget: "string", default: "from-blue-500 to-indigo-600", hint: "e.g. from-green-500 to-emerald-600" }
+
+      # 英文内容
+      - label: "📝 English Content"
+        name: "en"
+        widget: "object"
+        collapsed: false
+        fields:
+          - { label: "Game Name", name: "name", widget: "string" }
+          - { label: "Short Description", name: "desc", widget: "text", hint: "Brief description shown on game cards (150-200 chars)" }
+          - { label: "How to Play", name: "howToPlay", widget: "markdown", required: false, hint: "Detailed gameplay instructions for SEO section" }
+          - label: "Tips & Strategies"
+            name: "tips"
+            widget: "list"
+            min: 0
+            max: 10
+            field: { label: "Tip", name: "tip", widget: "string" }
+            required: false
+
+      # 中文内容
+      - label: "🀄 中文内容"
+        name: "zh"
+        widget: "object"
+        collapsed: true
+        required: false
+        fields:
+          - { label: "游戏名称", name: "name", widget: "string" }
+          - { label: "简介", name: "desc", widget: "text", hint: "游戏卡片上显示的简短描述" }
+          - { label: "玩法说明", name: "howToPlay", widget: "markdown", required: false, hint: "详细的玩法说明，用于 SEO 区域" }
+          - label: "技巧提示"
+            name: "tips"
+            widget: "list"
+            min: 0
+            max: 10
+            field: { label: "提示", name: "tip", widget: "string" }
+            required: false
+
+  # 分类管理
+  - name: "settings"
+    label: "⚙️ Settings"
+    files:
+      - name: "categories"
+        label: "Game Categories"
+        file: "src/content/settings/categories.json"
+        fields:
+          - label: "Categories"
+            name: "categories"
+            widget: "list"
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Icon", name: "icon", widget: "string" }
+              - { label: "English Name", name: "name", widget: "string" }
+              - { label: "中文名称", name: "nameZh", widget: "string" }
+              - { label: "Description", name: "desc", widget: "text" }

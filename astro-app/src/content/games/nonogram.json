@@ -1,0 +1,30 @@
+{
+  "id": "nonogram",
+  "slug": "nonogram",
+  "icon": "🖼️",
+  "category": "logic",
+  "featured": true,
+  "color": "from-purple-500 to-violet-600",
+  "en": {
+    "name": "Nonogram",
+    "desc": "Also known as Picross! Use number clues to fill in squares and reveal a hidden pixel art picture. A perfect blend of logic and creativity.",
+    "howToPlay": "Numbers indicate consecutive filled cells in that row/column. Multiple numbers mean separate groups with at least one empty cell between them. Click to fill or X to mark empty cells.",
+    "tips": [
+      "Start with the largest numbers that nearly fill a row/column",
+      "Look for rows/columns where only one arrangement is possible",
+      "Mark definitely empty cells with X to help visualize",
+      "Cross-reference between rows and columns"
+    ]
+  },
+  "zh": {
+    "name": "数织",
+    "desc": "又称像素填色！根据数字提示填充方格，揭示隐藏的像素艺术图片。逻辑与创意的完美结合。",
+    "howToPlay": "数字表示该行/列中连续填充的单元格。多个数字表示分开的组，组之间至少有一个空单元格。点击填充，X标记空单元格。",
+    "tips": [
+      "从几乎填满一行/列的最大数字开始",
+      "寻找只有一种排列可能的行/列",
+      "用X标记确定空的单元格以帮助可视化",
+      "在行和列之间交叉参考"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "suguru",
+  "slug": "suguru",
+  "icon": "🎨",
+  "category": "logic",
+  "color": "from-pink-500 to-rose-600",
+  "en": {
+    "name": "Suguru",
+    "desc": "Fill each region with numbers so that no two adjacent cells contain the same number. Each region size determines the numbers to use. A fresh logic challenge!",
+    "howToPlay": "Fill each region with numbers 1 through its size. Identical numbers cannot be adjacent (including diagonally). Use logic to deduce each cell's value.",
+    "tips": [
+      "Start with small regions (size 1-2)",
+      "Look for cells that can only be one number",
+      "Use elimination based on adjacent numbers",
+      "Check all 8 neighbors when placing numbers"
+    ]
+  },
+  "zh": {
+    "name": "数独组",
+    "desc": "在每个区域填入数字，使相邻格子不含相同数字。区域大小决定可使用的数字。全新的逻辑挑战！",
+    "howToPlay": "在格子里填入数字。每个区域必须包含该区域大小的数字（例如，4格区域需要1-4）。相邻格子（包括对角线）不能有相同数字。",
+    "tips": [
+      "从单格区域开始",
+      "寻找填满最多数字的行或列",
+      "对角线相邻也适用于此谜题",
+      "使用排除法缩小可能数"
+    ]
+  }
+}

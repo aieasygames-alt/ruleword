@@ -181,11 +181,11 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
 
     for (const clue of clues) {
       if (direction === 'across' && clue.row === row && col >= clue.col) {
-        const endCol = clue.col
+        let endCol = clue.col
         while (endCol < puzzle.grid[0].length && puzzle.grid[row][endCol] !== '#') endCol++
         if (col < endCol) return clue
       } else if (direction === 'down' && clue.col === col && row >= clue.row) {
-        const endRow = clue.row
+        let endRow = clue.row
         while (endRow < puzzle.grid.length && puzzle.grid[endRow][col] !== '#') endRow++
         if (row < endRow) return clue
       }

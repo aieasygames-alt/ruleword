@@ -1,0 +1,29 @@
+{
+  "id": "fifteenpuzzle",
+  "slug": "15-puzzle",
+  "icon": "🔲",
+  "category": "logic",
+  "color": "from-amber-500 to-yellow-600",
+  "en": {
+    "name": "15 Puzzle",
+    "desc": "The classic sliding tile puzzle! Arrange numbered tiles from 1 to 15 in order by sliding them into the empty space. Test your spatial reasoning skills.",
+    "howToPlay": "Click a tile adjacent to the empty space to slide it. Arrange all tiles in numerical order from 1-15, with the empty space in the bottom right.",
+    "tips": [
+      "Solve the top row first, then work down",
+      "Don't worry about the last two numbers in a row until the end",
+      "Learn the \"rotation\" technique for moving tiles",
+      "Practice the final 2x3 section repeatedly"
+    ]
+  },
+  "zh": {
+    "name": "数字推盘",
+    "desc": "经典滑块谜题！通过滑动将数字方块从1到15按顺序排列。测试你的空间推理能力。",
+    "howToPlay": "点击与空格相邻的方块将其滑动到空格。将数字按从左到右、从上到下的顺序排列（1-15）。最后一个格子应该是空的。",
+    "tips": [
+      "先解决第一行，然后第二行",
+      "将方块移动到目标位置附近",
+      "耐心规划——不要随意滑动",
+      "使用标准算法解决最后两层"
+    ]
+  }
+}

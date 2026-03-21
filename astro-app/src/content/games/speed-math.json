@@ -1,0 +1,24 @@
+{
+  "id": "speedmath",
+  "slug": "speed-math",
+  "icon": "➗",
+  "category": "skill",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Speed Math",
+    "desc": "Race against time to solve arithmetic problems! Addition, subtraction, multiplication, and division. Train your mental math skills and beat your high score!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "速算挑战",
+    "desc": "限时解决算术问题！加减乘除，训练你的心算能力，打破最高分！",
+    "howToPlay": "Solve the math problem shown and enter your answer. Press Enter or click Submit. Correct answers build your streak for bonus points. Wrong answers reset your streak.",
+    "tips": [
+      "Start with easier difficulty to build speed",
+      "Use mental math tricks like rounding",
+      "Focus on maintaining accuracy under time pressure",
+      "Build streaks for maximum points"
+    ]
+  }
+}

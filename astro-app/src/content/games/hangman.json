@@ -1,0 +1,29 @@
+{
+  "id": "hangman",
+  "slug": "hangman",
+  "icon": "📝",
+  "category": "word",
+  "color": "from-rose-500 to-pink-600",
+  "en": {
+    "name": "Hangman",
+    "desc": "The timeless word guessing game! Guess letters one by one to reveal the hidden word before the hangman is complete. Test your vocabulary and deduction skills.",
+    "howToPlay": "Click letters on the keyboard or type to guess. Correct letters appear in the word. Wrong guesses add to the hangman. Win by guessing all letters before 6 mistakes.",
+    "tips": [
+      "Start with common vowels (E, A, O, I)",
+      "Try common consonants (R, S, T, L, N)",
+      "Look for common letter patterns",
+      "Use word length to narrow possibilities"
+    ]
+  },
+  "zh": {
+    "name": "猜单词",
+    "desc": "永恒的猜词游戏！逐个猜字母揭示隐藏的单词，在小人完成之前猜出答案。考验您的词汇量和推理能力。",
+    "howToPlay": "点击键盘上的字母或输入来猜测。正确的字母会出现在单词中。错误的猜测会增加绞刑架。在6次错误之前猜出所有字母即可获胜。",
+    "tips": [
+      "从常用元音开始（E, A, O, I）",
+      "尝试常用辅音（R, S, T, L, N）",
+      "寻找常见的字母模式",
+      "使用单词长度缩小可能性"
+    ]
+  }
+}

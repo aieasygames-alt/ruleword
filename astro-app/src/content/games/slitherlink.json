@@ -1,0 +1,29 @@
+{
+  "id": "slitherlink",
+  "slug": "slitherlink",
+  "icon": "🔗",
+  "category": "logic",
+  "color": "from-indigo-500 to-blue-600",
+  "en": {
+    "name": "Slitherlink",
+    "desc": "Draw a single continuous loop through the grid! Use number clues to determine which edges of each cell are part of the loop. A satisfying logic puzzle.",
+    "howToPlay": "Click edges to include them in the loop. Numbers 0-3 indicate how many edges around that cell are used. Create one continuous loop with no crossings or branches.",
+    "tips": [
+      "0 means no edges around that cell",
+      "3 in a corner forces two edges",
+      "Diagonal 3s create a specific pattern",
+      "The loop must be continuous - avoid creating branches"
+    ]
+  },
+  "zh": {
+    "name": "回路迷",
+    "desc": "在网格中画出一条连续的回路！利用数字提示判断每个格子的哪些边是回路的一部分。令人满足的逻辑谜题。",
+    "howToPlay": "点击点之间的水平或垂直边来画线。数字表示围绕它的线数（0-3）。没有数字的格子没有约束。回路不能交叉或接触自己。",
+    "tips": [
+      "从角上的3开始——必须画两条边",
+      "从0开始——周围不能有线",
+      "从角落的1开始——必须远离角落",
+      "寻找连接逻辑约束"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "memory",
+  "slug": "memory",
+  "icon": "🃏",
+  "category": "memory",
+  "color": "from-pink-500 to-rose-600",
+  "en": {
+    "name": "Memory",
+    "desc": "Classic card-matching game! Flip cards to find matching pairs. Train your visual memory and concentration. Great for all ages!",
+    "howToPlay": "Click cards to flip them. Find all matching pairs to win. The fewer moves you make, the better your score. Challenge yourself to remember card positions!",
+    "tips": [
+      "Pay attention to every card flip, even matches",
+      "Start by revealing a few cards to establish positions",
+      "Create mental groups or stories to remember positions",
+      "Practice regularly to improve memory skills"
+    ]
+  },
+  "zh": {
+    "name": "记忆翻牌",
+    "desc": "经典配对记忆游戏！翻开卡片找到配对。训练你的视觉记忆和专注力。老少皆宜！",
+    "howToPlay": "点击卡片翻开它们。找到所有匹配的对子即可获胜。移动次数越少，分数越高。挑战自己记住卡片位置！",
+    "tips": [
+      "注意每一次翻牌，即使是匹配的",
+      "首先翻开几张卡片来建立位置记忆",
+      "创建心理分组或故事来记住位置",
+      "定期练习以提高记忆能力"
+    ]
+  }
+}

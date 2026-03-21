@@ -1,0 +1,29 @@
+{
+  "id": "snake",
+  "slug": "snake",
+  "icon": "🐍",
+  "category": "arcade",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Snake",
+    "desc": "Guide the hungry snake to eat food and grow longer! But don't crash into walls or yourself. A phone classic that started it all. Simple, addictive, timeless!",
+    "howToPlay": "Use arrow keys or WASD to control direction. Eat the food to grow longer and score points. The game ends if you hit a wall or your own body.",
+    "tips": [
+      "Plan your path ahead, especially as you grow longer",
+      "Avoid getting trapped in your own coils",
+      "Stay near the center when possible for more escape routes",
+      "Use smooth, flowing movements rather than sharp turns"
+    ]
+  },
+  "zh": {
+    "name": "贪吃蛇",
+    "desc": "引导饥饿的蛇吃食物并变长！但不要撞墙或撞到自己。手机游戏的鼻祖。简单、上瘾、永恒！",
+    "howToPlay": "使用方向键或WASD控制方向。吃食物来变长并得分。如果你撞到墙或自己的身体，游戏结束。",
+    "tips": [
+      "提前规划路径，特别是当你变长时",
+      "避免被困在自己的身体中",
+      "尽可能保持在中心附近以获得更多逃生路线",
+      "使用平滑、流畅的动作而不是急转弯"
+    ]
+  }
+}

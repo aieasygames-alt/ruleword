@@ -1,0 +1,30 @@
+{
+  "id": "connections",
+  "slug": "connections",
+  "icon": "🔗",
+  "category": "word",
+  "featured": true,
+  "color": "from-yellow-500 to-orange-600",
+  "en": {
+    "name": "Connections",
+    "desc": "Group 16 words into 4 categories of 4 words each. Identify the hidden connections between words in this challenging puzzle game. Can you find all groups?",
+    "howToPlay": "Select 4 words you think belong together, then submit. If correct, the category is revealed. You have 4 mistakes allowed. Solve all 4 groups to win!",
+    "tips": [
+      "Look for words that could fit multiple categories",
+      "Start with the most obvious connections",
+      "Be careful with tricky words that seem related",
+      "Yellow is easiest, purple is hardest"
+    ]
+  },
+  "zh": {
+    "name": "词语连线",
+    "desc": "将16个单词分成4组，每组4个词。在这款挑战性谜题游戏中找出词语之间的隐藏联系。你能找到所有分组吗？",
+    "howToPlay": "选择你认为属于一组的4个单词，然后提交。如果正确，会显示类别名称。你有4次错误机会。解决所有4组即可获胜！",
+    "tips": [
+      "寻找可能适合多个类别的单词",
+      "从最明显的联系开始",
+      "小心看起来相关但实际上不是的棘手单词",
+      "黄色最简单，紫色最难"
+    ]
+  }
+}

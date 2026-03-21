@@ -1,0 +1,29 @@
+{
+  "id": "lightsout",
+  "slug": "lights-out",
+  "icon": "💡",
+  "category": "logic",
+  "color": "from-yellow-500 to-amber-600",
+  "en": {
+    "name": "Lights Out",
+    "desc": "Turn off all the lights! Clicking a light toggles it and its neighbors. Find the pattern to extinguish every light on the grid. Simple but challenging!",
+    "howToPlay": "Click a cell to toggle it and its adjacent neighbors (up, down, left, right). The goal is to turn all lights off. Each puzzle has a solution!",
+    "tips": [
+      "Work from top to bottom systematically",
+      "Never click the same cell twice",
+      "The bottom row is determined by the rows above",
+      "Some patterns require specific sequences"
+    ]
+  },
+  "zh": {
+    "name": "熄灯游戏",
+    "desc": "关闭所有灯！点击一盏灯会切换它和相邻灯的状态。找到规律熄灭网格上的每一盏灯。简单却充满挑战！",
+    "howToPlay": "点击格子来切换它和相邻格子（上下左右）的状态。亮灯变灭，灭灯变亮。当所有灯都关闭时获胜！",
+    "tips": [
+      "逐行解决，从顶部开始",
+      "记住点击顺序很重要",
+      "某些格子是必须点击的关键格子",
+      "如果你卡住了，重新考虑你的策略"
+    ]
+  }
+}

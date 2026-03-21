@@ -1,0 +1,30 @@
+{
+  "id": "pacman",
+  "slug": "pac-man",
+  "icon": "🟡",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-yellow-400 to-amber-500",
+  "en": {
+    "name": "Pac-Man",
+    "desc": "The most famous video game character! Eat all dots while avoiding colorful ghosts. Power pellets let you turn the tables. Waka waka waka!",
+    "howToPlay": "Use arrow keys to guide Pac-Man through the maze. Eat all dots to win. Avoid ghosts unless powered up. Power pellets make ghosts vulnerable temporarily.",
+    "tips": [
+      "Learn ghost patterns - each has unique behavior",
+      "Save power pellets for emergencies",
+      "Clear one side of the maze at a time",
+      "Use tunnels to escape ghosts"
+    ]
+  },
+  "zh": {
+    "name": "吃豆人",
+    "desc": "最著名的电子游戏角色！吃掉所有豆子同时躲避彩色幽灵。能量豆让你反败为胜。哇咔哇咔哇咔！",
+    "howToPlay": "使用方向键移动吃豆人。吃掉豆子得分。避开幽灵——被碰到会失去一条命。吃掉能量球可以暂时反击幽灵。",
+    "tips": [
+      "能量球时优先追逐幽灵",
+      "学习每个幽灵的行为模式",
+      "利用隧道穿越地图",
+      "规划路线以最大化效率"
+    ]
+  }
+}

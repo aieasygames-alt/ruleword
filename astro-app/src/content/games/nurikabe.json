@@ -1,0 +1,29 @@
+{
+  "id": "nurikabe",
+  "slug": "nurikabe",
+  "icon": "🧱",
+  "category": "logic",
+  "color": "from-stone-500 to-slate-600",
+  "en": {
+    "name": "Nurikabe",
+    "desc": "Build walls to form islands! Numbered cells indicate island size. Islands contain exactly one number and never touch each other. Pure logic puzzle!",
+    "howToPlay": "Click cells to toggle between empty (gray), black (wall), or white (island). Each number shows its island's size. Islands can't touch. All walls must connect. No 2x2 black blocks.",
+    "tips": [
+      "Start with small numbers (1, 2) - they have limited options",
+      "Islands can't touch, so mark boundaries with black",
+      "Keep walls connected to avoid isolated areas",
+      "Never create 2x2 black blocks"
+    ]
+  },
+  "zh": {
+    "name": "数墙",
+    "desc": "建造墙壁形成岛屿！数字格子表示岛屿大小。每个岛屿只包含一个数字，岛屿之间互不接触。纯粹逻辑谜题！",
+    "howToPlay": "点击格子将其涂黑或留白。每个岛屿必须恰好包含一个数字。岛屿大小必须等于其数字。黑色格子（海）必须全部连通。没有两个岛屿可以相邻。",
+    "tips": [
+      "从角上的大数字开始",
+      "黑色格子不能形成2×2区域",
+      "每个岛屿必须恰好包含一个数字",
+      "所有黑色格子必须连通"
+    ]
+  }
+}

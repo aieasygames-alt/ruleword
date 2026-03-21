@@ -1,0 +1,28 @@
+{
+  "id": "aqre",
+  "slug": "aqre",
+  "icon": "🔲",
+  "category": "logic",
+  "color": "from-purple-500 to-indigo-600",
+  "en": {
+    "name": "Aqre",
+    "desc": "Shade cells with restrictions! No more than three consecutive shaded cells in any row or column. All unshaded cells must connect. Strategic shading!",
+    "howToPlay": "Click cells to shade them black or mark them as white. No two black cells can touch diagonally. Each row and column can have at most 2 consecutive black cells.",
+    "tips": [
+      "Use clues to determine how many blacks are visible",
+      "Avoid creating runs of 3+ consecutive blacks",
+      "White cells must be connected",
+      "Start with constrained areas near clues"
+    ]
+  },
+  "zh": {
+    "name": "阿克雷",
+    "desc": "有限制地涂黑格子！任何行或列不能有超过三个连续的涂黑格子。所有未涂黑格子必须相连。策略涂色！",
+    "howToPlay": "点击格子在黑色和白色之间切换。每个数字区域必须有相应数量的黑色格子。同一行/列中不能有3个或更多连续的黑色格子。",
+    "tips": [
+      "从数字较小的区域开始",
+      "注意避免3个或更多连续的黑色格子",
+      "使用边界约束来推断格子状态"
+    ]
+  }
+}

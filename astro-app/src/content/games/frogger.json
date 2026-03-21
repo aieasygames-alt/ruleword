@@ -1,0 +1,30 @@
+{
+  "id": "frogger",
+  "slug": "frogger",
+  "icon": "🐸",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-green-500 to-lime-600",
+  "en": {
+    "name": "Frogger",
+    "desc": "Help the frog cross busy roads and treacherous rivers! Avoid cars, hop on logs, and reach safety. An 80s arcade favorite that still delights today!",
+    "howToPlay": "Use arrow keys or WASD to hop. Cross roads avoiding cars and trucks. Cross rivers by jumping on logs and turtles. Reach the goal zones at the top to score!",
+    "tips": [
+      "Time your road crossings between vehicles",
+      "On logs and turtles, you move with them",
+      "Watch for gaps in traffic and log patterns",
+      "Don't stay on turtles too long - some dive!"
+    ]
+  },
+  "zh": {
+    "name": "青蛙过河",
+    "desc": "帮助青蛙穿越繁忙的马路和危险的河流！避开汽车，跳上木头，安全到达对岸。80年代街机经典至今仍然有趣！",
+    "howToPlay": "使用方向键或WASD跳跃。穿过马路避开汽车和卡车。通过跳上圆木和乌龟穿过河流。到达顶部的目标区域得分！",
+    "tips": [
+      "在车辆之间把握过马路时机",
+      "在圆木和乌龟上，你会随它们移动",
+      "注意交通和圆木模式的空隙",
+      "不要在乌龟上停留太久——有些会潜水！"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "crossword",
+  "slug": "crossword",
+  "icon": "📝",
+  "category": "word",
+  "featured": true,
+  "color": "from-slate-500 to-gray-600",
+  "en": {
+    "name": "Crossword",
+    "desc": "Classic crossword puzzle! Fill in the grid using the clues. Test your vocabulary and general knowledge. The ultimate word puzzle challenge!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "填字游戏",
+    "desc": "经典填字游戏！根据提示填写网格。测试你的词汇量和常识。终极文字谜题挑战！",
+    "howToPlay": "",
+    "tips": []
+  }
+}

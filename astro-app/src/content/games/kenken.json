@@ -1,0 +1,29 @@
+{
+  "id": "kenken",
+  "slug": "kenken",
+  "icon": "🧮",
+  "category": "logic",
+  "color": "from-teal-500 to-cyan-600",
+  "en": {
+    "name": "KenKen",
+    "desc": "Math meets logic! Fill the grid so that each row and column contains unique digits. Numbered cages must equal the target using the specified operation.",
+    "howToPlay": "Fill each cell with digits 1-N (N = grid size). Numbers cannot repeat in rows or columns. Each \"cage\" must equal the target number using the specified operation.",
+    "tips": [
+      "Start with cages that have only one solution",
+      "Look for cages with unique digit combinations",
+      "Use Sudoku logic for rows and columns",
+      "Division and subtraction can be in any order"
+    ]
+  },
+  "zh": {
+    "name": "贤贤数独",
+    "desc": "数学与逻辑的结合！填充网格使每行每列数字不重复。数字笼必须通过指定运算得到目标结果。",
+    "howToPlay": "填入1-N的数字（N为网格大小）。每行每列必须恰好包含每个数字一次。粗线区域内的数字必须使用运算符（+、−、×、÷）产生目标数字。",
+    "tips": [
+      "寻找约束最多的格子（最大/最小目标值）",
+      "从单格子区域开始",
+      "使用数独排除技巧",
+      "注意运算顺序（对于−和÷）"
+    ]
+  }
+}

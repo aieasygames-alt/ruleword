@@ -1,0 +1,29 @@
+{
+  "id": "breakoutgame",
+  "slug": "breakout",
+  "icon": "🧱",
+  "category": "arcade",
+  "color": "from-rose-500 to-pink-600",
+  "en": {
+    "name": "Breakout",
+    "desc": "Atari's 1976 brick-breaking classic! Use your paddle to bounce the ball and destroy all bricks. Each brick type has different point values. Pure arcade bliss!",
+    "howToPlay": "Use arrow keys to move the paddle. Bounce the ball to break bricks. Clear all bricks to win. You have 3 lives - lose one when ball falls below paddle.",
+    "tips": [
+      "Angle your shots to hit more bricks",
+      "Aim for the top to cascade through rows",
+      "Keep the ball near center for control",
+      "Speed increases as you progress"
+    ]
+  },
+  "zh": {
+    "name": "打砖块",
+    "desc": "雅达利1976年打砖块经典！使用挡板弹跳球并消灭所有砖块。每种砖块有不同分值。纯粹的街机乐趣！",
+    "howToPlay": "使用左右方向键或鼠标移动挡板。让球保持反弹并击碎砖块。不要让球掉落！某些砖块需要多次击打或会掉落道具。",
+    "tips": [
+      "瞄准砖块的薄弱点",
+      "利用挡板的不同位置来控制反弹角度",
+      "优先击碎难以到达区域的砖块",
+      "利用道具获得额外球或其他加成"
+    ]
+  }
+}

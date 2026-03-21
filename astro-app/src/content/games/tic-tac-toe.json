@@ -1,0 +1,29 @@
+{
+  "id": "tictactoe",
+  "slug": "tic-tac-toe",
+  "icon": "⭕",
+  "category": "strategy",
+  "color": "from-rose-500 to-red-600",
+  "en": {
+    "name": "Tic-Tac-Toe",
+    "desc": "The simplest yet timeless game! Get three Xs or Os in a row to win. Play against a friend or the AI. Perfect for quick strategic thinking!",
+    "howToPlay": "Players take turns placing X or O in empty cells. First to get three in a row (horizontally, vertically, or diagonally) wins. If all cells fill with no winner, it's a draw.",
+    "tips": [
+      "Always take the center if available",
+      "Block opponent's winning moves immediately",
+      "Create \"forks\" - two winning threats at once",
+      "Corners are more valuable than edges"
+    ]
+  },
+  "zh": {
+    "name": "井字棋",
+    "desc": "最简单却永恒的游戏！将三个X或O连成一线获胜。与朋友或AI对战。快速战略思维的完美选择！",
+    "howToPlay": "玩家轮流在空格中放置X或O。首先连成三个（水平、垂直或对角线）的获胜。如果所有格都填满但没有获胜者，就是平局。",
+    "tips": [
+      "如果可能，总是占据中心",
+      "立即阻止对手的获胜动作",
+      "创造\"叉子\"——同时两个获胜威胁",
+      "角比边更有价值"
+    ]
+  }
+}

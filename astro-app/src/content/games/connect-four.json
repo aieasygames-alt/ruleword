@@ -1,0 +1,29 @@
+{
+  "id": "connectfour",
+  "slug": "connect-four",
+  "icon": "🔴",
+  "category": "strategy",
+  "color": "from-red-500 to-orange-600",
+  "en": {
+    "name": "Connect Four",
+    "desc": "Drop discs to connect four in a row! Strategic gameplay as you block your opponent while building your own winning line. A classic family favorite!",
+    "howToPlay": "Click a column to drop your disc. Discs fall to the lowest available position. First player to connect four in a row wins. Block your opponent while building your own line!",
+    "tips": [
+      "Control the center column when possible",
+      "Look for \"double threats\" - two ways to win",
+      "Block opponent's potential connections early",
+      "Build from the bottom up strategically"
+    ]
+  },
+  "zh": {
+    "name": "四子棋",
+    "desc": "投放圆盘连成四子！在阻止对手的同时建立自己的获胜连线。经典家庭游戏首选！",
+    "howToPlay": "点击一列放下圆盘。圆盘会落到最低的可用位置。首先连成四个的玩家获胜。在建立自己的连线时阻止对手！",
+    "tips": [
+      "尽可能控制中心列",
+      "寻找\"双重威胁\"——两种获胜方式",
+      "尽早阻止对手的潜在连线",
+      "从底部向上策略性地构建"
+    ]
+  }
+}

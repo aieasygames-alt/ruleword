@@ -1,0 +1,29 @@
+{
+  "id": "checkers",
+  "slug": "checkers",
+  "icon": "🔴",
+  "category": "strategy",
+  "color": "from-red-600 to-rose-700",
+  "en": {
+    "name": "Checkers",
+    "desc": "The classic board game of kings! Jump over opponent pieces to capture them. Reach the opposite end to become a king. Simple rules, endless fun!",
+    "howToPlay": "Click a piece to select, then click a valid square to move. Regular pieces move diagonally forward. Jump over opponent pieces to capture them. Kings can move backward.",
+    "tips": [
+      "Control the center of the board",
+      "Protect your back row to prevent opponent Kings",
+      "Look for double and triple jump opportunities",
+      "Advance pieces together rather than isolated"
+    ]
+  },
+  "zh": {
+    "name": "跳棋",
+    "desc": "经典的跳棋游戏！跳过对手的棋子将其吃掉。到达对岸升级为王。简单规则，无尽乐趣！",
+    "howToPlay": "点击棋子选择，然后点击目标格子移动。斜向向前移动到空格子。跳过对方棋子吃掉它们（强制跳）。到达对方底线升变为王，可以向后移动。",
+    "tips": [
+      "控制中心位置以获得更多移动选择",
+      "保持你的棋子在一起形成防御",
+      "优先升变棋子而不是吃子",
+      "设置多重跳跃以获得更大收益"
+    ]
+  }
+}

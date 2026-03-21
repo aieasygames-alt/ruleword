@@ -1,0 +1,29 @@
+{
+  "id": "castlewall",
+  "slug": "castle-wall",
+  "icon": "🏰",
+  "category": "logic",
+  "color": "from-amber-600 to-orange-700",
+  "en": {
+    "name": "Castle Wall",
+    "desc": "Draw castle walls to enclose numbers! Numbers indicate how many walls surround them. Walls must form a single closed loop around all numbers.",
+    "howToPlay": "Click cells to cycle between wall, no-wall, and unknown. Draw a single closed loop of walls. Clues show the number of visible wall segments in that direction.",
+    "tips": [
+      "Start with 0 clues - they mean no walls in that direction",
+      "Walls must connect to form a single loop",
+      "Use the clue numbers to limit possibilities",
+      "Mark cells that definitely cannot be walls"
+    ]
+  },
+  "zh": {
+    "name": "城墙",
+    "desc": "画城墙包围数字！数字表示周围有多少墙。墙壁必须围绕所有数字形成单一闭合环。",
+    "howToPlay": "点击格子边缘来画墙。墙必须形成单一连续循环。数字表示从该格子能看到多少段墙（垂直和水平）。墙不能穿过自身或数字格子。",
+    "tips": [
+      "从角落和边缘开始——它们有更多约束",
+      "数字0表示没有墙连接到该格子",
+      "墙必须围住每个数字的精确指示数量",
+      "确保墙形成单一连续循环"
+    ]
+  }
+}

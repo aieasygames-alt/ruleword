@@ -1,28 +1,60 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import GameWrapper from '../../components/GameWrapper'
-import { games, categories } from '../../data/games'
-import { getGameGuide } from '../../data/gameGuides'
+import { getCollection, type CollectionEntry } from 'astro:content'
+import { categories } from '../../data/games'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
-import { gameGuidesEn } from '../../data/gameGuides'
 
-export function getStaticPaths() {
-  return games.map(game => ({
-    params: { slug: game.slug },
-    props: { game }
+// 在 getStaticPaths 中获取所有游戏
+export async function getStaticPaths() {
+  const gamesCollection = await getCollection('games')
+  const allGames = gamesCollection.map(entry => entry.data)
+
+  return gamesCollection.map(entry => ({
+    params: { slug: entry.data.slug },
+    props: { game: entry.data, allGames }
   }))
 }
 
-const { game } = Astro.props
+interface GameData {
+  id: string
+  slug: string
+  icon: string
+  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory' | 'skill' | 'puzzle'
+  featured?: boolean
+  color: string
+  en: {
+    name: string
+    desc: string
+    howToPlay?: string
+    tips?: string[]
+  }
+  zh?: {
+    name: string
+    desc: string
+    howToPlay?: string
+    tips?: string[]
+  }
+}
+
+const { game, allGames: gamesList } = Astro.props as { game: GameData; allGames: GameData[] }
 
 // Get language from URL parameter, default to 'en'
 const urlLang = Astro.url.searchParams.get('lang') as string
 const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
 const t = i18n[lang]
 
-// Get game guide content for all languages (for client-side switching)
-const gameGuideEn = getGameGuide(game.id, 'en')
-const gameGuideZhCN = getGameGuide(game.id, 'zh-CN')
+// Get game guide content from CMS data
+const gameGuideEn = {
+  intro: game.en.desc,
+  howToPlay: game.en.howToPlay || '',
+  tips: game.en.tips || []
+}
+const gameGuideZhCN = game.zh ? {
+  intro: game.zh.desc,
+  howToPlay: game.zh.howToPlay || game.en.howToPlay || '',
+  tips: game.zh.tips || game.en.tips || []
+} : gameGuideEn
 
 // For SEO, use English as default
 const gameGuide = gameGuideEn
@@ -33,19 +65,19 @@ const categoryData = categoryI18n[lang]?.[game.category]
 const gameType = categoryData?.name || category?.name || 'Puzzle'
 
 // Build keywords from game info
-const keywords = `${game.name}, ${game.nameZh}, ${game.desc}, ${game.descZh}, free online game, puzzle game`
+const keywords = `${game.en.name}, ${game.zh?.name || ''}, ${game.en.desc}, ${game.zh?.desc || ''}, free online game, puzzle game`
 
 // Helper for localized game name
-const getGameName = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
-const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc
+const getGameName = () => lang === 'zh-CN' || lang === 'zh-TW' ? (game.zh?.name || game.en.name) : game.en.name
+const getGameDesc = () => lang === 'zh-CN' || lang === 'zh-TW' ? (game.zh?.desc || game.en.desc) : game.en.desc
 
 // Feedback i18n data
 const f = t.feedback
 ---
 
 <BaseLayout
-  title={`${game.name} - RuleWord | Free Online Game`}
-  description={`${game.desc} ${game.descZh}. Play ${game.name} free online at RuleWord.`}
+  title={`${game.en.name} - RuleWord | Free Online Game`}
+  description={`${game.en.desc} ${game.zh?.desc || ''}. Play ${game.en.name} free online at RuleWord.`}
   keywords={keywords}
   canonicalPath={`/games/${game.slug}/`}
   gameType={gameType}
@@ -105,7 +137,7 @@ const f = t.feedback
       <GameWrapper
         client:load
         gameId={game.id}
-        gameName={game.name}
+        gameName={game.en.name}
         gameSlug={game.slug}
       />
     </main>
@@ -137,14 +169,14 @@ const f = t.feedback
           <div class="mt-12 pt-8 border-t border-slate-800">
             <h3 class="text-lg font-semibold mb-4" data-i18n="allGames">{t.home.allGames}</h3>
             <div class="flex flex-wrap gap-2" id="related-games">
-              {games.filter(g => g.category === game.category && g.id !== game.id).slice(0, 4).map(g => (
+              {gamesList.filter(g => g.category === game.category && g.id !== game.id).slice(0, 4).map(g => (
                 <a
                   href={`/games/${g.slug}/`}
                   class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm flex items-center gap-2 related-game"
-                  data-name-en={g.name} data-name-zh={g.nameZh}
+                  data-name-en={g.en.name} data-name-zh={g.zh?.name || g.en.name}
                 >
                   <span>{g.icon}</span>
-                  <span class="game-name">{g.name}</span>
+                  <span class="game-name">{g.en.name}</span>
                 </a>
               ))}
             </div>
@@ -157,7 +189,7 @@ const f = t.feedback
     <footer class="bg-slate-950 border-t border-slate-800 py-4 px-4 sm:px-6">
       <div class="max-w-7xl mx-auto flex items-center justify-between text-sm text-slate-400">
         <span>{t.home.copyright} · {getGameName()}</span>
-        <span>{games.length}+ {t.home.freeGames}</span>
+        <span>{gamesList.length}+ {t.home.freeGames}</span>
       </div>
     </footer>
   </div>
@@ -192,7 +224,7 @@ const f = t.feedback
           <label class="block text-sm text-slate-300 mb-1">{f.email}</label>
           <input type="email" id="feedback-email" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder={f.emailPlaceholder} />
         </div>
-        <input type="hidden" id="feedback-game" value={game.name} />
+        <input type="hidden" id="feedback-game" value={game.en.name} />
         <button type="submit" class="w-full py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-medium transition-all">
           {f.send}
         </button>

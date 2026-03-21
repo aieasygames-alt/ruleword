@@ -1,0 +1,30 @@
+{
+  "id": "simongame",
+  "slug": "simon-game",
+  "icon": "🔴",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-green-500 to-teal-600",
+  "en": {
+    "name": "Simon Game",
+    "desc": "Watch and repeat the color sequence! Each round adds one more color to memorize. Test your memory limits with this classic electronic game.",
+    "howToPlay": "Watch the colored buttons light up in sequence. When it's your turn, click the colors in the same order. Each round adds one more color to remember.",
+    "tips": [
+      "Say the colors out loud as they appear",
+      "Create mental stories or associations",
+      "Break long sequences into chunks of 3-4",
+      "Stay calm and focused as speed increases"
+    ]
+  },
+  "zh": {
+    "name": "西蒙记忆",
+    "desc": "观看并重复颜色序列！每轮增加一个颜色需要记忆。用这款经典电子游戏测试你的记忆极限。",
+    "howToPlay": "观看亮起的颜色序列。按相同顺序点击按钮。每个新回合增加一个新步骤。按错顺序则游戏结束。",
+    "tips": [
+      "在心里将颜色分组记忆",
+      "使用节奏和模式帮助记忆",
+      "专注于上一个颜色添加",
+      "练习提高你的记忆跨度"
+    ]
+  }
+}

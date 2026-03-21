@@ -1,0 +1,30 @@
+{
+  "id": "gomoku",
+  "slug": "gomoku",
+  "icon": "⚫",
+  "category": "strategy",
+  "featured": true,
+  "color": "from-amber-700 to-amber-900",
+  "en": {
+    "name": "Gomoku",
+    "desc": "Get five in a row to win! Play on a 15x15 board against the AI. Think ahead to create threats while blocking your opponent. Classic strategy game!",
+    "howToPlay": "Click on any intersection to place your stone. The first player to get five in a row (horizontal, vertical, or diagonal) wins. You play black against the AI.",
+    "tips": [
+      "Control the center for more winning opportunities",
+      "Create \"open fours\" - four in a row with both ends open",
+      "Block opponent threats immediately",
+      "Build multiple threats simultaneously"
+    ]
+  },
+  "zh": {
+    "name": "五子棋",
+    "desc": "五子连珠获胜！在15x15棋盘上与AI对战。提前布局创造威胁同时阻止对手。经典策略游戏！",
+    "howToPlay": "点击任意交叉点放置棋子。首先连成五子（水平、垂直或对角线）的玩家获胜。你执黑棋与AI对战。",
+    "tips": [
+      "控制中心以获得更多获胜机会",
+      "创造\"活四\"——两端都开放的四子连线",
+      "立即阻止对手的威胁",
+      "同时建立多个威胁"
+    ]
+  }
+}

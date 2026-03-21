@@ -1,0 +1,19 @@
+{
+  "id": "wordscramble",
+  "slug": "word-scramble",
+  "icon": "🔀",
+  "category": "word",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Word Scramble",
+    "desc": "Race against time to unscramble words! Study the jumbled letters and type the correct word. Fast-paced vocabulary challenge!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "单词重组",
+    "desc": "限时重组单词！观察打乱的字母并输入正确的单词。快节奏词汇挑战！",
+    "howToPlay": "",
+    "tips": []
+  }
+}

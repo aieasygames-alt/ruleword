@@ -1,0 +1,30 @@
+{
+  "id": "sudoku",
+  "slug": "sudoku",
+  "icon": "🧩",
+  "category": "logic",
+  "featured": true,
+  "color": "from-orange-500 to-red-600",
+  "en": {
+    "name": "Sudoku",
+    "desc": "The world-famous logic puzzle! Fill a 9x9 grid with digits 1-9 so that each row, column, and 3x3 box contains all numbers. Multiple difficulty levels available.",
+    "howToPlay": "Click on an empty cell and enter a number from 1-9. Each row, column, and 3x3 box must contain all digits 1-9 exactly once. Use the notes feature to pencil in possible candidates. Wrong entries are highlighted in red.",
+    "tips": [
+      "Start with rows, columns, or boxes that have the most filled cells",
+      "Use the process of elimination - if a number can only go in one cell, place it",
+      "Look for \"naked pairs\" - two cells that can only contain the same two numbers",
+      "Use notes to track all possible candidates for each cell"
+    ]
+  },
+  "zh": {
+    "name": "数独",
+    "desc": "举世闻名的逻辑谜题！在9x9网格中填入1-9数字，使每行、每列和每个3x3宫都包含所有数字。多种难度可选。",
+    "howToPlay": "点击空白单元格并输入1-9的数字。每行、每列和每个3x3宫格必须恰好包含1-9的所有数字。使用笔记功能标记可能的候选数字。错误的输入会以红色高亮显示。",
+    "tips": [
+      "从填满单元格最多的行、列或宫格开始",
+      "使用排除法——如果一个数字只能放在一个单元格，就填入它",
+      "寻找\"裸对\"——两个只能包含相同两个数字的单元格",
+      "使用笔记追踪每个单元格的所有可能候选数字"
+    ]
+  }
+}

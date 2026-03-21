@@ -1,0 +1,29 @@
+{
+  "id": "anagrams",
+  "slug": "anagrams",
+  "icon": "🔀",
+  "category": "word",
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Anagrams",
+    "desc": "Unscramble jumbled letters to form meaningful words! A fantastic brain exercise that tests your vocabulary and word recognition abilities under time pressure.",
+    "howToPlay": "Look at the shuffled letters and type the correct word. Use the hint if stuck. You have 3 attempts per word. Longer streaks earn bonus points!",
+    "tips": [
+      "Look for common prefixes and suffixes",
+      "Try arranging letters in different orders",
+      "Common letter combinations like TH, CH, ING",
+      "Say the letters out loud to hear possibilities"
+    ]
+  },
+  "zh": {
+    "name": "字谜重组",
+    "desc": "将打乱的字母重新组合成有意义的单词！绝佳的大脑训练，在时间压力下测试您的词汇量和单词识别能力。",
+    "howToPlay": "看打乱的字母并输入正确的单词。如果卡住可以使用提示。每个单词有3次尝试机会。连续答对可获得额外积分！",
+    "tips": [
+      "寻找常见的前缀和后缀",
+      "尝试以不同顺序排列字母",
+      "常见的字母组合如TH, CH, ING",
+      "大声说出字母来听出可能性"
+    ]
+  }
+}

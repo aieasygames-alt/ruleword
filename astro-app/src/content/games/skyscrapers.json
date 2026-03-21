@@ -1,0 +1,29 @@
+{
+  "id": "skyscrapers",
+  "slug": "skyscrapers",
+  "icon": "🏙️",
+  "category": "logic",
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Skyscrapers",
+    "desc": "Place buildings of varying heights on a grid so that the number of visible buildings matches the clues from each direction. A challenging 3D logic puzzle!",
+    "howToPlay": "Place buildings 1-N in each row and column (like Sudoku). Clues show how many buildings are visible when looking from that direction. Taller buildings hide shorter ones behind them.",
+    "tips": [
+      "The highest building (N) is always visible",
+      "A clue of 1 means the tallest building is first",
+      "A clue of N means buildings are in ascending order",
+      "Start with the most restrictive clues"
+    ]
+  },
+  "zh": {
+    "name": "摩天楼",
+    "desc": "在网格上放置不同高度的建筑，使从各个方向看到的建筑数量与提示相符。极具挑战性的3D逻辑谜题！",
+    "howToPlay": "在格子中填入1-N的数字（N为网格大小）。每个数字代表建筑高度。从任何方向观看时，可见建筑数量必须等于提示数字。更高建筑遮挡较低建筑。",
+    "tips": [
+      "从提示数字N开始——必须能看到所有建筑",
+      "从提示数字1开始——最高建筑必须在该格子",
+      "使用排除法推断建筑位置",
+      "考虑两个方向的约束"
+    ]
+  }
+}

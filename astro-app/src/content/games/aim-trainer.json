@@ -1,0 +1,25 @@
+{
+  "id": "aimtrainer",
+  "slug": "aim-trainer",
+  "icon": "🎯",
+  "category": "skill",
+  "featured": true,
+  "color": "from-red-500 to-orange-600",
+  "en": {
+    "name": "Aim Trainer",
+    "desc": "Improve your mouse precision and reaction time! Click targets as they appear randomly. Track your accuracy, speed, and score. Perfect for FPS gamers!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "瞄准训练",
+    "desc": "提升鼠标精准度和反应时间！点击随机出现的目标。跟踪你的准确率、速度和得分。FPS玩家必备！",
+    "howToPlay": "Click on targets as they appear on screen. Different modes offer varied challenges: Classic (hit before timeout), Tracking (follow moving target), Flick (rapid target acquisition).",
+    "tips": [
+      "Keep your wrist relaxed for smoother movements",
+      "Focus on accuracy over speed initially",
+      "Use a consistent mouse sensitivity",
+      "Practice daily for noticeable improvement"
+    ]
+  }
+}

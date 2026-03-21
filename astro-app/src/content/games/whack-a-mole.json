@@ -1,0 +1,29 @@
+{
+  "id": "whackamole",
+  "slug": "whack-a-mole",
+  "icon": "🔨",
+  "category": "memory",
+  "color": "from-orange-500 to-red-600",
+  "en": {
+    "name": "Whack-a-Mole",
+    "desc": "Test your reflexes! Moles pop up randomly - hit them before they disappear. A carnival classic that tests hand-eye coordination!",
+    "howToPlay": "Click or tap moles as they pop up from their holes. You score points for each mole you hit. Miss too many and the game ends. Speed increases as you progress!",
+    "tips": [
+      "Keep your eyes moving across all holes",
+      "Don't fixate on one area",
+      "Use quick, light taps rather than firm clicks",
+      "Stay relaxed for faster reactions"
+    ]
+  },
+  "zh": {
+    "name": "打地鼠",
+    "desc": "测试你的反应！地鼠随机冒出 - 在它们消失前击打它们。测试手眼协调的嘉年华经典！",
+    "howToPlay": "点击探出的地鼠得分。有些地鼠是假的——不要击打！地鼠出现时间有限。反应越快得分越高。",
+    "tips": [
+      "保持专注扫描所有洞",
+      "不要击打友好地鼠",
+      "优先击打高价值地鼠",
+      "保持稳定节奏而非匆忙点击"
+    ]
+  }
+}

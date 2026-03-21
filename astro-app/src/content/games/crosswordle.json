@@ -1,0 +1,30 @@
+{
+  "id": "crosswordle",
+  "slug": "crosswordle",
+  "icon": "🔤",
+  "category": "word",
+  "featured": true,
+  "color": "from-blue-500 to-indigo-600",
+  "en": {
+    "name": "Crosswordle",
+    "desc": "A creative twist on word puzzles! Swap adjacent letters to form valid words in this engaging crossword-style game. Perfect for vocabulary building and brain training.",
+    "howToPlay": "Click on a letter, then click another letter in a different column to swap them. Each row must form a valid word. Use hints wisely as swaps are limited.",
+    "tips": [
+      "Look for common letter patterns first",
+      "Check which letters could start or end words",
+      "Use the word list as a reference for valid words",
+      "Plan multiple swaps ahead before executing"
+    ]
+  },
+  "zh": {
+    "name": "填字游戏",
+    "desc": "文字谜题的创意变体！交换相邻字母组成有效单词，体验这款有趣的填字风格游戏。非常适合词汇积累和大脑训练。",
+    "howToPlay": "点击一个字母，然后点击另一列中的另一个字母来交换它们。每行必须形成一个有效的单词。明智地使用提示，因为交换次数有限。",
+    "tips": [
+      "首先寻找常见的字母模式",
+      "检查哪些字母可以开头或结尾单词",
+      "使用单词列表作为有效单词的参考",
+      "在执行之前提前规划多次交换"
+    ]
+  }
+}

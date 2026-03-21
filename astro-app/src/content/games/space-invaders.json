@@ -1,0 +1,30 @@
+{
+  "id": "spaceinvaders",
+  "slug": "space-invaders",
+  "icon": "👾",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-purple-600 to-indigo-700",
+  "en": {
+    "name": "Space Invaders",
+    "desc": "Defend Earth from alien invasion! Shoot down waves of descending aliens before they reach the bottom. The 1978 shooter that defined a genre!",
+    "howToPlay": "Use arrow keys to move left/right and Space to shoot. Destroy all aliens to advance. Aliens move faster as their numbers decrease. You have 3 lives.",
+    "tips": [
+      "Stay under the invaders for easier shots",
+      "Shoot from edges when possible",
+      "Watch for the speeding up as enemies decrease",
+      "Use predictable movement patterns to aim"
+    ]
+  },
+  "zh": {
+    "name": "太空侵略者",
+    "desc": "保卫地球免受外星入侵！在外星人到达底部前击落他们。1978年定义了射击游戏类型的经典！",
+    "howToPlay": "使用左右方向键移动，空格键射击。外星人左右移动并逐渐下降。清除所有外星人获胜。他们可以躲进碉堡。",
+    "tips": [
+      "优先瞄准最前面的外星人",
+      "注意躲避外星人的子弹",
+      "利用碉堡临时躲避",
+      "UFO飞过时给予额外分数"
+    ]
+  }
+}

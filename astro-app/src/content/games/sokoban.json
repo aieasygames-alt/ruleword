@@ -1,0 +1,25 @@
+{
+  "id": "sokoban",
+  "slug": "sokoban",
+  "icon": "📦",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-amber-600 to-orange-700",
+  "en": {
+    "name": "Sokoban",
+    "desc": "The classic warehouse puzzle! Push boxes onto target spots. You can only push, not pull. Plan your moves carefully - one wrong move and you're stuck!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "推箱子",
+    "desc": "经典仓库谜题！将箱子推到目标位置。只能推不能拉。仔细规划移动 - 一步错就可能卡住！",
+    "howToPlay": "Use arrow keys or WASD to move the player. Push boxes by walking into them. Get all boxes onto the target spots to complete each level. Boxes can only be pushed, never pulled.",
+    "tips": [
+      "Never push a box into a corner - it cannot be retrieved",
+      "Think several moves ahead before pushing a box",
+      "Use the undo feature to experiment without restarting",
+      "Some levels require pushing boxes in a specific order"
+    ]
+  }
+}

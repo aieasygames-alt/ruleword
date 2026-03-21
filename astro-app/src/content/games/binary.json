@@ -1,0 +1,29 @@
+{
+  "id": "binary",
+  "slug": "binary",
+  "icon": "⚪",
+  "category": "logic",
+  "color": "from-slate-500 to-gray-600",
+  "en": {
+    "name": "Binary",
+    "desc": "Fill the grid with 0s and 1s following simple rules: no more than two identical numbers adjacent, and equal numbers of each in every row and column.",
+    "howToPlay": "Fill cells with 0 or 1. Rules: 1) No more than two same digits adjacent, 2) Each row and column has equal 0s and 1s, 3) No two rows or columns are identical.",
+    "tips": [
+      "If two same digits appear, the next must be opposite",
+      "Count remaining 0s and 1s in each row/column",
+      "Look for rows/columns that are nearly complete",
+      "Compare partial rows to find unique patterns"
+    ]
+  },
+  "zh": {
+    "name": "01填格",
+    "desc": "按照简单规则用0和1填满网格：相同数字不能超过两个相邻，每行每列的数字数量相等。",
+    "howToPlay": "点击格子在0和1之间切换。每行每列必须有相等数量的0和1。相同的数字（000或111）不能连续出现三次或更多。行/列数字提示匹配数量。",
+    "tips": [
+      "从已经有较多数字的行或列开始",
+      "寻找必须填入0或1以避免三连的格子",
+      "使用交叉逻辑推理",
+      "提示数字告诉你该行/列有多少个连续的相同数字"
+    ]
+  }
+}

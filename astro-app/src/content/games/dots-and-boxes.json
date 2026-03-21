@@ -1,0 +1,29 @@
+{
+  "id": "dotsandboxes",
+  "slug": "dots-and-boxes",
+  "icon": "📦",
+  "category": "strategy",
+  "color": "from-indigo-500 to-blue-600",
+  "en": {
+    "name": "Dots and Boxes",
+    "desc": "Connect dots to form boxes! Complete a box to claim it and get another turn. The player with most boxes wins. A math-class classic goes digital!",
+    "howToPlay": "Click on lines between dots to draw them. When you complete a box, you score a point and get another turn. The player with most boxes wins.",
+    "tips": [
+      "Avoid creating the third side of a box for your opponent",
+      "Try to create chains of boxes you can complete",
+      "The double-cross strategy: sacrifice 2 boxes to win the chain",
+      "Count boxes carefully in the endgame"
+    ]
+  },
+  "zh": {
+    "name": "点格棋",
+    "desc": "连接点形成方格！完成一个方格即可占据它并获得额外回合。方格最多的玩家获胜。数学课经典游戏数字化！",
+    "howToPlay": "点击两点之间的水平或垂直线。完成一个盒子（四条边）获得一分并再走一步。小心不要过早为对手设置盒子！",
+    "tips": [
+      "避免过早为对手完成第3条边",
+      "试图迫使对手为你完成盒子",
+      "游戏后期抢夺大部分区域",
+      "使用长链策略控制游戏流程"
+    ]
+  }
+}

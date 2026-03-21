@@ -1,0 +1,29 @@
+{
+  "id": "simonsays",
+  "slug": "simon-says",
+  "icon": "🎵",
+  "category": "memory",
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Simon Says",
+    "desc": "Follow the color and sound sequence! Each round gets longer and harder. A fun way to train your auditory and visual memory simultaneously.",
+    "howToPlay": "Watch the sequence of colors light up. Then repeat the pattern by clicking the colors in the same order. Each round adds one more color to the sequence.",
+    "tips": [
+      "Say the colors out loud as you see them",
+      "Create mental associations for longer sequences",
+      "Break long sequences into smaller chunks",
+      "Stay calm and focused as speed increases"
+    ]
+  },
+  "zh": {
+    "name": "西蒙说",
+    "desc": "跟随颜色和声音序列！每轮变得更长更难。同时训练听觉和视觉记忆的有趣方式。",
+    "howToPlay": "观看颜色亮起的序列。按相同顺序点击按钮。每个新序列增加一个步骤。速度随时间增加。",
+    "tips": [
+      "保持节奏和模式",
+      "专注于视觉提示",
+      "不要匆忙——准确比速度更重要",
+      "练习提高反应时间"
+    ]
+  }
+}

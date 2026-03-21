@@ -1,0 +1,30 @@
+{
+  "id": "reversi",
+  "slug": "reversi",
+  "icon": "⚪",
+  "category": "strategy",
+  "featured": true,
+  "color": "from-gray-500 to-black",
+  "en": {
+    "name": "Reversi",
+    "desc": "Also called Othello! Place discs to flip your opponent's pieces. The player with more discs at the end wins. Simple rules, deep strategy!",
+    "howToPlay": "Click on a valid cell to place your disc. You must flip at least one opponent disc. Discs are flipped when sandwiched between your discs. Game ends when no moves remain.",
+    "tips": [
+      "Control corners - they can never be flipped",
+      "Avoid spaces next to corners early in the game",
+      "Focus on stable discs that can't be flipped",
+      "Mobility matters - keep your move options open"
+    ]
+  },
+  "zh": {
+    "name": "黑白棋",
+    "desc": "又称奥赛罗！放置圆盘翻转对手的棋子。结束时棋子多的玩家获胜。简单规则，深度策略！",
+    "howToPlay": "点击有效位置放置棋子。你必须翻转至少一个对手棋子。当棋子被夹在你的棋子之间时会被翻转。当没有可走时游戏结束。",
+    "tips": [
+      "控制角落——它们永远不能被翻转",
+      "游戏早期避免靠近角落的位置",
+      "专注于不能被翻转的稳定棋子",
+      "机动性很重要——保持你的选择开放"
+    ]
+  }
+}

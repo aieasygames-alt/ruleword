@@ -1,0 +1,29 @@
+{
+  "id": "brickbreaker",
+  "slug": "brick-breaker",
+  "icon": "🏓",
+  "category": "arcade",
+  "color": "from-purple-500 to-indigo-600",
+  "en": {
+    "name": "Brick Breaker",
+    "desc": "Bounce the ball to destroy bricks! Move your paddle to keep the ball in play. Clear all bricks to advance. A satisfying arcade classic!",
+    "howToPlay": "Move the paddle with mouse or arrow keys. Bounce the ball to break bricks. Clear all bricks to advance. Catch power-ups for special abilities!",
+    "tips": [
+      "Aim for corners to break through to the top",
+      "Don't chase the ball - anticipate where it will land",
+      "Catch falling power-ups when safe to do so",
+      "Use angled shots to reach difficult bricks"
+    ]
+  },
+  "zh": {
+    "name": "打砖块",
+    "desc": "弹跳球消灭砖块！移动挡板保持球在游戏中。清除所有砖块进入下一关。令人满足的街机经典！",
+    "howToPlay": "移动挡板保持球反弹。砖块上的数字显示需要击打多少次。不同颜色的砖块需要不同次数。击碎所有砖块获胜！",
+    "tips": [
+      "将球引导到高数字砖块区域",
+      "等待合适的时机才击打敏感位置",
+      "优先击碎容易到达的砖块",
+      "注意球速随时间增加"
+    ]
+  }
+}

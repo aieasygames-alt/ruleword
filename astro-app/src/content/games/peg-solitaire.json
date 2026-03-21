@@ -1,0 +1,19 @@
+{
+  "id": "pegsolitaire",
+  "slug": "peg-solitaire",
+  "icon": "⭕",
+  "category": "puzzle",
+  "color": "from-amber-500 to-yellow-600",
+  "en": {
+    "name": "Peg Solitaire",
+    "desc": "The classic peg jumping puzzle! Jump over pegs to remove them. Goal: leave only one peg on the board. Simple rules, deep strategy!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "孔明棋",
+    "desc": "经典跳棋谜题！跳过棋子将其移除。目标：棋盘上只留下一个棋子。简单规则，深度策略！",
+    "howToPlay": "",
+    "tips": []
+  }
+}

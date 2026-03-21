@@ -1,0 +1,29 @@
+{
+  "id": "hashiwokakero",
+  "slug": "bridges",
+  "icon": "🌉",
+  "category": "logic",
+  "color": "from-sky-500 to-cyan-600",
+  "en": {
+    "name": "Bridges",
+    "desc": "Connect islands with bridges! Each island shows how many bridges connect to it. Bridges run horizontally or vertically and never cross. Build the network!",
+    "howToPlay": "Click between islands to build bridges. Each island's number shows required bridge connections. Bridges run horizontally/vertically and cannot cross.",
+    "tips": [
+      "Islands with 8 need 4 bridges in each direction",
+      "Corner 4s need 2 bridges in each available direction",
+      "Plan routes to avoid bridge crossings",
+      "All islands must be connected in one network"
+    ]
+  },
+  "zh": {
+    "name": "造桥",
+    "desc": "用桥连接岛屿！每个岛屿显示连接到它的桥数。桥水平或垂直延伸，永不交叉。构建你的网络！",
+    "howToPlay": "点击岛屿之间的格子来画桥。可以在两个岛之间画一到两座桥。所有岛屿必须连通。单个岛屿不能有超过两座桥连接到另一个岛屿。",
+    "tips": [
+      "从角上的1开始——它们只有一种选择",
+      "不能有超过两座桥的任何连接",
+      "确保所有岛屿最终连通",
+      "使用排除法找到必要的桥梁"
+    ]
+  }
+}

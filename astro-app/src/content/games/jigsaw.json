@@ -1,0 +1,24 @@
+{
+  "id": "jigsaw",
+  "slug": "jigsaw",
+  "icon": "🧩",
+  "category": "puzzle",
+  "color": "from-orange-500 to-amber-600",
+  "en": {
+    "name": "Jigsaw Puzzle",
+    "desc": "Classic jigsaw puzzle fun! Drag pieces to complete beautiful images. Multiple difficulty levels from easy 4x4 to challenging 10x10 grids.",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "拼图游戏",
+    "desc": "经典拼图乐趣！拖动碎片完成美丽图片。多种难度从简单4x4到挑战性10x10网格。",
+    "howToPlay": "Click on a piece to select it, then click another piece to swap their positions. Arrange all pieces in numerical order to complete the puzzle. Try to minimize moves and time.",
+    "tips": [
+      "Start by placing corner and edge pieces",
+      "Look for sequential numbers that are close together",
+      "Use the preview image as reference",
+      "Work on one section at a time"
+    ]
+  }
+}

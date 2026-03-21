@@ -1,0 +1,30 @@
+{
+  "id": "minesweeper",
+  "slug": "minesweeper",
+  "icon": "💣",
+  "category": "logic",
+  "featured": true,
+  "color": "from-red-500 to-rose-600",
+  "en": {
+    "name": "Minesweeper",
+    "desc": "The classic computer puzzle! Uncover squares while avoiding hidden mines. Use number clues to deduce safe spots. Clear the board to win!",
+    "howToPlay": "Click to reveal a cell. Numbers show how many mines are in the 8 adjacent cells. Right-click to flag cells you think contain mines. Clear all non-mine cells to win.",
+    "tips": [
+      "The first click is always safe",
+      "If a number equals its adjacent unrevealed cells, all are mines",
+      "If a number equals its adjacent flags, all other adjacent cells are safe",
+      "Start from corners and edges for easier deductions"
+    ]
+  },
+  "zh": {
+    "name": "扫雷",
+    "desc": "经典电脑益智游戏！揭开方格同时避开隐藏的地雷。利用数字提示推断安全位置。清除整个棋盘即可获胜！",
+    "howToPlay": "点击揭开一个单元格。数字显示8个相邻单元格中有多少地雷。右键单击标记你认为含有地雷的单元格。清除所有非地雷单元格即可获胜。",
+    "tips": [
+      "第一次点击总是安全的",
+      "如果一个数字等于其相邻未揭开单元格数，则全部是地雷",
+      "如果一个数字等于其相邻旗帜数，则其他相邻单元格都是安全的",
+      "从角落和边缘开始更容易推理"
+    ]
+  }
+}

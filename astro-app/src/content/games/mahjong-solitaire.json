@@ -1,0 +1,25 @@
+{
+  "id": "mahjongsolitaire",
+  "slug": "mahjong-solitaire",
+  "icon": "🀄",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-emerald-500 to-teal-600",
+  "en": {
+    "name": "Mahjong Solitaire",
+    "desc": "Classic tile-matching puzzle! Remove matching pairs of tiles that are free on at least one side. Clear the board to win. Relaxing and addictive!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "麻将配对",
+    "desc": "经典麻将配对游戏！移除至少一边自由的匹配牌对。清空棋盘获胜。轻松上瘾！",
+    "howToPlay": "Click on two matching tiles that are \"free\" (at least one left or right side is open, and no tile is on top). The tiles will be removed. Continue until all tiles are cleared or no more moves are possible.",
+    "tips": [
+      "Focus on removing tiles from the top layers first",
+      "Plan ahead - some matches may block future moves",
+      "Look for tiles that appear 3 or 4 times - matching them opens more options",
+      "Use hints if stuck, but try to spot patterns yourself"
+    ]
+  }
+}

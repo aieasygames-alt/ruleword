@@ -1,0 +1,30 @@
+{
+  "id": "bullpen",
+  "slug": "bullpen",
+  "icon": "🐂",
+  "category": "logic",
+  "featured": true,
+  "color": "from-lime-500 to-green-600",
+  "en": {
+    "name": "Bullpen",
+    "desc": "Sudoku meets Minesweeper! Use number clues to deduce which cells contain bulls. A unique logic puzzle combining two classic games into one.",
+    "howToPlay": "Each row, column, and region must contain a specific number of bulls. Numbers show how many bulls are in adjacent cells. Use logic to deduce safe cells from mine-like clues.",
+    "tips": [
+      "Start with regions that have the most constraints",
+      "Use the number clues like Minesweeper to find patterns",
+      "Remember: you're placing bulls, not avoiding them",
+      "Cross-reference Sudoku rules with adjacency clues"
+    ]
+  },
+  "zh": {
+    "name": "牛栏逻辑",
+    "desc": "数独遇上扫雷！利用数字提示推断哪些格子包含公牛。独特的逻辑谜题，将两款经典游戏合二为一。",
+    "howToPlay": "点击和拖动创建矩形墙。每个数字区域必须被划分为恰好该数量的矩形。每个矩形恰好包含一个数字。矩形不能包含两个或更多数字。",
+    "tips": [
+      "从约束最多的区域开始（大数字）",
+      "每个矩形必须恰好包含一个数字",
+      "矩形不能重叠或穿过区域边界",
+      "使用排除法找到可能的矩形"
+    ]
+  }
+}

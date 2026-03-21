@@ -1,0 +1,30 @@
+{
+  "id": "tetris",
+  "slug": "tetris",
+  "icon": "🧱",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-blue-500 to-cyan-600",
+  "en": {
+    "name": "Tetris",
+    "desc": "The legendary falling block puzzle! Rotate and place tetrominos to clear lines. As speed increases, test your reflexes and spatial thinking. Gaming icon since 1984!",
+    "howToPlay": "Use arrow keys to move and rotate falling blocks. Left/Right to move, Up to rotate, Down to soft drop. Complete horizontal lines are cleared. The game speeds up as you progress.",
+    "tips": [
+      "Leave space for the long I-piece on one side",
+      "Avoid creating holes that can't be filled",
+      "Think ahead about where each piece will fit best",
+      "Use hard drop for faster placement when certain"
+    ]
+  },
+  "zh": {
+    "name": "俄罗斯方块",
+    "desc": "传奇的落方块益智游戏！旋转和放置方块消除整行。随着速度加快，测试你的反应和空间思维。1984年以来的游戏标志！",
+    "howToPlay": "使用方向键移动和旋转下落的方块。左/右移动，上旋转，下加速下落。完成水平线会被消除。随着游戏进行速度会加快。",
+    "tips": [
+      "在一边为长条I形方块留出空间",
+      "避免创建无法填充的空洞",
+      "提前思考每个方块最适合放在哪里",
+      "确定后使用硬降加速放置"
+    ]
+  }
+}

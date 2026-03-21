@@ -1,0 +1,20 @@
+{
+  "id": "memorymatrix",
+  "slug": "memory-matrix",
+  "icon": "🟦",
+  "category": "memory",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Memory Matrix",
+    "desc": "Memorize and recreate grid patterns! Watch the pattern flash, then click to recreate it. Difficulty increases with grid size and complexity.",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "矩阵记忆",
+    "desc": "记忆并重现网格图案！观察闪烁的图案，然后点击重现它。难度随网格大小和复杂性增加。",
+    "howToPlay": "",
+    "tips": []
+  }
+}

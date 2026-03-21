@@ -1,0 +1,29 @@
+{
+  "id": "yajilin",
+  "slug": "yajilin",
+  "icon": "🔵",
+  "category": "logic",
+  "color": "from-blue-500 to-indigo-600",
+  "en": {
+    "name": "Yajilin",
+    "desc": "Draw a loop and shade cells! Arrows indicate how many shaded cells are in that direction. Every cell must be either part of the loop or shaded.",
+    "howToPlay": "Shade some cells black so that no two black cells touch. Draw a single loop through all non-shaded, non-clue cells. Clues show how many black cells are in the indicated direction.",
+    "tips": [
+      "Start with clue cells - they tell you where black cells must be",
+      "Black cells cannot touch each other orthogonally",
+      "The loop must visit every white cell exactly once",
+      "Use process of elimination for cells that cannot be black"
+    ]
+  },
+  "zh": {
+    "name": "耶吉林",
+    "desc": "画回路并涂黑格子！箭头指示该方向有多少涂黑格子。每个格子必须是回路的一部分或被涂黑。",
+    "howToPlay": "涂黑一些格子使没有两个黑色格子相邻。画一条穿过所有非涂黑、非数字格子的单一回路。数字表示所指方向上的黑色格子数。",
+    "tips": [
+      "从数字格子开始——它们告诉你黑色格子位置",
+      "黑色格子不能彼此正交相邻",
+      "回路必须恰好访问每个白色格子一次",
+      "利用数字约束推断黑色格子"
+    ]
+  }
+}

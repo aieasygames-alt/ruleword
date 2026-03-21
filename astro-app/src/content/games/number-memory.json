@@ -1,0 +1,30 @@
+{
+  "id": "numbermemory",
+  "slug": "number-memory",
+  "icon": "🔢",
+  "category": "memory",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Number Memory",
+    "desc": "Remember increasingly long number sequences! Starting with 3 digits, how far can you go? Train your working memory with this challenging test.",
+    "howToPlay": "Watch the number displayed on screen. When it disappears, type the exact sequence. Each correct answer adds one more digit. You have 3 attempts per level.",
+    "tips": [
+      "Chunk numbers into groups of 2-3 digits",
+      "Create patterns or stories to remember sequences",
+      "Stay focused and eliminate distractions",
+      "Practice regularly to improve memory capacity"
+    ]
+  },
+  "zh": {
+    "name": "数字记忆",
+    "desc": "记忆越来越长的数字序列！从3位数字开始，你能走多远？用这个挑战性测试训练你的工作记忆。",
+    "howToPlay": "仔细观看显示的数字序列。输入相同的序列重复它。每个新回合增加一个数字。输入错误序列则游戏结束。",
+    "tips": [
+      "使用分组技巧（如电话号码）记忆",
+      "在心里默念数字",
+      "将数字与图像或模式关联",
+      "练习以提高你的记忆跨度"
+    ]
+  }
+}

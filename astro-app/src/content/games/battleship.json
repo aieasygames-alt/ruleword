@@ -1,0 +1,30 @@
+{
+  "id": "battleship",
+  "slug": "battleship",
+  "icon": "🚢",
+  "category": "strategy",
+  "featured": true,
+  "color": "from-blue-600 to-indigo-700",
+  "en": {
+    "name": "Battleship",
+    "desc": "Naval warfare strategy! Place your fleet and guess enemy positions. First to sink all opponent ships wins. The classic guessing game with a military twist!",
+    "howToPlay": "First place your ships on your board (click to place, button to rotate). Then click enemy board to fire. Red = hit, Blue = miss. Sink all enemy ships to win!",
+    "tips": [
+      "Spread out your shots initially",
+      "After a hit, fire adjacent cells to find ship direction",
+      "Place ships in unpredictable patterns",
+      "Remember the ship sizes to track what's left"
+    ]
+  },
+  "zh": {
+    "name": "战舰",
+    "desc": "海军战争策略！部署舰队并猜测敌方位置。先击沉所有敌方战舰者获胜。经典猜测游戏的军事版！",
+    "howToPlay": "首先在你的棋盘上放置战舰（点击放置，按钮旋转）。然后点击敌方棋盘开火。红色=命中，蓝色=未中。击沉所有敌方战舰获胜！",
+    "tips": [
+      "起初分散你的射击",
+      "命中后，向相邻格子开火以找出战舰方向",
+      "以不可预测的模式放置战舰",
+      "记住战舰大小以追踪剩余战舰"
+    ]
+  }
+}

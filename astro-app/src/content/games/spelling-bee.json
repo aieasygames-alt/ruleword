@@ -1,0 +1,30 @@
+{
+  "id": "spellingbee",
+  "slug": "spelling-bee",
+  "icon": "🐝",
+  "category": "word",
+  "featured": true,
+  "color": "from-yellow-400 to-amber-500",
+  "en": {
+    "name": "Spelling Bee",
+    "desc": "Create as many words as possible using the given letters. Each word must include the center letter. Find the pangram to become the spelling champion!",
+    "howToPlay": "Make words of 4+ letters using the honeycomb letters. Every word must contain the center letter. Pangrams (using all 7 letters) earn bonus points!",
+    "tips": [
+      "Always include the center letter",
+      "Look for plural forms of words",
+      "Find the pangram for big points",
+      "Common endings: -ING, -ED, -ER"
+    ]
+  },
+  "zh": {
+    "name": "拼字蜜蜂",
+    "desc": "使用给定的字母尽可能多地创造单词。每个单词必须包含中心字母。找到全字母词成为拼字冠军！",
+    "howToPlay": "使用蜂窝字母组成4个以上字母的单词。每个单词必须包含中心字母。使用所有7个字母的单词可获得额外积分！",
+    "tips": [
+      "始终包含中心字母",
+      "寻找单词的复数形式",
+      "找到使用所有字母的单词获得高分",
+      "常见的结尾：-ING, -ED, -ER"
+    ]
+  }
+}

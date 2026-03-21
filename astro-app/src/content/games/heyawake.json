@@ -1,0 +1,29 @@
+{
+  "id": "heyawake",
+  "slug": "heyawake",
+  "icon": "🏠",
+  "category": "logic",
+  "color": "from-blue-500 to-indigo-600",
+  "en": {
+    "name": "Heyawake",
+    "desc": "Shade cells in rectangular rooms! No more than one shaded cell in a row or column per room. Shaded cells must connect across room boundaries.",
+    "howToPlay": "Click cells to cycle through empty, black, or white. Each room must have exactly its target number of black cells. No three black cells can be consecutive, and all white cells must be connected.",
+    "tips": [
+      "Start with rooms that have 0 black cells - mark all white",
+      "Look for rooms where the target forces specific placements",
+      "Avoid creating 3+ consecutive blacks when marking cells",
+      "Use white connectivity to eliminate impossible black placements"
+    ]
+  },
+  "zh": {
+    "name": "屋的分",
+    "desc": "在矩形房间中涂黑格子！每个房间内一行或一列最多一个涂黑格子。涂黑格子必须跨越房间边界相连。",
+    "howToPlay": "点击格子将其涂黑或留白。每个区域必须恰好有指定数量的黑色格子。没有两个黑色格子可以共享边（斜向相邻可以）。所有白色格子必须连通。",
+    "tips": [
+      "从0区域开始——将所有格子标记为白色",
+      "从最大区域开始——它们约束最多",
+      "避免创建三个连续的黑色格子",
+      "确保所有白色格子保持连通"
+    ]
+  }
+}

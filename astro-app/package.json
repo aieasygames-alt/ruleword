@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "dev:cms": "node cms-proxy.js & astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "cms:migrate": "npx tsx scripts/migrate-to-cms.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",

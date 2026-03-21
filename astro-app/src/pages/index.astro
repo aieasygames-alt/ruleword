@@ -1,7 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { games, categories } from '../data/games'
-import { languages, i18n, categoryI18n, getGameName, getGameDesc, type Language } from '../data/i18n'
+import { getCollection } from 'astro:content'
+import { categories } from '../data/games'
+import { languages, i18n, categoryI18n, type Language } from '../data/i18n'
+
+// 从 CMS Content Collections 获取所有游戏
+const gamesCollection = await getCollection('games')
+const games = gamesCollection.map(entry => ({
+  ...entry.data,
+  // 兼容旧格式
+  name: entry.data.en.name,
+  nameZh: entry.data.zh?.name || entry.data.en.name,
+  desc: entry.data.en.desc,
+  descZh: entry.data.zh?.desc || entry.data.en.desc
+}))
 
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
 const categoryList = categories.filter(c => c.id !== 'all')

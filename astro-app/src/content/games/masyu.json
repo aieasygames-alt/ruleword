@@ -1,0 +1,30 @@
+{
+  "id": "masyu",
+  "slug": "masyu",
+  "icon": "⚪",
+  "category": "logic",
+  "featured": true,
+  "color": "from-slate-400 to-gray-600",
+  "en": {
+    "name": "Masyu",
+    "desc": "Draw a loop passing through all pearls! White pearls require a straight path, black pearls require a turn. No guessing needed - pure logic!",
+    "howToPlay": "Click on edges between dots to draw line segments. The loop must pass through all pearls. At white pearls, go straight through. At black pearls, make a turn.",
+    "tips": [
+      "Black pearls must turn - plan corners around them",
+      "White pearls need straight paths - avoid blocking both directions",
+      "Look for pearls near edges - they constrain the loop",
+      "Build the loop section by section, connecting as you go"
+    ]
+  },
+  "zh": {
+    "name": "真珠路",
+    "desc": "画一条经过所有珍珠的回路！白珍珠需要直线路径，黑珍珠需要转弯。无需猜测 - 纯逻辑！",
+    "howToPlay": "点击点之间的边缘画线段。循环必须穿过所有圆圈。在白圈处直穿，在黑圈处转弯。循环必须回到起点。",
+    "tips": [
+      "黑圈必须转弯——在它们周围规划角",
+      "白圈需要直线路径——避免阻挡两个方向",
+      "寻找靠近边缘的圆圈——它们约束循环",
+      "一段接一段地建立循环"
+    ]
+  }
+}

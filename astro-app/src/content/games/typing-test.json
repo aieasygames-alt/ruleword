@@ -1,0 +1,25 @@
+{
+  "id": "typingtest",
+  "slug": "typing-test",
+  "icon": "⌨️",
+  "category": "skill",
+  "featured": true,
+  "color": "from-blue-500 to-indigo-600",
+  "en": {
+    "name": "Typing Test",
+    "desc": "Test your typing speed and accuracy! Type the words as fast as you can. Track your WPM (words per minute) and improve your keyboard skills.",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "打字测试",
+    "desc": "测试你的打字速度和准确率！尽快输入单词。跟踪你的WPM（每分钟字数）并提升键盘技能。",
+    "howToPlay": "Words appear on screen - type them exactly as shown. Press space after each word to move to the next. Your WPM and accuracy are tracked in real-time.",
+    "tips": [
+      "Focus on accuracy first, speed comes with practice",
+      "Keep your eyes on the screen, not the keyboard",
+      "Use all ten fingers for maximum speed",
+      "Practice regularly to build muscle memory"
+    ]
+  }
+}

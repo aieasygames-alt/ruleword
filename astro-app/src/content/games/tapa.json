@@ -1,0 +1,29 @@
+{
+  "id": "tapa",
+  "slug": "tapa",
+  "icon": "⬛",
+  "category": "logic",
+  "color": "from-gray-600 to-slate-700",
+  "en": {
+    "name": "Tapa",
+    "desc": "Create a continuous wall of shaded cells! Number clues show lengths of consecutive shaded cells in the 8 surrounding squares. All shaded cells must connect.",
+    "howToPlay": "Click cells to shade them black. All black cells must be connected. Clue numbers show lengths of consecutive black runs around that cell.",
+    "tips": [
+      "All black cells must connect to form a single wall",
+      "No 2x2 area can be completely black",
+      "Multiple numbers mean separate runs with gaps",
+      "0 clues mean all surrounding cells are white"
+    ]
+  },
+  "zh": {
+    "name": "塔帕",
+    "desc": "创建连续的涂黑格墙！数字提示显示周围8个格子中连续涂黑格的长度。所有涂黑格子必须相连。",
+    "howToPlay": "涂黑格子形成单一连续墙。数字表示周围涂黑格子的连续长度（多个数字表示多段墙）。墙不能形成2×2黑色区域。某些格子必须留白。",
+    "tips": [
+      "从数字约束最多的格子开始",
+      "墙必须是单一连续区域",
+      "不能形成2×2全黑区域",
+      "数字格子本身从不被涂黑"
+    ]
+  }
+}

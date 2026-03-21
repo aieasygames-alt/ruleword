@@ -1,0 +1,29 @@
+{
+  "id": "asteroids",
+  "slug": "asteroids",
+  "icon": "☄️",
+  "category": "arcade",
+  "color": "from-slate-600 to-gray-800",
+  "en": {
+    "name": "Asteroids",
+    "desc": "Navigate through an asteroid field! Rotate and thrust to avoid collisions while shooting asteroids into smaller pieces. Vector graphics gaming at its finest!",
+    "howToPlay": "Use arrow keys: Left/Right to rotate, Up to thrust, Space to shoot. Large asteroids split into smaller ones. Don't get hit by any asteroid!",
+    "tips": [
+      "Keep moving - staying still is dangerous",
+      "Clear small asteroids first - they're harder to hit",
+      "Use momentum to drift and shoot",
+      "The ship wraps around screen edges"
+    ]
+  },
+  "zh": {
+    "name": "小行星",
+    "desc": "穿越小行星带！旋转和推进避开碰撞，同时将小行星射击成更小的碎片。矢量图形游戏的巅峰！",
+    "howToPlay": "使用方向键或WASD移动，空格键射击。击碎大号小行星会分裂成中小号。获得更高分数，但要注意不要撞到小行星！",
+    "tips": [
+      "时刻保持移动以避免成为目标",
+      "优先射击向你飞来的小行星",
+      "注意屏幕边缘出现的小行星",
+      "使用惯性和动量来控制飞船"
+    ]
+  }
+}

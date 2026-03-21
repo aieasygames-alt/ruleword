@@ -1,0 +1,29 @@
+{
+  "id": "kakuro",
+  "slug": "kakuro",
+  "icon": "➕",
+  "category": "logic",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Kakuro",
+    "desc": "A crossword-style math puzzle! Fill empty cells with digits 1-9 so that the sum matches the clue. No digit can repeat in a single sum. Think Sudoku meets math!",
+    "howToPlay": "Fill empty cells with digits 1-9. The numbers above/left indicate the sum of consecutive cells. Each digit can only appear once in each sum.",
+    "tips": [
+      "Learn common sum combinations (e.g., 4 cells summing to 10)",
+      "Look for sums with limited possibilities",
+      "Cross-reference between horizontal and vertical sums",
+      "Start with cells that appear in multiple sums"
+    ]
+  },
+  "zh": {
+    "name": "数和",
+    "desc": "填字风格的数学谜题！用1-9数字填空，使总和与提示相符。同一求和中数字不能重复。数独与数学的完美结合！",
+    "howToPlay": "在空白格子填入1-9的数字。横向或纵向连续格子内的数字之和必须等于提示数字。同一组内不能有重复数字。",
+    "tips": [
+      "小格子数（和3、4）最容易解决",
+      "使用数独排除法与格子约束",
+      "追踪每个格子组中使用的数字",
+      "寻找只有一个可能解的唯一组合"
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "shakashaka",
+  "slug": "shakashaka",
+  "icon": "📐",
+  "category": "logic",
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Shakashaka",
+    "desc": "Place triangles in cells! Black cells indicate how many triangles surround them. When solved, all white areas form rectangles. A geometric puzzle!",
+    "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",
+    "tips": [
+      "Look for areas that can only be one shape",
+      "Use clue cells to determine triangle placements",
+      "Rectangles can be any size, including 1x1",
+      "Check that white areas don't form L-shapes"
+    ]
+  },
+  "zh": {
+    "name": "斜斜",
+    "desc": "在格子中放置三角形！黑色格子表示周围有多少三角形。完成后，所有白色区域形成矩形。几何谜题！",
+    "howToPlay": "点击格子在空白、右三角、下三角、左三角或上三角之间循环。白色区域必须形成矩形或正方形。三角形不能形成2×2全白区域。",
+    "tips": [
+      "从大数字区域开始",
+      "寻找可能形成矩形的三角形",
+      "避免创建2×2白色区域",
+      "使用约束来推断三角形位置"
+    ]
+  }
+}

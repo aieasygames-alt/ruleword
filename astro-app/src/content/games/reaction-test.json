@@ -1,0 +1,30 @@
+{
+  "id": "reactiontest",
+  "slug": "reaction-test",
+  "icon": "⚡",
+  "category": "memory",
+  "featured": true,
+  "color": "from-yellow-500 to-orange-600",
+  "en": {
+    "name": "Reaction Test",
+    "desc": "Test your reaction speed! Wait for the screen to turn green, then click as fast as possible. Track your best times and challenge friends!",
+    "howToPlay": "Click Start, then wait for the screen to turn from red to green. Click immediately when you see green. Don't click too early or you'll have to restart.",
+    "tips": [
+      "Stay relaxed - tension slows reactions",
+      "Focus on the center of the screen",
+      "Don't anticipate - wait for the actual signal",
+      "Practice regularly to improve your baseline"
+    ]
+  },
+  "zh": {
+    "name": "反应测试",
+    "desc": "测试你的反应速度！等待屏幕变绿，然后尽快点击。记录你的最佳时间并挑战朋友！",
+    "howToPlay": "等待屏幕变绿时立即点击。越快越好。反应时间以毫秒显示。尝试5次获得你的平均反应时间。",
+    "tips": [
+      "保持专注和准备",
+      "手放在鼠标/屏幕上准备",
+      "避免预判——等待真正变化",
+      "多次尝试获得准确结果"
+    ]
+  }
+}

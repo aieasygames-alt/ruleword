@@ -1,0 +1,24 @@
+{
+  "id": "bubbleshooter",
+  "slug": "bubble-shooter",
+  "icon": "🫧",
+  "category": "puzzle",
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Bubble Shooter",
+    "desc": "Shoot colorful bubbles to match 3 or more! Clear the board before bubbles reach the bottom. Aim carefully and create chain reactions!",
+    "howToPlay": "",
+    "tips": []
+  },
+  "zh": {
+    "name": "泡泡龙",
+    "desc": "发射彩色泡泡匹配3个或更多！在泡泡到达底部前清空棋盘。仔细瞄准，创造连锁反应！",
+    "howToPlay": "Aim and click to shoot bubbles upward. Match 3 or more bubbles of the same color to pop them. Clear all bubbles to win. Don't let bubbles reach the bottom line!",
+    "tips": [
+      "Aim for bubble clusters to maximize pops",
+      "Use wall bounces to reach difficult angles",
+      "Clear bubbles from the top to drop large sections",
+      "Plan several shots ahead"
+    ]
+  }
+}

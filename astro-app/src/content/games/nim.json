@@ -1,0 +1,29 @@
+{
+  "id": "nim",
+  "slug": "nim",
+  "icon": "🪨",
+  "category": "strategy",
+  "color": "from-slate-500 to-gray-600",
+  "en": {
+    "name": "Nim",
+    "desc": "An ancient mathematical strategy game! Take stones from piles, but take the last stone and you lose. Perfect information, pure strategy - can you find the winning formula?",
+    "howToPlay": "Select a row, then choose how many stones to remove. You must take at least 1 stone. The player forced to take the last stone loses the game.",
+    "tips": [
+      "In Hard mode, the AI uses optimal XOR strategy",
+      "Try to leave your opponent with equal rows",
+      "Control the total stone count",
+      "Learn the mathematical theory for perfect play"
+    ]
+  },
+  "zh": {
+    "name": "尼姆博弈",
+    "desc": "古老的数学策略游戏！从石堆中取走石头，但取走最后一颗石头就输。完全信息，纯粹策略 - 你能找到必胜公式吗？",
+    "howToPlay": "点击堆选择要拿取的物品数。每轮必须至少拿取一个，最多拿取堆中剩余物品数。谁拿走最后一个物品谁获胜。",
+    "tips": [
+      "计算每堆的二进制表示",
+      "关键策略是让对手处于必败位置",
+      "在多堆游戏中，仔细规划你的移动",
+      "小堆更容易控制"
+    ]
+  }
+}

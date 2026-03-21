@@ -1,0 +1,30 @@
+{
+  "id": "starbattle",
+  "slug": "star-battle",
+  "icon": "⭐",
+  "category": "logic",
+  "featured": true,
+  "color": "from-yellow-500 to-amber-600",
+  "en": {
+    "name": "Star Battle",
+    "desc": "Place stars in the grid! Each row, column, and region must contain exactly two stars. Stars can never touch each other, not even diagonally.",
+    "howToPlay": "Click cells to place stars. Each colored region needs 2 stars. Stars cannot be adjacent horizontally, vertically, or diagonally. Use logic to deduce valid positions.",
+    "tips": [
+      "Start with small regions - they have fewer options",
+      "If a star is placed, mark all adjacent cells as empty",
+      "Regions with 2 stars in 3 cells are constrained",
+      "Work systematically through constraints"
+    ]
+  },
+  "zh": {
+    "name": "星星大战",
+    "desc": "在网格中放置星星！每行、每列和每个区域必须恰好包含两颗星星。星星永远不能相互接触，甚至对角线也不行。",
+    "howToPlay": "点击格子放置星星。每行每列必须恰好有两颗星。每个区域必须恰好有两颗星。没有两颗星可以相邻（包括对角线）。",
+    "tips": [
+      "从小区域开始——它们约束最多",
+      "记住对角线相邻也禁止",
+      "使用排除法找到可能的位置",
+      "交叉约束揭示必要位置"
+    ]
+  }
+}
