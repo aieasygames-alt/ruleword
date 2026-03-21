@@ -55,7 +55,7 @@ const isSolvable = (tiles: (number | null)[]): boolean => {
 }
 
 const shuffleBoard = (seed?: number): Board => {
-  let tiles: (number | null)[] = []
+  const tiles: (number | null)[] = []
   for (let i = 1; i < TOTAL_TILES; i++) {
     tiles.push(i)
   }

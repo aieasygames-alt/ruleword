@@ -8,6 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "cms:migrate": "npx tsx scripts/migrate-to-cms.ts",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
@@ -22,6 +24,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.2.1",
     "@testing-library/jest-dom": "^6.0.0",
@@ -30,10 +33,16 @@
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.4.27",
+    "eslint": "^10.1.0",
+    "eslint-plugin-astro": "^1.6.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "jsdom": "^26.0.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.1",
     "vitest": "^3.0.0"
   }
 }

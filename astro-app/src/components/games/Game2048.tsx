@@ -208,7 +208,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     // 旋转次数：左=0，上=3，右=2，下=1
     const rotations: Record<Direction, number> = { left: 0, up: 3, right: 2, down: 1 }
 
-    let rotatedGrid = rotateGrid(grid, rotations[direction])
+    const rotatedGrid = rotateGrid(grid, rotations[direction])
     let totalScore = 0
     let moved = false
 

@@ -178,7 +178,7 @@ export default function MatchThree({ settings, onBack, toggleLanguage }: Props) 
   // 处理匹配
   const processMatches = useCallback(() => {
     setGrid(prev => {
-      let currentGrid = prev.map(row => [...row])
+      const currentGrid = prev.map(row => [...row])
       let totalMatches = 0
       let currentCombo = 0
 

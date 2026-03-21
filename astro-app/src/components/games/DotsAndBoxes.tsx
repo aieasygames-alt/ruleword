@@ -73,7 +73,7 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
 
   // Check all boxes and update scores
   const updateBoxes = useCallback((hLines: (0|1|2)[][], vLines: (0|1|2)[][], player: 1 | 2) => {
-    let newBoxes = boxes.map(r => [...r])
+    const newBoxes = boxes.map(r => [...r])
     let completedCount = 0
 
     for (let row = 0; row < GRID_SIZE - 1; row++) {

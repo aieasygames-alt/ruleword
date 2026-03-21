@@ -163,47 +163,34 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
     <script>
       (function() {
         // Check for Chrome 86 or older
-        var isChrome = /Chrome\/(\d+)/.test(navigator.userAgent);
-        var chromeVersion = isChrome ? parseInt(/Chrome\/(\d+)/.exec(navigator.userAgent)[1]) : Infinity;
-        var isOldChrome = isChrome && chromeVersion <= 86;
+        const isChrome = /Chrome\/(\d+)/.test(navigator.userAgent);
+        const chromeVersion = isChrome ? parseInt(/Chrome\/(\d+)/.exec(navigator.userAgent)[1]) : Infinity;
+        const isOldChrome = isChrome && chromeVersion <= 86;
 
         // Check for other old browsers
-        var isOldSafari = /Version\/(\d+)/.test(navigator.userAgent) && parseInt(/Version\/(\d+)/.exec(navigator.userAgent)[1]) < 14;
-        var isOldFirefox = /Firefox\/(\d+)/.test(navigator.userAgent) && parseInt(/Firefox\/(\d+)/.exec(navigator.userAgent)[1]) < 78;
-        var isOldEdge = /Edg\/(\d+)/.test(navigator.userAgent) && parseInt(/Edg\/(\d+)/.exec(navigator.userAgent)[1]) < 86;
+        const isOldSafari = /Version\/(\d+)/.test(navigator.userAgent) && parseInt(/Version\/(\d+)/.exec(navigator.userAgent)[1]) < 14;
+        const isOldFirefox = /Firefox\/(\d+)/.test(navigator.userAgent) && parseInt(/Firefox\/(\d+)/.exec(navigator.userAgent)[1]) < 78;
+        const isOldEdge = /Edg\/(\d+)/.test(navigator.userAgent) && parseInt(/Edg\/(\d+)/.exec(navigator.userAgent)[1]) < 86;
 
         if (isOldChrome || isOldSafari || isOldFirefox || isOldEdge) {
           document.addEventListener('DOMContentLoaded', function() {
-            var html = `
-              <div class="browser-upgrade">
-                <div class="browser-upgrade-content">
-                  <h1>🚀 Browser Update Required</h1>
-                  <p>Your browser version is too old to display this website correctly. Please update your browser to the latest version for the best experience.</p>
-                  <p><strong>Recommended browsers:</strong></p>
-                  <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">Download Chrome</a>
-                  <a href="https://www.microsoft.com/edge" target="_blank" rel="noopener">Download Edge</a>
-                  <a href="https://www.mozilla.org/firefox/" target="_blank" rel="noopener">Download Firefox</a>
-                  <a href="https://www.apple.com/safari/" target="_blank" rel="noopener">Download Safari</a>
-                </div>
-              </div>
-            `;
+            const html = `
+        <div class="browser-upgrade">
+          <div class="browser-upgrade-content">
+            <h1>🚀 Browser Update Required</h1>
+            <p>Your browser version is too old to display this website correctly. Please update your browser to the latest version for the best experience.</p>
+            <p><strong>Recommended browsers:</strong></p>
+            <a href="https://www.google.com/chrome/" target="_blank" rel="noopener">Download Chrome</a>
+            <a href="https://www.microsoft.com/edge" target="_blank" rel="noopener">Download Edge</a>
+            <a href="https://www.mozilla.org/firefox/" target="_blank" rel="noopener">Download Firefox</a>
+            <a href="https://www.apple.com/safari/" target="_blank" rel="noopener">Download Safari</a>
+          </div>
+        </div>
+      `;
             document.body.insertAdjacentHTML('afterbegin', html);
           });
         }
       })();
-    </script>
-    <!-- Netlify Identity Widget for CMS -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-      }
     </script>
   </head>
   <body class="bg-slate-900 text-white">

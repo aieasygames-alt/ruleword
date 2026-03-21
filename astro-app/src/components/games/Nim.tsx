@@ -66,7 +66,7 @@ export default function Nim({ settings, onBack }: NimProps) {
 
     setTimeout(() => {
       setRows(prevRows => {
-        let newRows = prevRows.map(r => ({ ...r }))
+        const newRows = prevRows.map(r => ({ ...r }))
 
         if (difficulty === 'easy' && Math.random() < 0.3) {
           // 30% chance of random move in easy mode
