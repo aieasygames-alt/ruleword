@@ -1,6 +1,5 @@
 backend:
-  name: netlify-identity
-  repo: aieasygames-alt/ruleword
+  name: git-gateway
   branch: main
 
 # 本地开发模式 - 自动检测
