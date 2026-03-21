@@ -1,6 +1,8 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: aieasygames-alt/ruleword
   branch: main
+  base_url: https://ruleword.com
 
 # 本地开发模式 - 自动检测
 local_backend: true

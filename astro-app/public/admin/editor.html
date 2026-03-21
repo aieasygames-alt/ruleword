@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuleWord 本地编辑器</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+    h1 { text-align: center; margin-bottom: 30px; color: #38bdf8; }
+    .toolbar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-primary:hover { background: #2563eb; }
+    .btn-success { background: #22c55e; color: white; }
+    .btn-success:hover { background: #16a34a; }
+    .btn-secondary { background: #64748b; color: white; }
+    .btn-secondary:hover { background: #475569; }
+    .search { flex: 1; min-width: 200px; padding: 10px 15px; border: 1px solid #334155; border-radius: 8px; background: #1e293b; color: #e2e8f0; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+    .card { background: #1e293b; border-radius: 12px; padding: 15px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+    .card:hover { transform: translateY(-2px); border-color: #3b82f6; }
+    .card-icon { font-size: 32px; margin-bottom: 8px; }
+    .card-title { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
+    .card-desc { font-size: 13px; color: #94a3b8; line-height: 1.4; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background: #1e293b; border-radius: 16px; padding: 30px; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-title { font-size: 20px; font-weight: 600; }
+    .close { background: none; border: none; font-size: 28px; cursor: pointer; color: #94a3b8; }
+    .close:hover { color: #e2e8f0; }
+    .form-group { margin-bottom: 15px; }
+    .form-label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 500; color: #94a3b8; }
+    .form-input, .form-textarea, .form-select { width: 100%; padding: 10px 12px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #e2e8f0; font-size: 14px; }
+    .form-textarea { min-height: 100px; resize: vertical; font-family: inherit; }
+    .form-input:focus, .form-textarea:focus, .form-select:focus { outline: none; border-color: #3b82f6; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+    .tab { padding: 8px 16px; background: none; border: none; cursor: pointer; font-size: 14px; color: #94a3b8; border-radius: 6px; }
+    .tab.active { background: #3b82f6; color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .tips-list { display: flex; flex-direction: column; gap: 8px; }
+    .tip-item { display: flex; gap: 8px; }
+    .tip-input { flex: 1; }
+    .tip-remove { background: #ef4444; color: white; border: none; padding: 0 12px; border-radius: 6px; cursor: pointer; }
+    .tip-add { background: #22c55e; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+    .modal-footer { display: flex; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #334155; }
+    .status { position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; background: #22c55e; color: white; border-radius: 8px; display: none; }
+    .status.show { display: block; }
+    .empty { text-align: center; padding: 60px 20px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 RuleWord 本地编辑器</h1>
+
+    <div class="toolbar">
+      <input type="text" class="search" id="searchInput" placeholder="搜索游戏...">
+      <button class="btn btn-success" onclick="saveAll()">💾 保存所有更改</button>
+      <button class="btn btn-primary" onclick="exportChanges()">📤 导出更改</button>
+      <button class="btn btn-secondary" onclick="loadGames()">🔄 重新加载</button>
+    </div>
+
+    <div class="grid" id="gamesGrid"></div>
+  </div>
+
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">编辑游戏</h2>
+        <button class="close" onclick="closeModal()">&times;</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('basic')">基本信息</button>
+        <button class="tab" onclick="switchTab('en')">📝 English</button>
+        <button class="tab" onclick="switchTab('zh')">🀄 中文</button>
+      </div>
+
+      <div id="basicTab" class="tab-content active">
+        <div class="form-group">
+          <label class="form-label">游戏 ID</label>
+          <input type="text" class="form-input" id="gameId" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">图标 (Emoji)</label>
+          <input type="text" class="form-input" id="gameIcon">
+        </div>
+        <div class="form-group">
+          <label class="form-label">分类</label>
+          <select class="form-select" id="gameCategory">
+            <option value="word">🔤 Word Games</option>
+            <option value="logic">🧩 Logic & Numbers</option>
+            <option value="strategy">♟️ Strategy</option>
+            <option value="arcade">👾 Arcade</option>
+            <option value="memory">🧠 Memory & Reflex</option>
+            <option value="skill">🎯 Skill Games</option>
+            <option value="puzzle">🧩 Puzzle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug (URL)</label>
+          <input type="text" class="form-input" id="gameSlug">
+        </div>
+        <div class="form-group">
+          <label class="form-label">颜色渐变</label>
+          <input type="text" class="form-input" id="gameColor">
+        </div>
+      </div>
+
+      <div id="enTab" class="tab-content">
+        <div class="form-group">
+          <label class="form-label">游戏名称 (English)</label>
+          <input type="text" class="form-input" id="enName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">简介 (English)</label>
+          <textarea class="form-textarea" id="enDesc"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">玩法说明 (English)</label>
+          <textarea class="form-textarea" id="enHowToPlay" rows="6"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">技巧提示 (English)</label>
+          <div class="tips-list" id="enTipsList"></div>
+          <button class="tip-add" onclick="addTip('en')">+ 添加提示</button>
+        </div>
+      </div>
+
+      <div id="zhTab" class="tab-content">
+        <div class="form-group">
+          <label class="form-label">游戏名称 (中文)</label>
+          <input type="text" class="form-input" id="zhName">
+        </div>
+        <div class="form-group">
+          <label class="form-label">简介 (中文)</label>
+          <textarea class="form-textarea" id="zhDesc"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">玩法说明 (中文)</label>
+          <textarea class="form-textarea" id="zhHowToPlay" rows="6"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">技巧提示 (中文)</label>
+          <div class="tips-list" id="zhTipsList"></div>
+          <button class="tip-add" onclick="addTip('zh')">+ 添加提示</button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-success" onclick="saveGame()">💾 保存</button>
+        <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <script>
+    let games = [];
+    let currentGame = null;
+    let modifiedGames = new Set();
+
+    // 加载游戏数据
+    async function loadGames() {
+      try {
+        const response = await fetch('/api/games');
+        games = await response.json();
+        renderGames();
+      } catch (error) {
+        console.error('加载失败:', error);
+        // 示例数据
+        games = [
+          { id: 'wordle', icon: '🔤', category: 'word', slug: 'wordle', color: 'from-green-500 to-emerald-600', en: { name: 'Wordle', desc: 'Guess the hidden word in 6 tries' }, zh: { name: 'Wordle', desc: '在 6 次尝试中猜出隐藏单词' } }
+        ];
+        renderGames();
+      }
+    }
+
+    // 渲染游戏列表
+    function renderGames() {
+      const grid = document.getElementById('gamesGrid');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+
+      const filtered = games.filter(g =>
+        g.en?.name?.toLowerCase().includes(search) ||
+        g.zh?.name?.toLowerCase().includes(search) ||
+        g.id?.toLowerCase().includes(search)
+      );
+
+      grid.innerHTML = filtered.map(game => `
+        <div class="card" onclick="editGame('${game.id}')">
+          <div class="card-icon">${game.icon || '🎮'}</div>
+          <div class="card-title">${game.en?.name || game.zh?.name || game.id}</div>
+          <div class="card-desc">${game.en?.desc || game.zh?.desc || ''}</div>
+          ${modifiedGames.has(game.id) ? '<div style="color: #fbbf24; font-size: 12px; margin-top: 5px;">✏️ 已修改</div>' : ''}
+        </div>
+      `).join('');
+    }
+
+    // 编辑游戏
+    function editGame(id) {
+      currentGame = games.find(g => g.id === id);
+      if (!currentGame) return;
+
+      document.getElementById('modalTitle').textContent = `编辑: ${currentGame.en?.name || currentGame.id}`;
+      document.getElementById('gameId').value = currentGame.id || '';
+      document.getElementById('gameIcon').value = currentGame.icon || '';
+      document.getElementById('gameCategory').value = currentGame.category || 'word';
+      document.getElementById('gameSlug').value = currentGame.slug || '';
+      document.getElementById('gameColor').value = currentGame.color || 'from-blue-500 to-indigo-600';
+
+      // English
+      document.getElementById('enName').value = currentGame.en?.name || '';
+      document.getElementById('enDesc').value = currentGame.en?.desc || '';
+      document.getElementById('enHowToPlay').value = currentGame.en?.howToPlay || '';
+      renderTips('en', currentGame.en?.tips || []);
+
+      // Chinese
+      document.getElementById('zhName').value = currentGame.zh?.name || '';
+      document.getElementById('zhDesc').value = currentGame.zh?.desc || '';
+      document.getElementById('zhHowToPlay').value = currentGame.zh?.howToPlay || '';
+      renderTips('zh', currentGame.zh?.tips || []);
+
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    // 渲染技巧列表
+    function renderTips(lang, tips) {
+      const container = document.getElementById(`${lang}TipsList`);
+      container.innerHTML = tips.map((tip, i) => `
+        <div class="tip-item">
+          <input type="text" class="form-input tip-input" value="${tip}" data-idx="${i}">
+          <button class="tip-remove" onclick="removeTip('${lang}', ${i})">×</button>
+        </div>
+      `).join('');
+    }
+
+    // 添加提示
+    function addTip(lang) {
+      const container = document.getElementById(`${lang}TipsList`);
+      const idx = container.children.length;
+      const div = document.createElement('div');
+      div.className = 'tip-item';
+      div.innerHTML = `
+        <input type="text" class="form-input tip-input" value="" data-idx="${idx}">
+        <button class="tip-remove" onclick="removeTip('${lang}', ${idx})">×</button>
+      `;
+      container.appendChild(div);
+    }
+
+    // 移除提示
+    function removeTip(lang, idx) {
+      const container = document.getElementById(`${lang}TipsList`);
+      container.children[idx].remove();
+    }
+
+    // 获取提示数组
+    function getTips(lang) {
+      const container = document.getElementById(`${lang}TipsList`);
+      return Array.from(container.querySelectorAll('.tip-input')).map(input => input.value).filter(v => v.trim());
+    }
+
+    // 保存游戏
+    function saveGame() {
+      if (!currentGame) return;
+
+      currentGame.icon = document.getElementById('gameIcon').value;
+      currentGame.category = document.getElementById('gameCategory').value;
+      currentGame.slug = document.getElementById('gameSlug').value;
+      currentGame.color = document.getElementById('gameColor').value;
+
+      currentGame.en = {
+        ...currentGame.en,
+        name: document.getElementById('enName').value,
+        desc: document.getElementById('enDesc').value,
+        howToPlay: document.getElementById('enHowToPlay').value,
+        tips: getTips('en')
+      };
+
+      currentGame.zh = {
+        ...currentGame.zh,
+        name: document.getElementById('zhName').value,
+        desc: document.getElementById('zhDesc').value,
+        howToPlay: document.getElementById('zhHowToPlay').value,
+        tips: getTips('zh')
+      };
+
+      modifiedGames.add(currentGame.id);
+      closeModal();
+      renderGames();
+      showStatus('✅ 已保存到内存');
+    }
+
+    // 保存所有更改
+    async function saveAll() {
+      const changes = Array.from(modifiedGames).map(id => games.find(g => g.id === id));
+      const blob = new Blob([JSON.stringify(changes, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'games-changes.json';
+      a.click();
+      showStatus('📥 已下载更改文件，请手动更新 JSON 文件');
+    }
+
+    // 导出更改
+    function exportChanges() {
+      const changes = Array.from(modifiedGames).map(id => {
+        const game = games.find(g => g.id === id);
+        return { file: `src/content/games/${game.id}.json`, content: game };
+      });
+      const blob = new Blob([JSON.stringify(changes, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'ruleword-changes.json';
+      a.click();
+      showStatus('📥 已导出更改文件');
+    }
+
+    // 切换标签
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(`${tab}Tab`).classList.add('active');
+    }
+
+    // 关闭模态框
+    function closeModal() {
+      document.getElementById('editModal').classList.remove('active');
+      currentGame = null;
+    }
+
+    // 显示状态
+    function showStatus(msg) {
+      const status = document.getElementById('status');
+      status.textContent = msg;
+      status.classList.add('show');
+      setTimeout(() => status.classList.remove('show'), 3000);
+    }
+
+    // 搜索
+    document.getElementById('searchInput').addEventListener('input', renderGames);
+
+    // 加载数据
+    loadGames();
+  </script>
+</body>
+</html>
