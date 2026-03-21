@@ -25,3 +25,7 @@ npm-debug.log*
 # Local env
 .env
 .env.local
+
+# Test results
+test-results/
+playwright-report/
