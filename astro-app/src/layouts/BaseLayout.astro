@@ -192,6 +192,19 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
         }
       })();
     </script>
+    <!-- Netlify Identity Widget for CMS -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/admin/";
+            });
+          }
+        });
+      }
+    </script>
   </head>
   <body class="bg-slate-900 text-white">
     <slot />
