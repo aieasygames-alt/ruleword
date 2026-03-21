@@ -1,0 +1,376 @@
+---
+import { getCollection } from 'astro:content'
+import type { GameData } from '../../data/gameContent'
+
+// 获取所有游戏
+const gamesCollection = await getCollection('games')
+const games = gamesCollection.map(entry => entry.data as GameData)
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Content Editor</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #60a5fa;
+    }
+    .game-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .game-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .game-card:hover {
+      border-color: #60a5fa;
+      transform: translateY(-2px);
+    }
+    .game-card-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .game-card-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .game-card-category {
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+    .editor {
+      display: none;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 30px;
+    }
+    .editor.active {
+      display: block;
+    }
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #334155;
+    }
+    .editor-title {
+      font-size: 1.5rem;
+      color: #60a5fa;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+    .btn-secondary {
+      background: #475569;
+      color: white;
+      margin-right: 10px;
+    }
+    .btn-secondary:hover {
+      background: #64748b;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #cbd5e1;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #e2e8f0;
+      font-size: 1rem;
+    }
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #60a5fa;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #334155;
+    }
+    .tab {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .tab.active {
+      color: #60a5fa;
+      border-bottom-color: #60a5fa;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .help-text {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-top: 5px;
+    }
+    .status {
+      padding: 10px 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .status.success {
+      background: #065f46;
+      color: #d1fae5;
+    }
+    .status.error {
+      background: #7f1d1d;
+      color: #fecaca;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Game Content Editor</h1>
+    <p class="help-text" style="margin-bottom: 20px;">
+      Select a game to edit its content. Changes will be saved to local files.
+      Remember to commit and push to GitHub after editing.
+    </p>
+
+    <div id="status" class="status"></div>
+
+    <!-- Game List -->
+    <div class="game-list" id="gameList"></div>
+
+    <!-- Editor -->
+    <div class="editor" id="editor">
+      <div class="editor-header">
+        <div>
+          <h2 class="editor-title" id="editorTitle">Edit Game</h2>
+          <p class="help-text" id="editorSlug"></p>
+        </div>
+        <div>
+          <button class="btn btn-secondary" onclick="closeEditor()">Cancel</button>
+          <button class="btn btn-primary" onclick="saveGame()">Save Changes</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('en')">📝 English</button>
+        <button class="tab" onclick="switchTab('zh')">🀄 中文</button>
+      </div>
+
+      <!-- English Content -->
+      <div class="tab-content active" id="tab-en">
+        <div class="form-group">
+          <label>Game Name</label>
+          <input type="text" id="en-name" />
+        </div>
+        <div class="form-group">
+          <label>Short Description</label>
+          <textarea id="en-desc"></textarea>
+          <p class="help-text">Brief description shown on game cards (150-200 characters)</p>
+        </div>
+        <div class="form-group">
+          <label>How to Play (Markdown)</label>
+          <textarea id="en-howToPlay" style="min-height: 150px;"></textarea>
+          <p class="help-text">Detailed gameplay instructions for SEO section</p>
+        </div>
+        <div class="form-group">
+          <label>Tips (one per line)</label>
+          <textarea id="en-tips" style="min-height: 100px;"></textarea>
+        </div>
+      </div>
+
+      <!-- Chinese Content -->
+      <div class="tab-content" id="tab-zh">
+        <div class="form-group">
+          <label>游戏名称</label>
+          <input type="text" id="zh-name" />
+        </div>
+        <div class="form-group">
+          <label>简介</label>
+          <textarea id="zh-desc"></textarea>
+          <p class="help-text">游戏卡片上显示的简短描述</p>
+        </div>
+        <div class="form-group">
+          <label>玩法说明 (Markdown)</label>
+          <textarea id="zh-howToPlay" style="min-height: 150px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>技巧提示 (每行一个)</label>
+          <textarea id="zh-tips" style="min-height: 100px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const games = JSON.parse(decodeURIComponent(`{encodeURIComponent(JSON.stringify(games))}`));
+    let currentGame = null;
+
+    // Render game list
+    function renderGameList() {
+      const gameList = document.getElementById('gameList');
+      gameList.innerHTML = games.map(game => `
+        <div class="game-card" onclick="openEditor('${game.slug}')">
+          <div class="game-card-icon">${game.icon}</div>
+          <div class="game-card-name">${game.en.name}</div>
+          <div class="game-card-category">${game.category}</div>
+        </div>
+      `).join('');
+    }
+
+    // Open editor
+    function openEditor(slug) {
+      currentGame = games.find(g => g.slug === slug);
+      if (!currentGame) return;
+
+      document.getElementById('editorTitle').textContent = `${currentGame.icon} ${currentGame.en.name}`;
+      document.getElementById('editorSlug').textContent = currentGame.slug;
+
+      // Fill English content
+      document.getElementById('en-name').value = currentGame.en.name || '';
+      document.getElementById('en-desc').value = currentGame.en.desc || '';
+      document.getElementById('en-howToPlay').value = currentGame.en.howToPlay || '';
+      document.getElementById('en-tips').value = (currentGame.en.tips || []).join('\n');
+
+      // Fill Chinese content
+      document.getElementById('zh-name').value = currentGame.zh?.name || '';
+      document.getElementById('zh-desc').value = currentGame.zh?.desc || '';
+      document.getElementById('zh-howToPlay').value = currentGame.zh?.howToPlay || '';
+      document.getElementById('zh-tips').value = (currentGame.zh?.tips || []).join('\n');
+
+      document.getElementById('editor').classList.add('active');
+    }
+
+    // Close editor
+    function closeEditor() {
+      document.getElementById('editor').classList.remove('active');
+      currentGame = null;
+    }
+
+    // Switch tabs
+    function switchTab(lang) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      document.querySelector(`.tab[onclick="switchTab('${lang}')"]`).classList.add('active');
+      document.getElementById(`tab-${lang}`).classList.add('active');
+    }
+
+    // Save game
+    function saveGame() {
+      if (!currentGame) return;
+
+      const updatedGame = {
+        ...currentGame,
+        en: {
+          name: document.getElementById('en-name').value,
+          desc: document.getElementById('en-desc').value,
+          howToPlay: document.getElementById('en-howToPlay').value,
+          tips: document.getElementById('en-tips').value.split('\n').filter(t => t.trim())
+        },
+        zh: {
+          name: document.getElementById('zh-name').value || undefined,
+          desc: document.getElementById('zh-desc').value || undefined,
+          howToPlay: document.getElementById('zh-howToPlay').value || undefined,
+          tips: document.getElementById('zh-tips').value.split('\n').filter(t => t.trim()) || undefined
+        }
+      };
+
+      showStatus('Preparing save...', 'info');
+
+      // Send save request
+      fetch('/api/save-game', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedGame)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          showStatus('✅ Saved successfully! Remember to commit and push to GitHub.', 'success');
+          // Update local games array
+          const index = games.findIndex(g => g.slug === currentGame.slug);
+          if (index !== -1) {
+            games[index] = updatedGame;
+          }
+          setTimeout(() => closeEditor(), 1500);
+        } else {
+          showStatus('❌ Failed to save: ' + data.error, 'error');
+        }
+      })
+      .catch(err => {
+        showStatus('❌ Error: ' + err.message, 'error');
+      });
+    }
+
+    // Show status
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.className = `status ${type}`;
+      status.style.display = 'block';
+      setTimeout(() => status.style.display = 'none', 5000);
+    }
+
+    // Initialize
+    renderGameList();
+  </script>
+</body>
+</html>
