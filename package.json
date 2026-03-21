@@ -10,6 +10,11 @@
     "deploy": "pnpm build && gh-pages -d dist"
   },
   "devDependencies": {
-    "gh-pages": "^6.3.0"
+    "gh-pages": "^6.3.0",
+    "sanity": "^5.17.1"
+  },
+  "dependencies": {
+    "@sanity/client": "^7.20.0",
+    "@sanity/image-url": "^2.0.3"
   }
 }
