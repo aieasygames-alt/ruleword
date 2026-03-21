@@ -89,6 +89,12 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'speedmath': () => import('./games/SpeedMath'),
   'jigsaw': () => import('./games/Jigsaw'),
   'colormatch': () => import('./games/ColorMatch'),
+  // More new games
+  'solitaire': () => import('./games/Solitaire'),
+  'crossword': () => import('./games/Crossword'),
+  'memorymatrix': () => import('./games/MemoryMatrix'),
+  'pegsolitaire': () => import('./games/PegSolitaire'),
+  'wordscramble': () => import('./games/WordScramble'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

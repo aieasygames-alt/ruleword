@@ -117,6 +117,19 @@ export const games: GameConfig[] = [
   { slug: 'match-three', id: 'matchthree', name: 'Match-3', nameZh: '三消游戏', icon: '💎', desc: 'Swap adjacent gems to match 3 or more in a row! Create combos and chain reactions for bonus points. The most popular casual game mechanic!', descZh: '交换相邻宝石匹配3个或更多！创造连击和连锁反应获得额外分数。最流行的休闲游戏机制！', category: 'puzzle', featured: true, color: 'from-purple-500 to-pink-600' },
   { slug: 'bubble-shooter', id: 'bubbleshooter', name: 'Bubble Shooter', nameZh: '泡泡龙', icon: '🫧', desc: 'Shoot colorful bubbles to match 3 or more! Clear the board before bubbles reach the bottom. Aim carefully and create chain reactions!', descZh: '发射彩色泡泡匹配3个或更多！在泡泡到达底部前清空棋盘。仔细瞄准，创造连锁反应！', category: 'puzzle', color: 'from-cyan-500 to-blue-600' },
   { slug: 'jigsaw', id: 'jigsaw', name: 'Jigsaw Puzzle', nameZh: '拼图游戏', icon: '🧩', desc: 'Classic jigsaw puzzle fun! Drag pieces to complete beautiful images. Multiple difficulty levels from easy 4x4 to challenging 10x10 grids.', descZh: '经典拼图乐趣！拖动碎片完成美丽图片。多种难度从简单4x4到挑战性10x10网格。', category: 'puzzle', color: 'from-orange-500 to-amber-600' },
+
+  // Card Games (新分类)
+  { slug: 'solitaire', id: 'solitaire', name: 'Solitaire', nameZh: '纸牌接龙', icon: '🃏', desc: 'The classic Windows card game! Arrange cards in descending order, alternating colors. Move all cards to foundation piles to win. Timeless entertainment!', descZh: '经典Windows纸牌游戏！按降序排列卡牌，交替颜色。将所有卡牌移到基础堆获胜。永恒的娱乐！', category: 'puzzle', featured: true, color: 'from-blue-500 to-indigo-600' },
+
+  // More Word Games
+  { slug: 'crossword', id: 'crossword', name: 'Crossword', nameZh: '填字游戏', icon: '📝', desc: 'Classic crossword puzzle! Fill in the grid using the clues. Test your vocabulary and general knowledge. The ultimate word puzzle challenge!', descZh: '经典填字游戏！根据提示填写网格。测试你的词汇量和常识。终极文字谜题挑战！', category: 'word', featured: true, color: 'from-slate-500 to-gray-600' },
+  { slug: 'word-scramble', id: 'wordscramble', name: 'Word Scramble', nameZh: '单词重组', icon: '🔀', desc: 'Race against time to unscramble words! Study the jumbled letters and type the correct word. Fast-paced vocabulary challenge!', descZh: '限时重组单词！观察打乱的字母并输入正确的单词。快节奏词汇挑战！', category: 'word', color: 'from-green-500 to-emerald-600' },
+
+  // More Memory Games
+  { slug: 'memory-matrix', id: 'memorymatrix', name: 'Memory Matrix', nameZh: '矩阵记忆', icon: '🟦', desc: 'Memorize and recreate grid patterns! Watch the pattern flash, then click to recreate it. Difficulty increases with grid size and complexity.', descZh: '记忆并重现网格图案！观察闪烁的图案，然后点击重现它。难度随网格大小和复杂性增加。', category: 'memory', featured: true, color: 'from-cyan-500 to-blue-600' },
+
+  // More Puzzle Games
+  { slug: 'peg-solitaire', id: 'pegsolitaire', name: 'Peg Solitaire', nameZh: '孔明棋', icon: '⭕', desc: 'The classic peg jumping puzzle! Jump over pegs to remove them. Goal: leave only one peg on the board. Simple rules, deep strategy!', descZh: '经典跳棋谜题！跳过棋子将其移除。目标：棋盘上只留下一个棋子。简单规则，深度策略！', category: 'puzzle', color: 'from-amber-500 to-yellow-600' },
 ]
 
 export const categories = [
