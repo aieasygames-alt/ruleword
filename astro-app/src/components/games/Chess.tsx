@@ -64,7 +64,7 @@ export default function Chess({ settings }: Props) {
     }
 
     switch (piece.type) {
-      case 'P':
+      case 'P': {
         const dir = piece.color === 'white' ? -1 : 1
         const startRow = piece.color === 'white' ? 6 : 1
         if (!boardState[row + dir]?.[col]) {
@@ -79,6 +79,7 @@ export default function Chess({ settings }: Props) {
         if (diagLeft && diagLeft.color !== piece.color) moves.push({ row: row + dir, col: col - 1 })
         if (diagRight && diagRight.color !== piece.color) moves.push({ row: row + dir, col: col + 1 })
         break
+      }
       case 'R':
         addLine(0, 1); addLine(0, -1); addLine(1, 0); addLine(-1, 0)
         break

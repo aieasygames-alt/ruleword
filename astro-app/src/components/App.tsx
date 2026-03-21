@@ -146,7 +146,9 @@ function loadSave(): SaveData | null {
         return parsed
       }
     }
-  } catch {}
+  } catch {
+    // Invalid JSON, return null
+  }
   return null
 }
 
@@ -161,7 +163,9 @@ function loadStats(): Stats {
     if (data) {
       return { ...defaultStats, ...JSON.parse(data) }
     }
-  } catch {}
+  } catch {
+    // Invalid JSON, return defaults
+  }
   return defaultStats
 }
 
@@ -176,7 +180,9 @@ function loadSettings(): Settings {
     if (data) {
       return JSON.parse(data)
     }
-  } catch {}
+  } catch {
+    // Invalid JSON, return defaults
+  }
   return { hardMode: false, language: 'en', soundEnabled: true, darkMode: true }
 }
 

@@ -36,7 +36,9 @@ export function loadCalendarRecords(): DayRecord[] {
     if (data) {
       return JSON.parse(data)
     }
-  } catch {}
+  } catch {
+    // Invalid JSON, return empty array
+  }
   return []
 }
 
