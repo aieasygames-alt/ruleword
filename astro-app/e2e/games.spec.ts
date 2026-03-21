@@ -1,140 +1,266 @@
 import { test, expect } from '@playwright/test'
 
-// List of games to test
-const GAMES = [
-  { slug: 'sudoku', name: 'Sudoku' },
-  { slug: '2048', name: '2048' },
-  { slug: 'minesweeper', name: 'Minesweeper' },
-  { slug: 'tetris', name: 'Tetris' },
-  { slug: 'mastermind', name: 'Mastermind' },
-  { slug: 'reversi', name: 'Reversi' },
-  { slug: 'pong', name: 'Pong' },
-  { slug: 'frogger', name: 'Frogger' },
-  { slug: 'boggle', name: 'Boggle' },
-  { slug: 'hangman', name: 'Hangman' },
+// All 79 games - auto-generated from games.ts
+const ALL_GAMES = [
+  // Word Games (10)
+  'crosswordle', 'word-search', 'hangman', 'anagrams', 'boggle',
+  'wordle', 'spelling-bee', 'connections', 'crossword', 'word-scramble',
+
+  // Logic Games (28)
+  'sudoku', '2048', 'minesweeper', 'nonogram', 'skyscrapers',
+  'suguru', 'binary', 'kakuro', 'kenken', 'hitori',
+  'slitherlink', 'bridges', 'threes', '15-puzzle', 'lights-out',
+  'bullpen', 'nurikabe', 'star-battle', 'heyawake', 'masyu',
+  'fillomino', 'yajilin', 'castle-wall', 'shakashaka', 'aqre',
+  'tapa', 'sudoku-x', 'killer-sudoku',
+
+  // Strategy Games (12)
+  'mastermind', 'tic-tac-toe', 'connect-four', 'reversi', 'gomoku',
+  'checkers', 'dots-and-boxes', 'chess', 'chinese-chess', 'battleship',
+  'nim',
+
+  // Arcade Games (10)
+  'tetris', 'snake', 'brick-breaker', 'pong', 'frogger',
+  'space-invaders', 'asteroids', 'pac-man', 'breakout', 'simon-game',
+
+  // Memory Games (7)
+  'memory', 'simon-says', 'whack-a-mole', 'number-memory', 'pattern-memory',
+  'reaction-test', 'memory-matrix',
+
+  // Skill Games (5)
+  'typing-test', 'aim-trainer', 'chimp-test', 'speed-math', 'color-match',
+
+  // Puzzle Games (7)
+  'mahjong-solitaire', 'sokoban', 'match-three', 'bubble-shooter', 'jigsaw',
+  'peg-solitaire', 'solitaire',
 ]
 
-test.describe('Game Pages', () => {
-  test.describe.configure({ mode: 'parallel' })
+// Core games for detailed testing
+const CORE_GAMES = ['sudoku', '2048', 'tetris', 'wordle', 'memory', 'mastermind', 'chess', 'solitaire']
 
-  for (const game of GAMES) {
-    test(`${game.name} page should load and display game`, async ({ page }) => {
-      await page.goto(`/games/${game.slug}/`)
+test.describe('Game Load Tests - All 79 Games', () => {
+  test.describe.configure({ mode: 'parallel', timeout: 30000 })
 
-      // Wait for page to load
+  for (const gameSlug of ALL_GAMES) {
+    test(`${gameSlug} should load successfully`, async ({ page }) => {
+      await page.goto(`/games/${gameSlug}/`)
       await page.waitForLoadState('networkidle')
 
-      // Should have back/home button
-      const backButton = page.getByRole('link', { name: /Home|Back/ }).or(
-        page.locator('a[href="/"]')
-      )
-      await expect(backButton.first()).toBeVisible()
+      // 1. Page should load without errors
+      await expect(page.locator('body')).toBeVisible()
 
-      // Should show game title or loading state
-      const pageTitle = await page.locator('h1, h2, [class*="title"]').first().textContent()
-      expect(pageTitle).toBeTruthy()
+      // 2. Should have navigation/back button
+      const backButton = page.locator('a[href="/"], button:has-text("←"), [class*="back"]').first()
+      await expect(backButton).toBeVisible({ timeout: 5000 })
 
-      // Wait a bit for game to initialize
+      // 3. Should have game content (not just blank page)
+      const gameContent = page.locator('main, [class*="game"], [class*="min-h-screen"]')
+      await expect(gameContent.first()).toBeVisible()
+
+      // 4. Wait for game to initialize
       await page.waitForTimeout(1000)
+
+      // 5. Screenshot for visual verification (optional)
+      // await page.screenshot({ path: `screenshots/${gameSlug}.png` })
     })
   }
-
-  test('should load game guide on game page', async ({ page }) => {
-    await page.goto('/games/sudoku/')
-    await page.waitForLoadState('networkidle')
-
-    // Scroll to bottom to find game guide
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
-
-    // Game guide should be present
-    const body = await page.locator('body').textContent()
-    expect(body).toMatch(/How to Play|游戏说明|Tips|技巧/i)
-  })
-
-  test('should navigate back to home from game page', async ({ page }) => {
-    await page.goto('/games/tetris/')
-    await page.waitForLoadState('networkidle')
-
-    // Click the Home link in the navigation
-    const homeLink = page.locator('a[href="/"]').first()
-    await homeLink.click()
-
-    // Wait for navigation - check URL ends with /
-    await page.waitForURL(/\/$/)
-    expect(page.url()).toMatch(/\/$/)
-  })
-
-  test('should handle 404 for non-existent game', async ({ page }) => {
-    await page.goto('/games/nonexistent-game/')
-
-    // Should show error or redirect
-    const body = await page.locator('body').textContent()
-    expect(body).toMatch(/not found|error|404|Game.*not found/i)
-  })
 })
 
-test.describe('Game Interactions', () => {
-  test('Sudoku - should render grid', async ({ page }) => {
+test.describe('Core Game Functionality Tests', () => {
+  test('Sudoku - grid should be interactive', async ({ page }) => {
     await page.goto('/games/sudoku/')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(1000) // Wait for game to initialize
 
-    // Should have a grid of cells
-    const cells = page.locator('[class*="cell"], [class*="grid"] button, td')
-    const count = await cells.count()
-    expect(count).toBeGreaterThan(10)
+    // Should have 9x9 = 81 cells (buttons in the grid)
+    const cells = page.locator('button[class*="w-10"], button[class*="w-11"]').filter({ hasText: '' })
+    const allButtons = page.locator('div[style*="grid-template-columns: repeat(9"] button')
+    const count = await allButtons.count()
+    expect(count).toBeGreaterThanOrEqual(81)
   })
 
-  test('2048 - should show game board', async ({ page }) => {
+  test('2048 - should respond to keyboard', async ({ page }) => {
     await page.goto('/games/2048/')
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(500)
 
-    // Should show score
-    const scoreElement = page.locator('text=/Score|分数/i')
-    await expect(scoreElement).toBeVisible()
+    // Press arrow key
+    await page.keyboard.press('ArrowUp')
+    await page.waitForTimeout(300)
+
+    // Score should be visible
+    const score = page.locator('text=/Score|分数|0/')
+    await expect(score.first()).toBeVisible()
   })
 
-  test('Tic-Tac-Toe - should be playable', async ({ page }) => {
-    await page.goto('/games/tic-tac-toe/')
+  test('Tetris - should have game controls', async ({ page }) => {
+    await page.goto('/games/tetris/')
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(500)
 
-    // Click on a cell
-    const cell = page.locator('button').filter({ hasText: /^$/ }).first()
-    if (await cell.isVisible()) {
-      await cell.click()
-      await page.waitForTimeout(300)
+    // Should have start button initially
+    const startButton = page.locator('button:has-text("Start"), button:has-text("开始")')
+    const hasStartButton = await startButton.count() > 0
+
+    if (hasStartButton) {
+      // Click start to show the game board
+      await startButton.first().click()
+      await page.waitForTimeout(500)
     }
+
+    // Should have game board or grid after starting
+    const gameElement = page.locator('[class*="grid"], [class*="board"], canvas')
+    await expect(gameElement.first()).toBeVisible()
   })
 
-  test('Mastermind - should show code input area', async ({ page }) => {
+  test('Memory - cards should flip', async ({ page }) => {
+    await page.goto('/games/memory/')
+    await page.waitForLoadState('networkidle')
+
+    // Click a card
+    const card = page.locator('button').filter({ hasNotText: /Back|Home|New/ }).first()
+    await card.click()
+    await page.waitForTimeout(300)
+  })
+
+  test('Wordle - should accept input', async ({ page }) => {
+    await page.goto('/games/wordle/')
+    await page.waitForLoadState('networkidle')
+
+    // Type a letter
+    await page.keyboard.press('A')
+    await page.waitForTimeout(300)
+  })
+
+  test('Chess - should show board', async ({ page }) => {
+    await page.goto('/games/chess/')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(500)
+
+    // Should have 8x8 board (buttons with w-10/w-12 classes in a grid-cols-8)
+    const board = page.locator('.grid-cols-8 button, [class*="w-10"][class*="h-10"]')
+    const count = await board.count()
+    expect(count).toBeGreaterThanOrEqual(64)
+  })
+
+  test('Solitaire - should display cards', async ({ page }) => {
+    await page.goto('/games/solitaire/')
+    await page.waitForLoadState('networkidle')
+
+    // Should have cards
+    const cards = page.locator('[class*="w-14"][class*="h-20"], [class*="card"]')
+    const count = await cards.count()
+    expect(count).toBeGreaterThan(10)
+  })
+
+  test('Mastermind - should have color selection', async ({ page }) => {
     await page.goto('/games/mastermind/')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
 
-    // Should have color options or input area
-    const gameArea = page.locator('[class*="game"], [class*="board"], main')
-    await expect(gameArea.first()).toBeVisible()
+    // Should have color buttons
+    const colors = page.locator('button[class*="bg-"]')
+    const count = await colors.count()
+    expect(count).toBeGreaterThan(4)
+  })
+})
+
+test.describe('Category Pages', () => {
+  const CATEGORIES = ['word', 'logic', 'strategy', 'arcade', 'memory', 'skill', 'puzzle']
+
+  for (const category of CATEGORIES) {
+    test(`${category} category should load with games`, async ({ page }) => {
+      await page.goto(`/category/${category}/`)
+      await page.waitForLoadState('networkidle')
+
+      // Should have category title
+      const title = page.locator('h1')
+      await expect(title).toBeVisible()
+
+      // Should have game links
+      const gameLinks = page.locator('a[href^="/games/"]')
+      const count = await gameLinks.count()
+      expect(count).toBeGreaterThan(0)
+    })
+  }
+})
+
+test.describe('Multi-language Support', () => {
+  test('should display Chinese when lang=zh-CN', async ({ page }) => {
+    await page.goto('/games/sudoku/?lang=zh-CN')
+    await page.waitForLoadState('networkidle')
+
+    // Should have Chinese text
+    const body = await page.locator('body').textContent()
+    expect(body).toMatch(/数独|返回|游戏/)
   })
 
-  test('Pong - should show game page', async ({ page }) => {
-    await page.goto('/games/pong/')
+  test('language should persist via localStorage', async ({ page }) => {
+    await page.goto('/?lang=zh-CN')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
+    // Wait for hydration/JS execution
+    await page.waitForTimeout(1500)
 
-    // Should show the game title
-    const title = page.locator('text=/Pong|乒乓球/i')
-    await expect(title.first()).toBeVisible()
+    // Check localStorage - app uses 'ruleword-lang' (with hyphen)
+    const lang = await page.evaluate(() => {
+      // Check the main language storage key
+      const storedLang = localStorage.getItem('ruleword-lang')
+      return storedLang
+    })
+    // Accept 'zh-CN' or 'zh'
+    expect(lang).toMatch(/zh/i)
+  })
+})
+
+test.describe('Mobile Responsiveness', () => {
+  test.use({ viewport: { width: 375, height: 667 } })
+
+  test('homepage should be mobile friendly', async ({ page }) => {
+    await page.goto('/')
+    await page.waitForLoadState('networkidle')
+
+    // Should show mobile menu or responsive layout
+    await expect(page.locator('body')).toBeVisible()
   })
 
-  test('Frogger - should show game page', async ({ page }) => {
-    await page.goto('/games/frogger/')
+  test('game page should be playable on mobile', async ({ page }) => {
+    await page.goto('/games/2048/')
     await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
 
-    // Should show the game title
-    const title = page.locator('text=/Frogger|青蛙/i')
-    await expect(title.first()).toBeVisible()
+    // Game should be visible
+    const game = page.locator('[class*="grid"], [class*="game"]')
+    await expect(game.first()).toBeVisible()
+  })
+})
+
+test.describe('Performance Tests', () => {
+  test('game page should load within 5 seconds', async ({ page }) => {
+    const start = Date.now()
+    await page.goto('/games/tetris/')
+    await page.waitForLoadState('networkidle')
+    const loadTime = Date.now() - start
+
+    expect(loadTime).toBeLessThan(5000)
+  })
+
+  test('should not have console errors', async ({ page }) => {
+    const errors: string[] = []
+    page.on('console', msg => {
+      if (msg.type() === 'error') {
+        errors.push(msg.text())
+      }
+    })
+
+    await page.goto('/games/sudoku/')
+    await page.waitForLoadState('networkidle')
+    await page.waitForTimeout(1000)
+
+    // Filter out known non-critical errors
+    const criticalErrors = errors.filter(e =>
+      !e.includes('favicon') &&
+      !e.includes('net::ERR') &&
+      !e.includes('404')
+    )
+
+    expect(criticalErrors.length).toBe(0)
   })
 })

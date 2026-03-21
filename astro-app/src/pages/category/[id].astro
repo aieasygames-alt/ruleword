@@ -11,6 +11,8 @@ export function getStaticPaths() {
     { id: 'strategy', icon: '♟️', en: 'Strategy', zh: '策略对战' },
     { id: 'arcade', icon: '👾', en: 'Arcade', zh: '经典街机' },
     { id: 'memory', icon: '🧠', en: 'Memory & Reflex', zh: '记忆反应' },
+    { id: 'skill', icon: '🎯', en: 'Skill Games', zh: '技能挑战' },
+    { id: 'puzzle', icon: '🧩', en: 'Puzzle', zh: '拼图消除' },
   ]
   return categories.map(cat => ({
     params: { id: cat.id },
