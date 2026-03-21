@@ -7,19 +7,6 @@
   NODE_VERSION = "20"
   NPM_FLAGS = "--shamefully-hoist"
 
-# Netlify Identity 支持 - Admin 路由
-[[redirects]]
-  from = "/admin"
-  to = "/admin/index.html"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/admin/*"
-  to = "/admin/:splat"
-  status = 200
-  force = false
-
 # 安全 Headers
 [[headers]]
   for = "/*"
@@ -44,9 +31,3 @@
   for = "/*.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Netlify Identity CORS 支持
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
