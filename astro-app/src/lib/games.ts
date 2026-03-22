@@ -73,6 +73,14 @@ function localToGameData(data: any): GameData {
  * 从 Sanity 转换为 GameData
  */
 function sanityToGameData(data: any): GameData {
+  // 处理 tips 字段 - 支持字符串和数组两种格式
+  const parseTips = (tips: string | string[] | undefined): string[] => {
+    if (!tips) return []
+    if (Array.isArray(tips)) return tips.filter(Boolean)
+    if (typeof tips === 'string') return tips.split('\n').filter(Boolean)
+    return []
+  }
+
   return {
     id: data.gameId,
     slug: data.slug?.current || data.slug,
@@ -86,8 +94,8 @@ function sanityToGameData(data: any): GameData {
     descZh: data.descriptionZh || data.description || '',
     howToPlay: data.howToPlay,
     howToPlayZh: data.howToPlayZh || data.howToPlay,
-    tips: data.tips?.split('\n').filter(Boolean) || [],
-    tipsZh: data.tipsZh?.split('\n').filter(Boolean) || data.tips?.split('\n').filter(Boolean) || [],
+    tips: parseTips(data.tips),
+    tipsZh: parseTips(data.tipsZh).length > 0 ? parseTips(data.tipsZh) : parseTips(data.tips),
     // 第三方游戏特有字段
     isExternal: data._type === 'externalGame',
     gameUrl: data.gameUrl || '',
@@ -124,33 +132,45 @@ function contentfulToGameData(entry: any): GameData {
 
 /**
  * 获取所有游戏
+ * 合并 CMS 和本地数据，确保本地独有游戏也能被获取
  */
 export async function getAllGames(): Promise<GameData[]> {
-  // Sanity 数据源
+  // 获取本地游戏 (始终包含)
+  const gamesCollection = await getCollection('games')
+  const localGames = gamesCollection.map((entry) => localToGameData(entry.data))
+
+  // Sanity 数据源 - 合并到本地数据
   if (USE_SANITY) {
     try {
       const { getAllGames: getSanityGames } = await import('./sanity')
-      const games = await getSanityGames()
-      return games.map(sanityToGameData)
+      const sanityGames = await getSanityGames()
+      const cmsGames = sanityGames.map(sanityToGameData)
+      // 合并：本地游戏优先（用于覆盖），然后添加 CMS 独有的游戏
+      const localSlugs = new Set(localGames.map(g => g.slug))
+      const uniqueCmsGames = cmsGames.filter(g => !localSlugs.has(g.slug))
+      return [...localGames, ...uniqueCmsGames]
     } catch (error) {
       console.warn('Sanity fetch failed, falling back to local data:', error)
     }
   }
 
-  // Contentful 数据源
+  // Contentful 数据源 - 合并到本地数据
   if (USE_CONTENTFUL) {
     try {
       const { getAllGames: getContentfulGames } = await import('./contentful')
       const entries = await getContentfulGames('en-US')
-      return entries.map(contentfulToGameData)
+      const cmsGames = entries.map(contentfulToGameData)
+      // 合并：本地游戏优先（用于覆盖），然后添加 CMS 独有的游戏
+      const localSlugs = new Set(localGames.map(g => g.slug))
+      const uniqueCmsGames = cmsGames.filter(g => !localSlugs.has(g.slug))
+      return [...localGames, ...uniqueCmsGames]
     } catch (error) {
       console.warn('Contentful fetch failed, falling fallback to local data:', error)
     }
   }
 
-  // 本地数据源
-  const gamesCollection = await getCollection('games')
-  return gamesCollection.map((entry) => localToGameData(entry.data))
+  // 仅本地数据源
+  return localGames
 }
 
 /**
@@ -220,31 +240,39 @@ export async function getGamesByCategory(category: string): Promise<GameData[]> 
 
 /**
  * 获取所有游戏 slug (用于 getStaticPaths)
+ * 合并 CMS 和本地数据，确保本地独有游戏也能生成页面
  */
 export async function getAllGameSlugs(): Promise<string[]> {
-  // Sanity 数据源
+  // 获取本地 slugs (始终包含)
+  const gamesCollection = await getCollection('games')
+  const localSlugs = gamesCollection.map((entry) => entry.data.slug)
+
+  // Sanity 数据源 - 合并到本地数据
   if (USE_SANITY) {
     try {
       const { getAllGameSlugs: getSanitySlugs } = await import('./sanity')
-      return await getSanitySlugs()
+      const sanitySlugs = await getSanitySlugs()
+      // 合并并去重
+      return [...new Set([...localSlugs, ...sanitySlugs])]
     } catch (error) {
       console.warn('Sanity fetch failed, falling back to local data:', error)
     }
   }
 
-  // Contentful 数据源
+  // Contentful 数据源 - 合并到本地数据
   if (USE_CONTENTFUL) {
     try {
       const { getAllGameSlugs: getContentfulSlugs } = await import('./contentful')
-      return await getContentfulSlugs()
+      const contentfulSlugs = await getContentfulSlugs()
+      // 合并并去重
+      return [...new Set([...localSlugs, ...contentfulSlugs])]
     } catch (error) {
       console.warn('Contentful fetch failed, falling back to local data:', error)
     }
   }
 
-  // 本地数据源
-  const gamesCollection = await getCollection('games')
-  return gamesCollection.map((entry) => entry.data.slug)
+  // 仅本地数据源
+  return localSlugs
 }
 
 /**

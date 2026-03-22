@@ -95,6 +95,8 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'memorymatrix': () => import('./games/MemoryMatrix'),
   'pegsolitaire': () => import('./games/PegSolitaire'),
   'wordscramble': () => import('./games/WordScramble'),
+  // External/iframe games
+  'amongus': () => import('./games/AmongUs'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

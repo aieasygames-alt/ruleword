@@ -1,0 +1,30 @@
+{
+  "id": "amongus",
+  "slug": "among-us",
+  "icon": "👽",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-red-500 to-rose-600",
+  "en": {
+    "name": "Among Us",
+    "desc": "Control your crewmate character! Move around, use the kill button to eliminate targets, and trigger sabotage effects. A fun tribute to the popular social deduction game!",
+    "howToPlay": "Use Arrow Keys or WASD to move your character around. Click the Kill button to eliminate nearby targets. Click the Sabotage button to trigger chaos effects. In Character Move mode, simply explore and enjoy the animations!",
+    "tips": [
+      "Time your kills when the bot is nearby",
+      "Use sabotage to create distraction effects",
+      "Practice smooth movement with arrow keys",
+      "Try both game modes for different experiences"
+    ]
+  },
+  "zh": {
+    "name": "太空狼人杀",
+    "desc": "控制你的船员角色！四处移动，使用击杀按钮消灭目标，触发破坏效果。致敬热门社交推理游戏的趣味之作！",
+    "howToPlay": "使用方向键或WASD移动角色。点击击杀按钮消灭附近目标。点击破坏按钮触发混乱效果。在角色移动模式下，自由探索并享受动画！",
+    "tips": [
+      "当机器人在附近时把握击杀时机",
+      "使用破坏功能制造干扰效果",
+      "用方向键练习流畅移动",
+      "尝试两种游戏模式获得不同体验"
+    ]
+  }
+}
