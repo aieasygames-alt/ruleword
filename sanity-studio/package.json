@@ -1,0 +1,13 @@
+{
+  "name": "ruleword-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "sanity": "^5.17.1",
+    "styled-components": "^6.1.15"
+  }
+}

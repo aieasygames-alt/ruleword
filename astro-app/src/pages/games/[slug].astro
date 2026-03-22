@@ -120,6 +120,10 @@ const gameId = useCMS ? (game as CMSGameData).id : (game as LocalGameData).id
 const gameSlug = game.slug
 const gameIcon = game.icon
 
+// Check if external game
+const isExternalGame = useCMS && (game as CMSGameData).isExternal
+const externalGameData = isExternalGame ? (game as CMSGameData) : null
+
 // Feedback i18n data
 const f = t.feedback
 ---
@@ -183,12 +187,37 @@ const f = t.feedback
 
     <!-- Game Area -->
     <main class="flex-1">
-      <GameWrapper
-        client:load
-        gameId={gameId}
-        gameName={getGameField('name', 'en') as string}
-        gameSlug={gameSlug}
-      />
+      {isExternalGame && externalGameData?.gameUrl ? (
+        <!-- External Game iframe -->
+        <div class="w-full h-full flex flex-col">
+          <iframe
+            src={externalGameData.gameUrl}
+            width={externalGameData.iframeWidth || '100%'}
+            height={externalGameData.iframeHeight || '600px'}
+            allowfullscreen={externalGameData.allowFullscreen ?? true}
+            class="flex-1 min-h-[600px] border-0"
+            title={getGameName()}
+            loading="lazy"
+          ></iframe>
+          {externalGameData.sourceName && (
+            <div class="text-center py-2 text-sm text-slate-400 bg-slate-900/50">
+              {t.game.source || 'Source'}: {externalGameData.sourceUrl ? (
+                <a href={externalGameData.sourceUrl} target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline">
+                  {externalGameData.sourceName}
+                </a>
+              ) : externalGameData.sourceName}
+            </div>
+          )}
+        </div>
+      ) : (
+        <!-- Built-in Game -->
+        <GameWrapper
+          client:load
+          gameId={gameId}
+          gameName={getGameField('name', 'en') as string}
+          gameSlug={gameSlug}
+        />
+      )}
     </main>
 
     <!-- SEO Game Guide Section -->

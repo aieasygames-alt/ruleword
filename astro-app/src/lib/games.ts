@@ -37,6 +37,14 @@ export interface GameData {
   howToPlayZh?: string
   tips?: string[]
   tipsZh?: string[]
+  // 第三方游戏特有字段
+  isExternal?: boolean
+  gameUrl?: string
+  iframeWidth?: string
+  iframeHeight?: string
+  allowFullscreen?: boolean
+  sourceName?: string
+  sourceUrl?: string
 }
 
 /**
@@ -73,13 +81,21 @@ function sanityToGameData(data: any): GameData {
     featured: data.isFeatured || false,
     color: data.colorGradient || 'from-gray-600 to-gray-800',
     name: data.title || '',
-    nameZh: data.title || '', // Sanity 多语言需要单独处理
+    nameZh: data.titleZh || data.title || '',
     desc: data.description || '',
-    descZh: data.description || '',
+    descZh: data.descriptionZh || data.description || '',
     howToPlay: data.howToPlay,
-    howToPlayZh: data.howToPlay,
+    howToPlayZh: data.howToPlayZh || data.howToPlay,
     tips: data.tips?.split('\n').filter(Boolean) || [],
-    tipsZh: data.tips?.split('\n').filter(Boolean) || [],
+    tipsZh: data.tipsZh?.split('\n').filter(Boolean) || data.tips?.split('\n').filter(Boolean) || [],
+    // 第三方游戏特有字段
+    isExternal: data._type === 'externalGame',
+    gameUrl: data.gameUrl || '',
+    iframeWidth: data.iframeWidth || '100%',
+    iframeHeight: data.iframeHeight || '600px',
+    allowFullscreen: data.allowFullscreen ?? true,
+    sourceName: data.sourceName || '',
+    sourceUrl: data.sourceUrl || '',
   }
 }
 
