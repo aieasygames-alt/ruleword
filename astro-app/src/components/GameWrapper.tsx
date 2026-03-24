@@ -99,6 +99,10 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'texttwist': () => import('./games/TextTwist'),
   'strooptest': () => import('./games/StroopTest'),
   'reactiontime': () => import('./games/ReactionTime'),
+  'huarongpass': () => import('./games/HuarongPass'),
+  'hidato': () => import('./games/Hidato'),
+  'minesweeperflags': () => import('./games/MinesweeperFlags'),
+  'solitairetripeaks': () => import('./games/SolitaireTriPeaks'),
   // External/iframe games
   'amongus': () => import('./games/AmongUs'),
 }

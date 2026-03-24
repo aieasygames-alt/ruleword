@@ -134,6 +134,12 @@ export const games: GameConfig[] = [
 
   // More Puzzle Games
   { slug: 'peg-solitaire', id: 'pegsolitaire', name: 'Peg Solitaire', nameZh: '孔明棋', icon: '⭕', desc: 'The classic peg jumping puzzle! Jump over pegs to remove them. Goal: leave only one peg on the board. Simple rules, deep strategy!', descZh: '经典跳棋谜题！跳过棋子将其移除。目标：棋盘上只留下一个棋子。简单规则，深度策略！', category: 'puzzle', color: 'from-amber-500 to-yellow-600' },
+  { slug: 'huarong-pass', id: 'huarongpass', name: 'Huarong Pass', nameZh: '华容道', icon: '📦', desc: 'The classic Chinese sliding block puzzle! Move blocks to help 曹操 escape through the bottom exit. A challenging test of strategic thinking!', descZh: '经典的中国滑块谜题！移动方块帮助曹操从下方出口逃脱。极具挑战性的战略思维测试！', category: 'puzzle', featured: true, color: 'from-amber-600 to-red-700' },
+  { slug: 'solitaire-tripeaks', id: 'solitairetripeaks', name: 'Solitaire TriPeaks', nameZh: '接龙三峰', icon: '🃏', desc: 'A fun solitaire variation! Remove all cards from the three peaks by playing cards that are one rank higher. Any suit can be played. Plan ahead to win!', descZh: '有趣的接龙变体！通过打出比废牌堆顶牌大一级的牌来移除三峰的所有牌。任何花色都可以玩。提前规划获胜！', category: 'puzzle', featured: true, color: 'from-emerald-500 to-teal-600' },
+
+  // More Logic Games
+  { slug: 'hidato', id: 'hidato', name: 'Hidato', nameZh: 'Hidato填格', icon: '🔢', desc: 'Fill the grid with consecutive numbers! Each number must connect horizontally, vertically, or diagonally to the next in sequence. A challenging logic puzzle!', descZh: '用连续数字填满网格！每个数字必须与下一个序列数字水平、垂直或对角线相连。极具挑战性的逻辑谜题！', category: 'logic', featured: true, color: 'from-cyan-500 to-blue-600' },
+  { slug: 'minesweeper-flags', id: 'minesweeperflags', name: 'Minesweeper', nameZh: '扫雷', icon: '💣', desc: 'The classic minesweeper game! Uncover safe cells while avoiding hidden mines. Use number clues to deduce mine locations and flag them safely.', descZh: '经典扫雷游戏！揭开安全格子同时避开隐藏的地雷。利用数字提示推断地雷位置并安全标记它们。', category: 'logic', featured: true, color: 'from-red-500 to-rose-600' },
 ]
 
 export const categories = [

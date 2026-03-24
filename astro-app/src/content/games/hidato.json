@@ -1,0 +1,30 @@
+{
+  "id": "hidato",
+  "slug": "hidato",
+  "icon": "🔢",
+  "category": "logic",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Hidato",
+    "desc": "Fill the grid with consecutive numbers! Each number must connect horizontally, vertically, or diagonally to the next in sequence. A challenging logic puzzle!",
+    "howToPlay": "Click empty cells to place the next consecutive number. Numbers must connect to their neighbors (horizontally, vertically, or diagonally). Right-click to remove a number.",
+    "tips": [
+      "Start from 1 and work consecutively",
+      "Look for forced moves - cells with only one option",
+      "Diagonal connections count too",
+      "Use the revealed numbers as guides"
+    ]
+  },
+  "zh": {
+    "name": "Hidato",
+    "desc": "用连续数字填满网格！每个数字必须与下一个序列数字水平、垂直或对角线相连。极具挑战性的逻辑谜题！",
+    "howToPlay": "点击空格放置下一个连续数字。数字必须与相邻数字（水平、垂直或对角线）相连。右键单击删除数字。",
+    "tips": [
+      "从1开始按顺序进行",
+      "寻找必然步 - 只有一个选择的格子",
+      "对角线连接也算",
+      "使用已显示的数字作为指引"
+    ]
+  }
+}

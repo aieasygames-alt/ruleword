@@ -1,0 +1,30 @@
+{
+  "id": "huarongpass",
+  "slug": "huarong-pass",
+  "icon": "📦",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-amber-600 to-red-700",
+  "en": {
+    "name": "Huarong Pass",
+    "desc": "The classic Chinese sliding block puzzle! Move blocks to help 曹操 escape through the bottom exit. A test of strategic thinking!",
+    "howToPlay": "Click a block to select it, then use Arrow Keys to slide it into empty spaces. Only 曹操 (the red 2x2 block) can exit through the bottom center. Plan your moves carefully!",
+    "tips": [
+      "Clear a path for 曹操 to reach the exit",
+      "Vertical blocks are the most challenging to move",
+      "Sometimes you need to move blocks away then back",
+      "The classic puzzle requires 81+ moves to solve"
+    ]
+  },
+  "zh": {
+    "name": "华容道",
+    "desc": "经典的中国滑块谜题！移动方块帮助曹操从下方出口逃脱。考验战略思维！",
+    "howToPlay": "点击方块选中它，然后使用方向键滑入空位。只有曹操（红色2x2方块）可以从底部中央出口离开。仔细规划你的移动！",
+    "tips": [
+      "为曹操清理一条通往出口的路径",
+      "竖直方块是最难移动的",
+      "有时需要先移开方块再移回来",
+      "经典解法需要81+步"
+    ]
+  }
+}

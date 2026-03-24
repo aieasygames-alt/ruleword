@@ -1,0 +1,30 @@
+{
+  "id": "solitairetripeaks",
+  "slug": "solitaire-tripeaks",
+  "icon": "🃏",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-emerald-500 to-teal-600",
+  "en": {
+    "name": "Solitaire TriPeaks",
+    "desc": "A fun solitaire variation! Remove all cards from the three peaks by playing cards that are one rank higher than the waste pile card. Any suit can be played!",
+    "howToPlay": "Click the stock to draw cards. Play cards from the peaks that are exactly one rank higher than the top waste card (any suit). Clear all cards to win!",
+    "tips": [
+      "Plan ahead to uncover buried cards",
+      "Try to clear peaks evenly",
+      "Use the stock wisely - recycling costs points",
+      "Long sequences reveal more cards"
+    ]
+  },
+  "zh": {
+    "name": "接龙三峰",
+    "desc": "有趣的接龙变体！通过打出比废牌堆顶牌大一点的牌来移除三峰的所有牌。任何花色都可以玩！",
+    "howToPlay": "点击牌堆抽牌。从三峰中打出比废牌堆顶牌大一级的牌（任何花色）。清除所有牌获胜！",
+    "tips": [
+      "提前规划以揭开埋藏的牌",
+      "尝试均匀地清除山峰",
+      "明智地使用牌堆 - 回收会扣分",
+      "长序列能揭开更多牌"
+    ]
+  }
+}

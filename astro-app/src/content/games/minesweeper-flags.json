@@ -1,0 +1,30 @@
+{
+  "id": "minesweeperflags",
+  "slug": "minesweeper-flags",
+  "icon": "💣",
+  "category": "logic",
+  "featured": true,
+  "color": "from-red-500 to-rose-600",
+  "en": {
+    "name": "Minesweeper Flags",
+    "desc": "The classic minesweeper game! Uncover safe cells while avoiding hidden mines. Use number clues to deduce mine locations and flag them!",
+    "howToPlay": "Click to reveal a cell. Numbers show how many mines are adjacent. Right-click to place flags where you think mines are. Reveal all non-mine cells to win!",
+    "tips": [
+      "Start by clicking corners or edges",
+      "A '1' means exactly one mine in the adjacent cells",
+      "Flags help you mark suspected mines",
+      "Look for patterns like '1-2-1' or '1-2-2-1'"
+    ]
+  },
+  "zh": {
+    "name": "扫雷",
+    "desc": "经典扫雷游戏！揭开安全格子同时避开隐藏的地雷。利用数字提示推断地雷位置并标记它们！",
+    "howToPlay": "点击揭开格子。数字显示相邻有多少个地雷。右键单击在你认为有地雷的地方放置旗帜。揭开所有非地雷格子获胜！",
+    "tips": [
+      "从点击角落或边缘开始",
+      "数字'1'表示相邻格子恰好有一个地雷",
+      "旗帜帮助你标记疑似地雷",
+      "寻找'1-2-1'或'1-2-2-1'等模式"
+    ]
+  }
+}
