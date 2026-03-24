@@ -1,0 +1,30 @@
+{
+  "id": "texttwist",
+  "slug": "text-twist",
+  "icon": "🔤",
+  "category": "word",
+  "featured": true,
+  "color": "from-indigo-500 to-purple-600",
+  "en": {
+    "name": "Text Twist",
+    "desc": "Rearrange jumbled letters to form as many words as possible! Race against the clock to find all valid words before time runs out.",
+    "howToPlay": "Click letters to add them to your word, then click Submit to check if it's valid. You can also click Enter to submit. Find as many words as you can within 2 minutes!",
+    "tips": [
+      "Look for common prefixes and suffixes",
+      "Try different letter combinations",
+      "Longer words give more points",
+      "Use Skip if you're stuck (costs 50 points)"
+    ]
+  },
+  "zh": {
+    "name": "文字扭转",
+    "desc": "重新排列打乱的字母组成尽可能多的单词！与时间赛跑，在时间耗尽前找出所有有效单词。",
+    "howToPlay": "点击字母将其添加到你的单词中，然后点击提交检查是否有效。你也可以按回车提交。在2分钟内找出尽可能多的单词！",
+    "tips": [
+      "寻找常见的前缀和后缀",
+      "尝试不同的字母组合",
+      "较长的单词给更多分",
+      "如果卡住可以使用跳过（花费50分）"
+    ]
+  }
+}

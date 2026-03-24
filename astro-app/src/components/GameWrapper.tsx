@@ -95,6 +95,10 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'memorymatrix': () => import('./games/MemoryMatrix'),
   'pegsolitaire': () => import('./games/PegSolitaire'),
   'wordscramble': () => import('./games/WordScramble'),
+  // New games
+  'texttwist': () => import('./games/TextTwist'),
+  'strooptest': () => import('./games/StroopTest'),
+  'reactiontime': () => import('./games/ReactionTime'),
   // External/iframe games
   'amongus': () => import('./games/AmongUs'),
 }

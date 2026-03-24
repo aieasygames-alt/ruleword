@@ -1,0 +1,30 @@
+{
+  "id": "strooptest",
+  "slug": "stroop-test",
+  "icon": "🎨",
+  "category": "skill",
+  "featured": true,
+  "color": "from-fuchsia-500 to-pink-600",
+  "en": {
+    "name": "Stroop Test",
+    "desc": "Test your cognitive flexibility! Does the text color match the word meaning? The Stroop effect measures processing speed and cognitive control.",
+    "howToPlay": "You'll see a word displayed in a certain color. Click 'MATCH' if the color matches the word meaning, or 'NO MATCH' if they differ. Answer as quickly and accurately as possible!",
+    "tips": [
+      "Focus on the text color, not the word meaning",
+      "The instinct to read the word can interfere",
+      "Stay calm and concentrate",
+      "Accuracy matters as much as speed"
+    ]
+  },
+  "zh": {
+    "name": "斯特鲁普测试",
+    "desc": "测试你的认知灵活性！文字颜色是否与文字含义匹配？斯特鲁普效应测量处理速度和认知控制能力。",
+    "howToPlay": "你会看到一个用特定颜色显示的单词。如果颜色与单词含义匹配，点击'MATCH'，如果不匹配点击'NO MATCH'。尽可能快速准确地回答！",
+    "tips": [
+      "专注于文字颜色，而不是单词含义",
+      "阅读单词的本能可能会干扰",
+      "保持冷静和专注",
+      "准确性和速度同样重要"
+    ]
+  }
+}
