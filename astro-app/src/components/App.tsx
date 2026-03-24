@@ -722,7 +722,7 @@ export default function App() {
     return (
       <div className={`min-h-screen flex flex-col items-center justify-center py-4 px-4 ${bgClass} ${textClass}`}>
         <div className="max-w-md w-full text-center">
-          <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 Free Online Puzzle Games</h1>
+          <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 RuleWord</h1>
           <p className={`text-sm mb-6 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             {settings.language === 'zh' ? '选择一个游戏开始' : 'Choose a game to play'}
           </p>
