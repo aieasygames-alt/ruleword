@@ -77,9 +77,9 @@ const categoryI18nData = categoryI18n
       </div>
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight" data-i18n="title">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight" data-i18n="title">
           Free Online Puzzle Games
-        </h2>
+        </h1>
         <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-8" data-i18n="subtitle">
           Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
         </p>
@@ -92,7 +92,7 @@ const categoryI18nData = categoryI18n
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">📂</span>
-          <h3 class="text-xl font-bold" data-i18n="categories">Categories</h3>
+          <h2 class="text-xl font-bold" data-i18n="categories">Categories</h2>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {categoryList.map(cat => (
@@ -113,7 +113,7 @@ const categoryI18nData = categoryI18n
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">⭐</span>
-          <h3 class="text-xl font-bold" data-i18n="featured">Featured Games</h3>
+          <h2 class="text-xl font-bold" data-i18n="featured">Featured Games</h2>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {featuredGames.map(game => (
@@ -125,7 +125,7 @@ const categoryI18nData = categoryI18n
               <div class="relative z-10 h-full flex flex-col justify-between">
                 <div class="text-2xl lg:text-3xl">{game.icon}</div>
                 <div>
-                  <h4 class="font-bold text-white text-base mb-0.5 game-name">{game.name}</h4>
+                  <h3 class="font-bold text-white text-base mb-0.5 game-name">{game.name}</h3>
                   <p class="text-white/80 text-xs line-clamp-1 game-desc">{game.desc}</p>
                 </div>
               </div>
@@ -138,7 +138,7 @@ const categoryI18nData = categoryI18n
       <section>
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">🎮</span>
-          <h3 class="text-xl font-bold" data-i18n="allGames">All Games</h3>
+          <h2 class="text-xl font-bold" data-i18n="allGames">All Games</h2>
           <span class="text-sm text-slate-400">{games.length} <span data-i18n="gamesCount">games</span></span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -153,7 +153,7 @@ const categoryI18nData = categoryI18n
                   <span class="text-2xl">{game.icon}</span>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h4 class="font-bold text-lg mb-1 game-name">{game.name}</h4>
+                  <h3 class="font-bold text-lg mb-1 game-name">{game.name}</h3>
                   <p class="text-sm text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
                 </div>
                 <svg class="w-5 h-5 text-slate-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
