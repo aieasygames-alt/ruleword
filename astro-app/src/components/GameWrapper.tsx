@@ -107,6 +107,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     language: 'en'
   })
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   // 加载设置
   useEffect(() => {
@@ -129,18 +130,22 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
 
   // 动态加载游戏组件
   useEffect(() => {
+    setIsLoading(true)
     const loader = gameComponents[gameId]
     if (loader) {
       loader()
         .then(module => {
           setGameComponent(() => module.default)
+          setIsLoading(false)
         })
         .catch(err => {
           console.error(`Failed to load game ${gameId}:`, err)
           setError(`Failed to load game: ${err.message}`)
+          setIsLoading(false)
         })
     } else {
       setError(`Game "${gameId}" not found`)
+      setIsLoading(false)
     }
   }, [gameId])
 
@@ -188,10 +193,29 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
 
   if (!GameComponent) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading {gameName}...</p>
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          {/* Game Icon Placeholder */}
+          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-3xl shadow-lg shadow-green-500/25">
+            🎮
+          </div>
+
+          {/* Loading Spinner */}
+          <div className="animate-spin w-12 h-12 border-3 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+
+          {/* Loading Text */}
+          <h2 className="text-xl font-bold mb-2">{gameName}</h2>
+          <p className="text-slate-400 text-sm mb-4">Loading game...</p>
+
+          {/* Progress Bar */}
+          <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-green-400 to-emerald-600 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+          </div>
+
+          {/* Tip */}
+          <p className="text-slate-500 text-xs mt-4">
+            💡 Tip: Use keyboard shortcuts for better experience
+          </p>
         </div>
       </div>
     )
