@@ -1,0 +1,30 @@
+{
+  "id": "centipede",
+  "slug": "centipede",
+  "icon": "🐛",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Centipede",
+    "desc": "Classic arcade shooter! Destroy the centipede segment by segment as it winds through mushrooms. Fast-paced action inspired by the Atari classic!",
+    "howToPlay": "Use Arrow Keys to move your ship left and right. Press Spacebar to shoot upward. Destroy centipede segments before they reach you. Shoot mushrooms to clear paths!",
+    "tips": [
+      "Focus on the head of the centipede first",
+      "Mushrooms can block your shots - clear them wisely",
+      "The centipede speeds up as it gets smaller",
+      "Stay in the center for maximum coverage"
+    ]
+  },
+  "zh": {
+    "name": "蜈蚣",
+    "desc": "经典街机射击游戏！在蜈蚣穿过蘑菇时逐段摧毁它。受Atari经典启发的快节奏动作！",
+    "howToPlay": "使用方向键左右移动飞船。按空格键向上射击。在蜈蚣到达你之前摧毁它的身体段。射击蘑菇来清理路径！",
+    "tips": [
+      "先集中攻击蜈蚣的头部",
+      "蘑菇会阻挡你的射击 - 明智地清理它们",
+      "蜈蚣变小时会加速",
+      "保持在中心位置以获得最大覆盖范围"
+    ]
+  }
+}

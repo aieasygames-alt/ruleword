@@ -1,0 +1,30 @@
+{
+  "id": "memorygrid",
+  "slug": "memory-grid",
+  "icon": "🟦",
+  "category": "memory",
+  "featured": true,
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Memory Grid",
+    "desc": "Memorize and repeat the sequence of highlighted grid cells! Watch the pattern flash, then recreate it from memory. How far can you go?",
+    "howToPlay": "Watch the sequence of highlighted numbers carefully. Once they disappear, click the tiles in the correct order. Each round adds one more number to remember!",
+    "tips": [
+      "Focus on the position, not just the number",
+      "Create a mental image of the pattern",
+      "Take your time - accuracy matters more than speed",
+      "Start with 3 numbers, progresses to 9"
+    ]
+  },
+  "zh": {
+    "name": "网格记忆",
+    "desc": "记忆并重复高亮网格格子的序列！仔细观察闪烁的模式，然后凭记忆重现它。你能走多远？",
+    "howToPlay": "仔细观察高亮数字的序列。它们消失后，按正确顺序点击这些方块。每轮增加一个需要记忆的数字！",
+    "tips": [
+      "专注于位置，而不仅仅是数字",
+      "在脑海中创建图案的心理图像",
+      "慢慢来 - 准确性比速度更重要",
+      "从3个数字开始，逐渐增加到9个"
+    ]
+  }
+}

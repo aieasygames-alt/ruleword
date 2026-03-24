@@ -1,0 +1,30 @@
+{
+  "id": "kakurasu",
+  "slug": "kakurasu",
+  "icon": "🔢",
+  "category": "logic",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Kakurasu",
+    "desc": "Logic puzzle with row and column clues! Place cells in the grid so that row and column sums match the clues. A challenging number puzzle!",
+    "howToPlay": "Click cells to toggle them. The row clue shows the sum of column values for cells marked in that row. The column clue shows the sum of row values for cells marked in that column.",
+    "tips": [
+      "Look for rows or columns with clue 0",
+      "Start with rows/columns with high clues",
+      "Each cell is worth its row number",
+      "Think about which combination adds up"
+    ]
+  },
+  "zh": {
+    "name": "Kakurasu",
+    "desc": "带有行列线索的逻辑谜题！在网格中放置格子，使行列总和与线索匹配。极具挑战性的数字谜题！",
+    "howToPlay": "点击格子来切换它们。行线索显示该行中已标记格子的列值之和。列线索显示该列中已标记格子的行值之和。",
+    "tips": [
+      "寻找线索为0的行或列",
+      "从高线索的行/列开始",
+      "每个格子的值等于其行号",
+      "思考哪种组合相加等于线索"
+    ]
+  }
+}

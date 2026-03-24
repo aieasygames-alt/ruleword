@@ -103,6 +103,16 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'hidato': () => import('./games/Hidato'),
   'minesweeperflags': () => import('./games/MinesweeperFlags'),
   'solitairetripeaks': () => import('./games/SolitaireTriPeaks'),
+  'tangram': () => import('./games/Tangram'),
+  'shisensho': () => import('./games/ShisenSho'),
+  'mahjongtitans': () => import('./games/MahjongTitans'),
+  'kakurasu': () => import('./games/Kakurasu'),
+  'memorygrid': () => import('./games/MemoryGrid'),
+  'blockpuzzle': () => import('./games/BlockPuzzle'),
+  'calcudoku': () => import('./games/Calcudoku'),
+  'centipede': () => import('./games/Centipede'),
+  'jewelquest': () => import('./games/JewelQuest'),
+  '2048cupcakes': () => import('./games/Two048Cupcakes'),
   // External/iframe games
   'amongus': () => import('./games/AmongUs'),
 }

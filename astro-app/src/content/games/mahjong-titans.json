@@ -1,0 +1,30 @@
+{
+  "id": "mahjongtitans",
+  "slug": "mahjong-titans",
+  "icon": "🀄",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-orange-500 to-red-600",
+  "en": {
+    "name": "Mahjong Titans",
+    "desc": "Fast-paced mahjong matching with a timer! Find matching pairs of tiles before time runs out. Features traditional Chinese mahjong tiles.",
+    "howToPlay": "Click a face-down tile to reveal it. Find another tile with the same suit and value to remove both. Clear all tiles before the timer expires!",
+    "tips": [
+      "Focus on one suit at a time",
+      "Remember tile positions",
+      "Work from the outside in",
+      "You have 2 minutes to clear all tiles"
+    ]
+  },
+  "zh": {
+    "name": "限时麻将",
+    "desc": "带计时器的快速麻将配对！在时间耗尽前找到相同的牌对。使用传统中国麻将牌。",
+    "howToPlay": "点击背面朝上的牌来翻开它。找到另一张具有相同花色和点数的牌来移除这两张牌。在计时器到期前清除所有牌！",
+    "tips": [
+      "一次专注于一种花色",
+      "记住牌的位置",
+      "从外向内进行",
+      "你有2分钟清除所有牌"
+    ]
+  }
+}

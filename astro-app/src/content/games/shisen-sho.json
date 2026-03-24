@@ -1,0 +1,30 @@
+{
+  "id": "shisensho",
+  "slug": "shisen-sho",
+  "icon": "🀄",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-emerald-500 to-teal-600",
+  "en": {
+    "name": "Shisen-Sho",
+    "desc": "Match identical mahjong tiles to clear them! Tiles can only be matched if there's a clear path between them. A relaxing yet challenging puzzle game!",
+    "howToPlay": "Click two matching tiles (same suit and value) to remove them. Tiles must be reachable without going through other tiles. Clear all tiles to win!",
+    "tips": [
+      "Scan the board for easy matches first",
+      "Look for tiles on the edges",
+      "Plan ahead to avoid blocking tiles",
+      "Traditional Chinese mahjong matching game"
+    ]
+  },
+  "zh": {
+    "name": "四川麻将",
+    "desc": "匹配相同的麻将牌来消除它们！只有当两个牌之间有清晰的路径时才能匹配。一款轻松但充满挑战的益智游戏！",
+    "howToPlay": "点击两张相同的牌（相同花色和点数）来消除它们。牌必须能够通过不经过其他牌的路径到达。清除所有牌获胜！",
+    "tips": [
+      "先扫描棋盘寻找简单的匹配",
+      "查看边缘的牌",
+      "提前规划避免阻挡其他牌",
+      "传统中国麻将配对游戏"
+    ]
+  }
+}

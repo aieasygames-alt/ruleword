@@ -1,0 +1,30 @@
+{
+  "id": "tangram",
+  "slug": "tangram",
+  "icon": "🧩",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-purple-500 to-pink-600",
+  "en": {
+    "name": "Tangram",
+    "desc": "The classic Chinese dissection puzzle! Arrange 7 geometric shapes to form various targets. A test of spatial reasoning and creativity!",
+    "howToPlay": "Click and drag shapes to move them. Click a selected shape and use the Rotate button to rotate it. Arrange all shapes to match the target without overlapping.",
+    "tips": [
+      "Start with large pieces first",
+      "The square and parallelogram are tricky",
+      "Think about the target shape before placing",
+      "Classic puzzle from the Song Dynasty"
+    ]
+  },
+  "zh": {
+    "name": "七巧板",
+    "desc": "经典的中国拆图谜题！排列7个几何形状组成各种目标。考验空间推理和创造力！",
+    "howToPlay": "点击并拖动形状来移动它们。点击选中的形状并使用旋转按钮旋转它。排列所有形状以匹配目标，不要重叠。",
+    "tips": [
+      "先放置大块",
+      "正方形和平行四边形比较棘手",
+      "放置前思考目标形状",
+      "源自宋朝的经典谜题"
+    ]
+  }
+}

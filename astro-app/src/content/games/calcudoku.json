@@ -1,0 +1,30 @@
+{
+  "id": "calcudoku",
+  "slug": "calcudoku",
+  "icon": "🔢",
+  "category": "logic",
+  "featured": true,
+  "color": "from-indigo-500 to-purple-600",
+  "en": {
+    "name": "Calcudoku",
+    "desc": "A math-based logic puzzle! Fill the grid with numbers that satisfy cage equations. Each row and column must contain unique numbers. Brain training at its finest!",
+    "howToPlay": "Click empty cells and use the number pad or keyboard (1-4) to enter numbers. Each cage shows a target result and operation. Numbers in each cage must produce that result when combined with the operation.",
+    "tips": [
+      "Look for cages with only one cell - that's the answer!",
+      "Use row/column constraints to eliminate possibilities",
+      "Start with cages that have forced solutions",
+      "Division and subtraction cages have limited options"
+    ]
+  },
+  "zh": {
+    "name": "算数独",
+    "desc": "基于数学的逻辑谜题！用满足格子算式的数字填满网格。每行每列必须包含唯一数字。极佳的大脑训练！",
+    "howToPlay": "点击空格并使用数字键盘或键盘(1-4)输入数字。每个格子显示目标结果和运算符。格子内的数字必须用该运算符产生该结果。",
+    "tips": [
+      "寻找只有一个格子 - 那就是答案！",
+      "使用行列约束来消除可能性",
+      "从有必然解的格子开始",
+      "除法和减法格子选项有限"
+    ]
+  }
+}

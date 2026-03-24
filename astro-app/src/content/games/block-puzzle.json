@@ -1,0 +1,30 @@
+{
+  "id": "blockpuzzle",
+  "slug": "block-puzzle",
+  "icon": "📦",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-indigo-500 to-purple-600",
+  "en": {
+    "name": "Block Puzzle",
+    "desc": "Place puzzle blocks on the grid! Drag and drop tetromino-style shapes to fill complete rows. Clear lines to score points. Simple rules, endless fun!",
+    "howToPlay": "Click a shape button below the grid, then click on the grid to place it. Complete horizontal or vertical lines to clear them. Game ends when you can't place any more pieces!",
+    "tips": [
+      "Try to clear multiple lines at once",
+      "Don't create isolated empty spaces",
+      "Plan your moves ahead",
+      "Keep the board balanced"
+    ]
+  },
+  "zh": {
+    "name": "方块放置",
+    "desc": "在网格上放置拼图方块！拖放俄罗斯方块风格的形状来填满完整的行。清除整行来得分。规则简单，乐趣无穷！",
+    "howToPlay": "点击网格下方的形状按钮，然后在网格上点击来放置它。填满水平或垂直行来清除它们。当无法放置更多棋子时游戏结束！",
+    "tips": [
+      "尝试一次清除多行",
+      "不要创建孤立的空位",
+      "提前规划你的移动",
+      "保持棋盘平衡"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "id": "2048cupcakes",
+  "slug": "2048-cupcakes",
+  "icon": "🧁",
+  "category": "logic",
+  "featured": true,
+  "color": "from-pink-500 to-rose-600",
+  "en": {
+    "name": "2048 Cupcakes",
+    "desc": "A delicious twist on the classic 2048 game! Combine matching cupcakes to create new flavors. Can you reach the Rainbow cupcake?",
+    "howToPlay": "Use Arrow Keys or the buttons to slide all cupcakes in one direction. When two cupcakes of the same type collide, they merge into a better cupcake. Reach the Rainbow (2048) to win!",
+    "tips": [
+      "Keep your highest cupcakes in a corner",
+      "Build along one edge when possible",
+      "Plan ahead to avoid blocking yourself",
+      "Don't fill up the board completely!"
+    ]
+  },
+  "zh": {
+    "name": "2048纸杯蛋糕",
+    "desc": "经典2048游戏的甜蜜改编！组合匹配的纸杯蛋糕来创造新口味。你能达到彩虹纸杯蛋糕吗？",
+    "howToPlay": "使用方向键或按钮将所有纸杯蛋糕向一个方向滑动。当两个相同类型的纸杯蛋糕碰撞时，它们会合并成更好的纸杯蛋糕。达到彩虹(2048)获胜！",
+    "tips": [
+      "将最高级的纸杯蛋糕保持在角落",
+      "尽可能沿着一条边缘建立",
+      "提前计划以避免卡住自己",
+      "不要完全填满棋盘！"
+    ]
+  }
+}

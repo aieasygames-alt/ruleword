@@ -1,0 +1,30 @@
+{
+  "id": "jewelquest",
+  "slug": "jewel-quest",
+  "icon": "💎",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-cyan-500 to-blue-600",
+  "en": {
+    "name": "Jewel Quest",
+    "desc": "Match-3 puzzle excitement! Swap adjacent jewels to create matches of 3 or more. Plan your moves carefully to reach the target score!",
+    "howToPlay": "Click a jewel, then click an adjacent jewel to swap them. Match 3 or more jewels of the same color horizontally or vertically to score points and clear them from the board.",
+    "tips": [
+      "Look for opportunities to create 4+ matches",
+      "Plan moves that will cause cascading combos",
+      "Work from the bottom for more cascades",
+      "Use your 30 moves wisely!"
+    ]
+  },
+  "zh": {
+    "name": "宝石迷阵",
+    "desc": "三消谜题刺激体验！交换相邻宝石来创造3个或更多的匹配。仔细规划你的移动以达到目标分数！",
+    "howToPlay": "点击一个宝石，然后点击相邻宝石来交换它们。水平或垂直匹配3个或更多相同颜色的宝石以得分并将它们从棋盘上清除。",
+    "tips": [
+      "寻找创造4+匹配的机会",
+      "规划会产生连击的移动",
+      "从底部开始以产生更多连锁",
+      "明智地使用你的30步！"
+    ]
+  }
+}
