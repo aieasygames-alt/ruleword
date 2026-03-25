@@ -1,0 +1,122 @@
+---
+/**
+ * Game Showcase Component
+ * Displays favorite and recently played games
+ */
+
+interface Game {
+  slug: string;
+  id: string;
+  name: string;
+  nameZh: string;
+  icon: string;
+  desc: string;
+  descZh: string;
+  category: string;
+  color: string;
+}
+
+interface Props {
+  games: Game[];
+  title: string;
+  icon: string;
+  emptyMessage: string;
+  storageKey: string;
+}
+
+const { games, title, icon, emptyMessage, storageKey } = Astro.props;
+
+const hasGames = games.length > 0;
+---
+
+{hasGames && (
+  <section class={`mb-8 ${storageKey}-section`}>
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <div class="flex items-center gap-3">
+        <span class="text-2xl">{icon}</span>
+        <h2 class="text-xl font-bold showcase-title">{title}</h2>
+      </div>
+      <button
+        class={`clear-${storageKey}-btn text-sm text-slate-400 hover:text-red-400 transition-colors hidden`}
+      >
+        Clear
+      </button>
+    </div>
+    <div class={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 showcase-grid`}>
+      {games.map(game => (
+        <a
+          href={`/games/${game.slug}/`}
+          class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-slate-900/80 border border-slate-800 hover:border-slate-600 game-card"
+          data-game-slug={game.slug}
+        >
+          <div class={`text-3xl mb-2 game-icon bg-gradient-to-br ${game.color} w-12 h-12 mx-auto rounded-xl flex items-center justify-center shadow-lg`}>
+            {game.icon}
+          </div>
+          <h4 class="font-medium text-white text-sm game-name truncate">{game.name}</h4>
+          <p class="text-xs text-slate-500 mt-1 capitalize">{game.category}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
+
+<script>
+  // Clear button functionality
+  const clearBtn = document.querySelector(`.clear-${Astro.props.storageKey}-btn`);
+  const section = document.querySelector(`.${Astro.props.storageKey}-section`);
+
+  if (clearBtn && section) {
+    // Show clear button if there are games
+    clearBtn.classList.remove('hidden');
+
+    clearBtn.addEventListener('click', () => {
+      if (Astro.props.storageKey === 'favorites') {
+        localStorage.removeItem('ruleword_favorites');
+        window.dispatchEvent(new CustomEvent('favoritesChanged', { detail: { favorites: [] } }));
+      } else if (Astro.props.storageKey === 'recent') {
+        localStorage.removeItem('ruleword_recent');
+        window.dispatchEvent(new CustomEvent('recentlyPlayedChanged', { detail: { slugs: [] } }));
+      }
+      section.remove();
+    });
+  }
+
+  // Listen for changes
+  window.addEventListener('favoritesChanged', (e) => {
+    const customEvent = e as CustomEvent<{ favorites: string[] }>;
+    if (customEvent.detail.favorites.length === 0 && section) {
+      section.remove();
+    }
+  });
+
+  window.addEventListener('recentlyPlayedChanged', (e) => {
+    const customEvent = e as CustomEvent<{ slugs: string[] }>;
+    if (customEvent.detail.slugs.length === 0 && section) {
+      section.remove();
+    }
+  });
+
+  // Apply i18n
+  const originalApplyTranslations = window.applyTranslations;
+  window.applyTranslations = function(lang) {
+    if (originalApplyTranslations) {
+      originalApplyTranslations(lang);
+    }
+
+    // Update game names in showcase
+    document.querySelectorAll('.showcase-grid .game-name').forEach(el => {
+      const slug = el.closest('.game-card')?.getAttribute('data-game-slug');
+      const game = window.__GAMES_DATA__?.find((g: any) => g.slug === slug);
+      if (game) {
+        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name;
+      }
+    });
+
+    // Update title
+    const titleEl = document.querySelector('.showcase-title');
+    if (titleEl) {
+      const key = Astro.props.storageKey === 'favorites' ? 'favorites' : 'recentlyPlayed';
+      // Title updates handled by main i18n system
+    }
+  };
+</script>

@@ -1,5 +1,6 @@
 import { useEffect, useState, ComponentType, useRef } from 'react'
 import { getGameProgress, recordGamePlay } from '../utils/gameProgress'
+import { addRecentlyPlayed } from '../utils/recentlyPlayed'
 
 type Settings = {
   darkMode: boolean
@@ -170,6 +171,13 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     }
   }, [gameId])
 
+  // Add to recently played when game loads
+  useEffect(() => {
+    if (gameSlug) {
+      addRecentlyPlayed(gameSlug)
+    }
+  }, [gameSlug])
+
   // Record game session when component unmounts
   useEffect(() => {
     if (!GameComponent) return
@@ -278,6 +286,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
       updateScore={updateScore}
       getHighScore={getHighScore}
       gameId={gameId}
+      gameSlug={gameSlug}
     />
   )
 }

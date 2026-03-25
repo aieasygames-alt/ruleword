@@ -24,7 +24,7 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
@@ -193,6 +193,22 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
       `;
             document.body.insertAdjacentHTML('afterbegin', html);
           });
+        }
+      })();
+    </script>
+
+    <!-- Theme Initialization -->
+    <script is:inline>
+      (function() {
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('ruleword-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // Set theme
+        if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
+          html.classList.remove('dark');
+        } else {
+          html.classList.add('dark');
         }
       })();
     </script>
