@@ -1,4 +1,5 @@
-import { useEffect, useState, ComponentType } from 'react'
+import { useEffect, useState, ComponentType, useRef } from 'react'
+import { getGameProgress, recordGamePlay } from '../utils/gameProgress'
 
 type Settings = {
   darkMode: boolean
@@ -126,6 +127,8 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   })
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const gameStartTime = useRef<number>(Date.now())
+  const currentScore = useRef<number>(0)
 
   // 加载设置
   useEffect(() => {
@@ -166,6 +169,32 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
       setIsLoading(false)
     }
   }, [gameId])
+
+  // Record game session when component unmounts
+  useEffect(() => {
+    if (!GameComponent) return
+
+    gameStartTime.current = Date.now()
+
+    return () => {
+      // Record game play when leaving the game
+      const playTime = Math.floor((Date.now() - gameStartTime.current) / 1000)
+      if (playTime > 0) {
+        recordGamePlay(gameId, currentScore.current, playTime)
+      }
+    }
+  }, [GameComponent, gameId])
+
+  // Score tracking function that games can call
+  const updateScore = (score: number) => {
+    currentScore.current = score
+  }
+
+  // Get previous high score
+  const getHighScore = () => {
+    const progress = getGameProgress(gameId)
+    return progress?.highScore || 0
+  }
 
   const handleBack = () => {
     window.location.href = '/'
@@ -246,6 +275,9 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
       toggleLanguage={toggleLanguage}
       toggleTheme={toggleTheme}
       toggleSound={toggleSound}
+      updateScore={updateScore}
+      getHighScore={getHighScore}
+      gameId={gameId}
     />
   )
 }

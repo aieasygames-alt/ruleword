@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
 import { categories } from '../data/games'
 import { languages, i18n, categoryI18n, type Language } from '../data/i18n'
+import GameSearch from '../components/GameSearch.astro'
 
 // 从 CMS Content Collections 获取所有游戏
 const gamesCollection = await getCollection('games')
@@ -23,7 +24,7 @@ const allLanguages = languages
 const categoryI18nData = categoryI18n
 ---
 
-<BaseLayout title="RuleWord - Free Online Games | 79+ Puzzle, Word, Logic & More">
+<BaseLayout title="RuleWord - Free Online Games | 103+ Puzzle, Word, Logic & More">
   <div class="min-h-screen bg-slate-950 text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -83,6 +84,9 @@ const categoryI18nData = categoryI18n
         <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-8" data-i18n="subtitle">
           Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
         </p>
+
+        <!-- Search Bar -->
+        <GameSearch games={games} />
       </div>
     </div>
 
@@ -279,6 +283,7 @@ const categoryI18nData = categoryI18n
       </div>
     </div>
   </div>
+
 
   <script define:vars={{ i18n, allLanguages, games, categoryI18nData }}>
     // All i18n data

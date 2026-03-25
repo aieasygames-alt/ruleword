@@ -1,0 +1,228 @@
+---
+/**
+ * Simple Game Search Component - Vanilla JS implementation
+ */
+
+interface Game {
+  slug: string;
+  id: string;
+  name: string;
+  nameZh: string;
+  icon: string;
+  desc: string;
+  descZh: string;
+  category: string;
+  color: string;
+}
+
+interface Props {
+  games: Game[];
+}
+
+const { games } = Astro.props;
+
+const categories = ['all', ...new Set(games.map(g => g.category))];
+---
+
+<div id="game-search-container" class="relative w-full max-w-2xl mx-auto mb-8">
+  <div class="relative">
+    <input
+      type="text"
+      id="game-search-input"
+      placeholder="Search games..."
+      class="w-full px-5 py-3 pl-12 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+    />
+    <svg
+      class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    </svg>
+    <button
+      id="clear-search-btn"
+      class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors hidden"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Search Results Dropdown -->
+  <div id="search-results" class="absolute z-50 w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden">
+    <!-- Category Filter -->
+    <div id="category-filters" class="flex gap-2 p-3 border-b border-slate-700 overflow-x-auto">
+      <button data-category="all" class="category-filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-green-600 text-white">
+        All
+      </button>
+      {categories.map(cat => cat !== 'all' && (
+        <button data-category={cat} class="category-filter-btn px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+          {cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </button>
+      ))}
+    </div>
+
+    <!-- Results -->
+    <div id="search-results-list" class="max-h-96 overflow-y-auto">
+      <!-- Results will be injected here -->
+    </div>
+
+    <!-- Results Count -->
+    <div id="results-count" class="px-4 py-2 bg-slate-900/50 text-xs text-slate-500 text-center hidden">
+      Found 0 games
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ games }}>
+  const gamesData = games;
+  let currentCategory = 'all';
+  let searchQuery = '';
+
+  const searchInput = document.getElementById('game-search-input');
+  const clearBtn = document.getElementById('clear-search-btn');
+  const resultsContainer = document.getElementById('search-results');
+  const resultsList = document.getElementById('search-results-list');
+  const resultsCount = document.getElementById('results-count');
+  const categoryFilters = document.querySelectorAll('.category-filter-btn');
+
+  // Filter games
+  function filterGames() {
+    return gamesData.filter(game => {
+      const matchesCategory = currentCategory === 'all' || game.category === currentCategory;
+      const query = searchQuery.toLowerCase();
+
+      const matchesSearch =
+        game.name.toLowerCase().includes(query) ||
+        game.nameZh.toLowerCase().includes(query) ||
+        game.desc.toLowerCase().includes(query) ||
+        game.descZh.toLowerCase().includes(query);
+
+      return matchesCategory && matchesSearch;
+    }).slice(0, 20);
+  }
+
+  // Render results
+  function renderResults() {
+    const filtered = filterGames();
+
+    if (filtered.length === 0) {
+      resultsList.innerHTML = `
+        <div class="px-4 py-8 text-center text-slate-400">
+          No games found
+        </div>
+      `;
+      resultsCount.classList.add('hidden');
+    } else {
+      resultsList.innerHTML = filtered.map(game => `
+        <a
+          href="/games/${game.slug}/"
+          class="w-full px-4 py-3 flex items-center gap-4 hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0"
+        >
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center text-2xl flex-shrink-0">
+            ${game.icon}
+          </div>
+          <div class="flex-1 text-left">
+            <div class="font-semibold text-white game-name">${game.name}</div>
+            <div class="text-sm text-slate-400 line-clamp-1 game-desc">${game.desc}</div>
+          </div>
+          <div class="text-xs text-slate-500 capitalize">
+            ${game.category}
+          </div>
+        </a>
+      `).join('');
+
+      resultsCount.textContent = `Found ${filtered.length} games`;
+      resultsCount.classList.remove('hidden');
+    }
+  }
+
+  // Show/hide results
+  function showResults() {
+    if (searchQuery || currentCategory !== 'all') {
+      resultsContainer.classList.remove('hidden');
+      renderResults();
+    } else {
+      resultsContainer.classList.add('hidden');
+    }
+  }
+
+  // Search input event
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    clearBtn.classList.toggle('hidden', !searchQuery);
+    showResults();
+  });
+
+  searchInput.addEventListener('focus', () => {
+    showResults();
+  });
+
+  // Clear button
+  clearBtn.addEventListener('click', () => {
+    searchQuery = '';
+    searchInput.value = '';
+    clearBtn.classList.add('hidden');
+    showResults();
+  });
+
+  // Category filters
+  categoryFilters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCategory = btn.dataset.category;
+
+      // Update active state
+      categoryFilters.forEach(b => {
+        b.classList.remove('bg-green-600', 'text-white');
+        b.classList.add('bg-slate-700', 'text-slate-300');
+      });
+      btn.classList.remove('bg-slate-700', 'text-slate-300');
+      btn.classList.add('bg-green-600', 'text-white');
+
+      showResults();
+    });
+  });
+
+  // Close results when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#game-search-container')) {
+      resultsContainer.classList.add('hidden');
+    }
+  });
+
+  // Apply i18n to search results
+  function applySearchI18n(lang) {
+    document.querySelectorAll('#search-results-list .game-name').forEach(el => {
+      const slug = el.closest('a')?.getAttribute('href')?.split('/')[2];
+      const game = gamesData.find(g => g.slug === slug);
+      if (game) {
+        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name;
+      }
+    });
+
+    document.querySelectorAll('#search-results-list .game-desc').forEach(el => {
+      const slug = el.closest('a')?.getAttribute('href')?.split('/')[2];
+      const game = gamesData.find(g => g.slug === slug);
+      if (game) {
+        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc;
+      }
+    });
+
+    // Update placeholder
+    searchInput.placeholder = lang === 'zh-CN' || lang === 'zh-TW' ? '搜索游戏...' : 'Search games...';
+  }
+
+  // Expose function globally
+  window.applySearchI18n = applySearchI18n;
+
+  // Update applyTranslations function to include search
+  const originalApplyTranslations = window.applyTranslations;
+  window.applyTranslations = function(lang) {
+    if (originalApplyTranslations) {
+      originalApplyTranslations(lang);
+    }
+    applySearchI18n(lang);
+  };
+</script>
