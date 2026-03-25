@@ -1,0 +1,30 @@
+{
+  "id": "reactiontime",
+  "slug": "reaction-time",
+  "icon": "⚡",
+  "category": "skill",
+  "featured": true,
+  "color": "from-yellow-500 to-orange-600",
+  "en": {
+    "name": "Reaction Time",
+    "desc": "Test your reaction speed! Wait for the signal, then click as fast as possible. Track your best times and compete with friends.",
+    "howToPlay": "Wait for the screen to turn green, then click anywhere as fast as you can! Your reaction time will be displayed in milliseconds. Try to beat your best score!",
+    "tips": [
+      "Keep your hand ready on the mouse/click button",
+      "Focus on the screen - don't get distracted",
+      "Try to maintain consistency rather than one lucky fast time",
+      "Aim for under 200ms - that's excellent!"
+    ]
+  },
+  "zh": {
+    "name": "反应时间",
+    "desc": "测试你的反应速度！等待信号出现，然后尽快点击。记录你的最佳时间并与朋友竞争。",
+    "howToPlay": "等待屏幕变绿，然后尽快点击任何位置！你的反应时间将以毫秒显示。尝试打破你的最佳记录！",
+    "tips": [
+      "保持手在鼠标/点击按钮上准备",
+      "专注于屏幕 - 不要分心",
+      "尝试保持一致性而不是一个幸运的快速时间",
+      "目标是200毫秒以下 - 那是优秀的成绩！"
+    ]
+  }
+}
