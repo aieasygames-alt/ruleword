@@ -5,6 +5,12 @@ const WIN_VALUE = 2048;
 
 type Grid = (number | null)[][];
 
+type Props = {
+  settings?: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+  onShare?: (data: { score: number; result?: string }) => void
+  gameName?: string
+}
+
 const ITEMS: Record<number, { name: string; emoji: string; color: string }> = {
   2: { name: 'Vanilla', emoji: '🧁', color: 'from-yellow-200 to-yellow-300' },
   4: { name: 'Chocolate', emoji: '🍩', color: 'from-amber-300 to-amber-400' },
@@ -117,12 +123,12 @@ const getScore = (grid: Grid): number => {
   return grid.flat().filter((x): x is number => x !== null).reduce((sum, x) => sum + x, 0);
 };
 
-export default function Two048Cupcakes() {
+export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabled: true, language: 'en' }, onShare, gameName = '2048 Cupcakes' }: Props) {
   const [grid, setGrid] = useState<Grid>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
-  const [darkMode] = useState(true);
+  const darkMode = settings.darkMode;
 
   const initGame = useCallback(() => {
     let newGrid = createEmptyGrid();
@@ -161,6 +167,28 @@ export default function Two048Cupcakes() {
       setGameOver(true);
     }
   }, [grid, gameOver, gameWon]);
+
+  // Handle share
+  const handleShare = () => {
+    if (onShare) {
+      // Find highest cupcake achieved
+      let maxTile = 0;
+      grid.forEach(row => {
+        row.forEach(cell => {
+          if (cell && cell > maxTile) {
+            maxTile = cell;
+          }
+        });
+      });
+
+      const highestCupcake = ITEMS[maxTile] || ITEMS[2];
+
+      onShare({
+        score,
+        result: `🧁 2048 Cupcakes\n🏆 Score: ${score}\n🎯 Highest: ${highestCupcake.emoji} ${highestCupcake.name} (${maxTile})`
+      });
+    }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     switch (e.key) {
@@ -325,6 +353,9 @@ export default function Two048Cupcakes() {
             <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
               Final Score: {score}
             </p>
+            <button onClick={handleShare} className={`mt-4 px-6 py-2 rounded-lg font-medium ${darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              📢 Share Score
+            </button>
           </div>
         )}
 
@@ -336,6 +367,9 @@ export default function Two048Cupcakes() {
             <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
               You reached the Rainbow! Score: {score}
             </p>
+            <button onClick={handleShare} className={`mt-4 px-6 py-2 rounded-lg font-medium ${darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              📢 Share Score
+            </button>
           </div>
         )}
       </div>

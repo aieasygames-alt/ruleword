@@ -1,11 +1,22 @@
 import { useEffect, useState, ComponentType, useRef } from 'react'
 import { getGameProgress, recordGamePlay } from '../utils/gameProgress'
 import { addRecentlyPlayed } from '../utils/recentlyPlayed'
+import ShareModal from './ShareModal'
 
 type Settings = {
   darkMode: boolean
   soundEnabled: boolean
   language: 'en' | 'zh'
+}
+
+type ShareData = {
+  gameName: string
+  gameEmoji: string
+  score?: number
+  time?: string
+  attempts?: number
+  result?: string
+  level?: string
 }
 
 type GameWrapperProps = {
@@ -128,6 +139,8 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   })
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [shareData, setShareData] = useState<ShareData | null>(null)
+  const [showShareModal, setShowShareModal] = useState(false)
   const gameStartTime = useRef<number>(Date.now())
   const currentScore = useRef<number>(0)
 
@@ -204,6 +217,27 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     return progress?.highScore || 0
   }
 
+  // Share function that games can call
+  const onShare = (data: Omit<ShareData, 'gameName' | 'gameEmoji'>) => {
+    // Get game emoji from games data
+    const gameEmojis: Record<string, string> = {
+      'wordle': '🔤',
+      'game2048': '🔢',
+      '2048cupcakes': '🧁',
+      'sudoku': '🔢',
+      'chess': '♟️',
+      'tetris': '🧱',
+      // Add more as needed
+    }
+
+    setShareData({
+      gameName,
+      gameEmoji: gameEmojis[gameId] || '🎮',
+      ...data
+    })
+    setShowShareModal(true)
+  }
+
   const handleBack = () => {
     window.location.href = '/'
   }
@@ -277,16 +311,28 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   }
 
   return (
-    <GameComponent
-      settings={settings}
-      onBack={handleBack}
-      toggleLanguage={toggleLanguage}
-      toggleTheme={toggleTheme}
-      toggleSound={toggleSound}
-      updateScore={updateScore}
-      getHighScore={getHighScore}
-      gameId={gameId}
-      gameSlug={gameSlug}
-    />
+    <>
+      <GameComponent
+        settings={settings}
+        onBack={handleBack}
+        toggleLanguage={toggleLanguage}
+        toggleTheme={toggleTheme}
+        toggleSound={toggleSound}
+        updateScore={updateScore}
+        getHighScore={getHighScore}
+        onShare={onShare}
+        gameId={gameId}
+        gameSlug={gameSlug}
+        gameName={gameName}
+      />
+      {shareData && (
+        <ShareModal
+          isOpen={showShareModal}
+          onClose={() => setShowShareModal(false)}
+          shareData={shareData}
+          darkMode={settings.darkMode}
+        />
+      )}
+    </>
   )
 }

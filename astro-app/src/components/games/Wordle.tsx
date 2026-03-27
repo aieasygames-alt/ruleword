@@ -4,6 +4,8 @@ import { IDIOM_DICTIONARY, getIdiomsByChar, getAllFirstChars, searchIdioms, type
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+  onShare?: (data: { result: string; attempts: number; score?: number }) => void
+  gameName?: string
 }
 
 const WORDS = ['APPLE', 'BRAVE', 'CRANE', 'DREAM', 'EAGLE', 'FLAME', 'GRAPE', 'HOUSE', 'IMAGE', 'JUICE', 'KNIFE', 'LEMON', 'MUSIC', 'NIGHT', 'OCEAN', 'PIANO', 'QUEEN', 'RIVER', 'STORM', 'TIGER', 'ULTRA', 'VIVID', 'WATER', 'XENON', 'YOUTH', 'ZEBRA', 'BRAIN', 'CLOUD', 'DANCE', 'EARTH', 'FROST', 'GHOST', 'HEART', 'IVORY', 'JELLY', 'KAYAK', 'LIGHT', 'MANGO', 'NOBLE', 'OLIVE', 'PEACE', 'QUEST', 'ROBOT', 'SUGAR', 'TRAIN', 'UNITY', 'VAPOR', 'WORLD', 'XEROX', 'YACHT']
@@ -14,7 +16,7 @@ const WORD_LENGTH = 5
 type LetterState = 'correct' | 'present' | 'absent' | 'empty'
 type DictLanguage = 'en' | 'zh'
 
-export default function Wordle({ settings }: Props) {
+export default function Wordle({ settings, onShare, gameName = 'Wordle' }: Props) {
   const [targetWord, setTargetWord] = useState<string>(() => WORDS[Math.floor(Math.random() * WORDS.length)])
   const [guesses, setGuesses] = useState<string[]>([])
   const [currentGuess, setCurrentGuess] = useState('')
@@ -110,6 +112,29 @@ export default function Wordle({ settings }: Props) {
     setGuesses([])
     setCurrentGuess('')
     setGameState('playing')
+  }
+
+  // Generate Wordle-style emoji result
+  const generateEmojiResult = (): string => {
+    return guesses.map(guess => {
+      return guess.split('').map((letter, index) => {
+        const state = getLetterState(letter, index, guess)
+        if (state === 'correct') return '🟩'
+        if (state === 'present') return '🟨'
+        return '⬛'
+      }).join('')
+    }).join('\n')
+  }
+
+  // Handle share
+  const handleShare = () => {
+    if (onShare) {
+      onShare({
+        result: generateEmojiResult(),
+        attempts: guesses.length,
+        score: gameState === 'won' ? Math.max(1, 7 - guesses.length) : 0
+      })
+    }
   }
 
   const keyColors: Record<LetterState, string> = {
@@ -212,9 +237,14 @@ export default function Wordle({ settings }: Props) {
             <p className={`mb-4 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
               {guesses.length} {lang === 'zh' ? '次尝试' : 'attempts'}
             </p>
-            <button onClick={resetGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
-              {lang === 'zh' ? '再来一次' : 'Play Again'}
-            </button>
+            <div className="flex gap-3 justify-center">
+              <button onClick={resetGame} className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
+                {lang === 'zh' ? '再来一次' : 'Play Again'}
+              </button>
+              <button onClick={handleShare} className={`px-6 py-3 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                📢 {lang === 'zh' ? '分享' : 'Share'}
+              </button>
+            </div>
           </div>
         </div>
       )}
