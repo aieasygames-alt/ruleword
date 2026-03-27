@@ -165,18 +165,26 @@ export default function Two048Cupcakes() {
   const handleKeyPress = (e: React.KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
+      case 'w':
+      case 'W':
         e.preventDefault();
         move('up');
         break;
       case 'ArrowDown':
+      case 's':
+      case 'S':
         e.preventDefault();
         move('down');
         break;
       case 'ArrowLeft':
+      case 'a':
+      case 'A':
         e.preventDefault();
         move('left');
         break;
       case 'ArrowRight':
+      case 'd':
+      case 'D':
         e.preventDefault();
         move('right');
         break;
@@ -288,7 +296,7 @@ export default function Two048Cupcakes() {
             How to Play:
           </div>
           <ul className={`text-sm space-y-1 ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-            <li>• Use Arrow Keys or buttons to move cupcakes</li>
+            <li>• Use Arrow Keys, WASD, or buttons to move cupcakes</li>
             <li>• Same cupcakes merge when they collide</li>
             <li>• Reach the Rainbow (2048) to win!</li>
           </ul>

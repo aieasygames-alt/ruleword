@@ -11,7 +11,34 @@ type Props = {
 
 const GRID_SIZE = 8
 
-const createInitialGrid = (): Cell[][] => {
+// Level definitions with different clue configurations
+const LEVELS: Array<{
+  clues: [number, number, number][]
+  name: string
+}> = [
+  {
+    name: 'Level 1',
+    clues: [[0, 1, 3], [0, 6, 2], [2, 3, 1], [3, 0, 2], [4, 5, 3], [6, 2, 1], [7, 7, 2]]
+  },
+  {
+    name: 'Level 2',
+    clues: [[0, 0, 2], [1, 3, 3], [2, 6, 1], [4, 2, 2], [5, 5, 3], [6, 1, 1], [7, 7, 2]]
+  },
+  {
+    name: 'Level 3',
+    clues: [[0, 2, 3], [1, 5, 2], [3, 1, 1], [4, 6, 3], [5, 3, 2], [6, 0, 1], [7, 7, 2]]
+  },
+  {
+    name: 'Level 4',
+    clues: [[0, 1, 2], [2, 3, 3], [3, 6, 1], [4, 0, 2], [5, 5, 3], [6, 2, 1], [7, 7, 2]]
+  },
+  {
+    name: 'Level 5',
+    clues: [[0, 0, 3], [1, 4, 2], [2, 7, 1], [4, 1, 2], [5, 6, 3], [6, 3, 1], [7, 7, 2]]
+  }
+]
+
+const createInitialGrid = (levelIndex: number = 0): Cell[][] => {
   const grid: Cell[][] = Array(GRID_SIZE).fill(null).map(() =>
     Array(GRID_SIZE).fill(null).map(() => ({
       state: 'empty' as const,
@@ -19,12 +46,9 @@ const createInitialGrid = (): Cell[][] => {
     }))
   )
 
-  // Add clues
-  const clues: [number, number, number][] = [
-    [0, 1, 3], [0, 6, 2], [2, 3, 1], [3, 0, 2], [4, 5, 3], [6, 2, 1], [7, 7, 2]
-  ]
-
-  clues.forEach(([row, col, clue]) => {
+  // Add clues from current level
+  const level = LEVELS[levelIndex % LEVELS.length]
+  level.clues.forEach(([row, col, clue]) => {
     grid[row][col].clue = clue
   })
 
@@ -32,8 +56,9 @@ const createInitialGrid = (): Cell[][] => {
 }
 
 export default function Aqre({ settings }: Props) {
-  const [grid, setGrid] = useState<Cell[][]>(createInitialGrid)
+  const [grid, setGrid] = useState<Cell[][]>(() => createInitialGrid(0))
   const [solved, setSolved] = useState(false)
+  const [currentLevel, setCurrentLevel] = useState(0)
 
   const isDark = settings.darkMode
 
@@ -75,7 +100,14 @@ export default function Aqre({ settings }: Props) {
   }, [])
 
   const reset = () => {
-    setGrid(createInitialGrid())
+    setGrid(createInitialGrid(currentLevel))
+    setSolved(false)
+  }
+
+  const nextLevel = () => {
+    const nextLevelIndex = currentLevel + 1
+    setCurrentLevel(nextLevelIndex)
+    setGrid(createInitialGrid(nextLevelIndex))
     setSolved(false)
   }
 
@@ -84,7 +116,7 @@ export default function Aqre({ settings }: Props) {
       <div className={`p-4 border-b ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
         <h1 className="text-xl font-bold text-center">🔲 Aqre</h1>
         <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-          {settings.language === 'zh' ? '涂黑格子，使同行/列连续黑格不超过2个' : 'Shade cells, max 2 consecutive in row/col'}
+          {LEVELS[currentLevel % LEVELS.length].name} · {settings.language === 'zh' ? '涂黑格子，使同行/列连续黑格不超过2个' : 'Shade cells, max 2 consecutive in row/col'}
         </p>
       </div>
 
@@ -129,11 +161,19 @@ export default function Aqre({ settings }: Props) {
 
       {solved && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-          <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
-            <h2 className="text-2xl font-bold text-center text-green-500">🎉 {settings.language === 'zh' ? '正确！' : 'Correct!'}</h2>
-            <button onClick={() => setSolved(false)} className="mt-4 w-full py-2 bg-green-600 text-white rounded-lg">
-              {settings.language === 'zh' ? '继续' : 'Continue'}
-            </button>
+          <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'} max-w-sm w-full mx-4`}>
+            <h2 className="text-2xl font-bold text-center text-green-500 mb-2">🎉 {settings.language === 'zh' ? '正确！' : 'Correct!'}</h2>
+            <p className={`text-center mb-6 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
+              {settings.language === 'zh' ? `完成 ${LEVELS[currentLevel % LEVELS.length].name}` : `Completed ${LEVELS[currentLevel % LEVELS.length].name}`}
+            </p>
+            <div className="flex gap-3">
+              <button onClick={() => setSolved(false)} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
+                {settings.language === 'zh' ? '关闭' : 'Close'}
+              </button>
+              <button onClick={nextLevel} className="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
+                {settings.language === 'zh' ? '下一关' : 'Next Level'}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -26,9 +26,9 @@ const categoryI18nData = categoryI18n
 ---
 
 <BaseLayout title="RuleWord - Free Online Games | 103+ Puzzle, Word, Logic & More">
-  <div class="min-h-screen bg-slate-950 text-white" id="app">
+  <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->
-    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="flex items-center justify-between h-16">
           <div class="flex items-center gap-3">
@@ -44,16 +44,16 @@ const categoryI18nData = categoryI18n
           <!-- Right: Language and Feedback -->
           <div class="flex items-center gap-2">
             <div class="relative">
-              <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
+              <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-sm text-gray-700 dark:text-slate-300">
                 <span class="text-lg">🌐</span>
                 <span class="hidden sm:inline" id="current-lang">English</span>
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-slate-700 hidden">
+              <div id="lang-dropdown" class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-xl z-20 py-1 border border-gray-200 dark:border-slate-700 hidden">
                 {allLanguages.map(lang => (
-                  <button onclick={`setLang('${lang.code}')`} class="w-full px-4 py-2 text-left text-sm hover:bg-slate-700 text-slate-300" data-lang-code={lang.code}>
+                  <button onclick={`setLang('${lang.code}')`} class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-700 dark:text-slate-300" data-lang-code={lang.code}>
                     {lang.nativeName}
                   </button>
                 ))}
@@ -61,7 +61,7 @@ const categoryI18nData = categoryI18n
             </div>
             <button
               id="theme-toggle-btn"
-              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm"
+              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-sm text-gray-700 dark:text-slate-300"
               aria-label="Toggle theme"
             >
               <span class="text-lg theme-icon">🌙</span>
@@ -69,7 +69,7 @@ const categoryI18nData = categoryI18n
             </button>
             <button
               id="feedback-btn"
-              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition-all text-sm font-medium"
+              class="flex items-center gap-1 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 transition-all text-sm font-medium text-white"
             >
               <span>💬</span>
               <span class="hidden sm:inline" data-i18n="feedback">Feedback</span>
@@ -80,17 +80,17 @@ const categoryI18nData = categoryI18n
     </header>
 
     <!-- Hero -->
-    <div class="relative overflow-hidden bg-gradient-to-b from-slate-900 to-slate-950">
+    <div class="relative overflow-hidden bg-gradient-to-b from-gray-100 to-gray-50 dark:from-slate-900 dark:to-slate-950">
       <div class="absolute inset-0 overflow-hidden">
         <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-green-500"></div>
         <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-blue-500"></div>
       </div>
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight" data-i18n="title">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight text-gray-900 dark:text-white" data-i18n="title">
           Free Online Puzzle Games
         </h1>
-        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-slate-400 mb-8" data-i18n="subtitle">
+        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-gray-600 dark:text-slate-400 mb-8" data-i18n="subtitle">
           Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
         </p>
 
@@ -105,18 +105,18 @@ const categoryI18nData = categoryI18n
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">📂</span>
-          <h2 class="text-xl font-bold" data-i18n="categories">Categories</h2>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="categories">Categories</h2>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {categoryList.map(cat => (
             <a
               href={`/category/${cat.id}/`}
-              class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-slate-900/80 border border-slate-800 hover:border-slate-600"
+              class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-600"
               data-category-id={cat.id}
             >
               <div class="text-3xl mb-2">{cat.icon}</div>
-              <h4 class="font-medium text-white text-sm category-name">{cat.name}</h4>
-              <p class="text-xs text-slate-500 mt-1">{games.filter(g => g.category === cat.id).length} <span data-i18n="gamesCount">games</span></p>
+              <h4 class="font-medium text-gray-900 dark:text-white text-sm category-name">{cat.name}</h4>
+              <p class="text-xs text-gray-500 dark:text-slate-500 mt-1">{games.filter(g => g.category === cat.id).length} <span data-i18n="gamesCount">games</span></p>
             </a>
           ))}
         </div>
@@ -126,7 +126,7 @@ const categoryI18nData = categoryI18n
       <section class="mt-8 mb-12">
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">⭐</span>
-          <h2 class="text-xl font-bold" data-i18n="featured">Featured Games</h2>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="featured">Featured Games</h2>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {featuredGames.map(game => (
@@ -154,9 +154,9 @@ const categoryI18nData = categoryI18n
           <div class="flex items-center justify-between gap-3 mb-4">
             <div class="flex items-center gap-3">
               <span class="text-2xl">❤️</span>
-              <h2 class="text-xl font-bold" data-i18n="favorites">Favorite Games</h2>
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="favorites">Favorite Games</h2>
             </div>
-            <button id="clear-favorites-btn" class="text-sm text-slate-400 hover:text-red-400 transition-colors">
+            <button id="clear-favorites-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
               Clear All
             </button>
           </div>
@@ -170,9 +170,9 @@ const categoryI18nData = categoryI18n
           <div class="flex items-center justify-between gap-3 mb-4">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🕐</span>
-              <h2 class="text-xl font-bold" data-i18n="recentlyPlayed">Recently Played</h2>
+              <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="recentlyPlayed">Recently Played</h2>
             </div>
-            <button id="clear-recent-btn" class="text-sm text-slate-400 hover:text-red-400 transition-colors">
+            <button id="clear-recent-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
               Clear All
             </button>
           </div>
@@ -186,14 +186,14 @@ const categoryI18nData = categoryI18n
       <section>
         <div class="flex items-center gap-3 mb-6">
           <span class="text-2xl">🎮</span>
-          <h2 class="text-xl font-bold" data-i18n="allGames">All Games</h2>
-          <span class="text-sm text-slate-400">{games.length} <span data-i18n="gamesCount">games</span></span>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="allGames">All Games</h2>
+          <span class="text-sm text-gray-600 dark:text-slate-400">{games.length} <span data-i18n="gamesCount">games</span></span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map(game => (
             <a
               href={`/games/${game.slug}/`}
-              class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
+              class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800"
               data-game-slug={game.slug}
             >
               <div class="flex items-start gap-4">
@@ -201,10 +201,10 @@ const categoryI18nData = categoryI18n
                   <span class="text-2xl">{game.icon}</span>
                 </div>
                 <div class="flex-1 min-w-0">
-                  <h3 class="font-bold text-lg mb-1 game-name">{game.name}</h3>
-                  <p class="text-sm text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
+                  <h3 class="font-bold text-lg mb-1 game-name text-gray-900 dark:text-white">{game.name}</h3>
+                  <p class="text-sm text-gray-600 dark:text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
                 </div>
-                <svg class="w-5 h-5 text-slate-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="w-5 h-5 text-gray-400 dark:text-slate-400 group-hover:text-green-500 group-hover:translate-x-1 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
               </div>
@@ -223,45 +223,45 @@ const categoryI18nData = categoryI18n
       <!-- About RuleWord Section -->
       <section class="mt-16 mb-12">
         <div class="max-w-4xl mx-auto">
-          <h3 class="text-2xl font-bold text-center mb-8" data-i18n="aboutTitle">About RuleWord</h3>
+          <h3 class="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white" data-i18n="aboutTitle">About RuleWord</h3>
 
           <!-- Features Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🎮</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature1Title">100% Free & Unlimited</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature1Desc">Play all games without any cost or time limits. No registration required.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature1Title">100% Free & Unlimited</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature1Desc">Play all games without any cost or time limits. No registration required.</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">⚡</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature2Title">Instant Play, No Downloads</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature2Desc">All games run directly in your browser. No app installation needed.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature2Title">Instant Play, No Downloads</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature2Desc">All games run directly in your browser. No app installation needed.</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">📱</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature3Title">Play Anywhere</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature3Desc">Works on desktop, tablet, and mobile devices. Enjoy games on the go.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature3Title">Play Anywhere</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature3Desc">Works on desktop, tablet, and mobile devices. Enjoy games on the go.</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🧩</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature4Title">Brain Training</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature4Desc">Improve your logic, vocabulary, memory and reflexes with our puzzles.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature4Title">Brain Training</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature4Desc">Improve your logic, vocabulary, memory and reflexes with our puzzles.</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🌐</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature5Title">Multi-Language Support</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature5Desc">Available in 8 languages including English, Chinese, Japanese and more.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature5Title">Multi-Language Support</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature5Desc">Available in 8 languages including English, Chinese, Japanese and more.</p>
             </div>
-            <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 text-center">
+            <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🆕</div>
-              <h4 class="font-bold text-white mb-2" data-i18n="feature6Title">Always Growing</h4>
-              <p class="text-sm text-slate-400" data-i18n="feature6Desc">New games added regularly. Fresh challenges await you every week.</p>
+              <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature6Title">Always Growing</h4>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature6Desc">New games added regularly. Fresh challenges await you every week.</p>
             </div>
           </div>
 
           <!-- About Paragraph -->
-          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 text-center">
-            <p class="text-slate-300 leading-relaxed" data-i18n="aboutDesc">
+          <div class="bg-white/50 dark:bg-slate-900/50 border border-gray-200 dark:border-slate-800 rounded-xl p-6 text-center">
+            <p class="text-gray-700 dark:text-slate-300 leading-relaxed" data-i18n="aboutDesc">
               RuleWord is your ultimate destination for free online puzzle games...
             </p>
           </div>
@@ -270,16 +270,16 @@ const categoryI18nData = categoryI18n
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-800 bg-slate-900/50">
+    <footer class="border-t border-gray-200 dark:border-slate-800 bg-gray-50/50 dark:bg-slate-900/50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow">
               R
             </div>
-            <span class="font-semibold text-slate-400">RuleWord</span>
+            <span class="font-semibold text-gray-600 dark:text-slate-400">RuleWord</span>
           </div>
-          <p class="text-sm text-slate-400">
+          <p class="text-sm text-gray-600 dark:text-slate-400">
             <span data-i18n="copyright">© 2026 RuleWord</span> · <span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span>
           </p>
         </div>
@@ -290,10 +290,10 @@ const categoryI18nData = categoryI18n
   <!-- Feedback Modal -->
   <div id="feedback-modal" class="fixed inset-0 z-50 hidden">
     <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="document.getElementById('feedback-modal').classList.add('hidden')"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-slate-800 rounded-2xl p-6 shadow-2xl">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-2xl">
       <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold">💬 Feedback</h3>
-        <button onclick="document.getElementById('feedback-modal').classList.add('hidden')" class="text-slate-400 hover:text-white">
+        <h3 class="text-lg font-bold text-gray-900 dark:text-white">💬 Feedback</h3>
+        <button onclick="document.getElementById('feedback-modal').classList.add('hidden')" class="text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-white">
           <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -301,8 +301,8 @@ const categoryI18nData = categoryI18n
       </div>
       <form id="feedback-form" class="space-y-4">
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Type</label>
-          <select id="feedback-type" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white">
+          <label class="block text-sm text-gray-700 dark:text-slate-300 mb-1">Type</label>
+          <select id="feedback-type" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white">
             <option value="bug">🐛 Bug Report</option>
             <option value="feature">💡 Feature Request</option>
             <option value="game">🎮 Game Feedback</option>
@@ -310,12 +310,12 @@ const categoryI18nData = categoryI18n
           </select>
         </div>
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Message</label>
-          <textarea id="feedback-message" rows="4" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder="Describe your feedback..."></textarea>
+          <label class="block text-sm text-gray-700 dark:text-slate-300 mb-1">Message</label>
+          <textarea id="feedback-message" rows="4" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400" placeholder="Describe your feedback..."></textarea>
         </div>
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Email (optional)</label>
-          <input type="email" id="feedback-email" class="w-full px-3 py-2 rounded-lg bg-slate-700 border border-slate-600 text-white placeholder-slate-400" placeholder="For reply" />
+          <label class="block text-sm text-gray-700 dark:text-slate-300 mb-1">Email (optional)</label>
+          <input type="email" id="feedback-email" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400" placeholder="For reply" />
         </div>
         <button type="submit" class="w-full py-2 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-medium transition-all">
           Send Feedback
@@ -323,7 +323,7 @@ const categoryI18nData = categoryI18n
       </form>
       <div id="feedback-success" class="hidden text-center py-8">
         <div class="text-4xl mb-2">✅</div>
-        <p class="text-green-400 font-medium">Thank you for your feedback!</p>
+        <p class="text-green-600 dark:text-green-400 font-medium">Thank you for your feedback!</p>
       </div>
     </div>
   </div>
@@ -368,12 +368,12 @@ const categoryI18nData = categoryI18n
       const name = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
       const desc = lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc
       return `
-        <a href="/games/${game.slug}/" class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-slate-900/80 border border-slate-800 hover:border-slate-600" data-game-slug="${game.slug}">
+        <a href="/games/${game.slug}/" class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-600" data-game-slug="${game.slug}">
           <div class="${game.color} w-12 h-12 mx-auto rounded-xl flex items-center justify-center shadow-lg mb-2">
             <span class="text-2xl">${game.icon}</span>
           </div>
-          <h4 class="font-medium text-white text-sm game-name truncate">${name}</h4>
-          <p class="text-xs text-slate-500 mt-1 capitalize">${game.category}</p>
+          <h4 class="font-medium text-gray-900 dark:text-white text-sm game-name truncate">${name}</h4>
+          <p class="text-xs text-gray-500 dark:text-slate-500 mt-1 capitalize">${game.category}</p>
         </a>
       `
     }

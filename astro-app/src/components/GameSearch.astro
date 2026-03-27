@@ -30,10 +30,10 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       type="text"
       id="game-search-input"
       placeholder="Search games..."
-      class="w-full px-5 py-3 pl-12 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+      class="w-full px-5 py-3 pl-12 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
     />
     <svg
-      class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none"
+      class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-slate-400 pointer-events-none"
       fill="none"
       stroke="currentColor"
       viewBox="0 0 24 24"
@@ -42,7 +42,7 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
     </svg>
     <button
       id="clear-search-btn"
-      class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors hidden"
+      class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-slate-400 hover:text-gray-600 dark:hover:text-white transition-colors hidden"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -51,26 +51,26 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   </div>
 
   <!-- Search Results Dropdown -->
-  <div id="search-results" class="absolute z-50 w-full mt-2 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden">
+  <div id="search-results" class="absolute z-50 w-full mt-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden" style="max-height: 70vh; display: none;">
     <!-- Category Filter -->
-    <div id="category-filters" class="flex gap-2 p-3 border-b border-slate-700 overflow-x-auto">
+    <div id="category-filters" class="flex gap-2 p-3 border-b border-gray-300 dark:border-slate-700 overflow-x-auto shrink-0 scrollbar-thin">
       <button data-category="all" class="category-filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-green-600 text-white">
         All
       </button>
       {categories.map(cat => cat !== 'all' && (
-        <button data-category={cat} class="category-filter-btn px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-slate-700 text-slate-300 hover:bg-slate-600">
+        <button data-category={cat} class="category-filter-btn px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600">
           {cat.charAt(0).toUpperCase() + cat.slice(1)}
         </button>
       ))}
     </div>
 
     <!-- Results -->
-    <div id="search-results-list" class="max-h-96 overflow-y-auto">
+    <div id="search-results-list" class="overflow-y-auto scrollbar-thin" style="max-height: calc(70vh - 120px);">
       <!-- Results will be injected here -->
     </div>
 
     <!-- Results Count -->
-    <div id="results-count" class="px-4 py-2 bg-slate-900/50 text-xs text-slate-500 text-center hidden">
+    <div id="results-count" class="px-4 py-2 bg-gray-100 dark:bg-slate-900/50 text-xs text-gray-600 dark:text-slate-500 text-center hidden">
       Found 0 games
     </div>
   </div>
@@ -110,7 +110,7 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
 
     if (filtered.length === 0) {
       resultsList.innerHTML = `
-        <div class="px-4 py-8 text-center text-slate-400">
+        <div class="px-4 py-8 text-center text-gray-400 dark:text-slate-400">
           No games found
         </div>
       `;
@@ -119,16 +119,16 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       resultsList.innerHTML = filtered.map(game => `
         <a
           href="/games/${game.slug}/"
-          class="w-full px-4 py-3 flex items-center gap-4 hover:bg-slate-700 transition-colors border-b border-slate-700/50 last:border-0"
+          class="w-full px-4 py-3 flex items-center gap-4 hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors border-b border-gray-200 dark:border-slate-700/50 last:border-0"
         >
           <div class="w-12 h-12 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center text-2xl flex-shrink-0">
             ${game.icon}
           </div>
           <div class="flex-1 text-left">
-            <div class="font-semibold text-white game-name">${game.name}</div>
-            <div class="text-sm text-slate-400 line-clamp-1 game-desc">${game.desc}</div>
+            <div class="font-semibold text-gray-900 dark:text-white game-name">${game.name}</div>
+            <div class="text-sm text-gray-600 dark:text-slate-400 line-clamp-1 game-desc">${game.desc}</div>
           </div>
-          <div class="text-xs text-slate-500 capitalize">
+          <div class="text-xs text-gray-500 dark:text-slate-500 capitalize">
             ${game.category}
           </div>
         </a>
@@ -142,9 +142,22 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   // Show/hide results
   function showResults() {
     if (searchQuery || currentCategory !== 'all') {
+      resultsContainer.style.display = 'block';
       resultsContainer.classList.remove('hidden');
       renderResults();
+
+      // Check if dropdown extends beyond viewport
+      const rect = resultsContainer.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const spaceBelow = viewportHeight - rect.top;
+
+      if (rect.height > spaceBelow - 20) {
+        // Move dropdown up if it extends beyond viewport
+        const inputRect = searchInput.getBoundingClientRect();
+        resultsContainer.style.maxHeight = `${spaceBelow - 20}px`;
+      }
     } else {
+      resultsContainer.style.display = 'none';
       resultsContainer.classList.add('hidden');
     }
   }
@@ -176,9 +189,9 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       // Update active state
       categoryFilters.forEach(b => {
         b.classList.remove('bg-green-600', 'text-white');
-        b.classList.add('bg-slate-700', 'text-slate-300');
+        b.classList.add('bg-gray-100', 'dark:bg-slate-700', 'text-gray-700', 'dark:text-slate-300');
       });
-      btn.classList.remove('bg-slate-700', 'text-slate-300');
+      btn.classList.remove('bg-gray-100', 'dark:bg-slate-700', 'text-gray-700', 'dark:text-slate-300');
       btn.classList.add('bg-green-600', 'text-white');
 
       showResults();
@@ -188,6 +201,7 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   // Close results when clicking outside
   document.addEventListener('click', (e) => {
     if (!e.target.closest('#game-search-container')) {
+      resultsContainer.style.display = 'none';
       resultsContainer.classList.add('hidden');
     }
   });
