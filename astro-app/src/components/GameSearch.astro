@@ -51,7 +51,7 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   </div>
 
   <!-- Search Results Dropdown -->
-  <div id="search-results" class="absolute z-50 w-full mt-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden" style="max-height: 70vh; display: none;">
+  <div id="search-results" class="absolute z-[9999] w-full mt-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden" style="max-height: 70vh; display: none;">
     <!-- Category Filter -->
     <div id="category-filters" class="flex gap-2 p-3 border-b border-gray-300 dark:border-slate-700 overflow-x-auto shrink-0 scrollbar-thin">
       <button data-category="all" class="category-filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-green-600 text-white">
