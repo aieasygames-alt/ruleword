@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
+Crawl-delay: 1
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /editor
+Disallow: /_astro/
 
 Sitemap: https://ruleword.com/sitemap.xml
+Sitemap: https://ruleword.com/sitemap-index.xml

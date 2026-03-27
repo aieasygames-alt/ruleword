@@ -131,7 +131,7 @@ const categoryI18nData = categoryI18n
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {featuredGames.map(game => (
             <a
-              href={`/games/${game.slug}`}
+              href={`/games/${game.slug}/`}
               class={`group relative overflow-hidden rounded-2xl aspect-[2/1] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
               data-game-slug={game.slug}
             >
@@ -192,7 +192,7 @@ const categoryI18nData = categoryI18n
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map(game => (
             <a
-              href={`/games/${game.slug}`}
+              href={`/games/${game.slug}/`}
               class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800"
               data-game-slug={game.slug}
             >

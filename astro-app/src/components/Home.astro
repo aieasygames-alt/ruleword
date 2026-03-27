@@ -61,7 +61,7 @@ const language = 'en' // 默认语言
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {games.filter(g => g.featured).map(game => (
           <a
-            href={`/games/${game.slug}`}
+            href={`/games/${game.slug}/`}
             class={`group relative overflow-hidden rounded-2xl aspect-square p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
           >
             <div class="relative z-10 h-full flex flex-col justify-between">
@@ -86,7 +86,7 @@ const language = 'en' // 默认语言
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {games.map(game => (
           <a
-            href={`/games/${game.slug}`}
+            href={`/games/${game.slug}/`}
             class={`group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-slate-900/80 border border-slate-800`}
           >
             <div class="flex items-start gap-4">
