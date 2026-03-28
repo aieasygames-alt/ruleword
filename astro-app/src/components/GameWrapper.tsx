@@ -139,6 +139,7 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'geometrydash': () => import('./games/GeometryDash'),
   'cuttherope': () => import('./games/CutTheRope'),
   'templerun': () => import('./games/TempleRun'),
+  'wordscapes': () => import('./games/Wordscapes'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

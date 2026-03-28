@@ -172,6 +172,7 @@ export const games: GameConfig[] = [
   { slug: 'geometry-dash', id: 'geometrydash', name: 'Geometry Dash', nameZh: '几何冲刺', icon: '🎮', desc: 'Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty.', descZh: '跳跃穿越尖刺和障碍物！节奏跑酷游戏，考验你的反应速度。', category: 'arcade', featured: true, color: 'from-indigo-500 to-purple-600' },
   { slug: 'cut-the-rope', id: 'cuttherope', name: 'Cut the Rope', nameZh: '割绳子', icon: '🍬', desc: 'Cut ropes to feed candy to the hungry frog! Physics-based puzzle game with 3 levels.', descZh: '割断绳子把糖果喂给饥饿的小青蛙！基于物理的益智游戏。', category: 'puzzle', featured: true, color: 'from-green-500 to-emerald-600' },
   { slug: 'temple-run', id: 'templerun', name: 'Temple Run', nameZh: '神庙逃亡', icon: '🏃', desc: 'Run, jump, and slide through endless obstacles! Switch lanes to avoid danger.', descZh: '跑、跳、滑穿越无尽障碍！切换跑道躲避危险。', category: 'arcade', featured: true, color: 'from-amber-500 to-orange-600' },
+  { slug: 'wordscapes', id: 'wordscapes', name: 'Wordscapes', nameZh: '字母组词', icon: '🔤', desc: 'Connect letters to form words and fill the crossword! Relaxing word puzzle game.', descZh: '连接字母组成单词填满填字格！轻松的组词益智游戏。', category: 'word', featured: true, color: 'from-teal-500 to-cyan-600' },
 ]
 
 // Get a game by its slug
