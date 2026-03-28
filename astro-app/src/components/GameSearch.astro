@@ -24,7 +24,7 @@ const { games } = Astro.props;
 const categories = ['all', ...new Set(games.map(g => g.category))];
 ---
 
-<div id="game-search-container" class="relative w-full max-w-2xl mx-auto mb-8">
+<div id="game-search-container" class="relative w-full max-w-2xl mx-auto mb-8" style="z-index: 100;">
   <div class="relative">
     <input
       type="text"
@@ -50,8 +50,8 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
     </button>
   </div>
 
-  <!-- Search Results Dropdown -->
-  <div id="search-results" class="absolute z-[9999] w-full mt-2 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden hidden" style="max-height: 70vh; display: none;">
+  <!-- Search Results Dropdown - Fixed positioning to ensure visibility -->
+  <div id="search-results" class="fixed left-1/2 -translate-x-1/2 w-full max-w-2xl mt-1 bg-white dark:bg-slate-800 border border-gray-300 dark:border-slate-700 rounded-xl shadow-2xl overflow-hidden" style="z-index: 9999; display: none; top: auto;">
     <!-- Category Filter -->
     <div id="category-filters" class="flex gap-2 p-3 border-b border-gray-300 dark:border-slate-700 overflow-x-auto shrink-0 scrollbar-thin">
       <button data-category="all" class="category-filter-btn active px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-green-600 text-white">
@@ -142,6 +142,13 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   // Show/hide results
   function showResults() {
     if (searchQuery || currentCategory !== 'all') {
+      // Calculate position for fixed dropdown
+      const inputRect = searchInput.getBoundingClientRect();
+      resultsContainer.style.top = `${inputRect.bottom + 8}px`;
+      resultsContainer.style.left = `${inputRect.left}px`;
+      resultsContainer.style.width = `${inputRect.width}px`;
+      resultsContainer.style.transform = 'none';
+
       resultsContainer.style.display = 'block';
       resultsContainer.classList.remove('hidden');
       renderResults();
@@ -149,18 +156,37 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       // Check if dropdown extends beyond viewport
       const rect = resultsContainer.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - rect.top;
+      const spaceBelow = viewportHeight - inputRect.bottom - 8;
 
       if (rect.height > spaceBelow - 20) {
-        // Move dropdown up if it extends beyond viewport
-        const inputRect = searchInput.getBoundingClientRect();
-        resultsContainer.style.maxHeight = `${spaceBelow - 20}px`;
+        resultsContainer.style.maxHeight = `${Math.min(spaceBelow - 20, 400)}px`;
+      } else {
+        resultsContainer.style.maxHeight = '400px';
       }
     } else {
       resultsContainer.style.display = 'none';
       resultsContainer.classList.add('hidden');
     }
   }
+
+  // Update position on scroll and resize
+  window.addEventListener('scroll', () => {
+    if (resultsContainer.style.display === 'block') {
+      const inputRect = searchInput.getBoundingClientRect();
+      resultsContainer.style.top = `${inputRect.bottom + 8}px`;
+      resultsContainer.style.left = `${inputRect.left}px`;
+      resultsContainer.style.width = `${inputRect.width}px`;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (resultsContainer.style.display === 'block') {
+      const inputRect = searchInput.getBoundingClientRect();
+      resultsContainer.style.top = `${inputRect.bottom + 8}px`;
+      resultsContainer.style.left = `${inputRect.left}px`;
+      resultsContainer.style.width = `${inputRect.width}px`;
+    }
+  }, { passive: true });
 
   // Search input event
   searchInput.addEventListener('input', (e) => {

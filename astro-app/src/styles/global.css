@@ -1,17 +1,26 @@
 @import "tailwindcss";
 @import "./mobile.css";
 
-/* Dark mode styles */
-:root {
-  color-scheme: dark;
-}
+/* Tailwind v4 Dark Mode Configuration */
+@custom-variant dark (&:where(.dark, .dark *));
 
-:root:not(.dark) {
+/* Dark mode color scheme */
+:root {
   color-scheme: light;
 }
 
 .dark {
   color-scheme: dark;
+}
+
+/* Force dark mode styles when .dark class is present on html */
+.dark body,
+.dark .bg-gray-50 {
+  background-color: rgb(15 23 42) !important; /* slate-900 */
+}
+
+.dark .text-gray-900 {
+  color: rgb(255 255 255) !important;
 }
 
 /* Custom scrollbar styles */
