@@ -1,0 +1,79 @@
+{
+  "id": "angrybirds",
+  "slug": "angry-birds",
+  "icon": "🐦",
+  "category": "skill",
+  "color": "from-red-500 to-orange-600",
+  "en": {
+    "name": "Angry Birds",
+    "desc": "Launch birds from a slingshot to destroy pigs and structures!",
+    "description": "Angry Birds is a physics-based puzzle game where you launch colorful birds from a slingshot to destroy structures and defeat green pigs. Use trajectory, momentum, and strategy to maximize destruction. Each bird has unique abilities, and different materials (wood, stone, glass) have different properties.",
+    "objectives": "Destroy all pigs using your birds. Maximize destruction for bonus points. Complete all levels with minimum birds. Beat your high score.",
+    "howToPlay": "Click and drag on the slingshot to aim. Release to launch the bird. Hit pigs and structures to deal damage. Destroy all pigs to complete the level. Use remaining birds wisely - they're limited!",
+    "rules": {
+      "controls": "Click and drag on the slingshot to aim. Release to launch the bird. The further you pull, the more power.",
+      "mechanics": [
+        "You have a limited number of birds per level",
+        "Pigs are destroyed when hit with enough force",
+        "Different materials have different durability",
+        "Level ends when all pigs are destroyed or birds run out"
+      ]
+    },
+    "tips": [
+      "Aim for weak points in structures",
+      "Use the trajectory preview to plan your shot",
+      "Wood blocks are easiest to destroy",
+      "Stone blocks require more force to break"
+    ],
+    "faq": [
+      {
+        "question": "How do I aim the bird?",
+        "answer": "Click and drag backwards on the slingshot. The further you pull, the more power. Release to launch!"
+      },
+      {
+        "question": "What happens if I run out of birds?",
+        "answer": "The level ends and you can retry. Try to use fewer birds for better scores!"
+      },
+      {
+        "question": "How do I get more points?",
+        "answer": "Destroy more blocks, use fewer birds, and cause chain reactions for bonus destruction."
+      }
+    ]
+  },
+  "zh": {
+    "name": "愤怒的小鸟",
+    "desc": "用弹弓发射小鸟摧毁猪和建筑！",
+    "description": "愤怒的小鸟是一款基于物理的益智游戏，你从弹弓发射彩色小鸟来摧毁结构物并击败绿色猪。利用轨迹、动量和策略来最大化破坏.每只鸟都有独特能力，不同材料（木头、石头、玻璃）有不同属性。",
+    "objectives": "用你的鸟消灭所有猪。最大化破坏获得额外分数.用最少的鸟完成所有关卡.打破你的最高分.",
+    "howToPlay": "点击并拖动弹弓来瞄准.释放发射小鸟.撞击猪和建筑造成伤害.消灭所有猪完成关卡.明智地使用剩余的鸟 - 它们是有限的！",
+    "rules": {
+      "controls": "点击并拖动弹弓来瞄准。释放发射小鸟。拉得越远，力量越大。",
+      "mechanics": [
+        "每关鸟的数量有限",
+        "受到足够力量撞击时猪会被消灭",
+        "不同材料有不同耐久度",
+        "消灭所有猪或鸟用完时关卡结束"
+      ]
+    },
+    "tips": [
+      "瞄准结构的弱点",
+      "使用轨迹预览来计划射击",
+      "木块最容易摧毁",
+      "石块需要更强力量才能打破"
+    ],
+    "faq": [
+      {
+        "question": "如何瞄准小鸟？",
+        "answer": "点击并向后拖动弹弓。拉得越远，力量越大。释放发射！"
+      },
+      {
+        "question": "鸟用完了会怎样？",
+        "answer": "关卡结束，可以重试。尝试用更少的鸟获得更好分数！"
+      },
+      {
+        "question": "如何获得更多分数？",
+        "answer": "摧毁更多方块，使用更少的鸟，引发连锁反应获得额外破坏。"
+      }
+    ]
+  }
+}

@@ -173,6 +173,13 @@ export const games: GameConfig[] = [
   { slug: 'cut-the-rope', id: 'cuttherope', name: 'Cut the Rope', nameZh: '割绳子', icon: '🍬', desc: 'Cut ropes to feed candy to the hungry frog! Physics-based puzzle game with 3 levels.', descZh: '割断绳子把糖果喂给饥饿的小青蛙！基于物理的益智游戏。', category: 'puzzle', featured: true, color: 'from-green-500 to-emerald-600' },
   { slug: 'temple-run', id: 'templerun', name: 'Temple Run', nameZh: '神庙逃亡', icon: '🏃', desc: 'Run, jump, and slide through endless obstacles! Switch lanes to avoid danger.', descZh: '跑、跳、滑穿越无尽障碍！切换跑道躲避危险。', category: 'arcade', featured: true, color: 'from-amber-500 to-orange-600' },
   { slug: 'wordscapes', id: 'wordscapes', name: 'Wordscapes', nameZh: '字母组词', icon: '🔤', desc: 'Connect letters to form words and fill the crossword! Relaxing word puzzle game.', descZh: '连接字母组成单词填满填字格！轻松的组词益智游戏。', category: 'word', featured: true, color: 'from-teal-500 to-cyan-600' },
+
+  // Phase 4 - Complex Games
+  { slug: 'agar-io', id: 'agario', name: 'Agar.io', nameZh: '大球吃小球', icon: '🦠', desc: 'Control your cell, eat smaller cells to grow, and avoid larger cells! A multiplayer-style survival game.', descZh: '控制你的细胞，吃掉比你小的细胞来成长，躲避更大的细胞！生存竞技游戏。', category: 'skill', featured: true, color: 'from-green-400 to-teal-600' },
+  { slug: 'paper-io', id: 'paperio', name: 'Paper.io', nameZh: '圈地大作战', icon: '📄', desc: 'Capture territory by enclosing areas with your trail! Don\'t hit your own trail or enemies.', descZh: '用你的轨迹包围区域来占领领土！不要撞到自己的轨迹或敌人。', category: 'skill', featured: true, color: 'from-blue-400 to-indigo-600' },
+  { slug: 'tower-defense', id: 'towerdefense', name: 'Tower Defense', nameZh: '塔防游戏', icon: '🏰', desc: 'Place towers strategically to defend against waves of enemies! Upgrade towers and manage resources.', descZh: '策略性地放置塔来抵御一波又一波的敌人！升级塔并管理资源。', category: 'strategy', featured: true, color: 'from-green-500 to-emerald-600' },
+  { slug: 'angry-birds', id: 'angrybirds', name: 'Angry Birds', nameZh: '愤怒的小鸟', icon: '🐦', desc: 'Launch birds from a slingshot to destroy pigs and structures! Physics-based destruction game.', descZh: '用弹弓发射小鸟摧毁猪和建筑！基于物理的破坏游戏。', category: 'skill', featured: true, color: 'from-red-500 to-orange-600' },
+  { slug: 'rubiks-cube', id: 'rubikscube', name: 'Rubik\'s Cube', nameZh: '魔方', icon: '🧊', desc: 'Solve the classic 3D puzzle! Rotate faces to align all colors on each side.', descZh: '解开经典3D谜题！旋转各个面使每面颜色一致。', category: 'puzzle', featured: true, color: 'from-cyan-400 to-blue-600' },
 ]
 
 // Get a game by its slug

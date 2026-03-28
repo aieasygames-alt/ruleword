@@ -1,0 +1,79 @@
+{
+  "id": "agario",
+  "slug": "agario",
+  "icon": "🦠",
+  "category": "skill",
+  "color": "from-green-400 to-teal-600",
+  "en": {
+    "name": "Agar.io",
+    "desc": "Control your cell, eat smaller cells to grow, and avoid larger cells!",
+    "description": "Agar.io is a multiplayer-style survival game where you control a small cell in a petri dish world. Your goal is to eat smaller cells and food particles to grow larger while avoiding bigger cells that can eat you. The larger you grow, the slower you move, making strategic positioning crucial. Features AI opponents that hunt and flee based on size relationships.",
+    "objectives": "Eat smaller cells and food to grow your cell size. Avoid larger cells that can consume you. Grow as large as possible to dominate the arena. Use speed and positioning strategically to survive.",
+    "howToPlay": "Move your mouse or touch the screen to direct your cell. Your cell follows your cursor/finger automatically. Eat cells smaller than you to grow in size. Run away from cells larger than you. The larger you are, the slower you move.",
+    "rules": {
+      "controls": "Move your mouse or touch the screen to direct your cell. Your cell follows your cursor automatically.",
+      "mechanics": [
+        "You can only eat cells significantly smaller than you (at least 10% smaller)",
+        "When you eat a cell, you grow by absorbing part of its mass",
+        "Larger cells move slower than smaller cells",
+        "AI opponents will chase smaller cells and flee from larger ones"
+      ]
+    },
+    "tips": [
+      "Stay near the edges early on to avoid larger predators",
+      "Collect food particles to grow steadily before hunting other cells",
+      "Use your speed advantage when small to escape danger",
+      "Watch for AI cells fighting each other and steal the remains"
+    ],
+    "faq": [
+      {
+        "question": "Why can't I eat cells that are only slightly smaller?",
+        "answer": "You need to be at least 10% larger than another cell to consume it. This prevents unfair instant kills."
+      },
+      {
+        "question": "How do I get a high score?",
+        "answer": "Grow as large as possible by eating many cells. Your score is based on your final cell size."
+      },
+      {
+        "question": "Do larger cells have any disadvantages?",
+        "answer": "Yes, larger cells move slower, making it harder to chase prey or escape from even larger threats."
+      }
+    ]
+  },
+  "zh": {
+    "name": "大球吃小球",
+    "desc": "控制你的细胞，吃掉比你小的细胞来成长，躲避更大的细胞！",
+    "description": "Agar.io是一款多人风格的生存游戏，你在培养皿世界中控制一个小细胞。你的目标是吃掉更小的细胞和食物粒子来变大，同时躲避能吃掉你的更大细胞。你越大移动越慢，使战略定位变得至关重要。游戏包含根据大小关系进行追捕和逃跑的AI对手。",
+    "objectives": "吃掉比你小的细胞和食物来增加你的细胞大小。躲避能吃掉你的更大细胞.尽可能长大以称霸竞技场.策略性地利用速度和位置来生存.",
+    "howToPlay": "移动鼠标或触摸屏幕来引导你的细胞.你的细胞自动跟随你的光标/手指.吃掉比你小的细胞来变大.逃离比你大的细胞.你越大，移动越慢.",
+    "rules": {
+      "controls": "移动鼠标或触摸屏幕来引导你的细胞。你的细胞自动跟随你的光标。",
+      "mechanics": [
+        "你只能吃比你小至少10%的细胞",
+        "当你吃掉一个细胞时，你会吸收它的一部分质量来成长",
+        "较大的细胞比较小的细胞移动慢",
+        "AI对手会追逐较小的细胞并逃离较大的细胞"
+      ]
+    },
+    "tips": [
+      "早期待在边缘附近以躲避更大的捕食者",
+      "先收集食物粒子稳定成长，再去狩猎其他细胞",
+      "体型小时利用速度优势逃离危险",
+      "观察AI细胞相互争斗，然后抢夺残余物"
+    ],
+    "faq": [
+      {
+        "question": "为什么我不能吃只比我小一点的细胞？",
+        "answer": "你需要比另一个细胞大至少10%才能吃掉它。这可以防止不公平的瞬间击杀。"
+      },
+      {
+        "question": "如何获得高分？",
+        "answer": "通过吃很多细胞来尽可能长大。你的分数基于你最终的细胞大小。"
+      },
+      {
+        "question": "较大的细胞有什么劣势吗？",
+        "answer": "是的，较大的细胞移动较慢，使得追逐猎物或逃离更大的威胁变得更困难。"
+      }
+    ]
+  }
+}

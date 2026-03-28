@@ -140,6 +140,12 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'cuttherope': () => import('./games/CutTheRope'),
   'templerun': () => import('./games/TempleRun'),
   'wordscapes': () => import('./games/Wordscapes'),
+  // Complex games
+  'agario': () => import('./games/AgarIo'),
+  'paperio': () => import('./games/PaperIo'),
+  'towerdefense': () => import('./games/TowerDefense'),
+  'angrybirds': () => import('./games/AngryBirds'),
+  'rubikscube': () => import('./games/RubiksCube'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

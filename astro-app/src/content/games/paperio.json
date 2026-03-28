@@ -1,0 +1,79 @@
+{
+  "id": "paperio",
+  "slug": "paperio",
+  "icon": "📄",
+  "category": "skill",
+  "color": "from-blue-400 to-indigo-600",
+  "en": {
+    "name": "Paper.io",
+    "desc": "Capture territory by enclosing areas with your trail!",
+    "description": "Paper.io is a territory capture game where you move your character around a grid to create trails. When you return to your territory, the enclosed area becomes yours. Watch out for other players who can cut your trail - if you hit your trail or an enemy trail, game over! Features AI opponents that compete for territory.",
+    "objectives": "Capture as much territory as possible. Return to your territory to enclose captured areas. Avoid hitting your own trail or enemy trails. Eliminate AI opponents by cutting their trails.",
+    "howToPlay": "Use arrow keys or WASD to move your character. Move outside your territory to create a trail. Return to your territory to enclose the captured area. Don't hit your own trail or game over! Cut enemy trails to eliminate them.",
+    "rules": {
+      "controls": "Use arrow keys or WASD to move. Your character moves in four directions on the grid.",
+      "mechanics": [
+        "You must be in your territory to create a trail",
+        "Enclosed areas are filled when you return to territory",
+        "Hitting any trail (yours or enemy) ends the game",
+        "Captured territory from eliminated players transfers to you"
+      ]
+    },
+    "tips": [
+      "Start by expanding in safe directions near your territory",
+      "Don't make your trail too long - return frequently",
+      "Watch for AI players and cut their trails when they extend",
+      "Claim neutral territory between you and your base"
+    ],
+    "faq": [
+      {
+        "question": "How do I capture territory?",
+        "answer": "Move outside your territory, create a trail, then return to your territory to enclose the area."
+      },
+      {
+        "question": "What happens if I hit my trail?",
+        "answer": "Game over. Be careful not to cross your own trail or hit enemy trails."
+      },
+      {
+        "question": "Can I eliminate AI opponents?",
+        "answer": "Yes! Cross their trail to eliminate them, and their territory becomes yours."
+      }
+    ]
+  },
+  "zh": {
+    "name": "圈地大作战",
+    "desc": "用你的轨迹包围区域来占领领土！",
+    "description": "Paper.io是一款领土占领游戏，在网格上移动角色创建轨迹。当返回自己的领土时，包围的区域成为你的。注意其他玩家可以切断你的轨迹 - 如果撞到自己的轨迹或敌人轨迹，游戏结束！游戏包含与AI对手争夺领土。",
+    "objectives": "占领尽可能多的领土。返回自己的领土来包围捕获区域.避免撞到自己的轨迹或敌人轨迹.通过切断敌人轨迹来消灭AI对手.",
+    "howToPlay": "使用方向键或WASD移动角色.移动到领土外创建轨迹.返回领土包围捕获区域.不要撞到自己的轨迹否则游戏结束！切断敌人轨迹消灭他们.",
+    "rules": {
+      "controls": "使用方向键或WASD移动。你的角色在网格上向四个方向移动。",
+      "mechanics": [
+        "必须在领土内才能留下轨迹",
+        "返回领土时包围区域被填充",
+        "撞到任何轨迹（自己的或敌人的）游戏结束",
+        "被消灭玩家的领土转移给消灭者"
+      ]
+    },
+    "tips": [
+      "从靠近领土的安全方向开始扩展",
+      "不要让轨迹太长 -经常返回",
+      "观察AI玩家，在他们延伸时切断他们的轨迹",
+      "在你的基地之间占领中立领土"
+    ],
+    "faq": [
+      {
+        "question": "如何占领领土？",
+        "answer": "移动到领土外创建轨迹，然后返回领土包围区域。"
+      },
+      {
+        "question": "撞到轨迹会怎样？",
+        "answer": "游戏结束。小心不要穿过自己的轨迹或撞到敌人轨迹。"
+      },
+      {
+        "question": "可以消灭AI对手吗？",
+        "answer": "可以！穿过他们的轨迹消灭他们，他们的领土会归你所有。"
+      }
+    ]
+  }
+}

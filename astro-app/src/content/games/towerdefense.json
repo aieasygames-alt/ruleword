@@ -1,0 +1,107 @@
+{
+  "id": "towerdefense",
+  "slug": "tower-defense",
+  "icon": "🏰",
+  "category": "strategy",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Tower Defense",
+    "desc": "Place towers strategically to defend against waves of enemies!",
+    "description": "Tower Defense is a classic strategy game where you place defensive towers to stop waves of enemies from reaching the end of a path. Each tower type has unique abilities - Basic towers are cheap and reliable, Sniper towers have long range and and Splash towers deal area damage. Earn gold by defeating enemies to build and upgrade your towers!",
+    "objectives": "Stop enemies from reaching the end of the path. Build towers strategically along the enemy path. Earn gold by defeating enemies. Survive all waves to win.",
+    "howToPlay": "Click on the grid to place the selected tower. Choose tower types from the buttons above the game area. Press 'Start Wave' to begin each wave of enemies. Towers automatically target and shoot enemies in range. Don't let enemies reach the red end zone.",
+    "rules": {
+      "controls": "Click on the grid to place the selected tower. Choose tower type from the buttons above the game area. Press 'Start Wave' to begin enemy waves.",
+      "mechanics": [
+        "Towers cannot be placed on the enemy path",
+        "Each tower costs gold to place",
+        "Enemies that reach the end reduce your lives",
+        "Game ends when lives reach zero"
+      ]
+    },
+    "tips": [
+      "Place towers where they can cover the longest path sections",
+      "Combine tower types for maximum effectiveness",
+      "Sniper towers are great for high-HP enemies",
+      "Splash towers work well against groups"
+    ],
+    "towerTypes": {
+      "basic": {
+        "name": "Basic Tower",
+        "description": "Balanced tower with medium range and damage. Good all-around choice."
+      },
+      "sniper": {
+        "name": "Sniper Tower",
+        "description": "Long range and high damage, but slow fire rate. Expensive but powerful."
+      },
+      "splash": {
+        "name": "Splash Tower",
+        "description": "Fast fire rate with area damage. Great against groups of weak enemies."
+      }
+    },
+    "faq": [
+      {
+        "question": "How do I earn gold?",
+        "answer": "Defeat enemies to earn gold. Each enemy type gives different rewards."
+      },
+      {
+        "question": "Can I upgrade towers?",
+        "answer": "In this version, towers level up automatically over time, improving their stats."
+      },
+      {
+        "question": "What's the best tower placement?",
+        "answer": "Place towers near corners where enemies spend more time, maximizing damage opportunities."
+      }
+    ]
+  },
+  "zh": {
+    "name": "塔防游戏",
+    "desc": "策略性地放置塔来抵御一波又一波的敌人！",
+    "description": "塔防是一款经典策略游戏，你需要放置防御塔来阻止敌人波次到达路径终点。每种塔都有独特能力 - 基础塔便宜可靠，狙击塔远程高伤害，溅射塔造成范围伤害。通过击败敌人赚取金币来建造和升级你的塔！",
+    "objectives": "阻止敌人到达路径终点. 在敌人路径旁策略性地建造塔. 通过击败敌人赚取金币. 存活所有波次即可获胜.",
+    "howToPlay": "点击网格放置选中的塔. 从游戏区域上方的按钮选择塔类型. 按\"开始波次\"开始每一波敌人. 塔会自动瞄准并射击范围内的敌人. 不要让敌人到达红色终点区域.",
+    "rules": {
+      "controls": "点击网格放置选中的塔。从选择面板选择塔类型。 点击\"开始波次\"开始敌人波次。",
+      "mechanics": [
+        "塔不能放在敌人路径上",
+        "每座塔都需要花费金币来放置",
+        "到达终点的敌人会减少你的生命值",
+        "生命值归零时游戏结束"
+      ]
+    },
+    "tips": [
+      "把塔放在能覆盖最长路径段的位置",
+      "组合不同类型的塔以达到最佳效果",
+      "狙击塔对付高血量敌人很有效",
+      "溅射塔对群体敌人效果很好"
+    ],
+    "towerTypes": {
+      "basic": {
+        "name": "基础塔",
+        "description": "平衡的塔，中程范围和伤害。全面的好选择。"
+      },
+      "sniper": {
+        "name": "狙击塔",
+        "description": "远程高伤害，但射速慢。昂贵但强大。"
+      },
+      "splash": {
+        "name": "溅射塔",
+        "description": "快速射速带范围伤害。对群体弱敌很有效。"
+      }
+    },
+    "faq": [
+      {
+        "question": "如何获得金币？",
+        "answer": "击败敌人获得金币。每种敌人给予不同奖励。"
+      },
+      {
+        "question": "可以升级塔吗？",
+        "answer": "在此版本中，塔会随时间自动升级，提升属性。"
+      },
+      {
+        "question": "最佳塔位置是什么？",
+        "answer": "把塔放在角落附近，敌人在那里停留更长时间，最大化伤害机会。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "id": "rubikscube",
+  "slug": "rubiks-cube",
+  "icon": "🧊",
+  "category": "puzzle",
+  "color": "from-cyan-400 to-blue-600",
+  "en": {
+    "name": "Rubik's Cube",
+    "desc": "Solve the classic 3D puzzle! Rotate faces to align all colors.",
+    "description": "Rubik's Cube is the world's most famous 3D puzzle. The goal is simple: rotate the cube's faces until each side shows only one color. This digital version presents the unfolded 2D view of the cube, making it easier to see all sides at once. Use the move buttons to rotate each face clockwise or counter-clockwise.",
+    "objectives": "Get all faces to show a single color. Solve in as few moves as possible. Beat your best time. Learn cube solving algorithms.",
+    "howToPlay": "Click the face buttons (U, D, F, B, L, R) to rotate clockwise. Click button with ' (prime) to rotate counter-clockwise. U = Up (White), D = Down (Yellow), F = Front (Red), B = Back (Orange), L = Left (Green), R = Right (Blue). Track your moves and time on the stats display.",
+    "rules": {
+      "controls": "Click the face buttons (U, D, F, B, L, R) to rotate clockwise. Click button with prime (') for counter-clockwise.",
+      "mechanics": [
+        "Each face must contain 9 colored squares",
+        "Center pieces of each face never move relative to each other",
+        "Corner pieces connect three faces",
+        "Edge pieces connect two faces"
+      ]
+    },
+    "tips": [
+      "Start by solving one face at a time",
+      "Look for corner pieces to understand relationships",
+      "White and yellow faces are opposite each other",
+      "Learn the layer-by-layer solving method"
+    ],
+    "notation": {
+      "U": "Up face (White)",
+      "D": "Down face (Yellow)",
+      "F": "Front face (Red)",
+      "B": "Back face (Orange)",
+      "L": "Left face (Green)",
+      "R": "Right face (Blue)",
+      "'": "Counter-clockwise rotation (e.g., U')"
+    },
+    "faq": [
+      {
+        "question": "How do I rotate a face?",
+        "answer": "Click the face button (U, D, F, B, L, R) for clockwise, or Click with prime (') for counter-clockwise rotation."
+      },
+      {
+        "question": "What is the best strategy for beginners?",
+        "answer": "Start by solving the white face (U), then work on adjacent faces. Layer-by-layer is easier than trying to solve multiple faces at once."
+      },
+      {
+        "question": "How many moves should it take?",
+        "answer": "The average beginner takes 100-200 moves. Speedcubers can solve in under 20 moves! The fewer moves, better."
+      }
+    ]
+  },
+  "zh": {
+    "name": "魔方",
+    "desc": "解开经典3D谜题！旋转各个面使每面颜色一致。",
+    "description": "魔方是世界上最著名的3D益智游戏。目标很简单：旋转魔方的各个面直到每面只显示一种颜色。这个数字版本展示了展开的2D视图，更容易同时看到所有面。使用移动按钮来顺时针或逆时针旋转每个面。",
+    "objectives": "使所有面显示单一颜色。用最少的步数完成.打破最短时间记录.学习魔方还原算法.",
+    "howToPlay": "点击面按钮 (U, D, F, B, L, R) 顺时针旋转.点击带 ' (撇号)按钮逆时针旋转. U=上(白), D=下(黄), F=前(红), B=后(橙), L=左(绿), R=右(蓝).在统计显示区域跟踪你的步数和时间.",
+    "rules": {
+      "controls": "点击面按钮 (U, D, F, B, L, R) 顺时针旋转。点击带撇号的按钮逆时针旋转。",
+      "mechanics": [
+        "每面包含9个彩色方块",
+        "每面的中心块相对于彼此不会移动",
+        "角块连接三个面",
+        "边块连接两个面"
+      ]
+    },
+    "tips": [
+      "从一次解决一个面开始",
+      "观察角块来理解关系",
+      "白面和黄面彼此相对",
+      "学习逐层还原方法"
+    ],
+    "notation": {
+      "U": "上面 (白)",
+      "D": "下面 (黄)",
+      "F": "前面 (红)",
+      "B": "后面 (橙)",
+      "L": "左面 (绿)",
+      "R": "右面 (蓝)",
+      "'": "逆时针旋转（如 U'）"
+    },
+    "faq": [
+      {
+        "question": "如何旋转一个面？",
+        "answer": "点击面按钮 (U, D, F, B, L, R) 顺时针旋转。点击带撇号的按钮逆时针旋转。"
+      },
+      {
+        "question": "新手最佳策略是什么？",
+        "answer": "从解决白面 (U) 开始，然后处理相邻的面。逐层处理比同时尝试解决多个面更容易。"
+      },
+      {
+        "question": "应该用多少步完成？",
+        "answer": "平均初学者需要100-200步。速拧高手可以在20步以内完成！步数越少越好。"
+      }
+    ]
+  }
+}
