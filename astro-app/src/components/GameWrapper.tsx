@@ -128,6 +128,13 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   '2048cupcakes': () => import('./games/Two048Cupcakes'),
   // External/iframe games
   'amongus': () => import('./games/AmongUs'),
+  // New popular games
+  'stack': () => import('./games/Stack'),
+  'triviaquiz': () => import('./games/TriviaQuiz'),
+  'doodlejump': () => import('./games/DoodleJump'),
+  'flappybird': () => import('./games/FlappyBird'),
+  'watersort': () => import('./games/WaterSort'),
+  'flowfree': () => import('./games/FlowFree'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

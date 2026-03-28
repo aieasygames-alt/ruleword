@@ -1,0 +1,96 @@
+{
+  "id": "watersort",
+  "slug": "water-sort",
+  "icon": "🧪",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-cyan-500 to-teal-600",
+  "en": {
+    "name": "Water Sort",
+    "desc": "Sort colored water into tubes!",
+    "description": "Water Sort is a relaxing puzzle game where you pour colored water between test tubes to separate them. Each tube must contain only one color of water. Plan your moves carefully - you can only pour into empty tubes or onto the same color!",
+    "objectives": "Sort all colored water so that each tube contains only one color. Empty tubes are provided to help you. Complete each level with the minimum moves possible!",
+    "howToPlay": "Click a tube to select it, then click another tube to pour the top color. You can only pour water onto an empty tube or onto the same color. Fill each tube with a single color to win!",
+    "rules": {
+      "controls": "Click to select a tube, click another to pour. Click the same tube to deselect.",
+      "mechanics": [
+        "Select a tube to pick up its top color",
+        "Pour into empty tubes or onto matching colors",
+        "Can only pour the top color",
+        "Multiple units of same color pour together",
+        "Level complete when each tube has one color"
+      ],
+      "features": [
+        "Multiple difficulty levels",
+        "Relaxing gameplay",
+        "No time pressure",
+        "Undo mistakes by pouring back",
+        "Satisfying color sorting"
+      ]
+    },
+    "tips": [
+      "Use empty tubes strategically",
+      "Plan several moves ahead",
+      "Try to free up empty tubes when possible",
+      "Group same colors together early"
+    ],
+    "faq": [
+      {
+        "question": "Can I pour any amount of water?",
+        "answer": "You pour all water of the same color from the top of the selected tube, as long as there's room in the destination."
+      },
+      {
+        "question": "What if I make a mistake?",
+        "answer": "You can always pour water back! There's no penalty for trying different approaches."
+      },
+      {
+        "question": "How do I know which level to start?",
+        "answer": "Start from level 1 if you're new. The levels increase in difficulty with more colors and tubes."
+      }
+    ]
+  },
+  "zh": {
+    "name": "水排序",
+    "desc": "将彩色水分类到试管中！",
+    "description": "水排序是一款轻松的益智游戏，你在试管之间倒彩色水来分离它们。每个试管只能包含一种颜色的水。仔细规划你的移动 - 你只能倒入空试管或相同颜色上！",
+    "objectives": "将所有彩色水分类，使每个试管只包含一种颜色。提供空试管帮助你。尽可能用最少步数完成每关！",
+    "howToPlay": "点击试管选择它，然后点击另一个试管倒入顶部颜色。你只能将水倒入空试管或相同颜色上。每个试管填满单一颜色即可获胜！",
+    "rules": {
+      "controls": "点击选择试管，点击另一个倒入。点击同一试管取消选择。",
+      "mechanics": [
+        "选择试管拿起其顶部颜色",
+        "倒入空试管或匹配的颜色上",
+        "只能倒顶部颜色",
+        "相同颜色的多个单位一起倒",
+        "每个试管只有一种颜色时过关"
+      ],
+      "features": [
+        "多种难度级别",
+        "轻松的游戏玩法",
+        "无时间压力",
+        "可以倒回去撤销错误",
+        "令人满足的颜色分类"
+      ]
+    },
+    "tips": [
+      "策略性地使用空试管",
+      "提前规划几步",
+      "尽可能腾出空试管",
+      "尽早将相同颜色组合在一起"
+    ],
+    "faq": [
+      {
+        "question": "可以倒任意量的水吗？",
+        "answer": "你会倒出所选试管顶部所有相同颜色的水，只要目标有足够空间。"
+      },
+      {
+        "question": "如果犯了错误怎么办？",
+        "answer": "你随时可以把水倒回去！尝试不同方法没有惩罚。"
+      },
+      {
+        "question": "如何知道从哪关开始？",
+        "answer": "如果你是新手，从第1关开始。关卡难度随更多颜色和试管增加。"
+      }
+    ]
+  }
+}

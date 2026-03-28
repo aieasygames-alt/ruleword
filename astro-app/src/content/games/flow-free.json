@@ -1,0 +1,96 @@
+{
+  "id": "flowfree",
+  "slug": "flow-free",
+  "icon": "🔗",
+  "category": "puzzle",
+  "featured": true,
+  "color": "from-violet-500 to-purple-600",
+  "en": {
+    "name": "Flow Free",
+    "desc": "Connect matching dots without crossing paths!",
+    "description": "Flow Free is a beautiful puzzle game where you connect matching colored dots with continuous paths. The challenge? You must fill every cell on the board and paths cannot cross! Plan your routes carefully to solve each puzzle.",
+    "objectives": "Connect all matching colored dot pairs with continuous paths. Fill every cell on the grid. Paths cannot overlap or cross each other!",
+    "howToPlay": "Click and drag from a dot to create a path. Connect it to the matching colored dot. Fill all cells without crossing any paths. All dots must be paired!",
+    "rules": {
+      "controls": "Click and drag from a dot to draw a path. Release on the matching dot to complete.",
+      "mechanics": [
+        "Connect dots of the same color",
+        "Paths must be continuous",
+        "Fill every cell on the board",
+        "Paths cannot cross or overlap",
+        "All dots must be connected"
+      ],
+      "features": [
+        "Multiple grid sizes",
+        "Progressive difficulty",
+        "Colorful satisfying paths",
+        "No time limit",
+        "Can backtrack and redraw"
+      ]
+    },
+    "tips": [
+      "Start with the most constrained pairs first",
+      "Work from the edges inward",
+      "If stuck, try a different color combination",
+      "Visualize paths before drawing"
+    ],
+    "faq": [
+      {
+        "question": "What if my paths cross?",
+        "answer": "You cannot complete the puzzle with crossing paths. Try redrawing one of the conflicting paths."
+      },
+      {
+        "question": "Do I have to fill every cell?",
+        "answer": "Yes! Every cell must be part of some path to complete the puzzle."
+      },
+      {
+        "question": "Can I undo a path?",
+        "answer": "Yes! Simply redraw over an existing path to remove it and start again."
+      }
+    ]
+  },
+  "zh": {
+    "name": "连线填色",
+    "desc": "连接相同颜色的点而不交叉路径！",
+    "description": "连线填色是一款美丽的益智游戏，你用连续路径连接相同颜色的点。挑战？你必须填满棋盘上每个格子且路径不能交叉！仔细规划路线来解决每个谜题。",
+    "objectives": "用连续路径连接所有相同颜色的点对。填满网格上每个格子。路径不能重叠或交叉！",
+    "howToPlay": "点击并从一个点拖动创建路径。连接到匹配颜色的点。填满所有格子而不交叉任何路径。所有点必须配对！",
+    "rules": {
+      "controls": "点击并从点拖动绘制路径。在匹配点上释放完成。",
+      "mechanics": [
+        "连接相同颜色的点",
+        "路径必须连续",
+        "填满棋盘上每个格子",
+        "路径不能交叉或重叠",
+        "所有点必须被连接"
+      ],
+      "features": [
+        "多种网格大小",
+        "渐进难度",
+        "彩色满足的路径",
+        "无时间限制",
+        "可以回溯和重绘"
+      ]
+    },
+    "tips": [
+      "先从最受限制的点对开始",
+      "从边缘向内工作",
+      "如果卡住，尝试不同的颜色组合",
+      "绘制前先可视化路径"
+    ],
+    "faq": [
+      {
+        "question": "如果我的路径交叉了怎么办？",
+        "answer": "交叉路径无法完成谜题。尝试重绘其中一条冲突的路径。"
+      },
+      {
+        "question": "必须填满每个格子吗？",
+        "answer": "是的！每个格子必须是某条路径的一部分才能完成谜题。"
+      },
+      {
+        "question": "可以撤销路径吗？",
+        "answer": "可以！只需在现有路径上重绘即可删除并重新开始。"
+      }
+    ]
+  }
+}

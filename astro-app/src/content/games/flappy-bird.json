@@ -1,0 +1,96 @@
+{
+  "id": "flappybird",
+  "slug": "flappy-bird",
+  "icon": "🐦",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-sky-500 to-blue-600",
+  "en": {
+    "name": "Flappy Bird",
+    "desc": "Navigate through pipes by tapping to fly!",
+    "description": "Flappy Bird is a simple yet addictive game where you tap to make the bird fly and navigate through gaps in pipes. Time your taps perfectly to maintain the right height and pass through the openings. One tap too many or too few means game over! How many pipes can you pass?",
+    "objectives": "Navigate through as many pipe gaps as possible without hitting them or the ground. Each successful pass scores one point. Challenge yourself to beat your high score!",
+    "howToPlay": "Tap the screen or press Space to make the bird jump. The bird falls due to gravity, so time your taps carefully to fly through the gaps in the pipes. Don't hit the pipes or fall to the ground!",
+    "rules": {
+      "controls": "Click, tap, or press Space to make the bird jump. Hold nothing to let gravity pull the bird down.",
+      "mechanics": [
+        "Bird falls due to gravity",
+        "Each tap gives an upward boost",
+        "Pipes appear from the right",
+        "Pass through gaps to score",
+        "Hitting pipes or ground ends game"
+      ],
+      "features": [
+        "Simple one-button gameplay",
+        "Increasingly challenging gaps",
+        "High score tracking",
+        "Addictive retry mechanic",
+        "Clean, minimal graphics"
+      ]
+    },
+    "tips": [
+      "Find a rhythm for tapping - don't spam",
+      "Stay in the middle of the screen when possible",
+      "Anticipate the gap position early",
+      "Stay calm - panic tapping leads to crashes"
+    ],
+    "faq": [
+      {
+        "question": "Why is Flappy Bird so hard?",
+        "answer": "The game requires precise timing and rhythm. The small hitbox and narrow gaps make it challenging, but that's what makes beating your high score so satisfying!"
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Find a consistent tapping rhythm rather than reacting to each pipe. Stay in the middle third of the screen for maximum flexibility."
+      },
+      {
+        "question": "Does the game get faster?",
+        "answer": "The pipe speed remains constant, but concentration fatigue makes it feel harder over time!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "像素鸟",
+    "desc": "点击飞行穿越管道！",
+    "description": "像素鸟是一款简单但令人上瘾的游戏，你点击让小鸟飞翔并穿越管道间隙。完美把握点击时机来保持正确高度穿过开口。多一下或少一下都意味着游戏结束！你能穿过多少管道？",
+    "objectives": "尽可能多地穿越管道间隙而不撞到它们或地面。每次成功通过得一分。挑战自己打破最高分！",
+    "howToPlay": "点击屏幕或按空格键让小鸟跳跃。小鸟因重力下落，所以仔细把握点击时机飞过管道间隙。不要撞到管道或掉到地上！",
+    "rules": {
+      "controls": "点击、轻触或按空格键让小鸟跳跃。不按任何键让重力拉下小鸟。",
+      "mechanics": [
+        "小鸟因重力下落",
+        "每次点击给予向上推力",
+        "管道从右侧出现",
+        "穿过间隙得分",
+        "撞到管道或地面游戏结束"
+      ],
+      "features": [
+        "简单的一键游戏",
+        "越来越有挑战性的间隙",
+        "最高分记录",
+        "令人上瘾的重试机制",
+        "简洁的图形"
+      ]
+    },
+    "tips": [
+      "找到点击的节奏 - 不要乱点",
+      "尽可能保持在屏幕中间",
+      "提前预判间隙位置",
+      "保持冷静 - 恐慌点击会导致撞毁"
+    ],
+    "faq": [
+      {
+        "question": "为什么像素鸟这么难？",
+        "answer": "游戏需要精准的时机和节奏。小的碰撞箱和狭窄的间隙使它具有挑战性，但这就是打破最高分如此令人满足的原因！"
+      },
+      {
+        "question": "最好的策略是什么？",
+        "answer": "找到一致的点击节奏而不是对每个管道做出反应。保持在屏幕中间三分之一以获得最大灵活性。"
+      },
+      {
+        "question": "游戏会变快吗？",
+        "answer": "管道速度保持不变，但注意力疲劳让它感觉越来越难！"
+      }
+    ]
+  }
+}

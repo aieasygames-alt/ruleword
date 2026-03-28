@@ -1,0 +1,107 @@
+{
+  "id": "geometrydash",
+  "slug": "geometry-dash"
+  "icon": "🎮"
+  "category": "arcade"
+  "featured": true,
+  "color": "from-indigo-500 to-purple-600"
+  "en": {
+    "name": "Geometry Dash",
+    "nameZh": "几何冲刺"
+    "desc": "Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty.",
+    "description": "Geometry Dash is an addictive rhythm-based platformer where you guide a jumping cube through dangerous passages filled with spikes and blocks. The goal is to survive as long as possible and how far can you go! With progressively harder difficulty and each level challenges your timing and jumping skills!",
+    "objectives": "Guide a jumping cube through dangerous passages filled with spikes and blocks. Time your jumps perfectly to miss spikes or you bombs.",
+    "rules": {
+      "controls": "Click or tap the screen to press SpacebarrowW to jump over spikes and blocks. The game gets progressively harder",
+      "mechanics": [
+        "Auto-scrolling gameplay",
+        "Spikes and blocks must to be avoided",
+        "Perfect jumps maintain cube velocity",
+        "Falling into spike or bomb ends game",
+      ],
+      "features": [
+        "Endless procedurally generated levels",
+        "Progressive difficulty",
+        "Colorful neon graphics",
+        "High score tracking"
+      ]
+    },
+    "tips": [
+      "Watch the rhythm and beat along with the obstacles",
+        "Practice makes your easier to",
+        "Use the rhythm to get into a flow state"
+      },
+      {
+        "question": "What happens when I hit an spike?",
+        "answer": "Touching the spike reduces your cube to half height instantly."
+ Game over!"
+      },
+      {
+        "question": "Can I jump over blocks?",
+        "answer": "No, You can only jump over blocks if they're already stacked. Timing is more challenging. Practice makes this skill easier to master."
+      },
+      {
+        "question": "How does the speed increase?",
+        "answer": "Speed increases gradually, making make the patterns that more challenging. Players need to react faster."
+      },
+    ],
+    "faq": [
+      {
+        "question": "What happens if I fall?",
+        "answer": "If you fall into a spike or hit a block, you will die! However, you: If you hit, spike or fall from a high up, you velocity will drop slightly."
+      },
+      {
+        "question": "Is there a checkpoint system?",
+        "answer": "Yes! Progress is automatically saved as you pass through levels."
+      },
+      {
+        "question": "How do I get better at Geometry dash?",
+        "answer": "Focus on the front end, edges, use a timing get better. The the to corners slightly early. The improve reaction time!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "几何冲刺",
+    "desc": "跳跃穿越危险的尖刺和障碍物！节奏感的无尽跑酷游戏，随着难度递增，挑战你的反应能力！",
+    "description": "几何冲刺是一款令人上瘾的节奏跑酷游戏。控制跳跃的方块穿越危险的尖刺和障碍物。 鯪游戏的目标是尽可能跑得更，获得高分！看看你能走多远！",
+    "objectives": "引导跳跃的方块穿越危险的尖刺和障碍物，尽可能跑得更远，获得高分。随着关卡递增，难度逐渐加快，练习让反应更灵敏！",
+    "howToPlay": "点击或按空格键跳跃。方块会自动向前滚动。躲避尖刺和障碍物， 当方块宽度降为0时游戏结束。",
+    "rules": {
+      "controls": "点击或按空格键跳跃（在移动设备上可滑动屏幕来控制)。",
+      "mechanics": [
+        "自动向前滚动的游戏画面",
+        "点击跳跃躲避障碍物",
+        "尖刺和方块需要跳跃才能避开",
+        "游戏结束时方块宽度为0时结束",
+        "完美跳跃" 保持完整宽度并获得额外分数",
+        "逐渐加速的移动速度"
+      ],
+      "features": [
+        "无限生成的关卡",
+        "逐渐增加的难度",
+        "霓虹视觉效果和粒子特效",
+        "最高分追踪"
+      ]
+    },
+    "tips": [
+      "观察节奏并配合音乐节拍",
+      "随着游戏进行，速度会加快，需要更快的反应",
+      "练习让反应更灵敏，能应对高速关卡"
+      }
+    ],
+    "faq": [
+      {
+        "question": "碰到尖刺怎么办？",
+        "answer": "可以，方块跳跃游戏，障碍，，但简单 - 不要跳得太低！保持节奏！。"
+      },
+      {
+        "question": "游戏会变快吗?",
+        "answer": "是的！每过一关，难度都会略微增加。但游戏更快更有挑战性！"
+      },
+      {
+        "question": "有什么技巧可以提高分数?",
+        "answer": "连续完美放置可以获得额外分数，连续完美可以获得额外分数加成，其他都建议保持专注、边缘以更多彩色的平台，并尝试在早期开始。",
+      }
+    ]
+  }
+}

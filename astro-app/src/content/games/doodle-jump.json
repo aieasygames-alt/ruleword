@@ -1,0 +1,104 @@
+{
+  "id": "doodlejump",
+  "slug": "doodle-jump",
+  "icon": "🐸",
+  "category": "arcade",
+  "featured": true,
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Doodle Jump",
+    "desc": "Jump from platform to platform and climb as high as you can!",
+    "description": "Doodle Jump is an addictive vertical platformer where you guide a bouncy creature ever upward! Jump automatically from platform to platform, using left and right controls to navigate. Encounter different platform types: normal green platforms for safe bouncing, blue moving platforms, yellow breakable platforms that crumble on impact, and spring platforms that launch you extra high. How high can you climb?",
+    "objectives": "Climb as high as possible by jumping from platform to platform. Avoid falling through the bottom of the screen. Collect points based on height achieved and see how you rank on the leaderboard!",
+    "howToPlay": "Your character bounces automatically. Use left and right arrow keys (or A/D) to move horizontally. Land on platforms to continue jumping upward. The screen scrolls up as you climb higher.",
+    "rules": {
+      "controls": "← → Arrow keys or A/D to move left/right. On mobile, tap and drag left or right side of the screen. The character bounces automatically.",
+      "mechanics": [
+        "Character bounces automatically on platforms",
+        "Falling off the bottom ends the game",
+        "Screen wraps - going off one side appears on the other",
+        "Camera follows as you climb higher",
+        "Platforms are generated infinitely upward"
+      ],
+      "features": [
+        "Green platforms - normal bounce",
+        "Blue platforms - move horizontally",
+        "Yellow platforms - break on contact",
+        "Spring platforms - super jump boost",
+        "Endless procedurally generated levels"
+      ]
+    },
+    "tips": [
+      "Use screen wrapping to your advantage - going off one side brings you back on the other",
+      "Be careful with yellow platforms - you can only bounce on them once",
+      "Aim for spring platforms when you see them for big height gains",
+      "Stay near the center when possible for more platform options"
+    ],
+    "faq": [
+      {
+        "question": "What do the different platform colors mean?",
+        "answer": "Green platforms are normal. Blue platforms move side to side. Yellow platforms break when you land on them. Spring platforms have a red coil and give you a super jump!"
+      },
+      {
+        "question": "How is the score calculated?",
+        "answer": "Your score increases based on how high you climb. The higher you go, the more points you earn!"
+      },
+      {
+        "question": "What happens if I fall?",
+        "answer": "If you fall below the bottom of the screen, the game ends. Try to always land on a platform!"
+      },
+      {
+        "question": "Can I go off the sides of the screen?",
+        "answer": "Yes! The screen wraps around - go off the left side and you'll appear on the right, and vice versa. Use this strategically!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "涂鸦跳跃",
+    "desc": "在平台之间跳跃，爬得越高越好！",
+    "description": "涂鸦跳跃是一款令人上瘾的垂直平台跳跃游戏，你引导一个弹跳的小生物不断向上跳！角色会自动在平台间跳跃，使用左右控制来导航。遇到不同的平台类型：普通绿色平台安全弹跳，蓝色移动平台，黄色易碎平台会在接触时碎裂，弹簧平台可以让你跳得更高。你能跳多高？",
+    "objectives": "通过在平台间跳跃尽可能爬高。避免从屏幕底部掉落。根据达到的高度获得分数，看看你在排行榜上的排名！",
+    "howToPlay": "你的角色会自动弹跳。使用左右方向键（或A/D）水平移动。落在平台上继续向上跳。随着你爬得更高，屏幕会向上滚动。",
+    "rules": {
+      "controls": "← → 方向键或A/D左右移动。在手机上，点击并拖动屏幕左侧或右侧。角色会自动弹跳。",
+      "mechanics": [
+        "角色在平台上自动弹跳",
+        "从底部掉落游戏结束",
+        "屏幕循环 - 从一边出去会从另一边出现",
+        "相机跟随你爬高",
+        "平台无限向上生成"
+      ],
+      "features": [
+        "绿色平台 - 普通弹跳",
+        "蓝色平台 - 水平移动",
+        "黄色平台 - 接触时碎裂",
+        "弹簧平台 - 超级跳跃加成",
+        "无尽程序生成的关卡"
+      ]
+    },
+    "tips": [
+      "利用屏幕循环优势 - 从一边出去会从另一边回来",
+      "小心黄色平台 - 你只能在上面弹跳一次",
+      "看到弹簧平台时瞄准它们，获得大幅度提升",
+      "尽可能保持在中心位置，有更多平台选择"
+    ],
+    "faq": [
+      {
+        "question": "不同颜色的平台有什么区别？",
+        "answer": "绿色平台是普通的。蓝色平台左右移动。黄色平台在你落地时会碎裂。弹簧平台有红色弹簧，给你超级跳跃！"
+      },
+      {
+        "question": "分数是如何计算的？",
+        "answer": "你的分数根据你爬的高度增加。爬得越高，得分越多！"
+      },
+      {
+        "question": "如果我掉落会发生什么？",
+        "answer": "如果你从屏幕底部掉落，游戏结束。尽量总是落在平台上！"
+      },
+      {
+        "question": "可以从屏幕两边出去吗？",
+        "answer": "可以！屏幕是循环的 - 从左边出去会从右边出现，反之亦然。善用这个策略！"
+      }
+    ]
+  }
+}

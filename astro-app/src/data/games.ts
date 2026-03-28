@@ -158,6 +158,18 @@ export const games: GameConfig[] = [
 
   // More Puzzle Games
   { slug: 'jewel-quest', id: 'jewelquest', name: 'Jewel Quest', nameZh: '宝石迷阵', icon: '💎', desc: 'Match-3 puzzle excitement! Swap adjacent jewels to create matches of 3 or more. Plan your moves carefully to reach the target score within limited moves!', descZh: '三消谜题刺激体验！交换相邻宝石来创造3个或更多的匹配。仔细规划你的移动，在有限步数内达到目标分数！', category: 'puzzle', featured: true, color: 'from-cyan-500 to-blue-600' },
+
+  // New Popular Games - Phase 1 (Simple)
+  { slug: 'stack', id: 'stack', name: 'Stack', nameZh: '堆叠方块', icon: '📦', desc: 'Precision stacking challenge! Place moving blocks perfectly on top of each other. Miss the stack and lose width. How high can you build?', descZh: '精准堆叠挑战！将移动的方块完美地叠放在一起。对不准会缩小宽度。你能堆多高？', category: 'skill', featured: true, color: 'from-blue-500 to-purple-600' },
+  { slug: 'trivia-quiz', id: 'triviaquiz', name: 'Trivia Quiz', nameZh: '知识问答', icon: '🧠', desc: 'Test your knowledge across multiple categories! Answer questions about science, geography, history, and more. Race against time and build your streak!', descZh: '测试你在多个领域的知识！回答科学、地理、历史等问题。与时间赛跑，建立连胜记录！', category: 'word', featured: true, color: 'from-purple-500 to-pink-600' },
+  { slug: 'doodle-jump', id: 'doodlejump', name: 'Doodle Jump', nameZh: '涂鸦跳跃', icon: '🐸', desc: 'Jump from platform to platform and climb as high as you can! Watch out for breaking platforms and use springs for super jumps. Classic arcade fun!', descZh: '在平台之间跳跃，爬得越高越好！小心会碎裂的平台，利用弹簧获得超级跳跃。经典街机乐趣！', category: 'arcade', featured: true, color: 'from-green-500 to-emerald-600' },
+
+  // Phase 2 (Medium)
+  { slug: 'flappy-bird', id: 'flappybird', name: 'Flappy Bird', nameZh: '像素鸟', icon: '🐦', desc: 'Navigate through pipes by tapping to fly! Time your taps perfectly to pass through gaps and beat your high score.', descZh: '通过点击飞行穿越管道！完美把握时机穿过间隙，打破你的最高分！', category: 'arcade', featured: true, color: 'from-sky-500 to-blue-600' },
+  { slug: 'water-sort', id: 'watersort', name: 'Water Sort', nameZh: '水排序', icon: '🧪', desc: 'Sort colored water into tubes! Each tube must contain only one color. A relaxing and satisfying puzzle game!', descZh: '将彩色水分类到试管中！每个试管只能包含一种颜色。轻松满足的益智游戏！', category: 'puzzle', featured: true, color: 'from-cyan-500 to-teal-600' },
+
+  // Phase 3
+  { slug: 'geometry-dash', id: 'geometrydash', name: 'Geometry Dash', nameZh: '几何冲刺', icon: '🎮', desc: 'Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty. Build up your reflexes to see how far you you go!', descZh: '跳跃穿越尖刺和障碍物！节奏跑酷游戏，考验你的反应速度。随着游戏进行难度递增！', category: 'arcade', featured: true, color: 'from-indigo-500 to-purple-600' },
 ]
 
 // Get a game by its slug

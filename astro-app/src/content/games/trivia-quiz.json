@@ -1,0 +1,106 @@
+{
+  "id": "triviaquiz",
+  "slug": "trivia-quiz",
+  "icon": "🧠",
+  "category": "word",
+  "featured": true,
+  "color": "from-purple-500 to-pink-600",
+  "en": {
+    "name": "Trivia Quiz",
+    "desc": "Test your knowledge across multiple categories!",
+    "description": "Trivia Quiz is an engaging knowledge game that challenges you across various categories including Science, Geography, History, Technology, Sports, and Entertainment. Answer questions correctly to earn points, with time bonuses for quick responses and streak multipliers for consecutive correct answers. With 30 carefully crafted questions in each language, you'll learn fascinating facts while having fun!",
+    "objectives": "Answer as many questions correctly as possible within the time limit. Build consecutive correct answer streaks to maximize your score through multipliers. Beat your high score and become a trivia master!",
+    "howToPlay": "Select a category or choose 'All' for mixed questions. Read each question carefully and click on the answer you think is correct before time runs out. The faster you answer correctly, the more bonus points you earn.",
+    "rules": {
+      "controls": "Click or tap on one of the four answer options to select your answer. You have 15 seconds per question.",
+      "mechanics": [
+        "Each question has 4 possible answers",
+        "15 seconds time limit per question",
+        "Correct answers earn base 10 points",
+        "Time bonus: remaining seconds / 3",
+        "Streak bonus: 2 points per consecutive correct answer",
+        "Wrong answers or timeout resets streak"
+      ],
+      "features": [
+        "6 categories to choose from",
+        "30 unique questions per language",
+        "Time-based scoring system",
+        "Streak multiplier rewards",
+        "High score tracking"
+      ]
+    },
+    "tips": [
+      "Read the entire question before answering",
+      "Use process of elimination for tough questions",
+      "Don't second-guess yourself - first instincts are often right",
+      "Practice specific categories to improve your weak areas"
+    ],
+    "faq": [
+      {
+        "question": "How is the score calculated?",
+        "answer": "Base score is 10 points for correct answers. Time bonus adds remaining seconds divided by 3. Streak bonus adds 2 points times your current streak."
+      },
+      {
+        "question": "What happens when time runs out?",
+        "answer": "If time runs out, it counts as a wrong answer. Your streak resets and you move to the next question with 0 points."
+      },
+      {
+        "question": "Can I skip questions?",
+        "answer": "No, you must answer each question or wait for the timer to run out. Choose your best guess if you're unsure!"
+      },
+      {
+        "question": "Are the questions the same each game?",
+        "answer": "Questions are shuffled randomly each game, so you'll get a different order and may see different questions."
+      }
+    ]
+  },
+  "zh": {
+    "name": "知识问答",
+    "desc": "测试你在多个领域的知识！",
+    "description": "知识问答是一款有趣的知识挑战游戏，涵盖科学、地理、历史、科技、体育和娱乐等多个类别。正确回答问题获得分数，快速回答可获得时间奖励，连续正确可获得连击加成。每种语言都有30道精心设计的问题，让你在玩乐中学习有趣的知识！",
+    "objectives": "在时间限制内尽可能多地正确回答问题。建立连续正确回答的连击来最大化你的分数。打破最高分，成为知识达人！",
+    "howToPlay": "选择一个类别或选择'全部'来混合问题。仔细阅读每个问题，在时间结束前点击你认为正确的答案。回答得越快正确，获得的额外分数越多。",
+    "rules": {
+      "controls": "点击或轻触四个答案选项中的一个来选择你的答案。每题有15秒的时间限制。",
+      "mechanics": [
+        "每道题有4个可能的答案",
+        "每题15秒时间限制",
+        "正确答案获得基础10分",
+        "时间奖励：剩余秒数/3",
+        "连击奖励：每个连续正确答案2分",
+        "错误答案或超时重置连击"
+      ],
+      "features": [
+        "6个类别可选",
+        "每种语言30道独特问题",
+        "基于时间的计分系统",
+        "连击奖励机制",
+        "最高分记录"
+      ]
+    },
+    "tips": [
+      "阅读完整问题后再作答",
+      "对难题使用排除法",
+      "不要反复修改答案 - 第一直觉通常是对的",
+      "练习特定类别来提高你的弱项"
+    ],
+    "faq": [
+      {
+        "question": "分数是如何计算的？",
+        "answer": "正确答案基础分10分。时间奖励为剩余秒数除以3。连击奖励为当前连击数乘以2分。"
+      },
+      {
+        "question": "时间用完会发生什么？",
+        "answer": "如果时间用完，算作错误答案。你的连击重置，进入下一题得0分。"
+      },
+      {
+        "question": "可以跳过问题吗？",
+        "answer": "不可以，你必须回答每道题或等待时间用完。如果不确定，选择你最好的猜测！"
+      },
+      {
+        "question": "每次游戏问题都一样吗？",
+        "answer": "问题每次游戏都会随机打乱，所以你会得到不同的顺序，可能看到不同的问题。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "id": "stack",
+  "slug": "stack",
+  "icon": "📦",
+  "category": "skill",
+  "featured": true,
+  "color": "from-blue-500 to-purple-600",
+  "en": {
+    "name": "Stack",
+    "desc": "Precision stacking challenge! Place moving blocks perfectly on top of each other.",
+    "description": "Stack is an addictive precision game where you must place moving blocks on top of each other with perfect timing. Each block moves back and forth horizontally, and you must tap or click at the right moment to drop it. Any portion of the block that hangs over the edge gets cut off, making your stack progressively narrower. The goal is to build the tallest tower possible by achieving perfect alignments!",
+    "objectives": "Build the tallest tower possible by stacking blocks with perfect precision. Try to achieve consecutive perfect placements for bonus points and maintain your stack width as long as possible.",
+    "howToPlay": "Watch the moving block carefully and click or tap to place it on the stack. Time your placement so the block aligns perfectly with the one below. Any overhanging portions will be cut off, making future placements more challenging.",
+    "rules": {
+      "controls": "Click, tap, or press Space/Enter to place the moving block. The block will stop and become part of your stack.",
+      "mechanics": [
+        "Blocks move back and forth horizontally",
+        "Place blocks by clicking or pressing Space",
+        "Overhanging portions get cut off",
+        "Perfect alignments maintain full width",
+        "Game ends when block has no overlap with stack"
+      ],
+      "features": [
+        "Perfect placement bonus points",
+        "Consecutive perfect streak multiplier",
+        "Progressive speed increase",
+        "Colorful block variety",
+        "High score tracking"
+      ]
+    },
+    "tips": [
+      "Focus on the edge of the moving block, not the center",
+      "Wait for the block to slow down at the edges for easier timing",
+      "Build a rhythm to maintain consistent perfect placements",
+      "As speed increases, start your click slightly earlier"
+    ],
+    "faq": [
+      {
+        "question": "What counts as a perfect placement?",
+        "answer": "A perfect placement is when your block aligns within 3 pixels of the block below it. This maintains full width and gives bonus points!"
+      },
+      {
+        "question": "How does the scoring work?",
+        "answer": "Each successful placement gives 1 point. Perfect placements give 2+ points with a streak multiplier for consecutive perfects!"
+      },
+      {
+        "question": "Does the game get faster?",
+        "answer": "Yes! The block speed increases every 10 points, making precise timing more challenging as you progress."
+      },
+      {
+        "question": "What happens when I miss?",
+        "answer": "If your block doesn't overlap at all with the stack, the game ends. Partial overlaps cut off the excess and continue."
+      }
+    ]
+  },
+  "zh": {
+    "name": "堆叠方块",
+    "desc": "精准堆叠挑战！将移动的方块完美地叠放在一起。",
+    "description": "堆叠方块是一款令人上瘾的精准度游戏，你必须在正确的时机放置移动的方块。每个方块水平来回移动，你需要在合适的时刻点击或轻触来放置它。方块悬空的部分会被切掉，使你的堆叠逐渐变窄。目标是通过对齐来实现完美堆叠，建造最高的塔！",
+    "objectives": "通过精准堆叠建造最高的塔。尝试连续完美放置以获得额外分数，并尽可能长时间保持方块宽度。",
+    "howToPlay": "仔细观察移动的方块，点击或轻触将其放置在堆叠上。把握好放置时机，使方块与下方的方块完美对齐。任何悬空的部分都会被切掉，使后续放置更具挑战性。",
+    "rules": {
+      "controls": "点击、轻触或按空格/回车键放置移动的方块。方块将停止并成为堆叠的一部分。",
+      "mechanics": [
+        "方块水平来回移动",
+        "通过点击或按空格放置方块",
+        "悬空部分会被切掉",
+        "完美对齐保持完整宽度",
+        "方块完全没有重叠时游戏结束"
+      ],
+      "features": [
+        "完美放置额外分数",
+        "连续完美连击加成",
+        "速度逐渐加快",
+        "多彩方块变化",
+        "最高分记录"
+      ]
+    },
+    "tips": [
+      "专注于移动方块的边缘，而不是中心",
+      "等待方块在边缘减速时更容易把握时机",
+      "建立节奏感保持连续完美放置",
+      "随着速度加快，稍微提前开始点击"
+    ],
+    "faq": [
+      {
+        "question": "什么是完美放置？",
+        "answer": "完美放置是指你的方块与下方方块在3像素内对齐。这可以保持完整宽度并获得额外分数！"
+      },
+      {
+        "question": "分数是如何计算的？",
+        "answer": "每次成功放置得1分。完美放置得2+分，连续完美有连击加成！"
+      },
+      {
+        "question": "游戏会变快吗？",
+        "answer": "是的！每10分方块速度会增加，随着游戏进行，精准把握时机变得更具挑战性。"
+      },
+      {
+        "question": "没对准会发生什么？",
+        "answer": "如果你的方块与堆叠完全没有重叠，游戏结束。部分重叠会切掉多余部分并继续。"
+      }
+    ]
+  }
+}
