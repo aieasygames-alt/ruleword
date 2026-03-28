@@ -169,7 +169,9 @@ export const games: GameConfig[] = [
   { slug: 'water-sort', id: 'watersort', name: 'Water Sort', nameZh: '水排序', icon: '🧪', desc: 'Sort colored water into tubes! Each tube must contain only one color. A relaxing and satisfying puzzle game!', descZh: '将彩色水分类到试管中！每个试管只能包含一种颜色。轻松满足的益智游戏！', category: 'puzzle', featured: true, color: 'from-cyan-500 to-teal-600' },
 
   // Phase 3
-  { slug: 'geometry-dash', id: 'geometrydash', name: 'Geometry Dash', nameZh: '几何冲刺', icon: '🎮', desc: 'Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty. Build up your reflexes to see how far you you go!', descZh: '跳跃穿越尖刺和障碍物！节奏跑酷游戏，考验你的反应速度。随着游戏进行难度递增！', category: 'arcade', featured: true, color: 'from-indigo-500 to-purple-600' },
+  { slug: 'geometry-dash', id: 'geometrydash', name: 'Geometry Dash', nameZh: '几何冲刺', icon: '🎮', desc: 'Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty.', descZh: '跳跃穿越尖刺和障碍物！节奏跑酷游戏，考验你的反应速度。', category: 'arcade', featured: true, color: 'from-indigo-500 to-purple-600' },
+  { slug: 'cut-the-rope', id: 'cuttherope', name: 'Cut the Rope', nameZh: '割绳子', icon: '🍬', desc: 'Cut ropes to feed candy to the hungry frog! Physics-based puzzle game with 3 levels.', descZh: '割断绳子把糖果喂给饥饿的小青蛙！基于物理的益智游戏。', category: 'puzzle', featured: true, color: 'from-green-500 to-emerald-600' },
+  { slug: 'temple-run', id: 'templerun', name: 'Temple Run', nameZh: '神庙逃亡', icon: '🏃', desc: 'Run, jump, and slide through endless obstacles! Switch lanes to avoid danger.', descZh: '跑、跳、滑穿越无尽障碍！切换跑道躲避危险。', category: 'arcade', featured: true, color: 'from-amber-500 to-orange-600' },
 ]
 
 // Get a game by its slug

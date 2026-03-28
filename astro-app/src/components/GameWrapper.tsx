@@ -135,6 +135,10 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'flappybird': () => import('./games/FlappyBird'),
   'watersort': () => import('./games/WaterSort'),
   'flowfree': () => import('./games/FlowFree'),
+  'fruitninja': () => import('./games/FruitNinja'),
+  'geometrydash': () => import('./games/GeometryDash'),
+  'cuttherope': () => import('./games/CutTheRope'),
+  'templerun': () => import('./games/TempleRun'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {
