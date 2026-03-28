@@ -92,37 +92,25 @@ const t = i18n[lang]
 
 // Helper to get game field (兼容 CMS 和本地格式)
 const getGameField = (field: 'name' | 'desc' | 'description' | 'objectives' | 'howToPlay' | 'tips' | 'rules' | 'faq', preferLang: 'en' | 'zh' = 'en'): string | string[] | GameRules | GameFAQ[] => {
-  if (useCMS) {
-    const cmsGame = game as CMSGameData
-    if (field === 'name') return preferLang === 'zh' ? (cmsGame.nameZh || cmsGame.name) : cmsGame.name
-    if (field === 'desc') return preferLang === 'zh' ? (cmsGame.descZh || cmsGame.desc) : cmsGame.desc
-    if (field === 'description') return preferLang === 'zh' ? (cmsGame.descZh || cmsGame.desc) : cmsGame.desc
-    if (field === 'objectives') return ''
-    if (field === 'howToPlay') return preferLang === 'zh' ? (cmsGame.howToPlayZh || cmsGame.howToPlay || '') : (cmsGame.howToPlay || '')
-    if (field === 'tips') return preferLang === 'zh' ? (cmsGame.tipsZh || cmsGame.tips || []) : (cmsGame.tips || [])
-    if (field === 'rules') return {}
-    if (field === 'faq') return []
-  }
-  const localGame = game as LocalGameData
-  const enData = localGame.en || {}
-  const zhData = localGame.zh || {}
+  // 统一使用 GameData 格式 (games.ts 已经合并了本地和 CMS 数据)
+  const g = game as any
 
-  if (field === 'name') return preferLang === 'zh' ? (zhData.name || enData.name) : enData.name
-  if (field === 'desc') return preferLang === 'zh' ? (zhData.desc || enData.desc) : enData.desc
+  if (field === 'name') return preferLang === 'zh' ? (g.nameZh || g.name) : g.name
+  if (field === 'desc') return preferLang === 'zh' ? (g.descZh || g.desc) : g.desc
   if (field === 'description') {
-    const zhDesc = zhData.description || zhData.desc || ''
-    const enDesc = enData.description || enData.desc || ''
+    const zhDesc = g.descriptionZh || g.descZh || g.desc || ''
+    const enDesc = g.description || g.desc || ''
     return preferLang === 'zh' ? (zhDesc || enDesc) : enDesc
   }
   if (field === 'objectives') {
-    const zhObj = zhData.objectives || ''
-    const enObj = enData.objectives || ''
+    const zhObj = g.objectivesZh || g.objectives || ''
+    const enObj = g.objectives || ''
     return preferLang === 'zh' ? (zhObj || enObj) : enObj
   }
-  if (field === 'howToPlay') return preferLang === 'zh' ? (zhData.howToPlay || enData.howToPlay || '') : (enData.howToPlay || '')
-  if (field === 'tips') return preferLang === 'zh' ? (zhData.tips || enData.tips || []) : (enData.tips || [])
-  if (field === 'rules') return preferLang === 'zh' ? (zhData.rules || enData.rules || {}) : (enData.rules || {})
-  if (field === 'faq') return preferLang === 'zh' ? (zhData.faq || enData.faq || []) : (enData.faq || [])
+  if (field === 'howToPlay') return preferLang === 'zh' ? (g.howToPlayZh || g.howToPlay || '') : (g.howToPlay || '')
+  if (field === 'tips') return preferLang === 'zh' ? (g.tipsZh || g.tips || []) : (g.tips || [])
+  if (field === 'rules') return preferLang === 'zh' ? (g.rulesZh || g.rules || {}) : (g.rules || {})
+  if (field === 'faq') return preferLang === 'zh' ? (g.faqZh || g.faq || []) : (g.faq || [])
   return ''
 }
 

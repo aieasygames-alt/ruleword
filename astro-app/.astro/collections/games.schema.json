@@ -41,13 +41,59 @@
             "desc": {
               "type": "string"
             },
+            "description": {
+              "type": "string"
+            },
+            "objectives": {
+              "type": "string"
+            },
             "howToPlay": {
               "type": "string"
+            },
+            "rules": {
+              "type": "object",
+              "properties": {
+                "controls": {
+                  "type": "string"
+                },
+                "mechanics": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "features": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
             },
             "tips": {
               "type": "array",
               "items": {
                 "type": "string"
+              }
+            },
+            "faq": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string"
+                  },
+                  "answer": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "question",
+                  "answer"
+                ],
+                "additionalProperties": false
               }
             }
           },
@@ -66,14 +112,26 @@
             "desc": {
               "type": "string"
             },
+            "description": {
+              "type": "string"
+            },
+            "objectives": {
+              "type": "string"
+            },
             "howToPlay": {
               "type": "string"
+            },
+            "rules": {
+              "$ref": "#/definitions/games/properties/en/properties/rules"
             },
             "tips": {
               "type": "array",
               "items": {
                 "type": "string"
               }
+            },
+            "faq": {
+              "$ref": "#/definitions/games/properties/en/properties/faq"
             }
           },
           "required": [

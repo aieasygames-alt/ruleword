@@ -20,6 +20,23 @@ const USE_CONTENTFUL = !!import.meta.env.CONTENTFUL_SPACE_ID
 console.log('Data source:', USE_SANITY ? 'Sanity' : USE_CONTENTFUL ? 'Contentful' : 'Local')
 
 /**
+ * 游戏规则结构
+ */
+export interface GameRules {
+  controls?: string
+  mechanics?: string[]
+  features?: string[]
+}
+
+/**
+ * 游戏FAQ结构
+ */
+export interface GameFAQ {
+  question: string
+  answer: string
+}
+
+/**
  * 游戏数据结构 (兼容现有格式)
  */
 export interface GameData {
@@ -33,10 +50,19 @@ export interface GameData {
   nameZh: string
   desc: string
   descZh: string
+  // 新增详细描述字段
+  description?: string
+  descriptionZh?: string
+  objectives?: string
+  objectivesZh?: string
   howToPlay?: string
   howToPlayZh?: string
+  rules?: GameRules
+  rulesZh?: GameRules
   tips?: string[]
   tipsZh?: string[]
+  faq?: GameFAQ[]
+  faqZh?: GameFAQ[]
   // 第三方游戏特有字段
   isExternal?: boolean
   gameUrl?: string
@@ -62,10 +88,19 @@ function localToGameData(data: any): GameData {
     nameZh: data.zh?.name || data.en?.name || '',
     desc: data.en?.desc || data.desc || '',
     descZh: data.zh?.desc || data.en?.desc || '',
+    // 新增详细描述字段
+    description: data.en?.description || data.en?.desc || '',
+    descriptionZh: data.zh?.description || data.zh?.desc || data.en?.description || data.en?.desc || '',
+    objectives: data.en?.objectives || '',
+    objectivesZh: data.zh?.objectives || data.en?.objectives || '',
     howToPlay: data.en?.howToPlay,
     howToPlayZh: data.zh?.howToPlay,
+    rules: data.en?.rules || {},
+    rulesZh: data.zh?.rules || data.en?.rules || {},
     tips: data.en?.tips || [],
     tipsZh: data.zh?.tips || data.en?.tips || [],
+    faq: data.en?.faq || [],
+    faqZh: data.zh?.faq || data.en?.faq || [],
   }
 }
 
