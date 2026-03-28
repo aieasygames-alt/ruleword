@@ -160,6 +160,11 @@ export const games: GameConfig[] = [
   { slug: 'jewel-quest', id: 'jewelquest', name: 'Jewel Quest', nameZh: '宝石迷阵', icon: '💎', desc: 'Match-3 puzzle excitement! Swap adjacent jewels to create matches of 3 or more. Plan your moves carefully to reach the target score within limited moves!', descZh: '三消谜题刺激体验！交换相邻宝石来创造3个或更多的匹配。仔细规划你的移动，在有限步数内达到目标分数！', category: 'puzzle', featured: true, color: 'from-cyan-500 to-blue-600' },
 ]
 
+// Get a game by its slug
+export function getGameBySlug(slug: string): GameConfig | undefined {
+  return games.find(game => game.slug === slug)
+}
+
 export const categories = [
   { id: 'all', name: 'All Games', nameZh: '全部游戏', icon: '🎮', desc: 'Browse all our free online games' },
   { id: 'word', name: 'Word Games', nameZh: '文字游戏', icon: '🔤', desc: 'Word puzzles and vocabulary games' },

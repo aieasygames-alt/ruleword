@@ -7,24 +7,96 @@
   "color": "from-yellow-400 to-amber-500",
   "en": {
     "name": "Spelling Bee",
-    "desc": "Create as many words as possible using the given letters. Each word must include the center letter. Find the pangram to become the spelling champion!",
+    "desc": "Create words from honeycomb letters",
+    "description": "Spelling Bee is the buzz-worthy word puzzle from The New York Times that has word lovers hooked! Given seven letters arranged in a honeycomb pattern, create as many valid words as possible. Every word must include the center letter, and words must be at least 4 letters long. Find the pangram (a word using all 7 letters) to earn Queen Bee status! This daily puzzle combines vocabulary challenge with the satisfaction of discovery.",
+    "objectives": "Find as many valid words as possible using the 7 honeycomb letters, always including the center letter. Discover the pangram (using all letters) for maximum points. Aim for 'Genius' or even 'Queen Bee' ranking by finding all possible words.",
     "howToPlay": "Make words of 4+ letters using the honeycomb letters. Every word must contain the center letter. Pangrams (using all 7 letters) earn bonus points!",
+    "rules": {
+      "controls": "Click or type letters to spell words. The center letter must be included in every word. Press Enter or click Submit to check your word.",
+      "mechanics": [
+        "Words must be at least 4 letters long",
+        "Every word must include the center letter",
+        "Letters can be used multiple times within a word",
+        "Pangram uses all 7 letters (huge bonus!)",
+        "Score ranks you from Beginner to Queen Bee"
+      ],
+      "features": [
+        "Daily Puzzle - Same puzzle for everyone",
+        "Progress Ranks - From Beginner to Queen Bee",
+        "Pangram Hunt - Find the word using all letters",
+        "Shuffle - Rearrange outer letters for new perspectives"
+      ]
+    },
     "tips": [
       "Always include the center letter",
       "Look for plural forms of words",
       "Find the pangram for big points",
-      "Common endings: -ING, -ED, -ER"
+      "Common endings: -ING, -ED, -ER, -LY"
+    ],
+    "faq": [
+      {
+        "question": "What is a pangram?",
+        "answer": "A pangram is a word that uses all 7 available letters at least once. Finding the pangram gives you a big score boost and is often key to reaching higher ranks."
+      },
+      {
+        "question": "Can I use letters more than once?",
+        "answer": "Yes! You can use any letter multiple times in a word. For example, if you have 'L', you can spell 'LEVEL'."
+      },
+      {
+        "question": "How do I reach Queen Bee status?",
+        "answer": "Queen Bee requires finding all possible words in the puzzle. It's extremely difficult and often requires hours of play or collaborative effort."
+      },
+      {
+        "question": "What's the shuffle button for?",
+        "answer": "Shuffling rearranges the 6 outer letters randomly. This can help you see new letter combinations and break out of word-finding ruts."
+      }
     ]
   },
   "zh": {
     "name": "拼字蜜蜂",
-    "desc": "使用给定的字母尽可能多地创造单词。每个单词必须包含中心字母。找到全字母词成为拼字冠军！",
+    "desc": "用蜂窝字母创造单词",
+    "description": "拼字蜜蜂是《纽约时报》风靡文字爱好者的单词谜题！给定七个以蜂窝模式排列的字母，创造尽可能多的有效单词。每个单词必须包含中心字母，单词长度至少4个字母。找到全字母词（使用所有7个字母的单词）获得蜂王地位！这款每日谜题结合了词汇挑战和发现的满足感。",
+    "objectives": "使用7个蜂窝字母找出尽可能多的有效单词，始终包含中心字母。发现全字母词（使用所有字母）获得最高分。通过找到所有可能的单词争取'天才'甚至'蜂王'排名。",
     "howToPlay": "使用蜂窝字母组成4个以上字母的单词。每个单词必须包含中心字母。使用所有7个字母的单词可获得额外积分！",
+    "rules": {
+      "controls": "点击或输入字母拼写单词。每个单词必须包含中心字母。按回车或点击提交检查你的单词。",
+      "mechanics": [
+        "单词必须有至少4个字母",
+        "每个单词必须包含中心字母",
+        "字母可以在单词中多次使用",
+        "全字母词使用所有7个字母（巨大奖励！）",
+        "得分排名从初学者到蜂王"
+      ],
+      "features": [
+        "每日谜题 - 每个人同一谜题",
+        "进阶排名 - 从初学者到蜂王",
+        "全字母词搜寻 - 找到使用所有字母的单词",
+        "洗牌 - 重新排列外围字母获得新视角"
+      ]
+    },
     "tips": [
       "始终包含中心字母",
       "寻找单词的复数形式",
       "找到使用所有字母的单词获得高分",
-      "常见的结尾：-ING, -ED, -ER"
+      "常见的结尾：-ING, -ED, -ER, -LY"
+    ],
+    "faq": [
+      {
+        "question": "什么是全字母词？",
+        "answer": "全字母词是至少使用所有7个可用字母各一次的单词。找到全字母词会给你大幅加分，通常是达到更高排名的关键。"
+      },
+      {
+        "question": "可以多次使用字母吗？",
+        "answer": "可以！你可以在单词中多次使用任何字母。例如，如果你有'L'，你可以拼写'LEVEL'。"
+      },
+      {
+        "question": "如何达到蜂王地位？",
+        "answer": "蜂王需要找到谜题中所有可能的单词。这非常困难，通常需要数小时的游戏或团队合作。"
+      },
+      {
+        "question": "洗牌按钮有什么用？",
+        "answer": "洗牌会随机重新排列6个外围字母。这可以帮助你看到新的字母组合，摆脱找单词的困境。"
+      }
     ]
   }
 }

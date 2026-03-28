@@ -7,19 +7,96 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Typing Test",
-    "desc": "Test your typing speed and accuracy! Type the words as fast as you can. Track your WPM (words per minute) and improve your keyboard skills.",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "打字测试",
-    "desc": "测试你的打字速度和准确率！尽快输入单词。跟踪你的WPM（每分钟字数）并提升键盘技能。",
+    "desc": "Test and improve your typing speed",
+    "description": "Typing Test is the ultimate way to measure and improve your keyboard skills! Type displayed words as quickly and accurately as possible while your Words Per Minute (WPM) and accuracy are tracked in real-time. Whether you're a beginner learning touch typing or an expert aiming to break 100 WPM, this test provides valuable feedback to help you improve. Perfect for students, professionals, and anyone who wants to type faster!",
+    "objectives": "Type the displayed words as quickly and accurately as possible. Achieve the highest WPM (Words Per Minute) while maintaining accuracy above 95%. Track your progress over time and challenge yourself to improve.",
     "howToPlay": "Words appear on screen - type them exactly as shown. Press space after each word to move to the next. Your WPM and accuracy are tracked in real-time.",
+    "rules": {
+      "controls": "Simply type the words displayed on screen. Press Space or Enter after each word to submit it. Correct typos with Backspace if needed.",
+      "mechanics": [
+        "Words Per Minute (WPM) = total words ÷ minutes elapsed",
+        "Accuracy = correct characters ÷ total characters typed",
+        "Test duration options: 30 seconds, 1 minute, or 2 minutes",
+        "Mistakes are highlighted in real-time",
+        "Final score combines speed and accuracy"
+      ],
+      "features": [
+        "Real-time WPM Tracking - Watch your speed live",
+        "Accuracy Percentage - Monitor precision",
+        "Multiple Durations - Choose your challenge level",
+        "Performance History - Track improvement over time"
+      ]
+    },
     "tips": [
       "Focus on accuracy first, speed comes with practice",
       "Keep your eyes on the screen, not the keyboard",
       "Use all ten fingers for maximum speed",
       "Practice regularly to build muscle memory"
+    ],
+    "faq": [
+      {
+        "question": "What is a good typing speed?",
+        "answer": "Average typing speed is 40 WPM. 60+ WPM is good, 80+ is excellent, and 100+ is professional level. Focus on accuracy first!"
+      },
+      {
+        "question": "How can I type faster?",
+        "answer": "Learn proper finger placement (home row), practice regularly, and focus on accuracy. Speed naturally increases with muscle memory."
+      },
+      {
+        "question": "Why is accuracy important?",
+        "answer": "High speed with low accuracy means lots of corrections, which actually slows you down. Aim for 95%+ accuracy before focusing on speed."
+      },
+      {
+        "question": "What's touch typing?",
+        "answer": "Touch typing means typing without looking at the keyboard. Your fingers stay on the home row (ASDF JKL;) and reach for other keys. It's the fastest method!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "打字测试",
+    "desc": "测试并提升你的打字速度",
+    "description": "打字测试是测量和提升键盘技能的终极方式！尽可能快速准确地输入显示的单词，同时实时追踪你的每分钟字数（WPM）和准确率。无论你是学习盲打的初学者还是目标突破100 WPM的专家，这个测试都提供有价值的反馈帮助你进步。非常适合学生、专业人士和任何想打字更快的人！",
+    "objectives": "尽可能快速准确地输入显示的单词。在保持95%以上准确率的同时达到最高WPM（每分钟字数）。随时间追踪你的进步并挑战自己提升。",
+    "howToPlay": "屏幕上出现单词——完全按显示输入。每个单词后按空格进入下一个。你的WPM和准确率会被实时追踪。",
+    "rules": {
+      "controls": "直接输入屏幕上显示的单词。每个单词后按空格或回车提交。如果需要可用退格键修正错误。",
+      "mechanics": [
+        "每分钟字数(WPM) = 总字数 ÷ 经过分钟数",
+        "准确率 = 正确字符 ÷ 总输入字符",
+        "测试时长选项：30秒、1分钟或2分钟",
+        "错误会实时高亮显示",
+        "最终得分结合速度和准确率"
+      ],
+      "features": [
+        "实时WPM追踪 - 实时查看速度",
+        "准确率百分比 - 监控精确度",
+        "多种时长 - 选择你的挑战级别",
+        "表现历史 - 追踪随时间的进步"
+      ]
+    },
+    "tips": [
+      "首先专注于准确率，速度随练习而来",
+      "眼睛看屏幕，不要看键盘",
+      "使用全部十个手指以获得最大速度",
+      "定期练习建立肌肉记忆"
+    ],
+    "faq": [
+      {
+        "question": "什么是好的打字速度？",
+        "answer": "平均打字速度是40 WPM。60+是不错的，80+是优秀的，100+是专业水平。先专注于准确率！"
+      },
+      {
+        "question": "如何打字更快？",
+        "answer": "学习正确的手指放置（基准行），定期练习，专注于准确率。速度会随着肌肉记忆自然提升。"
+      },
+      {
+        "question": "为什么准确率很重要？",
+        "answer": "高速低准确率意味着大量修正，实际上会减慢你。在专注于速度前先瞄准95%+的准确率。"
+      },
+      {
+        "question": "什么是盲打？",
+        "answer": "盲打意味着不看键盘打字。你的手指保持在基准行（ASDF JKL;）并伸向其他键。这是最快的方法！"
+      }
     ]
   }
 }

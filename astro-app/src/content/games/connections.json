@@ -7,24 +7,96 @@
   "color": "from-yellow-500 to-orange-600",
   "en": {
     "name": "Connections",
-    "desc": "Group 16 words into 4 categories of 4 words each. Identify the hidden connections between words in this challenging puzzle game. Can you find all groups?",
+    "desc": "Group 16 words into 4 categories",
+    "description": "Connections is the hit puzzle game from The New York Times that challenges you to find hidden links between words! Given 16 seemingly random words, your task is to sort them into 4 groups of 4 based on common themes. But beware—some words might fit into multiple categories, and wrong guesses cost you lives! This daily brain teaser tests your knowledge of pop culture, wordplay, and lateral thinking.",
+    "objectives": "Sort all 16 words into 4 correct categories of 4 words each. Identify the hidden connections—whether they're types of food, parts of phrases, or clever wordplay. Solve all groups before running out of mistakes!",
     "howToPlay": "Select 4 words you think belong together, then submit. If correct, the category is revealed. You have 4 mistakes allowed. Solve all 4 groups to win!",
+    "rules": {
+      "controls": "Click on words to select them (up to 4 at a time). Click Submit to check if they form a valid category. Deselect words by clicking them again.",
+      "mechanics": [
+        "16 words must be sorted into 4 groups of 4",
+        "Each group shares a common theme or connection",
+        "4 total mistakes allowed before game over",
+        "Categories are color-coded by difficulty (Yellow=easiest, Purple=hardest)",
+        "Some words may seem to fit multiple categories - be careful!"
+      ],
+      "features": [
+        "Daily Puzzle - New challenge every day",
+        "Difficulty Colors - Yellow (easy) to Purple (hard)",
+        "Mistake Tracker - 4 lives total",
+        "Shuffle - Rearrange words for new perspectives"
+      ]
+    },
     "tips": [
       "Look for words that could fit multiple categories",
       "Start with the most obvious connections",
       "Be careful with tricky words that seem related",
       "Yellow is easiest, purple is hardest"
+    ],
+    "faq": [
+      {
+        "question": "What do the colors mean?",
+        "answer": "Colors indicate difficulty: Yellow is most straightforward, Green and Blue are medium, and Purple requires creative thinking or obscure knowledge."
+      },
+      {
+        "question": "Can a word belong to multiple categories?",
+        "answer": "Words are often deliberately chosen to seem like they fit multiple groups. Only one arrangement is correct—think carefully before submitting!"
+      },
+      {
+        "question": "What if I'm stuck?",
+        "answer": "Try shuffling the words for a fresh perspective. Look for words that only have one logical connection, then build from there."
+      },
+      {
+        "question": "What types of connections appear?",
+        "answer": "Categories include synonyms, things that share a characteristic, words that can precede/follow a common word, pop culture references, and clever wordplay."
+      }
     ]
   },
   "zh": {
     "name": "词语连线",
-    "desc": "将16个单词分成4组，每组4个词。在这款挑战性谜题游戏中找出词语之间的隐藏联系。你能找到所有分组吗？",
+    "desc": "将16个单词分成4个类别",
+    "description": "词语连线是《纽约时报》的热门谜题游戏，挑战你发现单词之间的隐藏联系！给定16个看似随机的单词，你的任务是根据共同主题将它们分成4组，每组4个。但要小心——有些单词可能适合多个类别，错误猜测会让你失去生命！这款每日脑力游戏测试你对流行文化、文字游戏和横向思维的知识。",
+    "objectives": "将所有16个单词正确分成4组，每组4个。识别隐藏的联系——无论是食物类型、短语的一部分还是巧妙的文字游戏。在用完错误次数前解决所有组！",
     "howToPlay": "选择你认为属于一组的4个单词，然后提交。如果正确，会显示类别名称。你有4次错误机会。解决所有4组即可获胜！",
+    "rules": {
+      "controls": "点击单词选中它们（最多同时4个）。点击提交检查它们是否形成有效类别。再次点击单词取消选择。",
+      "mechanics": [
+        "16个单词必须分成4组，每组4个",
+        "每组共享共同主题或联系",
+        "游戏结束前允许总共4次错误",
+        "类别按难度用颜色编码（黄色=最简单，紫色=最难）",
+        "有些单词可能看似适合多个类别——要小心！"
+      ],
+      "features": [
+        "每日谜题 - 每天新挑战",
+        "难度颜色 - 黄色（简单）到紫色（困难）",
+        "错误追踪 - 总共4条命",
+        "洗牌 - 重新排列单词获得新视角"
+      ]
+    },
     "tips": [
       "寻找可能适合多个类别的单词",
       "从最明显的联系开始",
       "小心看起来相关但实际上不是的棘手单词",
       "黄色最简单，紫色最难"
+    ],
+    "faq": [
+      {
+        "question": "颜色代表什么？",
+        "answer": "颜色表示难度：黄色最直接，绿色和蓝色是中等，紫色需要创造性思维或冷门知识。"
+      },
+      {
+        "question": "一个单词可以属于多个类别吗？",
+        "answer": "单词经常被特意选择来看似适合多个组。只有一种排列是正确的——提交前仔细思考！"
+      },
+      {
+        "question": "如果卡住了怎么办？",
+        "answer": "尝试洗牌单词获得新鲜视角。寻找只有一个逻辑联系的单词，然后从那里开始构建。"
+      },
+      {
+        "question": "会出现什么类型的联系？",
+        "answer": "类别包括同义词、共享特征的事物、可以在常用词前后的单词、流行文化参考和巧妙的文字游戏。"
+      }
     ]
   }
 }

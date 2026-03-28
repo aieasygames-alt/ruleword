@@ -7,23 +7,95 @@
   "en": {
     "name": "Connect Four",
     "desc": "Drop discs to connect four in a row! Strategic gameplay as you block your opponent while building your own winning line. A classic family favorite!",
+    "description": "Connect Four is the classic two-player strategy game that has brought families together for generations! Drop colored discs into a vertical grid, watching them fall to the lowest available position. The goal is simple—be the first to connect four of your discs in a row, horizontally, vertically, or diagonally. But with each move, you must balance building your own winning line while blocking your opponent's threats!",
+    "objectives": "Be the first player to connect four of your colored discs in a row—horizontally, vertically, or diagonally. Block your opponent's attempts while strategically positioning your own discs. Plan several moves ahead to create winning opportunities!",
     "howToPlay": "Click a column to drop your disc. Discs fall to the lowest available position. First player to connect four in a row wins. Block your opponent while building your own line!",
+    "rules": {
+      "controls": "Click on any column to drop your disc into that column. The disc will fall to the lowest empty position. Players alternate turns, with Red typically going first.",
+      "mechanics": [
+        "7 columns x 6 rows grid",
+        "Discs drop to lowest position",
+        "Four in a row wins (any direction)",
+        "Full column cannot be played",
+        "42 total possible moves maximum"
+      ],
+      "features": [
+        "Two-Player Mode - Play against a friend",
+        "AI Opponent - Challenge the computer",
+        "Simple Rules - Easy to learn",
+        "Deep Strategy - Complex decision-making"
+      ]
+    },
     "tips": [
       "Control the center column when possible",
       "Look for \"double threats\" - two ways to win",
       "Block opponent's potential connections early",
       "Build from the bottom up strategically"
+    ],
+    "faq": [
+      {
+        "question": "What's the best first move?",
+        "answer": "The center column is the strongest opening because it provides the most winning possibilities. A disc in the center can be part of horizontal, vertical, and diagonal wins in both directions."
+      },
+      {
+        "question": "What is a double threat?",
+        "answer": "A double threat (or fork) is when you create two possible ways to win simultaneously. Your opponent can only block one, guaranteeing your victory on the next move."
+      },
+      {
+        "question": "Can Connect Four always be won?",
+        "answer": "With perfect play from both players, the first player (Red) can always force a win on a standard 7x6 board. However, achieving perfect play requires significant skill!"
+      },
+      {
+        "question": "How do I recognize winning patterns?",
+        "answer": "Look for three in a row with open ends, or two pairs that could connect. Also watch for diagonal patterns—they're harder to spot than horizontal or vertical ones."
+      }
     ]
   },
   "zh": {
     "name": "四子棋",
     "desc": "投放圆盘连成四子！在阻止对手的同时建立自己的获胜连线。经典家庭游戏首选！",
+    "description": "四子棋是几代人以来凝聚家庭的经典双人策略游戏！将彩色圆盘投入垂直网格，看着它们落到最低可用位置。目标很简单——成为第一个将四个圆盘连成一线的玩家，水平、垂直或对角线均可。但每一步，你必须平衡建立自己的获胜线，同时阻止对手的威胁！",
+    "objectives": "成为第一个将四个彩色圆盘连成一线的玩家——水平、垂直或对角线。在策略性定位自己圆盘的同时阻止对手的尝试。提前计划几步来创造获胜机会！",
     "howToPlay": "点击一列放下圆盘。圆盘会落到最低的可用位置。首先连成四个的玩家获胜。在建立自己的连线时阻止对手！",
+    "rules": {
+      "controls": "点击任何列将圆盘投入该列。圆盘会落到最低的空位。玩家轮流进行，红方通常先走。",
+      "mechanics": [
+        "7列 x 6行网格",
+        "圆盘落到最低位置",
+        "四个连成一线获胜（任何方向）",
+        "满的列不能下",
+        "最多42步"
+      ],
+      "features": [
+        "双人对战模式 - 与朋友一起玩",
+        "AI对手 - 挑战电脑",
+        "简单规则 - 易学",
+        "深度策略 - 复杂决策"
+      ]
+    },
     "tips": [
       "尽可能控制中心列",
       "寻找\"双重威胁\"——两种获胜方式",
       "尽早阻止对手的潜在连线",
       "从底部向上策略性地构建"
+    ],
+    "faq": [
+      {
+        "question": "最佳的第一步是什么？",
+        "answer": "中心列是最强的开局，因为它提供最多的获胜可能性。中心的圆盘可以是两个方向的水平、垂直和对角线胜利的一部分。"
+      },
+      {
+        "question": "什么是双重威胁？",
+        "answer": "双重威胁（或叉子）是你同时创造两种获胜方式。你的对手只能阻止一个，保证你在下一步获胜。"
+      },
+      {
+        "question": "四子棋总是能赢吗？",
+        "answer": "如果双方都完美发挥，先手（红方）在标准的7x6棋盘上总是能强迫获胜。然而，达到完美发挥需要相当大的技巧！"
+      },
+      {
+        "question": "如何识别获胜模式？",
+        "answer": "寻找两端开放的三连，或可以连接的两对。也要注意对角线模式——它们比水平或垂直的更难发现。"
+      }
     ]
   }
 }

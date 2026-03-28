@@ -7,18 +7,95 @@
   "en": {
     "name": "Speed Math",
     "desc": "Race against time to solve arithmetic problems! Addition, subtraction, multiplication, and division. Train your mental math skills and beat your high score!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "速算挑战",
-    "desc": "限时解决算术问题！加减乘除，训练你的心算能力，打破最高分！",
+    "description": "Speed Math is the ultimate brain training game for arithmetic! Race against the clock to solve as many math problems as possible—addition, subtraction, multiplication, and division. Each correct answer builds your streak multiplier, but one wrong answer resets it. This fast-paced mental workout improves your calculation speed, number sense, and concentration while being genuinely fun!",
+    "objectives": "Solve arithmetic problems as quickly and accurately as possible within the time limit. Build streaks of correct answers to maximize your score multiplier. Train your mental math abilities and beat your personal best!",
     "howToPlay": "Solve the math problem shown and enter your answer. Press Enter or click Submit. Correct answers build your streak for bonus points. Wrong answers reset your streak.",
+    "rules": {
+      "controls": "Type your numerical answer using the keyboard, then press Enter or click the Submit button. For negative numbers, use the minus key. Decimals may be required for division problems.",
+      "mechanics": [
+        "Problems include +, -, ×, ÷",
+        "Timer counts down for each round",
+        "Correct answers add to score",
+        "Streak multiplier increases rewards",
+        "Wrong answers reset streak"
+      ],
+      "features": [
+        "Multiple Operations - All arithmetic types",
+        "Difficulty Levels - Easy to expert",
+        "Streak Bonuses - Combo multiplier",
+        "Time Challenge - Race the clock"
+      ]
+    },
     "tips": [
       "Start with easier difficulty to build speed",
       "Use mental math tricks like rounding",
       "Focus on maintaining accuracy under time pressure",
       "Build streaks for maximum points"
+    ],
+    "faq": [
+      {
+        "question": "How can I improve my mental math speed?",
+        "answer": "Practice regularly, learn mental math shortcuts (like multiplying by 10 and adjusting), break complex problems into smaller steps, and focus on accuracy before speed."
+      },
+      {
+        "question": "What's the best strategy for high scores?",
+        "answer": "Maintain accuracy first—a long streak with a multiplier is worth more than fast but wrong answers. Stay calm and don't rush into mistakes."
+      },
+      {
+        "question": "Are there tricks for specific operations?",
+        "answer": "Yes! For multiplication, break numbers into factors. For division, estimate first. For addition/subtraction, round to easy numbers then adjust. Practice makes these automatic."
+      },
+      {
+        "question": "Does this game really help with math skills?",
+        "answer": "Absolutely! Regular mental math practice improves number sense, working memory, and calculation speed. These skills transfer to real-world math and academic performance."
+      }
+    ]
+  },
+  "zh": {
+    "name": "速算挑战",
+    "desc": "限时解决算术问题！加减乘除，训练你的心算能力，打破最高分！",
+    "description": "速算挑战是终极的算术大脑训练游戏！与时钟赛跑，尽可能多地解决数学问题——加法、减法、乘法和除法。每个正确答案都会增加你的连续奖励，但一个错误答案就会重置它。这款快节奏的心理锻炼提高你的计算速度、数字感和专注力，同时真正有趣！",
+    "objectives": "在时间限制内尽可能快速准确地解决算术问题。建立正确答案的连续来最大化你的分数倍增器。训练你的心算能力并打败你的个人最佳！",
+    "howToPlay": "解决显示的数学问题并输入你的答案。按Enter或点击提交。正确答案建立你的连续以获得奖励分数。错误答案重置你的连续。",
+    "rules": {
+      "controls": "使用键盘输入你的数字答案，然后按Enter或点击提交按钮。对于负数，使用减号键。除法问题可能需要小数。",
+      "mechanics": [
+        "问题包括 +, -, ×, ÷",
+        "计时器为每轮倒数",
+        "正确答案增加分数",
+        "连续倍增器增加奖励",
+        "错误答案重置连续"
+      ],
+      "features": [
+        "多种运算 - 所有算术类型",
+        "难度级别 - 从简单到专家",
+        "连续奖励 - 组合倍增器",
+        "时间挑战 - 与时钟赛跑"
+      ]
+    },
+    "tips": [
+      "从较容易的难度开始建立速度",
+      "使用心算技巧如四舍五入",
+      "在时间压力下专注于保持准确",
+      "建立连续以获得最大分数"
+    ],
+    "faq": [
+      {
+        "question": "如何提高心算速度？",
+        "answer": "定期练习，学习心算捷径（如乘以10然后调整），将复杂问题分解为更小的步骤，在追求速度之前专注于准确性。"
+      },
+      {
+        "question": "获得高分的最佳策略是什么？",
+        "answer": "首先保持准确——带有倍增器的长连续比快速但错误的答案更有价值。保持冷静，不要急于犯错。"
+      },
+      {
+        "question": "特定运算有技巧吗？",
+        "answer": "是的！对于乘法，将数字分解为因子。对于除法，先估算。对于加法/减法，四舍五入到容易的数字然后调整。练习使这些变得自动。"
+      },
+      {
+        "question": "这个游戏真的对数学技能有帮助吗？",
+        "answer": "绝对有！定期心算练习改善数字感、工作记忆和计算速度。这些技能转移到现实世界的数学和学术表现。"
+      }
     ]
   }
 }

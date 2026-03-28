@@ -7,23 +7,95 @@
   "en": {
     "name": "Hangman",
     "desc": "The timeless word guessing game! Guess letters one by one to reveal the hidden word before the hangman is complete. Test your vocabulary and deduction skills.",
+    "description": "Hangman is the classic word game that has entertained and educated for generations! A hidden word is represented by blank spaces, and you must guess letters one at a time. Correct guesses reveal the letters' positions, while wrong guesses build the hangman figure. Guess the complete word before the drawing is finished! This simple yet engaging game tests vocabulary, spelling, and deductive reasoning.",
+    "objectives": "Guess the hidden word by selecting letters before the hangman figure is completed. Use deduction and vocabulary knowledge to identify the word with as few wrong guesses as possible. Win by revealing all letters before running out of attempts!",
     "howToPlay": "Click letters on the keyboard or type to guess. Correct letters appear in the word. Wrong guesses add to the hangman. Win by guessing all letters before 6 mistakes.",
+    "rules": {
+      "controls": "Click on letter buttons or use your keyboard to guess letters. Each letter can only be guessed once. The game shows correct letters in place and tracks wrong guesses with the hangman drawing.",
+      "mechanics": [
+        "Hidden word shown as blanks",
+        "Guess letters one at a time",
+        "Correct letters revealed in word",
+        "Wrong guesses build hangman",
+        "Game over at 6 wrong guesses"
+      ],
+      "features": [
+        "Word Categories - Various themes",
+        "Hint System - Get help when stuck",
+        "Score Tracking - Beat your best",
+        "Vocabulary Builder - Learn new words"
+      ]
+    },
     "tips": [
       "Start with common vowels (E, A, O, I)",
       "Try common consonants (R, S, T, L, N)",
       "Look for common letter patterns",
       "Use word length to narrow possibilities"
+    ],
+    "faq": [
+      {
+        "question": "What letters should I guess first?",
+        "answer": "Start with E, A, R, I, O, T, N, S—the most common letters in English. This gives you the best chance of revealing letters early. Then look for common patterns like TH, ING, orTION."
+      },
+      {
+        "question": "How many wrong guesses do I get?",
+        "answer": "Traditionally, 6 wrong guesses complete the hangman (gallows, head, body, 2 arms, 2 legs). Some versions may vary, but 6 is the standard that balances challenge and fairness."
+      },
+      {
+        "question": "Can I guess the whole word?",
+        "answer": "In some versions, yes! Guessing the whole word is risky—if wrong, it may count as multiple wrong guesses. Only use this when you're confident and running low on guesses."
+      },
+      {
+        "question": "How can I improve at Hangman?",
+        "answer": "Build your vocabulary, learn common letter frequencies, and practice pattern recognition. Understanding word structure (common prefixes, suffixes, and letter combinations) helps you make educated guesses."
+      }
     ]
   },
   "zh": {
     "name": "猜单词",
     "desc": "永恒的猜词游戏！逐个猜字母揭示隐藏的单词，在小人完成之前猜出答案。考验您的词汇量和推理能力。",
+    "description": "猜单词是几代人以来娱乐和教育的经典文字游戏！一个隐藏的单词由空白空间表示，你必须一次猜一个字母。正确的猜测揭示字母的位置，而错误的猜测构建绞刑架。在图画完成之前猜出完整的单词！这款简单而引人入胜的游戏测试词汇、拼写和推理能力。",
+    "objectives": "在绞刑架完成之前通过选择字母来猜出隐藏的单词。使用推理和词汇知识，以尽可能少的错误猜测识别单词。在用尽尝试次数之前揭示所有字母来获胜！",
     "howToPlay": "点击键盘上的字母或输入来猜测。正确的字母会出现在单词中。错误的猜测会增加绞刑架。在6次错误之前猜出所有字母即可获胜。",
+    "rules": {
+      "controls": "点击字母按钮或使用键盘来猜测字母。每个字母只能猜一次。游戏会显示正确字母的位置，并用绞刑架图追踪错误猜测。",
+      "mechanics": [
+        "隐藏单词显示为空白",
+        "一次猜一个字母",
+        "正确的字母在单词中揭示",
+        "错误的猜测构建绞刑架",
+        "6次错误猜测游戏结束"
+      ],
+      "features": [
+        "单词分类 - 各种主题",
+        "提示系统 - 卡住时获得帮助",
+        "分数追踪 - 打败你的最佳",
+        "词汇构建 - 学习新单词"
+      ]
+    },
     "tips": [
       "从常用元音开始（E, A, O, I）",
       "尝试常用辅音（R, S, T, L, N）",
       "寻找常见的字母模式",
       "使用单词长度缩小可能性"
+    ],
+    "faq": [
+      {
+        "question": "我应该首先猜什么字母？",
+        "answer": "从E, A, R, I, O, T, N, S开始——英语中最常见的字母。这给你早期揭示字母的最佳机会。然后寻找常见模式如TH, ING, 或TION。"
+      },
+      {
+        "question": "我可以有多少次错误猜测？",
+        "answer": "传统上，6次错误猜测完成绞刑架（绞刑架、头、身体、2只手臂、2条腿）。一些版本可能有所不同，但6是平衡挑战和公平性的标准。"
+      },
+      {
+        "question": "我可以猜整个单词吗？",
+        "answer": "在某些版本中，可以！猜整个单词是有风险的——如果错误，可能会算作多次错误猜测。只有在你有信心且猜测次数不足时才使用这个。"
+      },
+      {
+        "question": "如何在猜单词中进步？",
+        "answer": "建立你的词汇量，学习常见的字母频率，并练习模式识别。理解单词结构（常见的前缀、后缀和字母组合）帮助你做出有根据的猜测。"
+      }
     ]
   }
 }

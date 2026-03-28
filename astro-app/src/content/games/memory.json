@@ -7,23 +7,95 @@
   "en": {
     "name": "Memory",
     "desc": "Classic card-matching game! Flip cards to find matching pairs. Train your visual memory and concentration. Great for all ages!",
+    "description": "Memory is the beloved card-matching game that has challenged minds for generations! Cards are laid face-down in a grid, each hiding an image that has a matching twin. Flip two cards at a time to find pairs—if they match, they stay revealed; if not, they flip back. This simple yet engaging gameplay trains visual memory, pattern recognition, and concentration. Perfect for players of all ages, from young children developing memory skills to adults keeping their minds sharp!",
+    "objectives": "Find all matching pairs of cards by remembering their positions. Complete the game with as few moves as possible to achieve a high score. Train your visual memory and spatial recall while having fun!",
     "howToPlay": "Click cards to flip them. Find all matching pairs to win. The fewer moves you make, the better your score. Challenge yourself to remember card positions!",
+    "rules": {
+      "controls": "Click on any face-down card to flip it over. Click a second card to try to find a match. If the cards match, they stay face-up. If not, they flip back after a brief moment.",
+      "mechanics": [
+        "Cards start face-down in a grid",
+        "Flip two cards per turn",
+        "Matching pairs stay revealed",
+        "Non-matching pairs flip back",
+        "Game ends when all pairs found"
+      ],
+      "features": [
+        "Multiple Grid Sizes - Easy to challenging layouts",
+        "Move Counter - Track your efficiency",
+        "Timer Option - Race against the clock",
+        "Various Themes - Different card designs"
+      ]
+    },
     "tips": [
       "Pay attention to every card flip, even matches",
       "Start by revealing a few cards to establish positions",
       "Create mental groups or stories to remember positions",
       "Practice regularly to improve memory skills"
+    ],
+    "faq": [
+      {
+        "question": "How can I improve my Memory game performance?",
+        "answer": "Practice regularly, create mental associations for card positions, use chunking (grouping nearby cards), and stay focused. Naming cards aloud can also help memory retention."
+      },
+      {
+        "question": "What's considered a good score?",
+        "answer": "For a standard 16-card (8 pair) game, finding all pairs in 10-12 moves is excellent. 8-9 moves is near-perfect. For larger grids, efficiency percentage is a better metric."
+      },
+      {
+        "question": "Does playing Memory help brain function?",
+        "answer": "Yes! Memory games exercise working memory, visual processing, and concentration. Regular play can help maintain cognitive function and may improve short-term memory capacity."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Many players use a systematic approach, starting from one corner and working across. Others prefer to quickly reveal many cards first, then focus on matches. Find what works for your memory style!"
+      }
     ]
   },
   "zh": {
     "name": "记忆翻牌",
     "desc": "经典配对记忆游戏！翻开卡片找到配对。训练你的视觉记忆和专注力。老少皆宜！",
+    "description": "记忆翻牌是挑战了几代人的心爱的配对卡片游戏！卡片面朝下放在网格中，每张隐藏着有匹配孪生的图像。每次翻两张卡片找配对——如果匹配，它们保持翻开；如果不匹配，它们翻回去。这种简单而引人入胜的游戏玩法训练视觉记忆、模式识别和专注力。适合所有年龄的玩家，从发展记忆技能的幼儿到保持头脑敏锐的成年人！",
+    "objectives": "通过记住卡片位置找到所有匹配的卡片对。以尽可能少的步数完成游戏以获得高分。在玩乐的同时训练你的视觉记忆和空间回忆！",
     "howToPlay": "点击卡片翻开它们。找到所有匹配的对子即可获胜。移动次数越少，分数越高。挑战自己记住卡片位置！",
+    "rules": {
+      "controls": "点击任何面朝下的卡片将其翻开。点击第二张卡片尝试找配对。如果卡片匹配，它们保持面朝上。如果不匹配，它们在短暂时刻后翻回去。",
+      "mechanics": [
+        "卡片开始时面朝下放在网格中",
+        "每轮翻两张卡片",
+        "匹配的对子保持翻开",
+        "不匹配的对子翻回去",
+        "找到所有对子时游戏结束"
+      ],
+      "features": [
+        "多种网格大小 - 从简单到挑战性布局",
+        "步数计数器 - 追踪你的效率",
+        "计时器选项 - 与时钟赛跑",
+        "各种主题 - 不同的卡片设计"
+      ]
+    },
     "tips": [
       "注意每一次翻牌，即使是匹配的",
       "首先翻开几张卡片来建立位置记忆",
       "创建心理分组或故事来记住位置",
       "定期练习以提高记忆能力"
+    ],
+    "faq": [
+      {
+        "question": "如何提高记忆游戏的表现？",
+        "answer": "定期练习，为卡片位置创建心理联想，使用分块（将附近的卡片分组），并保持专注。大声说出卡片名称也可以帮助记忆保持。"
+      },
+      {
+        "question": "什么被认为是好分数？",
+        "answer": "对于标准的16张卡片（8对）游戏，在10-12步内找到所有配对是优秀的。8-9步接近完美。对于更大的网格，效率百分比是更好的指标。"
+      },
+      {
+        "question": "玩记忆游戏对大脑功能有帮助吗？",
+        "answer": "是的！记忆游戏锻炼工作记忆、视觉处理和专注力。定期玩可以帮助维持认知功能，可能改善短期记忆容量。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "许多玩家使用系统方法，从一个角落开始，逐步进行。其他人更喜欢先快速翻开许多卡片，然后专注于配对。找到适合你记忆风格的方法！"
+      }
     ]
   }
 }

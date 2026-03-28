@@ -7,18 +7,95 @@
   "en": {
     "name": "Jigsaw Puzzle",
     "desc": "Classic jigsaw puzzle fun! Drag pieces to complete beautiful images. Multiple difficulty levels from easy 4x4 to challenging 10x10 grids.",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "拼图游戏",
-    "desc": "经典拼图乐趣！拖动碎片完成美丽图片。多种难度从简单4x4到挑战性10x10网格。",
-    "howToPlay": "Click on a piece to select it, then click another piece to swap their positions. Arrange all pieces in numerical order to complete the puzzle. Try to minimize moves and time.",
+    "description": "Jigsaw Puzzle is the timeless brain teaser that has entertained families for generations! Scattered puzzle pieces await your assembly—each uniquely shaped piece must find its correct position to reveal the complete image. From simple 16-piece puzzles perfect for beginners to challenging 100-piece grids for experts, this classic game exercises spatial reasoning, pattern recognition, and patience. The satisfying click of pieces fitting together never gets old!",
+    "objectives": "Arrange all scattered puzzle pieces into their correct positions to complete the image. Start with edges and corners, then work inward to fill in the details. Complete the puzzle as efficiently as possible for the best score!",
+    "howToPlay": "Click on a piece to select it, then click another piece to swap their positions. Arrange all pieces in the correct order to complete the puzzle. Try to minimize moves and time.",
+    "rules": {
+      "controls": "Click on a puzzle piece to select it, then click on another piece to swap their positions. Alternatively, drag pieces to move them. Pieces that are in the correct position lock in place.",
+      "mechanics": [
+        "Pieces must form the complete image",
+        "Edge pieces have flat sides",
+        "Corner pieces have two flat sides",
+        "Correct pieces lock in place",
+        "Progress tracked by percentage complete"
+      ],
+      "features": [
+        "Multiple Difficulty Levels - 4x4 to 10x10 grids",
+        "Preview Image - Reference for assembly",
+        "Piece Rotation - Extra challenge mode",
+        "Timer Mode - Race against the clock"
+      ]
+    },
     "tips": [
       "Start by placing corner and edge pieces",
       "Look for sequential numbers that are close together",
       "Use the preview image as reference",
       "Work on one section at a time"
+    ],
+    "faq": [
+      {
+        "question": "What's the best strategy for starting a puzzle?",
+        "answer": "Begin by finding all corner pieces (4 corners) and edge pieces to create the frame. Then work on distinctive areas of the image—faces, text, or high-contrast sections are easier to identify."
+      },
+      {
+        "question": "How do I know if a piece is in the right place?",
+        "answer": "Correctly placed pieces typically lock or snap into position and cannot be moved again. The visual continuity of the image also confirms correct placement."
+      },
+      {
+        "question": "What makes some puzzles harder than others?",
+        "answer": "More pieces mean more complexity. Images with similar colors throughout (like sky or grass) are harder than images with distinct sections. Rotating pieces adds another layer of difficulty."
+      },
+      {
+        "question": "Does doing jigsaw puzzles improve brain function?",
+        "answer": "Yes! Jigsaw puzzles exercise both left brain (logic, sequential thinking) and right brain (creativity, intuition). Regular puzzling can improve spatial awareness, short-term memory, and problem-solving skills."
+      }
+    ]
+  },
+  "zh": {
+    "name": "拼图游戏",
+    "desc": "经典拼图乐趣！拖动碎片完成美丽图片。多种难度从简单4x4到挑战性10x10网格。",
+    "description": "拼图游戏是几代人以来娱乐家庭的不朽脑筋急转弯！散落的拼图碎片等待你的组装——每个独特形状的碎片必须找到正确的位置来揭示完整的图像。从适合初学者的简单16块拼图到适合专家的挑战性100块网格，这款经典游戏锻炼空间推理、模式识别和耐心。碎片拼接在一起的满足感永远不会过时！",
+    "objectives": "将所有散落的拼图碎片排列到正确位置来完成图像。从边缘和角落开始，然后向内工作填充细节。尽可能高效地完成拼图以获得最佳分数！",
+    "howToPlay": "点击碎片选择它，然后点击另一个碎片交换它们的位置。按正确顺序排列所有碎片完成拼图。尝试最小化移动次数和时间。",
+    "rules": {
+      "controls": "点击拼图碎片选择它，然后点击另一个碎片交换它们的位置。或者，拖动碎片来移动它们。正确位置的碎片会锁定。",
+      "mechanics": [
+        "碎片必须形成完整图像",
+        "边缘碎片有平坦的边",
+        "角落碎片有两个平坦的边",
+        "正确的碎片锁定到位",
+        "进度按完成百分比追踪"
+      ],
+      "features": [
+        "多种难度级别 - 4x4到10x10网格",
+        "预览图像 - 组装参考",
+        "碎片旋转 - 额外挑战模式",
+        "计时模式 - 与时钟赛跑"
+      ]
+    },
+    "tips": [
+      "从角落和边缘碎片开始",
+      "寻找接近的连续数字",
+      "使用预览图像作为参考",
+      "一次处理一个部分"
+    ],
+    "faq": [
+      {
+        "question": "开始拼图的最佳策略是什么？",
+        "answer": "首先找到所有角落碎片（4个角落）和边缘碎片来创建框架。然后处理图像的独特区域——面部、文字或高对比度部分更容易识别。"
+      },
+      {
+        "question": "我怎么知道碎片是否在正确的位置？",
+        "answer": "正确放置的碎片通常会锁定或吸附到位，无法再次移动。图像的视觉连续性也确认正确放置。"
+      },
+      {
+        "question": "什么使一些拼图比其他更难？",
+        "answer": "更多碎片意味着更多复杂性。整个图像颜色相似（如天空或草地）比有明显部分的图像更难。旋转碎片增加了另一层难度。"
+      },
+      {
+        "question": "做拼图能改善大脑功能吗？",
+        "answer": "是的！拼图锻炼左脑（逻辑、顺序思维）和右脑（创造力、直觉）。定期拼图可以改善空间意识、短期记忆和解决问题的技能。"
+      }
     ]
   }
 }

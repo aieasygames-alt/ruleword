@@ -8,23 +8,95 @@
   "en": {
     "name": "Mahjong Titans",
     "desc": "Fast-paced mahjong matching with a timer! Find matching pairs of tiles before time runs out. Features traditional Chinese mahjong tiles.",
+    "description": "Mahjong Titans is the timed version of the classic tile-matching game! Face-up tiles with traditional Chinese symbols await your matching skills. Unlike layered Mahjong Solitaire, all tiles are visible—you just need to remember positions and find pairs before the clock runs out. This memory-boosting variation adds exciting time pressure to the beloved matching formula!",
+    "objectives": "Find and match all pairs of identical tiles before the timer expires. Turn over face-down tiles and remember their positions. Match tiles with the same suit and value to remove them. Clear the entire board to win!",
     "howToPlay": "Click a face-down tile to reveal it. Find another tile with the same suit and value to remove both. Clear all tiles before the timer expires!",
+    "rules": {
+      "controls": "Click on face-down tiles to reveal them. When two revealed tiles match (same suit and value), they are automatically removed. You have limited time to clear all tiles.",
+      "mechanics": [
+        "Click to reveal face-down tiles",
+        "Match identical tiles to remove them",
+        "Time limit adds pressure",
+        "Memory is key to success",
+        "Clear all pairs to win"
+      ],
+      "features": [
+        "Time Challenge - Race the clock",
+        "Memory Training - Remember positions",
+        "Traditional Tiles - Classic designs",
+        "Quick Games - 2-minute rounds"
+      ]
+    },
     "tips": [
       "Focus on one suit at a time",
       "Remember tile positions",
       "Work from the outside in",
       "You have 2 minutes to clear all tiles"
+    ],
+    "faq": [
+      {
+        "question": "How is this different from Mahjong Solitaire?",
+        "answer": "Mahjong Titans focuses on memory rather than accessibility. All tiles start face-down, and you must remember positions. There's also a time limit, making it more fast-paced than the relaxed layered version."
+      },
+      {
+        "question": "What's the best memory strategy?",
+        "answer": "Focus on one area at a time, use mnemonic devices to remember positions, and try to recall patterns rather than individual tiles. Some players prefer to reveal tiles systematically rather than randomly."
+      },
+      {
+        "question": "What happens when time runs out?",
+        "answer": "The game ends with your current score. Any remaining tiles that weren't matched count against your final score. Speed and accuracy both matter!"
+      },
+      {
+        "question": "Does playing improve memory?",
+        "answer": "Yes! The game exercises working memory and spatial recall. Regular play can help improve your ability to remember positions and visual patterns."
+      }
     ]
   },
   "zh": {
     "name": "限时麻将",
     "desc": "带计时器的快速麻将配对！在时间耗尽前找到相同的牌对。使用传统中国麻将牌。",
+    "description": "限时麻将是有时间限制的经典配对游戏版本！正面朝上带有传统中国符号的牌等待你的配对技能。与分层麻将接龙不同，所有牌都可见——你只需要记住位置并在时钟用完之前找到配对。这个增强记忆的变体为心爱的配对公式增添了刺激的时间压力！",
+    "objectives": "在计时器到期之前找到并匹配所有相同的牌对。翻开面朝下的牌并记住它们的位置。匹配相同花色和点数的牌来移除它们。清除整个棋盘获胜！",
     "howToPlay": "点击背面朝上的牌来翻开它。找到另一张具有相同花色和点数的牌来移除这两张牌。在计时器到期前清除所有牌！",
+    "rules": {
+      "controls": "点击面朝下的牌来翻开它们。当两张翻开的牌匹配（相同花色和点数）时，它们会自动移除。你有有限的时间清除所有牌。",
+      "mechanics": [
+        "点击揭示面朝下的牌",
+        "匹配相同的牌来移除它们",
+        "时间限制增加压力",
+        "记忆是成功的关键",
+        "清除所有对子获胜"
+      ],
+      "features": [
+        "时间挑战 - 与时钟赛跑",
+        "记忆训练 - 记住位置",
+        "传统牌面 - 经典设计",
+        "快速游戏 - 2分钟回合"
+      ]
+    },
     "tips": [
       "一次专注于一种花色",
       "记住牌的位置",
       "从外向内进行",
       "你有2分钟清除所有牌"
+    ],
+    "faq": [
+      {
+        "question": "这与麻将接龙有什么不同？",
+        "answer": "限时麻将专注于记忆而不是可访问性。所有牌开始时面朝下，你必须记住位置。还有时间限制，使其比轻松的分层版本更快节奏。"
+      },
+      {
+        "question": "最佳记忆策略是什么？",
+        "answer": "一次专注于一个区域，使用记忆术来记住位置，并尝试回忆模式而不是单个牌。一些玩家更喜欢系统地而不是随机地揭示牌。"
+      },
+      {
+        "question": "时间用完时会发生什么？",
+        "answer": "游戏以你当前的分数结束。任何未匹配的剩余牌会计入你的最终分数。速度和准确性都很重要！"
+      },
+      {
+        "question": "玩这个能改善记忆吗？",
+        "answer": "是的！游戏锻炼工作记忆和空间回忆。定期玩可以帮助提高你记住位置和视觉模式的能力。"
+      }
     ]
   }
 }

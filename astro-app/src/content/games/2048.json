@@ -7,24 +7,96 @@
   "color": "from-amber-500 to-orange-600",
   "en": {
     "name": "2048",
-    "desc": "Slide numbered tiles to merge them! When two tiles with the same number touch, they combine into one. Reach the 2048 tile to win this addictive puzzle game.",
-    "howToPlay": "Use arrow keys (or swipe on mobile) to slide all tiles in that direction. Tiles with the same value merge when they collide. A new tile (2 or 4) appears after each move. The game ends when no more moves are possible.",
+    "desc": "Slide and merge tiles to reach 2048",
+    "description": "2048 is the incredibly addictive sliding tile puzzle that became an internet sensation! Slide numbered tiles in any direction on a 4×4 grid. When two tiles with the same number collide, they merge into one with their sum. Starting from 2s and 4s, watch your tiles grow exponentially as you strategize to create the elusive 2048 tile. Simple to learn yet nearly impossible to master, this game will keep you coming back for just one more try!",
+    "objectives": "Combine matching numbered tiles by sliding them together to create increasingly larger numbers. Your ultimate goal is to create a tile with the number 2048, but the game continues even after you achieve this milestone. How high can you go?",
+    "howToPlay": "Use arrow keys or swipe to slide all tiles in one direction. When two tiles with the same number touch, they merge into one. Each move spawns a new tile (2 or 4). Try to reach the 2048 tile!",
+    "rules": {
+      "controls": "Use arrow keys (↑ ↓ ← →) on desktop or swipe in any direction on mobile to slide all tiles at once. All tiles move as far as possible in the chosen direction.",
+      "mechanics": [
+        "All tiles slide in the chosen direction until blocked",
+        "When two tiles with the same number collide, they merge into their sum",
+        "Each merge scores points equal to the new tile's value",
+        "A new tile (90% chance of 2, 10% chance of 4) appears after each move",
+        "Game ends when no more moves are possible"
+      ],
+      "features": [
+        "Undo Feature - Take back your last move",
+        "Score Tracking - Watch your points climb",
+        "High Score - Beat your personal best",
+        "Endless Mode - Continue past 2048"
+      ]
+    },
     "tips": [
-      "Keep your highest tile in a corner and build around it",
-      "Never move your highest tile away from its corner",
-      "Try to keep tiles in descending order along one edge",
-      "Plan ahead - each move affects the entire board"
+      "Keep your highest tile in a corner",
+      "Build numbers in a snake pattern toward your corner",
+      "Avoid moving tiles in the direction opposite your high-value corner",
+      "Plan several moves ahead to avoid filling up the board"
+    ],
+    "faq": [
+      {
+        "question": "Is it possible to always win 2048?",
+        "answer": "With optimal strategy, reaching 2048 is achievable. However, due to random tile placement, winning isn't guaranteed every game."
+      },
+      {
+        "question": "What happens after I get 2048?",
+        "answer": "Congratulations! You can continue playing to reach higher numbers like 4096, 8192, and beyond. The game only ends when no moves are possible."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Keep your highest tile in a corner and build toward it. Many players prefer the bottom-left corner and avoid pressing Up."
+      },
+      {
+        "question": "Why do I keep losing?",
+        "answer": "Focus on keeping your largest tiles together and avoid creating scattered high numbers. Practice and patience are key!"
+      }
     ]
   },
   "zh": {
     "name": "2048",
-    "desc": "滑动数字方块合并它们！当两个相同数字的方块相碰时，它们会合并成一个。达到2048方块赢得这款令人上瘾的益智游戏。",
-    "howToPlay": "使用方向键（或在手机上滑动）向该方向滑动所有方块。相同数值的方块碰撞时会合并。每次移动后会出现一个新方块（2或4）。当无法再移动时游戏结束。",
+    "desc": "滑动合并数字方块达到2048",
+    "description": "2048是一款令人上瘾的滑块数字谜题游戏，曾风靡全网！在4×4的网格上向任意方向滑动数字方块。当两个相同数字的方块相撞时，它们会合并成一个，数值为两者之和。从2和4开始，看着你的方块指数级增长，目标是创造难以捉摸的2048方块。简单易学却几乎无法精通，这款游戏会让你一次又一次地挑战！",
+    "objectives": "通过滑动合并相同数字的方块来创造越来越大的数字。你的终极目标是创造一个2048数字的方块，但即使达成这个里程碑游戏还会继续。你能走多远？",
+    "howToPlay": "使用方向键或滑动屏幕将所有方块向一个方向移动。当两个相同数字的方块相碰时，它们会合并成一个。每次移动后会生成新方块（2或4）。尝试达到2048方块！",
+    "rules": {
+      "controls": "在电脑上使用方向键（↑ ↓ ← →）或在手机上向任意方向滑动来一次移动所有方块。所有方块会在选定方向上尽可能远地滑动。",
+      "mechanics": [
+        "所有方块在选定方向上滑动直到被阻挡",
+        "当两个相同数字的方块碰撞时，它们合并成它们的和",
+        "每次合并得分等于新方块的数值",
+        "每次移动后会出现新方块（90%概率是2，10%概率是4）",
+        "当无法移动时游戏结束"
+      ],
+      "features": [
+        "撤销功能 - 撤回上一步移动",
+        "分数追踪 - 看着分数攀升",
+        "最高分 - 打破你的个人记录",
+        "无尽模式 - 超过2048后继续游戏"
+      ]
+    },
     "tips": [
-      "将最大的方块保持在角落，并在周围构建",
-      "永远不要将最大的方块移出角落",
-      "尽量让方块沿一条边按降序排列",
-      "提前规划——每一步都会影响整个棋盘"
+      "把最大的数字保持在角落",
+      "按蛇形模式朝角落方向构建数字",
+      "避免朝高价值角落的相反方向移动方块",
+      "提前规划几步以避免填满棋盘"
+    ],
+    "faq": [
+      {
+        "question": "是否可能每次都赢2048？",
+        "answer": "使用最优策略，达到2048是可行的。但由于随机方块位置，并非每局都能保证获胜。"
+      },
+      {
+        "question": "达到2048后会发生什么？",
+        "answer": "恭喜！你可以继续游戏达到更高的数字如4096、8192等。只有当无法移动时游戏才会结束。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "把最高数字保持在角落并向它构建。许多玩家偏好左下角，并避免按上键。"
+      },
+      {
+        "question": "为什么我总是输？",
+        "answer": "专注于保持大数字在一起，避免创建分散的大数字。练习和耐心是关键！"
+      }
     ]
   }
 }

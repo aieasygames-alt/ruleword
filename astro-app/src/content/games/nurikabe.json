@@ -7,23 +7,95 @@
   "en": {
     "name": "Nurikabe",
     "desc": "Build walls to form islands! Numbered cells indicate island size. Islands contain exactly one number and never touch each other. Pure logic puzzle!",
+    "description": "Nurikabe is the Japanese logic puzzle that challenges you to build an archipelago! Each numbered cell is an island, and the number shows how many cells that island occupies. Surround these islands with a continuous ocean of black cells (walls). Islands can never touch each other, all water must connect, and no 2×2 black areas are allowed. A perfect blend of spatial reasoning and logical deduction!",
+    "objectives": "Shade cells to create a continuous ocean (black cells) surrounding numbered islands. Each numbered cell shows its island's size. Islands must not touch each other. All black cells must connect. No 2×2 blocks of black cells allowed!",
     "howToPlay": "Click cells to toggle between empty (gray), black (wall), or white (island). Each number shows its island's size. Islands can't touch. All walls must connect. No 2x2 black blocks.",
+    "rules": {
+      "controls": "Click on cells to toggle them between island (white), ocean (black), and undetermined. Each numbered cell must be part of an island of exactly that size. Islands cannot share edges.",
+      "mechanics": [
+        "Each number = island size",
+        "Islands never touch (orthogonally)",
+        "All black cells must connect",
+        "No 2×2 black blocks allowed",
+        "Every island has exactly one number"
+      ],
+      "features": [
+        "Island Building - Create archipelagos",
+        "Wall Connection - Continuous ocean",
+        "Unique Solution - One right answer",
+        "Spatial Reasoning - Visual logic"
+      ]
+    },
     "tips": [
       "Start with small numbers (1, 2) - they have limited options",
       "Islands can't touch, so mark boundaries with black",
       "Keep walls connected to avoid isolated areas",
       "Never create 2x2 black blocks"
+    ],
+    "faq": [
+      {
+        "question": "What's the key Nurikabe strategy?",
+        "answer": "Start with 1s—they must be isolated, surrounded by black. Then expand from each number, remembering that islands can't touch. Always keep the ocean (black cells) connected and avoid 2×2 black squares."
+      },
+      {
+        "question": "Why no 2×2 black blocks?",
+        "answer": "The 2×2 rule prevents simply filling everything with black. It forces you to create interesting island shapes and ensures puzzles have unique solutions. It's a key constraint for logical deduction."
+      },
+      {
+        "question": "How do I know if black cells are connected?",
+        "answer": "You should be able to trace a path through black cells from any black cell to any other without crossing white islands. If you create isolated black areas, the puzzle is unsolvable."
+      },
+      {
+        "question": "Can islands touch diagonally?",
+        "answer": "Yes! Islands cannot share an edge (orthogonal contact), but diagonal touching is fine. This is an important distinction that allows more complex island shapes."
+      }
     ]
   },
   "zh": {
     "name": "数墙",
     "desc": "建造墙壁形成岛屿！数字格子表示岛屿大小。每个岛屿只包含一个数字，岛屿之间互不接触。纯粹逻辑谜题！",
+    "description": "数墙是挑战你建造群岛的日本逻辑谜题！每个编号单元格是一个岛屿，数字显示该岛屿占据多少单元格。用连续的黑色单元格（墙）海洋包围这些岛屿。岛屿永远不能彼此接触，所有水必须连接，不允许2×2黑色区域。空间推理和逻辑推理的完美结合！",
+    "objectives": "涂黑单元格创建连续的海洋（黑色单元格）包围编号的岛屿。每个编号单元格显示其岛屿的大小。岛屿不能彼此接触。所有黑色单元格必须连接。不允许2×2黑色块！",
     "howToPlay": "点击格子将其涂黑或留白。每个岛屿必须恰好包含一个数字。岛屿大小必须等于其数字。黑色格子（海）必须全部连通。没有两个岛屿可以相邻。",
+    "rules": {
+      "controls": "点击单元格在岛屿（白色）、海洋（黑色）和未确定之间切换。每个编号单元格必须是恰好该大小的岛屿的一部分。岛屿不能共享边缘。",
+      "mechanics": [
+        "每个数字 = 岛屿大小",
+        "岛屿永不接触（正交）",
+        "所有黑色单元格必须连接",
+        "不允许2×2黑色块",
+        "每个岛屿恰好有一个数字"
+      ],
+      "features": [
+        "岛屿建造 - 创建群岛",
+        "墙壁连接 - 连续海洋",
+        "独特解决方案 - 一个正确答案",
+        "空间推理 - 视觉逻辑"
+      ]
+    },
     "tips": [
       "从角上的大数字开始",
       "黑色格子不能形成2×2区域",
       "每个岛屿必须恰好包含一个数字",
       "所有黑色格子必须连通"
+    ],
+    "faq": [
+      {
+        "question": "数墙的关键策略是什么？",
+        "answer": "从1开始——它们必须被孤立，被黑色包围。然后从每个数字扩展，记住岛屿不能接触。始终保持海洋（黑色单元格）连接，避免2×2黑色方块。"
+      },
+      {
+        "question": "为什么没有2×2黑色块？",
+        "answer": "2×2规则防止简单地用黑色填充所有内容。它强迫你创建有趣的岛屿形状，确保谜题有独特解决方案。这是逻辑推理的关键约束。"
+      },
+      {
+        "question": "我怎么知道黑色单元格是否连接？",
+        "answer": "你应该能够通过黑色单元格从任何黑色单元格追踪路径到任何其他，而不穿过白色岛屿。如果你创建了孤立的黑色区域，谜题就无法解决。"
+      },
+      {
+        "question": "岛屿可以对角接触吗？",
+        "answer": "是的！岛屿不能共享边缘（正交接触），但对角接触是可以的。这是一个重要的区别，允许更复杂的岛屿形状。"
+      }
     ]
   }
 }

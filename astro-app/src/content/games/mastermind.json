@@ -7,24 +7,98 @@
   "color": "from-fuchsia-500 to-pink-600",
   "en": {
     "name": "Mastermind",
-    "desc": "Crack the secret code! You have 8 attempts to guess the correct color sequence. Use peg feedback to deduce the right combination. Classic code-breaking fun!",
+    "desc": "Crack the secret color code",
+    "description": "Mastermind is the classic code-breaking board game that has challenged logical thinkers since 1970! Your mission is to crack a secret code of colored pegs using deduction and strategic thinking. After each guess, feedback pegs reveal how close you are—black pegs mean correct color in correct position, white pegs mean correct color in wrong position. With only 8 attempts to find the solution, every guess counts in this battle of wits!",
+    "objectives": "Deduce the secret 4-color code within 8 attempts using logical reasoning. Analyze the feedback from each guess to narrow down possibilities and crack the code before running out of tries.",
     "howToPlay": "Select 4 colors to make your guess. After submitting, you'll see feedback: green dots mean correct color in correct position, white dots mean correct color in wrong position. Use this feedback to deduce the secret code.",
+    "rules": {
+      "controls": "Click on color buttons to select colors for each position in your 4-peg code. Click Submit when ready. Use the feedback to refine your next guess.",
+      "mechanics": [
+        "The secret code consists of 4 colors in a specific order",
+        "Colors may repeat in the code",
+        "After each guess, you receive feedback pegs",
+        "Green/Black peg = correct color, correct position",
+        "White peg = correct color, wrong position",
+        "You have 8 attempts to crack the code"
+      ],
+      "features": [
+        "Color Feedback - Visual clues guide deduction",
+        "8 Attempts - Balance risk and information gathering",
+        "Multiple Colors - Various combinations to deduce",
+        "Pure Logic - No luck, just reasoning skills"
+      ]
+    },
     "tips": [
       "Start with 4 different colors to maximize information",
       "Pay attention to which colors are completely absent",
       "Remember that colors can repeat in the code",
       "Systematically test color positions based on feedback"
+    ],
+    "faq": [
+      {
+        "question": "Can colors repeat in the code?",
+        "answer": "Yes! The secret code can contain the same color multiple times. For example, RED-RED-BLUE-GREEN is a valid code."
+      },
+      {
+        "question": "What's the best first guess?",
+        "answer": "Many players use 4 different colors (like RED-BLUE-GREEN-YELLOW) to maximize information from the first guess feedback."
+      },
+      {
+        "question": "How do I interpret the white pegs?",
+        "answer": "White pegs tell you that a color is in the code but in the wrong position. Use process of elimination to figure out which color goes where."
+      },
+      {
+        "question": "Is Mastermind always solvable in 8 moves?",
+        "answer": "With optimal play, yes! Mathematical analysis shows that any code can be cracked in 5 or fewer guesses with perfect strategy."
+      }
     ]
   },
   "zh": {
     "name": "密码破译",
-    "desc": "破解密码！8次机会猜测正确的颜色序列。利用反馈推断正确组合。经典密码破解乐趣！",
+    "desc": "破解秘密颜色代码",
+    "description": "密码破译（Mastermind）是自1970年以来挑战逻辑思维者的经典密码破解棋盘游戏！你的任务是使用推理和策略思维破解一个由彩色钉子组成的密码。每次猜测后，反馈钉子会告诉你有多接近——黑色钉子表示颜色和位置都正确，白色钉子表示颜色正确但位置错误。只有8次机会找到答案，每一步猜测都在这场智力较量中至关重要！",
+    "objectives": "在8次尝试内通过逻辑推理推断出4色密码。分析每次猜测的反馈来缩小可能性范围，在用完尝试次数前破解密码。",
     "howToPlay": "选择4种颜色进行猜测。提交后，你会看到反馈：绿色圆点表示颜色和位置都正确，白色圆点表示颜色正确但位置错误。利用这些反馈推断出秘密密码。",
+    "rules": {
+      "controls": "点击颜色按钮为你的4钉代码中的每个位置选择颜色。准备好后点击提交。利用反馈来优化你的下一次猜测。",
+      "mechanics": [
+        "密码由4种特定顺序的颜色组成",
+        "颜色可以在密码中重复",
+        "每次猜测后，你会收到反馈钉子",
+        "绿色/黑色钉 = 颜色正确，位置正确",
+        "白色钉 = 颜色正确，位置错误",
+        "你有8次尝试来破解密码"
+      ],
+      "features": [
+        "颜色反馈 - 视觉线索指导推理",
+        "8次尝试 - 平衡风险和信息收集",
+        "多种颜色 - 各种组合需要推断",
+        "纯逻辑 - 不靠运气，只靠推理能力"
+      ]
+    },
     "tips": [
       "首先使用4种不同的颜色以获取最多信息",
       "注意哪些颜色完全不出现",
       "记住颜色可以在密码中重复",
       "根据反馈系统地测试颜色位置"
+    ],
+    "faq": [
+      {
+        "question": "密码中颜色可以重复吗？",
+        "answer": "可以！密码可以包含相同颜色多次。例如，红-红-蓝-绿是一个有效的密码。"
+      },
+      {
+        "question": "最佳的第一步猜测是什么？",
+        "answer": "许多玩家使用4种不同的颜色（如红-蓝-绿-黄）来从第一次猜测的反馈中获取最多信息。"
+      },
+      {
+        "question": "如何解读白色钉子？",
+        "answer": "白色钉子告诉你某个颜色在密码中但位置错误。使用排除法找出哪种颜色属于哪个位置。"
+      },
+      {
+        "question": "密码破译是否总能在8步内解决？",
+        "answer": "使用最优策略可以！数学分析表明，任何密码都可以在5步或更少的猜测内破解。"
+      }
     ]
   }
 }

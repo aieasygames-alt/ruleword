@@ -7,24 +7,96 @@
   "color": "from-green-500 to-emerald-600",
   "en": {
     "name": "Centipede",
-    "desc": "Classic arcade shooter! Destroy the centipede segment by segment as it winds through mushrooms. Fast-paced action inspired by the Atari classic!",
+    "desc": "Destroy the centipede segment by segment",
+    "description": "Centipede is the classic 1981 Atari arcade shooter that captivated a generation! A segmented centipede winds its way down through a field of mushrooms toward your ship at the bottom. Shoot each segment to break it apart, but beware—the pieces become independent threats! Along with fleas, spiders, and scorpions, this fast-paced action game requires quick reflexes and strategic shooting!",
+    "objectives": "Destroy the centipede and all its segments before they reach the bottom of the screen. Clear each wave to advance to increasingly challenging levels. Avoid enemy creatures while shooting strategically through the mushroom field!",
     "howToPlay": "Use Arrow Keys to move your ship left and right. Press Spacebar to shoot upward. Destroy centipede segments before they reach you. Shoot mushrooms to clear paths!",
+    "rules": {
+      "controls": "Arrow keys move your ship horizontally at the bottom of the screen. Spacebar fires your laser upward. You can only move left and right—no vertical movement.",
+      "mechanics": [
+        "Centipede winds through mushrooms toward you",
+        "Shooting a segment splits the centipede",
+        "Mushrooms can be destroyed or block shots",
+        "Fleas drop from above when few mushrooms remain",
+        "Spiders jump around unpredictably"
+      ],
+      "features": [
+        "Classic Arcade Action - Authentic gameplay",
+        "Multiple Enemies - Centipede, flea, spider, scorpion",
+        "Progressive Difficulty - Each wave harder",
+        "High Score Tracking - Beat your best"
+      ]
+    },
     "tips": [
       "Focus on the head of the centipede first",
       "Mushrooms can block your shots - clear them wisely",
       "The centipede speeds up as it gets smaller",
       "Stay in the center for maximum coverage"
+    ],
+    "faq": [
+      {
+        "question": "What happens when I shoot a centipede segment?",
+        "answer": "The segment becomes a mushroom, and the centipede splits. Each piece continues independently, creating multiple threats to track!"
+      },
+      {
+        "question": "Why do fleas appear?",
+        "answer": "Fleas drop from the top when there are too few mushrooms in the player area. They create new mushrooms as they fall, restoring the field."
+      },
+      {
+        "question": "What do scorpions do?",
+        "answer": "Scorpions crawl across the middle of the screen, poisoning mushrooms they touch. A poisoned mushroom sends the centipede into a frenzied dive toward the player!"
+      },
+      {
+        "question": "Is there a pattern to the centipede's movement?",
+        "answer": "The centipede follows a predictable path until it hits a mushroom, then drops down and reverses direction. Learning this pattern is key to positioning your shots."
+      }
     ]
   },
   "zh": {
     "name": "蜈蚣",
-    "desc": "经典街机射击游戏！在蜈蚣穿过蘑菇时逐段摧毁它。受Atari经典启发的快节奏动作！",
+    "desc": "逐段摧毁蜈蚣",
+    "description": "蜈蚣是1981年Atari街机射击游戏经典，迷住了一代人！一条分节的蜈蚣穿过蘑菇地向底部的你的飞船蜿蜒而下。射击每个环节将其分开，但要小心——碎片会变成独立威胁！还有跳蚤、蜘蛛和蝎子，这款快节奏动作游戏需要快速反应和战略性射击！",
+    "objectives": "在蜈蚣到达屏幕底部前摧毁它及其所有环节。清除每一波进入越来越具挑战性的关卡。在战略性地穿过蘑菇地射击时避开敌对生物！",
     "howToPlay": "使用方向键左右移动飞船。按空格键向上射击。在蜈蚣到达你之前摧毁它的身体段。射击蘑菇来清理路径！",
+    "rules": {
+      "controls": "方向键在屏幕底部水平移动你的飞船。空格键向上发射激光。你只能左右移动——没有垂直移动。",
+      "mechanics": [
+        "蜈蚣穿过蘑菇向你蜿蜒前进",
+        "射击环节会分裂蜈蚣",
+        "蘑菇可以被摧毁或阻挡射击",
+        "当剩余蘑菇很少时跳蚤从上方掉落",
+        "蜘蛛不可预测地跳来跳去"
+      ],
+      "features": [
+        "经典街机动作 - 正宗游戏玩法",
+        "多种敌人 - 蜈蚣、跳蚤、蜘蛛、蝎子",
+        "渐进难度 - 每波更难",
+        "高分追踪 - 打败你的最佳记录"
+      ]
+    },
     "tips": [
       "先集中攻击蜈蚣的头部",
       "蘑菇会阻挡你的射击 - 明智地清理它们",
       "蜈蚣变小时会加速",
       "保持在中心位置以获得最大覆盖范围"
+    ],
+    "faq": [
+      {
+        "question": "当我射击蜈蚣环节时会发生什么？",
+        "answer": "环节变成蘑菇，蜈蚣分裂。每个碎片独立继续，创造多个需要追踪的威胁！"
+      },
+      {
+        "question": "为什么会出现跳蚤？",
+        "answer": "当玩家区域蘑菇太少时，跳蚤从顶部掉落。它们在掉落时创造新蘑菇，恢复场地。"
+      },
+      {
+        "question": "蝎子有什么用？",
+        "answer": "蝎子在屏幕中间爬行，毒化它们接触的蘑菇。被毒化的蘑菇会让蜈蚣疯狂俯冲向玩家！"
+      },
+      {
+        "question": "蜈蚣的移动有模式吗？",
+        "answer": "蜈蚣遵循可预测的路径直到撞到蘑菇，然后下降并反转方向。学习这个模式是定位你射击的关键。"
+      }
     ]
   }
 }

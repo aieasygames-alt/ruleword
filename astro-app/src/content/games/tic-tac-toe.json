@@ -7,23 +7,95 @@
   "en": {
     "name": "Tic-Tac-Toe",
     "desc": "The simplest yet timeless game! Get three Xs or Os in a row to win. Play against a friend or the AI. Perfect for quick strategic thinking!",
+    "description": "Tic-Tac-Toe is the classic paper-and-pencil game that has taught generations about strategy! Two players take turns marking X and O on a 3×3 grid, racing to get three in a row. Despite its simple rules, the game contains deep strategic elements—forks, blocks, and optimal play patterns. It's the perfect introduction to competitive strategy games and a great way to practice tactical thinking!",
+    "objectives": "Be the first player to place three of your marks (X or O) in a horizontal, vertical, or diagonal row on the 3×3 grid. Block your opponent's winning attempts while setting up your own victory. Master the optimal strategies to never lose!",
     "howToPlay": "Players take turns placing X or O in empty cells. First to get three in a row (horizontally, vertically, or diagonally) wins. If all cells fill with no winner, it's a draw.",
+    "rules": {
+      "controls": "Click on any empty cell to place your mark. X always goes first. The game alternates between players until someone wins or the grid is full.",
+      "mechanics": [
+        "3×3 grid with 9 cells",
+        "X always makes the first move",
+        "Three in a row wins the game",
+        "Full grid with no winner is a draw",
+        "Perfect play leads to draw"
+      ],
+      "features": [
+        "Two-Player Mode - Play with a friend",
+        "AI Opponent - Challenge the computer",
+        "Quick Games - Under a minute each",
+        "Strategy Practice - Learn optimal play"
+      ]
+    },
     "tips": [
       "Always take the center if available",
       "Block opponent's winning moves immediately",
       "Create \"forks\" - two winning threats at once",
       "Corners are more valuable than edges"
+    ],
+    "faq": [
+      {
+        "question": "What's the best first move?",
+        "answer": "The center is the strongest opening because it's part of 4 winning lines. If the center is taken, any corner is equally good. Edges are the weakest opening moves."
+      },
+      {
+        "question": "Can Tic-Tac-Toe always be won?",
+        "answer": "With perfect play from both players, Tic-Tac-Toe always ends in a draw. However, most casual players make mistakes that can be exploited!"
+      },
+      {
+        "question": "What is a fork in Tic-Tac-Toe?",
+        "answer": "A fork is when you create two winning threats simultaneously. Since your opponent can only block one, you're guaranteed to win on your next move."
+      },
+      {
+        "question": "How many possible games of Tic-Tac-Toe exist?",
+        "answer": "There are 255,168 possible games of Tic-Tac-Toe, but only 26,830 unique board positions when accounting for rotations and reflections."
+      }
     ]
   },
   "zh": {
     "name": "井字棋",
     "desc": "最简单却永恒的游戏！将三个X或O连成一线获胜。与朋友或AI对战。快速战略思维的完美选择！",
+    "description": "井字棋是教会几代人策略的经典纸笔游戏！两名玩家轮流在3×3网格上标记X和O，竞相连成三个。尽管规则简单，游戏包含深刻的战略元素——叉子、阻挡和最佳玩法模式。这是竞技策略游戏的完美入门，也是练习战术思维的好方法！",
+    "objectives": "成为第一个在3×3网格的水平、垂直或对角线上放置三个标记（X或O）的玩家。阻止对手的获胜尝试，同时设置自己的胜利。掌握最佳策略永远不输！",
     "howToPlay": "玩家轮流在空格中放置X或O。首先连成三个（水平、垂直或对角线）的获胜。如果所有格都填满但没有获胜者，就是平局。",
+    "rules": {
+      "controls": "点击任何空格放置你的标记。X总是先走。游戏在玩家之间交替，直到有人获胜或网格填满。",
+      "mechanics": [
+        "3×3网格有9个格子",
+        "X总是先走",
+        "三个连成一线获胜",
+        "网格填满无获胜者为平局",
+        "完美对局导致平局"
+      ],
+      "features": [
+        "双人对战模式 - 与朋友一起玩",
+        "AI对手 - 挑战电脑",
+        "快速游戏 - 每局不到一分钟",
+        "策略练习 - 学习最佳玩法"
+      ]
+    },
     "tips": [
       "如果可能，总是占据中心",
       "立即阻止对手的获胜动作",
       "创造\"叉子\"——同时两个获胜威胁",
       "角比边更有价值"
+    ],
+    "faq": [
+      {
+        "question": "最佳的第一步是什么？",
+        "answer": "中心是最强的开局，因为它是4条获胜线的一部分。如果中心被占，任何角都同样好。边是最弱的开局。"
+      },
+      {
+        "question": "井字棋总是能赢吗？",
+        "answer": "如果双方都完美发挥，井字棋总是以平局结束。但是，大多数休闲玩家会犯错，这些错误可以被利用！"
+      },
+      {
+        "question": "井字棋中的叉子是什么？",
+        "answer": "叉子是你同时创造两个获胜威胁。因为你的对手只能阻挡一个，你保证在下一步获胜。"
+      },
+      {
+        "question": "井字棋有多少种可能的对局？",
+        "answer": "井字棋有255,168种可能的对局，但考虑到旋转和反射，只有26,830个独特的棋盘位置。"
+      }
     ]
   }
 }

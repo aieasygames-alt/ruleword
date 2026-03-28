@@ -7,14 +7,96 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Memory Matrix",
-    "desc": "Memorize and recreate grid patterns! Watch the pattern flash, then click to recreate it. Difficulty increases with grid size and complexity.",
-    "howToPlay": "",
-    "tips": []
+    "desc": "Memorize and recreate grid patterns",
+    "description": "Memory Matrix is a visual memory training game that challenges you to remember increasingly complex patterns! Watch as tiles light up in a sequence, then recreate the exact pattern from memory. Starting with simple 3×3 grids, the difficulty scales up to larger grids and more complex patterns. This brain training exercise strengthens your visual-spatial memory and pattern recognition abilities!",
+    "objectives": "Memorize the pattern of highlighted tiles shown briefly on the grid, then click to recreate the exact same pattern. Complete levels to progress to larger grids and more challenging patterns. Track your best performance!",
+    "howToPlay": "Watch the pattern flash on the grid. When it disappears, click on the tiles that were highlighted. Get the pattern correct to advance to the next level.",
+    "rules": {
+      "controls": "After viewing the pattern, click on the cells that were highlighted. Click again to deselect if needed. Submit your answer when ready.",
+      "mechanics": [
+        "Pattern displays briefly then disappears",
+        "Click cells to recreate the pattern from memory",
+        "Correct patterns advance you to harder levels",
+        "Grid size increases as you progress",
+        "Scoring based on accuracy and speed"
+      ],
+      "features": [
+        "Progressive Difficulty - Larger grids, more tiles",
+        "Visual Feedback - Instant correct/incorrect",
+        "Level Tracking - See how far you've come",
+        "Best Score - Track your personal record"
+      ]
+    },
+    "tips": [
+      "Create a mental story connecting the tile positions",
+      "Group tiles into shapes or patterns",
+      "Start at corners and edges as reference points",
+      "Practice daily for noticeable improvement"
+    ],
+    "faq": [
+      {
+        "question": "How can I remember more tiles?",
+        "answer": "Use chunking—group tiles into shapes like L, T, or lines. Create mental images or stories connecting the positions. The brain remembers meaningful patterns better than random points."
+      },
+      {
+        "question": "What's a good score?",
+        "answer": "Most people can handle 5-7 tiles reliably. Reaching 9+ tiles consistently indicates above-average visual memory. Elite performers can handle 12+ tiles."
+      },
+      {
+        "question": "Does this really improve memory?",
+        "answer": "Yes! Regular practice strengthens visual-spatial working memory. Studies show memory training games can improve performance on related cognitive tasks."
+      },
+      {
+        "question": "Why do patterns disappear so quickly?",
+        "answer": "Brief display forces you to use working memory rather than memorization techniques. This is what makes the exercise effective for brain training."
+      }
+    ]
   },
   "zh": {
     "name": "矩阵记忆",
-    "desc": "记忆并重现网格图案！观察闪烁的图案，然后点击重现它。难度随网格大小和复杂性增加。",
-    "howToPlay": "",
-    "tips": []
+    "desc": "记忆并重现网格图案",
+    "description": "矩阵记忆是一款视觉记忆训练游戏，挑战你记住越来越复杂的图案！观看格子按序列亮起，然后凭记忆重现确切的图案。从简单的3×3网格开始，难度逐渐增加到更大的网格和更复杂的图案。这个大脑训练练习增强你的视觉空间记忆和模式识别能力！",
+    "objectives": "记住网格上短暂显示的高亮格子图案，然后点击重现完全相同的图案。完成关卡进入更大的网格和更具挑战性的图案。追踪你的最佳表现！",
+    "howToPlay": "观察网格上闪烁的图案。当它消失时，点击之前高亮的格子。正确重现图案即可进入下一关。",
+    "rules": {
+      "controls": "观看图案后，点击之前高亮的格子。再次点击可以取消选择。准备好后提交答案。",
+      "mechanics": [
+        "图案短暂显示后消失",
+        "点击格子凭记忆重现图案",
+        "正确的图案让你进入更难的关卡",
+        "网格大小随进度增加",
+        "得分基于准确率和速度"
+      ],
+      "features": [
+        "渐进难度 - 更大的网格，更多格子",
+        "视觉反馈 - 即时正确/错误提示",
+        "关卡追踪 - 看看你走了多远",
+        "最佳分数 - 追踪你的个人记录"
+      ]
+    },
+    "tips": [
+      "创建连接格子位置的心理故事",
+      "将格子分组为形状或模式",
+      "从角落和边缘开始作为参考点",
+      "每天练习以获得明显进步"
+    ],
+    "faq": [
+      {
+        "question": "如何记住更多格子？",
+        "answer": "使用分块——将格子分成L、T或线条等形状。创建连接位置的心理图像或故事。大脑记住有意义的模式比随机点更好。"
+      },
+      {
+        "question": "什么是好的分数？",
+        "answer": "大多数人可以可靠地处理5-7个格子。持续达到9+格子表示高于平均的视觉记忆。精英表现者可以处理12+格子。"
+      },
+      {
+        "question": "这真的能改善记忆吗？",
+        "answer": "是的！定期练习增强视觉空间工作记忆。研究表明记忆训练游戏可以改善相关认知任务的表现。"
+      },
+      {
+        "question": "为什么图案消失得这么快？",
+        "answer": "短暂显示迫使你使用工作记忆而非记忆技巧。这就是使大脑训练有效的关键。"
+      }
+    ]
   }
 }

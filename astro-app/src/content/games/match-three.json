@@ -7,19 +7,96 @@
   "color": "from-purple-500 to-pink-600",
   "en": {
     "name": "Match-3",
-    "desc": "Swap adjacent gems to match 3 or more in a row! Create combos and chain reactions for bonus points. The most popular casual game mechanic!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "三消游戏",
-    "desc": "交换相邻宝石匹配3个或更多！创造连击和连锁反应获得额外分数。最流行的休闲游戏机制！",
+    "desc": "Swap gems to match 3 or more",
+    "description": "Match-3 is the addictive puzzle mechanic that has captivated casual gamers worldwide! Swap adjacent gems to create lines of 3 or more matching colors. Matched gems disappear in a satisfying cascade, with new gems falling from above. Create combos and chain reactions for massive bonus points. Simple to start, endlessly engaging—this is the definitive casual puzzle experience!",
+    "objectives": "Reach the target score before running out of moves by matching gems. Create longer matches (4 or 5 gems) for special power-ups. Chain combos together for maximum points and spectacular cascades!",
     "howToPlay": "Click on a gem, then click an adjacent gem to swap them. Match 3 or more gems of the same color to remove them. New gems fall from above. Reach the target score before running out of moves.",
+    "rules": {
+      "controls": "Click on a gem to select it, then click an adjacent gem to swap their positions. Only swaps that create a match of 3+ are allowed. Drag-and-drop also works.",
+      "mechanics": [
+        "Match 3+ gems of the same color in a row or column",
+        "Matched gems disappear and new gems fall from above",
+        "Match 4 gems to create a special gem (clears row/column)",
+        "Match 5 gems for a powerful rainbow gem",
+        "Combos: Chain reactions score bonus multipliers"
+      ],
+      "features": [
+        "Special Gems - Created by matching 4+ gems",
+        "Cascade Combos - Chain reactions for bonus points",
+        "Move Limit - Strategic resource management",
+        "Target Score - Clear goals to achieve"
+      ]
+    },
     "tips": [
       "Look for matches at the bottom to trigger chain reactions",
       "Plan moves that create multiple matches simultaneously",
       "Save special gems for when you really need them",
       "Focus on completing objectives over high scores"
+    ],
+    "faq": [
+      {
+        "question": "What do special gems do?",
+        "answer": "Match 4 gems creates a line-clearing gem. Match 5 creates a rainbow gem that clears all gems of one color. Special combinations have unique effects!"
+      },
+      {
+        "question": "How do combos work?",
+        "answer": "When gems fall and create new matches automatically, each consecutive match in the chain adds a score multiplier. Longer chains = bigger bonuses!"
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Focus on creating special gems rather than basic 3-matches. Look for opportunities to set up chain reactions. Bottom-of-board matches often trigger cascades."
+      },
+      {
+        "question": "Can I swap any two gems?",
+        "answer": "Only adjacent gems can be swapped, and the swap must create at least one match of 3 or more. Invalid swaps are rejected."
+      }
+    ]
+  },
+  "zh": {
+    "name": "三消游戏",
+    "desc": "交换宝石匹配3个或更多",
+    "description": "三消游戏是风靡全球休闲玩家的令人上瘾的益智机制！交换相邻宝石创建3个或更多相同颜色的连线。匹配的宝石在令人满足的连锁中消失，新宝石从上方落下。创造连击和连锁反应获得大量奖励分数。简单上手，无尽吸引——这是终极休闲益智体验！",
+    "objectives": "在用完移动次数前通过匹配宝石达到目标分数。创建更长的匹配（4或5个宝石）获得特殊能力道具。将连击串联起来获得最高分和壮观的连锁！",
+    "howToPlay": "点击宝石，然后点击相邻宝石交换它们。匹配3个或更多相同颜色的宝石来消除它们。新宝石从上方落下。在用完移动次数前达到目标分数。",
+    "rules": {
+      "controls": "点击宝石选中它，然后点击相邻宝石交换它们的位置。只有能创建3+匹配的交换才被允许。拖放也可以。",
+      "mechanics": [
+        "在行或列中匹配3+个相同颜色的宝石",
+        "匹配的宝石消失，新宝石从上方落下",
+        "匹配4个宝石创建特殊宝石（清除行/列）",
+        "匹配5个宝石获得强大的彩虹宝石",
+        "连击：连锁反应获得奖励倍数"
+      ],
+      "features": [
+        "特殊宝石 - 通过匹配4+宝石创建",
+        "连锁连击 - 连锁反应获得奖励分数",
+        "移动限制 - 战略资源管理",
+        "目标分数 - 明确的目标要达成"
+      ]
+    },
+    "tips": [
+      "寻找底部的匹配以触发连锁反应",
+      "规划同时创造多个匹配的移动",
+      "把特殊宝石留到真正需要的时候",
+      "专注于完成目标而非高分"
+    ],
+    "faq": [
+      {
+        "question": "特殊宝石有什么用？",
+        "answer": "匹配4个宝石创建行清除宝石。匹配5个创建彩虹宝石清除一种颜色的所有宝石。特殊组合有独特效果！"
+      },
+      {
+        "question": "连击如何工作？",
+        "answer": "当宝石落下并自动创建新匹配时，链条中每个连续匹配增加得分倍数。更长的链条=更大的奖励！"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "专注于创建特殊宝石而非基础3消。寻找设置连锁反应的机会。棋盘底部的匹配通常会触发连锁。"
+      },
+      {
+        "question": "我可以交换任意两个宝石吗？",
+        "answer": "只有相邻的宝石可以交换，且交换必须创建至少一个3或更多的匹配。无效交换会被拒绝。"
+      }
     ]
   }
 }

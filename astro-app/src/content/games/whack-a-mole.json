@@ -7,23 +7,95 @@
   "en": {
     "name": "Whack-a-Mole",
     "desc": "Test your reflexes! Moles pop up randomly - hit them before they disappear. A carnival classic that tests hand-eye coordination!",
+    "description": "Whack-a-Mole is the classic carnival arcade game that tests your reflexes and hand-eye coordination! Moles pop up randomly from their holes, and you must hit them before they duck back down. As you progress, the moles appear faster and stay visible for shorter periods. This fast-paced reaction game is perfect for training quick reflexes while having fun. Can you keep up with the increasing speed?",
+    "objectives": "Hit as many moles as possible before they disappear back into their holes. Score points for each successful whack, and try to maintain accuracy as the speed increases. Don't miss too many moles or the game ends!",
     "howToPlay": "Click or tap moles as they pop up from their holes. You score points for each mole you hit. Miss too many and the game ends. Speed increases as you progress!",
+    "rules": {
+      "controls": "Click or tap on moles as soon as they appear. Some versions may have special moles that should not be hit. Each successful hit scores points.",
+      "mechanics": [
+        "Moles pop up randomly from holes",
+        "Hit moles before they disappear",
+        "Speed increases over time",
+        "Miss too many and game ends",
+        "Some moles may be bonus or penalty"
+      ],
+      "features": [
+        "Random Appearances - Unpredictable gameplay",
+        "Progressive Speed - Gets faster as you play",
+        "Score Tracking - Beat your personal best",
+        "Combo Bonuses - Hit consecutive moles"
+      ]
+    },
     "tips": [
       "Keep your eyes moving across all holes",
       "Don't fixate on one area",
       "Use quick, light taps rather than firm clicks",
       "Stay relaxed for faster reactions"
+    ],
+    "faq": [
+      {
+        "question": "How can I improve my reaction time?",
+        "answer": "Stay relaxed, keep your cursor positioned near the center of the playing field, and use peripheral vision to detect movement across all holes. Regular practice also helps build faster reflexes."
+      },
+      {
+        "question": "Are there different types of moles?",
+        "answer": "Many versions include regular moles for points, golden moles for bonus points, and sometimes 'bad' characters like bombs or angry moles that should not be hit. Watch for visual differences!"
+      },
+      {
+        "question": "What's a good score?",
+        "answer": "Scores vary by game version, but hitting 80%+ of moles is generally considered good. High-level players can often achieve 90%+ accuracy even at fast speeds."
+      },
+      {
+        "question": "Does playing Whack-a-Mole help with reflexes?",
+        "answer": "Yes! The game trains visual reaction time, hand-eye coordination, and peripheral awareness. While it's entertainment, regular play can help maintain quick reflexes."
+      }
     ]
   },
   "zh": {
     "name": "打地鼠",
     "desc": "测试你的反应！地鼠随机冒出 - 在它们消失前击打它们。测试手眼协调的嘉年华经典！",
+    "description": "打地鼠是测试你的反应和手眼协调的经典嘉年华街机游戏！地鼠从洞中随机冒出，你必须在它们缩回去之前击打它们。随着你的进步，地鼠出现得更快，停留时间更短。这款快节奏的反应游戏非常适合在玩乐的同时训练快速反应。你能跟上越来越快的速度吗？",
+    "objectives": "在地鼠消失回洞中之前尽可能多击打。每次成功击打得分数，随着速度增加尝试保持准确率。不要错过太多地鼠，否则游戏结束！",
     "howToPlay": "点击探出的地鼠得分。有些地鼠是假的——不要击打！地鼠出现时间有限。反应越快得分越高。",
+    "rules": {
+      "controls": "地鼠出现时立即点击或轻触它们。一些版本可能有不应该击打的特殊地鼠。每次成功击打得分。",
+      "mechanics": [
+        "地鼠从洞中随机冒出",
+        "在地鼠消失前击打它们",
+        "速度随时间增加",
+        "错过太多游戏结束",
+        "一些地鼠可能是奖励或惩罚"
+      ],
+      "features": [
+        "随机出现 - 不可预测的游戏玩法",
+        "渐进速度 - 随着游戏变快",
+        "分数追踪 - 打败你的个人最佳",
+        "连击奖励 - 连续击打地鼠"
+      ]
+    },
     "tips": [
       "保持专注扫描所有洞",
       "不要击打友好地鼠",
       "优先击打高价值地鼠",
       "保持稳定节奏而非匆忙点击"
+    ],
+    "faq": [
+      {
+        "question": "如何提高我的反应时间？",
+        "answer": "保持放松，将光标保持在场地中心附近，使用周边视觉来检测所有洞的移动。定期练习也有助于建立更快的反射神经。"
+      },
+      {
+        "question": "有不同类型的地鼠吗？",
+        "answer": "许多版本包括普通地鼠得分、金色地鼠奖励分数，有时还有不应该击打的'坏'角色如炸弹或愤怒的地鼠。注意视觉差异！"
+      },
+      {
+        "question": "什么是好分数？",
+        "answer": "分数因游戏版本而异，但击中80%以上的地鼠通常被认为是好的。高级玩家即使在快速时也能达到90%以上的准确率。"
+      },
+      {
+        "question": "玩打地鼠对反应有帮助吗？",
+        "answer": "是的！游戏训练视觉反应时间、手眼协调和周边意识。虽然它是娱乐，但定期玩可以帮助保持快速反应。"
+      }
     ]
   }
 }

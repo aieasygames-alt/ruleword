@@ -7,23 +7,95 @@
   "en": {
     "name": "Fillomino",
     "desc": "Divide the grid into regions! Fill each cell with a number equal to its region size. Same-sized regions cannot share an edge. A polyomino puzzle!",
+    "description": "Fillomino is the creative region-dividing puzzle from Japan! Fill every cell with a number, where same numbers form connected regions (polyominoes). Each region's size must equal the number it contains. But here's the twist: different regions of the same number CANNOT share an edge. This creates fascinating logical challenges as you balance region sizes with placement constraints!",
+    "objectives": "Fill the entire grid with numbers such that each number forms a connected region of exactly that size. Different regions with the same number cannot be orthogonally adjacent. Every cell must belong to exactly one region!",
     "howToPlay": "Click a cell and enter a number (1-9). Same numbers must form connected regions. Each region size must equal its number. Different regions with the same number cannot touch.",
+    "rules": {
+      "controls": "Click on a cell and type a number (1-9) to fill it. Connected cells with the same number form a region. Each region must contain exactly as many cells as its number indicates. Same-numbered different regions cannot share edges.",
+      "mechanics": [
+        "Same numbers = same region",
+        "Region size = the number itself",
+        "Same-number regions can't touch",
+        "All cells must be filled",
+        "Regions must be connected (orthogonal)"
+      ],
+      "features": [
+        "Region Division - Create polyominoes",
+        "Number Logic - Size equals value",
+        "Creative Solving - Multiple approaches",
+        "Unique Solutions - One correct answer"
+      ]
+    },
     "tips": [
       "Given numbers are anchors - regions must match their value",
       "Small regions (1, 2) are easiest to place first",
       "Watch for conflicts where same-numbered regions would touch",
       "Count cells carefully - each region needs exactly its number of cells"
+    ],
+    "faq": [
+      {
+        "question": "Can two regions with the same number touch?",
+        "answer": "No! This is the key rule that makes Fillomino unique. Two separate regions with the same number cannot share an edge (orthogonal contact). Diagonal contact is fine. This constraint is crucial for solving."
+      },
+      {
+        "question": "How do I know where regions end?",
+        "answer": "Each region must contain exactly the number of cells shown by its number. A region of 5s must have exactly 5 cells. When a region reaches its size, all adjacent cells must have different numbers."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Look for given numbers that constrain each other. Small regions (1s, 2s) are often forced. Also look for areas where large regions must extend—there's only one way to fit them without touching same-number regions."
+      },
+      {
+        "question": "Can I have unfilled cells?",
+        "answer": "No, every cell must be filled with a number and belong to exactly one region. The puzzle is complete only when the entire grid is properly divided into regions following all rules."
+      }
     ]
   },
   "zh": {
     "name": "填满分",
     "desc": "将网格划分为区域！每个格子填入等于其区域大小的数字。相同大小的区域不能共享边。多连块谜题！",
+    "description": "填满分是来自日本的创意区域划分谜题！用数字填充每个单元格，相同的数字形成连接区域（多连块）。每个区域的大小必须等于它包含的数字。但转折是：相同数字的不同区域不能共享边缘。这创造了迷人的逻辑挑战，你平衡区域大小与放置约束！",
+    "objectives": "用数字填充整个网格，使每个数字形成恰好该大小的连接区域。具有相同数字的不同区域不能正交相邻。每个单元格必须恰好属于一个区域！",
     "howToPlay": "点击单元格并输入数字（1-9）。相同数字必须形成连通区域。每个区域的大小必须等于其数字。不同区域不能有相同数字且相邻。",
+    "rules": {
+      "controls": "点击单元格并输入数字（1-9）来填充它。具有相同数字的连接单元格形成一个区域。每个区域必须恰好包含其数字指示的单元格数量。相同数字的不同区域不能共享边缘。",
+      "mechanics": [
+        "相同数字 = 相同区域",
+        "区域大小 = 数字本身",
+        "相同数字区域不能接触",
+        "所有单元格必须填充",
+        "区域必须连接（正交）"
+      ],
+      "features": [
+        "区域划分 - 创建多连块",
+        "数字逻辑 - 大小等于值",
+        "创意解决 - 多种方法",
+        "独特解决方案 - 一个正确答案"
+      ]
+    },
     "tips": [
       "给定数字是锚点——区域必须匹配其值",
       "小区域（1、2）最容易放置",
       "注意相同数字区域可能接触的冲突",
       "仔细计数——每个区域需要恰好其数字数量的格子"
+    ],
+    "faq": [
+      {
+        "question": "两个相同数字的区域可以接触吗？",
+        "answer": "不可以！这是使填满分独特的关键规则。两个具有相同数字的独立区域不能共享边缘（正交接触）。对角接触是可以的。这个约束对于解决至关重要。"
+      },
+      {
+        "question": "我怎么知道区域在哪里结束？",
+        "answer": "每个区域必须恰好包含其数字显示的单元格数量。5的区域必须恰好有5个单元格。当区域达到其大小时，所有相邻单元格必须有不同数字。"
+      },
+      {
+        "question": "最佳起始策略是什么？",
+        "answer": "寻找相互约束的给定数字。小区域（1、2）通常是强制的。还要寻找大区域必须扩展的区域——只有一种方法可以在不接触相同数字区域的情况下放置它们。"
+      },
+      {
+        "question": "我可以有空单元格吗？",
+        "answer": "不可以，每个单元格必须填充数字并恰好属于一个区域。只有当整个网格按照所有规则正确划分为区域时，谜题才算完成。"
+      }
     ]
   }
 }

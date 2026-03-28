@@ -7,18 +7,95 @@
   "en": {
     "name": "Bubble Shooter",
     "desc": "Shoot colorful bubbles to match 3 or more! Clear the board before bubbles reach the bottom. Aim carefully and create chain reactions!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "泡泡龙",
-    "desc": "发射彩色泡泡匹配3个或更多！在泡泡到达底部前清空棋盘。仔细瞄准，创造连锁反应！",
+    "description": "Bubble Shooter is the addictive puzzle game that has captivated millions! A cluster of colorful bubbles descends from the top of the screen, and you must shoot matching bubbles to create groups of three or more. When bubbles connect, they pop and disappear! Clear all bubbles before they reach the bottom line, and use clever bank shots off walls to hit tricky angles. Simple mechanics, endless satisfaction!",
+    "objectives": "Clear all bubbles from the screen by matching three or more of the same color. Aim and shoot your bubble launcher to create matching groups. Prevent bubbles from reaching the bottom danger line or the game ends!",
     "howToPlay": "Aim and click to shoot bubbles upward. Match 3 or more bubbles of the same color to pop them. Clear all bubbles to win. Don't let bubbles reach the bottom line!",
+    "rules": {
+      "controls": "Move your mouse to aim the bubble launcher. The dotted line shows your trajectory. Click to shoot the bubble. You can bounce shots off the side walls for angled positions.",
+      "mechanics": [
+        "Match 3+ same-color bubbles to pop",
+        "Disconnected bubbles fall and score bonus",
+        "New rows push down periodically",
+        "Game over if bubbles reach bottom",
+        "Clear all bubbles to complete level"
+      ],
+      "features": [
+        "Precise Aiming - Trajectory preview",
+        "Wall Bounces - Reach difficult angles",
+        "Chain Reactions - Cascade bonus points",
+        "Multiple Levels - Increasing challenge"
+      ]
+    },
     "tips": [
       "Aim for bubble clusters to maximize pops",
       "Use wall bounces to reach difficult angles",
       "Clear bubbles from the top to drop large sections",
       "Plan several shots ahead"
+    ],
+    "faq": [
+      {
+        "question": "What happens when bubbles disconnect from the top?",
+        "answer": "Any bubbles that lose their connection to the top of the screen fall down and give you bonus points! This is a key strategy—cutting the connection of large clusters to clear them all at once."
+      },
+      {
+        "question": "How do wall bounces work?",
+        "answer": "Your bubbles can bounce off the side walls, changing their angle. Use this to reach bubbles that can't be hit with a straight shot. The trajectory preview helps you aim bank shots."
+      },
+      {
+        "question": "Do new bubbles keep appearing?",
+        "answer": "In many versions, a new row of bubbles pushes down from the top periodically or after a certain number of shots. This adds pressure to clear bubbles quickly before they reach the danger line."
+      },
+      {
+        "question": "What's the best strategy for high scores?",
+        "answer": "Focus on creating large disconnections to drop massive clusters. Look for bubbles that are holding up many others below them—popping these can create huge cascades of falling bubbles for big bonus points."
+      }
+    ]
+  },
+  "zh": {
+    "name": "泡泡龙",
+    "desc": "发射彩色泡泡匹配3个或更多！在泡泡到达底部前清空棋盘。仔细瞄准，创造连锁反应！",
+    "description": "泡泡龙是迷住了数百万人的令人上瘾的益智游戏！一簇彩色泡泡从屏幕顶部下降，你必须射击匹配的泡泡来创造三个或更多的组合。当泡泡连接时，它们会爆裂并消失！在泡泡到达底部危险线之前清除所有泡泡，并利用墙壁的巧妙反弹来击中棘手的角度。简单的机制，无尽的满足感！",
+    "objectives": "通过匹配三个或更多相同颜色的泡泡来清除屏幕上的所有泡泡。瞄准并发射泡泡发射器来创造匹配组合。防止泡泡到达底部危险线，否则游戏结束！",
+    "howToPlay": "瞄准并点击向上发射泡泡。匹配3个或更多相同颜色的泡泡来消除它们。清除所有泡泡获胜。不要让泡泡到达底线！",
+    "rules": {
+      "controls": "移动鼠标瞄准泡泡发射器。虚线显示你的轨迹。点击发射泡泡。你可以利用侧墙反弹来获得角度位置。",
+      "mechanics": [
+        "匹配3+相同颜色泡泡来消除",
+        "断开连接的泡泡掉落并奖励额外分数",
+        "新行定期向下推",
+        "如果泡泡到达底部游戏结束",
+        "清除所有泡泡完成关卡"
+      ],
+      "features": [
+        "精确瞄准 - 轨迹预览",
+        "墙壁反弹 - 到达困难角度",
+        "连锁反应 - 级联奖励分数",
+        "多个关卡 - 增加挑战"
+      ]
+    },
+    "tips": [
+      "瞄准泡泡集群以最大化消除",
+      "使用墙壁反弹到达困难角度",
+      "从顶部清除泡泡以下降大片区域",
+      "提前计划几步"
+    ],
+    "faq": [
+      {
+        "question": "当泡泡与顶部断开连接时会发生什么？",
+        "answer": "任何失去与屏幕顶部连接的泡泡都会掉落并给你额外分数！这是一个关键策略——切断大型集群的连接来一次清除它们。"
+      },
+      {
+        "question": "墙壁反弹如何工作？",
+        "answer": "你的泡泡可以从侧墙反弹，改变角度。利用这个来到达无法直线击中的泡泡。轨迹预览帮助你瞄准反弹射击。"
+      },
+      {
+        "question": "新泡泡会不断出现吗？",
+        "answer": "在许多版本中，新的一行泡泡定期或一定数量的射击后从顶部向下推。这增加了在泡泡到达危险线之前快速清除它们的压力。"
+      },
+      {
+        "question": "获得高分的最佳策略是什么？",
+        "answer": "专注于创造大型断开来掉落大量集群。寻找支撑下面许多其他泡泡的泡泡——消除这些可以创造巨大的掉落泡泡级联，获得大额奖励分数。"
+      }
     ]
   }
 }

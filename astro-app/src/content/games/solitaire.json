@@ -7,14 +7,96 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Solitaire",
-    "desc": "The classic Windows card game! Arrange cards in descending order, alternating colors. Move all cards to foundation piles to win. Timeless entertainment!",
-    "howToPlay": "",
-    "tips": []
+    "desc": "The classic Klondike card game",
+    "description": "Solitaire (Klondike) is the world's most popular card game, beloved by millions since its inclusion in Microsoft Windows! This single-player card game challenges you to arrange a standard 52-card deck into four foundation piles, sorted by suit from Ace to King. Simple to learn yet deeply strategic, Solitaire offers the perfect balance of relaxation and mental stimulation. Whether you have five minutes or an hour, this timeless classic provides endless entertainment.",
+    "objectives": "Move all 52 cards to four foundation piles, sorted by suit from Ace to King. Build tableau columns in descending order with alternating colors. Expose hidden cards and use strategy to uncover the entire deck.",
+    "howToPlay": "Drag cards to move them. Build tableau columns in descending order with alternating colors (red on black, black on red). Move cards to foundation piles in ascending order by suit (A to K). Click the stock pile to draw new cards.",
+    "rules": {
+      "controls": "Click and drag cards to move them. Double-click a card to automatically move it to the foundation if valid. Click the stock pile to draw cards.",
+      "mechanics": [
+        "Tableau columns: Build down in alternating colors (Red 6 on Black 7)",
+        "Foundation piles: Build up by suit from Ace to King",
+        "Only Kings can be placed on empty tableau columns",
+        "Stock pile: Draw cards when no moves are available",
+        "Win by moving all cards to the four foundation piles"
+      ],
+      "features": [
+        "Unlimited Undo - Take back moves",
+        "Auto-complete - Finish faster when possible",
+        "Hint System - Get suggestions when stuck",
+        "Statistics - Track your wins and times"
+      ]
+    },
+    "tips": [
+      "Always expose face-down cards when possible",
+      "Don't move cards to foundations too quickly - they might be needed in tableau",
+      "Empty columns are powerful - use them strategically for Kings",
+      "Plan several moves ahead before drawing from the stock"
+    ],
+    "faq": [
+      {
+        "question": "Is every Solitaire game winnable?",
+        "answer": "No, not every game of Solitaire is winnable. It's estimated that 79-80% of games are theoretically winnable, but finding the solution requires perfect play."
+      },
+      {
+        "question": "Should I move cards to foundations immediately?",
+        "answer": "Not always. Sometimes keeping cards in the tableau gives you more flexibility. Move to foundations when it doesn't block potential moves."
+      },
+      {
+        "question": "What's the best strategy for empty columns?",
+        "answer": "Only place Kings in empty columns when it helps expose face-down cards. A King with a long stack behind it is more valuable than one alone."
+      },
+      {
+        "question": "How do I know when to draw from stock?",
+        "answer": "Draw when no more productive moves are available in the tableau. But scan carefully first - sometimes hidden moves exist!"
+      }
+    ]
   },
   "zh": {
     "name": "纸牌接龙",
-    "desc": "经典Windows纸牌游戏！按降序排列卡牌，交替颜色。将所有卡牌移到基础堆获胜。永恒的娱乐！",
-    "howToPlay": "",
-    "tips": []
+    "desc": "经典克朗代克纸牌游戏",
+    "description": "纸牌接龙（克朗代克）是世界上最受欢迎的纸牌游戏，自从被收录在Microsoft Windows中以来就深受数百万玩家喜爱！这款单人纸牌游戏挑战你将一副52张牌整理成四个基础堆，按花色从A到K排序。简单易学却深具策略性，纸牌接龙提供完美的放松和精神刺激的平衡。无论你有五分钟还是一小时，这款永恒的经典都能提供无尽的娱乐。",
+    "objectives": "将所有52张牌移到四个基础堆，按花色从A到K排序。在游戏列中以交替颜色降序排列。翻开隐藏的牌并使用策略揭示整副牌。",
+    "howToPlay": "拖动卡牌移动。以交替颜色（红黑交替）降序排列游戏列。按花色升序（A到K）将卡牌移到基础堆。点击牌堆抽取新牌。",
+    "rules": {
+      "controls": "点击并拖动卡牌移动。双击卡牌可自动移到基础堆（如果有效）。点击牌堆抽取卡牌。",
+      "mechanics": [
+        "游戏列：以交替颜色降序排列（红6放在黑7上）",
+        "基础堆：按花色从A到K升序排列",
+        "只有K可以放在空的游戏列上",
+        "牌堆：当没有可用移动时抽取卡牌",
+        "将所有卡牌移到四个基础堆即可获胜"
+      ],
+      "features": [
+        "无限撤销 - 撤回移动",
+        "自动完成 - 可能时快速完成",
+        "提示系统 - 卡住时获取建议",
+        "统计数据 - 追踪你的胜利和时间"
+      ]
+    },
+    "tips": [
+      "尽可能总是翻开面朝下的牌",
+      "不要过快将牌移到基础堆——它们可能在游戏列中需要",
+      "空列很强大——战略性地用于放置K",
+      "在从牌堆抽牌前提前规划几步"
+    ],
+    "faq": [
+      {
+        "question": "每局纸牌接龙都能赢吗？",
+        "answer": "不，并非每局纸牌接龙都能赢。估计79-80%的游戏理论上是可以赢的，但找到解决方案需要完美发挥。"
+      },
+      {
+        "question": "应该立即将牌移到基础堆吗？",
+        "answer": "不总是。有时把牌留在游戏列中会给你更多灵活性。当不会阻止潜在移动时再移到基础堆。"
+      },
+      {
+        "question": "空列的最佳策略是什么？",
+        "answer": "只有当放置K有助于翻开面朝下的牌时才放在空列上。带有长叠的K比单独的K更有价值。"
+      },
+      {
+        "question": "什么时候应该从牌堆抽牌？",
+        "answer": "当游戏列中没有更多有成效的移动时抽牌。但要仔细扫描——有时隐藏的移动存在！"
+      }
+    ]
   }
 }

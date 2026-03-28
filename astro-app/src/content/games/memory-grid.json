@@ -7,24 +7,96 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Memory Grid",
-    "desc": "Memorize and repeat the sequence of highlighted grid cells! Watch the pattern flash, then recreate it from memory. How far can you go?",
+    "desc": "Memorize and repeat sequential grid patterns",
+    "description": "Memory Grid challenges you to remember and repeat increasingly long sequences of highlighted cells! Watch carefully as cells flash in a specific order, then click them in the exact same sequence. Each round adds one more cell to remember, pushing your working memory to its limits. How many steps can you remember before your mind reaches capacity?",
+    "objectives": "Watch the sequence of cells lighting up, then recreate the exact same sequence from memory. Progress to longer sequences and track your best performance. The average person can hold 5-9 items in working memory—can you beat that?",
     "howToPlay": "Watch the sequence of highlighted numbers carefully. Once they disappear, click the tiles in the correct order. Each round adds one more number to remember!",
+    "rules": {
+      "controls": "After viewing the sequence, click on cells in the exact order they appeared. The next cell in the sequence is automatically selected.",
+      "mechanics": [
+        "Watch the sequence of flashing cells",
+        "Recreate the sequence by clicking in order",
+        "Each round adds one more cell to remember",
+        "Game over if you click wrong cell or wrong order",
+        "Track your best sequence length"
+      ],
+      "features": [
+        "Progressive Challenge - Sequences grow longer",
+        "Visual Highlighting - Clear cell indication",
+        "Best Score Tracking - See your record",
+        "Instant Feedback - Know immediately if wrong"
+      ]
+    },
     "tips": [
       "Focus on the position, not just the number",
       "Create a mental image of the pattern",
       "Take your time - accuracy matters more than speed",
       "Start with 3 numbers, progresses to 9"
+    ],
+    "faq": [
+      {
+        "question": "How many steps can most people remember?",
+        "answer": "The average person can remember 5-9 items in sequence. With practice, many reach 10-15. Memory champions can handle 20+ through special techniques."
+      },
+      {
+        "question": "What's the best way to remember sequences?",
+        "answer": "Create a story or path connecting the cells. Some people verbalize positions ('top-left, center, bottom-right'). Chunking—grouping cells into patterns—also helps."
+      },
+      {
+        "question": "Does order really matter?",
+        "answer": "Yes! The sequence must be recreated in the exact order shown. This tests not just what you remember, but the temporal order—different from static pattern memory."
+      },
+      {
+        "question": "Is this different from Pattern Memory?",
+        "answer": "Yes. Pattern Memory tests remembering a static visual arrangement. Memory Grid tests remembering a temporal sequence—what happened in what order."
+      }
     ]
   },
   "zh": {
     "name": "网格记忆",
-    "desc": "记忆并重复高亮网格格子的序列！仔细观察闪烁的模式，然后凭记忆重现它。你能走多远？",
+    "desc": "记忆并重复顺序网格图案",
+    "description": "网格记忆挑战你记住并重复越来越长的高亮格子序列！仔细观察格子按特定顺序闪烁，然后按完全相同的顺序点击它们。每轮增加一个格子需要记忆，将你的工作记忆推向极限。在达到记忆容量前你能记住多少步？",
+    "objectives": "观看格子亮起的序列，然后凭记忆重现完全相同的序列。进入更长的序列并追踪你的最佳表现。普通人可以在工作记忆中保持5-9个项目——你能超过那个吗？",
     "howToPlay": "仔细观察高亮数字的序列。它们消失后，按正确顺序点击这些方块。每轮增加一个需要记忆的数字！",
+    "rules": {
+      "controls": "观看序列后，按它们出现的确切顺序点击格子。序列中的下一个格子会自动被选中。",
+      "mechanics": [
+        "观看闪烁格子的序列",
+        "按顺序点击重现序列",
+        "每轮增加一个格子需要记忆",
+        "点击错误格子或错误顺序则游戏结束",
+        "追踪你的最佳序列长度"
+      ],
+      "features": [
+        "渐进挑战 - 序列变得更长",
+        "视觉高亮 - 清晰的格子指示",
+        "最佳分数追踪 - 查看你的记录",
+        "即时反馈 - 立即知道是否错误"
+      ]
+    },
     "tips": [
       "专注于位置，而不仅仅是数字",
       "在脑海中创建图案的心理图像",
       "慢慢来 - 准确性比速度更重要",
       "从3个数字开始，逐渐增加到9个"
+    ],
+    "faq": [
+      {
+        "question": "大多数人能记住多少步？",
+        "answer": "普通人可以按顺序记住5-9个项目。通过练习，许多人可以达到10-15。记忆冠军通过特殊技巧可以处理20+。"
+      },
+      {
+        "question": "记忆序列的最佳方法是什么？",
+        "answer": "创建连接格子的故事或路径。有些人用语言表达位置（'左上、中间、右下'）。分块——将格子分组成模式——也有帮助。"
+      },
+      {
+        "question": "顺序真的重要吗？",
+        "answer": "是的！序列必须按照显示的确切顺序重现。这不仅测试你记住了什么，还测试时间顺序——不同于静态图案记忆。"
+      },
+      {
+        "question": "这与图案记忆不同吗？",
+        "answer": "是的。图案记忆测试记住静态视觉排列。网格记忆测试记住时间序列——什么按什么顺序发生。"
+      }
     ]
   }
 }

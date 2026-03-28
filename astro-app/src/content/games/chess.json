@@ -7,24 +7,98 @@
   "color": "from-gray-600 to-slate-800",
   "en": {
     "name": "Chess",
-    "desc": "The ultimate game of strategy! Command your army of 16 pieces against the AI. Master opening theory, tactical combinations, and endgame technique.",
+    "desc": "The ultimate game of strategy and tactics",
+    "description": "Chess is the world's most celebrated strategy game, with a rich history spanning over 1,500 years! Command an army of 16 pieces—pawns, knights, bishops, rooks, queen, and king—on a 64-square battlefield. Each piece moves according to unique rules, creating infinite possibilities for tactical combinations and strategic depth. Whether you're a beginner learning the basics or a master refining your endgame technique, Chess offers endless intellectual challenge and satisfaction.",
+    "objectives": "Checkmate your opponent's king by placing it under attack with no legal escape. Alternatively, force a stalemate or draw. Along the way, develop your pieces efficiently, control key squares, and execute tactical combinations to gain material advantage.",
     "howToPlay": "Click a piece to select it, then click a valid square to move. Green dots show valid moves. Capture the enemy king to win. Each piece has unique movement rules.",
+    "rules": {
+      "controls": "Click on any of your pieces to select it. Valid moves will be highlighted with green dots. Click a highlighted square to move. Special moves like castling and en passant are supported.",
+      "mechanics": [
+        "Pawns move forward one square (two on first move), capture diagonally",
+        "Knights move in an L-shape: two squares in one direction, one perpendicular",
+        "Bishops move diagonally any number of squares",
+        "Rooks move horizontally or vertically any number of squares",
+        "Queen combines rook and bishop movement",
+        "King moves one square in any direction"
+      ],
+      "features": [
+        "AI Opponent - Multiple difficulty levels",
+        "Move Highlighting - See valid moves at a glance",
+        "Check Detection - Alerts when king is threatened",
+        "Move History - Review your game"
+      ]
+    },
     "tips": [
-      "Control the center of the board early",
-      "Develop your pieces (knights, bishops) before attacks",
+      "Control the center of the board early (e4, d4, e5, d5)",
+      "Develop your knights and bishops before launching attacks",
       "Castle early to protect your king",
-      "Think several moves ahead"
+      "Think several moves ahead and consider your opponent's responses"
+    ],
+    "faq": [
+      {
+        "question": "How do I checkmate?",
+        "answer": "Checkmate occurs when the king is under attack and cannot escape by moving, blocking, or capturing the attacking piece. This ends the game."
+      },
+      {
+        "question": "What is castling?",
+        "answer": "Castling is a special move where the king moves two squares toward a rook, and the rook moves to the square the king crossed. Requirements: neither piece has moved, no pieces between them, king not in or through check."
+      },
+      {
+        "question": "How can I improve at chess?",
+        "answer": "Study opening principles, solve tactical puzzles, analyze your games, and practice regularly. Focus on controlling the center, developing pieces, and king safety."
+      },
+      {
+        "question": "What's en passant?",
+        "answer": "En passant is a special pawn capture. If an enemy pawn advances two squares and lands beside your pawn, you can capture it 'in passing' on your next move only, as if it moved just one square."
+      }
     ]
   },
   "zh": {
     "name": "国际象棋",
-    "desc": "终极策略游戏！指挥你的16枚棋子与AI对战。精通开局理论、战术组合和残局技巧。",
+    "desc": "终极策略与战术游戏",
+    "description": "国际象棋是世界上最著名的策略游戏，拥有超过1500年的悠久历史！在64格的战场上指挥16枚棋子——兵、马、象、车、后和王。每种棋子都有独特的移动规则，创造无限的战术组合和战略深度。无论你是学习基础的初学者还是精进残局技巧的高手，国际象棋都能提供无尽的智力挑战和满足感。",
+    "objectives": "通过将军使对手的王无法逃脱来将死对方。或者逼和或和棋。在此过程中，高效发展棋子，控制关键格子，执行战术组合获得子力优势。",
     "howToPlay": "点击棋子选择它，然后点击有效位置移动。绿点显示有效移动。将死敌方国王即可获胜。每种棋子都有独特的移动规则。",
+    "rules": {
+      "controls": "点击你的任意棋子选中它。有效移动会用绿点高亮显示。点击高亮格子移动。支持王车易位和吃过路兵等特殊走法。",
+      "mechanics": [
+        "兵向前移动一格（第一步可走两格），斜向吃子",
+        "马走L形：一个方向两格，垂直方向一格",
+        "象沿对角线移动任意格数",
+        "车沿水平或垂直方向移动任意格数",
+        "后结合了车和象的走法",
+        "王向任意方向移动一格"
+      ],
+      "features": [
+        "AI对手 - 多种难度级别",
+        "移动高亮 - 一目了然看到有效移动",
+        "将军检测 - 王被威胁时提醒",
+        "移动历史 - 回顾你的对局"
+      ]
+    },
     "tips": [
-      "早期控制棋盘中心",
-      "在进攻前先发展棋子（马、象）",
+      "早期控制棋盘中心（e4、d4、e5、d5）",
+      "在发动进攻前先发展马和象",
       "尽早王车易位以保护国王",
-      "提前思考几步"
+      "提前思考几步并考虑对手的应对"
+    ],
+    "faq": [
+      {
+        "question": "如何将死？",
+        "answer": "当王被攻击且无法通过移动、阻挡或吃掉攻击棋子来逃脱时，就是将死。这结束游戏。"
+      },
+      {
+        "question": "什么是王车易位？",
+        "answer": "王车易位是特殊走法，王向车移动两格，车移动到王越过的格子。要求：两个棋子都没移动过，中间没有其他棋子，王不在将军中也不经过将军格。"
+      },
+      {
+        "question": "如何提高国际象棋水平？",
+        "answer": "学习开局原则，解战术题，分析你的对局，定期练习。专注于控制中心、发展棋子和王的安全。"
+      },
+      {
+        "question": "什么是吃过路兵？",
+        "answer": "吃过路兵是特殊的兵吃法。如果敌方兵前进两格落在你的兵旁边，你可以在下一步（仅此一步）吃过路兵，就像它只前进了一格一样。"
+      }
     ]
   }
 }

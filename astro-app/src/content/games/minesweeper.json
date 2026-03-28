@@ -7,24 +7,96 @@
   "color": "from-red-500 to-rose-600",
   "en": {
     "name": "Minesweeper",
-    "desc": "The classic computer puzzle! Uncover squares while avoiding hidden mines. Use number clues to deduce safe spots. Clear the board to win!",
-    "howToPlay": "Click to reveal a cell. Numbers show how many mines are in the 8 adjacent cells. Right-click to flag cells you think contain mines. Clear all non-mine cells to win.",
+    "desc": "Uncover squares while avoiding hidden mines",
+    "description": "Minesweeper is the classic computer puzzle game that has challenged players since the early days of Windows! Your mission is to uncover all safe squares on a grid while avoiding hidden mines. Each revealed number tells you how many mines are in the adjacent squares, turning this into a thrilling logic puzzle. With its perfect blend of deduction, risk assessment, and pure logic, Minesweeper remains one of the most satisfying brain teasers ever created.",
+    "objectives": "Clear the minefield by uncovering all squares that don't contain mines. Use the number clues to deduce where mines are hidden and flag them for safety. Complete the puzzle as quickly as possible to achieve the best time.",
+    "howToPlay": "Left-click to reveal a square. Right-click to flag a suspected mine. Numbers show how many mines are in adjacent squares. Clear all non-mine squares to win.",
+    "rules": {
+      "controls": "Left-click to reveal a square. Right-click (or long-press on mobile) to place or remove a flag. The first click is always safe and opens a clear area.",
+      "mechanics": [
+        "Numbers 1-8 indicate how many mines are in the 8 surrounding squares",
+        "Blank squares have no adjacent mines and auto-reveal neighbors",
+        "Flag suspected mines to track them - you have unlimited flags",
+        "Win by revealing all non-mine squares",
+        "Lose by clicking on a mine"
+      ],
+      "features": [
+        "Multiple Difficulty Levels - Easy (9×9), Medium (16×16), Hard (30×16)",
+        "Flag Counter - Track remaining unflagged mines",
+        "Timer - Challenge yourself for best completion time",
+        "Safe First Click - Your first click always reveals safe area"
+      ]
+    },
     "tips": [
-      "The first click is always safe",
-      "If a number equals its adjacent unrevealed cells, all are mines",
-      "If a number equals its adjacent flags, all other adjacent cells are safe",
-      "Start from corners and edges for easier deductions"
+      "Start by clicking in corners or edges to open larger areas",
+      "Look for patterns like 1-2-1 which indicate mine positions",
+      "If a number touches exactly that many hidden squares, they're all mines",
+      "Use the process of elimination for corners and edges"
+    ],
+    "faq": [
+      {
+        "question": "Is Minesweeper always solvable with logic?",
+        "answer": "Most of the time yes, but occasionally you may encounter situations requiring guessing. The first click is always safe."
+      },
+      {
+        "question": "What do the numbers mean?",
+        "answer": "Each number (1-8) tells you how many mines are in the 8 squares surrounding that cell. Use these clues to deduce mine locations."
+      },
+      {
+        "question": "How many flags should I place?",
+        "answer": "Place flags on squares you're certain contain mines. The counter shows total mines minus flags placed, helping you track progress."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Click in a corner or near the edge. This often opens a larger area and gives you more information to work with."
+      }
     ]
   },
   "zh": {
     "name": "扫雷",
-    "desc": "经典电脑益智游戏！揭开方格同时避开隐藏的地雷。利用数字提示推断安全位置。清除整个棋盘即可获胜！",
-    "howToPlay": "点击揭开一个单元格。数字显示8个相邻单元格中有多少地雷。右键单击标记你认为含有地雷的单元格。清除所有非地雷单元格即可获胜。",
+    "desc": "揭开方格同时避开隐藏的地雷",
+    "description": "扫雷是自Windows早期以来就挑战玩家的经典电脑益智游戏！你的任务是揭开网格上所有安全的方格，同时避开隐藏的地雷。每个显示的数字告诉你相邻方格中有多少颗地雷，使这成为一个令人兴奋的逻辑谜题。凭借推理、风险评估和纯逻辑的完美结合，扫雷仍然是有史以来最令人满足的脑力游戏之一。",
+    "objectives": "通过揭开所有不含地雷的方格来清除雷区。利用数字线索推断地雷的隐藏位置并安全标记它们。尽可能快速完成谜题以获得最佳时间。",
+    "howToPlay": "左键点击揭开方格。右键点击标记疑似地雷。数字显示相邻方格中有多少地雷。揭开所有非地雷方格即可获胜。",
+    "rules": {
+      "controls": "左键点击揭开方格。右键点击（或在手机上长按）放置或移除旗帜。第一次点击总是安全的，会打开一片空白区域。",
+      "mechanics": [
+        "数字1-8表示周围8个方格中有多少颗地雷",
+        "空白方格没有相邻地雷，会自动揭开相邻区域",
+        "标记疑似地雷位置来追踪它们 - 旗帜数量无限",
+        "揭开所有非地雷方格即可获胜",
+        "点击到地雷则游戏失败"
+      ],
+      "features": [
+        "多种难度级别 - 简单(9×9)、中等(16×16)、困难(30×16)",
+        "旗帜计数器 - 追踪剩余未标记的地雷",
+        "计时器 - 挑战最佳完成时间",
+        "安全首点 - 第一次点击总是安全区域"
+      ]
+    },
     "tips": [
-      "第一次点击总是安全的",
-      "如果一个数字等于其相邻未揭开单元格数，则全部是地雷",
-      "如果一个数字等于其相邻旗帜数，则其他相邻单元格都是安全的",
-      "从角落和边缘开始更容易推理"
+      "从角落或边缘开始点击以打开更大区域",
+      "寻找像1-2-1这样的模式，它们指示地雷位置",
+      "如果一个数字恰好接触那么多隐藏方格，它们都是地雷",
+      "使用排除法处理角落和边缘"
+    ],
+    "faq": [
+      {
+        "question": "扫雷是否总能用逻辑解决？",
+        "answer": "大多数时候可以，但偶尔会遇到需要猜测的情况。第一次点击总是安全的。"
+      },
+      {
+        "question": "数字代表什么意思？",
+        "answer": "每个数字（1-8）告诉你该格子周围8个方格中有多少颗地雷。利用这些线索推断地雷位置。"
+      },
+      {
+        "question": "应该标记多少旗帜？",
+        "answer": "在你确定有地雷的方格上标记旗帜。计数器显示总地雷数减去已标记旗帜数，帮助你追踪进度。"
+      },
+      {
+        "question": "最佳开局策略是什么？",
+        "answer": "在角落或边缘附近点击。这通常会打开更大的区域，给你更多信息。"
+      }
     ]
   }
 }

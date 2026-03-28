@@ -7,24 +7,96 @@
   "color": "from-yellow-500 to-orange-600",
   "en": {
     "name": "Reaction Test",
-    "desc": "Test your reaction speed! Wait for the screen to turn green, then click as fast as possible. Track your best times and challenge friends!",
+    "desc": "Test your reflexes and reaction speed",
+    "description": "The Reaction Test is a classic way to measure your reflexes! Wait for the screen to turn from red to green, then click as fast as you can. Your reaction time is measured in milliseconds. The average human reaction time is about 250ms—can you beat that? Track your best times, identify your average, and see how you compare!",
+    "objectives": "Click as quickly as possible when the screen turns green. Achieve the fastest reaction time possible. Track your progress across multiple attempts and try to improve your average response time.",
     "howToPlay": "Click Start, then wait for the screen to turn from red to green. Click immediately when you see green. Don't click too early or you'll have to restart.",
+    "rules": {
+      "controls": "Click anywhere on the screen or press any key when the screen turns green. Early clicks (before green) require a restart.",
+      "mechanics": [
+        "Screen starts red, wait for green",
+        "Click immediately when green appears",
+        "Reaction time measured in milliseconds",
+        "Early click = restart required",
+        "Track best time and average across attempts"
+      ],
+      "features": [
+        "Millisecond Precision - Accurate timing",
+        "Best Score Tracking - See your record",
+        "Multiple Attempts - Establish your average",
+        "Simple Controls - Click or press any key"
+      ]
+    },
     "tips": [
       "Stay relaxed - tension slows reactions",
       "Focus on the center of the screen",
       "Don't anticipate - wait for the actual signal",
       "Practice regularly to improve your baseline"
+    ],
+    "faq": [
+      {
+        "question": "What's a good reaction time?",
+        "answer": "Average is about 250ms. Good is under 200ms. Excellent is under 150ms. Professional gamers often achieve 100-150ms. Under 100ms is exceptional!"
+      },
+      {
+        "question": "Why do I get different times each attempt?",
+        "answer": "Human reaction time varies naturally due to focus, fatigue, and anticipation. Taking multiple attempts gives you a more accurate picture of your true reaction speed."
+      },
+      {
+        "question": "Can I improve my reaction time?",
+        "answer": "Yes! Regular practice, staying relaxed, good sleep, and avoiding distractions all help. However, there's a biological limit—most improvement comes from eliminating delays, not increasing raw speed."
+      },
+      {
+        "question": "What happens if I click too early?",
+        "answer": "The test resets and you must start over. This prevents cheating by randomly clicking. Waiting for the actual signal is part of the test!"
+      }
     ]
   },
   "zh": {
     "name": "反应测试",
-    "desc": "测试你的反应速度！等待屏幕变绿，然后尽快点击。记录你的最佳时间并挑战朋友！",
+    "desc": "测试你的反应速度和反射神经",
+    "description": "反应测试是衡量反射神经的经典方法！等待屏幕从红变绿，然后尽快点击。你的反应时间以毫秒测量。普通人的反应时间约为250毫秒——你能超过这个吗？追踪你的最佳时间，确定你的平均值，看看你的水平！",
+    "objectives": "当屏幕变绿时尽快点击。达到尽可能快的反应时间。在多次尝试中追踪你的进度，尝试改善你的平均响应时间。",
     "howToPlay": "等待屏幕变绿时立即点击。越快越好。反应时间以毫秒显示。尝试5次获得你的平均反应时间。",
+    "rules": {
+      "controls": "当屏幕变绿时点击屏幕任意位置或按任意键。提前点击（绿色之前）需要重新开始。",
+      "mechanics": [
+        "屏幕开始为红色，等待变绿",
+        "当绿色出现时立即点击",
+        "反应时间以毫秒测量",
+        "提前点击 = 需要重新开始",
+        "追踪最佳时间和多次尝试的平均值"
+      ],
+      "features": [
+        "毫秒精度 - 精确计时",
+        "最佳分数追踪 - 查看你的记录",
+        "多次尝试 - 建立你的平均值",
+        "简单控制 - 点击或按任意键"
+      ]
+    },
     "tips": [
       "保持专注和准备",
       "手放在鼠标/屏幕上准备",
       "避免预判——等待真正变化",
       "多次尝试获得准确结果"
+    ],
+    "faq": [
+      {
+        "question": "什么是好的反应时间？",
+        "answer": "平均约250毫秒。好是200毫秒以下。优秀是150毫秒以下。职业玩家通常达到100-150毫秒。100毫秒以下是例外！"
+      },
+      {
+        "question": "为什么每次尝试时间不同？",
+        "answer": "人类反应时间因注意力、疲劳和预期而自然变化。多次尝试可以更准确地反映你的真实反应速度。"
+      },
+      {
+        "question": "我可以改善反应时间吗？",
+        "answer": "可以！定期练习、保持放松、良好的睡眠和避免干扰都有帮助。但是，存在生物限制——大多数改善来自消除延迟，而非增加原始速度。"
+      },
+      {
+        "question": "如果我点击太早会怎样？",
+        "answer": "测试重置，你必须重新开始。这防止了随机点击作弊。等待真正信号是测试的一部分！"
+      }
     ]
   }
 }

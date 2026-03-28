@@ -7,24 +7,96 @@
   "color": "from-green-500 to-emerald-600",
   "en": {
     "name": "Wordle",
-    "desc": "The viral word puzzle sensation! You have 6 attempts to guess a hidden 5-letter word. Color-coded feedback helps you narrow down the answer. Daily puzzles await!",
+    "desc": "Guess the hidden 5-letter word in 6 tries",
+    "description": "Wordle is the viral word puzzle phenomenon that took the world by storm! This elegantly simple yet fiendishly addictive game challenges you to guess a hidden 5-letter word in just six attempts. With its clever color-coded feedback system, each guess brings you closer to the solution while testing your vocabulary and deduction skills. The daily puzzle format creates a shared global experience, making Wordle the perfect morning brain teaser for millions of word game enthusiasts.",
+    "objectives": "Guess the secret 5-letter word within 6 attempts using the color-coded clues from each guess. Sharpen your vocabulary, pattern recognition, and logical deduction skills with this daily word puzzle challenge.",
     "howToPlay": "Type a 5-letter word and press Enter. Green letters are correct in the right spot. Yellow letters are in the word but wrong position. Gray letters are not in the word.",
+    "rules": {
+      "controls": "Use your keyboard to type a 5-letter English word, then press Enter to submit your guess. On mobile, tap the on-screen letters to form your word.",
+      "mechanics": [
+        "You have exactly 6 attempts to guess the hidden 5-letter word",
+        "Green tiles indicate correct letters in the correct position",
+        "Yellow tiles indicate letters that exist in the word but in a different position",
+        "Gray tiles indicate letters not present in the word",
+        "Letters can appear multiple times in the word"
+      ],
+      "features": [
+        "Daily Puzzle - Same word for everyone, updated daily",
+        "Color-Coded Feedback - Visual clues guide your guesses",
+        "Share Results - Share your success without spoilers",
+        "Statistics - Track your win rate and streak"
+      ]
+    },
     "tips": [
-      "Start with words containing common letters (R, S, T, L, N)",
-      "Use different letters each guess initially",
-      "Yellow letters help narrow positions",
-      "Think about common word patterns"
+      "Start with words containing common letters (R, S, T, L, N, E, A)",
+      "Use different letters each guess initially to maximize information",
+      "Yellow letters help narrow down possible positions",
+      "Think about common word patterns and letter combinations"
+    ],
+    "faq": [
+      {
+        "question": "What's the best starting word?",
+        "answer": "Many players use words like 'ADIEU', 'CRANE', 'SLATE', or 'RAISE' that contain common vowels and consonants to gather maximum information."
+      },
+      {
+        "question": "Can letters repeat in Wordle?",
+        "answer": "Yes! The hidden word can contain repeated letters. If your guess has a letter twice but the answer only has it once, only one will be colored."
+      },
+      {
+        "question": "When does the new puzzle appear?",
+        "answer": "A new Wordle puzzle is released every day at midnight local time, giving everyone the same daily challenge."
+      },
+      {
+        "question": "What if I can't solve it in 6 tries?",
+        "answer": "Don't worry! The game will reveal the answer after your 6th attempt. Use it as a learning opportunity for tomorrow's puzzle."
+      }
     ]
   },
   "zh": {
     "name": "猜词",
-    "desc": "风靡全球的猜词游戏！6次机会猜测隐藏的5字母单词。颜色提示帮助您缩小答案范围。每日谜题等你挑战！",
+    "desc": "6次机会猜测隐藏的5字母单词",
+    "description": "猜词（Wordle）是一款风靡全球的文字谜题现象级游戏！这个优雅简单却令人上瘾的游戏挑战你在六次尝试内猜出一个隐藏的5字母单词。巧妙的颜色反馈系统让每次猜测都带你更接近答案，同时考验你的词汇量和推理能力。每日谜题的形式创造了全球共享的体验，让猜词成为数百万文字游戏爱好者完美的晨间脑力锻炼。",
+    "objectives": "在6次尝试内利用每次猜测的颜色线索猜出隐藏的5字母单词。通过每日文字谜题挑战，提升你的词汇量、模式识别和逻辑推理能力。",
     "howToPlay": "输入一个5字母单词并按回车。绿色字母表示位置正确。黄色字母表示在单词中但位置错误。灰色字母表示不在单词中。",
+    "rules": {
+      "controls": "使用键盘输入一个5字母英文单词，然后按回车提交猜测。在手机上，点击屏幕上的字母组成单词。",
+      "mechanics": [
+        "你恰好有6次机会猜测隐藏的5字母单词",
+        "绿色方格表示字母正确且位置正确",
+        "黄色方格表示字母存在于单词中但位置错误",
+        "灰色方格表示字母不存在于单词中",
+        "字母可能在单词中出现多次"
+      ],
+      "features": [
+        "每日谜题 - 每天更新，全球统一单词",
+        "颜色反馈 - 视觉线索指导你的猜测",
+        "分享结果 - 分享成功但不泄露答案",
+        "统计数据 - 追踪胜率和连胜记录"
+      ]
+    },
     "tips": [
-      "从包含常用字母的单词开始（R, S, T, L, N）",
-      "最初的猜测尽量使用不同的字母",
-      "黄色字母帮助缩小位置范围",
-      "思考常见的单词模式"
+      "从包含常用字母的单词开始（R, S, T, L, N, E, A）",
+      "最初的猜测尽量使用不同的字母以获取更多信息",
+      "黄色字母帮助缩小可能的位置范围",
+      "思考常见的单词模式和字母组合"
+    ],
+    "faq": [
+      {
+        "question": "什么是最佳起始词？",
+        "answer": "许多玩家使用包含常见元音和辅音的词，如'ADIEU'、'CRANE'、'SLATE'或'RAISE'来获取最多信息。"
+      },
+      {
+        "question": "猜词中的字母可以重复吗？",
+        "answer": "可以！隐藏单词可能包含重复字母。如果你的猜测中有字母出现两次但答案只有一次，只会显示一个有颜色。"
+      },
+      {
+        "question": "新谜题什么时候更新？",
+        "answer": "新的猜词谜题每天午夜本地时间更新，让每个人面对相同的每日挑战。"
+      },
+      {
+        "question": "如果6次都没猜出来怎么办？",
+        "answer": "别担心！游戏会在第6次尝试后揭示答案。把它当作学习机会，为明天的谜题做准备。"
+      }
     ]
   }
 }

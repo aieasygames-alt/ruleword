@@ -7,23 +7,95 @@
   "en": {
     "name": "Yajilin",
     "desc": "Draw a loop and shade cells! Arrows indicate how many shaded cells are in that direction. Every cell must be either part of the loop or shaded.",
+    "description": "Yajilin is the clever hybrid puzzle that combines cell-shading with loop-drawing! Numbered arrows point in a direction and tell you how many black cells exist in that direction. Your task: shade some cells black, then draw a single continuous loop through all remaining non-clue cells. Black cells can never touch, and the loop must visit every white cell. A perfect blend of two puzzle types!",
+    "objectives": "Shade some cells black (following arrow clues), then draw a single continuous loop through all remaining non-clue cells. Black cells cannot touch orthogonally. The loop cannot cross or branch. Every non-clue cell must be either black or part of the loop!",
     "howToPlay": "Shade some cells black so that no two black cells touch. Draw a single loop through all non-shaded, non-clue cells. Clues show how many black cells are in the indicated direction.",
+    "rules": {
+      "controls": "Click cells to toggle them between white, black, or part of the loop. Arrow clues indicate how many black cells are in that direction from the clue. All non-clue cells must be either black or part of the loop.",
+      "mechanics": [
+        "Arrows point to black cell count",
+        "Black cells cannot touch orthogonally",
+        "Loop passes through all white cells",
+        "Loop cannot cross or branch",
+        "Clue cells are not part of loop or black"
+      ],
+      "features": [
+        "Hybrid Puzzle - Two mechanics combined",
+        "Arrow Clues - Directional hints",
+        "Loop Drawing - Continuous path",
+        "Shading Logic - Strategic placement"
+      ]
+    },
     "tips": [
       "Start with clue cells - they tell you where black cells must be",
       "Black cells cannot touch each other orthogonally",
       "The loop must visit every white cell exactly once",
       "Use process of elimination for cells that cannot be black"
+    ],
+    "faq": [
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Look at arrow clues first. A clue pointing at only a few cells forces specific cells to be black (or not black if the count is 0). This gives you anchor points to work outward from."
+      },
+      {
+        "question": "How do I know if a cell must be part of the loop?",
+        "answer": "If a cell cannot be black (because it would touch another black cell, or violate arrow counts), and it's not a clue cell, it must be part of the loop. Process of elimination is key."
+      },
+      {
+        "question": "What if the loop gets stuck?",
+        "answer": "The loop must visit every white cell and cannot branch. If you create a dead end, one of your assumptions is wrong. Backtrack and consider which black cell placements might be incorrect."
+      },
+      {
+        "question": "Can the loop pass through clue cells?",
+        "answer": "No! Clue cells are neither black nor part of the loop—they're neutral. The loop only passes through regular white cells. This is important for counting available loop cells."
+      }
     ]
   },
   "zh": {
     "name": "耶吉林",
     "desc": "画回路并涂黑格子！箭头指示该方向有多少涂黑格子。每个格子必须是回路的一部分或被涂黑。",
+    "description": "耶吉林是将单元格涂黑与画环结合的聪明混合谜题！带编号的箭头指向一个方向，告诉你那个方向有多少黑色单元格。你的任务：将一些单元格涂黑，然后画一条通过所有剩余非提示单元格的单一连续回路。黑色单元格永远不能接触，回路必须访问每个白色单元格。两种谜题类型的完美结合！",
+    "objectives": "将一些单元格涂黑（遵循箭头提示），然后画一条通过所有剩余非提示单元格的单一连续回路。黑色单元格不能正交接触。回路不能交叉或分支。每个非提示单元格必须是黑色或回路的一部分！",
     "howToPlay": "涂黑一些格子使没有两个黑色格子相邻。画一条穿过所有非涂黑、非数字格子的单一回路。数字表示所指方向上的黑色格子数。",
+    "rules": {
+      "controls": "点击单元格在白色、黑色或回路的一部分之间切换。箭头提示指示从提示那个方向有多少黑色单元格。所有非提示单元格必须是黑色或回路的一部分。",
+      "mechanics": [
+        "箭头指向黑色单元格计数",
+        "黑色单元格不能正交接触",
+        "回路穿过所有白色单元格",
+        "回路不能交叉或分支",
+        "提示单元格不是回路或黑色的一部分"
+      ],
+      "features": [
+        "混合谜题 - 两种机制结合",
+        "箭头提示 - 方向性提示",
+        "画环 - 连续路径",
+        "涂黑逻辑 - 策略性放置"
+      ]
+    },
     "tips": [
       "从数字格子开始——它们告诉你黑色格子位置",
       "黑色格子不能彼此正交相邻",
       "回路必须恰好访问每个白色格子一次",
       "利用数字约束推断黑色格子"
+    ],
+    "faq": [
+      {
+        "question": "最佳起始策略是什么？",
+        "answer": "首先看箭头提示。指向只有几个单元格的提示强迫特定单元格是黑色（或者如果计数是0则不是黑色）。这给你向外工作的锚点。"
+      },
+      {
+        "question": "我怎么知道单元格是否必须是回路的一部分？",
+        "answer": "如果单元格不能是黑色（因为它会接触另一个黑色单元格，或违反箭头计数），而且它不是提示单元格，它必须是回路的一部分。消除法是关键。"
+      },
+      {
+        "question": "如果回路卡住了怎么办？",
+        "answer": "回路必须访问每个白色单元格，不能分支。如果你创建了死胡同，你的假设之一是错误的。回溯并考虑哪些黑色单元格放置可能是不正确的。"
+      },
+      {
+        "question": "回路可以通过提示单元格吗？",
+        "answer": "不可以！提示单元格既不是黑色也不是回路的一部分——它们是中性的。回路只通过普通白色单元格。这对于计数可用回路单元格很重要。"
+      }
     ]
   }
 }

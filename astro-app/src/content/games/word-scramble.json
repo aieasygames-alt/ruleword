@@ -7,13 +7,95 @@
   "en": {
     "name": "Word Scramble",
     "desc": "Race against time to unscramble words! Study the jumbled letters and type the correct word. Fast-paced vocabulary challenge!",
-    "howToPlay": "",
-    "tips": []
+    "description": "Word Scramble is the fast-paced word game that tests your vocabulary and pattern recognition! A jumbled collection of letters appears on screen, and you must quickly identify the correct word they spell. With the clock ticking, your brain races through possible combinations—training both your language skills and quick thinking. The more you play, the sharper your word recognition becomes!",
+    "objectives": "Unscramble the jumbled letters to form the correct word before time runs out. Type your answer as quickly as possible to earn maximum points. Build your vocabulary and improve your anagram-solving speed!",
+    "howToPlay": "Look at the scrambled letters and type the correct word they spell. Press Enter to submit your answer. Each correct answer earns points based on speed. Use hints if you get stuck!",
+    "rules": {
+      "controls": "Type the unscrambled word using your keyboard and press Enter to submit. If stuck, you can use the hint button to reveal letters one at a time, though this may reduce points.",
+      "mechanics": [
+        "Letters are scrambled randomly",
+        "All letters must be used",
+        "Timer counts down for each word",
+        "Faster answers earn more points",
+        "Hints available but cost points"
+      ],
+      "features": [
+        "Time Challenge - Race the clock",
+        "Hint System - Reveal letters",
+        "Score Tracking - Beat your best",
+        "Vocabulary Building - Learn new words"
+      ]
+    },
+    "tips": [
+      "Look for common letter patterns like TH, CH, ING",
+      "Vowels often help separate consonant clusters",
+      "Try saying letter combinations aloud",
+      "Start with what you know and work from there"
+    ],
+    "faq": [
+      {
+        "question": "What's the best strategy for solving scrambles?",
+        "answer": "Look for common prefixes (un-, re-, pre-) and suffixes (-ing, -tion, -ly) first. Identify vowels and try placing consonants around them. Saying combinations aloud often triggers recognition."
+      },
+      {
+        "question": "How can I improve at Word Scramble?",
+        "answer": "Build your vocabulary through reading, practice anagram exercises, and learn to recognize common letter patterns. The more words you know, the faster you'll spot them in scrambled form."
+      },
+      {
+        "question": "Are there tricks to unscrambling?",
+        "answer": "Yes! Look for common letter combinations (QU, TH, CH), identify the first letter (often easier to spot), and try rearranging letters in a circle visually. Practice develops intuition for letter patterns."
+      },
+      {
+        "question": "Does this help with vocabulary?",
+        "answer": "Absolutely! You'll encounter new words and reinforce ones you know. The active process of unscrambling creates stronger memory connections than passive reading."
+      }
+    ]
   },
   "zh": {
     "name": "单词重组",
     "desc": "限时重组单词！观察打乱的字母并输入正确的单词。快节奏词汇挑战！",
-    "howToPlay": "",
-    "tips": []
+    "description": "单词重组是测试你的词汇量和模式识别的快节奏文字游戏！一堆打乱的字母出现在屏幕上，你必须快速识别它们拼出的正确单词。随着时钟滴答作响，你的大脑在可能的组合中竞速——同时训练你的语言技能和快速思考。你玩得越多，你的单词识别就越敏锐！",
+    "objectives": "在时间用尽之前将打乱的字母重组为正确的单词。尽可能快地输入你的答案以获得最高分。建立你的词汇量并提高你的变位词解决速度！",
+    "howToPlay": "查看打乱的字母并输入它们拼出的正确单词。按Enter提交你的答案。每个正确答案根据速度得分。如果卡住了使用提示！",
+    "rules": {
+      "controls": "使用键盘输入重组的单词，然后按Enter提交。如果卡住了，你可以使用提示按钮一次揭示一个字母，但这可能会减少分数。",
+      "mechanics": [
+        "字母随机打乱",
+        "必须使用所有字母",
+        "计时器为每个单词倒数",
+        "越快的答案获得越多分数",
+        "提示可用但消耗分数"
+      ],
+      "features": [
+        "时间挑战 - 与时钟赛跑",
+        "提示系统 - 揭示字母",
+        "分数追踪 - 打败你的最佳",
+        "词汇构建 - 学习新单词"
+      ]
+    },
+    "tips": [
+      "寻找常见的字母模式如TH, CH, ING",
+      "元音通常帮助分隔辅音群",
+      "尝试大声说出字母组合",
+      "从你知道的开始，从那里开始工作"
+    ],
+    "faq": [
+      {
+        "question": "解决重组的最佳策略是什么？",
+        "answer": "首先寻找常见的前缀（un-, re-, pre-）和后缀（-ing, -tion, -ly）。识别元音并尝试将辅音放在它们周围。大声说出组合通常会触发识别。"
+      },
+      {
+        "question": "如何在单词重组中进步？",
+        "answer": "通过阅读建立你的词汇量，练习变位词练习，并学会识别常见的字母模式。你认识的单词越多，你就越快能在打乱的形式中发现它们。"
+      },
+      {
+        "question": "有重组的技巧吗？",
+        "answer": "是的！寻找常见的字母组合（QU, TH, CH），识别第一个字母（通常更容易发现），并尝试在视觉上将字母排列成圆圈。练习培养对字母模式的直觉。"
+      },
+      {
+        "question": "这对词汇有帮助吗？",
+        "answer": "绝对有！你会遇到新单词并加强你知道的单词。重组的主动过程比被动阅读创造更强的记忆连接。"
+      }
+    ]
   }
 }

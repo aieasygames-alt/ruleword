@@ -7,24 +7,96 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Hidato",
-    "desc": "Fill the grid with consecutive numbers! Each number must connect horizontally, vertically, or diagonally to the next in sequence. A challenging logic puzzle!",
+    "desc": "Connect numbers in a continuous path",
+    "description": "Hidato (also known as Number Snake) is a logic puzzle that challenges you to fill a grid with consecutive numbers! Starting from 1, each number must connect to the next—horizontally, vertically, or diagonally. Some numbers are given, and you must deduce the rest. The result is a continuous path winding through the grid. Simple concept, satisfying solutions!",
+    "objectives": "Fill the entire grid with consecutive numbers starting from 1, creating a continuous path where each number connects to the next. Use the given numbers as anchors to deduce the positions of all missing numbers.",
     "howToPlay": "Click empty cells to place the next consecutive number. Numbers must connect to their neighbors (horizontally, vertically, or diagonally). Right-click to remove a number.",
+    "rules": {
+      "controls": "Click on an empty cell to place numbers. You can only place the next consecutive number. Right-click or use Delete to remove a placed number.",
+      "mechanics": [
+        "Fill the grid with numbers from 1 to N",
+        "Each number must be adjacent to the previous and next (including diagonals)",
+        "Some numbers are pre-filled as clues",
+        "The path must be continuous—no gaps",
+        "Each number appears exactly once"
+      ],
+      "features": [
+        "Given Numbers - Anchor points to build from",
+        "Path Visualization - See the number chain",
+        "Error Highlighting - Invalid placements shown",
+        "Multiple Grid Sizes - Easy to expert levels"
+      ]
+    },
     "tips": [
       "Start from 1 and work consecutively",
       "Look for forced moves - cells with only one option",
       "Diagonal connections count too",
       "Use the revealed numbers as guides"
+    ],
+    "faq": [
+      {
+        "question": "Do diagonal connections count?",
+        "answer": "Yes! In Hidato, adjacent includes all 8 directions—horizontal, vertical, and diagonal. This creates more possible paths than grid puzzles that only use orthogonal movement."
+      },
+      {
+        "question": "How do I find where numbers go?",
+        "answer": "Start with the given numbers. For each gap between them, count how many steps apart they are. If two given numbers are 3 apart and 3 cells away from each other, the path between them is forced."
+      },
+      {
+        "question": "What if I'm stuck?",
+        "answer": "Look for 'bottlenecks'—cells that must be used because there's no alternative path. Also try working backwards from high numbers to find forced positions."
+      },
+      {
+        "question": "Is there always one solution?",
+        "answer": "Well-designed Hidato puzzles have exactly one solution. If you find multiple valid paths, the puzzle may not be properly constrained."
+      }
     ]
   },
   "zh": {
-    "name": "Hidato",
-    "desc": "用连续数字填满网格！每个数字必须与下一个序列数字水平、垂直或对角线相连。极具挑战性的逻辑谜题！",
+    "name": "Hidato填格",
+    "desc": "连接数字形成连续路径",
+    "description": "Hidato（又称数字蛇）是一个逻辑谜题，挑战你用连续数字填满网格！从1开始，每个数字必须与下一个相连——水平、垂直或对角线。有些数字已给出，你必须推断其余的。结果是一条穿过网格的连续路径。简单概念，令人满足的解决方案！",
+    "objectives": "用从1开始的连续数字填满整个网格，创建一条连续路径，每个数字与下一个相连。使用给定的数字作为锚点来推断所有缺失数字的位置。",
     "howToPlay": "点击空格放置下一个连续数字。数字必须与相邻数字（水平、垂直或对角线）相连。右键单击删除数字。",
+    "rules": {
+      "controls": "点击空格放置数字。你只能放置下一个连续数字。右键单击或使用Delete删除已放置的数字。",
+      "mechanics": [
+        "用1到N的数字填满网格",
+        "每个数字必须与前一个和后一个相邻（包括对角线）",
+        "有些数字预先填入作为线索",
+        "路径必须连续——没有间隙",
+        "每个数字恰好出现一次"
+      ],
+      "features": [
+        "给定数字 - 建立锚点",
+        "路径可视化 - 查看数字链",
+        "错误高亮 - 显示无效放置",
+        "多种网格大小 - 从简单到专家级别"
+      ]
+    },
     "tips": [
       "从1开始按顺序进行",
       "寻找必然步 - 只有一个选择的格子",
       "对角线连接也算",
       "使用已显示的数字作为指引"
+    ],
+    "faq": [
+      {
+        "question": "对角线连接算吗？",
+        "answer": "算！在Hidato中，相邻包括所有8个方向——水平、垂直和对角线。这比只使用正交移动的网格谜题创造了更多可能的路径。"
+      },
+      {
+        "question": "如何找到数字应该放在哪里？",
+        "answer": "从给定的数字开始。对于它们之间的每个间隙，计算它们相差多少步。如果两个给定数字相差3且相距3格，它们之间的路径就是强制的。"
+      },
+      {
+        "question": "如果卡住了怎么办？",
+        "answer": "寻找'瓶颈'——因为没有替代路径必须使用的格子。也尝试从高数字倒推找到强制位置。"
+      },
+      {
+        "question": "总是只有一个解决方案吗？",
+        "answer": "设计良好的Hidato谜题恰好有一个解决方案。如果你发现多个有效路径，这个谜题可能没有被正确约束。"
+      }
     ]
   }
 }

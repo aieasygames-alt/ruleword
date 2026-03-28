@@ -7,19 +7,96 @@
   "color": "from-emerald-500 to-teal-600",
   "en": {
     "name": "Mahjong Solitaire",
-    "desc": "Classic tile-matching puzzle! Remove matching pairs of tiles that are free on at least one side. Clear the board to win. Relaxing and addictive!",
-    "howToPlay": "",
-    "tips": []
+    "desc": "Match tiles to clear the board",
+    "description": "Mahjong Solitaire is a relaxing tile-matching puzzle that combines the beauty of traditional Chinese mahjong with engaging solitaire gameplay! Your goal is to clear a beautifully arranged stack of tiles by matching identical pairs. But there's a catch—only 'free' tiles can be matched, meaning they have at least one side (left or right) unblocked. With multiple layouts and soothing gameplay, Mahjong Solitaire offers the perfect escape for puzzle lovers seeking a calm yet challenging experience.",
+    "objectives": "Clear the entire board by matching pairs of identical free tiles. A tile is free if at least one of its long sides (left or right) is not blocked by another tile. Complete the puzzle as quickly as possible while enjoying the meditative matching process.",
+    "howToPlay": "Click on two matching tiles that are 'free' (at least one left or right side is open, and no tile is on top). The tiles will be removed. Continue until all tiles are cleared or no more moves are possible.",
+    "rules": {
+      "controls": "Click on a free tile to select it, then click on a matching free tile to remove the pair. Free tiles are highlighted when selected.",
+      "mechanics": [
+        "Tiles must be identical to be matched (same symbol/pattern)",
+        "Only 'free' tiles can be selected - at least one side unblocked",
+        "Tiles on top block tiles below from being selected",
+        "Matching removes both tiles from the board",
+        "Game ends when board is cleared or no valid moves remain"
+      ],
+      "features": [
+        "Multiple Layouts - Various classic arrangements",
+        "Hint System - Find available matches",
+        "Shuffle - Rearrange tiles when stuck",
+        "Timer - Challenge yourself for speed"
+      ]
+    },
+    "tips": [
+      "Focus on removing tiles from the top layers first to free more tiles",
+      "Plan ahead - some matches may block future moves",
+      "Look for tiles that appear 3 or 4 times - matching them opens more options",
+      "Use hints sparingly to develop pattern recognition skills"
+    ],
+    "faq": [
+      {
+        "question": "What makes a tile 'free'?",
+        "answer": "A tile is free when at least one of its long sides (left or right) is completely unblocked AND no tile is sitting on top of it. Only free tiles can be matched."
+      },
+      {
+        "question": "Can all Mahjong Solitaire games be won?",
+        "answer": "Not always. Some tile arrangements may become unwinnable if you run out of valid matches. Use hints to check if moves are still available."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Remove tiles from higher layers first to expose more options. Avoid matching tiles that would trap identical tiles underneath."
+      },
+      {
+        "question": "Why can't I match these identical tiles?",
+        "answer": "Even if tiles look identical, they may not both be 'free'. Check if either tile is blocked on both sides or has a tile on top of it."
+      }
+    ]
   },
   "zh": {
     "name": "麻将配对",
-    "desc": "经典麻将配对游戏！移除至少一边自由的匹配牌对。清空棋盘获胜。轻松上瘾！",
-    "howToPlay": "Click on two matching tiles that are \"free\" (at least one left or right side is open, and no tile is on top). The tiles will be removed. Continue until all tiles are cleared or no more moves are possible.",
+    "desc": "配对消除麻将牌",
+    "description": "麻将配对是一款轻松的麻将牌配对游戏，结合了传统中国麻将的美丽和引人入胜的接龙玩法！你的目标是通过配对相同的牌来清除精心排列的牌堆。但有个条件——只有'自由'的牌才能配对，意味着它们至少有一边（左或右）没有被阻挡。凭借多种布局和舒缓的游戏玩法，麻将配对为寻求平静而又有挑战性体验的谜题爱好者提供了完美的逃离。",
+    "objectives": "通过配对相同的自由牌来清除整个棋盘。如果一张牌的至少一个长边（左或右）没有被另一张牌阻挡，它就是自由的。在享受冥想式配对过程的同时尽可能快地完成谜题。",
+    "howToPlay": "点击两张相同的'自由'牌（至少有一边开放，上面没有牌）。两张牌会被移除。继续直到清除所有牌或没有更多可能的移动。",
+    "rules": {
+      "controls": "点击一张自由牌选中它，然后点击另一张相同的自由牌移除这对牌。选中时自由牌会被高亮显示。",
+      "mechanics": [
+        "牌必须相同才能配对（相同的符号/图案）",
+        "只有'自由'牌才能被选中——至少有一边不被阻挡",
+        "上面的牌会阻止下面的牌被选中",
+        "配对会从棋盘上移除两张牌",
+        "当棋盘清空或没有有效移动时游戏结束"
+      ],
+      "features": [
+        "多种布局 - 各种经典排列",
+        "提示系统 - 查找可用的配对",
+        "洗牌 - 卡住时重新排列牌",
+        "计时器 - 挑战自己的速度"
+      ]
+    },
     "tips": [
-      "Focus on removing tiles from the top layers first",
-      "Plan ahead - some matches may block future moves",
-      "Look for tiles that appear 3 or 4 times - matching them opens more options",
-      "Use hints if stuck, but try to spot patterns yourself"
+      "首先专注于移除顶层的牌以释放更多牌",
+      "提前规划——某些配对可能会阻止未来的移动",
+      "寻找出现3或4次的牌——配对它们会打开更多选择",
+      "少用提示以培养模式识别能力"
+    ],
+    "faq": [
+      {
+        "question": "什么是'自由'牌？",
+        "answer": "当一张牌的至少一个长边（左或右）完全不被阻挡，且上面没有牌时，它就是自由的。只有自由牌才能配对。"
+      },
+      {
+        "question": "所有麻将配对游戏都能赢吗？",
+        "answer": "不一定。如果用完有效的配对，某些牌排列可能变得无法获胜。使用提示检查是否还有可用的移动。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "先移除更高层的牌以暴露更多选择。避免配对会困住下面相同牌的牌。"
+      },
+      {
+        "question": "为什么我不能配对这两张相同的牌？",
+        "answer": "即使牌看起来相同，它们可能不都是'自由'的。检查是否有任何一张牌两边都被阻挡或上面有牌。"
+      }
     ]
   }
 }

@@ -8,23 +8,95 @@
   "en": {
     "name": "Jewel Quest",
     "desc": "Match-3 puzzle excitement! Swap adjacent jewels to create matches of 3 or more. Plan your moves carefully to reach the target score!",
+    "description": "Jewel Quest is the sparkling match-3 puzzle game that has captivated millions! Swap adjacent jewels to create lines of three or more matching gems. When matched, jewels disappear and new ones fall from above, potentially creating chain reactions and combos. With limited moves, strategic planning is essential to reach the target score. Dazzling gems, satisfying matches, endless fun!",
+    "objectives": "Reach the target score by matching jewels before running out of moves. Create matches of 3 or more by swapping adjacent gems. Plan combinations and cascades to maximize points. Longer matches and chain reactions score bonus points!",
     "howToPlay": "Click a jewel, then click an adjacent jewel to swap them. Match 3 or more jewels of the same color horizontally or vertically to score points and clear them from the board.",
+    "rules": {
+      "controls": "Click on a jewel to select it, then click on an adjacent jewel to swap their positions. If this creates a match of 3+ same-colored jewels, they disappear and new jewels fall from above.",
+      "mechanics": [
+        "Swap adjacent jewels to match 3+",
+        "Matched jewels disappear",
+        "New jewels fall from above",
+        "Cascades create combos",
+        "Limited moves per level"
+      ],
+      "features": [
+        "Match-3 Gameplay - Classic mechanics",
+        "Cascading Combos - Chain reactions",
+        "Move Limit - Strategic planning",
+        "Colorful Jewels - Visual appeal"
+      ]
+    },
     "tips": [
       "Look for opportunities to create 4+ matches",
       "Plan moves that will cause cascading combos",
       "Work from the bottom for more cascades",
       "Use your 30 moves wisely!"
+    ],
+    "faq": [
+      {
+        "question": "What happens when I match 4 or more jewels?",
+        "answer": "Matching 4 or more jewels creates special power-ups in many versions. Even without special powers, longer matches score significantly more points. Always look for opportunities to create larger matches!"
+      },
+      {
+        "question": "Why should I work from the bottom?",
+        "answer": "Matching jewels at the bottom causes more jewels to fall, increasing the chance of creating automatic cascades and combos. Bottom matches can trigger chain reactions across the entire board!"
+      },
+      {
+        "question": "What are cascading combos?",
+        "answer": "When matched jewels disappear and new ones fall, they may automatically create new matches. These cascade combos multiply your score without using extra moves—highly valuable for reaching targets!"
+      },
+      {
+        "question": "How many moves do I get?",
+        "answer": "Most levels give you 30 moves to reach the target score. Use them wisely—sometimes it's better to set up a big combo than to take an immediate small match."
+      }
     ]
   },
   "zh": {
     "name": "宝石迷阵",
     "desc": "三消谜题刺激体验！交换相邻宝石来创造3个或更多的匹配。仔细规划你的移动以达到目标分数！",
+    "description": "宝石迷阵是迷住了数百万人的闪耀三消益智游戏！交换相邻的宝石来创造三个或更多匹配宝石的线。当匹配时，宝石消失，新的从上方落下，可能创造连锁反应和组合。移动次数有限，战略规划对于达到目标分数至关重要。耀眼的宝石，令人满足的匹配，无尽的乐趣！",
+    "objectives": "在用尽移动次数之前通过匹配宝石达到目标分数。通过交换相邻宝石来创造3个或更多的匹配。规划组合和级联来最大化分数。更长的匹配和连锁反应获得额外分数！",
     "howToPlay": "点击一个宝石，然后点击相邻宝石来交换它们。水平或垂直匹配3个或更多相同颜色的宝石以得分并将它们从棋盘上清除。",
+    "rules": {
+      "controls": "点击宝石选择它，然后点击相邻宝石来交换它们的位置。如果这创造了3+相同颜色宝石的匹配，它们会消失，新宝石从上方落下。",
+      "mechanics": [
+        "交换相邻宝石匹配3+",
+        "匹配的宝石消失",
+        "新宝石从上方落下",
+        "级联创造组合",
+        "每关移动次数有限"
+      ],
+      "features": [
+        "三消游戏玩法 - 经典机制",
+        "级联组合 - 连锁反应",
+        "移动限制 - 战略规划",
+        "多彩宝石 - 视觉吸引力"
+      ]
+    },
     "tips": [
       "寻找创造4+匹配的机会",
       "规划会产生连击的移动",
       "从底部开始以产生更多连锁",
       "明智地使用你的30步！"
+    ],
+    "faq": [
+      {
+        "question": "当我匹配4个或更多宝石时会发生什么？",
+        "answer": "在许多版本中，匹配4个或更多宝石会创造特殊增强道具。即使没有特殊能力，更长的匹配也会获得明显更多的分数。始终寻找创造更大匹配的机会！"
+      },
+      {
+        "question": "为什么我应该从底部工作？",
+        "answer": "在底部匹配宝石会导致更多宝石落下，增加创造自动级联和组合的机会。底部匹配可以触发整个棋盘的连锁反应！"
+      },
+      {
+        "question": "什么是级联组合？",
+        "answer": "当匹配的宝石消失，新的落下时，它们可能会自动创造新的匹配。这些级联组合在不使用额外移动的情况下倍增你的分数——对于达到目标非常有价值！"
+      },
+      {
+        "question": "我有多少移动次数？",
+        "answer": "大多数关卡给你30次移动来达到目标分数。明智地使用它们——有时设置一个大组合比立即采取小匹配更好。"
+      }
     ]
   }
 }

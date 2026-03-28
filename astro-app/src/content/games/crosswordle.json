@@ -7,24 +7,96 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Crosswordle",
-    "desc": "A creative twist on word puzzles! Swap adjacent letters to form valid words in this engaging crossword-style game. Perfect for vocabulary building and brain training.",
+    "desc": "Swap letters to form valid words",
+    "description": "Crosswordle combines word puzzle creativity with strategic letter swapping! You're presented with a grid where each row should spell a valid word, but the letters are scrambled. Swap letters between columns to unscramble each row. With limited swaps and a ticking clock, this game tests both your vocabulary and spatial thinking. Can you unscramble all the words?",
+    "objectives": "Swap letters between columns to make every row spell a valid word. Complete the puzzle using as few swaps as possible, or before time runs out. Challenge yourself to recognize word patterns quickly!",
     "howToPlay": "Click on a letter, then click another letter in a different column to swap them. Each row must form a valid word. Use hints wisely as swaps are limited.",
+    "rules": {
+      "controls": "Click on a letter to select it, then click another letter in a different column to swap their positions. Swaps can only occur between different columns, not within the same column.",
+      "mechanics": [
+        "Each row must form a valid dictionary word",
+        "Swaps only work between different columns",
+        "Limited number of swaps available",
+        "Timer adds pressure in timed mode",
+        "Hints reveal correct letter positions"
+      ],
+      "features": [
+        "Word Validation - Only real words accepted",
+        "Swap Counter - Track your efficiency",
+        "Hint System - Get help when stuck",
+        "Multiple Difficulty - Various word lengths"
+      ]
+    },
     "tips": [
       "Look for common letter patterns first",
       "Check which letters could start or end words",
       "Use the word list as a reference for valid words",
       "Plan multiple swaps ahead before executing"
+    ],
+    "faq": [
+      {
+        "question": "Can I swap letters in the same column?",
+        "answer": "No, swaps can only occur between different columns. This constraint is what makes the puzzle challenging—you must think about how each swap affects multiple rows."
+      },
+      {
+        "question": "What happens if I run out of swaps?",
+        "answer": "In limited swap mode, you'll need to restart. Try to plan your moves more carefully—look for swaps that fix multiple rows at once."
+      },
+      {
+        "question": "How do I know if a word is valid?",
+        "answer": "The game validates against a dictionary. If a row turns green, all words are valid. Invalid arrangements won't be accepted."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Start by identifying likely word patterns—common prefixes (TH, CH, WH) and suffixes (ING, TION, LY). Then focus on the most constrained rows first."
+      }
     ]
   },
   "zh": {
     "name": "填字游戏",
-    "desc": "文字谜题的创意变体！交换相邻字母组成有效单词，体验这款有趣的填字风格游戏。非常适合词汇积累和大脑训练。",
+    "desc": "交换字母组成有效单词",
+    "description": "填字游戏结合了文字谜题创意和战略性字母交换！你看到一个网格，每行应该拼出一个有效单词，但字母被打乱了。在列之间交换字母来解开每行。有限的交换和滴答作响的时钟，这个游戏同时测试你的词汇量和空间思维。你能解开所有单词吗？",
+    "objectives": "在列之间交换字母使每行拼出有效单词。用尽可能少的交换完成谜题，或在时间耗尽前完成。挑战自己快速识别单词模式！",
     "howToPlay": "点击一个字母，然后点击另一列中的另一个字母来交换它们。每行必须形成一个有效的单词。明智地使用提示，因为交换次数有限。",
+    "rules": {
+      "controls": "点击字母选中它，然后点击另一列中的另一个字母交换它们的位置。交换只能在不同的列之间进行，不能在同一列内。",
+      "mechanics": [
+        "每行必须形成有效的字典单词",
+        "交换只能在不同列之间进行",
+        "可用的交换次数有限",
+        "计时器在计时模式下增加压力",
+        "提示揭示正确的字母位置"
+      ],
+      "features": [
+        "单词验证 - 只接受真实单词",
+        "交换计数器 - 追踪你的效率",
+        "提示系统 - 卡住时获取帮助",
+        "多种难度 - 各种单词长度"
+      ]
+    },
     "tips": [
       "首先寻找常见的字母模式",
       "检查哪些字母可以开头或结尾单词",
       "使用单词列表作为有效单词的参考",
       "在执行之前提前规划多次交换"
+    ],
+    "faq": [
+      {
+        "question": "可以在同一列内交换字母吗？",
+        "answer": "不可以，交换只能在不同列之间进行。这个约束是谜题的挑战所在——你必须思考每次交换如何影响多行。"
+      },
+      {
+        "question": "如果交换用完了怎么办？",
+        "answer": "在有限交换模式下，你需要重新开始。尝试更仔细地规划你的移动——寻找能同时修复多行的交换。"
+      },
+      {
+        "question": "如何知道单词是否有效？",
+        "answer": "游戏根据字典验证。如果一行变绿，所有单词都是有效的。无效排列不会被接受。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "从识别可能的单词模式开始——常见前缀（TH、CH、WH）和后缀（ING、TION、LY）。然后首先关注最受约束的行。"
+      }
     ]
   }
 }

@@ -7,24 +7,96 @@
   "color": "from-emerald-500 to-teal-600",
   "en": {
     "name": "Solitaire TriPeaks",
-    "desc": "A fun solitaire variation! Remove all cards from the three peaks by playing cards that are one rank higher than the waste pile card. Any suit can be played!",
+    "desc": "Clear three peaks by playing sequential cards",
+    "description": "Solitaire TriPeaks is an addictive card game that combines strategy with luck! Three pyramids of cards await—you must clear them by playing cards that are one rank higher or lower than the current waste pile card. Unlike classic solitaire, suit doesn't matter here! Plan your moves to uncover buried cards, create long chains for bonus points, and clear all three peaks to win!",
+    "objectives": "Remove all cards from the three pyramid peaks by playing sequentially—each card played must be one rank higher or lower than the top waste card. Clear the entire board before running out of stock cards!",
     "howToPlay": "Click the stock to draw cards. Play cards from the peaks that are exactly one rank higher than the top waste card (any suit). Clear all cards to win!",
+    "rules": {
+      "controls": "Click on face-up cards from the peaks to play them onto the waste pile. Click the stock pile to draw a new card when no moves are available.",
+      "mechanics": [
+        "Play cards one rank higher OR lower than waste card",
+        "Suit does not matter—any suit can be played",
+        "Only uncovered cards can be played",
+        "Stock pile available when stuck",
+        "Clear all peaks to win"
+      ],
+      "features": [
+        "Three Peaks Layout - Triangle card pyramids",
+        "Wild Cards - Special cards with bonus effects",
+        "Streak Bonus - Chain plays for extra points",
+        "Undo System - Take back moves"
+      ]
+    },
     "tips": [
       "Plan ahead to uncover buried cards",
       "Try to clear peaks evenly",
       "Use the stock wisely - recycling costs points",
       "Long sequences reveal more cards"
+    ],
+    "faq": [
+      {
+        "question": "Can I play cards of any suit?",
+        "answer": "Yes! In TriPeaks, suit doesn't matter. You can play any card that's one rank higher or lower than the waste pile, regardless of suit color or symbol."
+      },
+      {
+        "question": "What happens when I run out of moves?",
+        "answer": "Click the stock pile to draw a new card. If the stock runs out, you can cycle through it—but recycling usually costs points!"
+      },
+      {
+        "question": "Should I clear one peak first or balance them?",
+        "answer": "Generally, try to keep options open by playing from multiple peaks. However, clearing one peak early can be strategic if it unlocks many buried cards."
+      },
+      {
+        "question": "What's a streak bonus?",
+        "answer": "Playing consecutive cards without drawing from stock builds a streak. Longer streaks multiply your points—plan ahead to maximize chains!"
+      }
     ]
   },
   "zh": {
     "name": "接龙三峰",
-    "desc": "有趣的接龙变体！通过打出比废牌堆顶牌大一点的牌来移除三峰的所有牌。任何花色都可以玩！",
+    "desc": "通过打出连续的牌清除三座山峰",
+    "description": "接龙三峰是一款令人上瘾的纸牌游戏，结合了策略和运气！三座纸牌金字塔等着你——你必须通过打出比当前废牌堆顶牌大一级或小一级的牌来清除它们。与经典接龙不同，这里花色不重要！规划你的移动以揭开埋藏的牌，创建长链获得奖励分数，清除所有三座山峰获胜！",
+    "objectives": "通过顺序打出——每张打出的牌必须比废牌堆顶牌大一级或小一级——来清除三座金字塔山峰的所有牌。在用完牌堆前清空整个棋盘！",
     "howToPlay": "点击牌堆抽牌。从三峰中打出比废牌堆顶牌大一级的牌（任何花色）。清除所有牌获胜！",
+    "rules": {
+      "controls": "点击山峰上的正面牌将它们打到废牌堆上。没有可用移动时点击牌堆抽取新牌。",
+      "mechanics": [
+        "打出比废牌高一级或低一级的牌",
+        "花色不重要——任何花色都可以打",
+        "只有未被覆盖的牌可以打",
+        "卡住时可以使用牌堆",
+        "清除所有山峰获胜"
+      ],
+      "features": [
+        "三峰布局 - 三角形纸牌金字塔",
+        "万能牌 - 带有奖励效果的特殊牌",
+        "连续奖励 - 连锁出牌获得额外分数",
+        "撤销系统 - 撤回移动"
+      ]
+    },
     "tips": [
       "提前规划以揭开埋藏的牌",
       "尝试均匀地清除山峰",
       "明智地使用牌堆 - 回收会扣分",
       "长序列能揭开更多牌"
+    ],
+    "faq": [
+      {
+        "question": "可以打任何花色的牌吗？",
+        "answer": "是的！在三峰中，花色不重要。你可以打任何比废牌堆大一级或小一级的牌，无论花色颜色或符号。"
+      },
+      {
+        "question": "当没有移动时怎么办？",
+        "answer": "点击牌堆抽取新牌。如果牌堆用完，你可以循环使用——但循环通常会扣分！"
+      },
+      {
+        "question": "应该先清除一个山峰还是平衡它们？",
+        "answer": "通常，尝试通过从多个山峰出牌来保持选项开放。但是，如果清除一个山峰可以解锁许多埋藏的牌，早期清除一个山峰可能是战略性的。"
+      },
+      {
+        "question": "什么是连续奖励？",
+        "answer": "不抽牌连续出牌会建立连续。更长的连续会倍增你的分数——提前规划最大化连锁！"
+      }
     ]
   }
 }

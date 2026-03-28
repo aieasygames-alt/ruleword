@@ -7,19 +7,96 @@
   "color": "from-amber-500 to-yellow-600",
   "en": {
     "name": "Chimp Test",
-    "desc": "Can you beat a chimpanzee at memory? Remember the positions of numbers 1-9 in order, then click them from memory. Most chimps outperform humans!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "黑猩猩测试",
-    "desc": "你能在记忆力上打败黑猩猩吗？记住1-9数字的位置顺序，然后凭记忆点击它们。大多数黑猩猩都胜过人类！",
+    "desc": "Can you beat a chimp at memory?",
+    "description": "The Chimp Test is based on a famous scientific study that showed chimpanzees outperforming humans at certain memory tasks! Numbers flash briefly on screen in random positions, then disappear. Your task: recall and click the positions in numerical order (1, 2, 3...). Research shows chimps can handle sequences of 9+ numbers with remarkable accuracy. Can you match their memory power?",
+    "objectives": "Remember the positions of numbered squares after they briefly appear, then click them in order from 1 to 9 (and beyond). Progress through increasingly difficult levels with more numbers to remember. Test your working memory against our primate cousins!",
     "howToPlay": "Numbers flash briefly on screen. After they disappear, click the squares in order from 1 to 9. Get them all right to advance to higher levels with more numbers.",
+    "rules": {
+      "controls": "Watch the numbered squares flash on screen. After they disappear, click the empty squares in numerical order (1, 2, 3...). Complete the sequence correctly to advance.",
+      "mechanics": [
+        "Numbers 1-9 appear briefly in random positions",
+        "After display, squares go blank",
+        "Click squares in correct numerical order",
+        "One mistake ends the current attempt",
+        "Levels increase difficulty (more numbers, shorter display)"
+      ],
+      "features": [
+        "Visual Memory Challenge - Test spatial recall",
+        "Progressive Difficulty - More numbers as you advance",
+        "Score Tracking - Compare with chimp performance",
+        "Instant Feedback - Know immediately if correct"
+      ]
+    },
     "tips": [
       "Use chunking - group numbers into patterns",
       "Associate positions with spatial memory",
       "Stay calm and focused during the flash",
       "Practice to improve your working memory capacity"
+    ],
+    "faq": [
+      {
+        "question": "Why is it called the Chimp Test?",
+        "answer": "This test replicates a famous study where chimpanzees, particularly a chimp named Ayumu, could remember 9-number sequences with 90% accuracy, outperforming human adults!"
+      },
+      {
+        "question": "What's a good score?",
+        "answer": "Most humans struggle beyond 7 numbers. Reaching level 9 is impressive. Young chimps in studies regularly achieve 80-90% accuracy at level 9."
+      },
+      {
+        "question": "How can I improve?",
+        "answer": "Practice regularly, use visualization techniques, and try chunking numbers into groups. Stay relaxed—stress hurts working memory performance."
+      },
+      {
+        "question": "Why are chimps better at this?",
+        "answer": "Scientists believe chimps have superior eidetic (photographic) memory for brief displays. Young chimps especially excel at this specific task, though humans can improve with practice."
+      }
+    ]
+  },
+  "zh": {
+    "name": "黑猩猩测试",
+    "desc": "你能在记忆上打败黑猩猩吗？",
+    "description": "黑猩猩测试基于一项著名的科学研究，显示黑猩猩在某些记忆任务上胜过人类！数字在屏幕上随机位置短暂闪现，然后消失。你的任务：回忆并按数字顺序（1、2、3...）点击位置。研究表明黑猩猩可以以惊人的准确度处理9+个数字的序列。你能匹配它们的记忆力吗？",
+    "objectives": "在数字短暂出现后记住编号方格的位置，然后按1到9（及更多）的顺序点击它们。在越来越困难的级别中进步，需要记住更多数字。测试你的工作记忆对抗我们的灵长类表亲！",
+    "howToPlay": "数字在屏幕上短暂闪现。消失后，按1到9的顺序点击方格。全部正确即可进入更高级别，有更多数字需要记忆。",
+    "rules": {
+      "controls": "观看编号方格在屏幕上闪现。消失后，按数字顺序（1、2、3...）点击空白方格。正确完成序列即可前进。",
+      "mechanics": [
+        "数字1-9在随机位置短暂出现",
+        "显示后方格变空白",
+        "按正确数字顺序点击方格",
+        "一次错误结束当前尝试",
+        "级别增加难度（更多数字，更短显示时间）"
+      ],
+      "features": [
+        "视觉记忆挑战 - 测试空间回忆",
+        "渐进难度 - 随着进步数字更多",
+        "分数追踪 - 与黑猩猩表现比较",
+        "即时反馈 - 立即知道是否正确"
+      ]
+    },
+    "tips": [
+      "使用分块 - 将数字分组成模式",
+      "将位置与空间记忆关联",
+      "在闪现时保持冷静专注",
+      "练习以提高你的工作记忆容量"
+    ],
+    "faq": [
+      {
+        "question": "为什么叫黑猩猩测试？",
+        "answer": "这个测试复制了一项著名研究，其中黑猩猩，特别是一只名叫Ayumu的黑猩猩，能以90%的准确率记住9个数字的序列，胜过成年人类！"
+      },
+      {
+        "question": "什么是好的分数？",
+        "answer": "大多数人在7个数字以上就困难了。达到9级令人印象深刻。研究中的年轻黑猩猩在9级经常达到80-90%的准确率。"
+      },
+      {
+        "question": "如何提高？",
+        "answer": "定期练习，使用可视化技巧，尝试将数字分成组。保持放松——压力会损害工作记忆表现。"
+      },
+      {
+        "question": "为什么黑猩猩更擅长这个？",
+        "answer": "科学家认为黑猩猩对短暂显示有更优越的照相式记忆。年轻的黑猩猩尤其擅长这个特定任务，尽管人类可以通过练习提高。"
+      }
     ]
   }
 }

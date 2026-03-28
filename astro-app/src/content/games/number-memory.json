@@ -7,24 +7,96 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Number Memory",
-    "desc": "Remember increasingly long number sequences! Starting with 3 digits, how far can you go? Train your working memory with this challenging test.",
+    "desc": "Remember increasingly long number sequences",
+    "description": "Number Memory is a classic working memory challenge that tests how many digits you can retain! Watch a sequence of numbers flash on screen, then type them back from memory. Each round adds one more digit, pushing your memory capacity to its limits. The average person can hold 7±2 items in working memory—can you beat that? Train your brain and track your progress!",
+    "objectives": "Remember and correctly type back number sequences that grow progressively longer. Push your working memory capacity to remember as many digits as possible. Track your improvement over time with repeated practice.",
     "howToPlay": "Watch the number displayed on screen. When it disappears, type the exact sequence. Each correct answer adds one more digit. You have 3 attempts per level.",
+    "rules": {
+      "controls": "Watch the number sequence carefully. When it disappears, type the digits in order. Press Enter or Submit to check your answer.",
+      "mechanics": [
+        "Sequences start with 3 digits",
+        "Each correct recall adds one more digit",
+        "Numbers are random and change each round",
+        "3 mistakes allowed before game over",
+        "Your best streak is tracked"
+      ],
+      "features": [
+        "Progressive Challenge - Sequences get longer",
+        "Multiple Attempts - 3 lives per session",
+        "Best Score Tracking - Track improvement",
+        "Instant Feedback - Know immediately if correct"
+      ]
+    },
     "tips": [
       "Chunk numbers into groups of 2-3 digits",
       "Create patterns or stories to remember sequences",
       "Stay focused and eliminate distractions",
       "Practice regularly to improve memory capacity"
+    ],
+    "faq": [
+      {
+        "question": "What's a good score?",
+        "answer": "The average person can remember 7±2 digits. Reaching 9-10 digits is above average. Exceptional memory athletes can recall 20+ digits with training."
+      },
+      {
+        "question": "How can I remember more digits?",
+        "answer": "Use chunking (group into 2-3 digit segments), create mental associations, and practice regularly. Some people find it helpful to say the numbers aloud."
+      },
+      {
+        "question": "What is working memory?",
+        "answer": "Working memory is your brain's 'scratchpad'—it temporarily holds information you're actively using. It's different from long-term memory and can be improved with practice."
+      },
+      {
+        "question": "Why do numbers disappear so quickly?",
+        "answer": "The brief display tests your working memory capacity. Longer display times would allow you to use other strategies like rehearsal, which isn't what this test measures."
+      }
     ]
   },
   "zh": {
     "name": "数字记忆",
-    "desc": "记忆越来越长的数字序列！从3位数字开始，你能走多远？用这个挑战性测试训练你的工作记忆。",
+    "desc": "记忆越来越长的数字序列",
+    "description": "数字记忆是一项经典的工作记忆挑战，测试你能保留多少位数字！观看屏幕上闪现的数字序列，然后凭记忆输入它们。每轮增加一个数字，将你的记忆容量推向极限。普通人可以在工作记忆中保持7±2个项目——你能超过这个吗？训练你的大脑并追踪你的进步！",
+    "objectives": "记住并正确输入逐渐增长的数字序列。推动你的工作记忆容量尽可能记住更多数字。通过反复练习追踪你随时间的进步。",
     "howToPlay": "仔细观看显示的数字序列。输入相同的序列重复它。每个新回合增加一个数字。输入错误序列则游戏结束。",
+    "rules": {
+      "controls": "仔细观看数字序列。消失后，按顺序输入数字。按回车或提交检查你的答案。",
+      "mechanics": [
+        "序列从3位数字开始",
+        "每次正确回忆增加一个数字",
+        "数字是随机的，每轮都会变化",
+        "游戏结束前允许3次错误",
+        "追踪你的最佳连胜"
+      ],
+      "features": [
+        "渐进挑战 - 序列变得更长",
+        "多次尝试 - 每次会话3条命",
+        "最佳分数追踪 - 追踪进步",
+        "即时反馈 - 立即知道是否正确"
+      ]
+    },
     "tips": [
       "使用分组技巧（如电话号码）记忆",
       "在心里默念数字",
       "将数字与图像或模式关联",
       "练习以提高你的记忆跨度"
+    ],
+    "faq": [
+      {
+        "question": "什么是好的分数？",
+        "answer": "普通人可以记住7±2位数字。达到9-10位是高于平均的。优秀的记忆运动员经过训练可以回忆20+位数字。"
+      },
+      {
+        "question": "如何记住更多数字？",
+        "answer": "使用分块（分成2-3位的组），创造心理联想，定期练习。有些人发现大声说出数字有帮助。"
+      },
+      {
+        "question": "什么是工作记忆？",
+        "answer": "工作记忆是你大脑的'便笺'——它暂时保存你正在积极使用的信息。它与长期记忆不同，可以通过练习改善。"
+      },
+      {
+        "question": "为什么数字消失得这么快？",
+        "answer": "短暂显示测试你的工作记忆容量。更长的显示时间会让你使用其他策略如复述，这不是这个测试要测量的。"
+      }
     ]
   }
 }

@@ -7,19 +7,96 @@
   "color": "from-red-500 to-orange-600",
   "en": {
     "name": "Aim Trainer",
-    "desc": "Improve your mouse precision and reaction time! Click targets as they appear randomly. Track your accuracy, speed, and score. Perfect for FPS gamers!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "瞄准训练",
-    "desc": "提升鼠标精准度和反应时间！点击随机出现的目标。跟踪你的准确率、速度和得分。FPS玩家必备！",
+    "desc": "Improve your mouse precision and speed",
+    "description": "Aim Trainer is the ultimate tool for improving your mouse accuracy and reaction time! Whether you're a competitive FPS gamer looking to sharpen your skills or anyone wanting better mouse control, this trainer offers multiple exercises to boost your precision. Track your accuracy, reaction speed, and overall score as you click targets that appear across the screen. Practice daily and watch your skills improve!",
+    "objectives": "Click on targets as quickly and accurately as possible. Achieve the highest score by maintaining high accuracy while minimizing reaction time. Track your improvement across multiple sessions.",
     "howToPlay": "Click on targets as they appear on screen. Different modes offer varied challenges: Classic (hit before timeout), Tracking (follow moving target), Flick (rapid target acquisition).",
+    "rules": {
+      "controls": "Move your mouse to aim and click to hit targets. Each target appears at a random location - click it as fast as possible before time runs out.",
+      "mechanics": [
+        "Targets appear randomly across the play area",
+        "Each target has a limited lifespan before disappearing",
+        "Accuracy = successful hits ÷ total clicks",
+        "Reaction time measured in milliseconds",
+        "Score based on speed, accuracy, and consistency"
+      ],
+      "features": [
+        "Classic Mode - Hit static targets before they disappear",
+        "Tracking Mode - Follow moving targets",
+        "Flick Mode - Rapid target acquisition practice",
+        "Statistics - Track accuracy, speed, and improvement"
+      ]
+    },
     "tips": [
       "Keep your wrist relaxed for smoother movements",
       "Focus on accuracy over speed initially",
       "Use a consistent mouse sensitivity",
       "Practice daily for noticeable improvement"
+    ],
+    "faq": [
+      {
+        "question": "What's a good accuracy score?",
+        "answer": "90%+ accuracy is good for beginners. Expert aimers maintain 95%+ accuracy. Focus on consistency before pushing for speed."
+      },
+      {
+        "question": "How often should I practice?",
+        "answer": "15-30 minutes daily is ideal. Consistent practice builds muscle memory more effectively than occasional long sessions."
+      },
+      {
+        "question": "Which mode is best for FPS gaming?",
+        "answer": "Flick mode helps with quick target acquisition, while Tracking improves following moving targets. Practice both for well-rounded skills."
+      },
+      {
+        "question": "Why use a consistent mouse sensitivity?",
+        "answer": "Your brain learns the muscle memory for specific movements. Changing sensitivity requires relearning aim, slowing your improvement."
+      }
+    ]
+  },
+  "zh": {
+    "name": "瞄准训练",
+    "desc": "提升鼠标精准度和速度",
+    "description": "瞄准训练是提升鼠标准确度和反应时间的终极工具！无论你是想要磨练技能的竞技FPS玩家还是想要更好鼠标控制的任何人，这个训练器提供多种练习来提升你的精准度。在点击屏幕上出现的目标时追踪你的准确率、反应速度和总体得分。每天练习，看着你的技能提升！",
+    "objectives": "尽可能快速准确地点击目标。在保持高准确率的同时最小化反应时间来获得最高分。追踪你在多次练习中的进步。",
+    "howToPlay": "点击屏幕上出现的目标。不同模式提供不同挑战：经典（超时前点击）、追踪（跟随移动目标）、甩枪（快速目标获取）。",
+    "rules": {
+      "controls": "移动鼠标瞄准，点击击中目标。每个目标出现在随机位置——在时间耗尽前尽快点击它。",
+      "mechanics": [
+        "目标随机出现在游戏区域",
+        "每个目标在消失前有有限的生命周期",
+        "准确率 = 成功命中 ÷ 总点击",
+        "反应时间以毫秒测量",
+        "得分基于速度、准确率和一致性"
+      ],
+      "features": [
+        "经典模式 - 在静态目标消失前击中它们",
+        "追踪模式 - 跟随移动的目标",
+        "甩枪模式 - 快速目标获取练习",
+        "统计数据 - 追踪准确率、速度和进步"
+      ]
+    },
+    "tips": [
+      "保持手腕放松以获得更流畅的移动",
+      "最初专注于准确率而非速度",
+      "使用一致的鼠标灵敏度",
+      "每天练习以获得明显进步"
+    ],
+    "faq": [
+      {
+        "question": "什么是好的准确率分数？",
+        "answer": "90%+准确率对初学者来说不错。专家级瞄准手保持95%+准确率。在追求速度前先专注于一致性。"
+      },
+      {
+        "question": "应该多久练习一次？",
+        "answer": "每天15-30分钟是理想的。持续练习比偶尔长时间练习更有效地建立肌肉记忆。"
+      },
+      {
+        "question": "哪种模式对FPS游戏最好？",
+        "answer": "甩枪模式帮助快速目标获取，而追踪提升跟随移动目标。两种都练习以获得全面技能。"
+      },
+      {
+        "question": "为什么要使用一致的鼠标灵敏度？",
+        "answer": "你的大脑学习特定移动的肌肉记忆。改变灵敏度需要重新学习瞄准，会减慢你的进步。"
+      }
     ]
   }
 }

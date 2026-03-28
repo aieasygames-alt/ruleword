@@ -7,24 +7,96 @@
   "color": "from-yellow-400 to-amber-500",
   "en": {
     "name": "Pac-Man",
-    "desc": "The most famous video game character! Eat all dots while avoiding colorful ghosts. Power pellets let you turn the tables. Waka waka waka!",
+    "desc": "Eat all dots while avoiding colorful ghosts",
+    "description": "Pac-Man is the most iconic video game character in history! Navigate through a maze filled with dots while being chased by four colorful ghosts—Blinky, Pinky, Inky, and Clyde. Eat all the dots to advance to the next level, but be careful: one touch from a ghost costs a life! Power pellets turn the tables, allowing you to eat the ghosts for bonus points. This 1980 classic defined the maze chase genre and remains as addictive today as ever.",
+    "objectives": "Clear each maze by eating all the dots while avoiding or hunting ghosts. Maximize your score by eating ghosts during power-up mode and collecting bonus fruits. Survive as many levels as possible as the ghosts become faster and more aggressive.",
     "howToPlay": "Use arrow keys to guide Pac-Man through the maze. Eat all dots to win. Avoid ghosts unless powered up. Power pellets make ghosts vulnerable temporarily.",
+    "rules": {
+      "controls": "Use arrow keys (↑ ↓ ← →) or WASD to navigate Pac-Man through the maze. Pac-Man continuously moves in the chosen direction until you change direction or hit a wall.",
+      "mechanics": [
+        "Eat all 240 dots in the maze to complete a level",
+        "Four ghosts have unique AI behaviors and chase patterns",
+        "Power pellets make ghosts vulnerable for a limited time",
+        "Eating ghosts in succession increases bonus points (200, 400, 800, 1600)",
+        "Bonus fruits appear periodically for extra points"
+      ],
+      "features": [
+        "Power Pellets - Turn ghosts blue and edible",
+        "Ghost Behaviors - Each ghost has unique movement patterns",
+        "Bonus Items - Fruits appear for extra points",
+        "Speed Increase - Ghosts get faster each level"
+      ]
+    },
     "tips": [
-      "Learn ghost patterns - each has unique behavior",
-      "Save power pellets for emergencies",
+      "Learn each ghost's unique behavior pattern for better evasion",
+      "Save power pellets for emergencies or maximum point opportunities",
       "Clear one side of the maze at a time",
-      "Use tunnels to escape ghosts"
+      "Use tunnels to escape ghosts - you move faster through them"
+    ],
+    "faq": [
+      {
+        "question": "What do the different ghosts do?",
+        "answer": "Blinky (red) chases directly, Pinky (pink) ambushes from ahead, Inky (cyan) uses complex targeting, and Clyde (orange) has random behavior when close."
+      },
+      {
+        "question": "How long do power pellets last?",
+        "answer": "Power pellets make ghosts vulnerable for a limited time that decreases as you advance levels. Eat ghosts quickly before they turn back!"
+      },
+      {
+        "question": "What's the maximum score from eating ghosts?",
+        "answer": "Eating all four ghosts after one power pellet scores 200+400+800+1600=3000 points. The sequence resets with each power pellet."
+      },
+      {
+        "question": "Why use the tunnels?",
+        "answer": "Pac-Man maintains normal speed through tunnels while ghosts slow down, making them perfect escape routes when cornered."
+      }
     ]
   },
   "zh": {
     "name": "吃豆人",
-    "desc": "最著名的电子游戏角色！吃掉所有豆子同时躲避彩色幽灵。能量豆让你反败为胜。哇咔哇咔哇咔！",
+    "desc": "吃掉所有豆子同时躲避彩色幽灵",
+    "description": "吃豆人是历史上最具标志性的电子游戏角色！在被四个彩色幽灵——红鬼、粉鬼、青鬼和橙鬼——追逐的同时穿越充满豆子的迷宫。吃掉所有豆子进入下一关，但要小心：碰到幽灵会失去一条命！能量豆让你扭转局势，可以吃掉幽灵获得额外分数。这款1980年的经典定义了迷宫追逐游戏类型，至今仍然令人上瘾。",
+    "objectives": "通过吃掉所有豆子清除每个迷宫，同时躲避或猎杀幽灵。在能量模式下吃幽灵和收集奖励水果来最大化分数。随着幽灵变得更快更具攻击性，尽可能生存更多关卡。",
     "howToPlay": "使用方向键移动吃豆人。吃掉豆子得分。避开幽灵——被碰到会失去一条命。吃掉能量球可以暂时反击幽灵。",
+    "rules": {
+      "controls": "使用方向键（↑ ↓ ← →）或WASD导航吃豆人穿越迷宫。吃豆人会持续朝选定方向移动，直到你改变方向或撞墙。",
+      "mechanics": [
+        "吃掉迷宫中所有240个豆子完成一关",
+        "四个幽灵有独特的AI行为和追逐模式",
+        "能量豆使幽灵在限定时间内变得脆弱",
+        "连续吃幽灵会增加奖励分数（200、400、800、1600）",
+        "奖励水果定期出现提供额外分数"
+      ],
+      "features": [
+        "能量豆 - 让幽灵变蓝可被吃",
+        "幽灵行为 - 每个幽灵有独特的移动模式",
+        "奖励物品 - 水果出现获得额外分数",
+        "速度增加 - 每关幽灵都会变快"
+      ]
+    },
     "tips": [
-      "能量球时优先追逐幽灵",
-      "学习每个幽灵的行为模式",
-      "利用隧道穿越地图",
-      "规划路线以最大化效率"
+      "学习每个幽灵的独特行为模式以更好地躲避",
+      "保存能量豆用于紧急情况或最大得分机会",
+      "一次清除迷宫的一边",
+      "利用隧道逃脱幽灵——你在其中移动更快"
+    ],
+    "faq": [
+      {
+        "question": "不同的幽灵有什么区别？",
+        "answer": "红鬼直接追逐，粉鬼从前方伏击，青鬼使用复杂定位，橙鬼靠近时行为随机。"
+      },
+      {
+        "question": "能量豆效果持续多久？",
+        "answer": "能量豆让幽灵变得脆弱的时间随关卡提升而减少。在它们变回来之前快速吃掉！"
+      },
+      {
+        "question": "吃幽灵的最高分是多少？",
+        "answer": "一个能量豆后吃掉所有四个幽灵得200+400+800+1600=3000分。每个能量豆重置序列。"
+      },
+      {
+        "question": "为什么要使用隧道？",
+        "answer": "吃豆人在隧道中保持正常速度而幽灵会减速，是被困时完美的逃脱路线。"
+      }
     ]
   }
 }

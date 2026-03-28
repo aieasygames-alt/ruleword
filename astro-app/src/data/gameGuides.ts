@@ -463,6 +463,17 @@ const gameGuidesEn: GameGuides = {
       'Stay calm and focused as speed increases',
     ],
   },
+  amongus: {
+    name: 'Among Us',
+    intro: 'Among Us is a fun tribute to the popular social deduction game. Control your crewmate character, move around the spaceship, and complete tasks while avoiding the sus impostor!',
+    howToPlay: 'Use arrow keys or WASD to move your character. Press Space to use the kill button when near a target. Complete tasks or eliminate targets to win.',
+    tips: [
+      'Move carefully and watch your surroundings',
+      'Use sabotage to create distractions',
+      'Stay alert for any suspicious behavior',
+      'Complete tasks quickly to help your team win',
+    ],
+  },
   reactiontest: {
     name: 'Reaction Test',
     intro: 'Reaction Test measures your reflex speed. Wait for green and click as fast as possible! The average human reaction time is about 250ms.',
@@ -714,6 +725,83 @@ const gameGuidesEn: GameGuides = {
       'Start with the most obvious connections',
       'Be careful with tricky words that seem related',
       'Yellow is easiest, purple is hardest',
+    ],
+  },
+  typingtest: {
+    name: 'Typing Test',
+    intro: 'Test your typing speed and accuracy! Type the displayed words as fast and accurately as possible. Track your WPM (words per minute) and improve your keyboard skills!',
+    howToPlay: 'Words appear on screen - type them exactly as shown. Press space after each word to move to the next. Your WPM and accuracy are tracked in real-time.',
+    tips: [
+      'Focus on accuracy first, speed comes with practice',
+      'Keep your eyes on the screen, not the keyboard',
+      'Use all ten fingers for maximum speed',
+      'Practice regularly to build muscle memory',
+    ],
+  },
+  aimtrainer: {
+    name: 'Aim Trainer',
+    intro: 'Improve your mouse precision and reaction time! Click targets as they appear. Track your accuracy, reaction time, and score. Perfect for FPS gamers looking to warm up!',
+    howToPlay: 'Click on targets as they appear on screen. Different modes offer varied challenges: Classic (hit before timeout), Tracking (follow moving target), Flick (rapid target acquisition).',
+    tips: [
+      'Keep your wrist relaxed for smoother movements',
+      'Focus on accuracy over speed initially',
+      'Use a consistent mouse sensitivity',
+      'Practice daily for noticeable improvement',
+    ],
+  },
+  chimptest: {
+    name: 'Chimp Test',
+    intro: 'Can you beat a chimpanzee at memory? Remember the positions of numbers 1-9 in order, then click them from memory. Most chimps outperform humans at this cognitive challenge!',
+    howToPlay: 'Numbers appear briefly on a grid - remember their positions. When hidden, click the numbered cells in order from 1-9. Test your working memory limits!',
+    tips: [
+      'Focus on numbers that appear first',
+      'Use spatial memory techniques',
+      'Practice to improve your span',
+      'Stay calm under time pressure',
+    ],
+  },
+  speedmath: {
+    name: 'Speed Math',
+    intro: 'Test your mental arithmetic speed! Solve as many math problems as possible before time runs out. Addition, subtraction, multiplication, and division challenges await!',
+    howToPlay: 'Solve the arithmetic problem shown before time runs out. Type your answer and press Enter. Correct answers add points, time. Wrong answers cost time. Beat your high score!',
+    tips: [
+      'Focus on accuracy over speed',
+      'Use mental math shortcuts',
+      'Practice multiplication tables',
+      'Stay calm under time pressure',
+    ],
+  },
+  colormatch: {
+    name: 'Color Match',
+    intro: 'Test your color perception and reaction speed! Match colors quickly and accurately. A fun way to train your visual processing and color recognition skills!',
+    howToPlay: 'Match the displayed color to the correct option as quickly as possible. Choose from multiple color choices. Track your reaction time and accuracy!',
+    tips: [
+      'Trust your first instinct',
+      'Focus on the center color',
+      'Practice improves reaction time',
+      'Stay relaxed for better accuracy',
+    ],
+  },
+  strooptest: {
+    name: 'Stroop Test',
+    intro: 'Test your cognitive flexibility and processing speed! Does the text color match the word meaning? The famous Stroop effect measures your ability to process conflicting information!',
+    howToPlay: 'Determine if the text COLOR matches the word MEANING. Click Yes or No as quickly as possible. This tests your brain\'s ability to handle conflicting information!',
+    tips: [
+      'Focus on the text color, not the word',
+      'Don\'t read the word - see the color',
+      'Practice improves cognitive flexibility',
+      'Stay calm and focused',
+    ],
+  },
+  reactiontime: {
+    name: 'Reaction Time',
+    intro: 'Test your pure reaction speed! Wait for the visual signal, then click as fast as possible. Track your best times and compete with friends!',
+    howToPlay: 'Wait for the screen to change from red to green. Click immediately when you see green. Don\'t click early or you\'ll have to restart. Track your average reaction time!',
+    tips: [
+      'Stay relaxed - tension slows reactions',
+      'Focus on the center of the screen',
+      'Don\'t anticipate - wait for the signal',
+      'Practice to improve your baseline',
     ],
   },
 }
@@ -1289,6 +1377,17 @@ const gameGuidesZhCN: GameGuides = {
       '使用节奏和模式帮助记忆',
       '专注于上一个颜色添加',
       '练习提高你的记忆跨度',
+    ],
+  },
+  amongus: {
+    name: '太空狼人杀',
+    intro: '太空狼人杀是热门社交推理游戏的趣味致敬版！控制你的船员角色，在飞船中移动，完成任务，同时躲避可疑的冒名顶替者！',
+    howToPlay: '使用方向键或WASD移动角色。靠近目标时按空格键使用击杀按钮。完成任务或消灭目标来获胜。',
+    tips: [
+      '小心移动，观察周围环境',
+      '使用破坏技能制造混乱',
+      '警惕任何可疑行为',
+      '快速完成任务帮助团队获胜',
     ],
   },
   simonsays: {

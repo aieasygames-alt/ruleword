@@ -7,24 +7,96 @@
   "color": "from-fuchsia-500 to-pink-600",
   "en": {
     "name": "Stroop Test",
-    "desc": "Test your cognitive flexibility! Does the text color match the word meaning? The Stroop effect measures processing speed and cognitive control.",
+    "desc": "Test cognitive flexibility and control",
+    "description": "The Stroop Test is a famous psychological experiment that measures your brain's processing speed and cognitive control! You'll see color words displayed in various ink colors. Your task: determine if the ink color matches the word's meaning. The catch? Your brain automatically reads the word, creating interference when they don't match. This classic test reveals fascinating insights about how your mind works!",
+    "objectives": "Correctly identify whether the text color matches the word meaning as quickly as possible. Achieve high accuracy while maintaining speed. This test measures your cognitive flexibility and ability to suppress automatic responses.",
     "howToPlay": "You'll see a word displayed in a certain color. Click 'MATCH' if the color matches the word meaning, or 'NO MATCH' if they differ. Answer as quickly and accurately as possible!",
+    "rules": {
+      "controls": "You'll see a color word (like 'RED') displayed in a certain ink color. Click MATCH if the ink color matches what the word says, or NO MATCH if they differ. React quickly!",
+      "mechanics": [
+        "Words are color names (RED, BLUE, GREEN, YELLOW)",
+        "Text can appear in matching or different colors",
+        "Your brain wants to read the word, not see the color",
+        "This creates interference when they don't match",
+        "Score based on both speed and accuracy"
+      ],
+      "features": [
+        "Speed Measurement - Track reaction time",
+        "Accuracy Tracking - Monitor correct responses",
+        "Progressive Difficulty - More challenging patterns",
+        "Instant Feedback - Know if you're right or wrong"
+      ]
+    },
     "tips": [
       "Focus on the text color, not the word meaning",
       "The instinct to read the word can interfere",
       "Stay calm and concentrate",
       "Accuracy matters as much as speed"
+    ],
+    "faq": [
+      {
+        "question": "What is the Stroop effect?",
+        "answer": "The Stroop effect is a psychological phenomenon where reading a word interferes with naming the color it's printed in. It demonstrates how automatic reading interferes with color naming."
+      },
+      {
+        "question": "Why is this test hard?",
+        "answer": "Reading has become automatic for most adults. Your brain reads the word before you can process the ink color, creating interference when they don't match."
+      },
+      {
+        "question": "What does a good score mean?",
+        "answer": "Fast, accurate responses indicate strong cognitive control and processing speed. The ability to quickly suppress the automatic reading response is a sign of good executive function."
+      },
+      {
+        "question": "Can I improve at this?",
+        "answer": "Yes! Practice helps your brain get better at focusing on color rather than meaning. However, the Stroop effect is robust—it never completely goes away."
+      }
     ]
   },
   "zh": {
     "name": "斯特鲁普测试",
-    "desc": "测试你的认知灵活性！文字颜色是否与文字含义匹配？斯特鲁普效应测量处理速度和认知控制能力。",
+    "desc": "测试认知灵活性和控制力",
+    "description": "斯特鲁普测试是一项著名的心理学实验，测量你大脑的处理速度和认知控制！你会看到用各种墨水颜色显示的颜色词。你的任务：判断墨水颜色是否与词的含义匹配。关键在于？你的大脑会自动阅读单词，当它们不匹配时会产生干扰。这个经典测试揭示了关于你大脑如何运作的有趣见解！",
+    "objectives": "尽可能快地正确识别文字颜色是否与单词含义匹配。在保持速度的同时实现高准确率。这个测试测量你的认知灵活性和抑制自动反应的能力。",
     "howToPlay": "你会看到一个用特定颜色显示的单词。如果颜色与单词含义匹配，点击'MATCH'，如果不匹配点击'NO MATCH'。尽可能快速准确地回答！",
+    "rules": {
+      "controls": "你会看到一个颜色词（如'RED'）以某种墨水颜色显示。如果墨水颜色与单词所说的一致点击MATCH，如果不同点击NO MATCH。快速反应！",
+      "mechanics": [
+        "单词是颜色名称（红、蓝、绿、黄）",
+        "文字可以以匹配或不同的颜色出现",
+        "你的大脑想读单词，而不是看颜色",
+        "当它们不匹配时会产生干扰",
+        "得分基于速度和准确率"
+      ],
+      "features": [
+        "速度测量 - 追踪反应时间",
+        "准确率追踪 - 监控正确响应",
+        "渐进难度 - 更具挑战性的模式",
+        "即时反馈 - 知道你是对还是错"
+      ]
+    },
     "tips": [
       "专注于文字颜色，而不是单词含义",
       "阅读单词的本能可能会干扰",
       "保持冷静和专注",
       "准确性和速度同样重要"
+    ],
+    "faq": [
+      {
+        "question": "什么是斯特鲁普效应？",
+        "answer": "斯特鲁普效应是一种心理现象，阅读单词会干扰说出它印刷的颜色。它展示了自动阅读如何干扰颜色命名。"
+      },
+      {
+        "question": "为什么这个测试很难？",
+        "answer": "阅读对大多数成年人来说已经变得自动。你的大脑在你能处理墨水颜色之前就读了单词，当它们不匹配时产生干扰。"
+      },
+      {
+        "question": "好分数意味着什么？",
+        "answer": "快速、准确的响应表明强大的认知控制和处理速度。快速抑制自动阅读反应的能力是良好执行功能的标志。"
+      },
+      {
+        "question": "我可以在这方面提高吗？",
+        "answer": "可以！练习帮助你的大脑更好地专注于颜色而非含义。然而，斯特鲁普效应是稳健的——它永远不会完全消失。"
+      }
     ]
   }
 }

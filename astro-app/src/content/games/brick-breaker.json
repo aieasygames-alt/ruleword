@@ -7,23 +7,95 @@
   "en": {
     "name": "Brick Breaker",
     "desc": "Bounce the ball to destroy bricks! Move your paddle to keep the ball in play. Clear all bricks to advance. A satisfying arcade classic!",
+    "description": "Brick Breaker is the timeless arcade game that has captivated players for decades! Control a paddle at the bottom of the screen, bouncing a ball upward to shatter rows of colorful bricks. Each brick you destroy earns points, and clearing all bricks advances you to the next level. With power-ups that expand your paddle, multiply your balls, or grant special abilities, this simple concept delivers endless addictive gameplay!",
+    "objectives": "Destroy all bricks on each level by bouncing the ball off your paddle. Keep the ball in play by intercepting it with your paddle—missing the ball costs you a life. Clear all bricks to advance through increasingly challenging levels and achieve the highest score possible!",
     "howToPlay": "Move the paddle with mouse or arrow keys. Bounce the ball to break bricks. Clear all bricks to advance. Catch power-ups for special abilities!",
+    "rules": {
+      "controls": "Move your mouse left/right or use arrow keys to slide the paddle horizontally. The paddle angle affects ball trajectory—hitting the edge sends the ball at sharper angles. Click or press Space to launch the ball.",
+      "mechanics": [
+        "Ball bounces off walls and paddle",
+        "Bricks shatter when hit by ball",
+        "Some bricks require multiple hits",
+        "Power-ups fall from destroyed bricks",
+        "Missing the ball loses a life"
+      ],
+      "features": [
+        "Multiple Levels - Progressively harder stages",
+        "Power-ups - Multi-ball, paddle expand, lasers",
+        "Special Bricks - Unbreakable, multi-hit",
+        "Score System - Points for each brick destroyed"
+      ]
+    },
     "tips": [
       "Aim for corners to break through to the top",
       "Don't chase the ball - anticipate where it will land",
       "Catch falling power-ups when safe to do so",
       "Use angled shots to reach difficult bricks"
+    ],
+    "faq": [
+      {
+        "question": "What do different colored bricks mean?",
+        "answer": "Colors often indicate brick strength. Some bricks break in one hit, while others may require multiple hits. Special unbreakable bricks cannot be destroyed and must be worked around."
+      },
+      {
+        "question": "What power-ups can I get?",
+        "answer": "Common power-ups include paddle expansion, multi-ball, slow ball, lasers, and extra lives. Catch them with your paddle to activate—some appear randomly, others from destroyed bricks."
+      },
+      {
+        "question": "How does the ball angle work?",
+        "answer": "Where the ball hits your paddle affects its bounce angle. The center sends it straight up, while edges create sharper angles. Use this to aim at specific brick areas."
+      },
+      {
+        "question": "What's the best strategy for hard levels?",
+        "answer": "Focus on creating paths through the brick field rather than clearing row by row. Getting the ball above the bricks lets it bounce between bricks and the top, clearing many bricks automatically."
+      }
     ]
   },
   "zh": {
     "name": "打砖块",
     "desc": "弹跳球消灭砖块！移动挡板保持球在游戏中。清除所有砖块进入下一关。令人满足的街机经典！",
+    "description": "打砖块是迷住了玩家几十年的永恒街机游戏！控制屏幕底部的挡板，向上弹跳球来粉碎彩色砖块行。每摧毁一块砖都会得分，清除所有砖块会让你进入下一关。通过扩大挡板、增加球数量或赋予特殊能力的增强道具，这个简单的概念带来无尽的令人上瘾的游戏体验！",
+    "objectives": "通过从挡板上弹跳球来摧毁每一关的所有砖块。用挡板接住球来保持球在游戏中——漏接球会失去一条命。清除所有砖块进入越来越具挑战性的关卡，获得尽可能高的分数！",
     "howToPlay": "移动挡板保持球反弹。砖块上的数字显示需要击打多少次。不同颜色的砖块需要不同次数。击碎所有砖块获胜！",
+    "rules": {
+      "controls": "左右移动鼠标或使用方向键水平滑动挡板。挡板角度影响球的轨迹——击中边缘会以更尖锐的角度发送球。点击或按空格键发射球。",
+      "mechanics": [
+        "球从墙壁和挡板反弹",
+        "球击中时砖块粉碎",
+        "一些砖块需要多次击打",
+        "增强道具从被摧毁的砖块中掉落",
+        "漏接球失去一条命"
+      ],
+      "features": [
+        "多个关卡 - 逐渐更难的阶段",
+        "增强道具 - 多球、挡板扩展、激光",
+        "特殊砖块 - 不可破坏、多次击打",
+        "得分系统 - 每块砖摧毁得分"
+      ]
+    },
     "tips": [
       "将球引导到高数字砖块区域",
       "等待合适的时机才击打敏感位置",
       "优先击碎容易到达的砖块",
       "注意球速随时间增加"
+    ],
+    "faq": [
+      {
+        "question": "不同颜色的砖块意味着什么？",
+        "answer": "颜色通常表示砖块强度。一些砖块一次击打破碎，而其他可能需要多次击打。特殊的不可破坏砖块无法被摧毁，必须绕过。"
+      },
+      {
+        "question": "我可以获得什么增强道具？",
+        "answer": "常见的增强道具包括挡板扩展、多球、慢球、激光和额外生命。用挡板接住它们来激活——一些随机出现，其他从被摧毁的砖块中掉落。"
+      },
+      {
+        "question": "球的角度是如何工作的？",
+        "answer": "球击中挡板的位置影响其弹跳角度。中心会直接向上发送，而边缘创造更尖锐的角度。利用这个来瞄准特定的砖块区域。"
+      },
+      {
+        "question": "困难关卡的最佳策略是什么？",
+        "answer": "专注于在砖块区域创造路径，而不是逐行清除。让球到达砖块上方可以让它在砖块和顶部之间反弹，自动清除许多砖块。"
+      }
     ]
   }
 }

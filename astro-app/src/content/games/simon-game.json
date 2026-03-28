@@ -7,24 +7,96 @@
   "color": "from-green-500 to-teal-600",
   "en": {
     "name": "Simon Game",
-    "desc": "Watch and repeat the color sequence! Each round adds one more color to memorize. Test your memory limits with this classic electronic game.",
+    "desc": "Watch and repeat the color sequence",
+    "description": "Simon is the classic electronic memory game that has challenged players since 1978! Watch as the colored buttons light up in a sequence, then repeat the pattern exactly. Each round adds one more color to remember, pushing your memory to its limits. This simple yet addictive game tests both visual and auditory memory, making it a perfect brain exercise for all ages. How long a sequence can you remember?",
+    "objectives": "Remember and repeat increasingly long sequences of colors and sounds. Each successful round adds one more step to the sequence. Challenge yourself to beat your high score and expand your memory capacity.",
     "howToPlay": "Watch the colored buttons light up in sequence. When it's your turn, click the colors in the same order. Each round adds one more color to remember.",
+    "rules": {
+      "controls": "Watch the sequence play, then click the colored buttons in the exact same order. Click buttons in sequence to repeat what you saw.",
+      "mechanics": [
+        "The game starts with a single color",
+        "Each successful round adds one more color to the sequence",
+        "Four colors: Red, Blue, Green, Yellow",
+        "One mistake ends the game",
+        "Speed may increase as sequences get longer"
+      ],
+      "features": [
+        "Visual & Audio Cues - Watch and listen",
+        "Progressive Difficulty - Sequences grow longer",
+        "High Score Tracking - Beat your best",
+        "Instant Feedback - Know immediately if wrong"
+      ]
+    },
     "tips": [
       "Say the colors out loud as they appear",
       "Create mental stories or associations",
       "Break long sequences into chunks of 3-4",
       "Stay calm and focused as speed increases"
+    ],
+    "faq": [
+      {
+        "question": "What's the best way to remember long sequences?",
+        "answer": "Use multiple techniques: say colors aloud, create mental associations, break sequences into chunks. Many players find chunking (groups of 3-4) especially effective."
+      },
+      {
+        "question": "Does the game speed up?",
+        "answer": "In many versions, yes! As sequences get longer, the playback speed may increase, adding another layer of challenge."
+      },
+      {
+        "question": "Is there a limit to how long sequences can get?",
+        "answer": "Theoretically, no! The record is over 100 steps. Human memory typically tops out around 20-30, but with practice you can push further."
+      },
+      {
+        "question": "Why is Simon good for your brain?",
+        "answer": "Simon exercises working memory, attention, and pattern recognition. Regular play can help improve short-term memory and focus."
+      }
     ]
   },
   "zh": {
     "name": "西蒙记忆",
-    "desc": "观看并重复颜色序列！每轮增加一个颜色需要记忆。用这款经典电子游戏测试你的记忆极限。",
+    "desc": "观看并重复颜色序列",
+    "description": "西蒙是自1978年以来挑战玩家的经典电子记忆游戏！观看彩色按钮按序列亮起，然后精确重复这个模式。每轮增加一个需要记忆的颜色，将你的记忆推向极限。这个简单却令人上瘾的游戏同时测试视觉和听觉记忆，是所有年龄段的完美大脑锻炼。你能记住多长的序列？",
+    "objectives": "记住并重复越来越长的颜色和声音序列。每次成功的回合会在序列中增加一步。挑战自己打破最高分并扩展你的记忆容量。",
     "howToPlay": "观看亮起的颜色序列。按相同顺序点击按钮。每个新回合增加一个新步骤。按错顺序则游戏结束。",
+    "rules": {
+      "controls": "观看序列播放，然后按完全相同的顺序点击彩色按钮。按顺序点击按钮重复你看到的。",
+      "mechanics": [
+        "游戏从单个颜色开始",
+        "每次成功的回合会在序列中增加一个颜色",
+        "四种颜色：红、蓝、绿、黄",
+        "一次错误结束游戏",
+        "随着序列变长速度可能会增加"
+      ],
+      "features": [
+        "视觉和音频提示 - 观看和聆听",
+        "渐进难度 - 序列变得更长",
+        "最高分追踪 - 打破你的最佳记录",
+        "即时反馈 - 立即知道是否错误"
+      ]
+    },
     "tips": [
       "在心里将颜色分组记忆",
       "使用节奏和模式帮助记忆",
       "专注于上一个颜色添加",
       "练习提高你的记忆跨度"
+    ],
+    "faq": [
+      {
+        "question": "记忆长序列的最佳方法是什么？",
+        "answer": "使用多种技巧：大声说出颜色、创造心理联想、将序列分成块。许多玩家发现分块（3-4个一组）特别有效。"
+      },
+      {
+        "question": "游戏会加速吗？",
+        "answer": "在很多版本中会！随着序列变长，播放速度可能会增加，增加另一层挑战。"
+      },
+      {
+        "question": "序列有多长的限制吗？",
+        "answer": "理论上没有！记录超过100步。人类记忆通常在20-30左右达到顶点，但通过练习你可以更进一步。"
+      },
+      {
+        "question": "为什么西蒙对大脑有益？",
+        "answer": "西蒙锻炼工作记忆、注意力和模式识别。定期练习可以帮助改善短期记忆和专注力。"
+      }
     ]
   }
 }

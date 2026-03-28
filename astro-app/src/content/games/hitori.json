@@ -7,23 +7,95 @@
   "en": {
     "name": "Hitori",
     "desc": "Shade cells so that no row or column contains duplicate numbers. All unshaded cells must connect. A simple concept with deep strategy!",
+    "description": "Hitori is the elegant Japanese logic puzzle with deceptively simple rules! A grid filled with numbers awaits—but some must be eliminated. Black out cells so that no number repeats in any row or column. But there's more: black cells can never touch (orthogonally), and all white cells must form a single connected group. This creates clever chains of logical deduction!",
+    "objectives": "Black out cells to eliminate duplicate numbers from each row and column. Black cells must never share an edge (diagonal is fine). All remaining white cells must connect into a single group. Find the unique solution through pure logic!",
     "howToPlay": "Click cells to black them out. Ensure: 1) No number repeats in any row/column, 2) Black cells never touch (diagonal is OK), 3) All white cells connect.",
+    "rules": {
+      "controls": "Click on a cell to toggle it between white and black. A cell can also be marked as 'definitely white' to help track deductions. The goal is to eliminate all duplicates while following the connection rules.",
+      "mechanics": [
+        "No duplicate numbers in any row/column",
+        "Black cells cannot touch orthogonally",
+        "All white cells must be connected",
+        "Each puzzle has one unique solution",
+        "Pure logic - no guessing needed"
+      ],
+      "features": [
+        "Simple Rules - Easy to understand",
+        "Deep Logic - Challenging deductions",
+        "Unique Solution - One right answer",
+        "Connection Puzzle - Spatial reasoning"
+      ]
+    },
     "tips": [
       "If a number appears twice, one must be blacked out",
       "If a number appears three times, the middle one stays white",
       "Black cells can't touch - use this to mark neighbors white",
       "Check that white cells stay connected"
+    ],
+    "faq": [
+      {
+        "question": "What's the key strategy for Hitori?",
+        "answer": "When you black out a cell, all its orthogonal neighbors must stay white (since black cells can't touch). This creates chains of deductions. Also, if blacking out a cell would disconnect white cells, it must stay white."
+      },
+      {
+        "question": "How do I handle triple occurrences?",
+        "answer": "If a number appears three times in a row, the middle one CANNOT be blacked out. Why? Because blacking out the middle would force both outer ones to stay white (no touching black cells), but then you'd have duplicates. So the middle must stay white, and one of the outer two must be black."
+      },
+      {
+        "question": "How do I check connectivity?",
+        "answer": "Before blacking out a cell, consider whether it would cut off any white cells from the main group. If blacking out a cell would create an 'island' of white cells, that cell must remain white."
+      },
+      {
+        "question": "Can I use trial and error?",
+        "answer": "Well-designed Hitori puzzles can be solved through pure logical deduction without guessing. If you're guessing, look harder for the logical constraints. Each move should be forced by the rules."
+      }
     ]
   },
   "zh": {
     "name": "一人",
     "desc": "涂黑格子使每行每列没有重复数字。所有未涂黑的格子必须相连。简单概念，深度策略！",
+    "description": "一人是具有看似简单规则的优雅日本逻辑谜题！填满数字的网格等待——但有些必须被消除。涂黑单元格，使任何行或列中没有数字重复。但还有更多：黑色单元格永远不能接触（正交），所有白色单元格必须形成单个连接组。这创造了聪明的逻辑推理链！",
+    "objectives": "涂黑单元格以从每行和每列中消除重复数字。黑色单元格永远不能共享边缘（对角线可以）。所有剩余的白色单元格必须连接成单个组。通过纯粹逻辑找到独特解决方案！",
     "howToPlay": "点击格子将其涂黑。确保每行每列中没有重复数字。涂黑的格子不能相邻（斜向可以）。所有未涂黑格子必须连通。",
+    "rules": {
+      "controls": "点击单元格在白色和黑色之间切换。单元格也可以标记为'肯定是白色'以帮助追踪推理。目标是在遵循连接规则的同时消除所有重复。",
+      "mechanics": [
+        "任何行/列中没有重复数字",
+        "黑色单元格不能正交接触",
+        "所有白色单元格必须相连",
+        "每个谜题有独特解决方案",
+        "纯粹逻辑 - 无需猜测"
+      ],
+      "features": [
+        "简单规则 - 易于理解",
+        "深度逻辑 - 挑战性推理",
+        "独特解决方案 - 一个正确答案",
+        "连接谜题 - 空间推理"
+      ]
+    },
     "tips": [
       "寻找多次出现的数字——其中必须被涂黑",
       "如果两个格子相邻且包含相同数字，其中一个必须被涂黑",
       "未涂黑的格子必须形成单一连通区域",
       "从有最多重复数字的行/列开始"
+    ],
+    "faq": [
+      {
+        "question": "一人的关键策略是什么？",
+        "answer": "当你涂黑一个单元格时，它所有的正交邻居必须保持白色（因为黑色单元格不能接触）。这创造了推理链。此外，如果涂黑一个单元格会断开白色单元格，它必须保持白色。"
+      },
+      {
+        "question": "如何处理三次出现？",
+        "answer": "如果一个数字在一行中出现三次，中间的不能被涂黑。为什么？因为涂黑中间会强迫两个外面的都保持白色（没有接触的黑色单元格），但那样你会有重复。所以中间必须保持白色，外面的两个中的一个必须是黑色。"
+      },
+      {
+        "question": "如何检查连通性？",
+        "answer": "在涂黑一个单元格之前，考虑它是否会将任何白色单元格与主组切断。如果涂黑一个单元格会创建白色单元格的'岛屿'，那个单元格必须保持白色。"
+      },
+      {
+        "question": "我可以使用试错吗？",
+        "answer": "设计良好的一人谜题可以通过纯粹的逻辑推理解决，无需猜测。如果你在猜测，更仔细地寻找逻辑约束。每一步都应该被规则强迫。"
+      }
     ]
   }
 }

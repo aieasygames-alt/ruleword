@@ -8,23 +8,95 @@
   "en": {
     "name": "Text Twist",
     "desc": "Rearrange jumbled letters to form as many words as possible! Race against the clock to find all valid words before time runs out.",
+    "description": "Text Twist is the fast-paced word game that challenges your vocabulary under pressure! Given six scrambled letters, you must form as many valid words as possible before the timer runs out. Find at least one 6-letter word to advance to the next round. The combination of time pressure and word-finding makes this an addictive brain workout for language lovers!",
+    "objectives": "Form as many words as possible from the given letters within the time limit. You must find at least one word using all letters (typically 6 letters) to advance to the next round. Score points based on word length and clear all words to get bonus points!",
     "howToPlay": "Click letters to add them to your word, then click Submit to check if it's valid. You can also click Enter to submit. Find as many words as you can within 2 minutes!",
+    "rules": {
+      "controls": "Click on letters to build your word, then click Submit or press Enter. You can also use keyboard shortcuts. Click Shuffle to rearrange letters and see new possibilities.",
+      "mechanics": [
+        "Use the given letters to form words",
+        "Words must be 3+ letters long",
+        "Find the 6-letter word to advance",
+        "Timer counts down continuously",
+        "Clear all words for bonus points"
+      ],
+      "features": [
+        "Time Challenge - 2-minute rounds",
+        "Shuffle Button - Rearrange letters",
+        "Word Counter - Track your progress",
+        "Bonus Points - Find all words"
+      ]
+    },
     "tips": [
       "Look for common prefixes and suffixes",
       "Try different letter combinations",
       "Longer words give more points",
       "Use Skip if you're stuck (costs 50 points)"
+    ],
+    "faq": [
+      {
+        "question": "How do I advance to the next round?",
+        "answer": "You must find at least one word that uses all six letters. Without the 6-letter word, you cannot advance even if you found all other words. Prioritize finding the full-length word!"
+      },
+      {
+        "question": "What's the minimum word length?",
+        "answer": "Words must be at least 3 letters long. Two-letter combinations don't count as valid words in Text Twist, so focus on finding 3, 4, 5, and 6 letter words."
+      },
+      {
+        "question": "Should I use the shuffle button?",
+        "answer": "Yes! Shuffling rearranges the letters visually, which can help you see combinations you missed. It's free to use and often reveals new word possibilities."
+      },
+      {
+        "question": "What happens if I find all words?",
+        "answer": "Congratulations! You'll receive bonus points and advance to the next round. This is the ideal outcome, though it requires extensive vocabulary and quick thinking."
+      }
     ]
   },
   "zh": {
     "name": "文字扭转",
     "desc": "重新排列打乱的字母组成尽可能多的单词！与时间赛跑，在时间耗尽前找出所有有效单词。",
+    "description": "文字扭转是快节奏的文字游戏，在压力下挑战你的词汇量！给定六个打乱的字母，你必须在计时器用完之前形成尽可能多的有效单词。找到至少一个6字母单词才能进入下一轮。时间压力和找单词的结合使这成为语言爱好者的令人上瘾的大脑锻炼！",
+    "objectives": "在时间限制内用给定的字母形成尽可能多的单词。你必须找到至少一个使用所有字母（通常是6个字母）的单词才能进入下一轮。根据单词长度得分，清除所有单词获得额外分数！",
     "howToPlay": "点击字母将其添加到你的单词中，然后点击提交检查是否有效。你也可以按回车提交。在2分钟内找出尽可能多的单词！",
+    "rules": {
+      "controls": "点击字母构建你的单词，然后点击提交或按Enter。你也可以使用键盘快捷键。点击洗牌重新排列字母并看到新的可能性。",
+      "mechanics": [
+        "使用给定的字母形成单词",
+        "单词必须3+字母长",
+        "找到6字母单词前进",
+        "计时器持续倒数",
+        "清除所有单词获得额外分数"
+      ],
+      "features": [
+        "时间挑战 - 2分钟回合",
+        "洗牌按钮 - 重新排列字母",
+        "单词计数器 - 追踪你的进度",
+        "额外分数 - 找到所有单词"
+      ]
+    },
     "tips": [
       "寻找常见的前缀和后缀",
       "尝试不同的字母组合",
       "较长的单词给更多分",
       "如果卡住可以使用跳过（花费50分）"
+    ],
+    "faq": [
+      {
+        "question": "如何进入下一轮？",
+        "answer": "你必须找到至少一个使用所有六个字母的单词。如果没有找到6字母单词，即使你找到了所有其他单词也无法前进。优先找到全长单词！"
+      },
+      {
+        "question": "最小单词长度是多少？",
+        "answer": "单词必须至少3个字母长。两个字母的组合在文字扭转中不算有效单词，所以专注于找到3、4、5和6字母单词。"
+      },
+      {
+        "question": "我应该使用洗牌按钮吗？",
+        "answer": "是的！洗牌在视觉上重新排列字母，这可以帮助你看到你错过的组合。它是免费使用的，通常会揭示新的单词可能性。"
+      },
+      {
+        "question": "如果我找到所有单词会怎样？",
+        "answer": "恭喜！你会收到额外分数并进入下一轮。这是理想的结果，尽管它需要丰富的词汇量和快速思考。"
+      }
     ]
   }
 }

@@ -7,23 +7,95 @@
   "en": {
     "name": "KenKen",
     "desc": "Math meets logic! Fill the grid so that each row and column contains unique digits. Numbered cages must equal the target using the specified operation.",
+    "description": "KenKen (also called Calcudoku) is the arithmetic puzzle that combines Sudoku's uniqueness rules with mathematical operations! Fill a grid with digits 1-N so that no digit repeats in any row or column. The twist? Grouped cells (cages) must produce a target number when the specified operation (+, -, ×, ÷) is applied. This creates elegant puzzles that exercise both logical deduction and mental math!",
+    "objectives": "Fill the grid with digits 1-N (where N is the grid size) so that each row and column contains each digit exactly once. Each cage must equal its target number when the operation is applied to its cells. Pure logic with a mathematical twist!",
     "howToPlay": "Fill each cell with digits 1-N (N = grid size). Numbers cannot repeat in rows or columns. Each \"cage\" must equal the target number using the specified operation.",
+    "rules": {
+      "controls": "Click on a cell, then type a number or use the number pad. Each row and column must contain each number exactly once. Cages with operations must equal their target when the operation is applied.",
+      "mechanics": [
+        "Each row/column has unique numbers 1-N",
+        "Cages show target + operation",
+        "Apply operation to cage cells = target",
+        "Single-cell cages = the answer directly",
+        "Larger grids = more complexity"
+      ],
+      "features": [
+        "Math + Logic - Dual brain training",
+        "Multiple Operations - +, -, ×, ÷",
+        "Various Sizes - 4×4 to 9×9",
+        "Unique Solutions - One correct answer"
+      ]
+    },
     "tips": [
       "Start with cages that have only one solution",
       "Look for cages with unique digit combinations",
       "Use Sudoku logic for rows and columns",
       "Division and subtraction can be in any order"
+    ],
+    "faq": [
+      {
+        "question": "How do cages with multiple cells work?",
+        "answer": "For addition and multiplication, combine all numbers in the cage. For subtraction, subtract the smaller numbers from the largest. For division, divide the largest by the smallest."
+      },
+      {
+        "question": "What about single-cell cages?",
+        "answer": "Single-cell cages have no operation—they simply show the number that goes in that cell. These are free hints that help you start solving!"
+      },
+      {
+        "question": "Does order matter in cages?",
+        "answer": "For addition and multiplication, no—order doesn't matter. For subtraction and division, you always subtract smaller from larger or divide larger by smaller to get the target."
+      },
+      {
+        "question": "Is KenKen the same as Calcudoku?",
+        "answer": "Yes! KenKen and Calcudoku are essentially the same puzzle type. KenKen is a trademarked name created by Japanese math teacher Tetsuya Miyamoto, while Calcudoku is the generic term."
+      }
     ]
   },
   "zh": {
     "name": "贤贤数独",
     "desc": "数学与逻辑的结合！填充网格使每行每列数字不重复。数字笼必须通过指定运算得到目标结果。",
+    "description": "贤贤数独（也称为算数独）是将数独的唯一性规则与数学运算结合的算术谜题！用1-N的数字填充网格，使任何行或列中没有数字重复。转折是什么？分组的单元格（笼）必须在应用指定运算（+、-、×、÷）时产生目标数字。这创造了既锻炼逻辑推理又锻炼心算的优雅谜题！",
+    "objectives": "用1-N的数字（N是网格大小）填充网格，使每行每列恰好包含每个数字一次。当运算应用于其单元格时，每个笼必须等于其目标数字。纯逻辑带有数学转折！",
     "howToPlay": "填入1-N的数字（N为网格大小）。每行每列必须恰好包含每个数字一次。粗线区域内的数字必须使用运算符（+、−、×、÷）产生目标数字。",
+    "rules": {
+      "controls": "点击单元格，然后输入数字或使用数字键盘。每行每列必须恰好包含每个数字一次。带运算的笼在应用运算时必须等于其目标。",
+      "mechanics": [
+        "每行/列有唯一数字1-N",
+        "笼显示目标 + 运算",
+        "将运算应用于笼单元格 = 目标",
+        "单单元格笼 = 直接答案",
+        "更大的网格 = 更多复杂性"
+      ],
+      "features": [
+        "数学+逻辑 - 双重大脑训练",
+        "多种运算 - +, -, ×, ÷",
+        "各种大小 - 4×4到9×9",
+        "独特解决方案 - 一个正确答案"
+      ]
+    },
     "tips": [
       "寻找约束最多的格子（最大/最小目标值）",
       "从单格子区域开始",
       "使用数独排除技巧",
       "注意运算顺序（对于−和÷）"
+    ],
+    "faq": [
+      {
+        "question": "多单元格笼是如何工作的？",
+        "answer": "对于加法和乘法，组合笼中的所有数字。对于减法，从最大的减去较小的数字。对于除法，用最大的除以最小的。"
+      },
+      {
+        "question": "单单元格笼呢？",
+        "answer": "单单元格笼没有运算——它们只显示放入该单元格的数字。这些是帮助你开始解决的免费提示！"
+      },
+      {
+        "question": "笼中的顺序重要吗？",
+        "answer": "对于加法和乘法，不——顺序不重要。对于减法和除法，你总是从较大的减去较小的或将较大的除以较小的来得到目标。"
+      },
+      {
+        "question": "贤贤数独和算数独一样吗？",
+        "answer": "是的！贤贤数独和算数独本质上是相同的谜题类型。贤贤数独是日本数学老师Tetsuya Miyamoto创建的注册商标名称，而算数独是通用术语。"
+      }
     ]
   }
 }

@@ -7,19 +7,96 @@
   "color": "from-amber-600 to-orange-700",
   "en": {
     "name": "Sokoban",
-    "desc": "The classic warehouse puzzle! Push boxes onto target spots. You can only push, not pull. Plan your moves carefully - one wrong move and you're stuck!",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "推箱子",
-    "desc": "经典仓库谜题！将箱子推到目标位置。只能推不能拉。仔细规划移动 - 一步错就可能卡住！",
+    "desc": "Push boxes onto target spots",
+    "description": "Sokoban (Japanese for 'warehouse keeper') is the classic puzzle game that has challenged logical thinkers since 1982! Navigate through warehouse mazes, pushing boxes onto designated target locations. The catch? You can only push boxes, never pull them. One wrong move can create an impossible situation, requiring careful planning and spatial reasoning. This simple concept has spawned thousands of challenging levels!",
+    "objectives": "Push all boxes onto the target spots (marked with X or dots). Plan your route carefully—boxes can only be pushed, not pulled, and getting a box stuck in a corner or against a wall means restarting!",
     "howToPlay": "Use arrow keys or WASD to move the player. Push boxes by walking into them. Get all boxes onto the target spots to complete each level. Boxes can only be pushed, never pulled.",
+    "rules": {
+      "controls": "Use arrow keys (↑ ↓ ← →) or WASD to move. Walk into a box to push it one space in the same direction. Use Undo to take back moves or Reset to restart the level.",
+      "mechanics": [
+        "Player can push one box at a time (not multiple)",
+        "Boxes can only be pushed, never pulled",
+        "Cannot push a box into a wall or another box",
+        "Level complete when all boxes are on target spots",
+        "A stuck box (corner, dead end) may require restart"
+      ],
+      "features": [
+        "Multiple Levels - Increasing difficulty",
+        "Undo System - Take back mistakes",
+        "Reset Button - Start level over",
+        "Move Counter - Track your efficiency"
+      ]
+    },
     "tips": [
       "Never push a box into a corner - it cannot be retrieved",
       "Think several moves ahead before pushing a box",
       "Use the undo feature to experiment without restarting",
       "Some levels require pushing boxes in a specific order"
+    ],
+    "faq": [
+      {
+        "question": "Why can't I push this box?",
+        "answer": "You can only push one box at a time. If there's a wall or another box behind it, the push is blocked. Also check if you're trying to pull—you can only push!"
+      },
+      {
+        "question": "What makes a level unsolvable?",
+        "answer": "If a box is pushed into a corner or against a wall where it can't reach any target, the level becomes unsolvable. Use undo or restart."
+      },
+      {
+        "question": "Is there always a solution?",
+        "answer": "Yes, all well-designed Sokoban levels have solutions. If you're stuck, try a different approach—you might need to push boxes in a specific order."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Work backwards mentally—where does each box need to end up? Then figure out the order to push them. Avoid creating dead ends."
+      }
+    ]
+  },
+  "zh": {
+    "name": "推箱子",
+    "desc": "将箱子推到目标位置",
+    "description": "推箱子（日语意为'仓库管理员'）是自1982年以来挑战逻辑思维者的经典益智游戏！穿越仓库迷宫，将箱子推到指定的目标位置。关键是什么？你只能推箱子，永远不能拉。一步错就可能创造不可能的局面，需要仔细规划空间推理。这个简单的概念催生了数千个挑战关卡！",
+    "objectives": "将所有箱子推到目标位置（用X或点标记）。仔细规划你的路线——箱子只能推不能拉，把箱子卡在角落或墙边意味着重新开始！",
+    "howToPlay": "使用方向键或WASD移动玩家。通过走向箱子来推动它。将所有箱子放到目标位置完成每关。箱子只能推，不能拉。",
+    "rules": {
+      "controls": "使用方向键（↑ ↓ ← →）或WASD移动。走向箱子将其向同一方向推一格。使用撤销撤回移动或重置重新开始关卡。",
+      "mechanics": [
+        "玩家一次只能推一个箱子（不能推多个）",
+        "箱子只能推，永远不能拉",
+        "不能将箱子推入墙壁或另一个箱子",
+        "所有箱子都在目标位置时关卡完成",
+        "卡住的箱子（角落、死胡同）可能需要重置"
+      ],
+      "features": [
+        "多种关卡 - 难度递增",
+        "撤销系统 - 撤回错误",
+        "重置按钮 - 重新开始关卡",
+        "移动计数器 - 追踪你的效率"
+      ]
+    },
+    "tips": [
+      "永远不要把箱子推到角落——它无法取回",
+      "推箱子前提前想好几步",
+      "使用撤销功能实验而无需重置",
+      "有些关卡需要按特定顺序推箱子"
+    ],
+    "faq": [
+      {
+        "question": "为什么我不能推这个箱子？",
+        "answer": "你一次只能推一个箱子。如果后面有墙或另一个箱子，推动会被阻挡。还要检查你是否在试图拉——你只能推！"
+      },
+      {
+        "question": "什么让关卡变得无法解决？",
+        "answer": "如果箱子被推到角落或靠墙且无法到达任何目标，关卡就变得无法解决。使用撤销或重置。"
+      },
+      {
+        "question": "总是有解决方案吗？",
+        "answer": "是的，所有设计良好的推箱子关卡都有解决方案。如果卡住了，尝试不同的方法——你可能需要按特定顺序推箱子。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "在脑海中逆向思考——每个箱子最终需要在哪里？然后弄清楚推它们的顺序。避免创造死胡同。"
+      }
     ]
   }
 }

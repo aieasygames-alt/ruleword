@@ -7,23 +7,95 @@
   "en": {
     "name": "Snake",
     "desc": "Guide the hungry snake to eat food and grow longer! But don't crash into walls or yourself. A phone classic that started it all. Simple, addictive, timeless!",
+    "description": "Snake is the legendary mobile game that defined a generation! Guide a hungry serpent through a confined space, eating food pellets to grow longer with each meal. The challenge? Your own body becomes an obstacle as you grow! What starts as a simple game of eating and growing transforms into an intense navigation puzzle where one wrong move ends it all. This classic arcade experience tests your reflexes, planning, and spatial awareness!",
+    "objectives": "Guide your snake to eat as much food as possible and grow as long as you can. Avoid colliding with the walls or your own growing body. Achieve the highest score possible by surviving and growing your snake to epic lengths!",
     "howToPlay": "Use arrow keys or WASD to control direction. Eat the food to grow longer and score points. The game ends if you hit a wall or your own body.",
+    "rules": {
+      "controls": "Use Arrow Keys or WASD to change the snake's direction. The snake moves continuously in its current direction. You cannot reverse direction (go directly opposite).",
+      "mechanics": [
+        "Snake grows longer when eating food",
+        "Speed increases as snake grows",
+        "Collision with walls ends game",
+        "Collision with own body ends game",
+        "Score based on length achieved"
+      ],
+      "features": [
+        "Classic Gameplay - Authentic retro experience",
+        "Progressive Difficulty - Gets harder as you grow",
+        "Score Tracking - Beat your personal best",
+        "Simple Controls - Easy to learn, hard to master"
+      ]
+    },
     "tips": [
       "Plan your path ahead, especially as you grow longer",
       "Avoid getting trapped in your own coils",
       "Stay near the center when possible for more escape routes",
       "Use smooth, flowing movements rather than sharp turns"
+    ],
+    "faq": [
+      {
+        "question": "How long can a snake get?",
+        "answer": "In theory, a snake can fill the entire grid! However, as you grow longer, navigation becomes increasingly difficult. The challenge is managing your own body as an obstacle."
+      },
+      {
+        "question": "Why can't I reverse direction?",
+        "answer": "Reversing direction would cause an instant collision with your own body. The game prevents this to maintain fair play—you must plan turns in advance."
+      },
+      {
+        "question": "What's the best strategy for high scores?",
+        "answer": "Follow a systematic pattern around the edges, leaving yourself an escape route. Many players use a zig-zag or spiral pattern to maximize space usage while avoiding self-collision."
+      },
+      {
+        "question": "Does the snake speed up?",
+        "answer": "Many versions increase speed as the snake grows longer, making the game progressively more challenging. This adds pressure to plan ahead rather than react."
+      }
     ]
   },
   "zh": {
     "name": "贪吃蛇",
     "desc": "引导饥饿的蛇吃食物并变长！但不要撞墙或撞到自己。手机游戏的鼻祖。简单、上瘾、永恒！",
+    "description": "贪吃蛇是定义了一代人的传奇手机游戏！引导一条饥饿的蛇穿越有限空间，吃食物颗粒，每顿饭后变得更长。挑战？你自己的身体随着成长变成障碍！从一个简单的吃和长的游戏转变为紧张的导航谜题，一个错误的移动就结束一切。这款经典街机体验测试你的反应、规划和空间意识！",
+    "objectives": "引导你的蛇尽可能多吃食物，尽可能长。避免撞到墙壁或自己不断增长的身体。通过生存和将蛇长到史诗长度来获得最高分！",
     "howToPlay": "使用方向键或WASD控制方向。吃食物来变长并得分。如果你撞到墙或自己的身体，游戏结束。",
+    "rules": {
+      "controls": "使用方向键或WASD改变蛇的方向。蛇持续朝当前方向移动。你不能反向（直接朝相反方向）。",
+      "mechanics": [
+        "蛇吃食物时变长",
+        "速度随蛇的生长增加",
+        "撞墙结束游戏",
+        "撞到自己身体结束游戏",
+        "得分基于达到的长度"
+      ],
+      "features": [
+        "经典游戏玩法 - 正宗复古体验",
+        "渐进难度 - 随着成长变得更难",
+        "分数追踪 - 打败你的个人最佳",
+        "简单控制 - 易学难精"
+      ]
+    },
     "tips": [
       "提前规划路径，特别是当你变长时",
       "避免被困在自己的身体中",
       "尽可能保持在中心附近以获得更多逃生路线",
       "使用平滑、流畅的动作而不是急转弯"
+    ],
+    "faq": [
+      {
+        "question": "蛇能长多长？",
+        "answer": "理论上，蛇可以填满整个网格！然而，随着你变长，导航变得越来越困难。挑战是将自己的身体作为障碍来管理。"
+      },
+      {
+        "question": "为什么我不能反向？",
+        "answer": "反向会立即导致与你自己的身体碰撞。游戏防止这种情况以维持公平游戏——你必须提前规划转弯。"
+      },
+      {
+        "question": "获得高分的最佳策略是什么？",
+        "answer": "沿着边缘遵循系统模式，给自己留一条逃生路线。许多玩家使用锯齿形或螺旋模式来最大化空间使用，同时避免自我碰撞。"
+      },
+      {
+        "question": "蛇会加速吗？",
+        "answer": "许多版本随着蛇变长而增加速度，使游戏逐渐更具挑战性。这增加了提前规划而非反应的压力。"
+      }
     ]
   }
 }

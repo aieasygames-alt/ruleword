@@ -7,24 +7,96 @@
   "color": "from-amber-700 to-amber-900",
   "en": {
     "name": "Gomoku",
-    "desc": "Get five in a row to win! Play on a 15x15 board against the AI. Think ahead to create threats while blocking your opponent. Classic strategy game!",
+    "desc": "Get five in a row to win",
+    "description": "Gomoku (Five in a Row) is an ancient strategy board game that's simple to learn yet deeply strategic! Played on a 15×15 grid, two players compete to be the first to place five stones in a row—horizontally, vertically, or diagonally. While the rules are straightforward, the strategy is profound: block your opponent while building your own winning formations. This classic abstract strategy game has been played for centuries and continues to challenge minds around the world.",
+    "objectives": "Be the first player to place five stones in an unbroken row (horizontal, vertical, or diagonal). Balance offense and defense—create your own winning threats while blocking your opponent's attempts to connect five.",
     "howToPlay": "Click on any intersection to place your stone. The first player to get five in a row (horizontal, vertical, or diagonal) wins. You play black against the AI.",
+    "rules": {
+      "controls": "Click on any empty intersection on the 15×15 board to place your stone. Players alternate turns, with black (you) moving first.",
+      "mechanics": [
+        "Black plays first, then players alternate turns",
+        "Place one stone per turn on any empty intersection",
+        "Win by connecting 5 stones in a row (any direction)",
+        "Lines can be horizontal, vertical, or diagonal",
+        "Game ends when someone achieves 5-in-a-row or board is full"
+      ],
+      "features": [
+        "15×15 Board - Standard Gomoku playing field",
+        "AI Opponent - Multiple difficulty levels",
+        "Visual Highlighting - Clear winning line display",
+        "Quick Games - Perfect for short breaks"
+      ]
+    },
     "tips": [
-      "Control the center for more winning opportunities",
-      "Create \"open fours\" - four in a row with both ends open",
-      "Block opponent threats immediately",
-      "Build multiple threats simultaneously"
+      "Control the center for more winning opportunities in all directions",
+      "Create 'open fours' - four in a row with both ends open (unblockable)",
+      "Block opponent threats immediately, especially open threes",
+      "Build multiple threats simultaneously to overwhelm defense"
+    ],
+    "faq": [
+      {
+        "question": "What is an 'open four'?",
+        "answer": "An open four is four stones in a row with both ends empty. This is unblockable and guarantees victory on your next move."
+      },
+      {
+        "question": "Why is the center important?",
+        "answer": "The center gives you the most flexibility—you can build lines in all four directions. It also limits your opponent's options."
+      },
+      {
+        "question": "What should I watch for defensively?",
+        "answer": "Watch for opponent's 'open threes' (three in a row with both ends open). These will become open fours if not blocked immediately."
+      },
+      {
+        "question": "Can Gomoku end in a draw?",
+        "answer": "Yes, if the entire board fills up without either player achieving 5-in-a-row, the game is a draw. This is rare with skilled play."
+      }
     ]
   },
   "zh": {
     "name": "五子棋",
-    "desc": "五子连珠获胜！在15x15棋盘上与AI对战。提前布局创造威胁同时阻止对手。经典策略游戏！",
+    "desc": "五子连珠获胜",
+    "description": "五子棋是一款古老的策略棋盘游戏，简单易学却深具策略性！在15×15的棋盘上，两名玩家竞相首先在横、竖或斜方向上放置五颗棋子。规则虽然简单，策略却很深奥：在建立自己获胜阵型的同时阻止对手。这款经典抽象策略游戏已经流传了几个世纪，继续挑战着世界各地的棋手。",
+    "objectives": "成为第一个在横、竖或斜方向上放置五颗连续棋子的玩家。平衡进攻和防守——在阻止对手连五尝试的同时创造自己的获胜威胁。",
     "howToPlay": "点击任意交叉点放置棋子。首先连成五子（水平、垂直或对角线）的玩家获胜。你执黑棋与AI对战。",
+    "rules": {
+      "controls": "点击15×15棋盘上的任意空交叉点放置棋子。玩家轮流下棋，黑方（你）先走。",
+      "mechanics": [
+        "黑方先走，然后玩家轮流",
+        "每回合在任意空交叉点放置一颗棋子",
+        "在任何方向上连成5子获胜",
+        "连线可以是水平、垂直或对角线",
+        "当有人达成五连或棋盘填满时游戏结束"
+      ],
+      "features": [
+        "15×15棋盘 - 标准五子棋场地",
+        "AI对手 - 多种难度级别",
+        "视觉高亮 - 清晰显示获胜线",
+        "快速对局 - 适合短暂休息"
+      ]
+    },
     "tips": [
-      "控制中心以获得更多获胜机会",
-      "创造\"活四\"——两端都开放的四子连线",
-      "立即阻止对手的威胁",
-      "同时建立多个威胁"
+      "控制中心以获得更多方向的获胜机会",
+      "创造'活四'——两端都开放的四子连线（无法阻挡）",
+      "立即阻止对手的威胁，特别是活三",
+      "同时建立多个威胁以压倒防守"
+    ],
+    "faq": [
+      {
+        "question": "什么是'活四'？",
+        "answer": "活四是四子连线且两端都为空。这是无法阻挡的，保证你在下一步获胜。"
+      },
+      {
+        "question": "为什么中心很重要？",
+        "answer": "中心给你最大的灵活性——你可以向四个方向延伸。它也限制对手的选择。"
+      },
+      {
+        "question": "防守时应该注意什么？",
+        "answer": "注意对手的'活三'（两端都开放的三子连线）。如果不立即阻止，它们会变成活四。"
+      },
+      {
+        "question": "五子棋可以和棋吗？",
+        "answer": "可以，如果整个棋盘填满而双方都没有达成五连，就是和棋。这在高水平对局中很少见。"
+      }
     ]
   }
 }

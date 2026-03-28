@@ -7,24 +7,96 @@
   "color": "from-purple-600 to-indigo-700",
   "en": {
     "name": "Space Invaders",
-    "desc": "Defend Earth from alien invasion! Shoot down waves of descending aliens before they reach the bottom. The 1978 shooter that defined a genre!",
+    "desc": "Defend Earth from alien invasion",
+    "description": "Space Invaders is the 1978 arcade classic that revolutionized video games and launched the golden age of arcade gaming! Waves of alien invaders descend from above, moving left and right while gradually advancing toward Earth. Your mission: shoot them all before they reach the bottom. With its iconic pixel aliens, escalating difficulty, and satisfying shooter gameplay, Space Invaders remains the template for action games over 45 years later.",
+    "objectives": "Destroy all alien invaders before they reach the bottom of the screen. Earn points by shooting aliens—the bottom rows are worth more. Survive as many waves as possible to achieve the highest score.",
     "howToPlay": "Use arrow keys to move left/right and Space to shoot. Destroy all aliens to advance. Aliens move faster as their numbers decrease. You have 3 lives.",
+    "rules": {
+      "controls": "← → arrow keys move your ship left and right. Space bar fires your laser cannon. You can only have one shot on screen at a time.",
+      "mechanics": [
+        "11 columns × 5 rows of aliens descend together",
+        "Aliens move left/right, dropping down when hitting edges",
+        "Each destroyed alien is worth 10-40 points based on type",
+        "Aliens speed up as fewer remain",
+        "Mystery UFO occasionally flies overhead for bonus points"
+      ],
+      "features": [
+        "Progressive Difficulty - Aliens speed up as you destroy them",
+        "Protective Shields - Destructible barriers offer temporary cover",
+        "Bonus UFO - Random high-value targets",
+        "Lives System - 3 lives to beat your high score"
+      ]
+    },
     "tips": [
-      "Stay under the invaders for easier shots",
-      "Shoot from edges when possible",
-      "Watch for the speeding up as enemies decrease",
+      "Stay directly under the invaders for easier shots",
+      "Shoot from edges when possible to reduce their spread",
+      "Watch for the speed increase as enemies decrease",
       "Use predictable movement patterns to aim"
+    ],
+    "faq": [
+      {
+        "question": "Why do the aliens speed up?",
+        "answer": "As you destroy invaders, there are fewer to calculate positions for, so they move faster. This creates escalating tension as the level progresses."
+      },
+      {
+        "question": "What are the shields for?",
+        "answer": "The four shields provide temporary cover from alien fire. They gradually degrade as they're hit by both your shots and enemy fire."
+      },
+      {
+        "question": "How much is the UFO worth?",
+        "answer": "The mystery UFO that flies across the top is worth 50-300 points, randomly determined. It's a high-value bonus target."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Focus on one column at a time from the edges inward. This limits how far the aliens can spread horizontally."
+      }
     ]
   },
   "zh": {
     "name": "太空侵略者",
-    "desc": "保卫地球免受外星入侵！在外星人到达底部前击落他们。1978年定义了射击游戏类型的经典！",
-    "howToPlay": "使用左右方向键移动，空格键射击。外星人左右移动并逐渐下降。清除所有外星人获胜。他们可以躲进碉堡。",
+    "desc": "保卫地球免受外星入侵",
+    "description": "太空侵略者是1978年的街机经典，彻底改变了电子游戏并开启了街机游戏的黄金时代！一波波外星入侵者从上方降临，左右移动并逐渐向地球推进。你的任务：在它们到达底部前全部击毁。凭借标志性的像素外星人、逐渐升级的难度和令人满足的射击玩法，太空侵略者在45年后仍然是动作游戏的模板。",
+    "objectives": "在外星入侵者到达屏幕底部前全部摧毁。通过射击外星人得分——底行分数更高。尽可能存活更多波次以获得最高分。",
+    "howToPlay": "使用左右方向键移动，空格键射击。外星人左右移动并逐渐下降。清除所有外星人获胜。他们可以躲进碉堡。你有3条命。",
+    "rules": {
+      "controls": "← → 方向键左右移动飞船。空格键发射激光炮。屏幕上同时只能有一发子弹。",
+      "mechanics": [
+        "11列×5行的外星人一起下降",
+        "外星人左右移动，碰到边缘时下降",
+        "每摧毁一个外星人得分10-40分，取决于类型",
+        "随着剩余数量减少外星人加速",
+        "神秘UFO偶尔飞过头顶提供额外分数"
+      ],
+      "features": [
+        "渐进难度 - 摧毁外星人时它们加速",
+        "防护盾 - 可破坏的障碍物提供临时掩护",
+        "奖励UFO - 随机高价值目标",
+        "生命系统 - 3条命来打破最高分"
+      ]
+    },
     "tips": [
       "优先瞄准最前面的外星人",
       "注意躲避外星人的子弹",
       "利用碉堡临时躲避",
       "UFO飞过时给予额外分数"
+    ],
+    "faq": [
+      {
+        "question": "为什么外星人会加速？",
+        "answer": "当你摧毁入侵者时，需要计算位置的更少，所以它们移动更快。这创造了随关卡进行而升级的紧张感。"
+      },
+      {
+        "question": "护盾有什么用？",
+        "answer": "四个护盾提供临时掩护躲避外星火力。它们会逐渐被你的子弹和敌方火力破坏。"
+      },
+      {
+        "question": "UFO值多少分？",
+        "answer": "飞过顶部的神秘UFO值50-300分，随机决定。这是一个高价值奖励目标。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "一次专注于从边缘向内的一列。这限制了外星人水平扩散的范围。"
+      }
     ]
   }
 }

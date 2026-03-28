@@ -7,24 +7,96 @@
   "color": "from-purple-500 to-violet-600",
   "en": {
     "name": "Nonogram",
-    "desc": "Also known as Picross! Use number clues to fill in squares and reveal a hidden pixel art picture. A perfect blend of logic and creativity.",
+    "desc": "Reveal hidden pixel art pictures",
+    "description": "Nonogram (also known as Picross or Griddlers) is a picture logic puzzle that combines deduction with creativity! Use the number clues along the rows and columns to determine which cells to fill. When solved correctly, a hidden pixel art picture emerges. This satisfying blend of logic and art has made Nonogram a beloved puzzle genre worldwide, offering both relaxation and mental challenge.",
+    "objectives": "Fill in the correct cells based on the number clues to reveal a hidden pixel art image. Use logical deduction—each number represents a consecutive group of filled cells in that row or column.",
     "howToPlay": "Numbers indicate consecutive filled cells in that row/column. Multiple numbers mean separate groups with at least one empty cell between them. Click to fill or X to mark empty cells.",
+    "rules": {
+      "controls": "Left-click to fill a cell, right-click (or shift+click) to mark it as empty with an X. Click and drag to fill or mark multiple cells.",
+      "mechanics": [
+        "Numbers on the left indicate filled cell groups for each row",
+        "Numbers on top indicate filled cell groups for each column",
+        "Groups must appear in the order shown (left-to-right, top-to-bottom)",
+        "At least one empty cell separates groups",
+        "Complete all rows and columns to reveal the picture"
+      ],
+      "features": [
+        "Multiple Sizes - From 5×5 to 20×20 grids",
+        "Hint System - Get help when stuck",
+        "Auto-Check - Verify your progress",
+        "Picture Gallery - View completed pixel art"
+      ]
+    },
     "tips": [
       "Start with the largest numbers that nearly fill a row/column",
       "Look for rows/columns where only one arrangement is possible",
       "Mark definitely empty cells with X to help visualize",
       "Cross-reference between rows and columns"
+    ],
+    "faq": [
+      {
+        "question": "How do I read the number clues?",
+        "answer": "Each number tells you the size of a consecutive group of filled cells. '3 2' means a group of 3, at least one empty cell, then a group of 2. They appear in that order."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Look for rows or columns with large numbers. If a '10' appears in a 15-cell row, the middle 5 cells must be filled regardless of position."
+      },
+      {
+        "question": "What if I make a mistake?",
+        "answer": "Use the undo feature or click a filled cell again to clear it. The auto-check feature can highlight errors."
+      },
+      {
+        "question": "Are puzzles always solvable with logic?",
+        "answer": "Yes! Well-designed Nonograms can be solved purely through logical deduction without guessing. Look for rows/columns where clues force specific cells."
+      }
     ]
   },
   "zh": {
     "name": "数织",
-    "desc": "又称像素填色！根据数字提示填充方格，揭示隐藏的像素艺术图片。逻辑与创意的完美结合。",
+    "desc": "揭示隐藏的像素艺术图片",
+    "description": "数织（又称像素填色或逻辑拼图）是一款结合推理与创意的图片逻辑谜题！利用行列旁边的数字线索来确定哪些格子需要填充。当正确解答时，一幅隐藏的像素艺术图片会显现出来。这种逻辑与艺术的完美结合使数织成为全球深受喜爱的谜题类型，同时提供放松和精神挑战。",
+    "objectives": "根据数字线索填充正确的格子以揭示隐藏的像素艺术图像。使用逻辑推理——每个数字代表该行或列中连续的填充格子组。",
     "howToPlay": "数字表示该行/列中连续填充的单元格。多个数字表示分开的组，组之间至少有一个空单元格。点击填充，X标记空单元格。",
+    "rules": {
+      "controls": "左键点击填充格子，右键点击（或shift+点击）用X标记为空。点击并拖动可填充或标记多个格子。",
+      "mechanics": [
+        "左侧数字表示每行的填充格子组",
+        "顶部数字表示每列的填充格子组",
+        "组必须按显示顺序出现（从左到右，从上到下）",
+        "组之间至少有一个空格",
+        "完成所有行和列以揭示图片"
+      ],
+      "features": [
+        "多种尺寸 - 从5×5到20×20网格",
+        "提示系统 - 卡住时获取帮助",
+        "自动检查 - 验证你的进度",
+        "图片画廊 - 查看完成的像素艺术"
+      ]
+    },
     "tips": [
       "从几乎填满一行/列的最大数字开始",
       "寻找只有一种排列可能的行/列",
       "用X标记确定空的单元格以帮助可视化",
       "在行和列之间交叉参考"
+    ],
+    "faq": [
+      {
+        "question": "如何解读数字线索？",
+        "answer": "每个数字告诉你连续填充格子组的大小。'3 2'表示一组3个，至少一个空格，然后一组2个。它们按此顺序出现。"
+      },
+      {
+        "question": "最佳开始策略是什么？",
+        "answer": "寻找有大数字的行或列。如果15格行中出现'10'，无论位置如何，中间5格必须填充。"
+      },
+      {
+        "question": "如果我犯错了怎么办？",
+        "answer": "使用撤销功能或再次点击已填充的格子清除它。自动检查功能可以高亮错误。"
+      },
+      {
+        "question": "谜题是否总能用逻辑解决？",
+        "answer": "是的！设计良好的数织可以完全通过逻辑推理解决，无需猜测。寻找线索强制特定格子的行/列。"
+      }
     ]
   }
 }

@@ -7,13 +7,95 @@
   "en": {
     "name": "Peg Solitaire",
     "desc": "The classic peg jumping puzzle! Jump over pegs to remove them. Goal: leave only one peg on the board. Simple rules, deep strategy!",
-    "howToPlay": "",
-    "tips": []
+    "description": "Peg Solitaire is the centuries-old board puzzle that has challenged minds for generations! The board is filled with pegs except for one central hole. Jump pegs over each other to remove them, aiming to leave just one peg remaining. This seemingly simple goal requires careful planning and strategic thinking—the best players can finish with that single peg right in the center!",
+    "objectives": "Remove pegs from the board by jumping over them with other pegs, similar to checkers. The ultimate goal is to finish with exactly one peg remaining, ideally in the central position. Plan each move carefully!",
+    "howToPlay": "Click a peg to select it, then click an empty hole two spaces away to jump. The peg between your start and end positions is removed. Continue until no more jumps are possible.",
+    "rules": {
+      "controls": "Click on a peg to select it, then click on an empty hole exactly two spaces away in a straight line (horizontal or vertical). The peg you jumped over is automatically removed.",
+      "mechanics": [
+        "Jump over adjacent peg into empty space",
+        "Jumped peg is removed",
+        "Only horizontal/vertical jumps allowed",
+        "No diagonal jumps",
+        "Game ends when no jumps possible"
+      ],
+      "features": [
+        "Classic Layout - Traditional board",
+        "Strategic Depth - Complex planning",
+        "Perfect Game Goal - One peg remaining",
+        "Move Counter - Track efficiency"
+      ]
+    },
+    "tips": [
+      "Plan several moves ahead",
+      "Work from the edges toward the center",
+      "Avoid isolating pegs that can't be jumped",
+      "The perfect game leaves one peg in the center"
+    ],
+    "faq": [
+      {
+        "question": "What's the best final position?",
+        "answer": "The perfect game ends with one peg in the center of the board—the same position that was empty at the start. This is considered the 'standard' solution, though other single-peg finishes are also victories."
+      },
+      {
+        "question": "Is it always possible to win?",
+        "answer": "With the standard English board (33 holes), it IS possible to finish with one peg. However, achieving this requires careful planning. Many positions become unsolvable if you make wrong moves early."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Work systematically to avoid isolating pegs. Keep pegs clustered so they can jump each other. Many players work from edges toward center. Avoid creating 'islands' of pegs that can't reach each other."
+      },
+      {
+        "question": "How many moves does a perfect game take?",
+        "answer": "A perfect game on the standard board takes exactly 31 moves (removing 31 pegs, leaving 1). The minimum is fixed—you can't solve it in fewer moves because each move removes exactly one peg."
+      }
+    ]
   },
   "zh": {
     "name": "孔明棋",
     "desc": "经典跳棋谜题！跳过棋子将其移除。目标：棋盘上只留下一个棋子。简单规则，深度策略！",
-    "howToPlay": "",
-    "tips": []
+    "description": "孔明棋是几个世纪以来挑战心智的棋盘谜题！棋盘上填满了棋子，只有一个中心孔。跳过其他棋子来移除它们，目标是只留下一个棋子。这个看似简单的目标需要仔细的规划和战略思考——最好的玩家可以在中心位置完成那个单一的棋子！",
+    "objectives": "通过用其他棋子跳过它们来移除棋盘上的棋子，类似于跳棋。最终目标是只留下一个棋子，理想情况下在中心位置。仔细规划每一步！",
+    "howToPlay": "点击棋子选择它，然后点击两个空间外的空孔来跳跃。你起点和终点之间的棋子会被移除。继续直到没有更多跳跃可能。",
+    "rules": {
+      "controls": "点击棋子选择它，然后点击正好两个空间外的直线（水平或垂直）空孔。你跳过的棋子会自动移除。",
+      "mechanics": [
+        "跳过相邻棋子进入空位",
+        "被跳过的棋子被移除",
+        "只允许水平/垂直跳跃",
+        "不允许对角线跳跃",
+        "当没有跳跃可能时游戏结束"
+      ],
+      "features": [
+        "经典布局 - 传统棋盘",
+        "战略深度 - 复杂规划",
+        "完美游戏目标 - 剩下一个棋子",
+        "移动计数器 - 追踪效率"
+      ]
+    },
+    "tips": [
+      "提前计划几步",
+      "从边缘向中心工作",
+      "避免孤立无法被跳过的棋子",
+      "完美的游戏在中心留下一个棋子"
+    ],
+    "faq": [
+      {
+        "question": "最佳最终位置是什么？",
+        "answer": "完美的游戏在棋盘中心留下一个棋子——与开始时空的位置相同。这被认为是'标准'解决方案，尽管其他单棋子完成也是胜利。"
+      },
+      {
+        "question": "总是可能赢吗？",
+        "answer": "在标准英式棋盘（33个孔）上，可以在一个棋子完成。然而，实现这一点需要仔细规划。如果你在早期做出错误的移动，许多位置会变得无法解决。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "系统地工作以避免孤立棋子。保持棋子聚集以便它们可以互相跳跃。许多玩家从边缘向中心工作。避免创建无法互相到达的棋子'岛屿'。"
+      },
+      {
+        "question": "完美的游戏需要多少步？",
+        "answer": "标准棋盘上的完美游戏需要正好31步（移除31个棋子，留下1个）。最小值是固定的——你不能在更少的步数内解决它，因为每步正好移除一个棋子。"
+      }
+    ]
   }
 }

@@ -7,23 +7,95 @@
   "en": {
     "name": "Nim",
     "desc": "An ancient mathematical strategy game! Take stones from piles, but take the last stone and you lose. Perfect information, pure strategy - can you find the winning formula?",
+    "description": "Nim is one of the oldest mathematical games in history, dating back centuries! Multiple piles of stones sit before you—take any number from one pile each turn. In the standard version, the player who takes the last stone loses. Despite simple rules, Nim contains deep mathematical theory using binary XOR operations. Perfect information, no luck—pure strategic thinking!",
+    "objectives": "Force your opponent to take the last stone (or be the one to take it in misère version). Plan your moves to leave your opponent in losing positions. Master the mathematical theory for guaranteed wins against suboptimal play!",
     "howToPlay": "Select a row, then choose how many stones to remove. You must take at least 1 stone. The player forced to take the last stone loses the game.",
+    "rules": {
+      "controls": "Click on a pile to select it, then choose how many stones to remove. You can take any number from 1 to all stones in that pile. Players alternate turns until someone takes the last stone.",
+      "mechanics": [
+        "Take 1 or more stones from one pile",
+        "Cannot take from multiple piles",
+        "Player taking last stone loses",
+        "No hidden information",
+        "Perfect play is calculable"
+      ],
+      "features": [
+        "Pure Strategy - No luck involved",
+        "Mathematical Theory - XOR-based solution",
+        "Multiple Difficulties - Easy to hard AI",
+        "Educational - Learn game theory"
+      ]
+    },
     "tips": [
       "In Hard mode, the AI uses optimal XOR strategy",
       "Try to leave your opponent with equal rows",
       "Control the total stone count",
       "Learn the mathematical theory for perfect play"
+    ],
+    "faq": [
+      {
+        "question": "What's the XOR strategy in Nim?",
+        "answer": "Calculate the XOR (exclusive or) of all pile sizes in binary. If the result is 0, you're in a losing position with perfect play. If non-zero, there's always a move to put your opponent in a losing position."
+      },
+      {
+        "question": "Is Nim always winnable for one player?",
+        "answer": "Yes! With perfect play, the winner is determined by the starting position. If the initial XOR is 0, the second player wins. If non-zero, the first player wins. This is mathematically proven!"
+      },
+      {
+        "question": "What's misère Nim?",
+        "answer": "Misère is the standard version where taking the last stone loses. Normal play (taking last wins) is actually easier to analyze. The strategies differ slightly near the endgame."
+      },
+      {
+        "question": "How old is the game of Nim?",
+        "answer": "Nim's origins are unclear but it's certainly centuries old, possibly ancient Chinese. It was studied mathematically in 1901 by Charles Bouton, who discovered the XOR winning strategy."
+      }
     ]
   },
   "zh": {
     "name": "尼姆博弈",
     "desc": "古老的数学策略游戏！从石堆中取走石头，但取走最后一颗石头就输。完全信息，纯粹策略 - 你能找到必胜公式吗？",
+    "description": "尼姆博弈是历史上最古老的数学游戏之一，可以追溯到几个世纪前！多堆石头摆在你面前——每轮从一堆中取任意数量。在标准版本中，取走最后一颗石头的玩家输。尽管规则简单，尼姆包含使用二进制XOR运算的深刻数学理论。完全信息，没有运气——纯粹的策略思考！",
+    "objectives": "迫使你的对手取走最后一颗石头（或者在misère版本中成为取走它的人）。规划你的移动使对手处于必败位置。掌握数学理论以在次优对局中保证获胜！",
     "howToPlay": "点击堆选择要拿取的物品数。每轮必须至少拿取一个，最多拿取堆中剩余物品数。谁拿走最后一个物品谁获胜。",
+    "rules": {
+      "controls": "点击一堆选择它，然后选择要移除多少颗石头。你可以从该堆取1到所有石头的任何数量。玩家轮流直到有人取走最后一颗石头。",
+      "mechanics": [
+        "从一堆取1或更多石头",
+        "不能从多堆取",
+        "取最后一颗石头的玩家输",
+        "没有隐藏信息",
+        "完美发挥是可计算的"
+      ],
+      "features": [
+        "纯粹策略 - 没有运气",
+        "数学理论 - 基于XOR的解决方案",
+        "多种难度 - 从简单到困难AI",
+        "教育性 - 学习博弈论"
+      ]
+    },
     "tips": [
       "计算每堆的二进制表示",
       "关键策略是让对手处于必败位置",
       "在多堆游戏中，仔细规划你的移动",
       "小堆更容易控制"
+    ],
+    "faq": [
+      {
+        "question": "尼姆博弈中的XOR策略是什么？",
+        "answer": "计算所有堆大小的二进制XOR（异或）。如果结果是0，你在完美发挥下处于必败位置。如果非零，总有一个移动可以将对手置于必败位置。"
+      },
+      {
+        "question": "尼姆博弈对一方来说总是可赢的吗？",
+        "answer": "是的！在完美发挥下，获胜者由起始位置决定。如果初始XOR是0，后手获胜。如果非零，先手获胜。这是数学证明的！"
+      },
+      {
+        "question": "什么是misère尼姆？",
+        "answer": "Misère是标准版本，取走最后一颗石头输。正常玩法（取最后赢）实际上更容易分析。策略在终局略有不同。"
+      },
+      {
+        "question": "尼姆博弈有多古老？",
+        "answer": "尼姆博弈的起源不清楚，但肯定有几个世纪的历史，可能来自中国古代。它在1901年由Charles Bouton进行数学研究，他发现了XOR获胜策略。"
+      }
     ]
   }
 }

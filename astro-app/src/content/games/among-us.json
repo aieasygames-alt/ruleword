@@ -7,24 +7,96 @@
   "color": "from-red-500 to-rose-600",
   "en": {
     "name": "Among Us",
-    "desc": "Control your crewmate character! Move around, use the kill button to eliminate targets, and trigger sabotage effects. A fun tribute to the popular social deduction game!",
+    "desc": "Control your crewmate character",
+    "description": "Experience the fun of Among Us in this arcade tribute! Control your character as it moves through the spaceship, using the kill button to eliminate targets and sabotage to create chaos. While simplified from the full social deduction game, this captures the spirit and characters that made Among Us a global phenomenon. Move smoothly, time your actions, and enjoy the iconic crewmate animations!",
+    "objectives": "Navigate your character around the map, eliminate targets when they're nearby, and trigger sabotage effects. In exploration mode, simply enjoy moving your character around and watching the animations.",
     "howToPlay": "Use Arrow Keys or WASD to move your character around. Click the Kill button to eliminate nearby targets. Click the Sabotage button to trigger chaos effects. In Character Move mode, simply explore and enjoy the animations!",
+    "rules": {
+      "controls": "Arrow Keys or WASD move your character in all directions. Click on-screen buttons for Kill and Sabotage actions. Movement is smooth and responsive.",
+      "mechanics": [
+        "Move freely around the spaceship environment",
+        "Kill button activates when a target is in range",
+        "Sabotage creates visual effects and chaos",
+        "Character animations react to movement",
+        "Two modes: Action and Exploration"
+      ],
+      "features": [
+        "Smooth Movement - Responsive character control",
+        "Kill Action - Eliminate nearby targets",
+        "Sabotage Effects - Create visual chaos",
+        "Character Animations - Authentic Among Us style"
+      ]
+    },
     "tips": [
       "Time your kills when the bot is nearby",
       "Use sabotage to create distraction effects",
       "Practice smooth movement with arrow keys",
       "Try both game modes for different experiences"
+    ],
+    "faq": [
+      {
+        "question": "Is this the full Among Us game?",
+        "answer": "No, this is a simplified arcade tribute featuring the iconic character and some signature moves. It captures the spirit of Among Us in a casual arcade format."
+      },
+      {
+        "question": "How do I eliminate targets?",
+        "answer": "Move close to a target character and click the Kill button when it becomes active. The kill animation will play."
+      },
+      {
+        "question": "What does sabotage do?",
+        "answer": "Sabotage triggers visual effects that simulate the chaos from the real game—flashing lights, alarms, and other distractions."
+      },
+      {
+        "question": "Can I play with others?",
+        "answer": "This is a single-player experience focused on character control and actions. For the full social deduction experience, try the official Among Us game."
+      }
     ]
   },
   "zh": {
     "name": "太空狼人杀",
-    "desc": "控制你的船员角色！四处移动，使用击杀按钮消灭目标，触发破坏效果。致敬热门社交推理游戏的趣味之作！",
+    "desc": "控制你的船员角色",
+    "description": "在这款街机致敬作中体验太空狼人杀的乐趣！控制你的角色在飞船中移动，使用击杀按钮消灭目标，触发破坏制造混乱。虽然简化自完整的社交推理游戏，但这捕捉了让太空狼人杀成为全球现象的精神和角色。流畅移动，把握时机，享受标志性的船员动画！",
+    "objectives": "导航你的角色在地图上移动，在目标附近时消灭它们，触发破坏效果。在探索模式下，只需享受角色移动和观看动画。",
     "howToPlay": "使用方向键或WASD移动角色。点击击杀按钮消灭附近目标。点击破坏按钮触发混乱效果。在角色移动模式下，自由探索并享受动画！",
+    "rules": {
+      "controls": "方向键或WASD向各个方向移动角色。点击屏幕按钮进行击杀和破坏动作。移动流畅灵敏。",
+      "mechanics": [
+        "在飞船环境中自由移动",
+        "目标在范围内时击杀按钮激活",
+        "破坏创造视觉效果和混乱",
+        "角色动画对移动做出反应",
+        "两种模式：动作和探索"
+      ],
+      "features": [
+        "流畅移动 - 灵敏的角色控制",
+        "击杀动作 - 消灭附近目标",
+        "破坏效果 - 创造视觉混乱",
+        "角色动画 - 正宗太空狼人杀风格"
+      ]
+    },
     "tips": [
       "当机器人在附近时把握击杀时机",
       "使用破坏功能制造干扰效果",
       "用方向键练习流畅移动",
       "尝试两种游戏模式获得不同体验"
+    ],
+    "faq": [
+      {
+        "question": "这是完整的太空狼人杀游戏吗？",
+        "answer": "不，这是一款简化的街机致敬作，以标志性的角色和一些标志性动作为特色。它以休闲街机形式捕捉了太空狼人杀的精神。"
+      },
+      {
+        "question": "如何消灭目标？",
+        "answer": "移动到目标角色附近，当击杀按钮变为活动状态时点击它。击杀动画会播放。"
+      },
+      {
+        "question": "破坏有什么用？",
+        "answer": "破坏触发视觉效果，模拟真实游戏中的混乱——闪烁的灯光、警报和其他干扰。"
+      },
+      {
+        "question": "可以和其他人一起玩吗？",
+        "answer": "这是专注于角色控制和动作的单人体验。要获得完整的社交推理体验，请尝试官方太空狼人杀游戏。"
+      }
     ]
   }
 }

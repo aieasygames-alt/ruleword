@@ -8,13 +8,95 @@
   "en": {
     "name": "Crossword",
     "desc": "Classic crossword puzzle! Fill in the grid using the clues. Test your vocabulary and general knowledge. The ultimate word puzzle challenge!",
-    "howToPlay": "",
-    "tips": []
+    "description": "Crossword puzzles are the quintessential word game that has challenged minds for over a century! A grid of white and black squares awaits your answers, with clues ranging from simple definitions to clever wordplay. Fill in words horizontally (Across) and vertically (Down), watching as intersecting letters help confirm your answers. Whether you're a casual solver or a cruciverbalist enthusiast, crosswords offer endless mental stimulation and vocabulary building!",
+    "objectives": "Fill in all the white squares in the grid with correct letters to form words based on the given clues. Use intersecting letters from completed words to help solve others. Complete the entire puzzle correctly to win!",
+    "howToPlay": "Click on a white square to select it. Type letters to fill in answers based on the clues. Press Tab or click clues to switch between Across and Down. All words must be correct to complete the puzzle!",
+    "rules": {
+      "controls": "Click a square to select it, or click directly on a clue. Type letters to fill in answers. Press Backspace to delete. Press Tab or click another clue to switch direction or position.",
+      "mechanics": [
+        "Words intersect and share letters",
+        "Clues numbered for reference",
+        "Across and Down directions",
+        "Black squares block word flow",
+        "All letters must form valid words"
+      ],
+      "features": [
+        "Multiple Difficulty Levels - Easy to expert grids",
+        "Hint System - Reveal letters or words",
+        "Check Feature - Verify your answers",
+        "Timer Challenge - Race against the clock"
+      ]
+    },
+    "tips": [
+      "Start with clues you know for certain",
+      "Look for fill-in-the-blank clues - they're often easier",
+      "Use crossing letters to narrow down possibilities",
+      "Plural clues usually mean plural answers"
+    ],
+    "faq": [
+      {
+        "question": "How do I start a crossword puzzle?",
+        "answer": "Scan through all the clues first and fill in any answers you know immediately. These crossing letters will help you solve adjacent words. Don't get stuck on one clue—move around the puzzle!"
+      },
+      {
+        "question": "What if I don't know an answer?",
+        "answer": "Use crossing letters from other words to narrow down possibilities. Think about synonyms, wordplay, or common crossword fill patterns. If truly stuck, use a hint or move on to another section."
+      },
+      {
+        "question": "Are there different types of crosswords?",
+        "answer": "Yes! American-style crosswords have symmetric grids and straightforward clues. British/cryptic crosswords feature wordplay-based clues. Quick crosswords have simpler, more direct clues for faster solving."
+      },
+      {
+        "question": "How can I improve at crosswords?",
+        "answer": "Practice regularly, learn common crossword words and abbreviations, expand your vocabulary, and study different clue types. The more you solve, the more patterns you'll recognize!"
+      }
+    ]
   },
   "zh": {
     "name": "填字游戏",
     "desc": "经典填字游戏！根据提示填写网格。测试你的词汇量和常识。终极文字谜题挑战！",
-    "howToPlay": "",
-    "tips": []
+    "description": "填字游戏是挑战了一个多世纪心智的典型文字游戏！白色和黑色方块的网格等待你的答案，提示从简单的定义到巧妙的文字游戏。水平（横向）和垂直（纵向）填写单词，观察交叉字母如何帮助确认你的答案。无论你是休闲解谜者还是填字游戏爱好者，填字游戏提供无尽的心理刺激和词汇构建！",
+    "objectives": "根据给定的提示，在网格中的所有白色方块中填写正确的字母以形成单词。使用已完成单词的交叉字母来帮助解决其他单词。正确完成整个谜题即可获胜！",
+    "howToPlay": "点击白色方块选择它。根据提示输入字母填写答案。按Tab或点击提示在横向和纵向之间切换。所有单词必须正确才能完成谜题！",
+    "rules": {
+      "controls": "点击方块选择它，或直接点击提示。输入字母填写答案。按退格键删除。按Tab或点击另一个提示来切换方向或位置。",
+      "mechanics": [
+        "单词交叉并共享字母",
+        "提示编号供参考",
+        "横向和纵向方向",
+        "黑色方块阻挡单词流向",
+        "所有字母必须形成有效单词"
+      ],
+      "features": [
+        "多种难度级别 - 从简单到专家网格",
+        "提示系统 - 揭示字母或单词",
+        "检查功能 - 验证你的答案",
+        "计时挑战 - 与时钟赛跑"
+      ]
+    },
+    "tips": [
+      "从你确定的提示开始",
+      "寻找填空式提示——它们通常更容易",
+      "使用交叉字母来缩小可能性",
+      "复数提示通常意味着复数答案"
+    ],
+    "faq": [
+      {
+        "question": "如何开始填字游戏？",
+        "answer": "首先浏览所有提示，填写你立即知道的任何答案。这些交叉字母将帮助你解决相邻的单词。不要卡在一个提示上——在谜题中移动！"
+      },
+      {
+        "question": "如果我不知道答案怎么办？",
+        "answer": "使用其他单词的交叉字母来缩小可能性。想想同义词、文字游戏或常见的填字游戏填充模式。如果真的卡住了，使用提示或转到另一个部分。"
+      },
+      {
+        "question": "有不同类型的填字游戏吗？",
+        "answer": "是的！美式填字游戏有对称网格和直接的提示。英式/神秘填字游戏具有基于文字游戏的提示。快速填字游戏有更简单、更直接的提示，可以更快解决。"
+      },
+      {
+        "question": "如何提高填字游戏技能？",
+        "answer": "定期练习，学习常见的填字游戏单词和缩写，扩展你的词汇量，并研究不同的提示类型。你解决的越多，你会识别的模式越多！"
+      }
+    ]
   }
 }

@@ -7,24 +7,98 @@
   "color": "from-amber-600 to-red-700",
   "en": {
     "name": "Huarong Pass",
-    "desc": "The classic Chinese sliding block puzzle! Move blocks to help 曹操 escape through the bottom exit. A test of strategic thinking!",
+    "desc": "Classic Chinese sliding block puzzle",
+    "description": "Huarong Pass (华容道) is one of China's most celebrated sliding block puzzles with a legendary historical theme! Help the warlord Cao Cao escape through the Huarong Pass by sliding blocks strategically. The large 2×2 block represents Cao Cao, while smaller blocks represent generals blocking his path. With a rich history dating back to ancient China, this puzzle challenges your strategic thinking and spatial reasoning!",
+    "objectives": "Slide the blocks to create a path for Cao Cao (the large 2×2 red block) to exit through the bottom center opening. Plan your moves carefully—this classic puzzle requires a minimum of 81 moves to solve!",
     "howToPlay": "Click a block to select it, then use Arrow Keys to slide it into empty spaces. Only 曹操 (the red 2x2 block) can exit through the bottom center. Plan your moves carefully!",
+    "rules": {
+      "controls": "Click on a block to select it, then use arrow keys to slide it into adjacent empty spaces. Only horizontal and vertical movements are allowed. Blocks cannot overlap.",
+      "mechanics": [
+        "4×5 board with various sized blocks",
+        "Cao Cao is the 2×2 block that must escape",
+        "Generals are 1×2 blocks (vertical or horizontal)",
+        "Soldiers are 1×1 blocks",
+        "Two empty spaces allow block movement",
+        "Only Cao Cao can exit through the bottom center"
+      ],
+      "features": [
+        "Classic Layout - Traditional starting position",
+        "Move Counter - Track your efficiency",
+        "Historical Theme - Based on Romance of Three Kingdoms",
+        "Undo System - Take back moves"
+      ]
+    },
     "tips": [
       "Clear a path for 曹操 to reach the exit",
       "Vertical blocks are the most challenging to move",
       "Sometimes you need to move blocks away then back",
       "The classic puzzle requires 81+ moves to solve"
+    ],
+    "faq": [
+      {
+        "question": "What's the story behind this puzzle?",
+        "answer": "Based on the Romance of Three Kingdoms, Cao Cao was trapped at Huarong Pass after losing the Battle of Red Cliffs. The puzzle recreates his escape attempt!"
+      },
+      {
+        "question": "What's the minimum number of moves?",
+        "answer": "The classic starting position requires exactly 81 moves minimum. Finding this optimal solution is extremely challenging!"
+      },
+      {
+        "question": "Why are vertical blocks harder to move?",
+        "answer": "Vertical 1×2 blocks have limited movement options in a narrow board. They often create bottlenecks that require careful planning to navigate around."
+      },
+      {
+        "question": "Is there only one solution?",
+        "answer": "No, there are many ways to solve the puzzle, but only one optimal 81-move solution. Most first attempts take 100+ moves."
+      }
     ]
   },
   "zh": {
     "name": "华容道",
-    "desc": "经典的中国滑块谜题！移动方块帮助曹操从下方出口逃脱。考验战略思维！",
+    "desc": "经典中国滑块谜题",
+    "description": "华容道是中国最著名的滑块谜题之一，拥有传奇的历史主题！通过战略性地滑动方块帮助曹操通过华容道逃脱。大的2×2方块代表曹操，较小的方块代表阻挡他道路的将军们。这个谜题拥有追溯到古代中国的丰富历史，挑战你的战略思维和空间推理！",
+    "objectives": "滑动方块为曹操（大的2×2红色方块）创造一条通过底部中央出口的路径。仔细规划你的移动——这个经典谜题至少需要81步才能解决！",
     "howToPlay": "点击方块选中它，然后使用方向键滑入空位。只有曹操（红色2x2方块）可以从底部中央出口离开。仔细规划你的移动！",
+    "rules": {
+      "controls": "点击方块选中它，然后使用方向键将其滑入相邻的空位。只允许水平和垂直移动。方块不能重叠。",
+      "mechanics": [
+        "4×5棋盘配各种大小的方块",
+        "曹操是必须逃脱的2×2方块",
+        "将军是1×2方块（垂直或水平）",
+        "士兵是1×1方块",
+        "两个空位允许方块移动",
+        "只有曹操可以从底部中央出口"
+      ],
+      "features": [
+        "经典布局 - 传统起始位置",
+        "移动计数器 - 追踪你的效率",
+        "历史主题 - 基于三国演义",
+        "撤销系统 - 撤回移动"
+      ]
+    },
     "tips": [
       "为曹操清理一条通往出口的路径",
       "竖直方块是最难移动的",
       "有时需要先移开方块再移回来",
       "经典解法需要81+步"
+    ],
+    "faq": [
+      {
+        "question": "这个谜题背后有什么故事？",
+        "answer": "基于三国演义，曹操在赤壁之战失败后被困在华容道。这个谜题重现了他的逃脱尝试！"
+      },
+      {
+        "question": "最少需要多少步？",
+        "answer": "经典起始位置恰好需要最少81步。找到这个最优解极其具有挑战性！"
+      },
+      {
+        "question": "为什么竖直方块更难移动？",
+        "answer": "竖直1×2方块在狭窄的棋盘上移动选项有限。它们经常创造需要仔细规划才能绕过的瓶颈。"
+      },
+      {
+        "question": "只有一个解决方案吗？",
+        "answer": "不，有很多方法可以解决这个谜题，但只有一个最优的81步解决方案。大多数首次尝试需要100+步。"
+      }
     ]
   }
 }

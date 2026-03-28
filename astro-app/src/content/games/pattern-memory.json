@@ -7,24 +7,96 @@
   "color": "from-fuchsia-500 to-purple-600",
   "en": {
     "name": "Pattern Memory",
-    "desc": "Memorize colorful grid patterns! Study the pattern, then recreate it from memory. Difficulty increases with grid size. Visual memory training!",
+    "desc": "Memorize and recreate colorful grid patterns",
+    "description": "Pattern Memory is a visual memory training game that challenges your ability to remember colors and positions! Study a grid of colorful tiles, then recreate the exact pattern from memory when it disappears. Starting with simple 3×3 grids and just a few colors, the difficulty ramps up with larger grids and more complex patterns. Perfect for training your visual-spatial memory!",
+    "objectives": "Study the colored pattern displayed on the grid, then when it disappears, click on cells to recreate the exact same color pattern. Progress through increasingly difficult levels with larger grids and more colors.",
     "howToPlay": "Watch the colored pattern appear on the grid. When it disappears, click cells to recreate the exact pattern. Each level adds more complexity.",
+    "rules": {
+      "controls": "After viewing the pattern, click on cells to select them and choose colors to recreate the pattern. The pattern is complete when all cells match the original.",
+      "mechanics": [
+        "Pattern displays for a limited time",
+        "Recreate the exact color arrangement",
+        "Grid size increases as you progress",
+        "More colors introduced in later levels",
+        "Score based on accuracy and completion time"
+      ],
+      "features": [
+        "Progressive Difficulty - Larger grids, more colors",
+        "Color Palette - Multiple colors to remember",
+        "Visual Feedback - See your progress",
+        "Level System - Track your advancement"
+      ]
+    },
     "tips": [
       "Use mnemonic devices like creating shapes or stories",
       "Remember colors by position groups",
       "Focus on one area at a time",
       "Practice spatial memory exercises"
+    ],
+    "faq": [
+      {
+        "question": "How can I remember complex patterns?",
+        "answer": "Break the pattern into chunks—look for shapes, lines, or groups. Create a mental story connecting the colors and positions. Some people find it helpful to say the colors aloud while viewing."
+      },
+      {
+        "question": "What's a good strategy for larger grids?",
+        "answer": "Focus on remembering one quadrant at a time, or look for patterns within the chaos. Rows or columns with only one color are easier to remember."
+      },
+      {
+        "question": "Does this really improve memory?",
+        "answer": "Yes! Visual pattern exercises strengthen the brain's ability to process and retain spatial information. Regular practice can improve overall visual memory."
+      },
+      {
+        "question": "What if I'm struggling with colors?",
+        "answer": "Try associating colors with objects (red=apple, blue=sky) or positions (red in top-left corner). Creating mental associations makes abstract information more memorable."
+      }
     ]
   },
   "zh": {
     "name": "图案记忆",
-    "desc": "记忆彩色网格图案！观察图案，然后凭记忆重新创建。难度随网格大小增加。视觉记忆训练！",
+    "desc": "记忆并重现彩色网格图案",
+    "description": "图案记忆是一款视觉记忆训练游戏，挑战你记住颜色和位置的能力！研究彩色格子网格，然后在它消失时凭记忆重现确切的图案。从简单的3×3网格和少数颜色开始，难度随着更大的网格和更复杂的图案而提升。非常适合训练你的视觉空间记忆！",
+    "objectives": "研究网格上显示的彩色图案，然后当它消失时，点击格子重现完全相同的颜色图案。通过越来越难的关卡，网格更大，颜色更多。",
     "howToPlay": "观看高亮格子的序列。点击相同的格子重复序列。每个新回合增加一个格子。按错格子或顺序错误则游戏结束。",
+    "rules": {
+      "controls": "观看图案后，点击格子选中它们并选择颜色来重现图案。当所有格子与原始匹配时图案完成。",
+      "mechanics": [
+        "图案显示有限时间",
+        "重现确切的颜色排列",
+        "网格大小随进度增加",
+        "后续关卡引入更多颜色",
+        "得分基于准确率和完成时间"
+      ],
+      "features": [
+        "渐进难度 - 更大的网格，更多颜色",
+        "调色板 - 需要记住多种颜色",
+        "视觉反馈 - 查看你的进度",
+        "关卡系统 - 追踪你的进步"
+      ]
+    },
     "tips": [
       "在心里将图案分组记忆",
       "使用空间关联（如对角线、角落）",
       "大声说出来帮助记忆",
       "练习以提高你的视觉记忆"
+    ],
+    "faq": [
+      {
+        "question": "如何记住复杂的图案？",
+        "answer": "将图案分成块——寻找形状、线条或组。创建连接颜色和位置的心理故事。有些人发现在观看时大声说出颜色有帮助。"
+      },
+      {
+        "question": "大网格有什么好策略？",
+        "answer": "专注于一次记住一个象限，或在混乱中寻找模式。只有一种颜色的行或列更容易记住。"
+      },
+      {
+        "question": "这真的能改善记忆吗？",
+        "answer": "是的！视觉图案练习增强大脑处理和保留空间信息的能力。定期练习可以改善整体视觉记忆。"
+      },
+      {
+        "question": "如果我在颜色上挣扎怎么办？",
+        "answer": "尝试将颜色与物体关联（红色=苹果，蓝色=天空）或位置（红色在左上角）。创建心理联想使抽象信息更容易记住。"
+      }
     ]
   }
 }

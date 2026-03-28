@@ -8,23 +8,95 @@
   "en": {
     "name": "Shisen-Sho",
     "desc": "Match identical mahjong tiles to clear them! Tiles can only be matched if there's a clear path between them. A relaxing yet challenging puzzle game!",
+    "description": "Shisen-Sho (also known as Sichuan Mahjong) is a tile-matching puzzle game using traditional mahjong tiles! Unlike other matching games, tiles don't need to be on the edges—they just need a clear connecting path with at most two turns. This creates strategic depth as you plan which pairs to remove first to unlock new matches. A perfect blend of relaxation and mental exercise!",
+    "objectives": "Remove all tiles from the board by matching pairs of identical tiles. Tiles can only be matched if they can be connected by a path with no more than two turns (three line segments). Clear all tiles to win!",
     "howToPlay": "Click two matching tiles (same suit and value) to remove them. Tiles must be reachable without going through other tiles. Clear all tiles to win!",
+    "rules": {
+      "controls": "Click on a tile to select it, then click on a matching tile to remove both. The path between them must be clear with at most two 90-degree turns.",
+      "mechanics": [
+        "Match identical tile pairs",
+        "Path can have 0, 1, or 2 turns maximum",
+        "Path cannot cross other tiles",
+        "Tiles on edges are easiest to match",
+        "Clear all tiles to win"
+      ],
+      "features": [
+        "Traditional Tiles - Classic mahjong designs",
+        "Path Finding - Visual line connection",
+        "Hint System - Get help when stuck",
+        "Multiple Layouts - Various difficulties"
+      ]
+    },
     "tips": [
       "Scan the board for easy matches first",
       "Look for tiles on the edges",
       "Plan ahead to avoid blocking tiles",
       "Traditional Chinese mahjong matching game"
+    ],
+    "faq": [
+      {
+        "question": "What counts as a valid path?",
+        "answer": "A valid path connects two tiles with at most two turns (three straight line segments). The path can go around other tiles but cannot pass through them. Think of it as connecting tiles with a pipe that can bend twice."
+      },
+      {
+        "question": "Can I match tiles that are blocked?",
+        "answer": "If a tile is completely surrounded by other tiles with no clear path out, it cannot be matched until some blocking tiles are removed. Plan your matches to unlock trapped tiles."
+      },
+      {
+        "question": "What's the difference from regular Mahjong Solitaire?",
+        "answer": "In Mahjong Solitaire, only free tiles (not covered or blocked on sides) can be matched. In Shisen-Sho, any visible tiles can be matched as long as there's a valid connecting path, even if they're in the middle of the board."
+      },
+      {
+        "question": "Are all puzzles solvable?",
+        "answer": "Most well-designed layouts are solvable, but some random arrangements may not be. If stuck with no possible matches, the game usually offers a shuffle or new game option."
+      }
     ]
   },
   "zh": {
     "name": "四川麻将",
     "desc": "匹配相同的麻将牌来消除它们！只有当两个牌之间有清晰的路径时才能匹配。一款轻松但充满挑战的益智游戏！",
+    "description": "四川麻将（又称Sichuan Mahjong）是使用传统麻将牌的配对益智游戏！与其他配对游戏不同，牌不需要在边缘——它们只需要一条最多两个转弯的清晰连接路径。这创造了战略深度，你计划先移除哪些对以解锁新的匹配。放松与心理锻炼的完美融合！",
+    "objectives": "通过匹配相同的牌对来移除棋盘上的所有牌。只有当两张牌可以通过最多两个转弯（三条线段）的路径连接时才能匹配。清除所有牌获胜！",
     "howToPlay": "点击两张相同的牌（相同花色和点数）来消除它们。牌必须能够通过不经过其他牌的路径到达。清除所有牌获胜！",
+    "rules": {
+      "controls": "点击一张牌选择它，然后点击一张匹配的牌来移除两者。它们之间的路径必须清晰，最多两个90度转弯。",
+      "mechanics": [
+        "匹配相同的牌对",
+        "路径最多可以有0、1或2个转弯",
+        "路径不能穿过其他牌",
+        "边缘的牌最容易匹配",
+        "清除所有牌获胜"
+      ],
+      "features": [
+        "传统牌面 - 经典麻将设计",
+        "路径查找 - 视觉线连接",
+        "提示系统 - 卡住时获得帮助",
+        "多种布局 - 各种难度"
+      ]
+    },
     "tips": [
       "先扫描棋盘寻找简单的匹配",
       "查看边缘的牌",
       "提前规划避免阻挡其他牌",
       "传统中国麻将配对游戏"
+    ],
+    "faq": [
+      {
+        "question": "什么算有效路径？",
+        "answer": "有效路径用最多两个转弯（三条直线段）连接两张牌。路径可以绕过其他牌但不能穿过它们。把它想象成用可以弯曲两次的管子连接牌。"
+      },
+      {
+        "question": "我可以匹配被阻挡的牌吗？",
+        "answer": "如果一张牌完全被其他牌包围，没有清晰的出路，它就不能被匹配，直到一些阻挡的牌被移除。规划你的匹配来解锁被困的牌。"
+      },
+      {
+        "question": "这与普通麻将接龙有什么不同？",
+        "answer": "在麻将接龙中，只有自由的牌（没有被覆盖或侧面被阻挡）可以被匹配。在四川麻将中，任何可见的牌都可以被匹配，只要有有效的连接路径，即使它们在棋盘中间。"
+      },
+      {
+        "question": "所有谜题都可以解决吗？",
+        "answer": "大多数设计良好的布局是可以解决的，但一些随机排列可能不行。如果卡住没有可能的匹配，游戏通常提供洗牌或新游戏选项。"
+      }
     ]
   }
 }

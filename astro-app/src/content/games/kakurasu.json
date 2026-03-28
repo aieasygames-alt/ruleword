@@ -8,23 +8,95 @@
   "en": {
     "name": "Kakurasu",
     "desc": "Logic puzzle with row and column clues! Place cells in the grid so that row and column sums match the clues. A challenging number puzzle!",
+    "description": "Kakurasu is the clever Japanese logic puzzle that combines simple addition with logical deduction! A grid of cells awaits your selection, with row and column numbers as clues. When you mark a cell, it contributes its column number to the row sum and its row number to the column sum. Use the target sums to determine which cells must be marked. Simple arithmetic, satisfying logic!",
+    "objectives": "Mark cells in the grid so that each row's sum of column values and each column's sum of row values match the given clues. Every marked cell adds to two different sums—use this constraint to deduce the correct pattern!",
     "howToPlay": "Click cells to toggle them. The row clue shows the sum of column values for cells marked in that row. The column clue shows the sum of row values for cells marked in that column.",
+    "rules": {
+      "controls": "Click on any cell to mark or unmark it. Marked cells contribute their column number to the row sum and their row number to the column sum. The goal is to match all clue numbers.",
+      "mechanics": [
+        "Marked cells add column value to row sum",
+        "Marked cells add row value to column sum",
+        "Each clue must be matched exactly",
+        "Grid typically 5x5 to 10x10",
+        "Pure logic - no guessing needed"
+      ],
+      "features": [
+        "Math + Logic - Dual challenge",
+        "Unique Solution - One correct answer",
+        "Progressive Hints - Start easy",
+        "Satisfying Deduction - Clear logic"
+      ]
+    },
     "tips": [
       "Look for rows or columns with clue 0",
       "Start with rows/columns with high clues",
       "Each cell is worth its row number",
       "Think about which combination adds up"
+    ],
+    "faq": [
+      {
+        "question": "How do the sums work?",
+        "answer": "In a 5×5 grid, columns are numbered 1-5 and rows are numbered 1-5. If you mark the cell at row 3, column 4, it adds 4 to row 3's sum and 3 to column 4's sum."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Look for rows or columns with clue 0 (no cells marked) or with maximum possible sums (all cells must be marked). These give you free information to start your deductions."
+      },
+      {
+        "question": "Can I use elimination logic?",
+        "answer": "Yes! If marking a cell would make a sum impossible, that cell must be unmarked. Similarly, if only one combination of cells can produce a sum, those cells are forced."
+      },
+      {
+        "question": "Is Kakurasu always solvable without guessing?",
+        "answer": "Well-designed Kakurasu puzzles have unique solutions solvable through pure logic. Each constraint should lead naturally to the next deduction without trial and error."
+      }
     ]
   },
   "zh": {
     "name": "Kakurasu",
     "desc": "带有行列线索的逻辑谜题！在网格中放置格子，使行列总和与线索匹配。极具挑战性的数字谜题！",
+    "description": "Kakurasu是将简单加法与逻辑推理结合的聪明日本逻辑谜题！一个单元格网格等待你的选择，行列数字作为线索。当你标记一个单元格时，它将它的列值贡献给行和，将它的行值贡献给列和。使用目标和来确定哪些单元格必须被标记。简单的算术，令人满意的逻辑！",
+    "objectives": "在网格中标记单元格，使每行的列值之和和每列的行值之和与给定的线索匹配。每个标记的单元格添加到两个不同的和——使用这个约束来推断正确的模式！",
     "howToPlay": "点击格子来切换它们。行线索显示该行中已标记格子的列值之和。列线索显示该列中已标记格子的行值之和。",
+    "rules": {
+      "controls": "点击任何单元格来标记或取消标记它。标记的单元格将其列值贡献给行和，将其行值贡献给列和。目标是匹配所有线索数字。",
+      "mechanics": [
+        "标记的单元格将列值添加到行和",
+        "标记的单元格将行值添加到列和",
+        "每个线索必须精确匹配",
+        "网格通常5x5到10x10",
+        "纯粹逻辑 - 无需猜测"
+      ],
+      "features": [
+        "数学+逻辑 - 双重挑战",
+        "独特解决方案 - 一个正确答案",
+        "渐进提示 - 从简单开始",
+        "令人满意的推理 - 清晰逻辑"
+      ]
+    },
     "tips": [
       "寻找线索为0的行或列",
       "从高线索的行/列开始",
       "每个格子的值等于其行号",
       "思考哪种组合相加等于线索"
+    ],
+    "faq": [
+      {
+        "question": "和是如何工作的？",
+        "answer": "在5×5网格中，列编号1-5，行编号1-5。如果你标记第3行第4列的单元格，它会将4添加到第3行的和，将3添加到第4列的和。"
+      },
+      {
+        "question": "最佳起始策略是什么？",
+        "answer": "寻找线索为0的行或列（没有单元格标记）或具有最大可能和的行或列（所有单元格必须标记）。这些给你免费的起始信息。"
+      },
+      {
+        "question": "我可以使用消除逻辑吗？",
+        "answer": "是的！如果标记一个单元格会使和变得不可能，那个单元格必须不被标记。同样，如果只有一种单元格组合可以产生和，那些单元格是强制的。"
+      },
+      {
+        "question": "Kakurasu总是可以不用猜测解决吗？",
+        "answer": "设计良好的Kakurasu谜题有独特的解决方案，可以通过纯粹逻辑解决。每个约束应该自然地导致下一个推理，无需试错。"
+      }
     ]
   }
 }

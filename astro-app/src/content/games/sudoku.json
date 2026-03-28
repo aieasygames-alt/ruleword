@@ -7,24 +7,96 @@
   "color": "from-orange-500 to-red-600",
   "en": {
     "name": "Sudoku",
-    "desc": "The world-famous logic puzzle! Fill a 9x9 grid with digits 1-9 so that each row, column, and 3x3 box contains all numbers. Multiple difficulty levels available.",
+    "desc": "Fill a 9×9 grid with digits 1-9",
+    "description": "Sudoku is a legendary number puzzle game that has captivated millions of players worldwide. Your goal is to fill a 9×9 grid with digits 1-9, ensuring each row, column, and 3×3 box contains every number exactly once. With simple rules but infinite complexity, Sudoku offers the perfect balance of challenge and satisfaction for puzzle enthusiasts of all skill levels. Whether you're a beginner looking for a relaxing brain exercise or an expert seeking the ultimate mental challenge, Sudoku delivers endless hours of logical entertainment.",
+    "objectives": "Complete the grid by placing numbers 1-9 in every row, column, and 3×3 box without repetition. Challenge yourself to solve puzzles faster and with fewer mistakes. Track your progress across multiple difficulty levels from Easy to Expert.",
     "howToPlay": "Click on an empty cell and enter a number from 1-9. Each row, column, and 3x3 box must contain all digits 1-9 exactly once. Use the notes feature to pencil in possible candidates. Wrong entries are highlighted in red.",
+    "rules": {
+      "controls": "Click any cell to select it, then press 1-9 to enter a number. Press Delete, Backspace, or 0 to clear a cell. Use the Notes mode toggle to switch between entering final answers and pencil marks.",
+      "mechanics": [
+        "Each row must contain digits 1-9 without repetition",
+        "Each column must contain digits 1-9 without repetition",
+        "Each 3×3 box must contain digits 1-9 without repetition",
+        "Some cells are pre-filled as clues",
+        "Every valid Sudoku has exactly one unique solution"
+      ],
+      "features": [
+        "Notes Mode - Pencil in possible candidates for each cell",
+        "Hint System - Get help when you're stuck",
+        "Error Highlighting - Mistakes shown in red",
+        "Multiple Difficulty Levels - Easy to Expert"
+      ]
+    },
     "tips": [
       "Start with rows, columns, or boxes that have the most filled cells",
       "Use the process of elimination - if a number can only go in one cell, place it",
       "Look for \"naked pairs\" - two cells that can only contain the same two numbers",
       "Use notes to track all possible candidates for each cell"
+    ],
+    "faq": [
+      {
+        "question": "Is there always only one solution?",
+        "answer": "Yes, every valid Sudoku puzzle has exactly one unique solution that can be found through logic alone, without guessing."
+      },
+      {
+        "question": "What's the best strategy for beginners?",
+        "answer": "Start by scanning rows, columns, and boxes for numbers that can only go in one place. Use the notes feature liberally to track possibilities."
+      },
+      {
+        "question": "How do I get better at Sudoku?",
+        "answer": "Practice regularly, learn advanced techniques like naked pairs and hidden singles, and challenge yourself with harder difficulty levels."
+      },
+      {
+        "question": "What makes a Sudoku hard?",
+        "answer": "Harder puzzles require more advanced solving techniques and have fewer initial clues, requiring deeper logical reasoning chains."
+      }
     ]
   },
   "zh": {
     "name": "数独",
-    "desc": "举世闻名的逻辑谜题！在9x9网格中填入1-9数字，使每行、每列和每个3x3宫都包含所有数字。多种难度可选。",
+    "desc": "在9x9网格中填入1-9数字",
+    "description": "数独是一款风靡全球的经典数字谜题游戏。你的目标是在9×9的网格中填入1-9的数字，确保每行、每列和每个3×3宫格中的数字都不重复。规则简单却变化无穷，数独为各水平的谜题爱好者提供了完美的挑战与满足感。无论你是寻求轻松大脑锻炼的初学者，还是追求极限挑战的高手，数独都能带来无尽的逻辑推理乐趣。",
+    "objectives": "完成网格填入，使每行、每列和每个3×3宫格都包含1-9的所有数字且不重复。挑战自己以更快的速度和更少的错误完成谜题。从简单到专家多个难度级别任你选择。",
     "howToPlay": "点击空白单元格并输入1-9的数字。每行、每列和每个3x3宫格必须恰好包含1-9的所有数字。使用笔记功能标记可能的候选数字。错误的输入会以红色高亮显示。",
+    "rules": {
+      "controls": "点击任意格子选中，然后按1-9输入数字。按Delete、Backspace或0清除格子。使用笔记模式切换在最终答案和候选数字之间。",
+      "mechanics": [
+        "每行必须包含1-9数字且不重复",
+        "每列必须包含1-9数字且不重复",
+        "每个3×3宫格必须包含1-9数字且不重复",
+        "部分格子会预先填入作为提示",
+        "每个有效的数独谜题都只有一个唯一解"
+      ],
+      "features": [
+        "笔记模式 - 在格子中标记可能的候选数字",
+        "提示系统 - 遇到困难时获取帮助",
+        "错误高亮 - 错误会以红色显示",
+        "多种难度 - 从简单到专家级别"
+      ]
+    },
     "tips": [
       "从填满单元格最多的行、列或宫格开始",
       "使用排除法——如果一个数字只能放在一个单元格，就填入它",
       "寻找\"裸对\"——两个只能包含相同两个数字的单元格",
       "使用笔记追踪每个单元格的所有可能候选数字"
+    ],
+    "faq": [
+      {
+        "question": "数独谜题是否只有唯一解？",
+        "answer": "是的，每个有效的数独谜题都只有一个唯一解，可以通过纯逻辑推理找到，无需猜测。"
+      },
+      {
+        "question": "初学者最好的策略是什么？",
+        "answer": "首先扫描行、列和宫格，找出只能放在一个位置的数字。充分利用笔记功能记录可能性。"
+      },
+      {
+        "question": "如何提高数独水平？",
+        "answer": "定期练习，学习高级技巧如裸对和隐性候选，并挑战更高难度的谜题。"
+      },
+      {
+        "question": "什么让数独变得困难？",
+        "answer": "更难的谜题需要更高级的解题技巧，初始提示更少，需要更深的逻辑推理链条。"
+      }
     ]
   }
 }

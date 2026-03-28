@@ -7,24 +7,96 @@
   "color": "from-blue-500 to-cyan-600",
   "en": {
     "name": "Tetris",
-    "desc": "The legendary falling block puzzle! Rotate and place tetrominos to clear lines. As speed increases, test your reflexes and spatial thinking. Gaming icon since 1984!",
+    "desc": "Rotate and place falling blocks to clear lines",
+    "description": "Tetris is the legendary puzzle game that has defined the genre for over four decades! Guide falling tetrominos (geometric shapes made of four blocks) as they descend, rotating and positioning them to create complete horizontal lines. When a line is complete, it disappears, scoring points and making room for more pieces. As the game progresses, the pieces fall faster, testing your reflexes, spatial reasoning, and strategic planning. From its Soviet origins in 1984 to its status as a global cultural phenomenon, Tetris remains the gold standard of puzzle gaming.",
+    "objectives": "Survive as long as possible by clearing horizontal lines to prevent the stack from reaching the top. Score points by clearing multiple lines at once—especially the coveted four-line 'Tetris'. Challenge yourself to beat your high score and improve your speed and accuracy.",
     "howToPlay": "Use arrow keys to move and rotate falling blocks. Left/Right to move, Up to rotate, Down to soft drop. Complete horizontal lines are cleared. The game speeds up as you progress.",
+    "rules": {
+      "controls": "← → Arrow keys move pieces left/right. ↑ Arrow rotates clockwise. ↓ Arrow soft drops (faster fall). Space bar hard drops (instant placement). Hold key stores a piece for later use.",
+      "mechanics": [
+        "Seven unique tetrominos (I, O, T, S, Z, J, L) fall from the top",
+        "Complete horizontal lines (10 blocks wide) are cleared",
+        "Clearing 4 lines at once is called a 'Tetris' and scores maximum points",
+        "Game speed increases with level progression",
+        "Game ends when pieces stack to the top of the playfield"
+      ],
+      "features": [
+        "Hold System - Save a piece for later use",
+        "Ghost Piece - Preview where your piece will land",
+        "Next Piece Preview - See upcoming pieces",
+        "Level Progression - Speed increases as you score"
+      ]
+    },
     "tips": [
-      "Leave space for the long I-piece on one side",
+      "Leave space for the long I-piece on one side for Tetris opportunities",
       "Avoid creating holes that can't be filled",
       "Think ahead about where each piece will fit best",
       "Use hard drop for faster placement when certain"
+    ],
+    "faq": [
+      {
+        "question": "What is a Tetris?",
+        "answer": "A Tetris is when you clear 4 lines simultaneously using the long I-piece. It's the highest-scoring move in the game!"
+      },
+      {
+        "question": "How do I improve at Tetris?",
+        "answer": "Practice regularly, learn to use the hold function strategically, and always think a few pieces ahead. Avoid creating gaps in your stack."
+      },
+      {
+        "question": "What's the best strategy for beginners?",
+        "answer": "Keep your stack flat and avoid creating holes. Learn to rotate pieces in both directions for more placement options."
+      },
+      {
+        "question": "Why does the game get faster?",
+        "answer": "As you clear more lines and advance levels, the speed increases to provide greater challenge. This is a core element of Tetris gameplay!"
+      }
     ]
   },
   "zh": {
     "name": "俄罗斯方块",
-    "desc": "传奇的落方块益智游戏！旋转和放置方块消除整行。随着速度加快，测试你的反应和空间思维。1984年以来的游戏标志！",
+    "desc": "旋转和放置下落的方块消除整行",
+    "description": "俄罗斯方块是定义益智游戏类型四十多年的传奇之作！引导下落的俄罗斯方块（由四个小方块组成的几何形状）旋转并放置它们，创建完整的水平线。当一行完成时，它会消失并得分，为新方块腾出空间。随着游戏进行，方块下落速度加快，考验你的反应能力、空间推理和战略规划。从1984年的苏联起源到成为全球文化现象，俄罗斯方块始终是益智游戏的黄金标准。",
+    "objectives": "通过消除水平线尽可能长时间地生存，防止方块堆到顶部。一次消除多行可以获得更多分数——尤其是令人向往的四行'俄罗斯方块'。挑战自己打破最高分，提高速度和准确性。",
     "howToPlay": "使用方向键移动和旋转下落的方块。左/右移动，上旋转，下加速下落。完成水平线会被消除。随着游戏进行速度会加快。",
+    "rules": {
+      "controls": "← → 方向键左右移动方块。↑ 键顺时针旋转。↓ 键软降（加速下落）。空格键硬降（瞬间放置）。Hold键存储方块供以后使用。",
+      "mechanics": [
+        "七种独特的俄罗斯方块（I、O、T、S、Z、J、L）从顶部下落",
+        "完成的水平线（10个方块宽）会被消除",
+        "一次消除4行称为'俄罗斯方块'，得分最高",
+        "游戏速度随等级提升而增加",
+        "当方块堆到游戏区域顶部时游戏结束"
+      ],
+      "features": [
+        "存储系统 - 保存方块供以后使用",
+        "幽灵方块 - 预览方块将落在哪里",
+        "下一个预览 - 查看即将出现的方块",
+        "等级进阶 - 得分越高速度越快"
+      ]
+    },
     "tips": [
-      "在一边为长条I形方块留出空间",
+      "在一边为长条I形方块留出空间以创造俄罗斯方块机会",
       "避免创建无法填充的空洞",
       "提前思考每个方块最适合放在哪里",
       "确定后使用硬降加速放置"
+    ],
+    "faq": [
+      {
+        "question": "什么是俄罗斯方块？",
+        "answer": "俄罗斯方块是指使用长条I形方块同时消除4行。这是游戏中得分最高的操作！"
+      },
+      {
+        "question": "如何提高俄罗斯方块水平？",
+        "answer": "定期练习，学会策略性地使用存储功能，总是提前想好几步。避免在堆叠中创造空隙。"
+      },
+      {
+        "question": "初学者的最佳策略是什么？",
+        "answer": "保持堆叠平整，避免创建空洞。学会双向旋转方块以获得更多放置选择。"
+      },
+      {
+        "question": "为什么游戏会变快？",
+        "answer": "当你消除更多行并提升等级时，速度会增加以提供更大的挑战。这是俄罗斯方块游戏的核心元素！"
+      }
     ]
   }
 }

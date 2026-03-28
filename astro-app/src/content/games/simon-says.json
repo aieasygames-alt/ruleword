@@ -7,23 +7,95 @@
   "en": {
     "name": "Simon Says",
     "desc": "Follow the color and sound sequence! Each round gets longer and harder. A fun way to train your auditory and visual memory simultaneously.",
+    "description": "Simon Says is the classic electronic memory game that has tested players since 1978! Watch and listen as the game plays a sequence of colored lights and tones. Then repeat the exact sequence back by pressing the colored buttons. Each round adds one more step to the pattern—how long can you keep up? This iconic game trains both visual and auditory memory simultaneously!",
+    "objectives": "Watch and memorize the sequence of colors and sounds, then repeat the pattern exactly. Progress to increasingly longer sequences and track your personal best. Train your working memory and pattern recognition!",
     "howToPlay": "Watch the sequence of colors light up. Then repeat the pattern by clicking the colors in the same order. Each round adds one more color to the sequence.",
+    "rules": {
+      "controls": "After watching the sequence, click on the colored buttons in the exact order they were shown. The game automatically advances to the next round when you correctly complete the current sequence.",
+      "mechanics": [
+        "Watch the light/sound sequence",
+        "Repeat the pattern exactly",
+        "Each round adds one more step",
+        "One mistake ends the game",
+        "Track your longest sequence"
+      ],
+      "features": [
+        "Visual & Audio - Dual sensory training",
+        "Progressive Challenge - Sequences grow longer",
+        "High Score Tracking - Beat your record",
+        "Speed Variations - Fast and slow modes"
+      ]
+    },
     "tips": [
       "Say the colors out loud as you see them",
       "Create mental associations for longer sequences",
       "Break long sequences into smaller chunks",
       "Stay calm and focused as speed increases"
+    ],
+    "faq": [
+      {
+        "question": "How many steps can most people remember?",
+        "answer": "The average person can remember 7±2 items in sequence. With practice, many reach 15-20 steps. Memory champions can handle 30+ through chunking and mnemonic techniques."
+      },
+      {
+        "question": "What's the best way to remember long sequences?",
+        "answer": "Use chunking—group 3-4 colors into patterns. Create stories or associations (red-blue-yellow = 'fire-ocean-sun'). Say colors aloud to engage multiple memory systems."
+      },
+      {
+        "question": "Does Simon Says really improve memory?",
+        "answer": "Yes! Simon exercises working memory, pattern recognition, and attention. Regular play can improve your ability to hold and manipulate information in short-term memory."
+      },
+      {
+        "question": "Why is it called Simon Says?",
+        "answer": "The game is named after the children's game 'Simon Says' where players must follow commands. The electronic version was created by Ralph Baer and Howard Morrison in 1978, becoming one of the first electronic games."
+      }
     ]
   },
   "zh": {
     "name": "西蒙说",
     "desc": "跟随颜色和声音序列！每轮变得更长更难。同时训练听觉和视觉记忆的有趣方式。",
+    "description": "西蒙说是自1978年以来测试玩家的经典电子记忆游戏！观看和聆听游戏播放的彩色灯光和音调序列。然后通过按彩色按钮重复确切的序列。每轮在模式中增加一步——你能坚持多久？这款标志性游戏同时训练视觉和听觉记忆！",
+    "objectives": "观看和记忆颜色和声音的序列，然后完全重复模式。进入越来越长的序列并追踪你的个人最佳。训练你的工作记忆和模式识别！",
     "howToPlay": "观看颜色亮起的序列。按相同顺序点击按钮。每个新序列增加一个步骤。速度随时间增加。",
+    "rules": {
+      "controls": "观看序列后，按它们显示的确切顺序点击彩色按钮。当你正确完成当前序列时，游戏自动进入下一轮。",
+      "mechanics": [
+        "观看灯光/声音序列",
+        "完全重复模式",
+        "每轮增加一步",
+        "一个错误结束游戏",
+        "追踪你的最长序列"
+      ],
+      "features": [
+        "视觉和音频 - 双重感官训练",
+        "渐进挑战 - 序列变得更长",
+        "高分追踪 - 打破你的记录",
+        "速度变化 - 快速和慢速模式"
+      ]
+    },
     "tips": [
       "保持节奏和模式",
       "专注于视觉提示",
       "不要匆忙——准确比速度更重要",
       "练习提高反应时间"
+    ],
+    "faq": [
+      {
+        "question": "大多数人能记住多少步？",
+        "answer": "普通人可以按顺序记住7±2个项目。通过练习，许多人可以达到15-20步。记忆冠军通过分块和记忆术可以处理30+。"
+      },
+      {
+        "question": "记住长序列的最佳方法是什么？",
+        "answer": "使用分块——将3-4种颜色分组成模式。创建故事或联想（红-蓝-黄 = '火-海洋-太阳'）。大声说出颜色以参与多个记忆系统。"
+      },
+      {
+        "question": "西蒙说真的能改善记忆吗？",
+        "answer": "是的！西蒙锻炼工作记忆、模式识别和注意力。定期玩可以提高你在短期记忆中保持和处理信息的能力。"
+      },
+      {
+        "question": "为什么叫西蒙说？",
+        "answer": "游戏以儿童游戏'西蒙说'命名，玩家必须遵循命令。电子版本由Ralph Baer和Howard Morrison于1978年创建，成为最早的电子游戏之一。"
+      }
     ]
   }
 }

@@ -7,24 +7,96 @@
   "color": "from-yellow-500 to-amber-600",
   "en": {
     "name": "Star Battle",
-    "desc": "Place stars in the grid! Each row, column, and region must contain exactly two stars. Stars can never touch each other, not even diagonally.",
+    "desc": "Place stars without any touching",
+    "description": "Star Battle is a spatial logic puzzle that challenges you to place stars strategically! Each row, column, and colored region must contain exactly two stars—but here's the catch: no two stars can ever touch, not even diagonally. This creates a fascinating interplay of constraints that requires careful deduction and planning. A perfect blend of sudoku-style logic and spatial reasoning!",
+    "objectives": "Place exactly two stars in each row, column, and colored region while ensuring no stars touch each other (including diagonally). Use logical deduction to find the unique valid arrangement of stars.",
     "howToPlay": "Click cells to place stars. Each colored region needs 2 stars. Stars cannot be adjacent horizontally, vertically, or diagonally. Use logic to deduce valid positions.",
+    "rules": {
+      "controls": "Click on a cell to place a star. Click again to remove it. Stars turn yellow when placed. Gray cells indicate positions made invalid by nearby stars.",
+      "mechanics": [
+        "Each row must contain exactly 2 stars",
+        "Each column must contain exactly 2 stars",
+        "Each colored region must contain exactly 2 stars",
+        "Stars cannot touch horizontally, vertically, or diagonally",
+        "There is exactly one valid solution"
+      ],
+      "features": [
+        "Visual Feedback - See which cells are blocked",
+        "Region Tracking - Know which areas need stars",
+        "Error Detection - Invalid placements shown",
+        "Multiple Grid Sizes - Various difficulty levels"
+      ]
+    },
     "tips": [
       "Start with small regions - they have fewer options",
       "If a star is placed, mark all adjacent cells as empty",
       "Regions with 2 stars in 3 cells are constrained",
       "Work systematically through constraints"
+    ],
+    "faq": [
+      {
+        "question": "Can stars touch diagonally?",
+        "answer": "No! Stars cannot touch in any direction, including diagonally. This is what makes Star Battle challenging—you must leave at least one empty cell between any two stars."
+      },
+      {
+        "question": "Where should I start?",
+        "answer": "Start with the smallest regions—they have the most constraints and often force star positions. Also look for rows or columns that are nearly complete."
+      },
+      {
+        "question": "What if I make a mistake?",
+        "answer": "Click on a placed star to remove it. Use the process of elimination—when a cell must be empty due to nearby stars, it helps narrow down where stars can go."
+      },
+      {
+        "question": "Is guessing required?",
+        "answer": "No. Like all good logic puzzles, Star Battle can be solved entirely through logical deduction. If you're guessing, you may have missed a constraint."
+      }
     ]
   },
   "zh": {
     "name": "星星大战",
-    "desc": "在网格中放置星星！每行、每列和每个区域必须恰好包含两颗星星。星星永远不能相互接触，甚至对角线也不行。",
+    "desc": "放置星星且互不接触",
+    "description": "星星大战是一个空间逻辑谜题，挑战你战略性地放置星星！每行、每列和每个彩色区域必须恰好包含两颗星星——但关键是：没有两颗星星能接触，甚至对角线也不行。这创造了约束之间迷人的相互作用，需要仔细的推理和规划。数独风格逻辑和空间推理的完美结合！",
+    "objectives": "在每行、每列和每个彩色区域中恰好放置两颗星星，同时确保没有星星互相接触（包括对角线）。使用逻辑推理找到星星的唯一有效排列。",
     "howToPlay": "点击格子放置星星。每行每列必须恰好有两颗星。每个区域必须恰好有两颗星。没有两颗星可以相邻（包括对角线）。",
+    "rules": {
+      "controls": "点击格子放置星星。再次点击移除它。放置的星星变为黄色。灰色格子表示因附近星星而无效的位置。",
+      "mechanics": [
+        "每行必须恰好包含2颗星星",
+        "每列必须恰好包含2颗星星",
+        "每个彩色区域必须恰好包含2颗星星",
+        "星星不能水平、垂直或对角线接触",
+        "恰好有一个有效解决方案"
+      ],
+      "features": [
+        "视觉反馈 - 查看哪些格子被阻挡",
+        "区域追踪 - 知道哪些区域需要星星",
+        "错误检测 - 显示无效放置",
+        "多种网格大小 - 各种难度级别"
+      ]
+    },
     "tips": [
       "从小区域开始——它们约束最多",
       "记住对角线相邻也禁止",
       "使用排除法找到可能的位置",
       "交叉约束揭示必要位置"
+    ],
+    "faq": [
+      {
+        "question": "星星可以对角线接触吗？",
+        "answer": "不可以！星星不能以任何方向接触，包括对角线。这就是星星大战的挑战所在——你必须在任何两颗星星之间至少留一个空格。"
+      },
+      {
+        "question": "应该从哪里开始？",
+        "answer": "从最小的区域开始——它们约束最多，经常强制星星位置。也寻找几乎完成的行或列。"
+      },
+      {
+        "question": "如果我犯了错误怎么办？",
+        "answer": "点击已放置的星星移除它。使用排除法——当一个格子因为附近的星星必须为空时，它帮助缩小星星可以去的地方。"
+      },
+      {
+        "question": "需要猜测吗？",
+        "answer": "不需要。像所有好的逻辑谜题一样，星星大战可以完全通过逻辑推理解决。如果你在猜测，你可能错过了一个约束。"
+      }
     ]
   }
 }

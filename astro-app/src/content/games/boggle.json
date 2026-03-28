@@ -7,24 +7,96 @@
   "color": "from-orange-500 to-red-600",
   "en": {
     "name": "Boggle",
-    "desc": "Race against time to find as many words as possible in a 4x4 letter grid. Connect adjacent letters to form words and boost your score. A classic word hunt challenge!",
+    "desc": "Find words in a 4x4 letter grid",
+    "description": "Boggle is the classic word search game that has challenged vocabulary skills since 1972! Shake up the letter cubes and race against time to find as many words as possible hidden in a 4×4 grid of letters. Connect adjacent letters (including diagonals) to form words of 3 or more letters. Longer words score more points, so scan strategically and think fast!",
+    "objectives": "Find as many valid words as possible within the time limit by connecting adjacent letters. Longer words earn more points. Beat your high score by expanding your vocabulary and improving your pattern recognition.",
     "howToPlay": "Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.",
+    "rules": {
+      "controls": "Click on letters to select them, forming words by connecting adjacent squares. Submit your word or click elsewhere to deselect. Letters must be neighbors (including diagonals).",
+      "mechanics": [
+        "Words must be 3 letters or longer",
+        "Letters must be adjacent (touching horizontally, vertically, or diagonally)",
+        "Each letter cube can only be used once per word",
+        "Same letter can appear multiple times in grid",
+        "Score based on word length: 3-4 letters = 1pt, 5 = 2pts, 6 = 3pts, 7+ = 5pts"
+      ],
+      "features": [
+        "Timed Challenge - Race against the clock",
+        "Score System - Longer words worth more",
+        "Word Validation - Dictionary checks",
+        "High Score Tracking - Beat your best"
+      ]
+    },
     "tips": [
       "Start with common letter patterns and prefixes",
       "Look for plural forms ending in S",
       "Scan systematically through starting letters",
       "Practice finding longer words for higher scores"
+    ],
+    "faq": [
+      {
+        "question": "Can I use the same letter twice in one word?",
+        "answer": "No, each letter cube can only be used once per word. However, if the same letter appears in different positions on the board, you can use each occurrence."
+      },
+      {
+        "question": "What's the best strategy for finding words?",
+        "answer": "Scan the board systematically, starting from each letter. Look for common prefixes (UN-, RE-, PRE-) and suffixes (-ING, -TION, -LY)."
+      },
+      {
+        "question": "Are proper nouns allowed?",
+        "answer": "Standard Boggle rules exclude proper nouns, abbreviations, and foreign words. Stick to common English words found in standard dictionaries."
+      },
+      {
+        "question": "How do I find longer words?",
+        "answer": "Look for letter combinations that commonly appear together, like -TION, -UGHT, -OUGH. Practice recognizing patterns and word families."
+      }
     ]
   },
   "zh": {
     "name": "字母方阵",
-    "desc": "限时挑战！在4x4字母网格中找出尽可能多的单词。连接相邻字母组成单词，获取高分。经典单词搜寻挑战！",
+    "desc": "在4x4字母网格中寻找单词",
+    "description": "字母方阵（Boggle）是自1972年以来挑战词汇技能的经典单词搜索游戏！摇动字母立方体，限时内在4×4字母网格中找出尽可能多的隐藏单词。连接相邻字母（包括对角线）形成3个或更多字母的单词。更长的单词得分更多，所以要有策略地扫描并快速思考！",
+    "objectives": "在时间限制内通过连接相邻字母找出尽可能多的有效单词。更长的单词获得更多分数。通过扩大词汇量和提高模式识别来打破你的最高分。",
     "howToPlay": "点击相邻字母（水平、垂直、对角线）形成3个以上字母的单词。每个字母在每个单词中只能使用一次。较长的单词得分更高。",
+    "rules": {
+      "controls": "点击字母选中它们，通过连接相邻方格组成单词。提交你的单词或点击其他地方取消选择。字母必须是相邻的（包括对角线）。",
+      "mechanics": [
+        "单词必须有3个字母或更多",
+        "字母必须相邻（水平、垂直或对角线接触）",
+        "每个字母立方体在每个单词中只能使用一次",
+        "相同字母可以在网格中出现多次",
+        "得分基于单词长度：3-4字母=1分，5=2分，6=3分，7+=5分"
+      ],
+      "features": [
+        "限时挑战 - 与时钟赛跑",
+        "得分系统 - 更长的单词更值钱",
+        "单词验证 - 字典检查",
+        "最高分追踪 - 打破你的最佳记录"
+      ]
+    },
     "tips": [
       "从常见的字母模式和前缀开始",
       "寻找以S结尾的复数形式",
       "系统地扫描起始字母",
       "练习找到更长的单词以获得更高的分数"
+    ],
+    "faq": [
+      {
+        "question": "可以在一个单词中使用同一字母两次吗？",
+        "answer": "不可以，每个字母立方体在每个单词中只能使用一次。但如果同一字母在棋盘不同位置出现，你可以使用每个出现。"
+      },
+      {
+        "question": "找单词的最佳策略是什么？",
+        "answer": "系统地扫描棋盘，从每个字母开始。寻找常见前缀（UN-, RE-, PRE-）和后缀（-ING, -TION, -LY）。"
+      },
+      {
+        "question": "专有名词可以吗？",
+        "answer": "标准字母方阵规则排除专有名词、缩写和外来词。坚持使用标准词典中的常见英语单词。"
+      },
+      {
+        "question": "如何找到更长的单词？",
+        "answer": "寻找经常一起出现的字母组合，如-TION、-UGHT、-OUGH。练习识别模式和词族。"
+      }
     ]
   }
 }

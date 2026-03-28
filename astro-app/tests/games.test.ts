@@ -18,7 +18,7 @@ describe('Games Data', () => {
   })
 
   it('each game should have a valid category', () => {
-    const validCategories = ['word', 'logic', 'strategy', 'arcade', 'memory', 'tools']
+    const validCategories = ['word', 'logic', 'strategy', 'arcade', 'memory', 'skill', 'puzzle']
 
     games.forEach(game => {
       expect(validCategories).toContain(game.category)

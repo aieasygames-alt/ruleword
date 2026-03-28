@@ -8,23 +8,95 @@
   "en": {
     "name": "Masyu",
     "desc": "Draw a loop passing through all pearls! White pearls require a straight path, black pearls require a turn. No guessing needed - pure logic!",
+    "description": "Masyu is the elegant Japanese logic puzzle that tests your spatial reasoning! Draw a single continuous loop that passes through every pearl on the grid. White pearls require the loop to pass straight through, while black pearls require a turn. This pearl placement creates logical constraints that make every puzzle solvable without guessing—pure deduction from start to finish!",
+    "objectives": "Draw a single continuous loop that passes through every pearl. At white pearls, the loop must go straight through (no turn). At black pearls, the loop must turn. The loop cannot cross itself or branch.",
     "howToPlay": "Click on edges between dots to draw line segments. The loop must pass through all pearls. At white pearls, go straight through. At black pearls, make a turn.",
+    "rules": {
+      "controls": "Click on the edges between grid dots to draw line segments. Click again to remove a segment. Build the loop section by section until it forms a complete closed path.",
+      "mechanics": [
+        "Single continuous loop required",
+        "Loop passes through all pearls",
+        "White pearls: go straight through",
+        "Black pearls: must turn at pearl",
+        "Loop cannot cross or branch"
+      ],
+      "features": [
+        "Pure Logic - No guessing needed",
+        "Elegant Rules - Simple to learn",
+        "Visual Deduction - See patterns emerge",
+        "Multiple Sizes - Easy to expert"
+      ]
+    },
     "tips": [
       "Black pearls must turn - plan corners around them",
       "White pearls need straight paths - avoid blocking both directions",
       "Look for pearls near edges - they constrain the loop",
       "Build the loop section by section, connecting as you go"
+    ],
+    "faq": [
+      {
+        "question": "What do white pearls require?",
+        "answer": "White pearls require the loop to pass straight through them—the loop must enter and exit in opposite directions (no turn at the pearl). However, the loop CAN turn immediately before or after the white pearl."
+      },
+      {
+        "question": "What do black pearls require?",
+        "answer": "Black pearls require the loop to make a turn at that exact position. The loop must enter and exit at a 90-degree angle, forming a corner at the black pearl."
+      },
+      {
+        "question": "Can the loop cross itself?",
+        "answer": "No! The loop must be a single continuous path that never crosses itself or branches. It's one closed curve that visits every pearl exactly once."
+      },
+      {
+        "question": "Is guessing ever needed?",
+        "answer": "No! Well-designed Masyu puzzles can be solved entirely through logical deduction. If you're guessing, look harder for the logical constraints you may have missed."
+      }
     ]
   },
   "zh": {
     "name": "真珠路",
     "desc": "画一条经过所有珍珠的回路！白珍珠需要直线路径，黑珍珠需要转弯。无需猜测 - 纯逻辑！",
+    "description": "真珠路是测试你空间推理的优雅日本逻辑谜题！画一条经过网格上每个珍珠的单一连续回路。白珍珠要求回路直穿，黑珍珠要求转弯。这种珍珠放置创造了逻辑约束，使每个谜题都可以在不猜测的情况下解决——从头到尾的纯粹推理！",
+    "objectives": "画一条经过每个珍珠的单一连续回路。在白珍珠处，回路必须直穿（不转弯）。在黑珍珠处，回路必须转弯。回路不能交叉或分支。",
     "howToPlay": "点击点之间的边缘画线段。循环必须穿过所有圆圈。在白圈处直穿，在黑圈处转弯。循环必须回到起点。",
+    "rules": {
+      "controls": "点击网格点之间的边缘来画线段。再次点击移除线段。一段一段地构建回路，直到它形成完整的封闭路径。",
+      "mechanics": [
+        "需要单一连续回路",
+        "回路穿过所有珍珠",
+        "白珍珠：直穿",
+        "黑珍珠：必须在珍珠处转弯",
+        "回路不能交叉或分支"
+      ],
+      "features": [
+        "纯粹逻辑 - 无需猜测",
+        "优雅规则 - 简单易学",
+        "视觉推理 - 看到模式出现",
+        "多种大小 - 从简单到专家"
+      ]
+    },
     "tips": [
       "黑圈必须转弯——在它们周围规划角",
       "白圈需要直线路径——避免阻挡两个方向",
       "寻找靠近边缘的圆圈——它们约束循环",
       "一段接一段地建立循环"
+    ],
+    "faq": [
+      {
+        "question": "白珍珠有什么要求？",
+        "answer": "白珍珠要求回路直穿它们——回路必须以相反方向进入和退出（在珍珠处不转弯）。然而，回路可以在白珍珠之前或之后立即转弯。"
+      },
+      {
+        "question": "黑珍珠有什么要求？",
+        "answer": "黑珍珠要求回路在该确切位置转弯。回路必须以90度角进入和退出，在黑珍珠处形成角。"
+      },
+      {
+        "question": "回路可以交叉吗？",
+        "answer": "不可以！回路必须是单一的连续路径，永不交叉或分支。它是一个访问每个珍珠恰好一次的封闭曲线。"
+      },
+      {
+        "question": "需要猜测吗？",
+        "answer": "不需要！设计良好的真珠路谜题可以完全通过逻辑推理解决。如果你在猜测，仔细寻找你可能错过的逻辑约束。"
+      }
     ]
   }
 }

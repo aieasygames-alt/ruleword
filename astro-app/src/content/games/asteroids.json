@@ -7,23 +7,95 @@
   "en": {
     "name": "Asteroids",
     "desc": "Navigate through an asteroid field! Rotate and thrust to avoid collisions while shooting asteroids into smaller pieces. Vector graphics gaming at its finest!",
+    "description": "Asteroids is the iconic 1979 Atari arcade game that defined space shooters! Pilot a triangular spaceship through an endless asteroid field, shooting space rocks into smaller and smaller pieces until they're destroyed. The vector graphics create a clean, minimalist aesthetic while the physics-based movement with momentum and inertia delivers uniquely satisfying gameplay. UFOs occasionally appear to add extra challenge to this timeless classic!",
+    "objectives": "Destroy all asteroids in each wave by shooting them with your ship's laser. Large asteroids split into medium ones, medium into small, and small ones are destroyed completely. Survive as long as possible while racking up points and avoiding collisions with any asteroid or enemy fire!",
     "howToPlay": "Use arrow keys: Left/Right to rotate, Up to thrust, Space to shoot. Large asteroids split into smaller ones. Don't get hit by any asteroid!",
+    "rules": {
+      "controls": "Left/Right arrows rotate your ship. Up arrow thrusts forward (ship has momentum!). Space fires your laser. The ship wraps around screen edges—flying off one side brings you back on the opposite side.",
+      "mechanics": [
+        "Asteroids split when shot",
+        "Large → Medium → Small → Destroyed",
+        "Ship has momentum and inertia",
+        "Screen wraps on all edges",
+        "UFOs appear periodically as bonus targets"
+      ],
+      "features": [
+        "Vector Graphics - Classic minimalist style",
+        "Physics Movement - Real momentum and drift",
+        "Progressive Waves - More asteroids each round",
+        "Bonus UFOs - Extra points and challenge"
+      ]
+    },
     "tips": [
       "Keep moving - staying still is dangerous",
       "Clear small asteroids first - they're harder to hit",
       "Use momentum to drift and shoot",
       "The ship wraps around screen edges"
+    ],
+    "faq": [
+      {
+        "question": "Why does my ship keep moving after I stop thrusting?",
+        "answer": "Asteroids features realistic physics with momentum and inertia. Your ship continues drifting in its current direction until you thrust in another direction. Mastering this drift is key to high-level play!"
+      },
+      {
+        "question": "What's the scoring system?",
+        "answer": "Large asteroids are worth 20 points, medium asteroids 50 points, and small asteroids 100 points. Small asteroids are harder to hit but reward more points. UFOs are worth bonus points."
+      },
+      {
+        "question": "How do I deal with lots of small asteroids?",
+        "answer": "Small asteroids move faster and are harder to hit. Stay calm, keep your distance, and pick them off one at a time. Using your momentum to create space while shooting backward is an effective strategy."
+      },
+      {
+        "question": "What happens when I clear all asteroids?",
+        "answer": "A new wave begins with more asteroids than before. The difficulty increases with each wave, eventually reaching a maximum number of asteroids per wave."
+      }
     ]
   },
   "zh": {
     "name": "小行星",
     "desc": "穿越小行星带！旋转和推进避开碰撞，同时将小行星射击成更小的碎片。矢量图形游戏的巅峰！",
+    "description": "小行星是1979年Atari定义太空射击游戏的标志性街机游戏！驾驶三角形飞船穿越无尽的小行星带，将太空岩石射击成越来越小的碎片直到完全摧毁。矢量图形创造干净、极简的美学，而基于物理的运动带有动量和惯性提供独特令人满意的游戏体验。UFO偶尔出现，为这款永恒经典增添额外挑战！",
+    "objectives": "用飞船的激光射击摧毁每一波中的所有小行星。大型小行星分裂成中型的，中型的分裂成小型的，小型的被完全摧毁。在获得积分的同时尽可能长时间生存，避免与任何小行星或敌人火力碰撞！",
     "howToPlay": "使用方向键或WASD移动，空格键射击。击碎大号小行星会分裂成中小号。获得更高分数，但要注意不要撞到小行星！",
+    "rules": {
+      "controls": "左/右方向键旋转飞船。上方向键向前推进（飞船有动量！）。空格键发射激光。飞船在屏幕边缘环绕——从一侧飞出会从对面出现。",
+      "mechanics": [
+        "小行星被击中时分裂",
+        "大→中→小→摧毁",
+        "飞船有动量和惯性",
+        "屏幕所有边缘环绕",
+        "UFO定期出现作为奖励目标"
+      ],
+      "features": [
+        "矢量图形 - 经典极简风格",
+        "物理运动 - 真实的动量和漂移",
+        "渐进波次 - 每轮更多小行星",
+        "奖励UFO - 额外分数和挑战"
+      ]
+    },
     "tips": [
       "时刻保持移动以避免成为目标",
       "优先射击向你飞来的小行星",
       "注意屏幕边缘出现的小行星",
       "使用惯性和动量来控制飞船"
+    ],
+    "faq": [
+      {
+        "question": "为什么我停止推进后飞船还在移动？",
+        "answer": "小行星具有真实的物理特性，带有动量和惯性。你的飞船继续朝当前方向漂移，直到你朝另一个方向推进。掌握这种漂移是高级游戏的关键！"
+      },
+      {
+        "question": "得分系统是什么？",
+        "answer": "大型小行星值20分，中型小行星50分，小型小行星100分。小型小行星更难击中但奖励更多分数。UFO值额外分数。"
+      },
+      {
+        "question": "如何应对许多小型小行星？",
+        "answer": "小型小行星移动更快，更难击中。保持冷静，保持距离，逐个击破。利用你的动量创造空间同时向后射击是有效的策略。"
+      },
+      {
+        "question": "清除所有小行星后会发生什么？",
+        "answer": "新的波次开始，有更多的小行星。难度随着每一波增加，最终达到每波小行星的最大数量。"
+      }
     ]
   }
 }

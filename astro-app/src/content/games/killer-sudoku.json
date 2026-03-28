@@ -7,24 +7,96 @@
   "color": "from-slate-700 to-gray-800",
   "en": {
     "name": "Killer Sudoku",
-    "desc": "Sudoku with cage sums! Fill the grid so that each cage adds up to its target number. No digit repeats within a cage. The ultimate Sudoku challenge!",
+    "desc": "Sudoku with cage sum constraints",
+    "description": "Killer Sudoku combines the logic of Sudoku with the arithmetic challenge of Kakuro! Fill the grid following standard Sudoku rules, but also ensure that numbers in each outlined 'cage' add up to the target sum shown in the corner. No digit can repeat within a cage, adding an extra layer of constraint. This ultimate Sudoku variant demands both logical deduction and mental math skills!",
+    "objectives": "Fill the 9×9 grid so each row, column, and 3×3 box contains digits 1-9 exactly once, while also ensuring each cage's numbers sum to its target. Master both Sudoku logic and arithmetic combinations to solve these challenging puzzles!",
     "howToPlay": "Each cage shows a sum in the corner. Numbers in each cage must add up to that sum. No number can repeat within a cage. Standard Sudoku rules also apply.",
+    "rules": {
+      "controls": "Click a cell to select it, then enter a number 1-9. Use notes mode to pencil in candidates. Wrong entries may be highlighted.",
+      "mechanics": [
+        "Standard Sudoku rules: 1-9 in each row, column, and box",
+        "Cages (dashed regions) must sum to their target number",
+        "No digit can repeat within a single cage",
+        "Use the sum constraints to eliminate possibilities",
+        "Combine Sudoku logic with arithmetic reasoning"
+      ],
+      "features": [
+        "Cage Sums - Arithmetic puzzle element",
+        "Notes Mode - Track candidate numbers",
+        "Error Detection - Highlight mistakes",
+        "Multiple Difficulty - From approachable to diabolical"
+      ]
+    },
     "tips": [
       "Look for cages with only one possible combination",
       "Small cages (sum 3, 4) are easiest to solve first",
       "Use Sudoku elimination with cage constraints",
       "Track which numbers are used in each cage"
+    ],
+    "faq": [
+      {
+        "question": "How is this different from regular Sudoku?",
+        "answer": "Killer Sudoku adds cage constraints—groups of cells that must sum to a specific total. No digit can repeat within a cage, even if cells are in different rows/columns/boxes."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Look for small cages with limited combinations. A '3' cage with 2 cells can only be {1,2}. A '17' cage with 2 cells can only be {8,9}. Start with the most constrained areas."
+      },
+      {
+        "question": "Can I use normal Sudoku techniques?",
+        "answer": "Absolutely! All standard Sudoku techniques apply. In fact, you'll need to combine row/column/box elimination with cage constraints to solve these puzzles."
+      },
+      {
+        "question": "What if a cage spans multiple boxes?",
+        "answer": "The cage sum constraint still applies across all boxes. However, you still can't repeat digits within the cage, and standard Sudoku rules apply to each box individually."
+      }
     ]
   },
   "zh": {
     "name": "杀手数独",
-    "desc": "带笼子和的数独！填充网格使每个笼子的数字加起来等于目标数。笼内数字不能重复。终极数独挑战！",
+    "desc": "带笼子和的数独",
+    "description": "杀手数独结合了数独的逻辑和数独和的算术挑战！按照标准数独规则填满网格，但还要确保每个虚线'笼子'中的数字加起来等于角落显示的目标和。笼内数字不能重复，增加了额外的约束层。这个终极数独变体同时需要逻辑推理和心算技能！",
+    "objectives": "填充9×9网格使每行、每列和每个3×3宫格恰好包含1-9数字，同时确保每个笼子的数字加起来等于其目标。掌握数独逻辑和算术组合来解决这些具有挑战性的谜题！",
     "howToPlay": "填入1-9的数字。遵循数独规则（每行每列每宫恰好1-9一次）。虚线区域内数字之和必须等于角落的小数字。",
+    "rules": {
+      "controls": "点击格子选中它，然后输入1-9的数字。使用笔记模式标记候选数字。错误输入可能会被高亮。",
+      "mechanics": [
+        "标准数独规则：每行、每列和宫格1-9",
+        "笼子（虚线区域）必须等于其目标数字",
+        "单个笼内数字不能重复",
+        "使用和约束排除可能性",
+        "结合数独逻辑和算术推理"
+      ],
+      "features": [
+        "笼子和 - 算术谜题元素",
+        "笔记模式 - 追踪候选数字",
+        "错误检测 - 高亮错误",
+        "多种难度 - 从入门到恶魔级"
+      ]
+    },
     "tips": [
       "小格子数（和3、4）最容易解决",
       "使用数独排除法与格子约束",
       "追踪每个格子组中使用的数字",
       "寻找只有一个可能解的唯一组合"
+    ],
+    "faq": [
+      {
+        "question": "这与普通数独有什么不同？",
+        "answer": "杀手数独增加了笼子约束——必须加起来等于特定总数的格子组。笼内数字不能重复，即使格子在不同行/列/宫格中。"
+      },
+      {
+        "question": "最佳开始策略是什么？",
+        "answer": "寻找组合有限的小笼子。一个'3'的2格笼子只能是{1,2}。一个'17'的2格笼子只能是{8,9}。从最受限的区域开始。"
+      },
+      {
+        "question": "可以使用普通数独技巧吗？",
+        "answer": "当然可以！所有标准数独技巧都适用。事实上，你需要结合行/列/宫排除与笼子约束来解决这些谜题。"
+      },
+      {
+        "question": "如果笼子跨越多个宫格怎么办？",
+        "answer": "笼子和约束仍然适用于所有宫格。但是，你仍然不能在笼内重复数字，标准数独规则分别适用于每个宫格。"
+      }
     ]
   }
 }

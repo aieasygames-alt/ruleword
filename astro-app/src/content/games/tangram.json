@@ -7,24 +7,96 @@
   "color": "from-purple-500 to-pink-600",
   "en": {
     "name": "Tangram",
-    "desc": "The classic Chinese dissection puzzle! Arrange 7 geometric shapes to form various targets. A test of spatial reasoning and creativity!",
+    "desc": "Classic Chinese dissection puzzle",
+    "description": "Tangram (七巧板) is the ancient Chinese puzzle that has challenged minds for over 200 years! Using just 7 geometric pieces (called tans), create thousands of different shapes and figures. The rules are simple: use all 7 pieces to form the target silhouette without overlapping. But the possibilities are endless! From animals to buildings to abstract art, Tangram exercises your spatial reasoning and creativity in unique ways.",
+    "objectives": "Arrange all 7 tangram pieces to match the target silhouette. Rotate and position each piece carefully—no pieces may overlap and all must be used. Complete various challenges from simple shapes to complex figures!",
     "howToPlay": "Click and drag shapes to move them. Click a selected shape and use the Rotate button to rotate it. Arrange all shapes to match the target without overlapping.",
+    "rules": {
+      "controls": "Click and drag pieces to move them. Select a piece and use the rotate button or keyboard to rotate. Pieces snap to help with alignment.",
+      "mechanics": [
+        "7 pieces: 2 large triangles, 1 medium triangle, 2 small triangles, 1 square, 1 parallelogram",
+        "All 7 pieces must be used",
+        "No pieces may overlap",
+        "Pieces can be rotated to any angle",
+        "The parallelogram can also be flipped"
+      ],
+      "features": [
+        "Multiple Targets - Various silhouettes to create",
+        "Rotation Controls - Precise piece positioning",
+        "Visual Feedback - See when pieces connect",
+        "Hint System - Get help when stuck"
+      ]
+    },
     "tips": [
       "Start with large pieces first",
       "The square and parallelogram are tricky",
       "Think about the target shape before placing",
       "Classic puzzle from the Song Dynasty"
+    ],
+    "faq": [
+      {
+        "question": "What are the 7 tangram pieces?",
+        "answer": "Two large triangles, one medium triangle, two small triangles, one square, and one parallelogram. Together they form a square when arranged correctly."
+      },
+      {
+        "question": "Why is the parallelogram special?",
+        "answer": "The parallelogram is the only piece that may need to be flipped (not just rotated) to fit certain puzzles. This adds extra challenge!"
+      },
+      {
+        "question": "How many puzzles are possible?",
+        "answer": "In theory, thousands of different silhouettes can be created! Traditional sets include animals, people, buildings, and abstract shapes."
+      },
+      {
+        "question": "What skills does tangram develop?",
+        "answer": "Tangram develops spatial reasoning, geometric understanding, problem-solving, and creativity. It's excellent for both children learning shapes and adults keeping their minds sharp."
+      }
     ]
   },
   "zh": {
     "name": "七巧板",
-    "desc": "经典的中国拆图谜题！排列7个几何形状组成各种目标。考验空间推理和创造力！",
+    "desc": "经典中国拆图谜题",
+    "description": "七巧板是挑战思维超过200年的古老中国谜题！仅使用7个几何块（称为七巧板块），创造数千种不同的形状和图形。规则简单：使用所有7块组成目标轮廓，不重叠。但可能性是无限的！从动物到建筑到抽象艺术，七巧板以独特方式锻炼你的空间推理和创造力。",
+    "objectives": "排列所有7块七巧板匹配目标轮廓。仔细旋转和定位每块——不能重叠且必须全部使用。完成从简单形状到复杂图形的各种挑战！",
     "howToPlay": "点击并拖动形状来移动它们。点击选中的形状并使用旋转按钮旋转它。排列所有形状以匹配目标，不要重叠。",
+    "rules": {
+      "controls": "点击并拖动碎片移动它们。选中碎片并使用旋转按钮或键盘旋转。碎片会吸附以帮助对齐。",
+      "mechanics": [
+        "7块：2个大三角形、1个中三角形、2个小三角形、1个正方形、1个平行四边形",
+        "必须使用全部7块",
+        "不能重叠",
+        "碎片可以旋转到任意角度",
+        "平行四边形还可以翻转"
+      ],
+      "features": [
+        "多种目标 - 各种轮廓可创造",
+        "旋转控制 - 精确的碎片定位",
+        "视觉反馈 - 看到碎片连接时",
+        "提示系统 - 卡住时获取帮助"
+      ]
+    },
     "tips": [
       "先放置大块",
       "正方形和平行四边形比较棘手",
       "放置前思考目标形状",
       "源自宋朝的经典谜题"
+    ],
+    "faq": [
+      {
+        "question": "7块七巧板是什么？",
+        "answer": "两个大三角形、一个中三角形、两个小三角形、一个正方形和一个平行四边形。正确排列时它们组成一个正方形。"
+      },
+      {
+        "question": "为什么平行四边形很特殊？",
+        "answer": "平行四边形是唯一可能需要翻转（不只是旋转）才能适应某些谜题的碎片。这增加了额外的挑战！"
+      },
+      {
+        "question": "可以创造多少谜题？",
+        "answer": "理论上可以创造数千种不同的轮廓！传统组合包括动物、人物、建筑和抽象形状。"
+      },
+      {
+        "question": "七巧板培养什么技能？",
+        "answer": "七巧板培养空间推理、几何理解、问题解决和创造力。它非常适合儿童学习形状和成人保持头脑敏锐。"
+      }
     ]
   }
 }

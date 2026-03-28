@@ -7,24 +7,100 @@
   "color": "from-red-600 to-amber-700",
   "en": {
     "name": "Chinese Chess",
-    "desc": "Xiangqi - the ancient Chinese strategy game! Each piece has unique movement rules. Capture the general to win. A cultural treasure for 2000+ years!",
+    "desc": "Ancient Chinese strategy game Xiangqi",
+    "description": "Chinese Chess (Xiangqi) is one of the world's oldest and most popular strategy board games, with over 2,000 years of history! Command your army across the River, using unique pieces with distinct movement patterns. The General stays protected in the palace while Chariots, Cannons, Horses, and Soldiers battle for position. Rich in tactical depth yet elegant in design, Xiangqi offers endless strategic challenges.",
+    "objectives": "Checkmate the opponent's General (King) by placing it under attack with no legal escape. Control the battlefield, cross the River with your Soldiers, and use each piece's unique abilities to outmaneuver your opponent.",
     "howToPlay": "Click a piece to select it, then click a valid square to move. Pieces include General, Advisors, Elephants, Horses, Chariots, Cannons, and Soldiers.",
+    "rules": {
+      "controls": "Click on your piece to select it, valid moves will be highlighted. Click a highlighted square to move. Each piece type has unique movement rules.",
+      "mechanics": [
+        "General (将/帅): Moves one step orthogonally, confined to palace",
+        "Advisors (士): Move one step diagonally, confined to palace",
+        "Elephants (象): Move exactly 2 steps diagonally, cannot cross river, can be blocked",
+        "Horses (马): Move like chess knight but can be blocked by adjacent pieces",
+        "Chariots (车): Move any distance orthogonally (like chess rook)",
+        "Cannons (炮): Move like chariot, but capture by jumping over exactly one piece",
+        "Soldiers (兵/卒): Move one step forward, after crossing river can also move sideways"
+      ],
+      "features": [
+        "River Boundary - Soldiers gain abilities after crossing",
+        "Palace Restriction - Generals and Advisors stay within",
+        "Cannon Jump - Unique capture mechanic",
+        "Flying General - Generals cannot face each other directly"
+      ]
+    },
     "tips": [
       "The General cannot leave the palace",
       "Cannons need a screen piece to capture",
       "Horses can be blocked by adjacent pieces",
       "Control the river crossing points"
+    ],
+    "faq": [
+      {
+        "question": "What's the 'Flying General' rule?",
+        "answer": "Generals cannot face each other on the same file with no pieces between them. If your move would expose your General, that move is illegal."
+      },
+      {
+        "question": "Why can't my Horse move?",
+        "answer": "Horses can be 'hobbled'—if there's a piece adjacent to the Horse in the direction it wants to go, it cannot make that move."
+      },
+      {
+        "question": "How does the Cannon capture?",
+        "answer": "Cannons move like Chariots but must jump over exactly one piece (called the 'screen') to capture an enemy piece. They cannot capture without jumping."
+      },
+      {
+        "question": "What happens when Soldiers cross the river?",
+        "answer": "After crossing the river, Soldiers gain the ability to move sideways as well as forward, making them more versatile in attack."
+      }
     ]
   },
   "zh": {
     "name": "中国象棋",
-    "desc": "中国古老的策略游戏！每枚棋子都有独特的移动规则。将死对方主帅获胜。传承2000多年的文化瑰宝！",
+    "desc": "古老的中国策略游戏象棋",
+    "description": "中国象棋（象棋）是世界上最古老、最受欢迎的策略棋盘游戏之一，拥有超过2000年的历史！指挥你的军队跨越楚河汉界，使用具有独特移动模式的棋子。将/帅在九宫中受保护，车、炮、马和兵在战场争夺位置。战术深度丰富而设计优雅，象棋提供无尽的战略挑战。",
+    "objectives": "通过将军使对手的将/帅处于攻击之下且无法逃脱来将死对方。控制战场，让你的兵/卒过河，利用每种棋子的独特能力智取对手。",
     "howToPlay": "点击棋子选择它，然后点击有效位置移动。棋子包括将/帅、士、象、马、车、炮和兵/卒。",
+    "rules": {
+      "controls": "点击你的棋子选中它，有效移动会被高亮显示。点击高亮格子移动。每种棋子都有独特的移动规则。",
+      "mechanics": [
+        "将/帅: 一步直走，限于九宫",
+        "士: 一步斜走，限于九宫",
+        "象: 正好两步斜走，不能过河，可被塞象眼",
+        "马: 像国际象棋马但可被相邻棋子蹩脚",
+        "车: 任意距离直走（同国际象棋车）",
+        "炮: 像车移动，但吃子需跳过一个棋子",
+        "兵/卒: 一步向前，过河后可横走"
+      ],
+      "features": [
+        "楚河汉界 - 兵卒过河后获得能力",
+        "九宫限制 - 将帅士只能在九宫内",
+        "炮翻山 - 独特的吃子机制",
+        "照面规则 - 将帅不能直接对面"
+      ]
+    },
     "tips": [
       "将/帅不能离开九宫",
       "炮需要炮架才能吃子",
       "马可以被相邻的棋子蹩脚",
       "控制河界渡河点"
+    ],
+    "faq": [
+      {
+        "question": "什么是'照面'规则？",
+        "answer": "将帅不能在同一列上直接对面，中间必须有棋子。如果你的移动会让你暴露将帅，这个移动是非法的。"
+      },
+      {
+        "question": "为什么我的马不能移动？",
+        "answer": "马可能被'蹩脚'——如果马想要移动的方向相邻有棋子，它就不能走那一步。"
+      },
+      {
+        "question": "炮怎么吃子？",
+        "answer": "炮像车一样移动但必须跳过恰好一个棋子（称为'炮架'）才能吃掉敌方棋子。不跳就不能吃子。"
+      },
+      {
+        "question": "兵卒过河后会发生什么？",
+        "answer": "兵卒过河后获得横走的能力，除了向前还能左右移动，使它们在进攻中更灵活。"
+      }
     ]
   }
 }

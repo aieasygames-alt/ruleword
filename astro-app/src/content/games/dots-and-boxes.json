@@ -7,23 +7,95 @@
   "en": {
     "name": "Dots and Boxes",
     "desc": "Connect dots to form boxes! Complete a box to claim it and get another turn. The player with most boxes wins. A math-class classic goes digital!",
+    "description": "Dots and Boxes is the beloved paper-and-pencil strategy game that has entertained students for generations! Players take turns drawing lines between dots, trying to complete boxes. When you complete a box, you claim it and get another turn. The player with the most boxes wins. Simple rules, but deep strategy involving chains, sacrifices, and careful endgame play!",
+    "objectives": "Complete more boxes than your opponent by drawing the fourth side of each box. Claim boxes to score points and earn extra turns. The player who controls the chains in the endgame usually wins!",
     "howToPlay": "Click on lines between dots to draw them. When you complete a box, you score a point and get another turn. The player with most boxes wins.",
+    "rules": {
+      "controls": "Click on any undrawn line between two adjacent dots to draw that line. When your line completes the fourth side of a box, you claim that box and take another turn.",
+      "mechanics": [
+        "Draw one line per turn",
+        "Complete a box to claim it",
+        "Claiming a box earns extra turn",
+        "Game ends when all boxes claimed",
+        "Most boxes wins"
+      ],
+      "features": [
+        "Two-Player Mode - Play against a friend",
+        "AI Opponent - Challenge the computer",
+        "Strategic Depth - Chain management",
+        "Classic Gameplay - Timeless fun"
+      ]
+    },
     "tips": [
       "Avoid creating the third side of a box for your opponent",
       "Try to create chains of boxes you can complete",
       "The double-cross strategy: sacrifice 2 boxes to win the chain",
       "Count boxes carefully in the endgame"
+    ],
+    "faq": [
+      {
+        "question": "What's the chain rule in Dots and Boxes?",
+        "answer": "A chain is a connected group of boxes where completing one forces you to give away others. The key strategy is deciding when to take a chain and when to force your opponent to open another chain."
+      },
+      {
+        "question": "What's the double-cross strategy?",
+        "answer": "When facing a long chain, take all but the last two boxes, then give those two to your opponent. This forces them to open the next chain, which you then capture. This sacrifice wins games!"
+      },
+      {
+        "question": "Should I ever create the third side of a box?",
+        "answer": "Generally no—creating a box's third side lets your opponent complete it. However, in the endgame, you may need to strategically sacrifice boxes to control chain timing."
+      },
+      {
+        "question": "Is there a winning strategy?",
+        "answer": "Yes! On odd-sized grids, the first player can theoretically force a win with perfect play. The key is controlling the long chains and knowing when to sacrifice boxes for chain control."
+      }
     ]
   },
   "zh": {
     "name": "点格棋",
     "desc": "连接点形成方格！完成一个方格即可占据它并获得额外回合。方格最多的玩家获胜。数学课经典游戏数字化！",
+    "description": "点格棋是几代人以来娱乐学生的心爱纸笔策略游戏！玩家轮流在点之间画线，试图完成方格。当你完成一个方格时，你占据它并获得额外回合。拥有最多方格的玩家获胜。规则简单，但涉及链条、牺牲和仔细的终局游戏的深度策略！",
+    "objectives": "通过画第四条边来比对手完成更多的方格。占据方格来得分并获得额外回合。在终局控制链条的玩家通常会赢！",
     "howToPlay": "点击两点之间的水平或垂直线。完成一个盒子（四条边）获得一分并再走一步。小心不要过早为对手设置盒子！",
+    "rules": {
+      "controls": "点击两个相邻点之间的任何未画线来画那条线。当你的线完成方格的第四条边时，你占据那个方格并获得额外回合。",
+      "mechanics": [
+        "每轮画一条线",
+        "完成方格来占据它",
+        "占据方格获得额外回合",
+        "所有方格被占据时游戏结束",
+        "最多方格获胜"
+      ],
+      "features": [
+        "双人对战模式 - 与朋友一起玩",
+        "AI对手 - 挑战电脑",
+        "战略深度 - 链条管理",
+        "经典游戏玩法 - 永恒乐趣"
+      ]
+    },
     "tips": [
       "避免过早为对手完成第3条边",
       "试图迫使对手为你完成盒子",
       "游戏后期抢夺大部分区域",
       "使用长链策略控制游戏流程"
+    ],
+    "faq": [
+      {
+        "question": "点格棋中的链规则是什么？",
+        "answer": "链是相连的方格组，完成其中一个会强迫你放弃其他。关键策略是决定何时拿取链以及何时强迫对手打开另一条链。"
+      },
+      {
+        "question": "什么是双十字策略？",
+        "answer": "面对长链时，拿取除最后两个以外的所有方格，然后将这两个给对手。这迫使他们打开下一条链，然后你捕获它。这种牺牲赢得比赛！"
+      },
+      {
+        "question": "我应该创建方格的第三条边吗？",
+        "answer": "通常不——创建方格的第三条边让对手完成它。然而，在终局，你可能需要战略性地牺牲方格来控制链的时机。"
+      },
+      {
+        "question": "有获胜策略吗？",
+        "answer": "是的！在奇数大小的网格上，先手可以通过完美发挥强迫获胜。关键是控制长链并知道何时为链控制牺牲方格。"
+      }
     ]
   }
 }

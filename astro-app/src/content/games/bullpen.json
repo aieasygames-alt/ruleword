@@ -7,24 +7,96 @@
   "color": "from-lime-500 to-green-600",
   "en": {
     "name": "Bullpen",
-    "desc": "Sudoku meets Minesweeper! Use number clues to deduce which cells contain bulls. A unique logic puzzle combining two classic games into one.",
-    "howToPlay": "Each row, column, and region must contain a specific number of bulls. Numbers show how many bulls are in adjacent cells. Use logic to deduce safe cells from mine-like clues.",
+    "desc": "Divide the grid into rectangular pens",
+    "description": "Bullpen (also known as Shikaku) is a satisfying logic puzzle where you partition the grid into rectangles! Each numbered cell must be contained in a rectangle exactly that size. Rectangles cannot overlap and must cover the entire grid. It's a perfect blend of spatial reasoning and arithmetic—deduce the shape and position of each pen from the number clues!",
+    "objectives": "Divide the entire grid into rectangular regions so that each numbered cell is contained in a rectangle of exactly that area. Every cell must belong to exactly one rectangle, and rectangles cannot overlap.",
+    "howToPlay": "Click and drag to create rectangles on the grid. Each number indicates the area of its rectangle. Rectangles cannot overlap and must cover the entire grid. Each rectangle contains exactly one number.",
+    "rules": {
+      "controls": "Click and drag to draw a rectangle. The rectangle size is shown as you drag. Right-click or press Delete to remove a rectangle.",
+      "mechanics": [
+        "Each number is contained in a rectangle of that area",
+        "Every rectangle contains exactly one number",
+        "Rectangles cannot overlap",
+        "All cells must be covered by rectangles",
+        "Rectangles must have integer dimensions (e.g., 6 = 1×6 or 2×3)"
+      ],
+      "features": [
+        "Area Display - See rectangle size as you draw",
+        "Overlap Prevention - Cannot place conflicting rectangles",
+        "Progress Tracking - See how many numbers solved",
+        "Multiple Grid Sizes - Various difficulty levels"
+      ]
+    },
     "tips": [
       "Start with regions that have the most constraints",
-      "Use the number clues like Minesweeper to find patterns",
-      "Remember: you're placing bulls, not avoiding them",
-      "Cross-reference Sudoku rules with adjacency clues"
+      "Prime numbers can only be 1×N rectangles",
+      "Each rectangle must contain exactly one number",
+      "Rectangles cannot overlap or cross region boundaries"
+    ],
+    "faq": [
+      {
+        "question": "How do I know what shape a rectangle should be?",
+        "answer": "A number N can form rectangles of any dimensions that multiply to N. For example, 6 can be 1×6, 2×3, 3×2, or 6×1. Use surrounding constraints to determine which shape fits."
+      },
+      {
+        "question": "What if a number is prime?",
+        "answer": "Prime numbers (like 7 or 11) can only form 1×N rectangles. This makes them excellent starting points since their shape is forced."
+      },
+      {
+        "question": "Can I leave empty cells?",
+        "answer": "No. The puzzle is solved only when every cell is covered by exactly one rectangle. No overlaps, no gaps."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Start with numbers that have forced shapes (primes) or forced positions (corner numbers, numbers near edges). Then use the constraint that rectangles can't overlap to narrow down remaining options."
+      }
     ]
   },
   "zh": {
     "name": "牛栏逻辑",
-    "desc": "数独遇上扫雷！利用数字提示推断哪些格子包含公牛。独特的逻辑谜题，将两款经典游戏合二为一。",
+    "desc": "将网格划分为矩形围栏",
+    "description": "牛栏逻辑（又称数方）是一个令人满足的逻辑谜题，你将网格分割成矩形！每个带数字的格子必须包含在恰好该大小的矩形中。矩形不能重叠且必须覆盖整个网格。这是空间推理和算术的完美结合——从数字线索推断每个围栏的形状和位置！",
+    "objectives": "将整个网格划分为矩形区域，使每个带数字的格子包含在恰好该面积的矩形中。每个格子必须恰好属于一个矩形，矩形不能重叠。",
     "howToPlay": "点击和拖动创建矩形墙。每个数字区域必须被划分为恰好该数量的矩形。每个矩形恰好包含一个数字。矩形不能包含两个或更多数字。",
+    "rules": {
+      "controls": "点击并拖动绘制矩形。绘制时显示矩形大小。右键单击或按Delete删除矩形。",
+      "mechanics": [
+        "每个数字包含在恰好该面积的矩形中",
+        "每个矩形恰好包含一个数字",
+        "矩形不能重叠",
+        "所有格子必须被矩形覆盖",
+        "矩形必须有整数尺寸（如6 = 1×6 或 2×3）"
+      ],
+      "features": [
+        "面积显示 - 绘制时查看矩形大小",
+        "重叠防止 - 不能放置冲突的矩形",
+        "进度追踪 - 查看已解决的数字数量",
+        "多种网格大小 - 各种难度级别"
+      ]
+    },
     "tips": [
       "从约束最多的区域开始（大数字）",
+      "质数只能是1×N的矩形",
       "每个矩形必须恰好包含一个数字",
-      "矩形不能重叠或穿过区域边界",
-      "使用排除法找到可能的矩形"
+      "矩形不能重叠或穿过区域边界"
+    ],
+    "faq": [
+      {
+        "question": "如何知道矩形应该是什么形状？",
+        "answer": "数字N可以形成任何乘积为N的尺寸矩形。例如，6可以是1×6、2×3、3×2或6×1。使用周围约束确定哪种形状适合。"
+      },
+      {
+        "question": "如果数字是质数怎么办？",
+        "answer": "质数（如7或11）只能形成1×N的矩形。这使它们成为绝佳的起点，因为它们的形状是强制的。"
+      },
+      {
+        "question": "可以留下空格吗？",
+        "answer": "不可以。谜题只有当每个格子都被恰好一个矩形覆盖时才解决。没有重叠，没有间隙。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "从形状强制的数字（质数）或位置强制的数字（角落数字、靠近边缘的数字）开始。然后使用矩形不能重叠的约束来缩小剩余选项。"
+      }
     ]
   }
 }

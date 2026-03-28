@@ -8,23 +8,95 @@
   "en": {
     "name": "Block Puzzle",
     "desc": "Place puzzle blocks on the grid! Drag and drop tetromino-style shapes to fill complete rows. Clear lines to score points. Simple rules, endless fun!",
+    "description": "Block Puzzle is the addictive puzzle game that combines Tetris shapes with Sudoku-style grid clearing! Place various shaped blocks onto the grid, trying to complete full rows or columns. When a line is complete, it clears and scores points. With no time pressure, you can carefully plan each placement—but the game ends when you can't fit any remaining pieces!",
+    "objectives": "Place all available blocks onto the grid to score points. Complete horizontal or vertical lines to clear them and earn bonus points. Maximize your score by clearing multiple lines at once. The game ends when no remaining pieces can fit!",
     "howToPlay": "Click a shape button below the grid, then click on the grid to place it. Complete horizontal or vertical lines to clear them. Game ends when you can't place any more pieces!",
+    "rules": {
+      "controls": "Select a piece from the available options, then click on the grid where you want to place it. Pieces cannot overlap or extend beyond the grid. Plan ahead to maximize line clears!",
+      "mechanics": [
+        "Place blocks onto 10×10 grid",
+        "Complete rows/columns to clear",
+        "Multiple lines = bonus points",
+        "No time limit - plan carefully",
+        "Game over when no pieces fit"
+      ],
+      "features": [
+        "Various Shapes - Tetromino-style pieces",
+        "Strategic Placement - Plan ahead",
+        "Line Combos - Clear multiple lines",
+        "Endless Play - No time pressure"
+      ]
+    },
     "tips": [
       "Try to clear multiple lines at once",
       "Don't create isolated empty spaces",
       "Plan your moves ahead",
       "Keep the board balanced"
+    ],
+    "faq": [
+      {
+        "question": "What's the best strategy for high scores?",
+        "answer": "Focus on keeping the board open by clearing lines regularly. Avoid creating isolated single cells that can only be filled by 1×1 pieces. Try to set up multiple line clears for bonus points."
+      },
+      {
+        "question": "Should I clear lines immediately or wait?",
+        "answer": "It depends! Clearing lines immediately keeps the board open, but waiting can let you set up double or triple line clears for more points. Balance both strategies based on available pieces."
+      },
+      {
+        "question": "What happens when I can't place a piece?",
+        "answer": "You can skip that piece and try others. However, the game ends when NONE of the available pieces can be placed anywhere on the grid. Keep your board open!"
+      },
+      {
+        "question": "Is this like Tetris?",
+        "answer": "Similar shapes, but different gameplay! Unlike Tetris, pieces don't fall—you place them strategically. There's no time pressure, and you can see all available pieces before deciding. It's more like a puzzle than an action game."
+      }
     ]
   },
   "zh": {
     "name": "方块放置",
     "desc": "在网格上放置拼图方块！拖放俄罗斯方块风格的形状来填满完整的行。清除整行来得分。规则简单，乐趣无穷！",
+    "description": "方块放置是将俄罗斯方块形状与数独式网格清除结合的令人上瘾的益智游戏！将各种形状的方块放在网格上，试图完成整行或整列。当一行完成时，它会清除并得分。没有时间压力，你可以仔细规划每个放置——但当你无法放入任何剩余棋子时游戏结束！",
+    "objectives": "将所有可用的方块放在网格上得分。完成水平或垂直线来清除它们并获得额外分数。通过一次清除多条线来最大化你的分数。当没有剩余棋子可以放入时游戏结束！",
     "howToPlay": "点击网格下方的形状按钮，然后在网格上点击来放置它。填满水平或垂直行来清除它们。当无法放置更多棋子时游戏结束！",
+    "rules": {
+      "controls": "从可用选项中选择一个棋子，然后点击你想放置它的网格位置。棋子不能重叠或超出网格。提前规划以最大化线路清除！",
+      "mechanics": [
+        "将方块放在10×10网格上",
+        "完成行/列来清除",
+        "多条线 = 额外分数",
+        "没有时间限制 - 仔细规划",
+        "没有棋子适合时游戏结束"
+      ],
+      "features": [
+        "各种形状 - 俄罗斯方块风格的棋子",
+        "战略性放置 - 提前规划",
+        "线路组合 - 清除多条线",
+        "无尽游戏 - 没有时间压力"
+      ]
+    },
     "tips": [
       "尝试一次清除多行",
       "不要创建孤立的空位",
       "提前规划你的移动",
       "保持棋盘平衡"
+    ],
+    "faq": [
+      {
+        "question": "获得高分的最佳策略是什么？",
+        "answer": "专注于通过定期清除线路来保持棋盘开放。避免创建只能用1×1棋子填充的孤立单个单元格。尝试设置多线清除以获得额外分数。"
+      },
+      {
+        "question": "我应该立即清除线路还是等待？",
+        "answer": "看情况！立即清除线路保持棋盘开放，但等待可以让你设置双重或三重线路清除以获得更多分数。根据可用棋子平衡两种策略。"
+      },
+      {
+        "question": "当我无法放置棋子时会发生什么？",
+        "answer": "你可以跳过那个棋子并尝试其他的。然而，当所有可用棋子都无法放在网格的任何位置时游戏结束。保持你的棋盘开放！"
+      },
+      {
+        "question": "这像俄罗斯方块吗？",
+        "answer": "形状相似，但游戏玩法不同！与俄罗斯方块不同，棋子不会下落——你策略性地放置它们。没有时间压力，你可以在决定之前看到所有可用的棋子。它更像是一个谜题而不是动作游戏。"
+      }
     ]
   }
 }

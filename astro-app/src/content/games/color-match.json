@@ -7,18 +7,95 @@
   "en": {
     "name": "Color Match",
     "desc": "Test your color perception! Match colors quickly and accurately. A fun way to train your visual processing speed and color recognition.",
-    "howToPlay": "",
-    "tips": []
-  },
-  "zh": {
-    "name": "颜色匹配",
-    "desc": "测试你的颜色感知！快速准确地匹配颜色。训练视觉处理速度和颜色识别的有趣方式。",
+    "description": "Color Match is a brain-training game based on the famous Stroop Effect! A color word appears on screen, but the word itself may be displayed in a different color. Your task is to identify the COLOR of the text, not the word itself. This creates a cognitive conflict that tests your brain's ability to process conflicting information. Simple to understand, challenging to master—perfect for training cognitive flexibility!",
+    "objectives": "Click the button that matches the COLOR of the displayed word, not the word itself. React quickly and accurately to score points. Train your brain to overcome the automatic impulse to read the word!",
     "howToPlay": "A word appears in a certain color. Click the button that matches the COLOR you see, not the word. For example, if \"RED\" appears in blue text, click BLUE.",
+    "rules": {
+      "controls": "Look at the displayed word and identify its color. Click or tap the corresponding color button from the options provided. Speed and accuracy both count toward your score.",
+      "mechanics": [
+        "Word and color may differ",
+        "Identify the color, not the word",
+        "Time bonus for fast responses",
+        "Wrong answers reduce score",
+        "Difficulty increases with speed"
+      ],
+      "features": [
+        "Stroop Test - Cognitive challenge",
+        "Speed Bonus - Faster = more points",
+        "Progressive Difficulty - Gets harder",
+        "Brain Training - Improve flexibility"
+      ]
+    },
     "tips": [
       "Focus on the color, ignore the word",
       "Trust your first instinct",
       "Practice improves your cognitive flexibility",
       "Stay calm when the word and color conflict"
+    ],
+    "faq": [
+      {
+        "question": "Why is this game difficult?",
+        "answer": "This is the famous Stroop Effect! Your brain automatically reads words faster than it processes colors. The conflict between what you read and what you see creates cognitive interference that you must overcome."
+      },
+      {
+        "question": "How can I improve at Color Match?",
+        "answer": "Practice regularly to train your brain to prioritize color processing over word reading. Focus visually on the letters' appearance rather than their meaning. With practice, you'll get faster at suppressing the automatic reading response."
+      },
+      {
+        "question": "What does this game test?",
+        "answer": "Color Match tests cognitive flexibility, selective attention, and processing speed. It measures how well your brain can filter out automatic responses (reading) to focus on the relevant task (color identification)."
+      },
+      {
+        "question": "Is this used in psychology?",
+        "answer": "Yes! The Stroop Test is a widely used psychological assessment. It's used to measure attention, cognitive flexibility, and processing speed, and can even help detect certain cognitive conditions."
+      }
+    ]
+  },
+  "zh": {
+    "name": "颜色匹配",
+    "desc": "测试你的颜色感知！快速准确地匹配颜色。训练视觉处理速度和颜色识别的有趣方式。",
+    "description": "颜色匹配是基于著名斯特鲁普效应的大脑训练游戏！一个颜色词出现在屏幕上，但词本身可能以不同的颜色显示。你的任务是识别文字的颜色，而不是词本身。这创造了认知冲突，测试你的大脑处理冲突信息的能力。简单易懂，难于精通——非常适合训练认知灵活性！",
+    "objectives": "点击与显示单词的颜色相匹配的按钮，而不是单词本身。快速准确地反应来得分。训练你的大脑克服阅读单词的自动冲动！",
+    "howToPlay": "一个单词以某种颜色出现。点击与你看到的颜色相匹配的按钮，而不是单词。例如，如果\"RED\"以蓝色文本出现，点击蓝色。",
+    "rules": {
+      "controls": "查看显示的单词并识别其颜色。点击或轻触提供的选项中相应的颜色按钮。速度和准确性都计入你的分数。",
+      "mechanics": [
+        "单词和颜色可能不同",
+        "识别颜色，不是单词",
+        "快速反应有时间奖励",
+        "错误答案减少分数",
+        "难度随速度增加"
+      ],
+      "features": [
+        "斯特鲁普测试 - 认知挑战",
+        "速度奖励 - 越快 = 越多分数",
+        "渐进难度 - 变得更难",
+        "大脑训练 - 改善灵活性"
+      ]
+    },
+    "tips": [
+      "专注于颜色，忽略单词",
+      "相信你的第一直觉",
+      "练习改善你的认知灵活性",
+      "当单词和颜色冲突时保持冷静"
+    ],
+    "faq": [
+      {
+        "question": "为什么这个游戏很难？",
+        "answer": "这是著名的斯特鲁普效应！你的大脑自动阅读单词比处理颜色更快。你读到的和你看到的之间的冲突创造了你必须克服的认知干扰。"
+      },
+      {
+        "question": "如何在颜色匹配中进步？",
+        "answer": "定期练习训练你的大脑优先处理颜色而不是阅读单词。在视觉上专注于字母的外观而不是它们的含义。通过练习，你会更快地抑制自动阅读反应。"
+      },
+      {
+        "question": "这个游戏测试什么？",
+        "answer": "颜色匹配测试认知灵活性、选择性注意和处理速度。它衡量你的大脑如何很好地过滤自动反应（阅读）以专注于相关任务（颜色识别）。"
+      },
+      {
+        "question": "这在心理学中使用吗？",
+        "answer": "是的！斯特鲁普测试是广泛使用的心理评估。它用于测量注意力、认知灵活性和处理速度，甚至可以帮助检测某些认知状况。"
+      }
     ]
   }
 }

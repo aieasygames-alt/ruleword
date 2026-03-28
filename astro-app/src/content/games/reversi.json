@@ -7,24 +7,96 @@
   "color": "from-gray-500 to-black",
   "en": {
     "name": "Reversi",
-    "desc": "Also called Othello! Place discs to flip your opponent's pieces. The player with more discs at the end wins. Simple rules, deep strategy!",
+    "desc": "Flip discs to dominate the board",
+    "description": "Reversi (also known as Othello) is a classic strategy board game of territory and capture! Place discs to outflank and flip your opponent's pieces to your color. The rules are simple—sandwich opponent discs between your own to capture them—but the strategy runs deep. At game's end, the player with more discs wins. Easy to learn, difficult to master, Reversi offers endless tactical challenge!",
+    "objectives": "End the game with more discs of your color than your opponent. Maximize your disc count by planning moves that flip multiple opponent discs while protecting your own from counter-flips.",
     "howToPlay": "Click on a valid cell to place your disc. You must flip at least one opponent disc. Discs are flipped when sandwiched between your discs. Game ends when no moves remain.",
+    "rules": {
+      "controls": "Click on any highlighted valid move to place your disc. Valid moves must outflank at least one opponent disc. Outflanked discs are flipped to your color.",
+      "mechanics": [
+        "Black plays first, players alternate turns",
+        "A valid move must flip at least one opponent disc",
+        "Discs are flipped when sandwiched between your discs (in any direction)",
+        "If no valid move exists, turn passes to opponent",
+        "Game ends when neither player can move"
+      ],
+      "features": [
+        "Valid Move Highlighting - See where you can play",
+        "Disc Counter - Track who's winning",
+        "AI Opponent - Multiple difficulty levels",
+        "Pass Detection - Automatic turn passing"
+      ]
+    },
     "tips": [
       "Control corners - they can never be flipped",
       "Avoid spaces next to corners early in the game",
       "Focus on stable discs that can't be flipped",
       "Mobility matters - keep your move options open"
+    ],
+    "faq": [
+      {
+        "question": "What are corners so important?",
+        "answer": "Corner discs can never be flipped because they can't be outflanked. Controlling corners often leads to controlling the adjacent edges, creating stable positions."
+      },
+      {
+        "question": "Is having more discs early good?",
+        "answer": "Not necessarily! Early game disc count matters less than position. Sometimes having fewer discs means more mobility and better moves later."
+      },
+      {
+        "question": "What's a 'stable disc'?",
+        "answer": "A stable disc is one that can never be flipped regardless of future play. Corner discs are always stable, and discs adjacent to stable discs often become stable too."
+      },
+      {
+        "question": "When does the game end?",
+        "answer": "The game ends when neither player can make a valid move—usually when the board is full, but sometimes earlier if no flips are possible."
+      }
     ]
   },
   "zh": {
     "name": "黑白棋",
-    "desc": "又称奥赛罗！放置圆盘翻转对手的棋子。结束时棋子多的玩家获胜。简单规则，深度策略！",
-    "howToPlay": "点击有效位置放置棋子。你必须翻转至少一个对手棋子。当棋子被夹在你的棋子之间时会被翻转。当没有可走时游戏结束。",
+    "desc": "翻转棋子统治棋盘",
+    "description": "黑白棋（又称奥赛罗）是一款关于领土和俘获的经典策略棋盘游戏！放置棋子夹击并将对手的棋子翻转为你的颜色。规则很简单——将对手棋子夹在你自己的棋子之间来俘获它们——但策略很深。游戏结束时棋子多的玩家获胜。易学难精，黑白棋提供无尽的战术挑战！",
+    "objectives": "游戏结束时拥有比你对手更多颜色的棋子。通过规划翻转多个对手棋子的移动来最大化你的棋子数，同时保护自己的棋子不被反翻转。",
+    "howToPlay": "点击有效位置放置棋子。你必须翻转至少一个对手棋子。棋子被夹在你的棋子之间时会被翻转。当没有可走时游戏结束。",
+    "rules": {
+      "controls": "点击任何高亮的有效位置放置棋子。有效移动必须夹击至少一个对手棋子。被夹击的棋子会翻转为你的颜色。",
+      "mechanics": [
+        "黑方先走，玩家轮流",
+        "有效移动必须翻转至少一个对手棋子",
+        "当棋子被你的棋子夹住时会被翻转（任意方向）",
+        "如果没有有效移动，回合传递给对手",
+        "当双方都无法移动时游戏结束"
+      ],
+      "features": [
+        "有效移动高亮 - 查看可下位置",
+        "棋子计数器 - 追踪谁领先",
+        "AI对手 - 多种难度级别",
+        "跳过检测 - 自动跳过回合"
+      ]
+    },
     "tips": [
       "控制角落——它们永远不能被翻转",
       "游戏早期避免靠近角落的位置",
       "专注于不能被翻转的稳定棋子",
       "机动性很重要——保持你的选择开放"
+    ],
+    "faq": [
+      {
+        "question": "为什么角落很重要？",
+        "answer": "角落棋子永远不能被翻转，因为它们不能被夹击。控制角落通常导致控制相邻边缘，创造稳定位置。"
+      },
+      {
+        "question": "早期拥有更多棋子好吗？",
+        "answer": "不一定！早期游戏棋子数量不如位置重要。有时拥有更少棋子意味着更多机动性和更好的后续移动。"
+      },
+      {
+        "question": "什么是'稳定棋子'？",
+        "answer": "稳定棋子是无论后续游戏如何都永远不能被翻转的棋子。角落棋子总是稳定的，与稳定棋子相邻的棋子通常也会变得稳定。"
+      },
+      {
+        "question": "游戏什么时候结束？",
+        "answer": "当双方都无法进行有效移动时游戏结束——通常是棋盘填满时，但有时如果无法翻转也会更早结束。"
+      }
     ]
   }
 }

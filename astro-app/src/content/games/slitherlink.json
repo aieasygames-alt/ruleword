@@ -7,23 +7,95 @@
   "en": {
     "name": "Slitherlink",
     "desc": "Draw a single continuous loop through the grid! Use number clues to determine which edges of each cell are part of the loop. A satisfying logic puzzle.",
+    "description": "Slitherlink is the elegant loop-drawing puzzle that has captivated logic enthusiasts worldwide! Each cell contains a number 0-3 indicating how many of its edges are part of the loop. Your task: draw a single continuous loop that never crosses or branches. Using pure deduction, you'll discover which edges belong to the loop and which don't. Simple rules, deeply satisfying solutions!",
+    "objectives": "Draw a single continuous loop through the grid edges. The loop must pass through exactly the number of edges shown by each clue (0, 1, 2, or 3). The loop cannot cross itself or branch. Find the unique solution through logical deduction!",
     "howToPlay": "Click edges to include them in the loop. Numbers 0-3 indicate how many edges around that cell are used. Create one continuous loop with no crossings or branches.",
+    "rules": {
+      "controls": "Click on the edges between dots to toggle them as part of the loop or not. Numbers inside cells tell you how many of that cell's four edges are part of the loop. Build the loop section by section.",
+      "mechanics": [
+        "Clues 0-3 show edges around each cell",
+        "Loop must be single and continuous",
+        "No crossings or branches allowed",
+        "Empty cells have no constraints",
+        "Each puzzle has unique solution"
+      ],
+      "features": [
+        "Loop Puzzle - Single continuous path",
+        "Number Clues - Logical constraints",
+        "Pure Deduction - No guessing needed",
+        "Elegant Solutions - Beautiful patterns"
+      ]
+    },
     "tips": [
       "0 means no edges around that cell",
       "3 in a corner forces two edges",
       "Diagonal 3s create a specific pattern",
       "The loop must be continuous - avoid creating branches"
+    ],
+    "faq": [
+      {
+        "question": "What does a 0 clue mean?",
+        "answer": "A cell with 0 means none of its four edges are part of the loop. Mark all four edges as 'not loop' immediately—this is crucial starting information!"
+      },
+      {
+        "question": "How do I handle a 3 in a corner?",
+        "answer": "A 3 in a corner is powerful! The cell has only two edges on the corner, so both must be part of the loop. Plus, the loop must continue, which forces specific patterns."
+      },
+      {
+        "question": "What about diagonal 3s?",
+        "answer": "When two 3s are diagonal from each other, they create a specific pattern. The edges that would connect them diagonally must NOT be part of the loop. This is a key deduction rule."
+      },
+      {
+        "question": "How do I know the loop is correct?",
+        "answer": "The loop must be one continuous closed curve (like a rubber band). Every clue must be satisfied. There should be no loose ends, branches, or crossings. Following the loop should return you to where you started."
+      }
     ]
   },
   "zh": {
     "name": "回路迷",
     "desc": "在网格中画出一条连续的回路！利用数字提示判断每个格子的哪些边是回路的一部分。令人满足的逻辑谜题。",
+    "description": "回路迷是迷住全世界逻辑爱好者的优雅画环谜题！每个单元格包含一个0-3的数字，表示其边缘有多少是回路的一部分。你的任务：画一条永不交叉或分支的单一连续回路。通过纯粹推理，你将发现哪些边缘属于回路，哪些不属于。规则简单，解决方案令人深深满足！",
+    "objectives": "通过网格边缘画一条单一连续回路。回路必须恰好通过每个提示显示的边缘数量（0、1、2或3）。回路不能交叉或分支。通过逻辑推理找到独特解决方案！",
     "howToPlay": "点击点之间的水平或垂直边来画线。数字表示围绕它的线数（0-3）。没有数字的格子没有约束。回路不能交叉或接触自己。",
+    "rules": {
+      "controls": "点击点之间的边缘来切换它们是否是回路的一部分。单元格内的数字告诉你该单元格四个边缘中有多少是回路的一部分。一段一段地构建回路。",
+      "mechanics": [
+        "提示0-3显示每个格子周围的边缘",
+        "回路必须是单一连续的",
+        "不允许交叉或分支",
+        "空单元格没有约束",
+        "每个谜题有独特解决方案"
+      ],
+      "features": [
+        "回路谜题 - 单一连续路径",
+        "数字提示 - 逻辑约束",
+        "纯粹推理 - 无需猜测",
+        "优雅解决方案 - 美丽模式"
+      ]
+    },
     "tips": [
       "从角上的3开始——必须画两条边",
       "从0开始——周围不能有线",
       "从角落的1开始——必须远离角落",
       "寻找连接逻辑约束"
+    ],
+    "faq": [
+      {
+        "question": "0提示意味着什么？",
+        "answer": "带有0的单元格意味着其四个边缘都不是回路的一部分。立即将所有四个边缘标记为'不是回路'——这是关键的起始信息！"
+      },
+      {
+        "question": "如何处理角落里的3？",
+        "answer": "角落里的3很有力！该单元格在角落只有两条边，所以两条都必须是回路的一部分。加上回路必须继续，这会强迫特定模式。"
+      },
+      {
+        "question": "对角线3呢？",
+        "answer": "当两个3彼此对角时，它们创造特定模式。对角连接它们的边缘不能是回路的一部分。这是关键的推理规则。"
+      },
+      {
+        "question": "我怎么知道回路是正确的？",
+        "answer": "回路必须是一条连续的封闭曲线（像橡皮筋）。每个提示必须被满足。不应该有松散的末端、分支或交叉。沿着回路走应该回到你开始的地方。"
+      }
     ]
   }
 }

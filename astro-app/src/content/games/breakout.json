@@ -7,23 +7,95 @@
   "en": {
     "name": "Breakout",
     "desc": "Atari's 1976 brick-breaking classic! Use your paddle to bounce the ball and destroy all bricks. Each brick type has different point values. Pure arcade bliss!",
+    "description": "Breakout is the iconic 1976 Atari arcade game that defined an entire genre! Control a paddle at the bottom of the screen, bouncing a ball upward to shatter rows of colorful bricks. Each brick destroyed earns points, and clearing all bricks advances you to increasingly challenging levels. With simple one-paddle control but progressively difficult patterns, this classic offers pure arcade satisfaction!",
+    "objectives": "Destroy all bricks on each level by bouncing the ball off your paddle. Keep the ball in play—missing it costs you lives. Clear all bricks to advance through levels and achieve the highest score possible!",
     "howToPlay": "Use arrow keys to move the paddle. Bounce the ball to break bricks. Clear all bricks to win. You have 3 lives - lose one when ball falls below paddle.",
+    "rules": {
+      "controls": "Use Left/Right arrow keys or mouse to move the paddle horizontally. The ball bounces automatically. Press Space or click to launch the ball at the start of each life.",
+      "mechanics": [
+        "Ball bounces off walls and paddle",
+        "Bricks shatter when hit by ball",
+        "Different bricks may have different points",
+        "Missing the ball loses a life",
+        "Clear all bricks to advance level"
+      ],
+      "features": [
+        "Classic Arcade - Authentic gameplay",
+        "Progressive Levels - Increasing challenge",
+        "Score System - Track your best",
+        "Simple Controls - Easy to learn"
+      ]
+    },
     "tips": [
       "Angle your shots to hit more bricks",
       "Aim for the top to cascade through rows",
       "Keep the ball near center for control",
       "Speed increases as you progress"
+    ],
+    "faq": [
+      {
+        "question": "How does the ball angle work?",
+        "answer": "Where the ball hits your paddle affects its bounce angle. Hitting the center sends it straight up, while edges create sharper angles. Use this to aim at specific brick areas."
+      },
+      {
+        "question": "What's the best strategy for high scores?",
+        "answer": "Focus on creating paths through the brick field. Getting the ball above the bricks lets it bounce between bricks and the top, clearing many bricks automatically. Don't just clear row by row!"
+      },
+      {
+        "question": "How many lives do I have?",
+        "answer": "You typically start with 3 lives. Each time the ball falls below your paddle without being caught, you lose a life. The game ends when all lives are lost."
+      },
+      {
+        "question": "What made Breakout historically significant?",
+        "answer": "Created by Atari in 1976 with involvement from Steve Wozniak and Steve Jobs, Breakout pioneered the block-breaking genre. It influenced countless games including Arkanoid and modern mobile hits."
+      }
     ]
   },
   "zh": {
     "name": "打砖块",
     "desc": "雅达利1976年打砖块经典！使用挡板弹跳球并消灭所有砖块。每种砖块有不同分值。纯粹的街机乐趣！",
+    "description": "打砖块是1976年Atari定义整个类型的标志性街机游戏！控制屏幕底部的挡板，向上弹跳球来粉碎彩色砖块行。每摧毁一块砖都会得分，清除所有砖块让你进入越来越具挑战性的关卡。简单的单挡板控制但逐渐困难的模式，这款经典提供纯粹的街机满足感！",
+    "objectives": "通过从挡板上弹跳球来摧毁每一关的所有砖块。保持球在游戏中——漏接球会失去生命。清除所有砖块进入关卡并获得尽可能高的分数！",
     "howToPlay": "使用左右方向键或鼠标移动挡板。让球保持反弹并击碎砖块。不要让球掉落！某些砖块需要多次击打或会掉落道具。",
+    "rules": {
+      "controls": "使用左/右方向键或鼠标水平移动挡板。球自动反弹。按空格键或点击在每条命开始时发射球。",
+      "mechanics": [
+        "球从墙壁和挡板反弹",
+        "球击中时砖块粉碎",
+        "不同的砖块可能有不同的分数",
+        "漏接球失去一条生命",
+        "清除所有砖块进入关卡"
+      ],
+      "features": [
+        "经典街机 - 正宗游戏玩法",
+        "渐进关卡 - 增加挑战",
+        "得分系统 - 追踪你的最佳",
+        "简单控制 - 易学"
+      ]
+    },
     "tips": [
       "瞄准砖块的薄弱点",
       "利用挡板的不同位置来控制反弹角度",
       "优先击碎难以到达区域的砖块",
       "利用道具获得额外球或其他加成"
+    ],
+    "faq": [
+      {
+        "question": "球的角度是如何工作的？",
+        "answer": "球击中挡板的位置影响其弹跳角度。击中中心会直接向上发送，而边缘创造更尖锐的角度。利用这个来瞄准特定的砖块区域。"
+      },
+      {
+        "question": "获得高分的最佳策略是什么？",
+        "answer": "专注于在砖块区域创造路径。让球到达砖块上方可以让它在砖块和顶部之间反弹，自动清除许多砖块。不要只是逐行清除！"
+      },
+      {
+        "question": "我有多少条生命？",
+        "answer": "你通常从3条生命开始。每次球从挡板下方掉落而未被接住，你失去一条生命。当所有生命都用完时游戏结束。"
+      },
+      {
+        "question": "打砖块在历史上有什么重要意义？",
+        "answer": "由Atari于1976年创建，Steve Wozniak和Steve Jobs参与其中，打砖块开创了打砖块类型。它影响了无数游戏，包括Arkanoid和现代手机热门游戏。"
+      }
     ]
   }
 }

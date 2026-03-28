@@ -7,24 +7,96 @@
   "color": "from-green-500 to-lime-600",
   "en": {
     "name": "Frogger",
-    "desc": "Help the frog cross busy roads and treacherous rivers! Avoid cars, hop on logs, and reach safety. An 80s arcade favorite that still delights today!",
+    "desc": "Guide the frog across roads and rivers",
+    "description": "Frogger is the beloved 1981 arcade classic that challenges you to guide a brave little frog home! Navigate through busy traffic, hop across treacherous rivers on logs and turtles, and reach the safety zones at the top of the screen. With its simple hop-and-dodge gameplay and increasingly challenging obstacles, Frogger has remained a favorite for over 40 years. Can you help all five frogs reach their lily pad homes?",
+    "objectives": "Guide your frog from the bottom of the screen to one of the five home zones at the top. Navigate hazardous roads filled with traffic, then cross dangerous rivers using floating platforms. Fill all five home zones to advance to the next level.",
     "howToPlay": "Use arrow keys or WASD to hop. Cross roads avoiding cars and trucks. Cross rivers by jumping on logs and turtles. Reach the goal zones at the top to score!",
+    "rules": {
+      "controls": "Use arrow keys (↑ ↓ ← →) or WASD to hop in any direction. Each press moves the frog one space. Time your movements carefully!",
+      "mechanics": [
+        "Road hazards: Cars and trucks will squash the frog on contact",
+        "River crossing: Must stay on logs or turtles - falling in water is fatal",
+        "Moving platforms: Frog moves with logs and turtles",
+        "Turtles may dive underwater - don't stay too long!",
+        "Fill all 5 home zones to complete a level"
+      ],
+      "features": [
+        "Traffic Lanes - Multiple vehicle speeds and directions",
+        "River Section - Logs and turtles of varying lengths",
+        "Home Zones - 5 lily pad destinations",
+        "Bonus Items - Catch flies and escort lady frogs for extra points"
+      ]
+    },
     "tips": [
       "Time your road crossings between vehicles",
       "On logs and turtles, you move with them",
       "Watch for gaps in traffic and log patterns",
       "Don't stay on turtles too long - some dive!"
+    ],
+    "faq": [
+      {
+        "question": "Why do I sometimes drown in the river?",
+        "answer": "If you're on a turtle that dives underwater, or if you hop off a log into the water, you lose a life. Watch for turtles that are about to submerge!"
+      },
+      {
+        "question": "What happens if I stay on a log too long?",
+        "answer": "If a log carries you off the edge of the screen, you lose a life. Always plan your jumps toward the home zones."
+      },
+      {
+        "question": "How do I score bonus points?",
+        "answer": "Catch flies in the home zones or escort lady frogs across the river. Also, reaching home zones quickly awards time bonuses."
+      },
+      {
+        "question": "What's the best strategy for crossing roads?",
+        "answer": "Study the traffic patterns before moving. Some lanes have gaps that appear regularly. Don't panic-hop—plan each move!"
+      }
     ]
   },
   "zh": {
     "name": "青蛙过河",
-    "desc": "帮助青蛙穿越繁忙的马路和危险的河流！避开汽车，跳上木头，安全到达对岸。80年代街机经典至今仍然有趣！",
+    "desc": "引导青蛙穿越马路和河流",
+    "description": "青蛙过河是1981年深受喜爱的街机经典，挑战你引导一只勇敢的小青蛙回家！穿越繁忙的交通，在圆木和乌龟上跳过危险的河流，到达屏幕顶部的安全区。凭借简单的跳跃和躲避玩法以及越来越具挑战性的障碍，青蛙过河40多年来一直深受喜爱。你能帮助所有五只青蛙到达它们的睡莲叶之家吗？",
+    "objectives": "引导你的青蛙从屏幕底部到达顶部的五个家园区域之一。穿越充满交通的危险道路，然后利用浮动平台穿越危险的河流。填满所有五个家园区域进入下一关。",
     "howToPlay": "使用方向键或WASD跳跃。穿过马路避开汽车和卡车。通过跳上圆木和乌龟穿过河流。到达顶部的目标区域得分！",
+    "rules": {
+      "controls": "使用方向键（↑ ↓ ← →）或WASD向任意方向跳跃。每次按键移动青蛙一格。仔细把握移动时机！",
+      "mechanics": [
+        "道路危险：汽车和卡车接触会压扁青蛙",
+        "河流穿越：必须待在圆木或乌龟上——落水致命",
+        "移动平台：青蛙随圆木和乌龟移动",
+        "乌龟可能潜入水中——不要待太久！",
+        "填满所有5个家园区域完成一关"
+      ],
+      "features": [
+        "车道 - 多种车辆速度和方向",
+        "河流区 - 不同长度的圆木和乌龟",
+        "家园区 - 5个睡莲叶目的地",
+        "奖励物品 - 抓苍蝇和护送青蛙女士获得额外分数"
+      ]
+    },
     "tips": [
       "在车辆之间把握过马路时机",
       "在圆木和乌龟上，你会随它们移动",
       "注意交通和圆木模式的空隙",
       "不要在乌龟上停留太久——有些会潜水！"
+    ],
+    "faq": [
+      {
+        "question": "为什么我有时会在河里淹死？",
+        "answer": "如果你站在一只潜水的乌龟上，或者从圆木跳入水中，你会失去一条命。注意即将下潜的乌龟！"
+      },
+      {
+        "question": "如果在圆木上待太久会怎样？",
+        "answer": "如果圆木把你带出屏幕边缘，你会失去一条命。总是朝家园区方向规划跳跃。"
+      },
+      {
+        "question": "如何获得额外分数？",
+        "answer": "在家园区抓苍蝇或护送青蛙女士过河。此外，快速到达家园区会获得时间奖励。"
+      },
+      {
+        "question": "穿越马路的最佳策略是什么？",
+        "answer": "在移动前研究交通模式。有些车道会定期出现空隙。不要慌乱跳跃——规划每一步！"
+      }
     ]
   }
 }

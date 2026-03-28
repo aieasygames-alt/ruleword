@@ -37,6 +37,17 @@ export async function getStaticPaths() {
 }
 
 // 兼容本地 JSON 格式
+interface GameRules {
+  controls?: string
+  mechanics?: string[]
+  features?: string[]
+}
+
+interface GameFAQ {
+  question: string
+  answer: string
+}
+
 interface LocalGameData {
   id: string
   slug: string
@@ -47,14 +58,22 @@ interface LocalGameData {
   en: {
     name: string
     desc: string
+    description?: string
+    objectives?: string
     howToPlay?: string
+    rules?: GameRules
     tips?: string[]
+    faq?: GameFAQ[]
   }
   zh?: {
     name: string
     desc: string
+    description?: string
+    objectives?: string
     howToPlay?: string
+    rules?: GameRules
     tips?: string[]
+    faq?: GameFAQ[]
   }
 }
 
@@ -72,32 +91,59 @@ const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Lan
 const t = i18n[lang]
 
 // Helper to get game field (兼容 CMS 和本地格式)
-const getGameField = (field: 'name' | 'desc' | 'howToPlay' | 'tips', preferLang: 'en' | 'zh' = 'en'): string | string[] => {
+const getGameField = (field: 'name' | 'desc' | 'description' | 'objectives' | 'howToPlay' | 'tips' | 'rules' | 'faq', preferLang: 'en' | 'zh' = 'en'): string | string[] | GameRules | GameFAQ[] => {
   if (useCMS) {
     const cmsGame = game as CMSGameData
     if (field === 'name') return preferLang === 'zh' ? (cmsGame.nameZh || cmsGame.name) : cmsGame.name
     if (field === 'desc') return preferLang === 'zh' ? (cmsGame.descZh || cmsGame.desc) : cmsGame.desc
+    if (field === 'description') return preferLang === 'zh' ? (cmsGame.descZh || cmsGame.desc) : cmsGame.desc
+    if (field === 'objectives') return ''
     if (field === 'howToPlay') return preferLang === 'zh' ? (cmsGame.howToPlayZh || cmsGame.howToPlay || '') : (cmsGame.howToPlay || '')
     if (field === 'tips') return preferLang === 'zh' ? (cmsGame.tipsZh || cmsGame.tips || []) : (cmsGame.tips || [])
+    if (field === 'rules') return {}
+    if (field === 'faq') return []
   }
   const localGame = game as LocalGameData
-  if (field === 'name') return preferLang === 'zh' ? (localGame.zh?.name || localGame.en.name) : localGame.en.name
-  if (field === 'desc') return preferLang === 'zh' ? (localGame.zh?.desc || localGame.en.desc) : localGame.en.desc
-  if (field === 'howToPlay') return preferLang === 'zh' ? (localGame.zh?.howToPlay || localGame.en.howToPlay || '') : (localGame.en.howToPlay || '')
-  if (field === 'tips') return preferLang === 'zh' ? (localGame.zh?.tips || localGame.en.tips || []) : (localGame.en.tips || [])
+  const enData = localGame.en || {}
+  const zhData = localGame.zh || {}
+
+  if (field === 'name') return preferLang === 'zh' ? (zhData.name || enData.name) : enData.name
+  if (field === 'desc') return preferLang === 'zh' ? (zhData.desc || enData.desc) : enData.desc
+  if (field === 'description') {
+    const zhDesc = zhData.description || zhData.desc || ''
+    const enDesc = enData.description || enData.desc || ''
+    return preferLang === 'zh' ? (zhDesc || enDesc) : enDesc
+  }
+  if (field === 'objectives') {
+    const zhObj = zhData.objectives || ''
+    const enObj = enData.objectives || ''
+    return preferLang === 'zh' ? (zhObj || enObj) : enObj
+  }
+  if (field === 'howToPlay') return preferLang === 'zh' ? (zhData.howToPlay || enData.howToPlay || '') : (enData.howToPlay || '')
+  if (field === 'tips') return preferLang === 'zh' ? (zhData.tips || enData.tips || []) : (enData.tips || [])
+  if (field === 'rules') return preferLang === 'zh' ? (zhData.rules || enData.rules || {}) : (enData.rules || {})
+  if (field === 'faq') return preferLang === 'zh' ? (zhData.faq || enData.faq || []) : (enData.faq || [])
   return ''
 }
 
 // Get game guide content
 const gameGuideEn = {
   intro: getGameField('desc', 'en') as string,
+  description: getGameField('description', 'en') as string,
+  objectives: getGameField('objectives', 'en') as string,
   howToPlay: getGameField('howToPlay', 'en') as string,
-  tips: getGameField('tips', 'en') as string[]
+  rules: getGameField('rules', 'en') as GameRules,
+  tips: getGameField('tips', 'en') as string[],
+  faq: getGameField('faq', 'en') as GameFAQ[]
 }
 const gameGuideZhCN = {
   intro: getGameField('desc', 'zh') as string,
+  description: getGameField('description', 'zh') as string,
+  objectives: getGameField('objectives', 'zh') as string,
   howToPlay: getGameField('howToPlay', 'zh') as string,
-  tips: getGameField('tips', 'zh') as string[]
+  rules: getGameField('rules', 'zh') as GameRules,
+  tips: getGameField('tips', 'zh') as string[],
+  faq: getGameField('faq', 'zh') as GameFAQ[]
 }
 
 // For SEO, use English as default
@@ -226,23 +272,139 @@ const f = t.feedback
     {gameGuideEn && (
       <section class="bg-slate-900/50 border-t border-slate-800 py-12 px-4 sm:px-6">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-2xl font-bold mb-4" id="guide-title">{getGameName()}: <span data-i18n="howToPlay">{t.game.howToPlay}</span></h2>
+          <h2 class="text-2xl font-bold mb-6" id="guide-title">{getGameName()} <span class="text-slate-400 font-normal" data-i18n="gameGuide">Game Guide</span></h2>
 
-          <div class="prose prose-invert max-w-none">
-            <p class="text-slate-300 text-lg mb-6" id="guide-intro" data-intro-en={gameGuideEn.intro} data-intro-zh={gameGuideZhCN?.intro || gameGuideEn.intro}>{gameGuideEn.intro}</p>
+          <div class="prose prose-invert max-w-none space-y-8">
+            <!-- Game Description -->
+            <div id="guide-description-section">
+              <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="text-2xl">📖</span>
+                <span data-i18n="about">{t.game.about || 'About'}</span>
+              </h3>
+              <p class="text-slate-300 text-lg leading-relaxed" id="guide-description" data-description-en={gameGuideEn.description || gameGuideEn.intro} data-description-zh={gameGuideZhCN?.description || gameGuideZhCN?.intro || gameGuideEn.description || gameGuideEn.intro}>
+                {gameGuideEn.description || gameGuideEn.intro}
+              </p>
+            </div>
 
-            <h3 class="text-xl font-semibold text-white mt-8 mb-4" data-i18n="howToPlay">{t.game.howToPlay}</h3>
-            <p class="text-slate-300 mb-6" id="guide-howtoplay" data-howtoplay-en={gameGuideEn.howToPlay} data-howtoplay-zh={gameGuideZhCN?.howToPlay || gameGuideEn.howToPlay}>{gameGuideEn.howToPlay}</p>
+            <!-- Game Objectives -->
+            {gameGuideEn.objectives && (
+              <div id="guide-objectives-section">
+                <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <span class="text-2xl">🎯</span>
+                  <span data-i18n="objectives">{t.game.objectives || 'Objectives'}</span>
+                </h3>
+                <p class="text-slate-300 leading-relaxed" id="guide-objectives" data-objectives-en={gameGuideEn.objectives} data-objectives-zh={gameGuideZhCN?.objectives || gameGuideEn.objectives}>
+                  {gameGuideEn.objectives}
+                </p>
+              </div>
+            )}
 
-            <h3 class="text-xl font-semibold text-white mt-8 mb-4" data-i18n="tips">{t.game.tips}</h3>
-            <ul class="space-y-3" id="guide-tips">
-              {gameGuideEn.tips.map((tip, i) => (
-                <li class="flex items-start gap-3 text-slate-300" data-tip-en={tip} data-tip-zh={(gameGuideZhCN?.tips || gameGuideEn.tips)[i]}>
-                  <span class="text-green-400 mt-1">•</span>
-                  <span>{tip}</span>
-                </li>
-              ))}
-            </ul>
+            <!-- How to Play -->
+            <div id="guide-howtoplay-section">
+              <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="text-2xl">🎮</span>
+                <span data-i18n="howToPlay">{t.game.howToPlay}</span>
+              </h3>
+              <p class="text-slate-300 mb-4" id="guide-howtoplay" data-howtoplay-en={gameGuideEn.howToPlay} data-howtoplay-zh={gameGuideZhCN?.howToPlay || gameGuideEn.howToPlay}>
+                {gameGuideEn.howToPlay}
+              </p>
+
+              <!-- Game Rules -->
+              {gameGuideEn.rules && (gameGuideEn.rules.controls || gameGuideEn.rules.mechanics?.length || gameGuideEn.rules.features?.length) && (
+                <div class="mt-6 space-y-4 bg-slate-800/50 rounded-xl p-6">
+                  {gameGuideEn.rules.controls && (
+                    <div>
+                      <h4 class="text-lg font-medium text-white mb-2 flex items-center gap-2">
+                        <span>⌨️</span>
+                        <span data-i18n="controls">{t.game.controls || 'Controls'}</span>
+                      </h4>
+                      <p class="text-slate-300" id="guide-controls" data-controls-en={gameGuideEn.rules.controls} data-controls-zh={gameGuideZhCN?.rules?.controls || gameGuideEn.rules.controls}>
+                        {gameGuideEn.rules.controls}
+                      </p>
+                    </div>
+                  )}
+
+                  {gameGuideEn.rules.mechanics && gameGuideEn.rules.mechanics.length > 0 && (
+                    <div>
+                      <h4 class="text-lg font-medium text-white mb-2 flex items-center gap-2">
+                        <span>⚙️</span>
+                        <span data-i18n="mechanics">{t.game.mechanics || 'Game Mechanics'}</span>
+                      </h4>
+                      <ul class="space-y-2" id="guide-mechanics">
+                        {gameGuideEn.rules.mechanics.map((mechanic, i) => (
+                          <li class="flex items-start gap-3 text-slate-300" data-mechanic-en={mechanic} data-mechanic-zh={gameGuideZhCN?.rules?.mechanics?.[i] || mechanic}>
+                            <span class="text-blue-400 mt-1">▸</span>
+                            <span>{mechanic}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {gameGuideEn.rules.features && gameGuideEn.rules.features.length > 0 && (
+                    <div>
+                      <h4 class="text-lg font-medium text-white mb-2 flex items-center gap-2">
+                        <span>✨</span>
+                        <span data-i18n="features">{t.game.features || 'Features'}</span>
+                      </h4>
+                      <ul class="space-y-2" id="guide-features">
+                        {gameGuideEn.rules.features.map((feature, i) => (
+                          <li class="flex items-start gap-3 text-slate-300" data-feature-en={feature} data-feature-zh={gameGuideZhCN?.rules?.features?.[i] || feature}>
+                            <span class="text-yellow-400 mt-1">★</span>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <!-- Tips -->
+            {gameGuideEn.tips && gameGuideEn.tips.length > 0 && (
+              <div id="guide-tips-section">
+                <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <span class="text-2xl">💡</span>
+                  <span data-i18n="tips">{t.game.tips}</span>
+                </h3>
+                <ul class="space-y-3" id="guide-tips">
+                  {gameGuideEn.tips.map((tip, i) => (
+                    <li class="flex items-start gap-3 text-slate-300 bg-slate-800/30 rounded-lg p-3" data-tip-en={tip} data-tip-zh={(gameGuideZhCN?.tips || gameGuideEn.tips)[i]}>
+                      <span class="text-green-400 mt-1">✓</span>
+                      <span>{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <!-- FAQ Section -->
+            {gameGuideEn.faq && gameGuideEn.faq.length > 0 && (
+              <div id="guide-faq-section">
+                <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                  <span class="text-2xl">❓</span>
+                  <span data-i18n="faq">{t.game.faq || 'Frequently Asked Questions'}</span>
+                </h3>
+                <div class="space-y-4" id="guide-faq">
+                  {gameGuideEn.faq.map((item, i) => (
+                    <details class="group bg-slate-800/50 rounded-xl overflow-hidden">
+                      <summary class="flex items-center justify-between p-4 cursor-pointer hover:bg-slate-800/70 transition-colors">
+                        <span class="font-medium text-white" data-question-en={item.question} data-question-zh={gameGuideZhCN?.faq?.[i]?.question || item.question}>
+                          {item.question}
+                        </span>
+                        <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </summary>
+                      <div class="px-4 pb-4 text-slate-300" data-answer-en={item.answer} data-answer-zh={gameGuideZhCN?.faq?.[i]?.answer || item.answer}>
+                        {item.answer}
+                      </div>
+                    </details>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           <!-- Related Games -->
@@ -355,10 +517,16 @@ const f = t.feedback
     function updateGuideContent(lang) {
       const isZh = lang === 'zh-CN' || lang === 'zh-TW';
 
-      // Update intro
-      const introEl = document.getElementById('guide-intro');
-      if (introEl) {
-        introEl.textContent = isZh ? introEl.getAttribute('data-intro-zh') : introEl.getAttribute('data-intro-en');
+      // Update description
+      const descEl = document.getElementById('guide-description');
+      if (descEl) {
+        descEl.textContent = isZh ? descEl.getAttribute('data-description-zh') : descEl.getAttribute('data-description-en');
+      }
+
+      // Update objectives
+      const objectivesEl = document.getElementById('guide-objectives');
+      if (objectivesEl) {
+        objectivesEl.textContent = isZh ? objectivesEl.getAttribute('data-objectives-zh') : objectivesEl.getAttribute('data-objectives-en');
       }
 
       // Update how to play
@@ -367,11 +535,45 @@ const f = t.feedback
         howToPlayEl.textContent = isZh ? howToPlayEl.getAttribute('data-howtoplay-zh') : howToPlayEl.getAttribute('data-howtoplay-en');
       }
 
+      // Update controls
+      const controlsEl = document.getElementById('guide-controls');
+      if (controlsEl) {
+        controlsEl.textContent = isZh ? controlsEl.getAttribute('data-controls-zh') : controlsEl.getAttribute('data-controls-en');
+      }
+
+      // Update mechanics
+      document.querySelectorAll('#guide-mechanics li').forEach(li => {
+        const span = li.querySelector('span:last-child');
+        if (span) {
+          span.textContent = isZh ? li.getAttribute('data-mechanic-zh') : li.getAttribute('data-mechanic-en');
+        }
+      });
+
+      // Update features
+      document.querySelectorAll('#guide-features li').forEach(li => {
+        const span = li.querySelector('span:last-child');
+        if (span) {
+          span.textContent = isZh ? li.getAttribute('data-feature-zh') : li.getAttribute('data-feature-en');
+        }
+      });
+
       // Update tips
       document.querySelectorAll('#guide-tips li').forEach(li => {
         const span = li.querySelector('span:last-child');
         if (span) {
           span.textContent = isZh ? li.getAttribute('data-tip-zh') : li.getAttribute('data-tip-en');
+        }
+      });
+
+      // Update FAQ
+      document.querySelectorAll('#guide-faq details').forEach(details => {
+        const summary = details.querySelector('summary span');
+        const answer = details.querySelector('div');
+        if (summary) {
+          summary.textContent = isZh ? summary.getAttribute('data-question-zh') : summary.getAttribute('data-question-en');
+        }
+        if (answer) {
+          answer.textContent = isZh ? answer.getAttribute('data-answer-zh') : answer.getAttribute('data-answer-en');
         }
       });
 

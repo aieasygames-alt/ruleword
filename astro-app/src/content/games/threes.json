@@ -7,23 +7,95 @@
   "en": {
     "name": "Threes",
     "desc": "The original sliding number puzzle! Slide tiles to combine matching numbers. 1+2=3, then combine 3s into 6s, 6s into 12s, and beyond. Addictive and strategic!",
+    "description": "Threes is the award-winning puzzle game that inspired the entire 2048 genre! Slide numbered tiles on a grid to combine them—1+2 makes 3, and then matching numbers merge (3+3=6, 6+6=12, etc.). Unlike simple addition games, Threes requires careful planning because 1s and 2s don't combine with themselves. This elegant mechanic creates deep strategic gameplay that's easy to learn but challenging to master!",
+    "objectives": "Slide tiles to combine numbers and create the highest possible value. Combine 1 and 2 to make 3, then merge matching numbers (3+3, 6+6, 12+12, etc.) to grow your tiles. Achieve the highest score before the board fills up!",
     "howToPlay": "Swipe to slide all tiles. Combine 1 and 2 to make 3. Match same numbers (3+3, 6+6, etc.) to merge. New tiles appear after each move.",
+    "rules": {
+      "controls": "Swipe or use arrow keys to slide all tiles in that direction. Tiles slide as far as possible until they hit another tile or the wall. Merges happen when compatible tiles collide.",
+      "mechanics": [
+        "1 + 2 = 3 (only way to create 3s)",
+        "Matching numbers merge (3+3, 6+6, etc.)",
+        "New tiles appear after each move",
+        "Game ends when board is full",
+        "Score based on tile values"
+      ],
+      "features": [
+        "Unique Merging - 1+2=3 system",
+        "Next Tile Preview - Plan ahead",
+        "Strategic Depth - Complex decisions",
+        "High Score Challenge - Beat your best"
+      ]
+    },
     "tips": [
       "Always keep 1s and 2s adjacent to combine them",
       "Build high numbers in corners",
       "Plan moves to avoid trapping small numbers",
       "The next tile preview helps you plan"
+    ],
+    "faq": [
+      {
+        "question": "How is Threes different from 2048?",
+        "answer": "Threes uses a unique 1+2=3 merging system, while 2048 allows any matching numbers to combine. Threes also shows the next tile preview and has more strategic depth due to the 1/2 mechanic."
+      },
+      {
+        "question": "What's the highest possible tile?",
+        "answer": "In theory, there's no limit! Players have reached tiles in the millions. However, achieving extremely high tiles requires perfect play and significant luck with tile placement."
+      },
+      {
+        "question": "Should I prioritize combining 1s and 2s?",
+        "answer": "Yes! Unlike other numbers, 1s and 2s can ONLY combine with each other. If they get trapped or separated, you lose the ability to create new 3s. Always keep them accessible."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Keep your highest tile in a corner and build around it. Keep 1s and 2s adjacent to each other. Use the next tile preview to plan. Avoid filling the board by always leaving merge opportunities."
+      }
     ]
   },
   "zh": {
     "name": "三消",
     "desc": "原创滑动数字谜题！滑动方块合并相同数字。1+2=3，然后将3合成6，6合成12，以此类推。令人上瘾的策略游戏！",
+    "description": "三消是启发整个2048流派的获奖益智游戏！在网格上滑动编号的方块来合并它们——1+2变成3，然后匹配的数字合并（3+3=6, 6+6=12等）。与简单的加法游戏不同，三消需要仔细规划，因为1和2不能与自己结合。这个优雅的机制创造了深刻的战略游戏玩法，易学但难精！",
+    "objectives": "滑动方块合并数字并创造尽可能高的数值。将1和2合并成3，然后合并匹配的数字（3+3, 6+6, 12+12等）来增长你的方块。在棋盘填满之前获得最高分！",
     "howToPlay": "滑动方块合并相邻的相同数字。1和2合并成3。然后3+3=6，6+6=12等。最高数字优先保留在角落。",
+    "rules": {
+      "controls": "滑动或使用方向键在该方向滑动所有方块。方块尽可能滑动直到碰到另一个方块或墙壁。当兼容的方块碰撞时发生合并。",
+      "mechanics": [
+        "1 + 2 = 3（创造3的唯一方式）",
+        "匹配数字合并（3+3, 6+6等）",
+        "每次移动后出现新方块",
+        "棋盘填满时游戏结束",
+        "得分基于方块值"
+      ],
+      "features": [
+        "独特合并 - 1+2=3系统",
+        "下一个方块预览 - 提前计划",
+        "战略深度 - 复杂决策",
+        "高分挑战 - 打败你的最佳"
+      ]
+    },
     "tips": [
       "优先合并1和2配对",
       "保持最高方块在角落",
       "避免填满棋盘",
       "规划你的移动以创建合并机会"
+    ],
+    "faq": [
+      {
+        "question": "三消与2048有什么不同？",
+        "answer": "三消使用独特的1+2=3合并系统，而2048允许任何匹配的数字合并。三消还显示下一个方块预览，由于1/2机制具有更多战略深度。"
+      },
+      {
+        "question": "最高可能的方块是什么？",
+        "answer": "理论上，没有限制！玩家已经达到数百万的方块。然而，达到极高的方块需要完美的发挥和方块放置的运气。"
+      },
+      {
+        "question": "我应该优先合并1和2吗？",
+        "answer": "是的！与其他数字不同，1和2只能彼此合并。如果它们被困住或分开，你就失去了创造新3的能力。始终保持它们可访问。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "保持你的最高方块在角落，围绕它构建。保持1和2彼此相邻。使用下一个方块预览来计划。通过始终留有合并机会来避免填满棋盘。"
+      }
     ]
   }
 }

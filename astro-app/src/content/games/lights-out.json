@@ -7,23 +7,95 @@
   "en": {
     "name": "Lights Out",
     "desc": "Turn off all the lights! Clicking a light toggles it and its neighbors. Find the pattern to extinguish every light on the grid. Simple but challenging!",
+    "description": "Lights Out is the classic puzzle game that challenges your logical thinking! A grid of lights is randomly illuminated, and clicking any light toggles it along with its four neighbors (up, down, left, right). Your goal is simple: turn off ALL the lights. But the ripple effect of each click makes this a brain-bending challenge. Every puzzle has a solution—can you find it?",
+    "objectives": "Turn off all lights on the grid. Click on lights to toggle them and their adjacent neighbors. Find the correct sequence of clicks to extinguish every light on the board. Each puzzle has exactly one solution!",
     "howToPlay": "Click a cell to toggle it and its adjacent neighbors (up, down, left, right). The goal is to turn all lights off. Each puzzle has a solution!",
+    "rules": {
+      "controls": "Click on any cell to toggle that cell and its four adjacent neighbors (not diagonals). Lights that are on turn off, and lights that are off turn on. The goal is all lights off.",
+      "mechanics": [
+        "Click toggles clicked cell + neighbors",
+        "Only orthogonal neighbors affected",
+        "All puzzles have a solution",
+        "Order of clicks matters",
+        "Clicking same cell twice cancels out"
+      ],
+      "features": [
+        "Logic Puzzle - Pure reasoning",
+        "Multiple Grid Sizes - Various difficulties",
+        "Unique Solutions - One correct answer",
+        "Brain Training - Pattern recognition"
+      ]
+    },
     "tips": [
       "Work from top to bottom systematically",
       "Never click the same cell twice",
       "The bottom row is determined by the rows above",
       "Some patterns require specific sequences"
+    ],
+    "faq": [
+      {
+        "question": "Is there always a solution?",
+        "answer": "Yes! Every Lights Out puzzle has exactly one solution. In fact, there's a mathematical method called the 'light-chasing' technique that can solve any puzzle systematically."
+      },
+      {
+        "question": "What's the best solving strategy?",
+        "answer": "Use 'light chasing': Work from top to bottom. For each row, click the cells below any lights that are on. This 'chases' all lights to the bottom row, which you then solve with the correct pattern."
+      },
+      {
+        "question": "Does clicking a cell twice help?",
+        "answer": "No! Clicking a cell twice returns it to its original state, making your second click wasted. An efficient solution never clicks the same cell more than once."
+      },
+      {
+        "question": "Is Lights Out mathematical?",
+        "answer": "Yes! Lights Out is essentially linear algebra over the field GF(2). Each cell is a variable, each click is an equation. The solution is found through matrix operations—though humans solve it intuitively!"
+      }
     ]
   },
   "zh": {
     "name": "熄灯游戏",
     "desc": "关闭所有灯！点击一盏灯会切换它和相邻灯的状态。找到规律熄灭网格上的每一盏灯。简单却充满挑战！",
+    "description": "熄灯游戏是挑战你逻辑思维的经典益智游戏！一网格的灯被随机点亮，点击任何灯会切换它和它的四个邻居（上、下、左、右）。你的目标很简单：关闭所有的灯。但每次点击的涟漪效应使这成为一个脑筋急转弯的挑战。每个谜题都有解决方案——你能找到它吗？",
+    "objectives": "关闭网格上的所有灯。点击灯来切换它们和它们相邻的邻居。找到正确的点击序列来熄灭棋盘上的每一盏灯。每个谜题都只有一个解决方案！",
     "howToPlay": "点击格子来切换它和相邻格子（上下左右）的状态。亮灯变灭，灭灯变亮。当所有灯都关闭时获胜！",
+    "rules": {
+      "controls": "点击任何格子来切换该格子和它的四个相邻邻居（不是对角线）。开着的灯关闭，关着的灯打开。目标是所有灯都关闭。",
+      "mechanics": [
+        "点击切换被点击的格子 + 邻居",
+        "只影响正交邻居",
+        "所有谜题都有解决方案",
+        "点击顺序很重要",
+        "点击同一格子两次会相互抵消"
+      ],
+      "features": [
+        "逻辑谜题 - 纯推理",
+        "多种网格大小 - 各种难度",
+        "独特解决方案 - 一个正确答案",
+        "大脑训练 - 模式识别"
+      ]
+    },
     "tips": [
       "逐行解决，从顶部开始",
       "记住点击顺序很重要",
       "某些格子是必须点击的关键格子",
       "如果你卡住了，重新考虑你的策略"
+    ],
+    "faq": [
+      {
+        "question": "总是有解决方案吗？",
+        "answer": "是的！每个熄灯游戏谜题都只有一个解决方案。事实上，有一种叫做'追光'的数学方法可以系统地解决任何谜题。"
+      },
+      {
+        "question": "最佳解决策略是什么？",
+        "answer": "使用'追光法'：从上到下工作。对于每一行，点击任何亮着的灯下面的格子。这将所有灯'追赶'到底行，然后用正确的模式解决。"
+      },
+      {
+        "question": "点击同一格子两次有帮助吗？",
+        "answer": "没有！点击同一格子两次会返回到原始状态，使你的第二次点击浪费。高效的解决方案从不点击同一格子超过一次。"
+      },
+      {
+        "question": "熄灯游戏是数学的吗？",
+        "answer": "是的！熄灯游戏本质上是GF(2)域上的线性代数。每个格子是一个变量，每次点击是一个方程。解决方案通过矩阵运算找到——尽管人类凭直觉解决它！"
+      }
     ]
   }
 }

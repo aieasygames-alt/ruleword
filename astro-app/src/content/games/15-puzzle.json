@@ -7,23 +7,95 @@
   "en": {
     "name": "15 Puzzle",
     "desc": "The classic sliding tile puzzle! Arrange numbered tiles from 1 to 15 in order by sliding them into the empty space. Test your spatial reasoning skills.",
+    "description": "The 15 Puzzle is the iconic sliding tile puzzle that has challenged minds since the 1880s! Fifteen numbered tiles sit in a 4×4 grid with one empty space. Slide tiles into the gap one at a time, working to arrange them in numerical order from 1 to 15. Simple rules but deep strategy—this timeless brain teaser exercises spatial reasoning, planning, and problem-solving skills!",
+    "objectives": "Arrange all 15 numbered tiles in sequential order from 1 to 15, with the empty space in the bottom-right corner. Slide tiles strategically into the gap, planning several moves ahead to achieve the correct arrangement.",
     "howToPlay": "Click a tile adjacent to the empty space to slide it. Arrange all tiles in numerical order from 1-15, with the empty space in the bottom right.",
+    "rules": {
+      "controls": "Click or tap any tile adjacent to the empty space to slide that tile into the gap. Only tiles directly next to the empty space can move. Continue sliding until all numbers are in order.",
+      "mechanics": [
+        "4×4 grid with 15 tiles + 1 empty",
+        "Only adjacent tiles can slide",
+        "Goal: Numbers 1-15 in order",
+        "Empty space ends at bottom-right",
+        "Moves tracked for scoring"
+      ],
+      "features": [
+        "Classic Design - Timeless puzzle",
+        "Move Counter - Track efficiency",
+        "Timer Mode - Race for best time",
+        "Shuffle Difficulty - Easy to hard"
+      ]
+    },
     "tips": [
       "Solve the top row first, then work down",
       "Don't worry about the last two numbers in a row until the end",
       "Learn the \"rotation\" technique for moving tiles",
       "Practice the final 2x3 section repeatedly"
+    ],
+    "faq": [
+      {
+        "question": "Is every 15 Puzzle solvable?",
+        "answer": "No! Half of all random arrangements are unsolvable. The puzzle is solvable only if the number of inversions (pairs out of order) is even. All puzzles in games are pre-shuffled to be solvable."
+      },
+      {
+        "question": "What's the best solving strategy?",
+        "answer": "Work row by row from top to bottom. First solve the top row (1-2-3-4), then the second row (5-6-7-8), then solve the remaining 2×3 section using rotation techniques."
+      },
+      {
+        "question": "How many moves does it take to solve?",
+        "answer": "Any solvable position can be solved in 80 moves or fewer. Optimal solutions (fewest possible moves) are much harder to find than just solving the puzzle. Most people take 100+ moves."
+      },
+      {
+        "question": "Why is the 15 Puzzle famous?",
+        "answer": "Created in 1874, it became a worldwide craze in 1880. Sam Loyd famously offered a $1,000 prize for solving an unsolvable variant! It's considered one of the greatest puzzles of all time."
+      }
     ]
   },
   "zh": {
     "name": "数字推盘",
     "desc": "经典滑块谜题！通过滑动将数字方块从1到15按顺序排列。测试你的空间推理能力。",
+    "description": "数字推盘是自1880年代以来挑战心智的标志性滑块谜题！十五个编号的方块放在4×4网格中，有一个空位。一次将方块滑入间隙，努力按数字顺序从1到15排列它们。规则简单但策略深刻——这款永恒的脑筋急转弯锻炼空间推理、规划和解决问题的技能！",
+    "objectives": "将所有15个编号方块按从1到15的顺序排列，空位在右下角。策略性地将方块滑入间隙，提前计划几步来实现正确的排列。",
     "howToPlay": "点击与空格相邻的方块将其滑动到空格。将数字按从左到右、从上到下的顺序排列（1-15）。最后一个格子应该是空的。",
+    "rules": {
+      "controls": "点击或轻触与空位相邻的任何方块将该方块滑入间隙。只有直接在空位旁边的方块才能移动。继续滑动直到所有数字按顺序排列。",
+      "mechanics": [
+        "4×4网格有15个方块 + 1个空位",
+        "只有相邻的方块可以滑动",
+        "目标：数字1-15按顺序",
+        "空位最终在右下角",
+        "移动次数追踪得分"
+      ],
+      "features": [
+        "经典设计 - 永恒谜题",
+        "移动计数器 - 追踪效率",
+        "计时模式 - 争夺最佳时间",
+        "洗牌难度 - 从易到难"
+      ]
+    },
     "tips": [
       "先解决第一行，然后第二行",
       "将方块移动到目标位置附近",
       "耐心规划——不要随意滑动",
       "使用标准算法解决最后两层"
+    ],
+    "faq": [
+      {
+        "question": "每个数字推盘都可以解决吗？",
+        "answer": "不是！一半的随机排列是无法解决的。只有当逆序数（乱序对）是偶数时，谜题才是可解的。游戏中的所有谜题都预先洗牌确保可解。"
+      },
+      {
+        "question": "最佳解决策略是什么？",
+        "answer": "从上到下逐行工作。首先解决第一行（1-2-3-4），然后第二行（5-6-7-8），然后使用旋转技巧解决剩余的2×3部分。"
+      },
+      {
+        "question": "需要多少步才能解决？",
+        "answer": "任何可解的位置都可以在80步或更少步内解决。最优解（可能的最少步数）比仅仅解决谜题更难找到。大多数人需要100+步。"
+      },
+      {
+        "question": "为什么数字推盘如此著名？",
+        "answer": "创建于1874年，它在1880年成为世界性狂热。Sam Loyd著名地为解决一个不可解的变体提供1,000美元奖金！它被认为是有史以来最伟大的谜题之一。"
+      }
     ]
   }
 }

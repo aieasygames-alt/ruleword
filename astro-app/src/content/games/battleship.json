@@ -7,24 +7,96 @@
   "color": "from-blue-600 to-indigo-700",
   "en": {
     "name": "Battleship",
-    "desc": "Naval warfare strategy! Place your fleet and guess enemy positions. First to sink all opponent ships wins. The classic guessing game with a military twist!",
+    "desc": "Naval combat strategy game",
+    "description": "Battleship is the classic naval combat strategy game that has been a favorite since its pencil-and-paper origins in the 1930s! Command a fleet of warships and engage in tactical warfare against an opponent. Place your ships strategically on your grid, then take turns firing salvos at enemy coordinates. Use logic and deduction to locate and destroy the enemy fleet before they sink yours! The tension builds with each shot—will you hit or miss?",
+    "objectives": "Sink all five enemy ships before your own fleet is destroyed. Place your ships strategically to maximize survivability, then use logical deduction based on hit patterns to efficiently hunt down the enemy fleet.",
     "howToPlay": "First place your ships on your board (click to place, button to rotate). Then click enemy board to fire. Red = hit, Blue = miss. Sink all enemy ships to win!",
+    "rules": {
+      "controls": "Click on your board to place ships (use rotate button for horizontal/vertical). Click on enemy board squares to fire. Red markers indicate hits, blue indicate misses.",
+      "mechanics": [
+        "Each player has 5 ships of different sizes (5, 4, 3, 3, 2 cells)",
+        "Ships can be placed horizontally or vertically",
+        "Ships cannot overlap or be adjacent to each other",
+        "Take turns firing at opponent's grid coordinates",
+        "First to sink all enemy ships wins"
+      ],
+      "features": [
+        "Fleet Placement - Strategic ship positioning",
+        "Hit Tracking - Visual feedback on shots",
+        "Ship Status - Monitor your fleet's condition",
+        "AI Opponent - Single player naval combat"
+      ]
+    },
     "tips": [
-      "Spread out your shots initially",
-      "After a hit, fire adjacent cells to find ship direction",
-      "Place ships in unpredictable patterns",
-      "Remember the ship sizes to track what's left"
+      "Spread out your initial shots in a checkerboard pattern",
+      "After a hit, fire adjacent cells to determine ship direction",
+      "Place ships in unpredictable patterns, avoid edges",
+      "Remember ship sizes to track what's left to find"
+    ],
+    "faq": [
+      {
+        "question": "What's the best strategy for placing ships?",
+        "answer": "Avoid predictable patterns like edges or corners. Space ships apart with at least one empty cell between them. Some players prefer placing ships near each other to confuse opponents."
+      },
+      {
+        "question": "How do I efficiently find ships?",
+        "answer": "Use a checkerboard pattern for initial shots—since no ship is smaller than 2 cells, this ensures you'll find something. Then focus on each hit."
+      },
+      {
+        "question": "What should I do after getting a hit?",
+        "answer": "Fire adjacent to the hit to determine the ship's direction. Once you know the orientation, continue in that line until the ship is sunk."
+      },
+      {
+        "question": "Why space ships apart?",
+        "answer": "If ships are adjacent, a lucky shot in the middle could reveal multiple ships. Spacing them forces your opponent to find each one separately."
+      }
     ]
   },
   "zh": {
     "name": "战舰",
-    "desc": "海军战争策略！部署舰队并猜测敌方位置。先击沉所有敌方战舰者获胜。经典猜测游戏的军事版！",
+    "desc": "经典海军作战策略游戏",
+    "description": "战舰是自1930年代纸笔版本以来就深受喜爱的经典海军作战策略游戏！指挥一支战舰舰队与对手进行战术战争。在你的网格上战略性地放置战舰，然后轮流向敌方坐标开火。利用逻辑和推理根据命中模式定位并摧毁敌方舰队！每一次射击都增加紧张感——会命中还是落空？",
+    "objectives": "在自己的舰队被摧毁前击沉所有五艘敌舰。战略性放置战舰以最大化生存能力，然后根据命中模式使用逻辑推理高效追踪敌方舰队。",
     "howToPlay": "首先在你的棋盘上放置战舰（点击放置，按钮旋转）。然后点击敌方棋盘开火。红色=命中，蓝色=未中。击沉所有敌方战舰获胜！",
+    "rules": {
+      "controls": "点击你的棋盘放置战舰（使用旋转按钮切换水平/垂直）。点击敌方棋盘格子开火。红色标记表示命中，蓝色表示未中。",
+      "mechanics": [
+        "每方有5艘不同大小的战舰（5、4、3、3、2格）",
+        "战舰可以水平或垂直放置",
+        "战舰不能重叠或相邻",
+        "轮流向对手的网格坐标开火",
+        "首先击沉所有敌方战舰者获胜"
+      ],
+      "features": [
+        "舰队部署 - 战略性战舰定位",
+        "命中追踪 - 射击视觉反馈",
+        "战舰状态 - 监控你的舰队状况",
+        "AI对手 - 单人海军作战"
+      ]
+    },
     "tips": [
-      "起初分散你的射击",
-      "命中后，向相邻格子开火以找出战舰方向",
-      "以不可预测的模式放置战舰",
-      "记住战舰大小以追踪剩余战舰"
+      "以棋盘格模式分散初始射击",
+      "命中后，向相邻格子开火以确定战舰方向",
+      "以不可预测的模式放置战舰，避免边缘",
+      "记住战舰大小以追踪还有多少需要找到"
+    ],
+    "faq": [
+      {
+        "question": "放置战舰的最佳策略是什么？",
+        "answer": "避免可预测的模式如边缘或角落。战舰之间至少留一格空隙。有些玩家喜欢把战舰放得很近来迷惑对手。"
+      },
+      {
+        "question": "如何高效找到战舰？",
+        "answer": "使用棋盘格模式进行初始射击——因为没有战舰小于2格，这确保你会找到些什么。然后专注于每个命中。"
+      },
+      {
+        "question": "命中后应该怎么做？",
+        "answer": "向命中位置相邻开火以确定战舰方向。一旦知道方向，继续沿线射击直到战舰沉没。"
+      },
+      {
+        "question": "为什么要间隔放置战舰？",
+        "answer": "如果战舰相邻，中间的幸运命中可能揭示多艘战舰。间隔放置迫使对手分别找到每一艘。"
+      }
     ]
   }
 }

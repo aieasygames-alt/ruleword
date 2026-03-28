@@ -7,23 +7,95 @@
   "en": {
     "name": "Checkers",
     "desc": "The classic board game of kings! Jump over opponent pieces to capture them. Reach the opposite end to become a king. Simple rules, endless fun!",
+    "description": "Checkers (also known as Draughts) is the classic two-player strategy board game that has been played for centuries! Two armies of twelve pieces each face off on an 8×8 board, moving diagonally and capturing opponents by jumping over them. When your piece reaches the opposite end of the board, it becomes a King with enhanced movement abilities. Simple to learn yet containing deep strategic elements, Checkers offers endless replayability!",
+    "objectives": "Capture all of your opponent's pieces or block them so they cannot move. Advance your pieces across the board to reach the opposite end and become Kings. Use strategic positioning and forced capture rules to outmaneuver your opponent!",
     "howToPlay": "Click a piece to select, then click a valid square to move. Regular pieces move diagonally forward. Jump over opponent pieces to capture them. Kings can move backward.",
+    "rules": {
+      "controls": "Click on a piece to select it, then click on a highlighted valid square to move. Moves are diagonal on dark squares only. When a jump is available, you must take it.",
+      "mechanics": [
+        "Pieces move diagonally forward",
+        "Capture by jumping over opponent",
+        "Multiple jumps in one turn possible",
+        "Reach far end to become King",
+        "Kings move diagonally in any direction"
+      ],
+      "features": [
+        "Two-Player Mode - Play against a friend",
+        "AI Opponent - Challenge the computer",
+        "King Promotion - Enhanced piece abilities",
+        "Forced Captures - Strategic depth"
+      ]
+    },
     "tips": [
       "Control the center of the board",
       "Protect your back row to prevent opponent Kings",
       "Look for double and triple jump opportunities",
       "Advance pieces together rather than isolated"
+    ],
+    "faq": [
+      {
+        "question": "How do pieces become Kings?",
+        "answer": "When one of your regular pieces reaches the opposite end of the board (your opponent's back row), it is crowned and becomes a King. Kings are typically marked with a double piece or special indicator and can move diagonally in any direction."
+      },
+      {
+        "question": "Do I have to capture if I can?",
+        "answer": "Yes! In standard Checkers rules, if a capture is available, you must take it. This creates strategic opportunities to force your opponent into disadvantageous positions."
+      },
+      {
+        "question": "Can I make multiple jumps in one turn?",
+        "answer": "Yes! If after capturing a piece you're in position to capture another, you must continue jumping. This can lead to double, triple, or even longer capture sequences."
+      },
+      {
+        "question": "What's the best strategy for beginners?",
+        "answer": "Focus on controlling the center, keep your pieces protected by forming diagonal chains, and don't rush to make Kings at the expense of position. Patience and piece coordination win games!"
+      }
     ]
   },
   "zh": {
     "name": "跳棋",
     "desc": "经典的跳棋游戏！跳过对手的棋子将其吃掉。到达对岸升级为王。简单规则，无尽乐趣！",
+    "description": "跳棋（也称为国际跳棋）是已经玩了几个世纪的经典双人策略棋盘游戏！两支各十二个棋子的军队在8×8棋盘上对峙，斜向移动，通过跳过对手来吃子。当你的棋子到达棋盘的另一端时，它成为具有增强移动能力的王。简单易学但包含深刻的战略元素，跳棋提供无尽的重玩性！",
+    "objectives": "吃掉对手所有的棋子或阻挡它们使其无法移动。将你的棋子推进到棋盘对面到达终点成为王。利用战略定位和强制吃子规则来战胜对手！",
     "howToPlay": "点击棋子选择，然后点击目标格子移动。斜向向前移动到空格子。跳过对方棋子吃掉它们（强制跳）。到达对方底线升变为王，可以向后移动。",
+    "rules": {
+      "controls": "点击棋子选择它，然后点击高亮的有效格子移动。只能在深色格子上斜向移动。当有跳吃可用时，你必须执行。",
+      "mechanics": [
+        "棋子斜向向前移动",
+        "通过跳过对手吃子",
+        "一回合可以多重跳",
+        "到达远端成为王",
+        "王可以向任何方向斜向移动"
+      ],
+      "features": [
+        "双人对战模式 - 与朋友一起玩",
+        "AI对手 - 挑战电脑",
+        "王升变 - 增强的棋子能力",
+        "强制吃子 - 战略深度"
+      ]
+    },
     "tips": [
       "控制中心位置以获得更多移动选择",
       "保持你的棋子在一起形成防御",
       "优先升变棋子而不是吃子",
       "设置多重跳跃以获得更大收益"
+    ],
+    "faq": [
+      {
+        "question": "棋子如何成为王？",
+        "answer": "当你的普通棋子到达棋盘的另一端（对手的后排）时，它被加冕成为王。王通常用双棋子或特殊标记表示，可以向任何方向斜向移动。"
+      },
+      {
+        "question": "如果可以吃子我必须吃吗？",
+        "answer": "是的！在标准跳棋规则中，如果有吃子可用，你必须执行。这创造了迫使对手进入不利位置的战略机会。"
+      },
+      {
+        "question": "我可以在一回合中多重跳吗？",
+        "answer": "是的！如果吃掉一个棋子后你有位置吃另一个，你必须继续跳。这可能导致双重、三重甚至更长的吃子序列。"
+      },
+      {
+        "question": "初学者的最佳策略是什么？",
+        "answer": "专注于控制中心，通过形成斜向链来保护你的棋子，不要急于以牺牲位置为代价来制造王。耐心和棋子协调赢得比赛！"
+      }
     ]
   }
 }

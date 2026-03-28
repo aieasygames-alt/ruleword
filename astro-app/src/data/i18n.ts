@@ -49,6 +49,13 @@ export const i18n: Record<Language, {
     howToPlay: string
     tips: string
     viewGuide: string
+    about: string
+    objectives: string
+    controls: string
+    mechanics: string
+    features: string
+    faq: string
+    source: string
   }
   feedback: {
     title: string
@@ -90,7 +97,7 @@ export const i18n: Record<Language, {
       feature6Title: 'Always Growing', feature6Desc: 'New games added regularly. Fresh challenges await you every week.',
       aboutDesc: 'RuleWord is your ultimate destination for free online puzzle games. We believe gaming should be simple, joyful, and accessible to everyone.',
     },
-    game: { loading: 'Loading', error: 'Error', backToHome: 'Back to Home', howToPlay: 'How to Play', tips: 'Tips', viewGuide: 'View Game Guide' },
+    game: { loading: 'Loading', error: 'Error', backToHome: 'Back to Home', howToPlay: 'How to Play', tips: 'Tips', viewGuide: 'View Game Guide', about: 'About', objectives: 'Objectives', controls: 'Controls', mechanics: 'Game Mechanics', features: 'Features', faq: 'Frequently Asked Questions', source: 'Source' },
     feedback: {
       title: 'Feedback', type: 'Type', bugReport: 'Bug Report', featureRequest: 'Feature Request',
       gameFeedback: 'Game Feedback', other: 'Other', message: 'Message', messagePlaceholder: 'Describe your feedback...',
@@ -115,7 +122,7 @@ export const i18n: Record<Language, {
       feature6Title: 'Toujours en Croissance', feature6Desc: 'Nouveaux jeux ajoutés régulièrement.',
       aboutDesc: 'RuleWord est votre destination ultime pour les jeux de puzzle en ligne gratuits.',
     },
-    game: { loading: 'Chargement', error: 'Erreur', backToHome: "Retour à l'accueil", howToPlay: 'Comment Jouer', tips: 'Conseils', viewGuide: 'Voir le Guide' },
+    game: { loading: 'Chargement', error: 'Erreur', backToHome: "Retour à l'accueil", howToPlay: 'Comment Jouer', tips: 'Conseils', viewGuide: 'Voir le Guide', about: 'À Propos', objectives: 'Objectifs', controls: 'Contrôles', mechanics: 'Mécaniques de Jeu', features: 'Fonctionnalités', faq: 'Questions Fréquentes', source: 'Source' },
     feedback: {
       title: 'Commentaires', type: 'Type', bugReport: 'Rapport de Bug', featureRequest: 'Demande de Fonctionnalité',
       gameFeedback: 'Retour sur le Jeu', other: 'Autre', message: 'Message', messagePlaceholder: 'Décrivez vos commentaires...',
@@ -140,7 +147,7 @@ export const i18n: Record<Language, {
       feature6Title: 'Ständiges Wachstum', feature6Desc: 'Regelmäßig neue Spiele.',
       aboutDesc: 'RuleWord ist Ihre ultimative Anlaufstelle für kostenlose Online-Puzzlespiele.',
     },
-    game: { loading: 'Laden', error: 'Fehler', backToHome: 'Zurück zur Startseite', howToPlay: 'Spielanleitung', tips: 'Tipps', viewGuide: 'Spielanleitung Anzeigen' },
+    game: { loading: 'Laden', error: 'Fehler', backToHome: 'Zurück zur Startseite', howToPlay: 'Spielanleitung', tips: 'Tipps', viewGuide: 'Spielanleitung Anzeigen', about: 'Über', objectives: 'Ziele', controls: 'Steuerung', mechanics: 'Spielmechanik', features: 'Funktionen', faq: 'Häufig Gestellte Fragen', source: 'Quelle' },
     feedback: {
       title: 'Feedback', type: 'Typ', bugReport: 'Fehlerbericht', featureRequest: 'Funktionswunsch',
       gameFeedback: 'Spiel-Feedback', other: 'Sonstiges', message: 'Nachricht', messagePlaceholder: 'Beschreiben Sie Ihr Feedback...',
@@ -165,7 +172,7 @@ export const i18n: Record<Language, {
       feature6Title: 'Siempre Creciendo', feature6Desc: 'Nuevos juegos añadidos regularmente.',
       aboutDesc: 'RuleWord es tu destino definitivo para juegos de puzzle en línea gratuitos.',
     },
-    game: { loading: 'Cargando', error: 'Error', backToHome: 'Volver al Inicio', howToPlay: 'Cómo Jugar', tips: 'Consejos', viewGuide: 'Ver Guía del Juego' },
+    game: { loading: 'Cargando', error: 'Error', backToHome: 'Volver al Inicio', howToPlay: 'Cómo Jugar', tips: 'Consejos', viewGuide: 'Ver Guía del Juego', about: 'Acerca de', objectives: 'Objetivos', controls: 'Controles', mechanics: 'Mecánicas del Juego', features: 'Características', faq: 'Preguntas Frecuentes', source: 'Fuente' },
     feedback: {
       title: 'Comentarios', type: 'Tipo', bugReport: 'Informe de Error', featureRequest: 'Solicitud de Función',
       gameFeedback: 'Comentarios del Juego', other: 'Otro', message: 'Mensaje', messagePlaceholder: 'Describe tus comentarios...',
@@ -190,7 +197,7 @@ export const i18n: Record<Language, {
       feature6Title: 'Постоянное Развитие', feature6Desc: 'Новые игры добавляются регулярно.',
       aboutDesc: 'RuleWord — ваш главный центр бесплатных онлайн-головоломок.',
     },
-    game: { loading: 'Загрузка', error: 'Ошибка', backToHome: 'Вернуться на главную', howToPlay: 'Как Играть', tips: 'Советы', viewGuide: 'Смотреть Руководство' },
+    game: { loading: 'Загрузка', error: 'Ошибка', backToHome: 'Вернуться на главную', howToPlay: 'Как Играть', tips: 'Советы', viewGuide: 'Смотреть Руководство', about: 'О Игре', objectives: 'Цели', controls: 'Управление', mechanics: 'Механика Игры', features: 'Особенности', faq: 'Часто Задаваемые Вопросы', source: 'Источник' },
     feedback: {
       title: 'Обратная связь', type: 'Тип', bugReport: 'Сообщение об ошибке', featureRequest: 'Запрос функции',
       gameFeedback: 'Отзыв об игре', other: 'Другое', message: 'Сообщение', messagePlaceholder: 'Опишите ваш отзыв...',
@@ -215,7 +222,7 @@ export const i18n: Record<Language, {
       feature6Title: '常に進化', feature6Desc: '定期的に新ゲームを追加。',
       aboutDesc: 'RuleWordは無料オンラインパズルゲームの究極の目的地です。',
     },
-    game: { loading: '読み込み中', error: 'エラー', backToHome: 'ホームに戻る', howToPlay: '遊び方', tips: 'ヒント', viewGuide: 'ゲームガイドを見る' },
+    game: { loading: '読み込み中', error: 'エラー', backToHome: 'ホームに戻る', howToPlay: '遊び方', tips: 'ヒント', viewGuide: 'ゲームガイドを見る', about: '概要', objectives: '目標', controls: '操作方法', mechanics: 'ゲームメカニクス', features: '機能', faq: 'よくある質問', source: 'ソース' },
     feedback: {
       title: 'フィードバック', type: '種類', bugReport: 'バグ報告', featureRequest: '機能リクエスト',
       gameFeedback: 'ゲームの感想', other: 'その他', message: 'メッセージ', messagePlaceholder: 'フィードバックを詳しくご記入ください...',
@@ -240,7 +247,7 @@ export const i18n: Record<Language, {
       feature6Title: '持續更新', feature6Desc: '定期添加新遊戲,每週都有新挑戰等你來體驗。',
       aboutDesc: 'RuleWord 是您免費線上益智遊戲的終極目的地。',
     },
-    game: { loading: '載入中', error: '錯誤', backToHome: '返回首頁', howToPlay: '遊戲說明', tips: '技巧提示', viewGuide: '查看遊戲指南' },
+    game: { loading: '載入中', error: '錯誤', backToHome: '返回首頁', howToPlay: '遊戲說明', tips: '技巧提示', viewGuide: '查看遊戲指南', about: '關於', objectives: '目標', controls: '操作方式', mechanics: '遊戲機制', features: '特色功能', faq: '常見問題', source: '來源' },
     feedback: {
       title: '意見反饋', type: '類型', bugReport: '錯誤報告', featureRequest: '功能請求',
       gameFeedback: '遊戲反饋', other: '其他', message: '訊息', messagePlaceholder: '詳細描述您的意見...',
@@ -265,7 +272,7 @@ export const i18n: Record<Language, {
       feature6Title: '持续更新', feature6Desc: '定期添加新游戏,每周都有新挑战等你来体验。',
       aboutDesc: 'RuleWord 是您免费在线益智游戏的终极目的地。',
     },
-    game: { loading: '加载中', error: '错误', backToHome: '返回首页', howToPlay: '游戏说明', tips: '技巧提示', viewGuide: '查看游戏指南' },
+    game: { loading: '加载中', error: '错误', backToHome: '返回首页', howToPlay: '游戏说明', tips: '技巧提示', viewGuide: '查看游戏指南', about: '关于', objectives: '目标', controls: '操作方式', mechanics: '游戏机制', features: '特色功能', faq: '常见问题', source: '来源' },
     feedback: {
       title: '意见反馈', type: '类型', bugReport: '错误报告', featureRequest: '功能请求',
       gameFeedback: '游戏反馈', other: '其他', message: '内容', messagePlaceholder: '详细描述您的意见...',

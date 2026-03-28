@@ -7,24 +7,96 @@
   "color": "from-pink-500 to-rose-600",
   "en": {
     "name": "2048 Cupcakes",
-    "desc": "A delicious twist on the classic 2048 game! Combine matching cupcakes to create new flavors. Can you reach the Rainbow cupcake?",
+    "desc": "Combine matching cupcakes to create new flavors",
+    "description": "2048 Cupcakes is a delicious twist on the viral puzzle sensation! Instead of numbers, you're combining adorable cupcakes to create increasingly elaborate treats. When two matching cupcakes collide, they merge into a more delicious version! Start with simple vanilla and chocolate, work your way up to exotic flavors, and try to reach the legendary Rainbow cupcake. Same addictive gameplay, sweeter presentation!",
+    "objectives": "Slide cupcakes to merge matching pairs and create new, more elaborate cupcake varieties. Reach the Rainbow cupcake (2048) to win! Keep the board from filling up and maximize your score through strategic merges.",
     "howToPlay": "Use Arrow Keys or the buttons to slide all cupcakes in one direction. When two cupcakes of the same type collide, they merge into a better cupcake. Reach the Rainbow (2048) to win!",
+    "rules": {
+      "controls": "Use arrow keys (or swipe on mobile) to slide all cupcakes in that direction. All cupcakes move as far as possible until they hit a wall or another cupcake.",
+      "mechanics": [
+        "Matching cupcakes merge when they collide",
+        "Each merge creates a higher-tier cupcake",
+        "New cupcakes spawn after each move",
+        "Game ends when no moves are possible",
+        "Goal: Create the Rainbow cupcake (2048)"
+      ],
+      "features": [
+        "Cupcake Progression - 12 delicious tiers",
+        "Score Tracking - Compete for high scores",
+        "Undo Option - Fix mistakes (limited uses)",
+        "Adorable Graphics - Sweet visual theme"
+      ]
+    },
     "tips": [
       "Keep your highest cupcakes in a corner",
       "Build along one edge when possible",
       "Plan ahead to avoid blocking yourself",
       "Don't fill up the board completely!"
+    ],
+    "faq": [
+      {
+        "question": "What's the highest cupcake?",
+        "answer": "The Rainbow cupcake (2048) is the classic goal, but dedicated players can continue to 4096 and beyond! Each tier has a unique cupcake design."
+      },
+      {
+        "question": "Is this harder than regular 2048?",
+        "answer": "The mechanics are identical—the difficulty comes from the same strategic challenge. Some players find cupcakes more engaging than numbers!"
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "The corner strategy works best: pick a corner, keep your highest cupcake there, and build in a snake pattern. Never let high-value cupcakes get trapped in the middle."
+      },
+      {
+        "question": "Can I undo moves?",
+        "answer": "Yes! Use the undo button to fix mistakes. This is helpful when learning, but purists prefer playing without it for the true challenge."
+      }
     ]
   },
   "zh": {
     "name": "2048纸杯蛋糕",
-    "desc": "经典2048游戏的甜蜜改编！组合匹配的纸杯蛋糕来创造新口味。你能达到彩虹纸杯蛋糕吗？",
+    "desc": "组合匹配的纸杯蛋糕创造新口味",
+    "description": "2048纸杯蛋糕是病毒式益智游戏的甜蜜改编！不是数字，而是组合可爱的纸杯蛋糕创造越来越精致的甜点。当两个匹配的纸杯蛋糕碰撞时，它们会合并成更美味的版本！从简单的香草和巧克力开始，逐步升级到异国风味，尝试达到传说中的彩虹纸杯蛋糕。同样令人上瘾的游戏玩法，更甜美的呈现！",
+    "objectives": "滑动纸杯蛋糕合并匹配对，创造更新颖精致的纸杯蛋糕品种。达到彩虹纸杯蛋糕(2048)获胜！保持棋盘不被填满，通过战略性合并最大化你的分数。",
     "howToPlay": "使用方向键或按钮将所有纸杯蛋糕向一个方向滑动。当两个相同类型的纸杯蛋糕碰撞时，它们会合并成更好的纸杯蛋糕。达到彩虹(2048)获胜！",
+    "rules": {
+      "controls": "使用方向键（或在手机上滑动）向该方向滑动所有纸杯蛋糕。所有纸杯蛋糕尽可能移动直到撞墙或另一个纸杯蛋糕。",
+      "mechanics": [
+        "匹配的纸杯蛋糕碰撞时合并",
+        "每次合并创建更高层次的纸杯蛋糕",
+        "每次移动后生成新纸杯蛋糕",
+        "当无法移动时游戏结束",
+        "目标：创建彩虹纸杯蛋糕(2048)"
+      ],
+      "features": [
+        "纸杯蛋糕进阶 - 12个美味层次",
+        "分数追踪 - 竞争高分",
+        "撤销选项 - 修复错误（有限使用）",
+        "可爱图形 - 甜蜜视觉主题"
+      ]
+    },
     "tips": [
       "将最高级的纸杯蛋糕保持在角落",
       "尽可能沿着一条边缘建立",
       "提前计划以避免卡住自己",
       "不要完全填满棋盘！"
+    ],
+    "faq": [
+      {
+        "question": "最高的纸杯蛋糕是什么？",
+        "answer": "彩虹纸杯蛋糕(2048)是经典目标，但专注的玩家可以继续到4096及以上！每个层次都有独特的纸杯蛋糕设计。"
+      },
+      {
+        "question": "这比普通2048难吗？",
+        "answer": "机制完全相同——难度来自相同的战略挑战。有些玩家觉得纸杯蛋糕比数字更吸引人！"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "角落策略最有效：选一个角落，保持最高纸杯蛋糕在那里，以蛇形模式建立。永远不要让高价值纸杯蛋糕被困在中间。"
+      },
+      {
+        "question": "可以撤销移动吗？",
+        "answer": "可以！使用撤销按钮修复错误。这对学习很有帮助，但纯粹主义者更喜欢不使用它来完成真正的挑战。"
+      }
     ]
   }
 }

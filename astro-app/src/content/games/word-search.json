@@ -8,23 +8,95 @@
   "en": {
     "name": "Word Search",
     "desc": "Classic word search puzzle! Find hidden words horizontally, vertically, or diagonally in a grid of letters. Great for improving pattern recognition and vocabulary skills.",
+    "description": "Word Search is the classic letter puzzle loved by millions! A grid of seemingly random letters conceals a list of hidden words waiting to be discovered. Words can be placed horizontally, vertically, diagonally, and even backwards—testing your visual scanning and pattern recognition abilities. This timeless puzzle game helps improve vocabulary, spelling, and cognitive focus while providing relaxing entertainment!",
+    "objectives": "Find all the hidden words from the word list within the letter grid. Scan systematically to locate words in any direction—horizontal, vertical, diagonal, and backwards. Complete the puzzle as quickly as possible while improving your pattern recognition skills.",
     "howToPlay": "Click and drag to select letters that form a word. Words can be horizontal, vertical, diagonal, and even backwards. Found words are crossed off the list.",
+    "rules": {
+      "controls": "Click on the starting letter and drag across the word, or click letters one by one to select them. Release to confirm your selection. Correct words are highlighted and removed from the word list.",
+      "mechanics": [
+        "Words hidden in all eight directions",
+        "Letters can be shared between words",
+        "Found words highlighted in the grid",
+        "Progress tracked in word list",
+        "Timer challenges available"
+      ],
+      "features": [
+        "Multiple Difficulty Levels - Easy to expert grids",
+        "Themed Word Lists - Categories and topics",
+        "Hint System - Get help when stuck",
+        "Timer Mode - Beat the clock"
+      ]
+    },
     "tips": [
       "Scan for less common letters like Q, X, Z first",
       "Look for the first letter of each target word",
       "Check all directions including diagonals",
       "Work systematically from top to bottom"
+    ],
+    "faq": [
+      {
+        "question": "What directions can words be hidden?",
+        "answer": "Words can be placed in eight directions: left to right, right to left, top to bottom, bottom to top, and all four diagonal directions. Always check every direction!"
+      },
+      {
+        "question": "Can letters be used in multiple words?",
+        "answer": "Yes! A single letter can be part of multiple words. Just because you found one word using a letter doesn't mean there isn't another word using that same letter."
+      },
+      {
+        "question": "What's the best scanning strategy?",
+        "answer": "Start by looking for unusual letters (Q, X, Z, J) since they're easier to spot. Then scan for the first letter of each word systematically, checking all directions from that letter."
+      },
+      {
+        "question": "Does word search improve brain function?",
+        "answer": "Yes! Word searches help improve visual scanning, pattern recognition, vocabulary, and spelling. They're also great for maintaining cognitive function and can be relaxing stress relievers."
+      }
     ]
   },
   "zh": {
     "name": "找词游戏",
     "desc": "经典找词游戏！在字母网格中水平、垂直或对角线方向寻找隐藏的单词。非常适合提升模式识别和词汇能力。",
+    "description": "找词游戏是数百万人喜爱的经典字母谜题！一个看似随机的字母网格隐藏着一串等待被发现的单词。单词可以水平、垂直、对角线甚至反向放置——测试你的视觉扫描和模式识别能力。这款永恒的益智游戏有助于提高词汇量、拼写和认知专注力，同时提供放松的娱乐体验！",
+    "objectives": "在字母网格中找到词表中所有隐藏的单词。系统地扫描以任何方向定位单词——水平、垂直、对角线和反向。尽快完成谜题，同时提高你的模式识别技能。",
     "howToPlay": "点击并拖动选择形成单词的字母。单词可以是水平、垂直、对角线，甚至反向。找到的单词会从列表中划掉。",
+    "rules": {
+      "controls": "点击起始字母并拖过整个单词，或逐个点击字母来选择它们。释放以确认你的选择。正确的单词会被高亮并从词表中移除。",
+      "mechanics": [
+        "单词隐藏在所有八个方向",
+        "字母可以在单词之间共享",
+        "找到的单词在网格中高亮",
+        "进度在词表中追踪",
+        "计时挑战可用"
+      ],
+      "features": [
+        "多种难度级别 - 从简单到专家网格",
+        "主题词表 - 分类和话题",
+        "提示系统 - 卡住时获得帮助",
+        "计时模式 - 与时钟赛跑"
+      ]
+    },
     "tips": [
       "首先扫描较少见的字母，如Q, X, Z",
       "寻找每个目标单词的第一个字母",
       "检查所有方向，包括对角线",
       "从上到下系统地工作"
+    ],
+    "faq": [
+      {
+        "question": "单词可以隐藏在哪些方向？",
+        "answer": "单词可以放置在八个方向：从左到右、从右到左、从上到下、从下到上，以及四个对角线方向。一定要检查每个方向！"
+      },
+      {
+        "question": "字母可以在多个单词中使用吗？",
+        "answer": "是的！单个字母可以是多个单词的一部分。找到使用某个字母的一个单词并不意味着没有另一个使用相同字母的单词。"
+      },
+      {
+        "question": "最佳扫描策略是什么？",
+        "answer": "首先寻找不常见的字母（Q, X, Z, J），因为它们更容易发现。然后系统地扫描每个单词的第一个字母，从该字母检查所有方向。"
+      },
+      {
+        "question": "找词游戏能改善大脑功能吗？",
+        "answer": "是的！找词游戏有助于改善视觉扫描、模式识别、词汇和拼写。它们也很适合维持认知功能，可以是放松的压力缓解剂。"
+      }
     ]
   }
 }

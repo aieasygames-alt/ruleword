@@ -7,23 +7,95 @@
   "en": {
     "name": "Anagrams",
     "desc": "Unscramble jumbled letters to form meaningful words! A fantastic brain exercise that tests your vocabulary and word recognition abilities under time pressure.",
+    "description": "Anagrams is the classic word puzzle that challenges your vocabulary and pattern recognition! Given a set of scrambled letters, you must rearrange them to form valid words. Each puzzle tests your ability to see letter combinations and recognize word structures. With time pressure adding excitement, this brain exercise improves spelling, vocabulary, and mental flexibility!",
+    "objectives": "Rearrange the jumbled letters to form the correct word before time runs out. Use your vocabulary knowledge and pattern recognition to identify the hidden word. Build streaks of correct answers for bonus points!",
     "howToPlay": "Look at the shuffled letters and type the correct word. Use the hint if stuck. You have 3 attempts per word. Longer streaks earn bonus points!",
+    "rules": {
+      "controls": "Type your answer using the keyboard and press Enter to submit. All letters must be used exactly once. Click the hint button if you need help, though hints may reduce your score.",
+      "mechanics": [
+        "All letters must be used",
+        "Each letter used exactly once",
+        "Time limit per puzzle",
+        "Hints available at score cost",
+        "Streak bonuses for consecutive solves"
+      ],
+      "features": [
+        "Time Challenge - Race the clock",
+        "Hint System - Get help when stuck",
+        "Streak Bonuses - Consecutive wins",
+        "Vocabulary Building - Learn new words"
+      ]
+    },
     "tips": [
       "Look for common prefixes and suffixes",
       "Try arranging letters in different orders",
       "Common letter combinations like TH, CH, ING",
       "Say the letters out loud to hear possibilities"
+    ],
+    "faq": [
+      {
+        "question": "What's the best way to solve anagrams?",
+        "answer": "Look for common letter patterns first (TH, CH, QU, ING). Identify vowels and try consonant combinations around them. Saying letters aloud often triggers word recognition. With practice, you'll develop intuition for letter arrangements."
+      },
+      {
+        "question": "Are some letter combinations impossible?",
+        "answer": "Every puzzle has a valid solution! However, some words are more obscure than others. If stuck, use a hint rather than wasting time on impossible arrangements."
+      },
+      {
+        "question": "How can I improve at anagrams?",
+        "answer": "Build your vocabulary through reading, practice regularly, and learn to recognize common letter patterns. The more words you know, the faster you'll spot them in scrambled form."
+      },
+      {
+        "question": "Does playing anagrams help vocabulary?",
+        "answer": "Absolutely! You'll encounter new words and reinforce known ones. The active process of rearranging letters creates stronger memory connections than passive reading."
+      }
     ]
   },
   "zh": {
     "name": "字谜重组",
     "desc": "将打乱的字母重新组合成有意义的单词！绝佳的大脑训练，在时间压力下测试您的词汇量和单词识别能力。",
+    "description": "字谜重组是挑战你的词汇量和模式识别的经典文字谜题！给定一组打乱的字母，你必须重新排列它们形成有效的单词。每个谜题测试你看到字母组合和识别单词结构的能力。时间压力增加了刺激，这款大脑锻炼改善拼写、词汇和心理灵活性！",
+    "objectives": "在时间用尽之前重新排列打乱的字母形成正确的单词。使用你的词汇知识和模式识别来识别隐藏的单词。建立正确答案的连续来获得奖励分数！",
     "howToPlay": "看打乱的字母并输入正确的单词。如果卡住可以使用提示。每个单词有3次尝试机会。连续答对可获得额外积分！",
+    "rules": {
+      "controls": "使用键盘输入你的答案，然后按Enter提交。必须使用所有字母，每个字母只用一次。如果需要帮助点击提示按钮，但提示可能会减少你的分数。",
+      "mechanics": [
+        "必须使用所有字母",
+        "每个字母只用一次",
+        "每个谜题有时间限制",
+        "提示可用但消耗分数",
+        "连续解决的连续奖励"
+      ],
+      "features": [
+        "时间挑战 - 与时钟赛跑",
+        "提示系统 - 卡住时获得帮助",
+        "连续奖励 - 连续获胜",
+        "词汇构建 - 学习新单词"
+      ]
+    },
     "tips": [
       "寻找常见的前缀和后缀",
       "尝试以不同顺序排列字母",
       "常见的字母组合如TH, CH, ING",
       "大声说出字母来听出可能性"
+    ],
+    "faq": [
+      {
+        "question": "解决变位词的最佳方法是什么？",
+        "answer": "首先寻找常见的字母模式（TH, CH, QU, ING）。识别元音并尝试围绕它们的辅音组合。大声说出字母通常会触发单词识别。通过练习，你会培养对字母排列的直觉。"
+      },
+      {
+        "question": "有些字母组合是不可能的吗？",
+        "answer": "每个谜题都有有效的解决方案！然而，有些单词比其他单词更晦涩。如果卡住了，使用提示而不是浪费时间在不可能的排列上。"
+      },
+      {
+        "question": "如何在变位词中进步？",
+        "answer": "通过阅读建立你的词汇量，定期练习，并学会识别常见的字母模式。你认识的单词越多，你就越快能在打乱的形式中发现它们。"
+      },
+      {
+        "question": "玩变位词对词汇有帮助吗？",
+        "answer": "绝对有！你会遇到新单词并加强已知的单词。重新排列字母的主动过程比被动阅读创造更强的记忆连接。"
+      }
     ]
   }
 }
