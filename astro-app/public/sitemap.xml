@@ -176,4 +176,24 @@
   <!-- Tools -->
   <url><loc>https://ruleword.com/games/dictionary/</loc><lastmod>2026-03-25</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 
+  <!-- New Games - Phase 4 (2026-03-28) -->
+  <url><loc>https://ruleword.com/games/agar-io/</loc><lastmod>2026-03-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/paper-io/</loc><lastmod>2026-03-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/tower-defense/</loc><lastmod>2026-03-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/angry-birds/</loc><lastmod>2026-03-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/rubiks-cube/</loc><lastmod>2026-03-28</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- New Games - Phase 3 (2026-03-27) -->
+  <url><loc>https://ruleword.com/games/stack/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/trivia-quiz/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/doodle-jump/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/flappy-bird/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/water-sort/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/flow-free/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://ruleword.com/games/fruit-ninja/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/geometry-dash/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/cut-the-rope/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/temple-run/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://ruleword.com/games/wordscapes/</loc><lastmod>2026-03-27</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
 </urlset>

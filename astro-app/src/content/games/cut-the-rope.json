@@ -1,0 +1,79 @@
+{
+  "id": "cuttherope",
+  "slug": "cut-the-rope",
+  "icon": "🍬",
+  "category": "puzzle",
+  "color": "from-green-500 to-emerald-600",
+  "en": {
+    "name": "Cut the Rope",
+    "desc": "Cut ropes to feed candy to the hungry frog!",
+    "description": "Cut the Rope is a physics-based puzzle game where you cut ropes to guide candy into the mouth of a hungry frog named Om Nom. Use strategy and timing to collect stars and feed the candy to Om Nom across multiple challenging levels.",
+    "objectives": "Cut ropes strategically to guide candy to Om Nom. Collect stars for bonus points. Complete all levels with the highest score possible.",
+    "howToPlay": "Click or swipe to cut ropes. The candy will fall according to physics. Guide it into Om Nom's mouth to complete each level. Collect stars for extra points.",
+    "rules": {
+      "controls": "Click or swipe on ropes to cut them. Gravity affects the candy's movement.",
+      "mechanics": [
+        "Cut ropes to release candy",
+        "Candy falls according to physics",
+        "Collect stars for bonus points",
+        "Feed candy to Om Nom to complete level"
+      ]
+    },
+    "tips": [
+      "Watch how the candy swings before cutting",
+      "Cut multiple ropes in sequence for complex paths",
+      "Plan your cuts to collect all stars",
+      "Some levels require precise timing"
+    ],
+    "faq": [
+      {
+        "question": "How do I cut a rope?",
+        "answer": "Click or swipe across a rope to cut it. The candy will then fall or swing based on physics."
+      },
+      {
+        "question": "What are the stars for?",
+        "answer": "Collect stars for bonus points. Try to get all three stars in each level for the best score!"
+      },
+      {
+        "question": "How many levels are there?",
+        "answer": "This version features 3 progressively challenging levels to test your puzzle-solving skills."
+      }
+    ]
+  },
+  "zh": {
+    "name": "割绳子",
+    "desc": "割断绳子把糖果喂给饥饿的小青蛙！",
+    "description": "割绳子是一款基于物理的益智游戏，你需要割断绳子引导糖果进入饥饿青蛙Om Nom的嘴里。运用策略和时机收集星星，在多个挑战关卡中把糖果喂给Om Nom。",
+    "objectives": "策略性地割断绳子引导糖果到Om Nom处。收集星星获得额外分数。以最高分完成所有关卡。",
+    "howToPlay": "点击或滑动割断绳子。糖果会根据物理规律下落。把它引导到Om Nom嘴里完成每关。收集星星获得额外分数。",
+    "rules": {
+      "controls": "点击或滑动绳子来割断它。重力会影响糖果的移动。",
+      "mechanics": [
+        "割断绳子释放糖果",
+        "糖果根据物理规律下落",
+        "收集星星获得额外分数",
+        "把糖果喂给Om Nom完成关卡"
+      ]
+    },
+    "tips": [
+      "观察糖果的摆动再割断",
+      "按顺序割断多根绳子创造复杂路径",
+      "规划你的切割来收集所有星星",
+      "有些关卡需要精确的时机"
+    ],
+    "faq": [
+      {
+        "question": "如何割断绳子？",
+        "answer": "点击或滑动绳子来割断它。糖果会根据物理规律下落或摆动。"
+      },
+      {
+        "question": "星星有什么用？",
+        "answer": "收集星星获得额外分数。尝试每关都收集三颗星星获得最高分！"
+      },
+      {
+        "question": "有多少关卡？",
+        "answer": "这个版本有3个逐渐增加难度的关卡来测试你的解谜能力。"
+      }
+    ]
+  }
+}

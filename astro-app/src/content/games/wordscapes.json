@@ -1,0 +1,81 @@
+{
+  "id": "wordscapes",
+  "slug": "wordscapes",
+  "icon": "🔤",
+  "category": "word",
+  "color": "from-teal-500 to-cyan-600",
+  "en": {
+    "name": "Wordscapes",
+    "desc": "Connect letters to form words and fill the crossword!",
+    "description": "Wordscapes is a relaxing word puzzle game where you connect letters from a wheel to form words and fill in a crossword grid. Discover all the hidden words in each level to progress through increasingly challenging puzzles.",
+    "objectives": "Find all hidden words by connecting letters from the wheel. Fill in the crossword grid to complete each level. Progress through levels of increasing difficulty.",
+    "howToPlay": "Click on letters in the wheel to form words. Words must be at least 3 letters long. Found words fill into the crossword grid. Find all words to complete the level.",
+    "rules": {
+      "controls": "Click letters in sequence to form words. Click Submit to check your word. Click Clear to start over.",
+      "mechanics": [
+        "Words must be at least 3 letters long",
+        "Each letter can only be used once per word",
+        "Found words fill the crossword grid",
+        "Find all words to complete the level",
+        "Extra words give bonus points"
+      ]
+    },
+    "tips": [
+      "Look for common word endings like -ing, -ed, -s",
+      "Try different letter combinations",
+      "Start with shorter words first",
+      "Use the crossword clues to guide your search"
+    ],
+    "faq": [
+      {
+        "question": "How do I form a word?",
+        "answer": "Click on letters in the wheel in sequence. When you've spelled a word, click Submit to check it."
+      },
+      {
+        "question": "What if my word isn't accepted?",
+        "answer": "Make sure your word is at least 3 letters long and uses only the letters available in the wheel."
+      },
+      {
+        "question": "How do I complete a level?",
+        "answer": "Find all the words that fit in the crossword grid. The level is complete when all spaces are filled."
+      }
+    ]
+  },
+  "zh": {
+    "name": "字母组词",
+    "desc": "连接字母组成单词填满填字格！",
+    "description": "Wordscapes是一款轻松的单词益智游戏，你从字母轮盘中连接字母组成单词并填入填字格。发现每关所有隐藏的单词来逐渐挑战更难的谜题。",
+    "objectives": "通过连接字母轮盘中的字母找出所有隐藏的单词。填满填字格完成每关。通过难度递增的关卡。",
+    "howToPlay": "点击轮盘中的字母组成单词。单词至少需要3个字母。找到的单词会填入填字格。找出所有单词完成关卡。",
+    "rules": {
+      "controls": "按顺序点击字母组成单词。点击提交检查你的单词。点击清除重新开始。",
+      "mechanics": [
+        "单词至少需要3个字母",
+        "每个字母在每个单词中只能使用一次",
+        "找到的单词填入填字格",
+        "找出所有单词完成关卡",
+        "额外单词给额外分数"
+      ]
+    },
+    "tips": [
+      "寻找常见的单词结尾如-ing、-ed、-s",
+      "尝试不同的字母组合",
+      "先从短单词开始",
+      "利用填字格的提示指导你的搜索"
+    ],
+    "faq": [
+      {
+        "question": "如何组成单词？",
+        "answer": "按顺序点击轮盘中的字母。当你拼出一个单词后，点击提交来检查它。"
+      },
+      {
+        "question": "如果我的单词不被接受怎么办？",
+        "answer": "确保你的单词至少有3个字母，并且只使用轮盘中可用的字母。"
+      },
+      {
+        "question": "如何完成关卡？",
+        "answer": "找出所有适合填字格的单词。当所有空格都填满时关卡完成。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "id": "templerun",
+  "slug": "temple-run",
+  "icon": "🏃",
+  "category": "arcade",
+  "color": "from-amber-500 to-orange-600",
+  "en": {
+    "name": "Temple Run",
+    "desc": "Run, jump, and slide through endless obstacles!",
+    "description": "Temple Run is an endless runner game where you control a character running through a temple path. Swipe to change lanes, jump over obstacles, or slide under barriers. Collect coins and see how far you can run!",
+    "objectives": "Run as far as possible without hitting obstacles. Collect coins for bonus points. Switch lanes to avoid danger and survive.",
+    "howToPlay": "Swipe left/right or use A/D keys to change lanes. Swipe up or press W to jump over obstacles. Swipe down or press S to slide under barriers. Avoid all obstacles to survive.",
+    "rules": {
+      "controls": "Swipe left/right or A/D to change lanes. Swipe up or W to jump. Swipe down or S to slide.",
+      "mechanics": [
+        "Character runs forward automatically",
+        "Three lanes to switch between",
+        "Jump to clear low obstacles",
+        "Slide to pass under high barriers",
+        "Collect coins for bonus points"
+      ]
+    },
+    "tips": [
+      "Watch ahead for upcoming obstacles",
+      "Timing is crucial for jumps and slides",
+      "Stay in the center lane when possible for more options",
+      "Collect coins to increase your score"
+    ],
+    "faq": [
+      {
+        "question": "How do I change lanes?",
+        "answer": "Swipe left or right on the screen, or press A or D keys to switch between the three lanes."
+      },
+      {
+        "question": "What happens if I hit an obstacle?",
+        "answer": "Game over! You need to start again from the beginning."
+      },
+      {
+        "question": "How do I get a high score?",
+        "answer": "Run as far as possible and collect coins. The longer you survive, the higher your score!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "神庙逃亡",
+    "desc": "跑、跳、滑穿越无尽障碍！",
+    "description": "神庙逃亡是一款无尽跑酷游戏，你控制角色在神庙道路上奔跑。滑动切换跑道、跳跃越过障碍或滑行穿过屏障。收集金币看看你能跑多远！",
+    "objectives": "尽可能跑得远，不要撞到障碍物。收集金币获得额外分数。切换跑道躲避危险并生存下去。",
+    "howToPlay": "左右滑动或使用A/D键切换跑道。向上滑动或按W键跳过障碍。向下滑动或按S键从屏障下滑过。避开所有障碍物生存下去。",
+    "rules": {
+      "controls": "左右滑动或A/D切换跑道。向上滑动或W跳跃。向下滑动或S滑行。",
+      "mechanics": [
+        "角色自动向前奔跑",
+        "三条跑道可以切换",
+        "跳跃越过低矮障碍",
+        "滑行穿过高高屏障",
+        "收集金币获得额外分数"
+      ]
+    },
+    "tips": [
+      "提前观察即将到来的障碍",
+      "跳跃和滑行的时机至关重要",
+      "尽可能待在中间跑道有更多选择",
+      "收集金币增加你的分数"
+    ],
+    "faq": [
+      {
+        "question": "如何切换跑道？",
+        "answer": "在屏幕上左右滑动，或按A或D键在三条跑道之间切换。"
+      },
+      {
+        "question": "撞到障碍物会怎样？",
+        "answer": "游戏结束！你需要从头开始。"
+      },
+      {
+        "question": "如何获得高分？",
+        "answer": "尽可能跑得远并收集金币。生存时间越长，分数越高！"
+      }
+    ]
+  }
+}
