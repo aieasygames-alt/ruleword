@@ -6,24 +6,88 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Skyscrapers",
-    "desc": "Place buildings of varying heights on a grid so that the number of visible buildings matches the clues from each direction. A challenging 3D logic puzzle!",
+    "desc": "Place buildings of varying heights!",
+    "description": "Skyscrapers is a 3D logic puzzle where you place buildings of heights 1-N on an N×N grid. Clues outside the grid show how many buildings are visible from each direction. Taller buildings hide shorter ones behind them. A unique perspective on Sudoku-style logic!",
+    "objectives": "Fill the grid with buildings 1-N so that each row and column contains each height exactly once, and visibility clues are satisfied.",
     "howToPlay": "Place buildings 1-N in each row and column (like Sudoku). Clues show how many buildings are visible when looking from that direction. Taller buildings hide shorter ones behind them.",
+    "rules": {
+      "controls": "Click a cell and enter 1-N (the building height). Each row and column must contain each number 1-N exactly once.",
+      "mechanics": [
+        "Each row must contain buildings 1 through N",
+        "Each column must contain buildings 1 through N",
+        "Clues indicate visible building count from each direction",
+        "Taller buildings hide shorter buildings behind them",
+        "The tallest building (N) is always visible"
+      ],
+      "features": [
+        "Grid sizes from 4×4 to 9×9",
+        "Visibility clues on all four sides",
+        "Auto-check for valid placements",
+        "Highlight rule violations"
+      ]
+    },
     "tips": [
       "The highest building (N) is always visible",
       "A clue of 1 means the tallest building is first",
       "A clue of N means buildings are in ascending order",
       "Start with the most restrictive clues"
+    ],
+    "faq": [
+      {
+        "question": "How does visibility work?",
+        "answer": "When looking from a direction, you count visible buildings. A taller building blocks view of shorter ones behind it. So if you see 5-3-7-2 from left to right, you'd see buildings 5, 7, and 2 (3 is hidden by 7)."
+      },
+      {
+        "question": "What's the common starting strategy?",
+        "answer": "Look for clues of 1 or N first. A clue of 1 means the tallest building is right at the edge. A clue of N means buildings must be in ascending order 1, 2, 3... N."
+      },
+      {
+        "question": "How is this like Sudoku?",
+        "answer": "Like Sudoku, each row and column must contain each number 1-N exactly once. The visibility clues add a unique 3D perspective that makes this puzzle fresh and challenging."
+      },
+      {
+        "question": "What's the best grid size for beginners?",
+        "answer": "Start with 4×4 or 5×5 grids. They have fewer clues and are easier to solve while learning the visibility mechanics."
+      }
     ]
   },
   "zh": {
     "name": "摩天楼",
-    "desc": "在网格上放置不同高度的建筑，使从各个方向看到的建筑数量与提示相符。极具挑战性的3D逻辑谜题！",
+    "desc": "放置不同高度的建筑！",
+    "description": "摩天楼是一个3D逻辑谜题，在N×N网格上放置高度1-N的建筑。网格外的提示显示从每个方向能看到多少建筑。更高的建筑会遮挡后面更矮的建筑。数独式逻辑的独特视角！",
+    "objectives": "用建筑1-N填充网格，使每行每列恰好包含每个高度一次，并满足可见性提示。",
     "howToPlay": "在格子中填入1-N的数字（N为网格大小）。每个数字代表建筑高度。从任何方向观看时，可见建筑数量必须等于提示数字。更高建筑遮挡较低建筑。",
+    "rules": {
+      "controls": "点击格子输入1-N（建筑高度）。每行每列必须恰好包含每个数字1-N一次。",
+      "mechanics": [
+        "每行必须包含建筑1到N",
+        "每列必须包含建筑1到N",
+        "提示表示从每个方向可见的建筑数量",
+        "更高的建筑遮挡后面更矮的建筑",
+        "最高的建筑（N）总是可见的"
+      ],
+      "features": [
+        "网格尺寸从4×4到9×9",
+        "四边的可见性提示",
+        "自动检查有效放置",
+        "高亮规则违反"
+      ]
+    },
     "tips": [
       "从提示数字N开始——必须能看到所有建筑",
       "从提示数字1开始——最高建筑必须在该格子",
       "使用排除法推断建筑位置",
       "考虑两个方向的约束"
+    ],
+    "faq": [
+      {
+        "question": "可见性如何工作？",
+        "answer": "从某个方向观看时，计算可见建筑。更高的建筑会阻挡后面更矮建筑的视野。所以如果从左到右看到5-3-7-2，你会看到建筑5、7和2（3被7遮挡）。"
+      },
+      {
+        "question": "常见的起始策略是什么？",
+        "answer": "首先寻找提示为1或N的线索。提示为1意味着最高建筑就在边缘。提示为N意味着建筑必须按升序排列1, 2, 3... N。"
+      }
     ]
   }
 }

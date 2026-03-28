@@ -6,24 +6,88 @@
   "color": "from-red-500 to-orange-600",
   "en": {
     "name": "Sudoku X",
-    "desc": "Sudoku with a twist! In addition to rows, columns, and boxes, both main diagonals must also contain digits 1-9 exactly once. Extra challenge for Sudoku masters!",
+    "desc": "Sudoku with diagonal constraints!",
+    "description": "Sudoku X adds an exciting twist to the classic puzzle! In addition to rows, columns, and 3×3 boxes, both main diagonals must also contain digits 1-9 exactly once. This extra constraint creates new solving opportunities and requires adjusted strategies. Perfect for Sudoku masters seeking new challenges!",
+    "objectives": "Fill the grid so that each row, column, 3×3 box, AND both diagonals contain digits 1-9 exactly once.",
     "howToPlay": "Click a cell and enter 1-9. Each row, column, 3x3 box, and both diagonals must contain all digits 1-9 exactly once. Blue cells highlight diagonal constraints.",
+    "rules": {
+      "controls": "Click a cell and press 1-9 to enter a number. Press Delete or 0 to clear. Arrow keys navigate between cells.",
+      "mechanics": [
+        "Each row must contain digits 1-9 exactly once",
+        "Each column must contain digits 1-9 exactly once",
+        "Each 3×3 box must contain digits 1-9 exactly once",
+        "Both diagonals must contain digits 1-9 exactly once",
+        "Diagonal cells have additional constraints"
+      ],
+      "features": [
+        "Multiple difficulty levels",
+        "Highlight diagonal cells",
+        "Auto-check for errors",
+        "Pencil marks for candidates"
+      ]
+    },
     "tips": [
       "Use diagonals as additional constraints",
       "Diagonal cells have fewer possible values",
       "Start with diagonal intersections",
       "Classic Sudoku strategies still apply"
+    ],
+    "faq": [
+      {
+        "question": "What makes Sudoku X different from regular Sudoku?",
+        "answer": "The main diagonals (from top-left to bottom-right AND from top-right to bottom-left) must also contain digits 1-9 exactly once. This adds 18 extra cells with diagonal constraints!"
+      },
+      {
+        "question": "Should I focus on diagonals first?",
+        "answer": "Diagonal cells are powerful because they participate in both row, column, AND diagonal constraints. Starting with diagonal intersections can eliminate candidates quickly."
+      },
+      {
+        "question": "Can I use regular Sudoku techniques?",
+        "answer": "Absolutely! Naked pairs, hidden singles, X-wings, and all classic techniques work. The diagonal constraint just gives you more information to work with."
+      },
+      {
+        "question": "Is Sudoku X harder than regular Sudoku?",
+        "answer": "Generally yes, because you have more constraints to satisfy. However, these extra constraints can also make certain deductions easier once you learn to use them."
+      }
     ]
   },
   "zh": {
     "name": "X数独",
-    "desc": "数独新玩法！除了行、列和宫，两条主对角线也必须恰好包含1-9数字。数独大师的额外挑战！",
+    "desc": "带对角线约束的数独！",
+    "description": "X数独为经典谜题增添了刺激的变化！除了行、列和3×3宫格，两条主对角线也必须恰好包含1-9数字一次。这个额外约束创造了新的解题机会，需要调整策略。非常适合寻求新挑战的数独大师！",
+    "objectives": "填充网格，使每行、每列、每个3×3宫格以及两条对角线都恰好包含1-9数字一次。",
     "howToPlay": "填入1-9的数字。每行每列每宫必须恰好包含1-9一次。两条主对角线也必须包含1-9的所有数字。",
+    "rules": {
+      "controls": "点击格子按1-9输入数字。按Delete或0清除。方向键在格子间导航。",
+      "mechanics": [
+        "每行必须恰好包含1-9数字一次",
+        "每列必须恰好包含1-9数字一次",
+        "每个3×3宫格必须恰好包含1-9数字一次",
+        "两条对角线必须恰好包含1-9数字一次",
+        "对角线格子有额外约束"
+      ],
+      "features": [
+        "多种难度级别",
+        "高亮对角线格子",
+        "自动错误检查",
+        "候选数铅笔标记"
+      ]
+    },
     "tips": [
       "对角线提供额外的约束",
       "先关注对角线交叉的格子",
       "使用标准数独技巧加对角线约束",
       "对角线有助于消除候选数"
+    ],
+    "faq": [
+      {
+        "question": "X数独与普通数独有什么不同？",
+        "answer": "主对角线（从左上到右下以及从右上到左下）也必须恰好包含1-9数字一次。这增加了18个有对角线约束的格子！"
+      },
+      {
+        "question": "我应该先关注对角线吗？",
+        "answer": "对角线格子很有价值，因为它们同时参与行、列和对角线约束。从对角线交叉点开始可以快速消除候选数。"
+      }
     ]
   }
 }

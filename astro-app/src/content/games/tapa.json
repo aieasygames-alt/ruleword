@@ -6,24 +6,88 @@
   "color": "from-gray-600 to-slate-700",
   "en": {
     "name": "Tapa",
-    "desc": "Create a continuous wall of shaded cells! Number clues show lengths of consecutive shaded cells in the 8 surrounding squares. All shaded cells must connect.",
-    "howToPlay": "Click cells to shade them black. All black cells must be connected. Clue numbers show lengths of consecutive black runs around that cell.",
+    "desc": "Create a continuous wall of shaded cells!",
+    "description": "Tapa is a shading puzzle where you create a single continuous wall of black cells. Number clues in cells show the lengths of consecutive black cell runs in the 8 surrounding cells. Multiple numbers mean separate runs with at least one white cell between. No 2×2 area can be all black!",
+    "objectives": "Shade cells to form a single connected wall that satisfies all clue numbers and contains no 2×2 all-black areas.",
+    "howToPlay": "Click cells to shade them black. All black cells must be connected. Clue numbers show lengths of consecutive black runs around that cell. No 2×2 area can be all black.",
+    "rules": {
+      "controls": "Click a cell to toggle between shaded (black) and unshaded (white). Right-click or long-press to mark cells as definitely white.",
+      "mechanics": [
+        "All shaded cells must form one connected wall",
+        "Clue numbers show lengths of consecutive shaded runs in the 8 neighbors",
+        "Multiple numbers mean separate runs with gaps between",
+        "A '0' clue means no shaded neighbors",
+        "No 2×2 area can be completely shaded"
+      ],
+      "features": [
+        "Multiple grid sizes",
+        "Auto-check for wall connectivity",
+        "Highlight disconnected sections",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "All black cells must connect to form a single wall",
       "No 2x2 area can be completely black",
       "Multiple numbers mean separate runs with gaps",
       "0 clues mean all surrounding cells are white"
+    ],
+    "faq": [
+      {
+        "question": "What do multiple numbers in a clue mean?",
+        "answer": "If a cell shows '1 2', it means there are two separate black runs around it: one of length 1 and another of length 2, with at least one white cell between them."
+      },
+      {
+        "question": "Can the wall have branches or holes?",
+        "answer": "The wall must be a single connected group (branches are OK), but it cannot have isolated sections. All black cells must reach each other through adjacent black cells."
+      },
+      {
+        "question": "What about the 2×2 rule?",
+        "answer": "No 2×2 square anywhere in the grid can be completely filled with black cells. This is a key constraint that often helps solve puzzles."
+      },
+      {
+        "question": "How do I use '0' clues?",
+        "answer": "A '0' clue is very powerful - it means all 8 surrounding cells must be white. Use these to establish safe cells early."
+      }
     ]
   },
   "zh": {
     "name": "塔帕",
-    "desc": "创建连续的涂黑格墙！数字提示显示周围8个格子中连续涂黑格的长度。所有涂黑格子必须相连。",
+    "desc": "创建连续的涂黑格墙！",
+    "description": "塔帕是一个涂色谜题，创建单一连续的黑色格子墙。格子中的数字提示显示周围8个格子中连续黑色格子的长度。多个数字表示分开的连续段，中间至少有一个白色格子。没有2×2区域可以全黑！",
+    "objectives": "涂黑格子形成单一连通的墙，满足所有提示数字，不包含2×2全黑区域。",
     "howToPlay": "涂黑格子形成单一连续墙。数字表示周围涂黑格子的连续长度（多个数字表示多段墙）。墙不能形成2×2黑色区域。某些格子必须留白。",
+    "rules": {
+      "controls": "点击格子切换涂黑（黑色）和未涂黑（白色）。右键或长按将格子标记为确定的白色。",
+      "mechanics": [
+        "所有涂黑格子必须形成一堵连通的墙",
+        "提示数字显示周围8个邻居中连续涂黑格子的长度",
+        "多个数字表示分开的连续段，中间有间隔",
+        "'0'提示表示没有涂黑的邻居",
+        "没有2×2区域可以完全涂黑"
+      ],
+      "features": [
+        "多种网格尺寸",
+        "自动检查墙的连通性",
+        "高亮不连通的部分",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从数字约束最多的格子开始",
       "墙必须是单一连续区域",
       "不能形成2×2全黑区域",
       "数字格子本身从不被涂黑"
+    ],
+    "faq": [
+      {
+        "question": "提示中的多个数字是什么意思？",
+        "answer": "如果格子显示'1 2'，表示周围有两个分开的黑色连续段：一段长度1，另一段长度2，中间至少有一个白色格子。"
+      },
+      {
+        "question": "关于2×2规则呢？",
+        "answer": "网格中任何地方都不能有2×2正方形完全填满黑色格子。这是一个关键约束，经常帮助解题。"
+      }
     ]
   }
 }

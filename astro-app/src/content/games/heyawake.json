@@ -6,24 +6,92 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Heyawake",
-    "desc": "Shade cells in rectangular rooms! No more than one shaded cell in a row or column per room. Shaded cells must connect across room boundaries.",
-    "howToPlay": "Click cells to cycle through empty, black, or white. Each room must have exactly its target number of black cells. No three black cells can be consecutive, and all white cells must be connected.",
+    "desc": "Shade cells in rectangular rooms!",
+    "description": "Heyawake is a shading puzzle played on a grid divided into rectangular rooms. Each room may contain a number indicating how many cells to shade. The rules: no two shaded cells can share an edge, no three consecutive shaded cells in any row or column, and all white cells must be connected. A beautifully balanced puzzle!",
+    "objectives": "Shade the correct number of cells in each room while ensuring all white cells remain connected and no three consecutive shaded cells appear.",
+    "howToPlay": "Click cells to cycle through: empty, black, or white. Each room must have exactly its target number of black cells. No three black cells can be consecutive, and all white cells must be connected.",
+    "rules": {
+      "controls": "Click a cell to cycle: empty → shaded (black) → marked white → empty. Right-click or long-press to mark cells as definitely white.",
+      "mechanics": [
+        "Each rectangular room has a target number of shaded cells",
+        "No two shaded cells can share an edge (orthogonally adjacent)",
+        "No three consecutive shaded cells in any row or column",
+        "All white cells must be connected orthogonally",
+        "A shaded cell cannot connect to another shaded cell across a room boundary"
+      ],
+      "features": [
+        "Grid sizes from 5×5 to 15×15",
+        "Room detection and highlighting",
+        "Auto-check for rule violations",
+        "Progress saving"
+      ]
+    },
     "tips": [
       "Start with rooms that have 0 black cells - mark all white",
       "Look for rooms where the target forces specific placements",
       "Avoid creating 3+ consecutive blacks when marking cells",
       "Use white connectivity to eliminate impossible black placements"
+    ],
+    "faq": [
+      {
+        "question": "What are the rectangular rooms?",
+        "answer": "The grid is divided into rectangles of various sizes. Each rectangle (room) may have a number telling you how many cells to shade within it."
+      },
+      {
+        "question": "Can shaded cells touch each other?",
+        "answer": "No, shaded cells cannot be orthogonally adjacent (share an edge). They can touch diagonally."
+      },
+      {
+        "question": "What does white connectivity mean?",
+        "answer": "All white (unshaded) cells must to form one connected group - you should be able to reach any white cell from any other white cell through adjacent white cells."
+      },
+      {
+        "question": "Can shaded cells span across room boundaries?",
+        "answer": "No, a shaded cell cannot connect to another shaded cell that's in a different room. The shading constraint applies within rooms, not across them."
+      }
     ]
   },
   "zh": {
     "name": "屋的分",
-    "desc": "在矩形房间中涂黑格子！每个房间内一行或一列最多一个涂黑格子。涂黑格子必须跨越房间边界相连。",
+    "desc": "在矩形房间中涂黑格子！",
+    "description": "屋的分是一个在划分为矩形房间的网格上玩的涂色谜题。每个房间可能包含一个数字，指示要涂黑多少个格子。规则：没有两个涂黑格子可以共享边，任何行或列中不能有三个连续的涂黑格子，所有白色格子必须相连。一个完美平衡的谜题！",
+    "objectives": "在每个房间涂黑正确数量的格子，同时确保所有白色格子保持连通，并且没有三个连续的涂黑格子出现。",
     "howToPlay": "点击格子将其涂黑或留白。每个区域必须恰好有指定数量的黑色格子。没有两个黑色格子可以共享边（斜向相邻可以）。所有白色格子必须连通。",
+    "rules": {
+      "controls": "点击格子循环：空白 → 涂黑 → 标记白色 → 空白。右键或长按可将格子标记为确定的白色。",
+      "mechanics": [
+        "每个矩形房间有目标涂黑格子数",
+        "没有两个涂黑格子可以共享边（边相邻）",
+        "任何行或列中不能有三个连续的涂黑格子",
+        "所有白色格子必须通过边相连",
+        "涂黑格子不能跨越房间边界连接到另一个涂黑格子"
+      ],
+      "features": [
+        "网格尺寸从5×5到15×15",
+        "房间检测和高亮",
+        "自动检查规则违反",
+        "进度保存"
+      ]
+    },
     "tips": [
       "从0区域开始——将所有格子标记为白色",
       "从最大区域开始——它们约束最多",
       "避免创建三个连续的黑色格子",
       "确保所有白色格子保持连通"
+    ],
+    "faq": [
+      {
+        "question": "什么是矩形房间？",
+        "answer": "网格被划分为不同大小的矩形。每个矩形（房间）可能有一个数字，告诉你里面要涂黑多少个格子。"
+      },
+      {
+        "question": "涂黑格子可以相互接触吗？",
+        "answer": "不可以，涂黑格子不能边相邻（共享边）。它们可以对角相邻。"
+      },
+      {
+        "question": "白色连通性是什么意思？",
+        "answer": "所有白色（未涂黑）格子必须形成一个连通组——应该能够通过相邻的白色格子从任何其他白色格子到达任何白色格子。"
+      }
     ]
   }
 }

@@ -6,24 +6,88 @@
   "color": "from-slate-500 to-gray-600",
   "en": {
     "name": "Binary",
-    "desc": "Fill the grid with 0s and 1s following simple rules: no more than two identical numbers adjacent, and equal numbers of each in every row and column.",
-    "howToPlay": "Fill cells with 0 or 1. Rules: 1) No more than two same digits adjacent, 2) Each row and column has equal 0s and 1s, 3) No two rows or columns are identical.",
+    "desc": "Fill the grid with 0s and 1s!",
+    "description": "Binary (also known as Takuzu) is a deceptively simple logic puzzle that tests your pattern recognition skills. Fill a grid with 0s and 1s following three elegant rules: no more than two identical digits can be adjacent, each row and column must contain equal numbers of 0s and 1s, and no two rows or columns can be identical. Simple to learn, challenging to master!",
+    "objectives": "Complete the grid with 0s and 1s so that no three consecutive cells contain the same digit, each row and column has equal numbers of each digit, and all rows and columns are unique.",
+    "howToPlay": "Click cells to fill with 0 or 1. Rules: 1) No more than two same digits adjacent, 2) Each row and column has equal 0s and 1s, 3) No two rows or columns are identical.",
+    "rules": {
+      "controls": "Click a cell to cycle through: empty → 0 → 1 → empty. On mobile, tap to toggle between states.",
+      "mechanics": [
+        "No three consecutive cells can contain the same digit",
+        "Each row must have equal numbers of 0s and 1s",
+        "Each column must have equal numbers of 0s and 1s",
+        "No two rows can have identical patterns",
+        "No two columns can have identical patterns"
+      ],
+      "features": [
+        "Grid sizes from 6×6 to 14×14",
+        "Auto-check for invalid patterns",
+        "Highlight matching rows/columns",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "If two same digits appear, the next must be opposite",
       "Count remaining 0s and 1s in each row/column",
       "Look for rows/columns that are nearly complete",
       "Compare partial rows to find unique patterns"
+    ],
+    "faq": [
+      {
+        "question": "Why is it called Binary?",
+        "answer": "The puzzle uses only two digits (0 and 1), representing binary code. It's also known as Takuzu or Binairo in different regions."
+      },
+      {
+        "question": "What happens if I create three consecutive same digits?",
+        "answer": "That's an invalid move! The puzzle will typically highlight this error. You need to change one of the three cells to fix it."
+      },
+      {
+        "question": "Can I use the uniqueness rule to my advantage?",
+        "answer": "Absolutely! If filling a cell would make two rows identical, that cell must be the opposite value. This is a key advanced strategy."
+      },
+      {
+        "question": "Is there always a unique solution?",
+        "answer": "Yes, well-designed Binary puzzles have exactly one valid solution that can be found through logical deduction alone."
+      }
     ]
   },
   "zh": {
     "name": "01填格",
-    "desc": "按照简单规则用0和1填满网格：相同数字不能超过两个相邻，每行每列的数字数量相等。",
-    "howToPlay": "点击格子在0和1之间切换。每行每列必须有相等数量的0和1。相同的数字（000或111）不能连续出现三次或更多。行/列数字提示匹配数量。",
+    "desc": "按照简单规则用0和1填满网格！",
+    "description": "01填格（也称为Takuzu）是一个看似简单但考验模式识别能力的逻辑谜题。用0和1填满网格，遵循三条优雅规则：相同数字不能超过两个相邻，每行每列必须有相等数量的0和1，没有两行或两列可以相同。简单易学，难以精通！",
+    "objectives": "用0和1完成网格填充，使没有三个连续格子包含相同数字，每行每列有相等数量的每个数字，所有行和列都是唯一的。",
+    "howToPlay": "点击格子在0和1之间切换。每行每列必须有相等数量的0和1。相同的数字（000或111）不能连续出现三次或更多。",
+    "rules": {
+      "controls": "点击格子循环：空白 → 0 → 1 → 空白。在手机上，点击切换状态。",
+      "mechanics": [
+        "没有三个连续格子可以包含相同数字",
+        "每行必须有相等数量的0和1",
+        "每列必须有相等数量的0和1",
+        "没有两行可以有相同模式",
+        "没有两列可以有相同模式"
+      ],
+      "features": [
+        "网格尺寸从6×6到14×14",
+        "自动检查无效模式",
+        "高亮匹配的行/列",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从已经有较多数字的行或列开始",
       "寻找必须填入0或1以避免三连的格子",
       "使用交叉逻辑推理",
-      "提示数字告诉你该行/列有多少个连续的相同数字"
+      "比较部分行找到唯一模式"
+    ],
+    "faq": [
+      {
+        "question": "为什么叫01填格？",
+        "answer": "这个谜题只使用两个数字（0和1），代表二进制代码。在不同地区也被称为Takuzu或Binairo。"
+      },
+      {
+        "question": "如果我创建了三个连续相同数字会怎样？",
+        "answer": "那是无效的移动！谜题通常会高亮这个错误。你需要改变三个格子中的一个来修复它。"
+      }
     ]
   }
 }

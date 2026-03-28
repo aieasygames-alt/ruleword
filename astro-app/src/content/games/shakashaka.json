@@ -6,24 +6,86 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Shakashaka",
-    "desc": "Place triangles in cells! Black cells indicate how many triangles surround them. When solved, all white areas form rectangles. A geometric puzzle!",
+    "desc": "Place triangles in cells!",
+    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. A beautiful blend of geometry and logic!",
+    "objectives": "Place triangles so that all white (unshaded) areas form perfect rectangles, and satisfy all clue numbers.",
     "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",
+    "rules": {
+      "controls": "Click a cell to cycle through: empty → triangle (4 orientations) → white. Right-click to mark cells as definitely white.",
+      "mechanics": [
+        "Place triangles in the four corners of cells",
+        "All white areas must form rectangles",
+        "Black clue cells indicate adjacent triangle count",
+        "Triangles cannot create 2×2 all-white areas"
+      ],
+      "features": [
+        "Multiple grid sizes",
+        "Auto-check for valid rectangles",
+        "Highlight non-rectangular areas",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "Look for areas that can only be one shape",
       "Use clue cells to determine triangle placements",
       "Rectangles can be any size, including 1x1",
       "Check that white areas don't form L-shapes"
+    ],
+    "faq": [
+      {
+        "question": "What makes Shakashaka unique?",
+        "answer": "The goal is to create rectangles from white areas. Unlike most puzzles, you're not filling cells but strategically placing triangles to corners to shape the remaining space."
+      },
+      {
+        "question": "How do triangles work?",
+        "answer": "Triangles fill half of a cell diagonally. When placed, they reduce the white space, forcing it to form rectangles rather than irregular shapes."
+      },
+      {
+        "question": "What do the clue numbers mean?",
+        "answer": "Black clue cells show how many triangles are orthogonally or diagonally adjacent to them. Use these to deduce where triangles must be placed."
+      },
+      {
+        "question": "Can I leave cells white?",
+        "answer": "Yes! White cells are often necessary to complete rectangles. The challenge is knowing where to place triangles versus leaving cells white."
+      }
     ]
   },
   "zh": {
     "name": "斜斜",
-    "desc": "在格子中放置三角形！黑色格子表示周围有多少三角形。完成后，所有白色区域形成矩形。几何谜题！",
+    "desc": "在格子中放置三角形！",
+    "description": "斜斜是一个独特的几何谜题，在空白格子中放置三角形来形成矩形。每个黑色提示格子显示周围有多少三角形。正确完成后，所有白色区域形成完美的矩形。几何与逻辑的完美结合！",
+    "objectives": "放置三角形使所有白色（未涂黑）区域形成完美矩形，并满足所有提示数字。",
     "howToPlay": "点击格子在空白、右三角、下三角、左三角或上三角之间循环。白色区域必须形成矩形或正方形。三角形不能形成2×2全白区域。",
+    "rules": {
+      "controls": "点击格子循环： 空白 → 三角形（4个方向）→ 白色。 右键将格子标记为确定的白色。",
+      "mechanics": [
+        "在格子的四个角落放置三角形",
+        "所有白色区域必须形成矩形",
+        "黑色提示格子表示相邻三角形数量",
+        "三角形不能创建2×2全白区域"
+      ],
+      "features": [
+        "多种网格尺寸",
+        "自动检查有效矩形",
+        "高亮非矩形区域",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从大数字区域开始",
       "寻找可能形成矩形的三角形",
       "避免创建2×2白色区域",
       "使用约束来推断三角形位置"
+    ],
+    "faq": [
+      {
+        "question": "斜斜的独特之处是什么？",
+        "answer": "目标是从白色区域创建矩形。与大多数谜题不同，你不是在填充格子，而是策略性地在角落放置三角形来塑造剩余空间。"
+      },
+      {
+        "question": "三角形如何工作？",
+        "answer": "三角形对角填充格子的一半。放置时，它们减少白色空间，迫使其形成矩形而不是不规则形状。"
+      }
     ]
   }
 }

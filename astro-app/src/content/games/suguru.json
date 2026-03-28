@@ -6,24 +6,88 @@
   "color": "from-pink-500 to-rose-600",
   "en": {
     "name": "Suguru",
-    "desc": "Fill each region with numbers so that no two adjacent cells contain the same number. Each region size determines the numbers to use. A fresh logic challenge!",
+    "desc": "Fill regions with unique adjacent numbers!",
+    "description": "Suguru is a number placement puzzle where you fill regions with digits. Each region's size determines which numbers to use (a 4-cell region needs 1-4). The key rule: no two adjacent cells (including diagonally!) can contain the same number. A fresh twist on number logic!",
+    "objectives": "Fill each region with numbers 1 through its size, ensuring no adjacent cells (orthogonally or diagonally) share the same number.",
     "howToPlay": "Fill each region with numbers 1 through its size. Identical numbers cannot be adjacent (including diagonally). Use logic to deduce each cell's value.",
+    "rules": {
+      "controls": "Click a cell and enter a number from 1 to the region's size. Each region must contain all numbers from 1 to its size exactly once.",
+      "mechanics": [
+        "Each region must contain numbers 1 through its size",
+        "No two adjacent cells can have the same number",
+        "Adjacency includes all 8 neighboring cells (diagonals count!)",
+        "A 1-cell region can only contain 1",
+        "A 2-cell region needs numbers 1 and 2"
+      ],
+      "features": [
+        "Multiple grid sizes and difficulties",
+        "Auto-check for duplicate adjacencies",
+        "Highlight same-number neighbors",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "Start with small regions (size 1-2)",
       "Look for cells that can only be one number",
       "Use elimination based on adjacent numbers",
       "Check all 8 neighbors when placing numbers"
+    ],
+    "faq": [
+      {
+        "question": "How is Suguru different from Sudoku?",
+        "answer": "Suguru has irregular regions instead of 3×3 boxes, and most importantly, diagonal adjacency matters! Two cells touching diagonally cannot have the same number."
+      },
+      {
+        "question": "What does region size mean?",
+        "answer": "A region with 3 cells must contain numbers 1, 2, and 3 exactly once each. The region size determines the number range."
+      },
+      {
+        "question": "Why do diagonals matter?",
+        "answer": "Unlike Sudoku, Suguru considers all 8 neighbors around a cell. This means corner-adjacent cells also cannot share the same number."
+      },
+      {
+        "question": "What's the best starting strategy?",
+        "answer": "Find single-cell regions first (they must be 1). Then look for cells surrounded by different numbers that force a specific value."
+      }
     ]
   },
   "zh": {
     "name": "数独组",
-    "desc": "在每个区域填入数字，使相邻格子不含相同数字。区域大小决定可使用的数字。全新的逻辑挑战！",
+    "desc": "用唯一相邻数字填充区域！",
+    "description": "数独组是一个数字放置谜题，用数字填充区域。每个区域的大小决定使用哪些数字（4格区域需要1-4）。关键规则：没有两个相邻格子（包括对角线！）可以包含相同的数字。数字逻辑的新变化！",
+    "objectives": "用数字1到区域大小填充每个区域，确保没有相邻格子（正交或对角线）共享相同的数字。",
     "howToPlay": "在格子里填入数字。每个区域必须包含该区域大小的数字（例如，4格区域需要1-4）。相邻格子（包括对角线）不能有相同数字。",
+    "rules": {
+      "controls": "点击格子输入1到区域大小的数字。每个区域必须恰好包含1到其大小的所有数字一次。",
+      "mechanics": [
+        "每个区域必须包含1到其大小的数字",
+        "没有两个相邻格子可以有相同数字",
+        "相邻包括所有8个相邻格子（对角线也算！）",
+        "1格区域只能包含1",
+        "2格区域需要数字1和2"
+      ],
+      "features": [
+        "多种网格尺寸和难度",
+        "自动检查重复相邻",
+        "高亮相同数字的邻居",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从单格区域开始",
       "寻找填满最多数字的行或列",
       "对角线相邻也适用于此谜题",
       "使用排除法缩小可能数"
+    ],
+    "faq": [
+      {
+        "question": "数独组与数独有什么不同？",
+        "answer": "数独组有不规则区域而不是3×3宫格，最重要的是对角线相邻也很重要！对角线接触的两个格子不能有相同数字。"
+      },
+      {
+        "question": "区域大小是什么意思？",
+        "answer": "有3个格子的区域必须恰好包含数字1、2和3各一次。区域大小决定数字范围。"
+      }
     ]
   }
 }

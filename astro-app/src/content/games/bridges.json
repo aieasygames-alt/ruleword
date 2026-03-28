@@ -6,24 +6,88 @@
   "color": "from-sky-500 to-cyan-600",
   "en": {
     "name": "Bridges",
-    "desc": "Connect islands with bridges! Each island shows how many bridges connect to it. Bridges run horizontally or vertically and never cross. Build the network!",
-    "howToPlay": "Click between islands to build bridges. Each island's number shows required bridge connections. Bridges run horizontally/vertically and cannot cross.",
+    "desc": "Connect islands with bridges!",
+    "description": "Bridges (Hashiwokakero) is a connecting puzzle where you build a network of bridges between islands. Each island displays a number indicating how many bridges must connect to it. Bridges run horizontally or vertically, can be single or double, and never cross. All islands must be connected into a single network. A satisfying test of spatial planning!",
+    "objectives": "Connect all islands with bridges so that each island has the correct number of bridge connections, no bridges cross each other, and all islands form one connected network.",
+    "howToPlay": "Click between islands to build bridges (1-2 bridges per connection). Each island's number shows required bridge connections. Bridges run horizontally/vertically and cannot cross. All islands must connect.",
+    "rules": {
+      "controls": "Click between two islands to add a bridge. Click again to add a second bridge (double). Click a third time to remove all bridges.",
+      "mechanics": [
+        "Each island number indicates how many bridges connect to it",
+        "Bridges run horizontally or vertically only",
+        "Maximum of 2 bridges can connect any pair of islands",
+        "Bridges cannot cross other bridges",
+        "All islands must be connected in a single network"
+      ],
+      "features": [
+        "Multiple grid sizes available",
+        "Auto-check for valid connections",
+        "Highlight disconnected islands",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "Islands with 8 need 4 bridges in each direction",
       "Corner 4s need 2 bridges in each available direction",
       "Plan routes to avoid bridge crossings",
       "All islands must be connected in one network"
+    ],
+    "faq": [
+      {
+        "question": "What does the number on each island mean?",
+        "answer": "The number tells you exactly how many bridges must connect to that island. A 4 means four total bridge connections (which could be two double bridges or four single bridges)."
+      },
+      {
+        "question": "Can bridges cross each other?",
+        "answer": "No, bridges can never cross or overlap. You'll need to plan alternative routes when islands block direct connections."
+      },
+      {
+        "question": "Do all islands need to connect to each other?",
+        "answer": "Yes! All islands must be reachable from any other island through the bridge network. No isolated groups allowed."
+      },
+      {
+        "question": "What's the maximum bridges between two islands?",
+        "answer": "You can place up to 2 bridges (a double bridge) between any pair of islands that can be connected horizontally or vertically."
+      }
     ]
   },
   "zh": {
     "name": "造桥",
-    "desc": "用桥连接岛屿！每个岛屿显示连接到它的桥数。桥水平或垂直延伸，永不交叉。构建你的网络！",
+    "desc": "用桥连接岛屿！",
+    "description": "造桥（桥を架ける）是一个连接谜题，在岛屿之间建造桥梁网络。每个岛屿显示一个数字，表示必须连接到它的桥数。桥梁水平或垂直延伸，可以是单桥或双桥，永不交叉。所有岛屿必须连接成一个单一网络。空间规划的满足测试！",
+    "objectives": "用桥梁连接所有岛屿，使每个岛屿有正确数量的桥连接，没有桥梁相互交叉，所有岛屿形成一个连通的网络。",
     "howToPlay": "点击岛屿之间的格子来画桥。可以在两个岛之间画一到两座桥。所有岛屿必须连通。单个岛屿不能有超过两座桥连接到另一个岛屿。",
+    "rules": {
+      "controls": "点击两个岛屿之间添加桥梁。再次点击添加第二座桥（双桥）。第三次点击移除所有桥梁。",
+      "mechanics": [
+        "每个岛屿数字表示连接到它的桥梁数量",
+        "桥梁只能水平或垂直延伸",
+        "任何一对岛屿最多可连接2座桥",
+        "桥梁不能与其他桥梁交叉",
+        "所有岛屿必须连接成一个单一网络"
+      ],
+      "features": [
+        "多种网格尺寸可选",
+        "自动检查有效连接",
+        "高亮未连接的岛屿",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从角上的1开始——它们只有一种选择",
       "不能有超过两座桥的任何连接",
       "确保所有岛屿最终连通",
       "使用排除法找到必要的桥梁"
+    ],
+    "faq": [
+      {
+        "question": "每个岛屿上的数字是什么意思？",
+        "answer": "数字告诉你必须连接到该岛屿的桥数。4意味着总共四座桥连接（可以是两座双桥或四座单桥）。"
+      },
+      {
+        "question": "桥梁可以交叉吗？",
+        "answer": "不可以，桥梁永远不能交叉或重叠。当岛屿阻挡直接连接时，你需要规划替代路线。"
+      }
     ]
   }
 }

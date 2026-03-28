@@ -6,24 +6,88 @@
   "color": "from-amber-600 to-orange-700",
   "en": {
     "name": "Castle Wall",
-    "desc": "Draw castle walls to enclose numbers! Numbers indicate how many walls surround them. Walls must form a single closed loop around all numbers.",
-    "howToPlay": "Click cells to cycle between wall, no-wall, and unknown. Draw a single closed loop of walls. Clues show the number of visible wall segments in that direction.",
+    "desc": "Draw castle walls to enclose numbers!",
+    "description": "Castle Wall is a loop-building puzzle where you construct a single continuous wall around a grid. Numbers in cells indicate how many walls surround that cell. The wall must form a closed loop and cannot cross itself. A medieval-themed logic challenge that tests your spatial reasoning!",
+    "objectives": "Draw a single closed loop of walls that satisfies all numeric clues. Each number indicates how many of its four edges contain wall segments.",
+    "howToPlay": "Click cell edges to draw walls. Draw a single closed loop of walls. Numbers show how many walls surround that cell (0-4). The wall cannot cross itself.",
+    "rules": {
+      "controls": "Click on the edges between cells to place or remove wall segments. The wall must form a single continuous closed loop.",
+      "mechanics": [
+        "Numbers indicate how many walls surround that cell (0-4)",
+        "The wall must form a single closed loop",
+        "Walls cannot cross or branch",
+        "Cells without numbers can have any number of walls",
+        "All wall segments must be connected"
+      ],
+      "features": [
+        "Multiple grid sizes available",
+        "Auto-check for loop validity",
+        "Highlight incomplete sections",
+        "Undo/redo functionality"
+      ]
+    },
     "tips": [
       "Start with 0 clues - they mean no walls in that direction",
       "Walls must connect to form a single loop",
       "Use the clue numbers to limit possibilities",
       "Mark cells that definitely cannot be walls"
+    ],
+    "faq": [
+      {
+        "question": "What do the numbers mean?",
+        "answer": "Each number (0-4) tells you how many of that cell's four edges contain wall segments. A 0 means no walls touch that cell; a 4 means walls on all sides."
+      },
+      {
+        "question": "Does the wall need to be continuous?",
+        "answer": "Yes! The wall must form a single closed loop with no breaks, branches, or crossings. Think of it as drawing one continuous line."
+      },
+      {
+        "question": "What if a cell has no number?",
+        "answer": "Cells without numbers can have any number of wall segments (0-4). Use logic from surrounding numbered cells to determine their walls."
+      },
+      {
+        "question": "Can the wall cross itself?",
+        "answer": "No, the wall cannot cross or touch itself at any point. It must be a simple closed loop."
+      }
     ]
   },
   "zh": {
     "name": "城墙",
-    "desc": "画城墙包围数字！数字表示周围有多少墙。墙壁必须围绕所有数字形成单一闭合环。",
+    "desc": "画城墙包围数字！",
+    "description": "城墙是一个回路建造谜题，在网格周围构建单一连续的墙。格子中的数字表示该格子周围有多少墙。墙壁必须形成闭合环且不能自我交叉。中世纪主题的逻辑挑战，考验你的空间推理！",
+    "objectives": "画一个满足所有数字提示的单一闭合墙环。每个数字表示其四条边中有多少条包含墙段。",
     "howToPlay": "点击格子边缘来画墙。墙必须形成单一连续循环。数字表示从该格子能看到多少段墙（垂直和水平）。墙不能穿过自身或数字格子。",
+    "rules": {
+      "controls": "点击格子之间的边缘来放置或移除墙段。墙必须形成单一连续的闭合环。",
+      "mechanics": [
+        "数字表示该格子周围有多少墙（0-4）",
+        "墙必须形成单一闭合环",
+        "墙不能交叉或分叉",
+        "没有数字的格子可以有任意数量的墙",
+        "所有墙段必须相连"
+      ],
+      "features": [
+        "多种网格尺寸可选",
+        "自动检查回路有效性",
+        "高亮未完成部分",
+        "撤销/重做功能"
+      ]
+    },
     "tips": [
       "从角落和边缘开始——它们有更多约束",
       "数字0表示没有墙连接到该格子",
       "墙必须围住每个数字的精确指示数量",
       "确保墙形成单一连续循环"
+    ],
+    "faq": [
+      {
+        "question": "数字是什么意思？",
+        "answer": "每个数字（0-4）告诉你该格子的四条边中有多少条包含墙段。0表示没有墙接触该格子；4表示四面都有墙。"
+      },
+      {
+        "question": "墙需要连续吗？",
+        "answer": "是的！墙必须形成单一闭合环，没有断裂、分叉或交叉。把它想象成画一条连续的线。"
+      }
     ]
   }
 }

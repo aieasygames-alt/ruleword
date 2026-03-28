@@ -6,23 +6,85 @@
   "color": "from-purple-500 to-indigo-600",
   "en": {
     "name": "Aqre",
-    "desc": "Shade cells with restrictions! No more than three consecutive shaded cells in any row or column. All unshaded cells must connect. Strategic shading!",
+    "desc": "Shade cells with restrictions!",
+    "description": "Aqre is a shading puzzle that combines simple rules with deep strategic thinking. Your goal is to shade cells while respecting three key constraints: no run of more than three consecutive shaded cells in any row or column, all unshaded cells must be connected, and shaded cells cannot touch orthogonally. This elegant puzzle rewards careful planning and spatial reasoning.",
+    "objectives": "Shade the correct cells to satisfy all constraints: limit consecutive shaded cells, maintain white cell connectivity, and prevent orthogonal adjacency of shaded cells.",
     "howToPlay": "Click cells to shade them black or mark them as white. No two black cells can touch diagonally. Each row and column can have at most 2 consecutive black cells.",
+    "rules": {
+      "controls": "Click a cell to toggle between shaded (black), unshaded (white), and unknown states. Right-click or long-press to mark cells as definitely white.",
+      "mechanics": [
+        "No more than three consecutive shaded cells in any row or column",
+        "All unshaded cells must be connected orthogonally",
+        "Shaded cells cannot touch orthogonally (only diagonally)",
+        "Some cells may have clues indicating visibility constraints"
+      ],
+      "features": [
+        "Multiple grid sizes from 5×5 to 15×15",
+        "Hint system for challenging puzzles",
+        "Auto-check for rule violations",
+        "Progress saving"
+      ]
+    },
     "tips": [
       "Use clues to determine how many blacks are visible",
       "Avoid creating runs of 3+ consecutive blacks",
       "White cells must be connected",
       "Start with constrained areas near clues"
+    ],
+    "faq": [
+      {
+        "question": "What makes Aqre different from other shading puzzles?",
+        "answer": "Aqre's unique constraint is limiting consecutive shaded cells to three, which creates interesting strategic challenges not found in similar puzzles."
+      },
+      {
+        "question": "How do I know if my solution is correct?",
+        "answer": "A valid solution satisfies all three rules: no 4+ consecutive shaded cells, all white cells connected, and no orthogonally adjacent shaded cells."
+      },
+      {
+        "question": "What's the best strategy for beginners?",
+        "answer": "Start by identifying cells that must be white (to maintain connectivity), then work on avoiding long runs of shaded cells."
+      },
+      {
+        "question": "Can shaded cells touch diagonally?",
+        "answer": "Yes! Shaded cells can touch diagonally - they just cannot share an edge (orthogonal contact is forbidden)."
+      }
     ]
   },
   "zh": {
     "name": "阿克雷",
-    "desc": "有限制地涂黑格子！任何行或列不能有超过三个连续的涂黑格子。所有未涂黑格子必须相连。策略涂色！",
+    "desc": "有限制地涂黑格子！",
+    "description": "阿克雷是一种结合简单规则与深度策略的涂色谜题。你的目标是涂黑格子同时遵守三个关键约束：任何行或列不能有超过三个连续的涂黑格子，所有未涂黑格子必须相连，涂黑格子不能边相邻。这个优雅的谜题奖励精心规划和空间推理。",
+    "objectives": "涂黑正确的格子以满足所有约束：限制连续涂黑格子数量，保持白色格子连通性，防止涂黑格子边相邻。",
     "howToPlay": "点击格子在黑色和白色之间切换。每个数字区域必须有相应数量的黑色格子。同一行/列中不能有3个或更多连续的黑色格子。",
+    "rules": {
+      "controls": "点击格子切换涂黑（黑色）、未涂黑（白色）和未知状态。右键或长按可将格子标记为确定的白色。",
+      "mechanics": [
+        "任何行或列不能有超过三个连续的涂黑格子",
+        "所有未涂黑格子必须通过边相连",
+        "涂黑格子不能边相邻（只能对角相邻）",
+        "某些格子可能有可见性约束提示"
+      ],
+      "features": [
+        "多种网格尺寸从5×5到15×15",
+        "挑战谜题的提示系统",
+        "自动检查规则违反",
+        "进度保存"
+      ]
+    },
     "tips": [
       "从数字较小的区域开始",
       "注意避免3个或更多连续的黑色格子",
       "使用边界约束来推断格子状态"
+    ],
+    "faq": [
+      {
+        "question": "阿克雷与其他涂色谜题有什么不同？",
+        "answer": "阿克雷的独特约束是将连续涂黑格子限制为三个，这创造了类似谜题中没有的有趣策略挑战。"
+      },
+      {
+        "question": "涂黑格子可以对角相邻吗？",
+        "answer": "可以！涂黑格子可以对角相邻——只是不能边相邻。"
+      }
     ]
   }
 }

@@ -7,24 +7,94 @@
   "color": "from-red-500 to-rose-600",
   "en": {
     "name": "Minesweeper Flags",
-    "desc": "The classic minesweeper game! Uncover safe cells while avoiding hidden mines. Use number clues to deduce mine locations and flag them!",
-    "howToPlay": "Click to reveal a cell. Numbers show how many mines are adjacent. Right-click to place flags where you think mines are. Reveal all non-mine cells to win!",
+    "desc": "The classic minesweeper game!",
+    "description": "Minesweeper is the timeless puzzle game where you mines are hidden in a grid of cells. Numbers reveal how many mines touch each cell. Use logic to deduce safe cells and flag mines to victory. Simple concept, infinite depth!",
+    "objectives": "Clear all cells without hitting any mines. Flag all mines correctly and uncover all safe cells to win. race against the clock to beat your best time!",
+    "howToPlay": "Left-click (or long-press) a cell to place a flag where you think a mine is. Click to reveal cells. Numbers show how many mines are adjacent. Clear all non-mine cells to win!",
+    "rules": {
+      "controls": "Left-click to cell to place a flag 🚩. Click to reveal the cell. Numbers show adjacent mines. Press 0 to clear a cell. Win by revealing all safe cells!",
+      "mechanics": [
+        "Each number indicates how many mines touch that cell (horizontally, vertically, or diagonally)",
+        "Maximum of 8 mines can touch a corner cell",
+        "First click is always safe and reveals a 3×3 area",
+        "A '1' means exactly one mine among adjacent cells"
+      ],
+      "features": [
+        "Multiple difficulty levels (Beginner, Intermediate, Expert)",
+        "Timer and score tracking",
+        "Flag counter",
+        "First-click safety (never hit a mine on first click!)"
+      ]
+    },
     "tips": [
-      "Start by clicking corners or edges",
+      "Start by clicking corners or edges - less chance of hitting a mine",
       "A '1' means exactly one mine in the adjacent cells",
       "Flags help you mark suspected mines",
       "Look for patterns like '1-2-1' or '1-2-2-1'"
+    ],
+    "faq": [
+      {
+        "question": "What does each number mean?",
+        "answer": "Each number tells you exactly how many mines are in the 8 surrounding cells (including diagonals). A number counts mines touching it horizontally, vertically, or diagonally."
+      },
+      {
+        "question": "Can I guess where the mines are?",
+        "answer": "No, Minesweeper is a logic game where all information is available. Every mine placement can be deduced from the numbers. Random guessing increases your risk of hitting a mine!"
+      },
+      {
+        "question": "What happens if I click a cell with a flag?",
+        "answer": "That's a good! The flag is just a marker - it doesn't affect the actual mine. placement. It helps you keep track of where you think mines are without the risk."
+      },
+      {
+        "question": "Is there always a winning strategy?",
+        "answer": "Start with corners and edges (lower mine probability). Learn the common patterns like 1-2-1. Always keep your highest score!"
+      }
     ]
   },
   "zh": {
     "name": "扫雷",
-    "desc": "经典扫雷游戏！揭开安全格子同时避开隐藏的地雷。利用数字提示推断地雷位置并标记它们！",
-    "howToPlay": "点击揭开格子。数字显示相邻有多少个地雷。右键单击在你认为有地雷的地方放置旗帜。揭开所有非地雷格子获胜！",
+    "desc": "经典扫雷游戏！",
+    "description": "扫雷是一个永恒的谜题游戏，地雷隐藏在格子中。数字揭示每个格子周围有多少个地雷。使用逻辑推断安全格子并标记地雷来获胜！简单的概念，无限的深度！",
+    "objectives": "清除所有格子而不触碰任何地雷。正确标记所有地雷并揭开所有安全格子来获胜！与时间赛跑！",
+    "howToPlay": "右键单击在你你认为有地雷的地方放置旗帜。点击揭开格子。数字显示相邻有多少个地雷。揭开所有非地雷格子获胜！",
+    "rules": {
+      "controls": "右键单击格子放置旗帜🚩。点击揭开格子。数字显示相邻地雷数量。按0清除格子。通过揭开所有安全格子获胜！",
+      "mechanics": [
+        "每个数字表示该格子周围8个格子中的地雷数量",
+        "角落格子最多8个相邻地雷",
+        "第一次点击总是安全的，会揭开一个3×3区域",
+        "'1'表示相邻格子恰好有一个地雷"
+      ],
+      "features": [
+        "多种难度级别（初级、中级，专家）",
+        "计时和分数追踪",
+        "旗帜计数器",
+        "首次点击安全（永远不会第一次点击就点到地雷)"
+      ]
+    },
     "tips": [
       "从点击角落或边缘开始",
       "数字'1'表示相邻格子恰好有一个地雷",
       "旗帜帮助你标记疑似地雷",
       "寻找'1-2-1'或'1-2-2-1'等模式"
+    ],
+    "faq": [
+      {
+        "question": "每个数字是什么意思？",
+        "answer": "每个数字告诉你该格子周围8个格子中有多少个地雷（包括水平、垂直和对角线相邻）。"
+      },
+      {
+        "question": "可以猜测地雷位置吗？",
+        "answer": "不可以，扫雷是一个逻辑游戏，所有信息都是可见的。每个地雷位置都可以通过数字推断出来。随机猜测会增加踩到地雷的风险！"
+      },
+      {
+        "question": "如果点击了带旗帜的格子怎么办？",
+        "answer": "没关系！旗帜只是标记，不会影响实际的地雷位置。它帮助你记住哪些格子是危险的。避免误触。"
+      },
+      {
+        "question": "有什么必胜策略吗？",
+        "answer": "从角落和边缘开始（地雷概率较低）。学习'1-2-1'等常见模式，始终保持最高分！"
+      }
     ]
   }
 }
