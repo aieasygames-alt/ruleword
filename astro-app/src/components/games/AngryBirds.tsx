@@ -20,6 +20,7 @@ interface Bird {
   vy: number
   launched: boolean
   active: boolean
+  type: 'red' | 'yellow' | 'black'
 }
 
 interface Block {
@@ -162,6 +163,7 @@ export default function AngryBirds({
     const levelConfig = LEVELS[levelIndex]
     if (!levelConfig) return
 
+    const birdTypes: Bird['type'][] = ['red', 'yellow', 'black']
     const newBirds: Bird[] = []
     for (let i = 0; i < 3; i++) {
       newBirds.push({
@@ -171,6 +173,7 @@ export default function AngryBirds({
         vy: 0,
         launched: false,
         active: i === 0,
+        type: birdTypes[i % birdTypes.length],
       })
     }
 
@@ -411,132 +414,503 @@ export default function AngryBirds({
       const ctx = canvas.getContext('2d')
       if (!ctx) return
 
-      // Sky
-      ctx.fillStyle = settings.darkMode ? '#1a1a2e' : '#87CEEB'
-      ctx.fillRect(0, 0, 500, 500)
+      // Sky gradient
+      const skyGradient = ctx.createLinearGradient(0, 0, 0, GROUND_Y)
+      if (settings.darkMode) {
+        skyGradient.addColorStop(0, '#0f0f23')
+        skyGradient.addColorStop(1, '#1a1a3e')
+      } else {
+        skyGradient.addColorStop(0, '#87CEEB')
+        skyGradient.addColorStop(0.5, '#B0E0E6')
+        skyGradient.addColorStop(1, '#E0F7FA')
+      }
+      ctx.fillStyle = skyGradient
+      ctx.fillRect(0, 0, 500, GROUND_Y)
 
-      // Ground
-      ctx.fillStyle = settings.darkMode ? '#2d5a27' : '#8B4513'
-      ctx.fillRect(0, GROUND_Y, 500, 50)
-      ctx.fillStyle = settings.darkMode ? '#4ade80' : '#228B22'
-      ctx.fillRect(0, GROUND_Y, 500, 10)
-
-      // Slingshot
-      ctx.fillStyle = '#8B4513'
-      ctx.fillRect(SLINGSHOT_X - 5, SLINGSHOT_Y - 60, 10, 80)
-      ctx.fillRect(SLINGSHOT_X - 25, SLINGSHOT_Y - 50, 50, 8)
-
-      // Draw elastic band
-      if (isDragging && birds[currentBirdIndex] && !birds[currentBirdIndex].launched) {
-        ctx.strokeStyle = '#4a3728'
-        ctx.lineWidth = 3
+      // Sun/Moon
+      if (settings.darkMode) {
+        ctx.fillStyle = '#F5F5DC'
         ctx.beginPath()
-        ctx.moveTo(SLINGSHOT_X - 20, SLINGSHOT_Y - 45)
-        ctx.lineTo(dragEnd.x, dragEnd.y)
-        ctx.lineTo(SLINGSHOT_X + 20, SLINGSHOT_Y - 45)
+        ctx.arc(420, 60, 30, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.fillStyle = '#0f0f23'
+        ctx.beginPath()
+        ctx.arc(430, 55, 25, 0, Math.PI * 2)
+        ctx.fill()
+      } else {
+        ctx.fillStyle = '#FFD700'
+        ctx.beginPath()
+        ctx.arc(420, 60, 35, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.fillStyle = '#FFF8DC'
+        ctx.beginPath()
+        ctx.arc(420, 60, 28, 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      // Clouds
+      const drawCloud = (x: number, y: number, scale: number) => {
+        ctx.fillStyle = settings.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.9)'
+        ctx.beginPath()
+        ctx.arc(x, y, 20 * scale, 0, Math.PI * 2)
+        ctx.arc(x + 25 * scale, y - 5 * scale, 25 * scale, 0, Math.PI * 2)
+        ctx.arc(x + 50 * scale, y, 20 * scale, 0, Math.PI * 2)
+        ctx.arc(x + 25 * scale, y + 10 * scale, 18 * scale, 0, Math.PI * 2)
+        ctx.fill()
+      }
+      drawCloud(50, 50, 1)
+      drawCloud(200, 80, 0.7)
+      drawCloud(350, 40, 0.8)
+
+      // Mountains in background
+      ctx.fillStyle = settings.darkMode ? '#2d3748' : '#9CB4CC'
+      ctx.beginPath()
+      ctx.moveTo(0, GROUND_Y)
+      ctx.lineTo(100, GROUND_Y - 80)
+      ctx.lineTo(200, GROUND_Y)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.moveTo(150, GROUND_Y)
+      ctx.lineTo(280, GROUND_Y - 120)
+      ctx.lineTo(400, GROUND_Y)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.moveTo(350, GROUND_Y)
+      ctx.lineTo(450, GROUND_Y - 60)
+      ctx.lineTo(500, GROUND_Y)
+      ctx.fill()
+
+      // Ground layers
+      ctx.fillStyle = settings.darkMode ? '#3d2817' : '#8B4513'
+      ctx.fillRect(0, GROUND_Y, 500, 50)
+      ctx.fillStyle = settings.darkMode ? '#4a6741' : '#228B22'
+      ctx.fillRect(0, GROUND_Y, 500, 12)
+
+      // Grass blades
+      ctx.strokeStyle = settings.darkMode ? '#6b8e23' : '#32CD32'
+      ctx.lineWidth = 2
+      for (let i = 0; i < 100; i++) {
+        const gx = i * 5
+        const gh = 5 + Math.sin(i) * 3
+        ctx.beginPath()
+        ctx.moveTo(gx, GROUND_Y)
+        ctx.lineTo(gx + 2, GROUND_Y - gh)
         ctx.stroke()
       }
 
-      // Draw blocks
+      // Draw slingshot with Y-shape
+      // Back arm
+      ctx.fillStyle = '#5D3A1A'
+      ctx.beginPath()
+      ctx.moveTo(SLINGSHOT_X + 15, SLINGSHOT_Y - 55)
+      ctx.lineTo(SLINGSHOT_X + 25, SLINGSHOT_Y - 75)
+      ctx.lineTo(SLINGSHOT_X + 30, SLINGSHOT_Y - 70)
+      ctx.lineTo(SLINGSHOT_X + 22, SLINGSHOT_Y - 50)
+      ctx.fill()
+
+      // Main trunk
+      const trunkGradient = ctx.createLinearGradient(SLINGSHOT_X - 8, 0, SLINGSHOT_X + 8, 0)
+      trunkGradient.addColorStop(0, '#5D3A1A')
+      trunkGradient.addColorStop(0.5, '#8B4513')
+      trunkGradient.addColorStop(1, '#5D3A1A')
+      ctx.fillStyle = trunkGradient
+      ctx.beginPath()
+      ctx.moveTo(SLINGSHOT_X - 8, SLINGSHOT_Y + 20)
+      ctx.lineTo(SLINGSHOT_X - 6, SLINGSHOT_Y - 45)
+      ctx.lineTo(SLINGSHOT_X + 6, SLINGSHOT_Y - 45)
+      ctx.lineTo(SLINGSHOT_X + 8, SLINGSHOT_Y + 20)
+      ctx.fill()
+
+      // Front arm
+      ctx.fillStyle = '#8B4513'
+      ctx.beginPath()
+      ctx.moveTo(SLINGSHOT_X - 15, SLINGSHOT_Y - 55)
+      ctx.lineTo(SLINGSHOT_X - 25, SLINGSHOT_Y - 75)
+      ctx.lineTo(SLINGSHOT_X - 30, SLINGSHOT_Y - 70)
+      ctx.lineTo(SLINGSHOT_X - 22, SLINGSHOT_Y - 50)
+      ctx.fill()
+
+      // Rubber band attachment points
+      ctx.fillStyle = '#2F1810'
+      ctx.beginPath()
+      ctx.arc(SLINGSHOT_X - 25, SLINGSHOT_Y - 72, 5, 0, Math.PI * 2)
+      ctx.arc(SLINGSHOT_X + 25, SLINGSHOT_Y - 72, 5, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Draw elastic band
+      if (isDragging && birds[currentBirdIndex] && !birds[currentBirdIndex].launched) {
+        ctx.strokeStyle = '#8B4513'
+        ctx.lineWidth = 4
+        ctx.beginPath()
+        ctx.moveTo(SLINGSHOT_X - 25, SLINGSHOT_Y - 72)
+        ctx.quadraticCurveTo(dragEnd.x, dragEnd.y - 10, dragEnd.x, dragEnd.y)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(SLINGSHOT_X + 25, SLINGSHOT_Y - 72)
+        ctx.quadraticCurveTo(dragEnd.x, dragEnd.y - 10, dragEnd.x, dragEnd.y)
+        ctx.stroke()
+      } else if (!isDragging && birds[currentBirdIndex] && !birds[currentBirdIndex].launched) {
+        // Resting band
+        ctx.strokeStyle = '#8B4513'
+        ctx.lineWidth = 4
+        ctx.beginPath()
+        ctx.moveTo(SLINGSHOT_X - 25, SLINGSHOT_Y - 72)
+        ctx.lineTo(SLINGSHOT_X + 25, SLINGSHOT_Y - 72)
+        ctx.stroke()
+      }
+
+      // Draw blocks with textures
       for (const block of blocks) {
-        let color = '#8B4513'
-        if (block.type === 'stone') color = '#808080'
-        if (block.type === 'glass') color = '#ADD8E6'
+        const bx = block.x
+        const by = block.y - block.height
+        const bw = block.width
+        const bh = block.height
 
-        ctx.fillStyle = color
-        ctx.fillRect(block.x, block.y - block.height, block.width, block.height)
+        if (block.type === 'wood') {
+          // Wood grain texture
+          const woodGradient = ctx.createLinearGradient(bx, by, bx, by + bh)
+          woodGradient.addColorStop(0, '#D2691E')
+          woodGradient.addColorStop(0.3, '#CD853F')
+          woodGradient.addColorStop(0.7, '#DEB887')
+          woodGradient.addColorStop(1, '#D2691E')
+          ctx.fillStyle = woodGradient
+          ctx.fillRect(bx, by, bw, bh)
 
-        // Damage indicator
-        const damageRatio = block.hp / (block.type === 'stone' ? 50 : block.type === 'glass' ? 20 : 30)
-        if (damageRatio < 1) {
-          ctx.strokeStyle = '#333'
+          // Wood grain lines
+          ctx.strokeStyle = '#8B4513'
+          ctx.lineWidth = 1
+          for (let i = 0; i < 3; i++) {
+            ctx.beginPath()
+            ctx.moveTo(bx, by + (i + 1) * bh / 4)
+            ctx.bezierCurveTo(bx + bw * 0.3, by + (i + 1) * bh / 4 - 3, bx + bw * 0.7, by + (i + 1) * bh / 4 + 3, bx + bw, by + (i + 1) * bh / 4)
+            ctx.stroke()
+          }
+
+          // Border
+          ctx.strokeStyle = '#654321'
+          ctx.lineWidth = 2
+          ctx.strokeRect(bx, by, bw, bh)
+
+        } else if (block.type === 'stone') {
+          // Stone texture
+          const stoneGradient = ctx.createLinearGradient(bx, by, bx + bw, by + bh)
+          stoneGradient.addColorStop(0, '#A0A0A0')
+          stoneGradient.addColorStop(0.5, '#808080')
+          stoneGradient.addColorStop(1, '#606060')
+          ctx.fillStyle = stoneGradient
+          ctx.fillRect(bx, by, bw, bh)
+
+          // Stone cracks
+          ctx.strokeStyle = '#505050'
           ctx.lineWidth = 1
           ctx.beginPath()
-          ctx.moveTo(block.x, block.y - block.height)
-          ctx.lineTo(block.x + block.width, block.y)
+          ctx.moveTo(bx + bw * 0.2, by)
+          ctx.lineTo(bx + bw * 0.4, by + bh * 0.6)
+          ctx.lineTo(bx + bw * 0.3, by + bh)
+          ctx.stroke()
+          ctx.beginPath()
+          ctx.moveTo(bx + bw * 0.7, by)
+          ctx.lineTo(bx + bw * 0.6, by + bh * 0.4)
+          ctx.stroke()
+
+          // Border
+          ctx.strokeStyle = '#404040'
+          ctx.lineWidth = 2
+          ctx.strokeRect(bx, by, bw, bh)
+
+        } else if (block.type === 'glass') {
+          // Glass texture
+          ctx.fillStyle = 'rgba(173, 216, 230, 0.7)'
+          ctx.fillRect(bx, by, bw, bh)
+
+          // Glass reflection
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
+          ctx.beginPath()
+          ctx.moveTo(bx + 2, by + 2)
+          ctx.lineTo(bx + bw * 0.3, by + 2)
+          ctx.lineTo(bx + 2, by + bh * 0.5)
+          ctx.fill()
+
+          // Glass border
+          ctx.strokeStyle = 'rgba(100, 149, 237, 0.8)'
+          ctx.lineWidth = 2
+          ctx.strokeRect(bx, by, bw, bh)
+        }
+
+        // Damage cracks
+        const maxHp = block.type === 'stone' ? 50 : block.type === 'glass' ? 20 : 30
+        const damageRatio = block.hp / maxHp
+        if (damageRatio < 0.7) {
+          ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+          ctx.lineWidth = 2
+          ctx.beginPath()
+          ctx.moveTo(bx + bw * 0.3, by)
+          ctx.lineTo(bx + bw * 0.5, by + bh * 0.5)
+          ctx.lineTo(bx + bw * 0.4, by + bh)
+          ctx.stroke()
+        }
+        if (damageRatio < 0.4) {
+          ctx.beginPath()
+          ctx.moveTo(bx + bw * 0.7, by + bh * 0.2)
+          ctx.lineTo(bx + bw * 0.6, by + bh * 0.7)
           ctx.stroke()
         }
       }
 
-      // Draw pigs
+      // Draw pigs with detailed expressions
       for (const pig of pigs) {
-        // Body
+        const px = pig.x
+        const py = pig.y
+        const pr = pig.radius
+
+        // Body shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.2)'
+        ctx.beginPath()
+        ctx.ellipse(px + 3, py + 3, pr, pr * 0.9, 0, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Body gradient
+        const pigGradient = ctx.createRadialGradient(px - pr * 0.3, py - pr * 0.3, 0, px, py, pr)
+        pigGradient.addColorStop(0, '#98FB98')
+        pigGradient.addColorStop(0.7, '#90EE90')
+        pigGradient.addColorStop(1, '#3CB371')
+        ctx.fillStyle = pigGradient
+        ctx.beginPath()
+        ctx.arc(px, py, pr, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Ears
         ctx.fillStyle = '#90EE90'
         ctx.beginPath()
-        ctx.arc(pig.x, pig.y, pig.radius, 0, Math.PI * 2)
+        ctx.ellipse(px - pr * 0.7, py - pr * 0.7, pr * 0.25, pr * 0.35, -0.5, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(px + pr * 0.7, py - pr * 0.7, pr * 0.25, pr * 0.35, 0.5, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Inner ears
+        ctx.fillStyle = '#77DD77'
+        ctx.beginPath()
+        ctx.ellipse(px - pr * 0.7, py - pr * 0.7, pr * 0.12, pr * 0.2, -0.5, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(px + pr * 0.7, py - pr * 0.7, pr * 0.12, pr * 0.2, 0.5, 0, Math.PI * 2)
         ctx.fill()
 
         // Eyes
         ctx.fillStyle = 'white'
         ctx.beginPath()
-        ctx.arc(pig.x - 5, pig.y - 3, 5, 0, Math.PI * 2)
-        ctx.arc(pig.x + 5, pig.y - 3, 5, 0, Math.PI * 2)
+        ctx.ellipse(px - pr * 0.3, py - pr * 0.15, pr * 0.25, pr * 0.3, 0, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(px + pr * 0.3, py - pr * 0.15, pr * 0.25, pr * 0.3, 0, 0, Math.PI * 2)
         ctx.fill()
 
+        // Pupils - look at nearest bird
+        let lookX = 0, lookY = 0
+        const activeBird = birds.find(b => b.launched && b.active)
+        if (activeBird) {
+          const dx = activeBird.x - px
+          const dy = activeBird.y - py
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist > 0) {
+            lookX = (dx / dist) * pr * 0.08
+            lookY = (dy / dist) * pr * 0.08
+          }
+        }
         ctx.fillStyle = 'black'
         ctx.beginPath()
-        ctx.arc(pig.x - 5, pig.y - 3, 2, 0, Math.PI * 2)
-        ctx.arc(pig.x + 5, pig.y - 3, 2, 0, Math.PI * 2)
+        ctx.arc(px - pr * 0.3 + lookX, py - pr * 0.15 + lookY, pr * 0.1, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.arc(px + pr * 0.3 + lookX, py - pr * 0.15 + lookY, pr * 0.1, 0, Math.PI * 2)
         ctx.fill()
 
         // Snout
         ctx.fillStyle = '#77DD77'
         ctx.beginPath()
-        ctx.ellipse(pig.x, pig.y + 5, 8, 5, 0, 0, Math.PI * 2)
+        ctx.ellipse(px, py + pr * 0.25, pr * 0.4, pr * 0.25, 0, 0, Math.PI * 2)
         ctx.fill()
 
-        // Damage indicator
+        // Nostrils
+        ctx.fillStyle = '#3CB371'
+        ctx.beginPath()
+        ctx.ellipse(px - pr * 0.12, py + pr * 0.25, pr * 0.08, pr * 0.06, 0, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(px + pr * 0.12, py + pr * 0.25, pr * 0.08, pr * 0.06, 0, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Damage indicator - worried expression
         const hpRatio = pig.hp / (LEVELS[level]?.pigs.find(p => p.radius === pig.radius)?.hp || 40)
-        if (hpRatio < 1) {
-          ctx.strokeStyle = '#ff0000'
+        if (hpRatio < 0.7) {
+          // Worried eyebrows
+          ctx.strokeStyle = '#2E8B57'
           ctx.lineWidth = 2
           ctx.beginPath()
-          ctx.arc(pig.x, pig.y, pig.radius + 2, 0, Math.PI * 2)
+          ctx.moveTo(px - pr * 0.45, py - pr * 0.45)
+          ctx.lineTo(px - pr * 0.15, py - pr * 0.35)
           ctx.stroke()
+          ctx.beginPath()
+          ctx.moveTo(px + pr * 0.45, py - pr * 0.45)
+          ctx.lineTo(px + pr * 0.15, py - pr * 0.35)
+          ctx.stroke()
+        }
+        if (hpRatio < 0.4) {
+          // Bruises
+          ctx.fillStyle = 'rgba(128, 0, 128, 0.4)'
+          ctx.beginPath()
+          ctx.arc(px - pr * 0.5, py, pr * 0.15, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(px + pr * 0.6, py - pr * 0.3, pr * 0.12, 0, Math.PI * 2)
+          ctx.fill()
         }
       }
 
-      // Draw birds
+      // Draw birds with different types
       for (let i = 0; i < birds.length; i++) {
         const bird = birds[i]
         if (!bird.active && !bird.launched) continue
 
-        // Body
-        ctx.fillStyle = '#FF6347'
+        const bx = bird.x
+        const by = bird.y
+        const br = 15
+
+        // Shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.2)'
         ctx.beginPath()
-        ctx.arc(bird.x, bird.y, 15, 0, Math.PI * 2)
+        ctx.ellipse(bx + 2, GROUND_Y - 2, br * 0.8, br * 0.3, 0, 0, Math.PI * 2)
         ctx.fill()
 
-        // Eyes
+        // Body based on type
+        if (bird.type === 'red') {
+          // Red bird - classic angry bird
+          const redGradient = ctx.createRadialGradient(bx - 5, by - 5, 0, bx, by, br)
+          redGradient.addColorStop(0, '#FF6B6B')
+          redGradient.addColorStop(0.7, '#EE5A5A')
+          redGradient.addColorStop(1, '#CC4444')
+          ctx.fillStyle = redGradient
+          ctx.beginPath()
+          ctx.arc(bx, by, br, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Belly
+          ctx.fillStyle = '#F5DEB3'
+          ctx.beginPath()
+          ctx.ellipse(bx, by + 5, br * 0.5, br * 0.4, 0, 0, Math.PI * 2)
+          ctx.fill()
+
+        } else if (bird.type === 'yellow') {
+          // Yellow bird - triangular speedy bird
+          const yellowGradient = ctx.createRadialGradient(bx - 5, by - 5, 0, bx, by, br)
+          yellowGradient.addColorStop(0, '#FFD700')
+          yellowGradient.addColorStop(0.7, '#FFC000')
+          yellowGradient.addColorStop(1, '#DAA520')
+          ctx.fillStyle = yellowGradient
+          ctx.beginPath()
+          ctx.moveTo(bx, by - br)
+          ctx.lineTo(bx + br * 1.2, by + br * 0.8)
+          ctx.lineTo(bx - br * 1.2, by + br * 0.8)
+          ctx.closePath()
+          ctx.fill()
+
+          // Belly
+          ctx.fillStyle = '#FFF8DC'
+          ctx.beginPath()
+          ctx.ellipse(bx, by + 2, br * 0.4, br * 0.35, 0, 0, Math.PI * 2)
+          ctx.fill()
+
+        } else if (bird.type === 'black') {
+          // Black bird - bomb bird
+          const blackGradient = ctx.createRadialGradient(bx - 5, by - 5, 0, bx, by, br)
+          blackGradient.addColorStop(0, '#4A4A4A')
+          blackGradient.addColorStop(0.7, '#333333')
+          blackGradient.addColorStop(1, '#1A1A1A')
+          ctx.fillStyle = blackGradient
+          ctx.beginPath()
+          ctx.arc(bx, by, br * 1.1, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Fuse
+          ctx.strokeStyle = '#8B4513'
+          ctx.lineWidth = 3
+          ctx.beginPath()
+          ctx.moveTo(bx, by - br * 1.1)
+          ctx.lineTo(bx + 3, by - br * 1.4)
+          ctx.stroke()
+
+          // Spark
+          ctx.fillStyle = '#FF4500'
+          ctx.beginPath()
+          ctx.arc(bx + 3, by - br * 1.4, 4, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.fillStyle = '#FFD700'
+          ctx.beginPath()
+          ctx.arc(bx + 3, by - br * 1.4, 2, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Grey belly
+          ctx.fillStyle = '#696969'
+          ctx.beginPath()
+          ctx.ellipse(bx, by + 3, br * 0.5, br * 0.4, 0, 0, Math.PI * 2)
+          ctx.fill()
+        }
+
+        // Eyes (common for all birds)
         ctx.fillStyle = 'white'
         ctx.beginPath()
-        ctx.arc(bird.x - 5, bird.y - 3, 4, 0, Math.PI * 2)
-        ctx.arc(bird.x + 5, bird.y - 3, 4, 0, Math.PI * 2)
+        ctx.ellipse(bx - 5, by - 3, 5, 6, 0, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.ellipse(bx + 5, by - 3, 5, 6, 0, 0, Math.PI * 2)
         ctx.fill()
 
+        // Pupils
         ctx.fillStyle = 'black'
         ctx.beginPath()
-        ctx.arc(bird.x - 5, bird.y - 3, 2, 0, Math.PI * 2)
-        ctx.arc(bird.x + 5, bird.y - 3, 2, 0, Math.PI * 2)
+        ctx.arc(bx - 4, by - 2, 2.5, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.beginPath()
+        ctx.arc(bx + 6, by - 2, 2.5, 0, Math.PI * 2)
         ctx.fill()
 
-        // Eyebrows (angry look)
-        ctx.strokeStyle = 'black'
-        ctx.lineWidth = 2
+        // Angry eyebrows
+        ctx.strokeStyle = '#2F1810'
+        ctx.lineWidth = 3
         ctx.beginPath()
-        ctx.moveTo(bird.x - 8, bird.y - 8)
-        ctx.lineTo(bird.x - 2, bird.y - 6)
-        ctx.moveTo(bird.x + 8, bird.y - 8)
-        ctx.lineTo(bird.x + 2, bird.y - 6)
+        ctx.moveTo(bx - 10, by - 10)
+        ctx.lineTo(bx - 2, by - 7)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(bx + 10, by - 10)
+        ctx.lineTo(bx + 2, by - 7)
         ctx.stroke()
 
         // Beak
         ctx.fillStyle = '#FFA500'
         ctx.beginPath()
-        ctx.moveTo(bird.x, bird.y + 2)
-        ctx.lineTo(bird.x + 8, bird.y + 5)
-        ctx.lineTo(bird.x, bird.y + 8)
+        ctx.moveTo(bx + 3, by + 3)
+        ctx.lineTo(bx + 15, by + 6)
+        ctx.lineTo(bx + 3, by + 10)
         ctx.closePath()
+        ctx.fill()
+        ctx.fillStyle = '#FF8C00'
+        ctx.beginPath()
+        ctx.moveTo(bx + 3, by + 6)
+        ctx.lineTo(bx + 12, by + 7)
+        ctx.lineTo(bx + 3, by + 10)
+        ctx.closePath()
+        ctx.fill()
+
+        // Tail feathers
+        ctx.fillStyle = bird.type === 'red' ? '#8B0000' : bird.type === 'yellow' ? '#B8860B' : '#1A1A1A'
+        ctx.beginPath()
+        ctx.moveTo(bx - br, by - 5)
+        ctx.lineTo(bx - br - 12, by - 12)
+        ctx.lineTo(bx - br - 8, by)
+        ctx.lineTo(bx - br - 12, by + 8)
+        ctx.lineTo(bx - br, by + 5)
         ctx.fill()
       }
 
@@ -547,34 +921,34 @@ export default function AngryBirds({
         const power = Math.sqrt(dx * dx + dy * dy) * 0.15
         const angle = Math.atan2(dy, dx)
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
-        for (let i = 1; i <= 8; i++) {
+        for (let i = 1; i <= 12; i++) {
           const t = i * 5
           const px = SLINGSHOT_X + Math.cos(angle) * power * t
           const py = SLINGSHOT_Y + Math.sin(angle) * power * t + 0.5 * GRAVITY * t * t
 
           if (py > GROUND_Y) break
 
+          ctx.fillStyle = `rgba(255, 255, 255, ${0.6 - i * 0.04})`
           ctx.beginPath()
-          ctx.arc(px, py, 3, 0, Math.PI * 2)
+          ctx.arc(px, py, 4 - i * 0.2, 0, Math.PI * 2)
           ctx.fill()
         }
       }
 
-      // Score display
+      // Score display with background
+      ctx.fillStyle = 'rgba(0,0,0,0.5)'
+      ctx.fillRect(5, 10, 120, 30)
       ctx.fillStyle = 'white'
-      ctx.strokeStyle = 'black'
-      ctx.lineWidth = 2
-      ctx.font = 'bold 20px Arial'
+      ctx.font = 'bold 18px Arial'
       ctx.textAlign = 'left'
-      ctx.strokeText(`Score: ${score}`, 10, 30)
-      ctx.fillText(`Score: ${score}`, 10, 30)
+      ctx.fillText(`⭐ ${score}`, 15, 32)
 
-      // Birds remaining
+      // Birds remaining indicator
+      ctx.fillStyle = 'rgba(0,0,0,0.5)'
+      ctx.fillRect(375, 10, 120, 30)
       ctx.textAlign = 'right'
       const birdsLeft = birds.filter(b => !b.launched).length
-      ctx.strokeText(`Birds: ${birdsLeft}`, 490, 30)
-      ctx.fillText(`Birds: ${birdsLeft}`, 490, 30)
+      ctx.fillText(`🐦 × ${birdsLeft}`, 485, 32)
 
       gameLoopRef.current = requestAnimationFrame(gameLoop)
     }
