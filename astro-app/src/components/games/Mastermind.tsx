@@ -494,18 +494,18 @@ export default function Mastermind({ settings, onBack }: MastermindProps) {
                 key={color}
                 onClick={() => handleColorSelect(color)}
                 disabled={currentGuess.length >= CODE_LENGTH}
-                className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl
-                  transition-transform hover:scale-110 active:scale-95
-                  ${color === 'red' ? 'bg-red-500' : ''}
-                  ${color === 'orange' ? 'bg-orange-500' : ''}
-                  ${color === 'yellow' ? 'bg-yellow-500' : ''}
-                  ${color === 'green' ? 'bg-green-500' : ''}
-                  ${color === 'blue' ? 'bg-blue-500' : ''}
-                  ${color === 'purple' ? 'bg-purple-500' : ''}
+                className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-lg
+                  transition-all duration-200 hover:scale-110 hover:shadow-xl active:scale-95
+                  ${color === 'red' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/30' : ''}
+                  ${color === 'orange' ? 'bg-gradient-to-br from-orange-400 to-orange-600 shadow-orange-500/30' : ''}
+                  ${color === 'yellow' ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-yellow-500/30' : ''}
+                  ${color === 'green' ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-green-500/30' : ''}
+                  ${color === 'blue' ? 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-blue-500/30' : ''}
+                  ${color === 'purple' ? 'bg-gradient-to-br from-purple-400 to-purple-600 shadow-purple-500/30' : ''}
                   ${currentGuess.length >= CODE_LENGTH ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
-                {COLOR_EMOJI[color]}
+                <span className="drop-shadow-md">{COLOR_EMOJI[color]}</span>
               </button>
             ))}
           </div>
