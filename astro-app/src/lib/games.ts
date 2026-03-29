@@ -116,6 +116,27 @@ function sanityToGameData(data: any): GameData {
     return []
   }
 
+  // 处理 FAQ 字段
+  const parseFaq = (faq: any[] | undefined): GameFAQ[] => {
+    if (!faq || !Array.isArray(faq)) return []
+    return faq.map(item => ({
+      question: item.question || '',
+      answer: item.answer || '',
+    }))
+  }
+
+  // 处理 Rules 字段
+  const parseRules = (rules: any): GameRules => {
+    if (!rules) return {}
+    return {
+      controls: rules.controls || '',
+      mechanics: rules.mechanics || [],
+      features: rules.features || [],
+    }
+  }
+
+  const isExternal = data._type === 'externalGame'
+
   return {
     id: data.gameId,
     slug: data.slug?.current || data.slug,
@@ -127,12 +148,26 @@ function sanityToGameData(data: any): GameData {
     nameZh: data.titleZh || data.title || '',
     desc: data.description || '',
     descZh: data.descriptionZh || data.description || '',
+    // 新增详细描述字段
+    description: data.description || '',
+    descriptionZh: data.descriptionZh || data.description || '',
+    objectives: data.objectives || '',
+    objectivesZh: data.objectivesZh || data.objectives || '',
     howToPlay: data.howToPlay,
     howToPlayZh: data.howToPlayZh || data.howToPlay,
+    // 结构化规则
+    rules: parseRules(data.rules),
+    rulesZh: {
+      controls: data.rules?.controlsZh || data.rules?.controls || '',
+      mechanics: data.rules?.mechanicsZh || data.rules?.mechanics || [],
+      features: data.rules?.featuresZh || data.rules?.features || [],
+    },
     tips: parseTips(data.tips),
     tipsZh: parseTips(data.tipsZh).length > 0 ? parseTips(data.tipsZh) : parseTips(data.tips),
+    faq: parseFaq(data.faq),
+    faqZh: parseFaq(data.faqZh).length > 0 ? parseFaq(data.faqZh) : parseFaq(data.faq),
     // 第三方游戏特有字段
-    isExternal: data._type === 'externalGame',
+    isExternal,
     gameUrl: data.gameUrl || '',
     iframeWidth: data.iframeWidth || '100%',
     iframeHeight: data.iframeHeight || '600px',

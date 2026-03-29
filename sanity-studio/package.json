@@ -7,6 +7,7 @@
     "deploy": "sanity deploy"
   },
   "dependencies": {
+    "@sanity/client": "^7.20.0",
     "sanity": "^5.17.1",
     "styled-components": "^6.1.15"
   }

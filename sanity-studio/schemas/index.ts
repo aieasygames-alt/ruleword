@@ -1,4 +1,4 @@
-import { game } from './game'
+import { game, faqItem } from './game'
 import { externalGame } from './externalGame'
 
-export const schemaTypes = [game, externalGame]
+export const schemaTypes = [faqItem, game, externalGame]
