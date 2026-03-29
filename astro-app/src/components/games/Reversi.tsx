@@ -263,14 +263,21 @@ export default function Reversi({ settings, onBack }: ReversiProps) {
                 >
                   {/* Valid move indicator */}
                   {isValidMove(rowIdx, colIdx) && cell === 0 && currentPlayer === 1 && (
-                    <div className={`w-4 h-4 rounded-full ${validMoveClass} opacity-50`}></div>
+                    <div className={`w-4 h-4 rounded-full ${validMoveClass} opacity-50 animate-pulse`}></div>
                   )}
                   {/* Piece */}
                   {cell !== 0 && (
                     <div
-                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-lg transition-all ${
-                        cell === 1 ? 'bg-gray-900 border-2 border-gray-700' : 'bg-white border-2 border-gray-200'
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full shadow-xl transition-all ${
+                        cell === 1
+                          ? 'bg-gradient-to-br from-gray-700 to-gray-900 ring-2 ring-gray-600 shadow-black/50'
+                          : 'bg-gradient-to-br from-white to-gray-200 ring-2 ring-gray-300 shadow-white/30'
                       }`}
+                      style={{
+                        boxShadow: cell === 1
+                          ? '0 4px 15px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.1)'
+                          : '0 4px 15px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.8)'
+                      }}
                     ></div>
                   )}
                 </div>

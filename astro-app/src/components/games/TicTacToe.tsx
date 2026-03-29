@@ -344,14 +344,16 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
                 key={index}
                 onClick={() => handleCellClick(index)}
                 disabled={!!cell || !!winner || isDraw || !isPlayerTurn}
-                className={`aspect-square text-4xl font-bold rounded-lg flex items-center justify-center transition-all
-                  ${winningLine.includes(index) ? 'bg-green-500 text-white' :
-                    cell ? (settings.darkMode ? 'bg-gray-700' : 'bg-gray-200') :
-                    'hover:bg-gray-600/30'}
-                  ${!cell && !winner && !isDraw && isPlayerTurn ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`aspect-square text-4xl font-bold rounded-xl flex items-center justify-center transition-all shadow-lg
+                  ${winningLine.includes(index) ? 'bg-gradient-to-br from-green-400 to-green-600 text-white scale-105 shadow-green-500/50 ring-2 ring-green-300' :
+                    cell === 'X' ? 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-blue-500/30' :
+                    cell === 'O' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/30' :
+                    settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600' :
+                    'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300'}
+                  ${!cell && !winner && !isDraw && isPlayerTurn ? 'cursor-pointer hover:scale-105' : 'cursor-default'}`}
               >
-                {cell === 'X' && <span className="text-blue-500">✕</span>}
-                {cell === 'O' && <span className="text-red-500">○</span>}
+                {cell === 'X' && <span className="text-white drop-shadow-lg">✕</span>}
+                {cell === 'O' && <span className="text-white drop-shadow-lg">○</span>}
               </button>
             ))}
           </div>
