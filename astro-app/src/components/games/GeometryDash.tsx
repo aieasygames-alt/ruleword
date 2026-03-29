@@ -41,6 +41,8 @@ export default function GeometryDash({
   const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
   const [attempts, setAttempts] = useState(0)
+  const [rotation, setRotation] = useState(0)
+  const [bgOffset, setBgOffset] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -221,33 +223,76 @@ export default function GeometryDash({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Background
-    const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
-    gradient.addColorStop(0, settings.darkMode ? '#1a1a2e' : '#667eea')
-    gradient.addColorStop(1, settings.darkMode ? '#16213e' : '#764ba2')
-    ctx.fillStyle = gradient
+    // Update animation
+    if (gameState === 'playing') {
+      setRotation(prev => prev + (isGrounded ? 0 : 0.15))
+      setBgOffset(prev => (prev + GAME_SPEED) % 100)
+    }
+
+    // Background with neon grid
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, settings.darkMode ? '#0a0a1a' : '#4c1d95')
+    bgGradient.addColorStop(0.5, settings.darkMode ? '#1a1a3e' : '#7c3aed')
+    bgGradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#8b5cf6')
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    // Ground
-    ctx.fillStyle = settings.darkMode ? '#0f3460' : '#2d3748'
+    // Neon grid lines (moving)
+    ctx.strokeStyle = settings.darkMode ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255, 255, 255, 0.1)'
+    ctx.lineWidth = 1
+    for (let x = -bgOffset; x < CANVAS_WIDTH + 50; x += 50) {
+      ctx.beginPath()
+      ctx.moveTo(x, 0)
+      ctx.lineTo(x, CANVAS_HEIGHT - GROUND_HEIGHT)
+      ctx.stroke()
+    }
+    for (let y = 0; y < CANVAS_HEIGHT - GROUND_HEIGHT; y += 50) {
+      ctx.beginPath()
+      ctx.moveTo(0, y)
+      ctx.lineTo(CANVAS_WIDTH, y)
+      ctx.stroke()
+    }
+
+    // Ground with neon effect
+    const groundGradient = ctx.createLinearGradient(0, CANVAS_HEIGHT - GROUND_HEIGHT, 0, CANVAS_HEIGHT)
+    groundGradient.addColorStop(0, settings.darkMode ? '#1e1b4b' : '#374151')
+    groundGradient.addColorStop(1, settings.darkMode ? '#0f0a1a' : '#1f2937')
+    ctx.fillStyle = groundGradient
     ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, GROUND_HEIGHT)
 
-    // Ground line
-    ctx.strokeStyle = settings.darkMode ? '#e94560' : '#48bb78'
+    // Ground top glow line
+    ctx.shadowColor = '#a855f7'
+    ctx.shadowBlur = 15
+    ctx.strokeStyle = '#a855f7'
     ctx.lineWidth = 3
     ctx.beginPath()
     ctx.moveTo(0, CANVAS_HEIGHT - GROUND_HEIGHT)
     ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_HEIGHT)
     ctx.stroke()
+    ctx.shadowBlur = 0
 
-    // Obstacles
+    // Ground pattern
+    ctx.fillStyle = settings.darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)'
+    for (let x = -bgOffset % 20; x < CANVAS_WIDTH; x += 20) {
+      ctx.fillRect(x, CANVAS_HEIGHT - GROUND_HEIGHT + 5, 10, GROUND_HEIGHT - 5)
+    }
+
+    // Obstacles with neon glow
     for (const obs of obstacles) {
       if (obs.type === 'spike') {
-        // Draw spike (triangle)
-        ctx.fillStyle = '#ef4444'
+        // Spike glow
+        ctx.shadowColor = '#ef4444'
+        ctx.shadowBlur = 20
+
+        // Spike body with gradient
+        const spikeGradient = ctx.createLinearGradient(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT, obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 25)
+        spikeGradient.addColorStop(0, '#dc2626')
+        spikeGradient.addColorStop(0.5, '#ef4444')
+        spikeGradient.addColorStop(1, '#fca5a5')
+        ctx.fillStyle = spikeGradient
         ctx.beginPath()
         ctx.moveTo(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT)
-        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 25)
+        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 30)
         ctx.lineTo(obs.x + 30, CANVAS_HEIGHT - GROUND_HEIGHT)
         ctx.closePath()
         ctx.fill()
@@ -256,67 +301,145 @@ export default function GeometryDash({
         ctx.strokeStyle = '#fca5a5'
         ctx.lineWidth = 2
         ctx.stroke()
+
+        // Inner spike detail
+        ctx.fillStyle = '#fca5a5'
+        ctx.beginPath()
+        ctx.moveTo(obs.x + 10, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 18)
+        ctx.lineTo(obs.x + 20, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.closePath()
+        ctx.fill()
+
+        ctx.shadowBlur = 0
+
       } else {
-        // Draw block
-        ctx.fillStyle = '#3b82f6'
-        ctx.fillRect(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT - 40, 40, 40)
+        // Block glow
+        ctx.shadowColor = '#3b82f6'
+        ctx.shadowBlur = 20
+
+        const blockY = CANVAS_HEIGHT - GROUND_HEIGHT - 40
+
+        // Block body with gradient
+        const blockGradient = ctx.createLinearGradient(obs.x, blockY, obs.x + 40, blockY + 40)
+        blockGradient.addColorStop(0, '#60a5fa')
+        blockGradient.addColorStop(0.5, '#3b82f6')
+        blockGradient.addColorStop(1, '#1d4ed8')
+        ctx.fillStyle = blockGradient
+        ctx.fillRect(obs.x, blockY, 40, 40)
 
         // Block outline
         ctx.strokeStyle = '#93c5fd'
         ctx.lineWidth = 2
-        ctx.strokeRect(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT - 40, 40, 40)
+        ctx.strokeRect(obs.x, blockY, 40, 40)
+
+        // Inner cross pattern
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(obs.x + 10, blockY + 10)
+        ctx.lineTo(obs.x + 30, blockY + 30)
+        ctx.moveTo(obs.x + 30, blockY + 10)
+        ctx.lineTo(obs.x + 10, blockY + 30)
+        ctx.stroke()
+
+        ctx.shadowBlur = 0
       }
     }
 
-    // Player (cube)
+    // Player (neon cube)
     const playerX = 50
     ctx.save()
     ctx.translate(playerX + PLAYER_SIZE / 2, playerY + PLAYER_SIZE / 2)
 
-    // Rotation based on velocity
-    const rotation = isGrounded ? 0 : playerVy * 0.05
-    ctx.rotate(rotation)
+    // Rotate when jumping
+    if (!isGrounded) {
+      ctx.rotate(rotation)
+    }
 
-    // Cube body
-    ctx.fillStyle = '#4ade80'
+    // Player glow
+    ctx.shadowColor = '#4ade80'
+    ctx.shadowBlur = 20
+
+    // Cube body gradient
+    const playerGradient = ctx.createLinearGradient(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE / 2, PLAYER_SIZE / 2)
+    playerGradient.addColorStop(0, '#86efac')
+    playerGradient.addColorStop(0.5, '#4ade80')
+    playerGradient.addColorStop(1, '#22c55e')
+    ctx.fillStyle = playerGradient
     ctx.fillRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
 
-    // Cube outline
-    ctx.strokeStyle = '#22c55e'
+    // Inner pattern
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'
     ctx.lineWidth = 2
+    ctx.strokeRect(-PLAYER_SIZE / 2 + 4, -PLAYER_SIZE / 2 + 4, PLAYER_SIZE - 8, PLAYER_SIZE - 8)
+
+    // Neon outline
+    ctx.strokeStyle = '#86efac'
+    ctx.lineWidth = 3
     ctx.strokeRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
 
-    // Eye
+    ctx.shadowBlur = 0
+
+    // Eye background
+    ctx.fillStyle = '#0f172a'
+    ctx.beginPath()
+    ctx.ellipse(5, -2, 9, 10, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Eye white
     ctx.fillStyle = 'white'
     ctx.beginPath()
-    ctx.arc(5, -3, 7, 0, Math.PI * 2)
+    ctx.ellipse(5, -2, 7, 8, 0, 0, Math.PI * 2)
     ctx.fill()
 
     // Pupil
-    ctx.fillStyle = 'black'
+    ctx.fillStyle = '#1e293b'
     ctx.beginPath()
-    ctx.arc(7, -3, 3, 0, Math.PI * 2)
+    ctx.arc(7, -1, 4, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Eye shine
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.arc(4, -4, 2, 0, Math.PI * 2)
     ctx.fill()
 
     ctx.restore()
 
-    // Score
+    // Trail effect when jumping
+    if (!isGrounded && gameState === 'playing') {
+      for (let i = 1; i <= 3; i++) {
+        ctx.fillStyle = `rgba(74, 222, 128, ${0.3 - i * 0.08})`
+        ctx.fillRect(playerX - PLAYER_SIZE / 2 - i * 8, playerY + PLAYER_SIZE / 2 - 5, PLAYER_SIZE, PLAYER_SIZE * 0.8)
+      }
+    }
+
+    // Score with neon effect
+    ctx.shadowColor = '#a855f7'
+    ctx.shadowBlur = 10
     ctx.fillStyle = 'white'
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 2
-    ctx.font = 'bold 24px Arial'
+    ctx.font = 'bold 28px Arial'
     ctx.textAlign = 'left'
-    ctx.strokeText(`${score}`, 20, 35)
-    ctx.fillText(`${score}`, 20, 35)
+    ctx.fillText(`${score}`, 20, 40)
+    ctx.shadowBlur = 0
 
-    // Progress bar
+    // Progress bar with glow
     const progress = (score % 10) / 10
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
-    ctx.fillRect(CANVAS_WIDTH - 110, 15, 100, 10)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+    ctx.fillRect(CANVAS_WIDTH - 120, 15, 100, 12)
+    ctx.shadowColor = '#4ade80'
+    ctx.shadowBlur = 10
     ctx.fillStyle = '#4ade80'
-    ctx.fillRect(CANVAS_WIDTH - 110, 15, progress * 100, 10)
+    ctx.fillRect(CANVAS_WIDTH - 120, 15, progress * 100, 12)
+    ctx.shadowBlur = 0
 
-  }, [playerY, playerVy, obstacles, score, isGrounded, settings.darkMode])
+    // Progress bar border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+    ctx.lineWidth = 1
+    ctx.strokeRect(CANVAS_WIDTH - 120, 15, 100, 12)
+
+  }, [playerY, playerVy, obstacles, score, isGrounded, settings.darkMode, gameState, rotation, bgOffset])
 
   const texts = {
     title: settings.language === 'zh' ? '几何冲刺' : 'Geometry Dash',
