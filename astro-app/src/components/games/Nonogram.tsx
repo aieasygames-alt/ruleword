@@ -309,12 +309,12 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
                     row.map((cell, c) => (
                       <div
                         key={`${r}-${c}`}
-                        className={`cursor-pointer flex items-center justify-center transition-colors ${
+                        className={`cursor-pointer flex items-center justify-center transition-all duration-150 ${
                           cell === 'filled'
-                            ? 'bg-gray-900'
+                            ? 'bg-gradient-to-br from-gray-800 to-gray-900 shadow-inner'
                             : cell === 'crossed'
-                            ? settings.darkMode ? 'bg-slate-700' : 'bg-gray-200'
-                            : settings.darkMode ? 'bg-slate-800' : 'bg-white'
+                            ? settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700' : 'bg-gradient-to-br from-gray-100 to-gray-200'
+                            : settings.darkMode ? 'bg-slate-800 hover:bg-slate-700' : 'bg-white hover:bg-gray-50'
                         }`}
                         style={{ width: cellSize, height: cellSize }}
                         onMouseDown={(e) => handleMouseDown(r, c, e)}
@@ -322,9 +322,12 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
                         onContextMenu={(e) => { e.preventDefault(); handleCellAction(r, c, 'cross') }}
                       >
                         {cell === 'crossed' && (
-                          <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          <svg className="w-4 h-4 text-red-400 drop-shadow" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                           </svg>
+                        )}
+                        {cell === 'filled' && (
+                          <span className="w-2 h-2 rounded-full bg-gray-600 opacity-50" />
                         )}
                       </div>
                     ))
