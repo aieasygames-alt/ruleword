@@ -45,6 +45,7 @@ export default function FlappyBird({
   const [pipes, setPipes] = useState<Pipe[]>([])
   const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
+  const [wingAngle, setWingAngle] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -205,66 +206,191 @@ export default function FlappyBird({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Animate wings
+    if (gameState === 'playing') {
+      setWingAngle(prev => (prev + 0.3) % (Math.PI * 2))
+    }
+
     // Sky gradient
     const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
     gradient.addColorStop(0, settings.darkMode ? '#1e3a5f' : '#87CEEB')
+    gradient.addColorStop(0.5, settings.darkMode ? '#1e3a5f' : '#B0E0E6')
     gradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#E0F6FF')
     ctx.fillStyle = gradient
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    // Ground
-    ctx.fillStyle = settings.darkMode ? '#166534' : '#8B4513'
-    ctx.fillRect(0, CANVAS_HEIGHT - 20, CANVAS_WIDTH, 20)
+    // Draw clouds
+    const drawCloud = (x: number, y: number, scale: number) => {
+      ctx.fillStyle = settings.darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.9)'
+      ctx.beginPath()
+      ctx.arc(x, y, 15 * scale, 0, Math.PI * 2)
+      ctx.arc(x + 20 * scale, y - 5 * scale, 20 * scale, 0, Math.PI * 2)
+      ctx.arc(x + 40 * scale, y, 15 * scale, 0, Math.PI * 2)
+      ctx.arc(x + 20 * scale, y + 8 * scale, 12 * scale, 0, Math.PI * 2)
+      ctx.fill()
+    }
+    // Static clouds
+    drawCloud(30, 60, 1)
+    drawCloud(150, 100, 0.7)
+    drawCloud(250, 50, 0.8)
+    drawCloud(100, 150, 0.6)
+    drawCloud(220, 180, 0.9)
 
-    // Pipes
+    // Draw distant hills
+    ctx.fillStyle = settings.darkMode ? '#1a4731' : '#90EE90'
+    ctx.beginPath()
+    ctx.moveTo(0, CANVAS_HEIGHT - 80)
+    ctx.quadraticCurveTo(80, CANVAS_HEIGHT - 140, 160, CANVAS_HEIGHT - 80)
+    ctx.quadraticCurveTo(240, CANVAS_HEIGHT - 120, 320, CANVAS_HEIGHT - 60)
+    ctx.lineTo(320, CANVAS_HEIGHT - 20)
+    ctx.lineTo(0, CANVAS_HEIGHT - 20)
+    ctx.fill()
+
+    // Pipes with 3D effect
     for (const pipe of pipes) {
-      ctx.fillStyle = '#22c55e'
       // Top pipe
+      const pipeGradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + PIPE_WIDTH, 0)
+      pipeGradient.addColorStop(0, '#1a8a1a')
+      pipeGradient.addColorStop(0.3, '#22c55e')
+      pipeGradient.addColorStop(0.7, '#22c55e')
+      pipeGradient.addColorStop(1, '#166616')
+      ctx.fillStyle = pipeGradient
       ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.gapY)
-      ctx.fillRect(pipe.x - 5, pipe.gapY - 20, PIPE_WIDTH + 10, 20)
+
+      // Top pipe cap
+      const capGradient = ctx.createLinearGradient(pipe.x - 5, 0, pipe.x + PIPE_WIDTH + 5, 0)
+      capGradient.addColorStop(0, '#166616')
+      capGradient.addColorStop(0.3, '#2ed872')
+      capGradient.addColorStop(0.7, '#2ed872')
+      capGradient.addColorStop(1, '#0f4f0f')
+      ctx.fillStyle = capGradient
+      ctx.fillRect(pipe.x - 5, pipe.gapY - 25, PIPE_WIDTH + 10, 25)
+
+      // Top pipe highlight
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'
+      ctx.fillRect(pipe.x + 5, 0, 8, pipe.gapY - 25)
+
       // Bottom pipe
+      ctx.fillStyle = pipeGradient
       ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP, PIPE_WIDTH, CANVAS_HEIGHT - pipe.gapY - PIPE_GAP - 20)
-      ctx.fillRect(pipe.x - 5, pipe.gapY + PIPE_GAP, PIPE_WIDTH + 10, 20)
+
+      // Bottom pipe cap
+      ctx.fillStyle = capGradient
+      ctx.fillRect(pipe.x - 5, pipe.gapY + PIPE_GAP, PIPE_WIDTH + 10, 25)
+
+      // Bottom pipe highlight
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'
+      ctx.fillRect(pipe.x + 5, pipe.gapY + PIPE_GAP + 25, 8, CANVAS_HEIGHT - pipe.gapY - PIPE_GAP - 45)
     }
 
-    // Bird
+    // Ground with grass
+    ctx.fillStyle = settings.darkMode ? '#4a3728' : '#8B4513'
+    ctx.fillRect(0, CANVAS_HEIGHT - 20, CANVAS_WIDTH, 20)
+    ctx.fillStyle = settings.darkMode ? '#228B22' : '#32CD32'
+    ctx.fillRect(0, CANVAS_HEIGHT - 20, CANVAS_WIDTH, 6)
+
+    // Grass blades
+    ctx.strokeStyle = settings.darkMode ? '#32CD32' : '#7CFC00'
+    ctx.lineWidth = 2
+    for (let i = 0; i < 40; i++) {
+      const gx = i * 8
+      ctx.beginPath()
+      ctx.moveTo(gx, CANVAS_HEIGHT - 20)
+      ctx.lineTo(gx + 2, CANVAS_HEIGHT - 26 - Math.sin(i) * 3)
+      ctx.stroke()
+    }
+
+    // Bird with flapping wings
     ctx.save()
     ctx.translate(CANVAS_WIDTH / 4, bird.y)
     ctx.rotate(bird.rotation * Math.PI / 180)
-    ctx.fillStyle = '#fbbf24'
+
+    // Wing animation
+    const wingOffset = Math.sin(wingAngle) * 8
+
+    // Body shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    ctx.beginPath()
+    ctx.ellipse(2, 2, BIRD_SIZE / 2, BIRD_SIZE / 2.5, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Body gradient
+    const bodyGradient = ctx.createRadialGradient(-5, -5, 0, 0, 0, BIRD_SIZE / 2)
+    bodyGradient.addColorStop(0, '#FFE135')
+    bodyGradient.addColorStop(0.7, '#FFD700')
+    bodyGradient.addColorStop(1, '#DAA520')
+    ctx.fillStyle = bodyGradient
     ctx.beginPath()
     ctx.ellipse(0, 0, BIRD_SIZE / 2, BIRD_SIZE / 2.5, 0, 0, Math.PI * 2)
     ctx.fill()
-    // Eye
+
+    // Wing
+    ctx.fillStyle = '#DAA520'
+    ctx.beginPath()
+    ctx.ellipse(-5, 5 + wingOffset, 10, 6, -0.3, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Eye white
     ctx.fillStyle = 'white'
     ctx.beginPath()
-    ctx.arc(5, -3, 6, 0, Math.PI * 2)
+    ctx.ellipse(6, -4, 7, 8, 0, 0, Math.PI * 2)
     ctx.fill()
+
+    // Eye pupil
     ctx.fillStyle = 'black'
     ctx.beginPath()
-    ctx.arc(7, -3, 3, 0, Math.PI * 2)
+    ctx.arc(8, -4, 4, 0, Math.PI * 2)
     ctx.fill()
-    // Beak
-    ctx.fillStyle = '#f97316'
+
+    // Eye shine
+    ctx.fillStyle = 'white'
     ctx.beginPath()
-    ctx.moveTo(12, 0)
-    ctx.lineTo(20, 3)
+    ctx.arc(6, -6, 2, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Beak
+    ctx.fillStyle = '#FF6B35'
+    ctx.beginPath()
+    ctx.moveTo(12, -2)
+    ctx.lineTo(22, 2)
     ctx.lineTo(12, 6)
     ctx.closePath()
     ctx.fill()
+    ctx.fillStyle = '#FF8C00'
+    ctx.beginPath()
+    ctx.moveTo(12, 2)
+    ctx.lineTo(18, 3)
+    ctx.lineTo(12, 6)
+    ctx.closePath()
+    ctx.fill()
+
+    // Tail feathers
+    ctx.fillStyle = '#DAA520'
+    ctx.beginPath()
+    ctx.moveTo(-15, -3)
+    ctx.lineTo(-25, -8)
+    ctx.lineTo(-22, 0)
+    ctx.lineTo(-25, 8)
+    ctx.lineTo(-15, 3)
+    ctx.fill()
+
     ctx.restore()
 
-    // Score
+    // Score with shadow
     if (gameState === 'playing') {
+      ctx.fillStyle = 'rgba(0,0,0,0.3)'
+      ctx.font = 'bold 42px Arial'
+      ctx.textAlign = 'center'
+      ctx.fillText(score.toString(), CANVAS_WIDTH / 2 + 2, 52)
+
       ctx.fillStyle = 'white'
       ctx.strokeStyle = 'black'
       ctx.lineWidth = 3
-      ctx.font = 'bold 36px Arial'
-      ctx.textAlign = 'center'
-      ctx.strokeText(score.toString(), CANVAS_WIDTH / 2, 60)
-      ctx.fillText(score.toString(), CANVAS_WIDTH / 2, 60)
+      ctx.font = 'bold 40px Arial'
+      ctx.strokeText(score.toString(), CANVAS_WIDTH / 2, 50)
+      ctx.fillText(score.toString(), CANVAS_WIDTH / 2, 50)
     }
-  }, [bird, pipes, score, gameState, settings.darkMode])
+  }, [bird, pipes, score, gameState, settings.darkMode, wingAngle])
 
   // Keyboard controls
   useEffect(() => {
