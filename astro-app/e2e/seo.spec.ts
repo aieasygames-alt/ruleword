@@ -28,6 +28,23 @@ test.describe('SEO & Performance', () => {
     // Meta description
     const description = await page.locator('meta[name="description"]').getAttribute('content')
     expect(description).toBeTruthy()
+    // Should include "No download required" or "free"
+    expect(description!.toLowerCase()).toMatch(/free|no download/)
+  })
+
+  test('category page should have correct meta tags', async ({ page }) => {
+    await page.goto('/category/logic/')
+
+    // Title should include category name
+    const title = await page.title()
+    expect(title.toLowerCase()).toMatch(/logic|number/)
+
+    // Meta description should be customized for the category
+    const description = await page.locator('meta[name="description"]').getAttribute('content')
+    expect(description).toBeTruthy()
+    expect(description!.length).toBeGreaterThan(50)
+    // Should include game count and category info
+    expect(description!.toLowerCase()).toMatch(/free|logic|puzzle/)
   })
 
   test('should have canonical URL', async ({ page }) => {
@@ -79,11 +96,90 @@ test.describe('SEO & Performance', () => {
   test('should have structured data (JSON-LD)', async ({ page }) => {
     await page.goto('/')
 
-    const jsonLd = await page.locator('script[type="application/ld+json"]').textContent()
-    if (jsonLd) {
-      const data = JSON.parse(jsonLd)
-      expect(data['@context']).toBe('https://schema.org')
-    }
+    // Get all JSON-LD scripts
+    const jsonLdScripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    // At least one should be valid schema.org
+    const hasValidSchema = jsonLdScripts.some(content => {
+      try {
+        const data = JSON.parse(content)
+        return data['@context'] === 'https://schema.org'
+      } catch {
+        return false
+      }
+    })
+
+    expect(hasValidSchema).toBe(true)
+  })
+
+  test('homepage should have FAQ structured data', async ({ page }) => {
+    await page.goto('/')
+
+    // Find all JSON-LD scripts
+    const jsonLdScripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    // Check if any of them contains FAQPage schema
+    const hasFAQSchema = jsonLdScripts.some(content => {
+      try {
+        const data = JSON.parse(content)
+        return data['@type'] === 'FAQPage'
+      } catch {
+        return false
+      }
+    })
+
+    expect(hasFAQSchema).toBe(true)
+  })
+
+  test('homepage should have Organization structured data', async ({ page }) => {
+    await page.goto('/')
+
+    const jsonLdScripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    const hasOrgSchema = jsonLdScripts.some(content => {
+      try {
+        const data = JSON.parse(content)
+        return data['@type'] === 'Organization'
+      } catch {
+        return false
+      }
+    })
+
+    expect(hasOrgSchema).toBe(true)
+  })
+
+  test('game page should have BreadcrumbList structured data', async ({ page }) => {
+    await page.goto('/games/sudoku/')
+
+    const jsonLdScripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    const hasBreadcrumbSchema = jsonLdScripts.some(content => {
+      try {
+        const data = JSON.parse(content)
+        return data['@type'] === 'BreadcrumbList'
+      } catch {
+        return false
+      }
+    })
+
+    expect(hasBreadcrumbSchema).toBe(true)
+  })
+
+  test('category page should have BreadcrumbList structured data', async ({ page }) => {
+    await page.goto('/category/word/')
+
+    const jsonLdScripts = await page.locator('script[type="application/ld+json"]').allTextContents()
+
+    const hasBreadcrumbSchema = jsonLdScripts.some(content => {
+      try {
+        const data = JSON.parse(content)
+        return data['@type'] === 'BreadcrumbList'
+      } catch {
+        return false
+      }
+    })
+
+    expect(hasBreadcrumbSchema).toBe(true)
   })
 
   test('should load without JavaScript errors', async ({ page }) => {

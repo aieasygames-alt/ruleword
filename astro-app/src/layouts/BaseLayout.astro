@@ -100,22 +100,37 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
 
     <!-- JSON-LD Structured Data -->
     {gameType ? (
-      <script type="application/ld+json" set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "VideoGame",
-        "name": title.split(' - ')[0],
-        "description": description,
-        "url": canonicalUrl,
-        "applicationCategory": "GameApplication",
-        "gamePlatform": ["Web Browser", "Mobile Web"],
-        "operatingSystem": "Any",
-        "genre": gameType,
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        }
-      })} />
+      <>
+        <script type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "VideoGame",
+          "name": title.split(' - ')[0],
+          "description": description,
+          "url": canonicalUrl,
+          "applicationCategory": "GameApplication",
+          "gamePlatform": ["Web Browser", "Mobile Web"],
+          "operatingSystem": "Any",
+          "genre": gameType,
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        })} />
+        {/* Breadcrumb Schema for Game Pages */}
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": breadcrumbItems.map((item, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "name": item.name,
+              "item": `https://ruleword.com${item.url}`
+            }))
+          })} />
+        )}
+      </>
     ) : (
       <>
         <script type="application/ld+json" set:html={JSON.stringify({
