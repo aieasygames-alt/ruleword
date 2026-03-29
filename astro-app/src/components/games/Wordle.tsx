@@ -174,18 +174,18 @@ export default function Wordle({ settings, onShare, gameName = 'Wordle' }: Props
               {Array(WORD_LENGTH).fill(null).map((_, colIndex) => {
                 const letter = guess[colIndex] || ''
                 const state = rowIndex < guesses.length ? getLetterState(letter, colIndex, guess) : 'empty'
-                const bgColor =
-                  state === 'correct' ? 'bg-green-600' :
-                  state === 'present' ? 'bg-yellow-500' :
-                  state === 'absent' ? (isDark ? 'bg-slate-700' : 'bg-gray-400') :
-                  letter ? (isDark ? 'bg-slate-600' : 'bg-gray-200') : (isDark ? 'bg-slate-700' : 'bg-white')
+                const bgClass =
+                  state === 'correct' ? 'bg-gradient-to-br from-green-500 to-green-700 shadow-lg shadow-green-500/30' :
+                  state === 'present' ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg shadow-yellow-500/30' :
+                  state === 'absent' ? (isDark ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-300 to-gray-500') :
+                  letter ? (isDark ? 'bg-gradient-to-br from-slate-500 to-slate-700 shadow-lg' : 'bg-gradient-to-br from-gray-100 to-gray-300 shadow-lg') : (isDark ? 'bg-slate-700' : 'bg-white')
 
                 return (
                   <div
                     key={colIndex}
-                    className={`w-14 h-14 flex items-center justify-center text-2xl font-bold border-2 rounded ${bgColor} ${isDark ? 'border-slate-500' : 'border-gray-300'} ${letter ? 'border-gray-500' : ''}`}
+                    className={`w-14 h-14 flex items-center justify-center text-2xl font-bold border-2 rounded-lg transition-all duration-200 ${bgClass} ${isDark ? 'border-slate-500' : 'border-gray-300'} ${letter ? 'border-gray-500 scale-105' : ''} ${state === 'correct' || state === 'present' ? 'scale-105 ring-2 ring-white/20' : ''}`}
                   >
-                    {letter}
+                    <span className="drop-shadow-md text-white">{letter}</span>
                   </div>
                 )
               })}

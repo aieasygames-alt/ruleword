@@ -329,11 +329,11 @@ export default function Gomoku({ settings, onBack }: GomokuProps) {
                   >
                     {cell !== 0 && (
                       <div
-                        className={`rounded-full shadow-lg transition-all ${
+                        className={`rounded-full shadow-xl transition-all ${
                           isWinningCell(rowIdx, colIdx)
-                            ? 'ring-2 ring-yellow-400 ring-offset-1'
+                            ? 'ring-2 ring-yellow-400 ring-offset-1 scale-110 animate-pulse'
                             : isLastMove(rowIdx, colIdx)
-                            ? 'ring-2 ring-red-500'
+                            ? 'ring-2 ring-red-500 scale-105'
                             : ''
                         }`}
                         style={{
@@ -341,8 +341,11 @@ export default function Gomoku({ settings, onBack }: GomokuProps) {
                           height: cellSize - 4,
                           margin: 2,
                           background: cell === 1
-                            ? 'radial-gradient(circle at 30% 30%, #444, #000)'
-                            : 'radial-gradient(circle at 30% 30%, #fff, #ccc)',
+                            ? 'radial-gradient(circle at 30% 30%, #555, #111)'
+                            : 'radial-gradient(circle at 30% 30%, #fff, #ddd)',
+                          boxShadow: cell === 1
+                            ? '0 3px 8px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,255,255,0.1)'
+                            : '0 3px 8px rgba(0,0,0,0.3), inset 0 1px 3px rgba(255,255,255,0.8)',
                         }}
                       ></div>
                     )}
