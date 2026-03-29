@@ -22,6 +22,17 @@ interface Fruit {
   radius: number
   type: string
   sliced: boolean
+  rotation: number
+}
+
+interface JuiceParticle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  radius: number
+  color: string
+  life: number
 }
 
 interface SlicePoint {
@@ -56,6 +67,7 @@ export default function FruitNinja({
   const [combo, setCombo] = useState(0)
   const [lives, setLives] = useState(3)
   const [sliceTrail, setSliceTrail] = useState<SlicePoint[]>([])
+  const [particles, setParticles] = useState<JuiceParticle[]>([])
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -120,6 +132,7 @@ export default function FruitNinja({
       radius: 25 + Math.random() * 10,
       type: type.emoji,
       sliced: false,
+      rotation: Math.random() * Math.PI * 2,
     }
     setFruits(prev => [...prev, fruit])
   }, [])
@@ -257,17 +270,40 @@ export default function FruitNinja({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Background gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
-    gradient.addColorStop(0, settings.darkMode ? '#1e3a5f' : '#fef3c7')
-    gradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#fde68a')
-    ctx.fillStyle = gradient
+    // Background with wooden board texture
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, settings.darkMode ? '#1a1a2e' : '#f5e6d3')
+    bgGradient.addColorStop(0.5, settings.darkMode ? '#16213e' : '#e8d5c4')
+    bgGradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#dcc7b3')
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    // Draw slice trail
+    // Wood grain texture
+    ctx.strokeStyle = settings.darkMode ? 'rgba(255,255,255,0.03)' : 'rgba(139,90,43,0.1)'
+    ctx.lineWidth = 1
+    for (let i = 0; i < 20; i++) {
+      ctx.beginPath()
+      ctx.moveTo(0, i * 30 + 10)
+      ctx.bezierCurveTo(CANVAS_WIDTH * 0.3, i * 30 + 5, CANVAS_WIDTH * 0.7, i * 30 + 15, CANVAS_WIDTH, i * 30 + 10)
+      ctx.stroke()
+    }
+
+    // Draw particles (juice splashes)
+    for (const particle of particles) {
+      const alpha = particle.life
+      ctx.fillStyle = particle.color.replace(')', `, ${alpha})`).replace('rgb', 'rgba')
+      ctx.beginPath()
+      ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    // Draw slice trail with glow
     if (sliceTrail.length > 1) {
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)'
-      ctx.lineWidth = 4
+      // Glow effect
+      ctx.shadowColor = '#ffffff'
+      ctx.shadowBlur = 15
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)'
+      ctx.lineWidth = 6
       ctx.lineCap = 'round'
       ctx.lineJoin = 'round'
       ctx.beginPath()
@@ -276,43 +312,118 @@ export default function FruitNinja({
         ctx.lineTo(sliceTrail[i].x, sliceTrail[i].y)
       }
       ctx.stroke()
+      ctx.shadowBlur = 0
+
+      // Inner bright line
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(sliceTrail[0].x, sliceTrail[0].y)
+      for (let i = 1; i < sliceTrail.length; i++) {
+        ctx.lineTo(sliceTrail[i].x, sliceTrail[i].y)
+      }
+      ctx.stroke()
     }
 
-    // Draw fruits
+    // Draw fruits with detailed rendering
     for (const fruit of fruits) {
       if (fruit.sliced) continue
 
-      ctx.font = `${fruit.radius * 2}px Arial`
+      ctx.save()
+      ctx.translate(fruit.x, fruit.y)
+      ctx.rotate(fruit.rotation)
+
+      // Fruit shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.2)'
+      ctx.beginPath()
+      ctx.ellipse(3, 3, fruit.radius, fruit.radius * 0.9, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Fruit body with gradient
+      const fruitType = FRUIT_TYPES.find(t => t.emoji === fruit.type)
+      const fruitGradient = ctx.createRadialGradient(-fruit.radius * 0.3, -fruit.radius * 0.3, 0, 0, 0, fruit.radius)
+      fruitGradient.addColorStop(0, lightenColor(fruitType?.color || '#ff0000', 40))
+      fruitGradient.addColorStop(0.7, fruitType?.color || '#ff0000')
+      fruitGradient.addColorStop(1, darkenColor(fruitType?.color || '#ff0000', 30))
+      ctx.fillStyle = fruitGradient
+      ctx.beginPath()
+      ctx.arc(0, 0, fruit.radius, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Fruit shine
+      ctx.fillStyle = 'rgba(255,255,255,0.4)'
+      ctx.beginPath()
+      ctx.ellipse(-fruit.radius * 0.3, -fruit.radius * 0.3, fruit.radius * 0.3, fruit.radius * 0.2, -0.5, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Draw fruit emoji centered
+      ctx.font = `${fruit.radius * 1.5}px Arial`
       ctx.textAlign = 'center'
       ctx.textBaseline = 'middle'
-      ctx.fillText(fruit.type, fruit.x, fruit.y)
+      ctx.fillText(fruit.type, 0, 0)
+
+      ctx.restore()
     }
 
-    // Draw score
+    // Score with shadow and glow
+    ctx.shadowColor = 'rgba(0,0,0,0.5)'
+    ctx.shadowBlur = 4
+    ctx.shadowOffsetX = 2
+    ctx.shadowOffsetY = 2
     ctx.fillStyle = 'white'
-    ctx.strokeStyle = 'black'
-    ctx.lineWidth = 2
-    ctx.font = 'bold 28px Arial'
+    ctx.font = 'bold 32px Arial'
     ctx.textAlign = 'left'
-    ctx.strokeText(`${score}`, 20, 40)
-    ctx.fillText(`${score}`, 20, 40)
+    ctx.fillText(`${score}`, 20, 45)
+    ctx.shadowBlur = 0
+    ctx.shadowOffsetX = 0
+    ctx.shadowOffsetY = 0
 
-    // Draw combo
+    // Combo display with animation
     if (combo >= 3) {
+      ctx.save()
+      const scale = 1 + Math.sin(Date.now() * 0.01) * 0.1
+      ctx.translate(CANVAS_WIDTH / 2, 80)
+      ctx.scale(scale, scale)
+
+      ctx.shadowColor = '#fbbf24'
+      ctx.shadowBlur = 20
       ctx.fillStyle = '#fbbf24'
-      ctx.font = 'bold 24px Arial'
+      ctx.font = 'bold 28px Arial'
       ctx.textAlign = 'center'
       const comboText = combo >= 5 ? '🔥 COMBO x3!' : '✨ COMBO!'
-      ctx.strokeText(comboText, CANVAS_WIDTH / 2, 80)
-      ctx.fillText(comboText, CANVAS_WIDTH / 2, 80)
+      ctx.fillText(comboText, 0, 0)
+      ctx.restore()
     }
 
-    // Draw lives
-    ctx.font = '24px Arial'
+    // Lives with glow
+    ctx.font = '28px Arial'
     ctx.textAlign = 'right'
+    ctx.shadowColor = '#ef4444'
+    ctx.shadowBlur = 10
     const hearts = '❤️'.repeat(lives) + '🖤'.repeat(3 - lives)
-    ctx.fillText(hearts, CANVAS_WIDTH - 10, 40)
-  }, [fruits, score, combo, lives, sliceTrail, settings.darkMode])
+    ctx.fillText(hearts, CANVAS_WIDTH - 15, 45)
+    ctx.shadowBlur = 0
+
+  }, [fruits, score, combo, lives, sliceTrail, particles, settings.darkMode])
+
+  // Helper functions for colors
+  function lightenColor(color: string, percent: number): string {
+    const num = parseInt(color.replace('#', ''), 16)
+    const amt = Math.round(2.55 * percent)
+    const R = Math.min(255, (num >> 16) + amt)
+    const G = Math.min(255, ((num >> 8) & 0x00FF) + amt)
+    const B = Math.min(255, (num & 0x0000FF) + amt)
+    return `rgb(${R}, ${G}, ${B})`
+  }
+
+  function darkenColor(color: string, percent: number): string {
+    const num = parseInt(color.replace('#', ''), 16)
+    const amt = Math.round(2.55 * percent)
+    const R = Math.max(0, (num >> 16) - amt)
+    const G = Math.max(0, ((num >> 8) & 0x00FF) - amt)
+    const B = Math.max(0, (num & 0x0000FF) - amt)
+    return `rgb(${R}, ${G}, ${B})`
+  }
 
   const texts = {
     title: settings.language === 'zh' ? '切水果' : 'Fruit Ninja',
