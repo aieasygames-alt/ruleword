@@ -195,7 +195,7 @@ export default function TextTwist() {
         </div>
 
         {/* Current Word */}
-        <div className={`mb-6 p-4 rounded-xl min-h-16 flex items-center justify-center text-3xl font-bold tracking-widest ${darkMode ? 'bg-slate-700' : 'bg-gray-100'} ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <div className={`mb-6 p-4 rounded-xl min-h-16 flex items-center justify-center text-3xl font-bold tracking-widest bg-gradient-to-br ${darkMode ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-gray-100 to-gray-200 shadow-lg'} ring-1 ${darkMode ? 'ring-slate-600' : 'ring-gray-300'} ${darkMode ? 'text-white' : 'text-gray-900'}`}>
           {currentWord || '_'.repeat(6)}
         </div>
 
@@ -244,8 +244,8 @@ export default function TextTwist() {
             disabled={gameOver}
             className={`py-3 rounded-xl font-semibold transition-all ${
               darkMode
-                ? 'bg-green-600 hover:bg-green-500 text-white'
-                : 'bg-green-600 hover:bg-green-500 text-white'
+                ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white shadow-lg shadow-green-500/30'
+                : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white shadow-lg shadow-green-500/30'
             }`}
           >
             Submit

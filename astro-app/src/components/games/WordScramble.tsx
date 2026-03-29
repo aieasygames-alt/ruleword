@@ -187,7 +187,7 @@ export default function WordScramble({ settings, onBack, toggleLanguage }: Props
             </div>
 
             {/* Scrambled Word */}
-            <div className="bg-slate-800 rounded-2xl p-6 text-center mb-6">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-6 text-center mb-6 shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
               <div className="text-4xl font-mono font-bold tracking-widest mb-4">
                 {scrambled}
               </div>
@@ -200,7 +200,7 @@ export default function WordScramble({ settings, onBack, toggleLanguage }: Props
                 onChange={e => setUserAnswer(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && checkAnswer()}
                 autoFocus
-                className="w-full text-center text-2xl font-mono bg-slate-700 border-2 border-slate-600 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
+                className="w-full text-center text-2xl font-mono bg-gradient-to-br from-slate-700 to-slate-800 border-2 border-slate-600 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 shadow-inner"
                 placeholder={t('Type your answer...', '输入你的答案...')}
               />
               {isCorrect !== null && (
