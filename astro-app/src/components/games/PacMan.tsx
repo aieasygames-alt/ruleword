@@ -37,13 +37,24 @@ type Ghost = {
   x: number
   y: number
   color: string
+  name: string
   dir: { x: number; y: number }
+}
+
+interface Particle {
+  x: number
+  y: number
+  vx: number
+  vy: number
+  color: string
+  life: number
 }
 
 export default function PacMan({ settings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover' | 'win'>('menu')
   const [score, setScore] = useState(0)
+  const [animTime, setAnimTime] = useState(0)
 
   const gameRef = useRef({
     maze: [] as number[][],
@@ -52,7 +63,7 @@ export default function PacMan({ settings }: Props) {
     powerMode: false,
     powerTimer: 0,
     dotsRemaining: 0,
-    animFrame: 0
+    particles: [] as Particle[],
   })
 
   const initGame = useCallback(() => {
@@ -60,14 +71,15 @@ export default function PacMan({ settings }: Props) {
     game.maze = MAZE_TEMPLATE.map(row => [...row])
     game.pacman = { x: 9, y: 15, dir: { x: 0, y: 0 }, nextDir: { x: 0, y: 0 } }
     game.ghosts = [
-      { x: 9, y: 9, color: '#ef4444', dir: { x: 0, y: -1 } },
-      { x: 8, y: 9, color: '#ec4899', dir: { x: -1, y: 0 } },
-      { x: 10, y: 9, color: '#06b6d4', dir: { x: 1, y: 0 } },
-      { x: 9, y: 8, color: '#f97316', dir: { x: 0, y: 1 } },
+      { x: 9, y: 9, color: '#ef4444', name: 'Blinky', dir: { x: 0, y: -1 } },
+      { x: 8, y: 9, color: '#ec4899', name: 'Pinky', dir: { x: -1, y: 0 } },
+      { x: 10, y: 9, color: '#06b6d4', name: 'Inky', dir: { x: 1, y: 0 } },
+      { x: 9, y: 8, color: '#f97316', name: 'Clyde', dir: { x: 0, y: 1 } },
     ]
     game.powerMode = false
     game.powerTimer = 0
     game.dotsRemaining = 0
+    game.particles = []
 
     // Count dots
     game.maze.forEach(row => {
@@ -113,14 +125,32 @@ export default function PacMan({ settings }: Props) {
       return game.maze[y][x] !== 1
     }
 
+    const addParticles = (x: number, y: number, color: string, count: number) => {
+      const game = gameRef.current
+      for (let i = 0; i < count; i++) {
+        game.particles.push({
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * 4,
+          vy: (Math.random() - 0.5) * 4,
+          color: color,
+          life: 1,
+        })
+      }
+    }
+
     const gameLoop = (time: number) => {
       const game = gameRef.current
+      setAnimTime(time)
 
-      // Draw
-      ctx.fillStyle = '#000'
+      // Background gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, 0, ROWS * CELL_SIZE)
+      bgGradient.addColorStop(0, '#000510')
+      bgGradient.addColorStop(1, '#001020')
+      ctx.fillStyle = bgGradient
       ctx.fillRect(0, 0, COLS * CELL_SIZE, ROWS * CELL_SIZE)
 
-      // Draw maze
+      // Draw maze with enhanced walls
       for (let y = 0; y < ROWS; y++) {
         for (let x = 0; x < COLS; x++) {
           const cell = game.maze[y][x]
@@ -128,21 +158,61 @@ export default function PacMan({ settings }: Props) {
           const cy = y * CELL_SIZE + CELL_SIZE / 2
 
           if (cell === 1) {
-            ctx.fillStyle = '#1e40af'
-            ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE)
+            // Wall with gradient and glow effect
+            const wallGradient = ctx.createLinearGradient(
+              x * CELL_SIZE, y * CELL_SIZE,
+              x * CELL_SIZE + CELL_SIZE, y * CELL_SIZE + CELL_SIZE
+            )
+            wallGradient.addColorStop(0, '#1e40af')
+            wallGradient.addColorStop(0.5, '#3b82f6')
+            wallGradient.addColorStop(1, '#1e40af')
+            ctx.fillStyle = wallGradient
+            ctx.fillRect(x * CELL_SIZE + 1, y * CELL_SIZE + 1, CELL_SIZE - 2, CELL_SIZE - 2)
+
+            // Wall highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+            ctx.fillRect(x * CELL_SIZE + 2, y * CELL_SIZE + 2, CELL_SIZE - 6, 2)
+
           } else if (cell === 2) {
+            // Regular dot with glow
+            ctx.shadowColor = '#fef08a'
+            ctx.shadowBlur = 5
             ctx.fillStyle = '#fef08a'
             ctx.beginPath()
             ctx.arc(cx, cy, 3, 0, Math.PI * 2)
             ctx.fill()
+            ctx.shadowBlur = 0
+
           } else if (cell === 3) {
+            // Power pellet with pulsing effect
+            const pulseScale = 1 + Math.sin(time / 150) * 0.3
+            const pulseAlpha = 0.7 + Math.sin(time / 150) * 0.3
+
+            ctx.shadowColor = `rgba(254, 240, 138, ${pulseAlpha})`
+            ctx.shadowBlur = 15
             ctx.fillStyle = '#fef08a'
             ctx.beginPath()
-            ctx.arc(cx, cy, 8, 0, Math.PI * 2)
+            ctx.arc(cx, cy, 8 * pulseScale, 0, Math.PI * 2)
             ctx.fill()
+            ctx.shadowBlur = 0
           }
         }
       }
+
+      // Update particles
+      game.particles = game.particles.filter(p => {
+        p.x += p.vx
+        p.y += p.vy
+        p.life -= 0.05
+        if (p.life > 0) {
+          ctx.fillStyle = `rgba(254, 240, 138, ${p.life})`
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2)
+          ctx.fill()
+          return true
+        }
+        return false
+      })
 
       // Update game
       if (time - lastUpdate > UPDATE_INTERVAL) {
@@ -170,12 +240,22 @@ export default function PacMan({ settings }: Props) {
           game.maze[game.pacman.y][game.pacman.x] = 0
           game.dotsRemaining--
           setScore(prev => prev + 10)
+          addParticles(
+            game.pacman.x * CELL_SIZE + CELL_SIZE / 2,
+            game.pacman.y * CELL_SIZE + CELL_SIZE / 2,
+            '#fef08a', 4
+          )
         } else if (game.maze[game.pacman.y]?.[game.pacman.x] === 3) {
           game.maze[game.pacman.y][game.pacman.x] = 0
           game.dotsRemaining--
           game.powerMode = true
           game.powerTimer = 100
           setScore(prev => prev + 50)
+          addParticles(
+            game.pacman.x * CELL_SIZE + CELL_SIZE / 2,
+            game.pacman.y * CELL_SIZE + CELL_SIZE / 2,
+            '#fef08a', 12
+          )
         }
 
         // Check win
@@ -224,6 +304,11 @@ export default function PacMan({ settings }: Props) {
               ghost.x = 9
               ghost.y = 9
               setScore(prev => prev + 200)
+              addParticles(
+                game.pacman.x * CELL_SIZE + CELL_SIZE / 2,
+                game.pacman.y * CELL_SIZE + CELL_SIZE / 2,
+                ghost.color, 15
+              )
             } else {
               setGameState('gameover')
               return
@@ -232,29 +317,127 @@ export default function PacMan({ settings }: Props) {
         }
       }
 
-      // Draw pacman
-      ctx.fillStyle = '#facc15'
-      ctx.beginPath()
+      // Draw Pac-Man with enhanced visuals
       const px = game.pacman.x * CELL_SIZE + CELL_SIZE / 2
       const py = game.pacman.y * CELL_SIZE + CELL_SIZE / 2
       const angle = Math.atan2(game.pacman.dir.y, game.pacman.dir.x)
-      const mouthAngle = 0.3 + Math.sin(time / 100) * 0.2
+      const mouthAngle = 0.25 + Math.sin(time / 80) * 0.2
+
+      // Pac-Man glow
+      ctx.shadowColor = '#facc15'
+      ctx.shadowBlur = 10
+
+      // Pac-Man body gradient
+      const pacGradient = ctx.createRadialGradient(px - 3, py - 3, 0, px, py, CELL_SIZE / 2)
+      pacGradient.addColorStop(0, '#fef08a')
+      pacGradient.addColorStop(0.7, '#facc15')
+      pacGradient.addColorStop(1, '#ca8a04')
+
+      ctx.fillStyle = pacGradient
+      ctx.beginPath()
       ctx.arc(px, py, CELL_SIZE / 2 - 2, angle + mouthAngle, angle + Math.PI * 2 - mouthAngle)
       ctx.lineTo(px, py)
       ctx.fill()
+      ctx.shadowBlur = 0
 
-      // Draw ghosts
-      game.ghosts.forEach(ghost => {
-        ctx.fillStyle = game.powerMode ? '#3b82f6' : ghost.color
+      // Pac-Man eye
+      const eyeAngle = angle - 0.5
+      const eyeX = px + Math.cos(eyeAngle) * 5
+      const eyeY = py + Math.sin(eyeAngle) * 5 - 2
+      ctx.fillStyle = '#000'
+      ctx.beginPath()
+      ctx.arc(eyeX, eyeY, 2, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Draw ghosts with enhanced visuals
+      game.ghosts.forEach((ghost, index) => {
         const gx = ghost.x * CELL_SIZE + CELL_SIZE / 2
         const gy = ghost.y * CELL_SIZE + CELL_SIZE / 2
+
+        // Ghost glow
+        ctx.shadowColor = game.powerMode ? '#3b82f6' : ghost.color
+        ctx.shadowBlur = 8
+
+        // Ghost body color
+        const ghostColor = game.powerMode
+          ? (game.powerTimer < 30 && Math.floor(time / 100) % 2 === 0 ? '#ffffff' : '#3b82f6')
+          : ghost.color
+
+        // Ghost body gradient
+        const ghostGradient = ctx.createRadialGradient(gx - 3, gy - 5, 0, gx, gy, CELL_SIZE / 2)
+        if (game.powerMode) {
+          ghostGradient.addColorStop(0, '#60a5fa')
+          ghostGradient.addColorStop(1, '#1d4ed8')
+        } else {
+          const baseColor = ghost.color
+          ghostGradient.addColorStop(0, lightenColor(baseColor, 30))
+          ghostGradient.addColorStop(1, baseColor)
+        }
+
+        ctx.fillStyle = ghostGradient
+
+        // Ghost body (rounded top, wavy bottom)
         ctx.beginPath()
         ctx.arc(gx, gy - 3, CELL_SIZE / 2 - 2, Math.PI, 0, false)
-        ctx.lineTo(gx + CELL_SIZE / 2 - 2, gy + CELL_SIZE / 2 - 4)
-        ctx.lineTo(gx, gy + CELL_SIZE / 4 - 2)
-        ctx.lineTo(gx - CELL_SIZE / 2 + 2, gy + CELL_SIZE / 2 - 4)
+
+        // Wavy bottom
+        const waveOffset = Math.sin(time / 150 + index) * 2
+        const bottomY = gy + CELL_SIZE / 2 - 4
+        ctx.lineTo(gx + CELL_SIZE / 2 - 2, bottomY)
+        ctx.quadraticCurveTo(gx + CELL_SIZE / 3, bottomY + 4 + waveOffset, gx, bottomY - 2)
+        ctx.quadraticCurveTo(gx - CELL_SIZE / 3, bottomY + 4 - waveOffset, gx - CELL_SIZE / 2 + 2, bottomY)
         ctx.closePath()
         ctx.fill()
+        ctx.shadowBlur = 0
+
+        // Ghost eyes
+        if (game.powerMode) {
+          // Scared face
+          ctx.fillStyle = '#ffffff'
+          ctx.beginPath()
+          ctx.arc(gx - 4, gy - 4, 3, 0, Math.PI * 2)
+          ctx.arc(gx + 4, gy - 4, 3, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Scared mouth
+          ctx.strokeStyle = '#ffffff'
+          ctx.lineWidth = 2
+          ctx.beginPath()
+          ctx.moveTo(gx - 6, gy + 4)
+          for (let i = 0; i < 5; i++) {
+            ctx.lineTo(gx - 6 + i * 3, gy + 4 + (i % 2 === 0 ? 0 : 3))
+          }
+          ctx.stroke()
+        } else {
+          // Normal eyes - track pacman
+          const eyeAngleToPac = Math.atan2(py - gy, px - gx)
+          const pupilDist = 2
+
+          // Eye whites
+          ctx.fillStyle = '#ffffff'
+          ctx.beginPath()
+          ctx.ellipse(gx - 5, gy - 3, 4, 5, 0, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.ellipse(gx + 5, gy - 3, 4, 5, 0, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Pupils (tracking pacman)
+          ctx.fillStyle = '#1e3a8a'
+          ctx.beginPath()
+          ctx.arc(gx - 5 + Math.cos(eyeAngleToPac) * pupilDist, gy - 3 + Math.sin(eyeAngleToPac) * pupilDist, 2, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(gx + 5 + Math.cos(eyeAngleToPac) * pupilDist, gy - 3 + Math.sin(eyeAngleToPac) * pupilDist, 2, 0, Math.PI * 2)
+          ctx.fill()
+
+          // Eye shine
+          ctx.fillStyle = '#ffffff'
+          ctx.beginPath()
+          ctx.arc(gx - 6, gy - 5, 1.5, 0, Math.PI * 2)
+          ctx.arc(gx + 4, gy - 5, 1.5, 0, Math.PI * 2)
+          ctx.fill()
+        }
       })
 
       animationId = requestAnimationFrame(gameLoop)
@@ -264,47 +447,94 @@ export default function PacMan({ settings }: Props) {
     return () => cancelAnimationFrame(animationId)
   }, [gameState])
 
+  // Helper function to lighten colors
+  function lightenColor(hex: string, percent: number): string {
+    const num = parseInt(hex.replace('#', ''), 16)
+    const amt = Math.round(2.55 * percent)
+    const R = Math.min(255, (num >> 16) + amt)
+    const G = Math.min(255, ((num >> 8) & 0x00FF) + amt)
+    const B = Math.min(255, (num & 0x0000FF) + amt)
+    return `rgb(${R}, ${G}, ${B})`
+  }
+
+  const texts = {
+    title: settings.language === 'zh' ? '吃豆人' : 'Pac-Man',
+    score: settings.language === 'zh' ? '得分' : 'Score',
+    start: settings.language === 'zh' ? '开始游戏' : 'Start Game',
+    playAgain: settings.language === 'zh' ? '再来一次' : 'Play Again',
+    gameOver: settings.language === 'zh' ? '游戏结束' : 'Game Over',
+    youWin: settings.language === 'zh' ? '🎉 胜利！' : '🎉 You Win!',
+    hint: settings.language === 'zh' ? '方向键/WASD 移动，吃掉所有豆子！' : 'Arrow keys/WASD to move, eat all dots!',
+  }
+
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <h1 className={`text-2xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-        🟡 Pac-Man
-      </h1>
-
-      <div className={`mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-        {settings.language === 'zh' ? '得分' : 'Score'}: {score}
-      </div>
-
-      <canvas
-        ref={canvasRef}
-        width={COLS * CELL_SIZE}
-        height={ROWS * CELL_SIZE}
-        className="border-4 border-blue-800 rounded"
-      />
-
-      {gameState === 'menu' && (
-        <div className="mt-4 text-center">
-          <button onClick={initGame} className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg font-medium text-lg">
-            {settings.language === 'zh' ? '开始游戏' : 'Start Game'}
-          </button>
-          <p className={`mt-4 text-sm ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-            {settings.language === 'zh' ? '方向键/WASD 移动' : 'Arrow keys/WASD to move'}
-          </p>
+    <div className={`min-h-screen flex flex-col items-center py-4 px-2 ${settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
+      <div className="w-full max-w-lg">
+        <div className="flex items-center justify-between border-b border-gray-700 pb-3 mb-4">
+          <div className="w-8" />
+          <h1 className={`text-xl font-bold ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+            🟡 {texts.title}
+          </h1>
+          <div className="w-8" />
         </div>
-      )}
 
-      {(gameState === 'gameover' || gameState === 'win') && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/70">
-          <div className="bg-slate-800 p-8 rounded-2xl text-center">
-            <h2 className={`text-3xl font-bold mb-4 ${gameState === 'win' ? 'text-green-500' : 'text-red-500'}`}>
-              {gameState === 'win' ? (settings.language === 'zh' ? '🎉 胜利！' : '🎉 You Win!') : (settings.language === 'zh' ? '游戏结束' : 'Game Over')}
-            </h2>
-            <p className="text-xl text-white mb-4">{settings.language === 'zh' ? '得分' : 'Score'}: {score}</p>
-            <button onClick={initGame} className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg font-medium">
-              {settings.language === 'zh' ? '再来一次' : 'Play Again'}
-            </button>
+        <div className="flex justify-center gap-8 mb-4">
+          <div className="text-center">
+            <p className={`text-sm opacity-60 ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>{texts.score}</p>
+            <p className={`text-lg font-bold ${settings.darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>{score}</p>
           </div>
         </div>
-      )}
+
+        <div className="relative mx-auto" style={{ width: COLS * CELL_SIZE }}>
+          <canvas
+            ref={canvasRef}
+            width={COLS * CELL_SIZE}
+            height={ROWS * CELL_SIZE}
+            className="block mx-auto rounded-lg"
+            style={{ border: '4px solid #1e40af', boxShadow: '0 0 20px rgba(30, 64, 175, 0.5)' }}
+          />
+
+          {gameState === 'menu' && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 rounded-lg">
+              <div className="text-6xl mb-4 animate-bounce">🟡</div>
+              <h2 className="text-2xl font-bold text-white mb-2">{texts.title}</h2>
+              <div className="flex gap-2 mb-4">
+                <span className="text-2xl">👻</span>
+                <span className="text-2xl">👻</span>
+                <span className="text-2xl">👻</span>
+                <span className="text-2xl">👻</span>
+              </div>
+              <p className="text-sm text-slate-300 mb-4 text-center px-8">{texts.hint}</p>
+              <button onClick={initGame} className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg font-bold text-lg shadow-lg shadow-yellow-500/30 transition-all">
+                {texts.start}
+              </button>
+            </div>
+          )}
+
+          {(gameState === 'gameover' || gameState === 'win') && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 rounded-lg">
+              <h2 className={`text-3xl font-bold mb-4 ${gameState === 'win' ? 'text-green-400' : 'text-red-400'}`}>
+                {gameState === 'win' ? texts.youWin : texts.gameOver}
+              </h2>
+              <p className="text-xl text-white mb-4">{texts.score}: {score}</p>
+              {gameState === 'win' && (
+                <div className="flex gap-2 mb-4">
+                  <span className="text-2xl">⭐</span>
+                  <span className="text-2xl">🎉</span>
+                  <span className="text-2xl">⭐</span>
+                </div>
+              )}
+              <button onClick={initGame} className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-black rounded-lg font-bold shadow-lg shadow-yellow-500/30 transition-all">
+                {texts.playAgain}
+              </button>
+            </div>
+          )}
+        </div>
+
+        <p className={`mt-4 text-center text-sm ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+          {texts.hint}
+        </p>
+      </div>
     </div>
   )
 }

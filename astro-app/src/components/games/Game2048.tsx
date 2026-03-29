@@ -323,23 +323,140 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     }
   }, [move, gameOver, won, continueAfterWin])
 
-  // 获取方块颜色
-  const getTileColor = (value: number): string => {
-    const colors: Record<number, string> = {
-      0: settings.darkMode ? 'bg-slate-700' : 'bg-gray-200',
-      2: settings.darkMode ? 'bg-amber-600 text-white' : 'bg-amber-100',
-      4: settings.darkMode ? 'bg-amber-500 text-white' : 'bg-amber-200',
-      8: settings.darkMode ? 'bg-orange-500 text-white' : 'bg-orange-300',
-      16: 'bg-orange-500 text-white',
-      32: 'bg-orange-600 text-white',
-      64: 'bg-red-500 text-white',
-      128: 'bg-yellow-400 text-white',
-      256: 'bg-yellow-500 text-white',
-      512: 'bg-yellow-600 text-white',
-      1024: 'bg-yellow-700 text-white',
-      2048: 'bg-green-500 text-white',
+  // 获取方块样式
+  const getTileStyle = (value: number): { bgClass: string; style: React.CSSProperties } => {
+    const tileStyles: Record<number, { bgClass: string; style: React.CSSProperties }> = {
+      0: {
+        bgClass: settings.darkMode ? 'bg-slate-700/50' : 'bg-gray-200/50',
+        style: {}
+      },
+      2: {
+        bgClass: settings.darkMode ? 'text-white' : 'text-gray-800',
+        style: {
+          background: settings.darkMode
+            ? 'linear-gradient(135deg, #fbbf24 0%, #d97706 100%)'
+            : 'linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 15px rgba(251, 191, 36, 0.4), inset 2px 2px 4px rgba(255, 255, 255, 0.3)'
+            : '0 0 15px rgba(251, 191, 36, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(251, 191, 36, 0.5)',
+        }
+      },
+      4: {
+        bgClass: settings.darkMode ? 'text-white' : 'text-gray-800',
+        style: {
+          background: settings.darkMode
+            ? 'linear-gradient(135deg, #f59e0b 0%, #b45309 100%)'
+            : 'linear-gradient(135deg, #fde68a 0%, #f59e0b 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 15px rgba(245, 158, 11, 0.4), inset 2px 2px 4px rgba(255, 255, 255, 0.3)'
+            : '0 0 15px rgba(245, 158, 11, 0.3), inset 2px 2px 4px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(245, 158, 11, 0.5)',
+        }
+      },
+      8: {
+        bgClass: 'text-white',
+        style: {
+          background: settings.darkMode
+            ? 'linear-gradient(135deg, #fb923c 0%, #c2410c 100%)'
+            : 'linear-gradient(135deg, #fed7aa 0%, #fb923c 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 18px rgba(251, 146, 60, 0.5), inset 2px 2px 4px rgba(255, 255, 255, 0.3)'
+            : '0 0 18px rgba(251, 146, 60, 0.4), inset 2px 2px 4px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(251, 146, 60, 0.6)',
+        }
+      },
+      16: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 20px rgba(249, 115, 22, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 20px rgba(249, 115, 22, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(249, 115, 22, 0.6)',
+        }
+      },
+      32: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #ea580c 0%, #c2410c 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 22px rgba(234, 88, 12, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 22px rgba(234, 88, 12, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(234, 88, 12, 0.6)',
+        }
+      },
+      64: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 25px rgba(239, 68, 68, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 25px rgba(239, 68, 68, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(239, 68, 68, 0.6)',
+        }
+      },
+      128: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #facc15 0%, #ca8a04 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 28px rgba(250, 204, 21, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 28px rgba(250, 204, 21, 0.4), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(250, 204, 21, 0.6)',
+        }
+      },
+      256: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #eab308 0%, #a16207 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 30px rgba(234, 179, 8, 0.6), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 30px rgba(234, 179, 8, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(234, 179, 8, 0.7)',
+        }
+      },
+      512: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #fbbf24 0%, #92400e 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 32px rgba(251, 191, 36, 0.6), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 32px rgba(251, 191, 36, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(251, 191, 36, 0.7)',
+        }
+      },
+      1024: {
+        bgClass: 'text-white',
+        style: {
+          background: 'linear-gradient(135deg, #fcd34d 0%, #78350f 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 35px rgba(252, 211, 77, 0.7), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+            : '0 0 35px rgba(252, 211, 77, 0.6), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+          border: '1px solid rgba(252, 211, 77, 0.8)',
+        }
+      },
+      2048: {
+        bgClass: 'text-white font-extrabold',
+        style: {
+          background: 'linear-gradient(135deg, #4ade80 0%, #15803d 100%)',
+          boxShadow: settings.darkMode
+            ? '0 0 40px rgba(74, 222, 128, 0.8), inset 2px 2px 6px rgba(255, 255, 255, 0.4)'
+            : '0 0 40px rgba(74, 222, 128, 0.7), inset 2px 2px 6px rgba(255, 255, 255, 0.5)',
+          border: '2px solid rgba(74, 222, 128, 0.9)',
+        }
+      },
     }
-    return colors[value] || 'bg-purple-500 text-white'
+    return tileStyles[value] || {
+      bgClass: 'text-white font-bold',
+      style: {
+        background: 'linear-gradient(135deg, #a855f7 0%, #7e22ce 100%)',
+        boxShadow: settings.darkMode
+          ? '0 0 35px rgba(168, 85, 247, 0.6), inset 2px 2px 5px rgba(255, 255, 255, 0.3)'
+          : '0 0 35px rgba(168, 85, 247, 0.5), inset 2px 2px 5px rgba(255, 255, 255, 0.4)',
+        border: '1px solid rgba(168, 85, 247, 0.7)',
+      }
+    }
   }
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
@@ -403,16 +520,36 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
       </div>
 
       {/* Game Board */}
-      <div className={`${cardBgClass} rounded-xl p-3`}>
+      <div
+        className="rounded-xl p-3 border-2"
+        style={{
+          background: settings.darkMode
+            ? 'linear-gradient(180deg, #1e293b 0%, #0f172a 50%, #1e293b 100%)'
+            : 'linear-gradient(180deg, #fef3c7 0%, #fde68a 50%, #fef3c7 100%)',
+          borderColor: settings.darkMode ? '#475569' : '#fbbf24',
+          boxShadow: settings.darkMode
+            ? '0 0 40px rgba(251, 191, 36, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.3)'
+            : '0 0 40px rgba(251, 191, 36, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.2)',
+        }}
+      >
         <div className="grid grid-cols-4 gap-2">
-          {grid.flat().map((value, i) => (
-            <div
-              key={i}
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-lg flex items-center justify-center font-bold transition-all duration-150 ${getTileColor(value)} ${value >= 1000 ? 'text-lg' : value >= 100 ? 'text-xl' : 'text-2xl'}`}
-            >
-              {value || ''}
-            </div>
-          ))}
+          {grid.flat().map((value, i) => {
+            const tileStyle = getTileStyle(value)
+            return (
+              <div
+                key={i}
+                className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex items-center justify-center font-bold transition-all duration-200 transform ${tileStyle.bgClass} ${value ? 'scale-100' : 'scale-95'}`}
+                style={{
+                  ...tileStyle.style,
+                  fontSize: value >= 1000 ? '0.875rem' : value >= 100 ? '1.125rem' : '1.5rem',
+                }}
+              >
+                {value ? (
+                  <span className="drop-shadow-sm">{value}</span>
+                ) : null}
+              </div>
+            )
+          })}
         </div>
       </div>
 

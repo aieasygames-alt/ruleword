@@ -82,18 +82,47 @@ export default function Asteroids({ settings }: Props) {
       ctx.save()
       ctx.translate(x, y)
       ctx.rotate(rotation)
+
+      // Glow effect
+      ctx.shadowColor = '#8b5cf6'
+      ctx.shadowBlur = 15
+
+      // Asteroid body with gradient
       ctx.beginPath()
-      const points = 8
+      const points = 10
+      const vertices = []
       for (let i = 0; i < points; i++) {
         const angle = (i / points) * Math.PI * 2
-        const r = size * (0.7 + Math.sin(i * 3) * 0.3)
-        const px = Math.cos(angle) * r
-        const py = Math.sin(angle) * r
-        if (i === 0) ctx.moveTo(px, py)
-        else ctx.lineTo(px, py)
+        const r = size * (0.7 + Math.sin(i * 3.7 + rotation * 5) * 0.3)
+        vertices.push({
+          x: Math.cos(angle) * r,
+          y: Math.sin(angle) * r
+        })
+        if (i === 0) ctx.moveTo(vertices[i].x, vertices[i].y)
+        else ctx.lineTo(vertices[i].x, vertices[i].y)
       }
       ctx.closePath()
+
+      // Fill with gradient
+      const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, size)
+      gradient.addColorStop(0, '#4c1d95')
+      gradient.addColorStop(0.5, '#6b21a8')
+      gradient.addColorStop(1, '#7c3aed')
+      ctx.fillStyle = gradient
+      ctx.fill()
+
+      // Outline
+      ctx.strokeStyle = '#a78bfa'
+      ctx.lineWidth = 2
       ctx.stroke()
+
+      // Surface details
+      ctx.shadowBlur = 0
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+      ctx.beginPath()
+      ctx.arc(-size * 0.2, -size * 0.2, size * 0.2, 0, Math.PI * 2)
+      ctx.fill()
+
       ctx.restore()
     }
 
@@ -101,16 +130,28 @@ export default function Asteroids({ settings }: Props) {
       const game = gameRef.current
       const now = Date.now()
 
-      // Clear
-      ctx.fillStyle = settings.darkMode ? '#0f172a' : '#1e293b'
+      // Clear with gradient background
+      const bgGradient = ctx.createRadialGradient(
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, 0,
+        CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2, CANVAS_WIDTH
+      )
+      bgGradient.addColorStop(0, settings.darkMode ? '#1e1b4b' : '#312e81')
+      bgGradient.addColorStop(0.5, settings.darkMode ? '#0f172a' : '#1e1b4b')
+      bgGradient.addColorStop(1, settings.darkMode ? '#020617' : '#0f172a')
+      ctx.fillStyle = bgGradient
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-      // Draw stars
-      ctx.fillStyle = '#ffffff'
-      for (let i = 0; i < 80; i++) {
+      // Draw animated stars
+      const time = Date.now() / 1000
+      for (let i = 0; i < 100; i++) {
         const x = (i * 97) % CANVAS_WIDTH
         const y = (i * 131) % CANVAS_HEIGHT
-        ctx.fillRect(x, y, 1, 1)
+        const twinkle = Math.sin(time * 2 + i) * 0.5 + 0.5
+        const size = (i % 3) + 1
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.3 + twinkle * 0.7})`
+        ctx.beginPath()
+        ctx.arc(x, y, size * 0.5, 0, Math.PI * 2)
+        ctx.fill()
       }
 
       // Ship controls
@@ -154,8 +195,7 @@ export default function Asteroids({ settings }: Props) {
         game.lastShot = now
       }
 
-      // Update bullets
-      ctx.fillStyle = '#22c55e'
+      // Update and draw bullets with glow effect
       game.bullets = game.bullets.filter(bullet => {
         bullet.x += bullet.vx
         bullet.y += bullet.vy
@@ -163,9 +203,26 @@ export default function Asteroids({ settings }: Props) {
         if (bullet.life <= 0) return false
         bullet.x = wrapPos(bullet.x, CANVAS_WIDTH)
         bullet.y = wrapPos(bullet.y, CANVAS_HEIGHT)
+
+        // Bullet trail
+        ctx.fillStyle = 'rgba(34, 197, 94, 0.3)'
+        ctx.beginPath()
+        ctx.arc(bullet.x - bullet.vx * 0.5, bullet.y - bullet.vy * 0.5, 2, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Main bullet with glow
+        ctx.shadowColor = '#22c55e'
+        ctx.shadowBlur = 10
+        const bulletGradient = ctx.createRadialGradient(bullet.x, bullet.y, 0, bullet.x, bullet.y, 4)
+        bulletGradient.addColorStop(0, '#86efac')
+        bulletGradient.addColorStop(0.5, '#22c55e')
+        bulletGradient.addColorStop(1, '#16a34a')
+        ctx.fillStyle = bulletGradient
         ctx.beginPath()
         ctx.arc(bullet.x, bullet.y, 3, 0, Math.PI * 2)
         ctx.fill()
+        ctx.shadowBlur = 0
+
         return true
       })
 
@@ -229,18 +286,71 @@ export default function Asteroids({ settings }: Props) {
         })
       }
 
-      // Draw ship
+      // Draw ship with enhanced visuals
       ctx.save()
       ctx.translate(game.ship.x, game.ship.y)
       ctx.rotate(game.ship.angle)
-      ctx.fillStyle = '#22c55e'
+
+      // Thrust flame when accelerating
+      if (game.keys['ArrowUp'] || game.keys['w']) {
+        ctx.fillStyle = '#f97316'
+        ctx.beginPath()
+        ctx.moveTo(-8, -5)
+        ctx.lineTo(-20 - Math.random() * 8, 0)
+        ctx.lineTo(-8, 5)
+        ctx.closePath()
+        ctx.fill()
+
+        ctx.fillStyle = '#fbbf24'
+        ctx.beginPath()
+        ctx.moveTo(-8, -3)
+        ctx.lineTo(-14 - Math.random() * 4, 0)
+        ctx.lineTo(-8, 3)
+        ctx.closePath()
+        ctx.fill()
+      }
+
+      // Ship glow
+      ctx.shadowColor = '#22c55e'
+      ctx.shadowBlur = 15
+
+      // Ship body with gradient
+      const shipGradient = ctx.createLinearGradient(-10, -10, 15, 10)
+      shipGradient.addColorStop(0, '#16a34a')
+      shipGradient.addColorStop(0.5, '#22c55e')
+      shipGradient.addColorStop(1, '#4ade80')
+      ctx.fillStyle = shipGradient
+
       ctx.beginPath()
-      ctx.moveTo(15, 0)
-      ctx.lineTo(-10, -10)
-      ctx.lineTo(-5, 0)
-      ctx.lineTo(-10, 10)
+      ctx.moveTo(18, 0)
+      ctx.lineTo(-8, -12)
+      ctx.lineTo(-4, 0)
+      ctx.lineTo(-8, 12)
       ctx.closePath()
       ctx.fill()
+
+      // Ship outline
+      ctx.strokeStyle = '#86efac'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      // Cockpit
+      ctx.shadowBlur = 0
+      ctx.fillStyle = '#0f172a'
+      ctx.beginPath()
+      ctx.arc(4, 0, 5, 0, Math.PI * 2)
+      ctx.fill()
+
+      ctx.fillStyle = '#38bdf8'
+      ctx.beginPath()
+      ctx.arc(5, -1, 3, 0, Math.PI * 2)
+      ctx.fill()
+
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+      ctx.beginPath()
+      ctx.arc(6, -2, 1.5, 0, Math.PI * 2)
+      ctx.fill()
+
       ctx.restore()
 
       animationId = requestAnimationFrame(gameLoop)

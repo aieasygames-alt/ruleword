@@ -81,9 +81,48 @@ export default function BreakoutGame({ settings }: Props) {
     const gameLoop = () => {
       const game = gameRef.current
 
-      // Clear
-      ctx.fillStyle = settings.darkMode ? '#0f172a' : '#1e293b'
+      // Clear with gradient background
+      const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+      bgGradient.addColorStop(0, settings.darkMode ? '#1e1b4b' : '#4c1d95')
+      bgGradient.addColorStop(0.5, settings.darkMode ? '#0f172a' : '#1e1b4b')
+      bgGradient.addColorStop(1, settings.darkMode ? '#020617' : '#0f172a')
+      ctx.fillStyle = bgGradient
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+      // Draw subtle grid pattern
+      ctx.strokeStyle = settings.darkMode ? 'rgba(139, 92, 246, 0.05)' : 'rgba(139, 92, 246, 0.1)'
+      ctx.lineWidth = 1
+      for (let x = 0; x < CANVAS_WIDTH; x += 30) {
+        ctx.beginPath()
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, CANVAS_HEIGHT)
+        ctx.stroke()
+      }
+      for (let y = 0; y < CANVAS_HEIGHT; y += 30) {
+        ctx.beginPath()
+        ctx.moveTo(0, y)
+        ctx.lineTo(CANVAS_WIDTH, y)
+        ctx.stroke()
+      }
+
+      // Helper functions for color manipulation
+      function lightenColor(hex: string, percent: number): string {
+        const num = parseInt(hex.replace('#', ''), 16)
+        const amt = Math.round(2.55 * percent)
+        const R = Math.min(255, (num >> 16) + amt)
+        const G = Math.min(255, ((num >> 8) & 0x00FF) + amt)
+        const B = Math.min(255, (num & 0x0000FF) + amt)
+        return `rgb(${R}, ${G}, ${B})`
+      }
+
+      function darkenColor(hex: string, percent: number): string {
+        const num = parseInt(hex.replace('#', ''), 16)
+        const amt = Math.round(2.55 * percent)
+        const R = Math.max(0, (num >> 16) - amt)
+        const G = Math.max(0, ((num >> 8) & 0x00FF) - amt)
+        const B = Math.max(0, (num & 0x0000FF) - amt)
+        return `rgb(${R}, ${G}, ${B})`
+      }
 
       // Paddle movement
       if (game.keys['ArrowLeft'] || game.keys['a']) {
@@ -156,23 +195,88 @@ export default function BreakoutGame({ settings }: Props) {
         return
       }
 
-      // Draw bricks
+      // Draw bricks with gradients and glow
       game.bricks.forEach(brick => {
         if (!brick.alive) return
-        ctx.fillStyle = brick.color
-        ctx.fillRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT)
-        ctx.strokeStyle = 'rgba(255,255,255,0.3)'
-        ctx.strokeRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT)
+
+        // Brick glow
+        ctx.shadowColor = brick.color
+        ctx.shadowBlur = 8
+
+        // Brick gradient
+        const brickGradient = ctx.createLinearGradient(
+          brick.x, brick.y,
+          brick.x, brick.y + BRICK_HEIGHT
+        )
+        brickGradient.addColorStop(0, lightenColor(brick.color, 20))
+        brickGradient.addColorStop(0.5, brick.color)
+        brickGradient.addColorStop(1, darkenColor(brick.color, 20))
+        ctx.fillStyle = brickGradient
+
+        // Rounded brick
+        ctx.beginPath()
+        ctx.roundRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT, 3)
+        ctx.fill()
+
+        // Brick highlight
+        ctx.shadowBlur = 0
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
+        ctx.fillRect(brick.x + 2, brick.y + 2, BRICK_WIDTH - 4, 4)
+
+        // Brick outline
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.roundRect(brick.x, brick.y, BRICK_WIDTH, BRICK_HEIGHT, 3)
+        ctx.stroke()
       })
 
-      // Draw paddle
-      ctx.fillStyle = '#22c55e'
-      ctx.fillRect(game.paddle.x, CANVAS_HEIGHT - 40, PADDLE_WIDTH, PADDLE_HEIGHT)
+      // Draw paddle with gradient and glow
+      ctx.shadowColor = '#22c55e'
+      ctx.shadowBlur = 15
 
-      // Draw ball
-      ctx.fillStyle = '#fff'
+      const paddleGradient = ctx.createLinearGradient(
+        game.paddle.x, CANVAS_HEIGHT - 40,
+        game.paddle.x, CANVAS_HEIGHT - 40 + PADDLE_HEIGHT
+      )
+      paddleGradient.addColorStop(0, '#4ade80')
+      paddleGradient.addColorStop(0.5, '#22c55e')
+      paddleGradient.addColorStop(1, '#16a34a')
+      ctx.fillStyle = paddleGradient
+
+      ctx.beginPath()
+      ctx.roundRect(game.paddle.x, CANVAS_HEIGHT - 40, PADDLE_WIDTH, PADDLE_HEIGHT, 6)
+      ctx.fill()
+
+      // Paddle highlight
+      ctx.shadowBlur = 0
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
+      ctx.beginPath()
+      ctx.roundRect(game.paddle.x + 4, CANVAS_HEIGHT - 38, PADDLE_WIDTH - 8, 3, 2)
+      ctx.fill()
+
+      // Draw ball with glow and trail
+      ctx.shadowColor = '#ffffff'
+      ctx.shadowBlur = 15
+
+      const ballGradient = ctx.createRadialGradient(
+        game.ball.x + BALL_SIZE / 2 - 2, game.ball.y + BALL_SIZE / 2 - 2, 0,
+        game.ball.x + BALL_SIZE / 2, game.ball.y + BALL_SIZE / 2, BALL_SIZE / 2
+      )
+      ballGradient.addColorStop(0, '#ffffff')
+      ballGradient.addColorStop(0.5, '#f0f0f0')
+      ballGradient.addColorStop(1, '#d4d4d4')
+      ctx.fillStyle = ballGradient
+
       ctx.beginPath()
       ctx.arc(game.ball.x + BALL_SIZE / 2, game.ball.y + BALL_SIZE / 2, BALL_SIZE / 2, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // Ball shine
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'
+      ctx.beginPath()
+      ctx.arc(game.ball.x + BALL_SIZE / 2 - 2, game.ball.y + BALL_SIZE / 2 - 2, 2, 0, Math.PI * 2)
       ctx.fill()
 
       // Draw lives

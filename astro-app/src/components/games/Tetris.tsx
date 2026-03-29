@@ -53,13 +53,23 @@ const SHAPES: Record<string, number[][][]> = {
 }
 
 const COLORS: Record<string, string> = {
-  I: 'bg-cyan-400',
-  O: 'bg-yellow-400',
-  T: 'bg-purple-400',
-  S: 'bg-green-400',
-  Z: 'bg-red-400',
-  J: 'bg-blue-400',
-  L: 'bg-orange-400',
+  I: 'bg-gradient-to-br from-cyan-300 to-cyan-500',
+  O: 'bg-gradient-to-br from-yellow-300 to-yellow-500',
+  T: 'bg-gradient-to-br from-purple-300 to-purple-500',
+  S: 'bg-gradient-to-br from-green-300 to-green-500',
+  Z: 'bg-gradient-to-br from-red-300 to-red-500',
+  J: 'bg-gradient-to-br from-blue-300 to-blue-500',
+  L: 'bg-gradient-to-br from-orange-300 to-orange-500',
+}
+
+const BLOCK_STYLES: Record<string, { glow: string; border: string; highlight: string }> = {
+  I: { glow: 'rgba(34, 211, 238, 0.6)', border: '#0891b2', highlight: 'rgba(255, 255, 255, 0.5)' },
+  O: { glow: 'rgba(250, 204, 21, 0.6)', border: '#ca8a04', highlight: 'rgba(255, 255, 255, 0.5)' },
+  T: { glow: 'rgba(168, 85, 247, 0.6)', border: '#9333ea', highlight: 'rgba(255, 255, 255, 0.5)' },
+  S: { glow: 'rgba(34, 197, 94, 0.6)', border: '#16a34a', highlight: 'rgba(255, 255, 255, 0.5)' },
+  Z: { glow: 'rgba(239, 68, 68, 0.6)', border: '#dc2626', highlight: 'rgba(255, 255, 255, 0.5)' },
+  J: { glow: 'rgba(59, 130, 246, 0.6)', border: '#2563eb', highlight: 'rgba(255, 255, 255, 0.5)' },
+  L: { glow: 'rgba(249, 115, 22, 0.6)', border: '#ea580c', highlight: 'rgba(255, 255, 255, 0.5)' },
 }
 
 const SHAPE_KEYS = ['I', 'O', 'T', 'S', 'Z', 'J', 'L']
@@ -314,21 +324,54 @@ export default function Tetris({ settings, onBack }: TetrisProps) {
         ) : (
           <div className="flex gap-4">
             {/* Game Board */}
-            <div className={`${cardBgClass} border ${borderClass} rounded-lg p-2`}>
+            <div
+              className="border-2 rounded-xl p-1 overflow-hidden"
+              style={{
+                background: settings.darkMode
+                  ? 'linear-gradient(180deg, #1e293b 0%, #0f172a 50%, #1e293b 100%)'
+                  : 'linear-gradient(180deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%)',
+                borderColor: settings.darkMode ? '#475569' : '#94a3b8',
+                boxShadow: settings.darkMode
+                  ? '0 0 40px rgba(139, 92, 246, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.3)'
+                  : '0 0 40px rgba(139, 92, 246, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.3)',
+              }}
+            >
               <div
-                className="grid gap-px"
+                className="grid gap-px rounded-lg overflow-hidden"
                 style={{
                   gridTemplateColumns: `repeat(${COLS}, ${CELL_SIZE}px)`,
                   gridTemplateRows: `repeat(${ROWS}, ${CELL_SIZE}px)`,
+                  background: settings.darkMode
+                    ? 'repeating-linear-gradient(0deg, #1e293b 0px, #1e293b 23px, #0f172a 23px, #0f172a 24px), repeating-linear-gradient(90deg, #1e293b 0px, #1e293b 23px, #0f172a 23px, #0f172a 24px)'
+                    : 'repeating-linear-gradient(0deg, #f1f5f9 0px, #f1f5f9 23px, #e2e8f0 23px, #e2e8f0 24px), repeating-linear-gradient(90deg, #f1f5f9 0px, #f1f5f9 23px, #e2e8f0 23px, #e2e8f0 24px)',
                 }}
               >
                 {displayGrid.map((row, y) =>
-                  row.map((cell, x) => (
-                    <div
-                      key={`${y}-${x}`}
-                      className={`${cell ? COLORS[cell] : settings.darkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-sm`}
-                    />
-                  ))
+                  row.map((cell, x) => {
+                    const blockStyle = cell ? BLOCK_STYLES[cell] : null
+                    return (
+                      <div
+                        key={`${y}-${x}`}
+                        className={`rounded-sm relative ${cell ? COLORS[cell] : ''}`}
+                        style={{
+                          background: cell ? undefined : (settings.darkMode ? '#1e293b' : '#e2e8f0'),
+                          boxShadow: cell && blockStyle
+                            ? `0 0 8px ${blockStyle.glow}, inset 2px 2px 4px ${blockStyle.highlight}, inset -1px -1px 2px rgba(0,0,0,0.2)`
+                            : 'none',
+                          border: cell && blockStyle ? `1px solid ${blockStyle.border}` : 'none',
+                        }}
+                      >
+                        {cell && blockStyle && (
+                          <div
+                            className="absolute inset-0 rounded-sm opacity-30"
+                            style={{
+                              background: `linear-gradient(135deg, ${blockStyle.highlight} 0%, transparent 50%)`,
+                            }}
+                          />
+                        )}
+                      </div>
+                    )
+                  })
                 )}
               </div>
             </div>

@@ -361,53 +361,132 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
 
       {/* Game Board */}
       <div
-        className={`${cardBgClass} rounded-xl p-2 border-2 ${settings.darkMode ? 'border-slate-600' : 'border-gray-400'}`}
-        style={{ width: GRID_SIZE * CELL_SIZE + 16 }}
+        className="rounded-xl p-1 border-2 shadow-lg"
+        style={{
+          width: GRID_SIZE * CELL_SIZE + 16,
+          background: settings.darkMode
+            ? 'linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #1e293b 100%)'
+            : 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 50%, #bbf7d0 100%)',
+          borderColor: settings.darkMode ? '#059669' : '#22c55e',
+          boxShadow: settings.darkMode
+            ? '0 0 30px rgba(16, 185, 129, 0.3), inset 0 0 20px rgba(16, 185, 129, 0.1)'
+            : '0 0 30px rgba(16, 185, 129, 0.2), inset 0 0 20px rgba(16, 185, 129, 0.05)',
+        }}
       >
         <div
-          className="relative"
-          style={{ width: GRID_SIZE * CELL_SIZE, height: GRID_SIZE * CELL_SIZE }}
+          className="relative rounded-lg overflow-hidden"
+          style={{
+            width: GRID_SIZE * CELL_SIZE,
+            height: GRID_SIZE * CELL_SIZE,
+            background: settings.darkMode
+              ? `repeating-linear-gradient(0deg, transparent 0px, transparent 15px, rgba(30, 58, 95, 0.3) 15px, rgba(30, 58, 95, 0.3) 16px), repeating-linear-gradient(90deg, transparent 0px, transparent 15px, rgba(30, 58, 95, 0.3) 15px, rgba(30, 58, 95, 0.3) 16px), linear-gradient(135deg, #0f172a 0%, #1e293b 100%)`
+              : `repeating-linear-gradient(0deg, transparent 0px, transparent 15px, rgba(187, 247, 208, 0.5) 15px, rgba(187, 247, 208, 0.5) 16px), repeating-linear-gradient(90deg, transparent 0px, transparent 15px, rgba(187, 247, 208, 0.5) 15px, rgba(187, 247, 208, 0.5) 16px), linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)`,
+          }}
         >
-          {/* Grid background */}
-          <div
-            className={`absolute inset-0 ${settings.darkMode ? 'bg-slate-700' : 'bg-gray-200'}`}
-            style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(${GRID_SIZE}, 1fr)`,
-            }}
-          >
-            {Array(GRID_SIZE * GRID_SIZE).fill(null).map((_, i) => (
+          {/* Snake */}
+          {snake.map((segment, i) => {
+            const isHead = i === 0
+            const progress = i / snake.length
+            const hue = 140 + progress * 20
+
+            return (
               <div
                 key={i}
-                className={`${settings.darkMode ? 'border-slate-600' : 'border-gray-300'} border`}
-              />
-            ))}
-          </div>
+                className="absolute"
+                style={{
+                  left: segment.x * CELL_SIZE + 1,
+                  top: segment.y * CELL_SIZE + 1,
+                  width: CELL_SIZE - 2,
+                  height: CELL_SIZE - 2,
+                  background: isHead
+                    ? 'linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%)'
+                    : `linear-gradient(135deg, hsl(${hue}, 70%, 50%) 0%, hsl(${hue}, 60%, 40%) 100%)`,
+                  borderRadius: isHead ? '6px 6px 4px 4px' : '4px',
+                  boxShadow: isHead
+                    ? '0 0 10px rgba(34, 197, 94, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.3)'
+                    : `0 0 6px rgba(34, 197, 94, ${0.4 - progress * 0.3}), inset 0 1px 2px rgba(255, 255, 255, 0.2)`,
+                  transform: isHead ? 'scale(1.05)' : `scale(${1 - progress * 0.1})`,
+                }}
+              >
+                {isHead && (
+                  <>
+                    {/* Eyes */}
+                    <div
+                      className="absolute w-3 h-3 rounded-full bg-white flex items-center justify-center"
+                      style={{ top: '2px', left: '3px' }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+                    </div>
+                    <div
+                      className="absolute w-3 h-3 rounded-full bg-white flex items-center justify-center"
+                      style={{ top: '2px', right: '3px' }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+                    </div>
+                    {/* Eye shine */}
+                    <div className="absolute w-1 h-1 rounded-full bg-white" style={{ top: '2px', left: '4px' }} />
+                    <div className="absolute w-1 h-1 rounded-full bg-white" style={{ top: '2px', right: '4px' }} />
+                    {/* Tongue */}
+                    <div
+                      className="absolute w-1.5 h-2 rounded-b-full bg-red-500"
+                      style={{ bottom: '0px', left: '50%', transform: 'translateX(-50%)' }}
+                    />
+                  </>
+                )}
+              </div>
+            )
+          })}
 
-          {/* Snake */}
-          {snake.map((segment, i) => (
-            <div
-              key={i}
-              className={`absolute rounded-sm ${i === 0 ? 'bg-green-500' : 'bg-green-400'}`}
-              style={{
-                left: segment.x * CELL_SIZE,
-                top: segment.y * CELL_SIZE,
-                width: CELL_SIZE - 2,
-                height: CELL_SIZE - 2,
-              }}
-            />
-          ))}
-
-          {/* Food */}
+          {/* Food - Red Apple */}
           <div
-            className="absolute rounded-full bg-red-500 animate-pulse"
+            className="absolute"
             style={{
-              left: food.x * CELL_SIZE,
-              top: food.y * CELL_SIZE,
+              left: food.x * CELL_SIZE + 1,
+              top: food.y * CELL_SIZE + 1,
               width: CELL_SIZE - 2,
               height: CELL_SIZE - 2,
             }}
-          />
+          >
+            {/* Apple body */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: 'linear-gradient(135deg, #fca5a5 0%, #ef4444 40%, #dc2626 70%, #b91c1c 100%)',
+                boxShadow: '0 0 12px rgba(239, 68, 68, 0.6), inset 2px 2px 4px rgba(255, 255, 255, 0.4), inset -1px -1px 3px rgba(0, 0, 0, 0.2)',
+              }}
+            />
+            {/* Apple stem */}
+            <div
+              className="absolute"
+              style={{
+                top: '-2px',
+                left: '50%',
+                width: '2px',
+                height: '5px',
+                background: 'linear-gradient(to bottom, #78350f, #451a03)',
+                transform: 'translateX(-50%) rotate(-10deg)',
+                borderRadius: '1px',
+              }}
+            />
+            {/* Apple leaf */}
+            <div
+              className="absolute"
+              style={{
+                top: '-1px',
+                left: '60%',
+                width: '6px',
+                height: '4px',
+                background: 'linear-gradient(135deg, #4ade80, #22c55e)',
+                borderRadius: '0 50% 50% 0',
+                transform: 'rotate(20deg)',
+              }}
+            />
+            {/* Apple shine */}
+            <div
+              className="absolute w-2 h-2 rounded-full"
+              style={{ top: '3px', left: '3px', background: 'rgba(255, 255, 255, 0.5)' }}
+            />
+          </div>
         </div>
       </div>
 
