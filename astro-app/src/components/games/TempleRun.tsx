@@ -20,6 +20,12 @@ interface Obstacle {
   targetLane?: number
 }
 
+interface Coin {
+  lane: number
+  distance: number
+  collected: boolean
+}
+
 const CANVAS_WIDTH = 360
 const CANVAS_HEIGHT = 600
 const LANE_COUNT = 3
@@ -40,6 +46,8 @@ export default function TempleRun({
   const [isSliding, setIsSliding] = useState(false)
   const [jumpProgress, setJumpProgress] = useState(0)
   const [obstacles, setObstacles] = useState<Obstacle[]>([])
+  const [coins, setCoins] = useState<Coin[]>([])
+  const [coinCount, setCoinCount] = useState(0)
   const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
   const [speed, setSpeed] = useState(5)
@@ -48,6 +56,7 @@ export default function TempleRun({
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
   const audioContext = useRef<AudioContext | null>(null)
   const lastObstacleRef = useRef(0)
+  const lastCoinRef = useRef(0)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -61,7 +70,7 @@ export default function TempleRun({
     }
   }, [getHighScore])
 
-  const playSound = useCallback((type: 'move' | 'jump' | 'slide' | 'hit' | 'score') => {
+  const playSound = useCallback((type: 'move' | 'jump' | 'slide' | 'hit' | 'coin') => {
     if (!settings.soundEnabled) return
     try {
       if (!audioContext.current) audioContext.current = new AudioContext()
@@ -91,6 +100,11 @@ export default function TempleRun({
         osc.type = 'sawtooth'
         gain.gain.setValueAtTime(0.2, ctx.currentTime)
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3)
+      } else if (type === 'coin') {
+        osc.frequency.value = 800
+        osc.type = 'sine'
+        gain.gain.setValueAtTime(0.15, ctx.currentTime)
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15)
       }
       osc.start(ctx.currentTime)
       osc.stop(ctx.currentTime + 0.3)
@@ -103,6 +117,8 @@ export default function TempleRun({
     setIsSliding(false)
     setJumpProgress(0)
     setObstacles([])
+    setCoins([])
+    setCoinCount(0)
     setScore(0)
     setSpeed(5)
     lastObstacleRef.current = 0
@@ -221,6 +237,45 @@ export default function TempleRun({
         lastObstacleRef.current = 0
       }
 
+      // Generate coins
+      lastCoinRef.current += delta
+      if (lastCoinRef.current > 800 - speed * 20) {
+        // Generate 1-3 coins in a line
+        const coinLane = Math.floor(Math.random() * LANE_COUNT)
+        const coinCount = Math.floor(Math.random() * 3) + 1
+
+        const newCoins: Coin[] = []
+        for (let i = 0; i < coinCount; i++) {
+          newCoins.push({
+            lane: coinLane,
+            distance: -50 - i * 50,
+            collected: false,
+          })
+        }
+
+        setCoins(prev => [...prev, ...newCoins])
+        lastCoinRef.current = 0
+      }
+
+      // Update coins (move towards player)
+      setCoins(prev => {
+        const playerY = CANVAS_HEIGHT - 100
+
+        return prev.map(coin => {
+          // Check coin collection
+          if (!coin.collected && coin.lane === playerLane) {
+            if (coin.distance > playerY - 40 && coin.distance < playerY + 40) {
+              // Can collect coin while jumping too
+              playSound('coin')
+              setCoinCount(c => c + 1)
+              setScore(s => s + 50)
+              return { ...coin, collected: true }
+            }
+          }
+          return { ...coin, distance: coin.distance + speed }
+        }).filter(coin => coin.distance < CANVAS_HEIGHT + 50 && !coin.collected)
+      })
+
       // Update obstacles (move towards player)
       setObstacles(prev => {
         const newObstacles = prev.map(obs => ({
@@ -299,66 +354,230 @@ export default function TempleRun({
     }
     ctx.setLineDash([])
 
-    // Draw obstacles
+    // Draw obstacles with better visuals
     for (const obs of obstacles) {
       const x = obs.lane * LANE_WIDTH + LANE_WIDTH / 2
       const y = obs.distance
 
       if (obs.type === 'jump') {
-        // Barrier to jump over
-        ctx.fillStyle = '#ef4444'
-        ctx.fillRect(x - 40, y - 15, 80, 30)
-        ctx.fillStyle = '#fca5a5'
-        ctx.fillRect(x - 35, y - 10, 70, 20)
+        // Fire/log barrier - need to jump over
+        // Draw wooden log base
+        ctx.fillStyle = '#8B4513'
+        ctx.fillRect(x - 45, y - 20, 90, 25)
+
+        // Wood grain lines
+        ctx.strokeStyle = '#5D3A1A'
+        ctx.lineWidth = 2
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath()
+          ctx.moveTo(x - 40 + i * 22, y - 18)
+          ctx.lineTo(x - 40 + i * 22, y)
+          ctx.stroke()
+        }
+
+        // Fire effect on top
+        ctx.fillStyle = '#FF4500'
+        ctx.beginPath()
+        ctx.moveTo(x - 30, y - 20)
+        ctx.quadraticCurveTo(x - 20, y - 50, x, y - 35)
+        ctx.quadraticCurveTo(x + 20, y - 50, x + 30, y - 20)
+        ctx.fill()
+
+        ctx.fillStyle = '#FFD700'
+        ctx.beginPath()
+        ctx.moveTo(x - 20, y - 20)
+        ctx.quadraticCurveTo(x - 10, y - 40, x, y - 28)
+        ctx.quadraticCurveTo(x + 10, y - 40, x + 20, y - 20)
+        ctx.fill()
+
+        // "JUMP" indicator
+        ctx.fillStyle = '#FFF'
+        ctx.font = 'bold 10px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText('⬆ JUMP', x, y + 15)
+
       } else if (obs.type === 'slide') {
-        // Overhead obstacle to slide under
-        ctx.fillStyle = '#3b82f6'
-        ctx.fillRect(x - 50, y - 60, 100, 20)
-        ctx.fillStyle = '#93c5fd'
-        ctx.fillRect(x - 45, y - 55, 90, 10)
+        // Tree branch - need to slide under
+        // Main trunk
+        ctx.fillStyle = '#4A3728'
+        ctx.fillRect(x - 55, y - 70, 110, 25)
+
+        // Bark texture
+        ctx.fillStyle = '#3D2817'
+        ctx.fillRect(x - 50, y - 68, 15, 20)
+        ctx.fillRect(x - 25, y - 68, 10, 20)
+        ctx.fillRect(x + 5, y - 68, 12, 20)
+        ctx.fillRect(x + 30, y - 68, 18, 20)
+
+        // Leaves on sides
+        ctx.fillStyle = '#228B22'
+        ctx.beginPath()
+        ctx.arc(x - 50, y - 60, 20, 0, Math.PI * 2)
+        ctx.arc(x + 50, y - 60, 20, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Support poles
+        ctx.fillStyle = '#5D4037'
+        ctx.fillRect(x - 50, y - 45, 8, 50)
+        ctx.fillRect(x + 42, y - 45, 8, 50)
+
+        // "SLIDE" indicator
+        ctx.fillStyle = '#FFF'
+        ctx.font = 'bold 10px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText('⬇ SLIDE', x, y + 15)
+
       } else if (obs.type === 'move') {
-        // Moving obstacle
-        ctx.fillStyle = '#22c55e'
+        // Rolling boulder - need to dodge
+        // Shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.3)'
         ctx.beginPath()
-        ctx.arc(x, y, 25, 0, Math.PI * 2)
+        ctx.ellipse(x, y + 25, 28, 8, 0, 0, Math.PI * 2)
         ctx.fill()
-        ctx.fillStyle = '#86efac'
+
+        // Main boulder
+        const gradient = ctx.createRadialGradient(x - 10, y - 10, 5, x, y, 30)
+        gradient.addColorStop(0, '#9CA3AF')
+        gradient.addColorStop(0.5, '#6B7280')
+        gradient.addColorStop(1, '#374151')
+        ctx.fillStyle = gradient
         ctx.beginPath()
-        ctx.arc(x, y, 18, 0, Math.PI * 2)
+        ctx.arc(x, y, 28, 0, Math.PI * 2)
         ctx.fill()
+
+        // Rock cracks
+        ctx.strokeStyle = '#1F2937'
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(x - 15, y - 15)
+        ctx.lineTo(x, y)
+        ctx.lineTo(x + 10, y - 5)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(x + 5, y + 5)
+        ctx.lineTo(x + 15, y + 18)
+        ctx.stroke()
+
+        // "DODGE" indicator
+        ctx.fillStyle = '#FFF'
+        ctx.font = 'bold 10px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText('← → DODGE', x, y + 45)
       }
     }
 
-    // Draw player
+    // Draw coins
+    for (const coin of coins) {
+      if (coin.collected) continue
+
+      const x = coin.lane * LANE_WIDTH + LANE_WIDTH / 2
+      const y = coin.distance
+
+      // Coin glow effect
+      ctx.fillStyle = 'rgba(255, 215, 0, 0.3)'
+      ctx.beginPath()
+      ctx.arc(x, y, 18, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Coin shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.2)'
+      ctx.beginPath()
+      ctx.ellipse(x, y + 15, 12, 4, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Main coin body with gradient
+      const coinGradient = ctx.createRadialGradient(x - 4, y - 4, 2, x, y, 14)
+      coinGradient.addColorStop(0, '#FFD700')
+      coinGradient.addColorStop(0.7, '#FFA500')
+      coinGradient.addColorStop(1, '#B8860B')
+      ctx.fillStyle = coinGradient
+      ctx.beginPath()
+      ctx.arc(x, y, 14, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Coin border
+      ctx.strokeStyle = '#DAA520'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      // Dollar sign or coin detail
+      ctx.fillStyle = '#B8860B'
+      ctx.font = 'bold 14px Arial'
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillText('$', x, y + 1)
+    }
+
+    // Draw player (runner character)
     const playerX = playerLane * LANE_WIDTH + LANE_WIDTH / 2
     let playerY = CANVAS_HEIGHT - 100
 
     if (isJumping) {
-      const jumpHeight = Math.sin(jumpProgress * Math.PI) * 80
+      const jumpHeight = Math.sin(jumpProgress * Math.PI) * 100
       playerY -= jumpHeight
     }
 
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.3)'
+    ctx.beginPath()
+    ctx.ellipse(playerX, CANVAS_HEIGHT - 85, 20, 6, 0, 0, Math.PI * 2)
+    ctx.fill()
+
     if (isSliding) {
-      // Draw sliding player (wider, shorter)
-      ctx.fillStyle = '#f59e0b'
-      ctx.fillRect(playerX - PLAYER_SIZE / 2, playerY + PLAYER_SIZE / 2 - 15, PLAYER_SIZE, 15)
+      // Sliding pose - horizontal body
+      ctx.fillStyle = '#E74C3C'
+      // Body
+      ctx.fillRect(playerX - 30, playerY + 15, 60, 18)
+      // Head
+      ctx.fillStyle = '#FDBF6F'
+      ctx.beginPath()
+      ctx.arc(playerX + 25, playerY + 24, 12, 0, Math.PI * 2)
+      ctx.fill()
+      // Helmet
+      ctx.fillStyle = '#3498DB'
+      ctx.beginPath()
+      ctx.arc(playerX + 25, playerY + 20, 10, Math.PI, 0)
+      ctx.fill()
+
     } else {
-      // Draw normal player
-      ctx.fillStyle = '#f59e0b'
-      ctx.fillRect(playerX - PLAYER_SIZE / 2, playerY, PLAYER_SIZE, PLAYER_SIZE)
+      // Running pose
+      // Body
+      ctx.fillStyle = '#E74C3C'
+      ctx.fillRect(playerX - 12, playerY + 5, 24, 30)
 
-      // Player face
-      ctx.fillStyle = 'white'
+      // Head
+      ctx.fillStyle = '#FDBF6F'
       ctx.beginPath()
-      ctx.arc(playerX - 8, playerY + 12, 5, 0, Math.PI * 2)
-      ctx.arc(playerX + 8, playerY + 12, 5, 0, Math.PI * 2)
+      ctx.arc(playerX, playerY - 5, 15, 0, Math.PI * 2)
       ctx.fill()
 
-      ctx.fillStyle = 'black'
+      // Hair
+      ctx.fillStyle = '#2C3E50'
       ctx.beginPath()
-      ctx.arc(playerX - 8, playerY + 12, 2, 0, Math.PI * 2)
-      ctx.arc(playerX + 8, playerY + 12, 2, 0, Math.PI * 2)
+      ctx.arc(playerX, playerY - 10, 12, Math.PI, 0)
       ctx.fill()
+
+      // Eyes
+      ctx.fillStyle = '#FFF'
+      ctx.beginPath()
+      ctx.arc(playerX - 5, playerY - 5, 4, 0, Math.PI * 2)
+      ctx.arc(playerX + 5, playerY - 5, 4, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.fillStyle = '#000'
+      ctx.beginPath()
+      ctx.arc(playerX - 4, playerY - 5, 2, 0, Math.PI * 2)
+      ctx.arc(playerX + 6, playerY - 5, 2, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Legs (animated)
+      ctx.fillStyle = '#2980B9'
+      ctx.fillRect(playerX - 10, playerY + 35, 8, 15)
+      ctx.fillRect(playerX + 2, playerY + 35, 8, 15)
+
+      // Arms
+      ctx.fillStyle = '#FDBF6F'
+      ctx.fillRect(playerX - 18, playerY + 8, 6, 20)
+      ctx.fillRect(playerX + 12, playerY + 8, 6, 20)
     }
 
     // Draw score
@@ -370,12 +589,20 @@ export default function TempleRun({
     ctx.strokeText(`${score}`, CANVAS_WIDTH / 2, 40)
     ctx.fillText(`${score}`, CANVAS_WIDTH / 2, 40)
 
-  }, [obstacles, playerLane, isJumping, isSliding, jumpProgress, score, settings.darkMode])
+    // Draw coin count
+    ctx.font = 'bold 18px Arial'
+    ctx.textAlign = 'left'
+    const coinText = `🪙 ${coinCount}`
+    ctx.strokeText(coinText, 15, 75)
+    ctx.fillText(coinText, 15, 75)
+
+  }, [obstacles, coins, playerLane, isJumping, isSliding, jumpProgress, score, coinCount, settings.darkMode])
 
   const texts = {
     title: settings.language === 'zh' ? '神庙逃亡' : 'Temple Run',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'Best',
+    coins: settings.language === 'zh' ? '金币' : 'Coins',
     start: settings.language === 'zh' ? '开始游戏' : 'Start',
     playAgain: settings.language === 'zh' ? '再来一局' : 'Retry',
     gameOver: settings.language === 'zh' ? '游戏结束' : 'Game Over',
@@ -399,6 +626,10 @@ export default function TempleRun({
           <div className="text-center">
             <p className="text-sm opacity-60">{texts.highScore}</p>
             <p className="text-lg font-bold">{highScore}</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm opacity-60">{texts.coins}</p>
+            <p className="text-lg font-bold text-yellow-400">🪙 {coinCount}</p>
           </div>
         </div>
 
@@ -425,6 +656,7 @@ export default function TempleRun({
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-lg">
               <h2 className="text-3xl font-bold mb-4">{texts.gameOver}</h2>
               <p className="text-xl mb-2">{texts.score}: {score}</p>
+              <p className="text-lg mb-2 text-yellow-400">🪙 {texts.coins}: {coinCount}</p>
               {score >= highScore && score > 0 && (
                 <p className="text-yellow-400 mb-4">🏆 {settings.language === 'zh' ? '新纪录!' : 'New Record!'}</p>
               )}
