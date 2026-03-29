@@ -203,7 +203,7 @@ export default function TempleRun({
         return newScore
       })
 
-      // Generate obstacles
+      // Generate obstacles (from far away, moving towards player)
       lastObstacleRef.current += delta
       if (lastObstacleRef.current > 1500 - speed * 50) {
         const types: Obstacle['type'][] = ['jump', 'slide', 'move']
@@ -212,7 +212,7 @@ export default function TempleRun({
 
         const obstacle: Obstacle = {
           lane,
-          distance: CANVAS_HEIGHT + 50,
+          distance: -50, // Start from far away (top of screen)
           type,
           targetLane: type === 'move' ? (lane + (Math.random() > 0.5 ? 1 : -1) + LANE_COUNT) % LANE_COUNT : undefined,
         }
@@ -221,16 +221,18 @@ export default function TempleRun({
         lastObstacleRef.current = 0
       }
 
-      // Update obstacles
+      // Update obstacles (move towards player)
       setObstacles(prev => {
         const newObstacles = prev.map(obs => ({
           ...obs,
-          distance: obs.distance - speed,
-        })).filter(obs => obs.distance > -50)
+          distance: obs.distance + speed,
+        })).filter(obs => obs.distance < CANVAS_HEIGHT + 50)
 
-        // Check collisions
+        // Check collisions (player is at CANVAS_HEIGHT - 100)
+        const playerY = CANVAS_HEIGHT - 100
         for (const obs of newObstacles) {
-          if (obs.distance < 100 && obs.distance > 40) {
+          // Check if obstacle is near player position
+          if (obs.distance > playerY - 30 && obs.distance < playerY + 30) {
             if (obs.lane === playerLane) {
               if (obs.type === 'jump' && !isJumping) {
                 playSound('hit')
