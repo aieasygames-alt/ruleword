@@ -264,16 +264,75 @@ export default function AngryBirds({
       }
     }
 
+    // Touch event handlers
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
+      const touch = e.touches[0]
+      const rect = canvas.getBoundingClientRect()
+      const x = touch.clientX - rect.left
+      const y = touch.clientY - rect.top
+
+      const dx = x - SLINGSHOT_X
+      const dy = y - SLINGSHOT_Y
+      const dist = Math.sqrt(dx * dx + dy * dy)
+
+      if (dist < 80) {
+        setIsDragging(true)
+        setDragStart({ x: SLINGSHOT_X, y: SLINGSHOT_Y })
+        setDragEnd({ x, y })
+      }
+    }
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault()
+      if (!isDragging) return
+      const touch = e.touches[0]
+      const rect = canvas.getBoundingClientRect()
+      const x = Math.max(SLINGSHOT_X - 80, Math.min(touch.clientX - rect.left, SLINGSHOT_X))
+      const y = Math.max(GROUND_Y - 100, Math.min(touch.clientY - rect.top, SLINGSHOT_Y + 50))
+      setDragEnd({ x, y })
+    }
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      e.preventDefault()
+      if (!isDragging) return
+      setIsDragging(false)
+
+      const dx = SLINGSHOT_X - dragEnd.x
+      const dy = SLINGSHOT_Y - dragEnd.y
+      const power = Math.sqrt(dx * dx + dy * dy) * 0.15
+
+      if (power > 2) {
+        const angle = Math.atan2(dy, dx)
+        const vx = Math.cos(angle) * power
+        const vy = Math.sin(angle) * power
+
+        setBirds(prev => prev.map((bird, i) => {
+          if (i === currentBirdIndex) {
+            return { ...bird, vx, vy, launched: true }
+          }
+          return bird
+        }))
+        playSound('launch')
+      }
+    }
+
     canvas.addEventListener('mousedown', handleMouseDown)
     canvas.addEventListener('mousemove', handleMouseMove)
     canvas.addEventListener('mouseup', handleMouseUp)
     canvas.addEventListener('mouseleave', handleMouseUp)
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false })
+    canvas.addEventListener('touchmove', handleTouchMove, { passive: false })
+    canvas.addEventListener('touchend', handleTouchEnd, { passive: false })
 
     return () => {
       canvas.removeEventListener('mousedown', handleMouseDown)
       canvas.removeEventListener('mousemove', handleMouseMove)
       canvas.removeEventListener('mouseup', handleMouseUp)
       canvas.removeEventListener('mouseleave', handleMouseUp)
+      canvas.removeEventListener('touchstart', handleTouchStart)
+      canvas.removeEventListener('touchmove', handleTouchMove)
+      canvas.removeEventListener('touchend', handleTouchEnd)
     }
   }, [gameState, birds, currentBirdIndex, isDragging, dragEnd, playSound])
 

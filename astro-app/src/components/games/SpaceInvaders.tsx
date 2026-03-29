@@ -508,6 +508,33 @@ export default function SpaceInvaders({ settings }: Props) {
         </div>
       )}
 
+      {/* Mobile touch controls */}
+      {gameState === 'playing' && (
+        <div className="flex gap-4 mt-4 sm:hidden">
+          <button
+            onTouchStart={() => { gameRef.current.keys['ArrowLeft'] = true }}
+            onTouchEnd={() => { gameRef.current.keys['ArrowLeft'] = false }}
+            className="w-16 h-16 rounded-full bg-blue-600 active:bg-blue-500 flex items-center justify-center text-2xl text-white shadow-lg"
+          >
+            ←
+          </button>
+          <button
+            onTouchStart={() => { gameRef.current.keys[' '] = true }}
+            onTouchEnd={() => { gameRef.current.keys[' '] = false }}
+            className="w-20 h-16 rounded-full bg-green-600 active:bg-green-500 flex items-center justify-center text-lg text-white shadow-lg font-bold"
+          >
+            {settings.language === 'zh' ? '发射' : 'FIRE'}
+          </button>
+          <button
+            onTouchStart={() => { gameRef.current.keys['ArrowRight'] = true }}
+            onTouchEnd={() => { gameRef.current.keys['ArrowRight'] = false }}
+            className="w-16 h-16 rounded-full bg-blue-600 active:bg-blue-500 flex items-center justify-center text-2xl text-white shadow-lg"
+          >
+            →
+          </button>
+        </div>
+      )}
+
       {gameState === 'playing' && (
         <button
           onClick={() => setGameState('menu')}

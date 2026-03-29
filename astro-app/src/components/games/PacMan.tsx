@@ -531,6 +531,38 @@ export default function PacMan({ settings }: Props) {
           )}
         </div>
 
+        {/* Mobile touch controls */}
+        {gameState === 'playing' && (
+          <div className="mt-4 grid grid-cols-3 gap-2 sm:hidden">
+            <div />
+            <button
+              onTouchStart={() => { gameRef.current.pacman.nextDir = { x: 0, y: -1 } }}
+              className="py-4 rounded-lg font-bold text-2xl active:bg-yellow-600 bg-yellow-500/20 text-yellow-400"
+            >
+              ↑
+            </button>
+            <div />
+            <button
+              onTouchStart={() => { gameRef.current.pacman.nextDir = { x: -1, y: 0 } }}
+              className="py-4 rounded-lg font-bold text-2xl active:bg-yellow-600 bg-yellow-500/20 text-yellow-400"
+            >
+              ←
+            </button>
+            <button
+              onTouchStart={() => { gameRef.current.pacman.nextDir = { x: 0, y: 1 } }}
+              className="py-4 rounded-lg font-bold text-2xl active:bg-yellow-600 bg-yellow-500/20 text-yellow-400"
+            >
+              ↓
+            </button>
+            <button
+              onTouchStart={() => { gameRef.current.pacman.nextDir = { x: 1, y: 0 } }}
+              className="py-4 rounded-lg font-bold text-2xl active:bg-yellow-600 bg-yellow-500/20 text-yellow-400"
+            >
+              →
+            </button>
+          </div>
+        )}
+
         <p className={`mt-4 text-center text-sm ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
           {texts.hint}
         </p>
