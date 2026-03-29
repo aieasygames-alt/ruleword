@@ -310,6 +310,33 @@ export default function Centipede() {
           </ul>
         </div>
 
+        {/* Mobile Touch Controls */}
+        {!gameOver && !gameWon && (
+          <div className="flex gap-4 mt-4 sm:hidden">
+            <button
+              onTouchStart={() => keysRef.current.add('ArrowLeft')}
+              onTouchEnd={() => keysRef.current.delete('ArrowLeft')}
+              className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
+            >
+              ←
+            </button>
+            <button
+              onTouchStart={() => keysRef.current.add(' ')}
+              onTouchEnd={() => keysRef.current.delete(' ')}
+              className="flex-1 h-16 rounded-lg bg-red-600 active:bg-red-500 flex items-center justify-center text-lg font-bold"
+            >
+              FIRE
+            </button>
+            <button
+              onTouchStart={() => keysRef.current.add('ArrowRight')}
+              onTouchEnd={() => keysRef.current.delete('ArrowRight')}
+              className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
+            >
+              →
+            </button>
+          </div>
+        )}
+
         {/* Controls */}
         <div className="flex gap-4">
           <button
