@@ -406,17 +406,32 @@ export default function TowerDefense({
       ctx.fillStyle = '#ef4444'
       ctx.fillRect(PATH[PATH.length - 1].x * CELL_SIZE + 5, PATH[PATH.length - 1].y * CELL_SIZE + 5, CELL_SIZE - 10, CELL_SIZE - 10)
 
-      // Draw towers
+      // Draw towers with glow effect
       for (const tower of towers) {
         const info = TOWER_TYPES[tower.type]
+        const cx = tower.x * CELL_SIZE + CELL_SIZE / 2
+        const cy = tower.y * CELL_SIZE + CELL_SIZE / 2
+
+        // Outer glow
+        const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, CELL_SIZE / 2)
+        gradient.addColorStop(0, info.color)
+        gradient.addColorStop(0.7, info.color)
+        gradient.addColorStop(1, info.color + '00')
+        ctx.fillStyle = gradient
+        ctx.beginPath()
+        ctx.arc(cx, cy, CELL_SIZE / 2 + 4, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Main tower body
         ctx.fillStyle = info.color
         ctx.beginPath()
-        ctx.arc(
-          tower.x * CELL_SIZE + CELL_SIZE / 2,
-          tower.y * CELL_SIZE + CELL_SIZE / 2,
-          CELL_SIZE / 2 - 4,
-          0, Math.PI * 2
-        )
+        ctx.arc(cx, cy, CELL_SIZE / 2 - 4, 0, Math.PI * 2)
+        ctx.fill()
+
+        // Inner highlight
+        ctx.fillStyle = 'rgba(255,255,255,0.3)'
+        ctx.beginPath()
+        ctx.arc(cx - 3, cy - 3, CELL_SIZE / 5, 0, Math.PI * 2)
         ctx.fill()
 
         // Level indicator
@@ -443,12 +458,30 @@ export default function TowerDefense({
         ctx.stroke()
       }
 
-      // Draw enemies
+      // Draw enemies with gradient
       for (const enemy of enemies) {
-        // Body
-        ctx.fillStyle = '#ef4444'
+        const ecx = enemy.x + CELL_SIZE / 2
+        const ecy = enemy.y + CELL_SIZE / 2
+
+        // Enemy glow
+        ctx.shadowColor = '#ef4444'
+        ctx.shadowBlur = 8
+
+        // Enemy body with gradient
+        const enemyGrad = ctx.createRadialGradient(ecx - 3, ecy - 3, 0, ecx, ecy, CELL_SIZE / 3)
+        enemyGrad.addColorStop(0, '#f87171')
+        enemyGrad.addColorStop(0.5, '#ef4444')
+        enemyGrad.addColorStop(1, '#b91c1c')
+        ctx.fillStyle = enemyGrad
         ctx.beginPath()
-        ctx.arc(enemy.x + CELL_SIZE / 2, enemy.y + CELL_SIZE / 2, CELL_SIZE / 3, 0, Math.PI * 2)
+        ctx.arc(ecx, ecy, CELL_SIZE / 3, 0, Math.PI * 2)
+        ctx.fill()
+        ctx.shadowBlur = 0
+
+        // Enemy eye
+        ctx.fillStyle = '#fef08a'
+        ctx.beginPath()
+        ctx.arc(ecx + 4, ecy - 3, 4, 0, Math.PI * 2)
         ctx.fill()
 
         // Health bar
@@ -459,13 +492,20 @@ export default function TowerDefense({
         ctx.fillRect(enemy.x + 5, enemy.y - 8, (CELL_SIZE - 10) * hpPercent, 4)
       }
 
-      // Draw projectiles
-      ctx.fillStyle = '#fbbf24'
+      // Draw projectiles with glow
       for (const proj of projectiles) {
+        ctx.shadowColor = '#fbbf24'
+        ctx.shadowBlur = 6
+        const projGrad = ctx.createRadialGradient(proj.x, proj.y, 0, proj.x, proj.y, 5)
+        projGrad.addColorStop(0, '#fef08a')
+        projGrad.addColorStop(0.5, '#fbbf24')
+        projGrad.addColorStop(1, '#f59e0b')
+        ctx.fillStyle = projGrad
         ctx.beginPath()
-        ctx.arc(proj.x, proj.y, 4, 0, Math.PI * 2)
+        ctx.arc(proj.x, proj.y, 5, 0, Math.PI * 2)
         ctx.fill()
       }
+      ctx.shadowBlur = 0
 
       gameLoopRef.current = requestAnimationFrame(gameLoop)
     }

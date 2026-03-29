@@ -161,21 +161,23 @@ export default function Battleship({ settings }: Props) {
     <div className="grid grid-cols-10 gap-0.5">
       {board.map((row, r) =>
         row.map((cell, c) => {
-          const bgColor =
-            cell === 'ship' ? (isPlayer || gameState === 'won' || gameState === 'lost' ? 'bg-gray-600' : 'bg-blue-400') :
-            cell === 'hit' ? 'bg-red-500' :
-            cell === 'miss' ? 'bg-blue-300' :
-            isDark ? 'bg-slate-600' : 'bg-blue-100'
+          const bgClass =
+            cell === 'ship' ? (isPlayer || gameState === 'won' || gameState === 'lost'
+              ? 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-inner'
+              : 'bg-gradient-to-br from-blue-300 to-blue-500') :
+            cell === 'hit' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-500/30' :
+            cell === 'miss' ? 'bg-gradient-to-br from-blue-200 to-blue-400' :
+            isDark ? 'bg-gradient-to-br from-slate-500 to-slate-700' : 'bg-gradient-to-br from-blue-50 to-blue-200'
 
           return (
             <button
               key={`${r}-${c}`}
               onClick={() => handleClick(r, c, isPlayer)}
               disabled={gameState !== 'setup' && gameState !== 'playing'}
-              className={`w-7 h-7 sm:w-8 sm:h-8 ${bgColor} border border-gray-400 hover:opacity-80`}
+              className={`w-7 h-7 sm:w-8 sm:h-8 ${bgClass} border border-gray-400/50 hover:scale-105 transition-transform rounded-sm flex items-center justify-center`}
             >
-              {cell === 'hit' && '💥'}
-              {cell === 'miss' && '·'}
+              {cell === 'hit' && <span className="drop-shadow-lg">💥</span>}
+              {cell === 'miss' && <span className="text-blue-600 font-bold">·</span>}
             </button>
           )
         })

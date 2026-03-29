@@ -548,20 +548,20 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
     const isAltBox = (boxRow + boxCol) % 2 === 1
 
     if (selectedCell?.row === row && selectedCell?.col === col) {
-      return settings.darkMode ? 'bg-blue-600' : 'bg-blue-500 text-white'
+      return 'bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg shadow-blue-500/30'
     }
     if (selectedCell && (selectedCell.row === row || selectedCell.col === col)) {
-      return settings.darkMode ? 'bg-slate-600' : 'bg-blue-100'
+      return settings.darkMode ? 'bg-gradient-to-br from-slate-500 to-slate-600' : 'bg-gradient-to-br from-blue-50 to-blue-100'
     }
     if (grid[row]?.[col]?.isError) {
-      return 'bg-red-500 text-white'
+      return 'bg-gradient-to-br from-red-400 to-red-600 text-white shadow-lg shadow-red-500/30'
     }
     if (grid[row]?.[col]?.isFixed) {
-      return settings.darkMode ? 'bg-slate-700' : 'bg-gray-200'
+      return settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700' : 'bg-gradient-to-br from-gray-200 to-gray-300'
     }
     return isAltBox
-      ? (settings.darkMode ? 'bg-slate-800' : 'bg-gray-100')
-      : (settings.darkMode ? 'bg-slate-700' : 'bg-white')
+      ? (settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800' : 'bg-gradient-to-br from-gray-50 to-gray-100')
+      : (settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700' : 'bg-gradient-to-br from-white to-gray-50')
   }
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
@@ -695,11 +695,11 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
             <button
               key={num}
               onClick={() => handleNumberInput(num)}
-              className={`w-10 h-10 sm:w-11 sm:h-11 rounded-lg font-bold text-lg transition-colors ${
+              className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl font-bold text-lg transition-all transform hover:scale-105 active:scale-95 shadow-lg ${
                 settings.darkMode
-                  ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                  : 'bg-white hover:bg-gray-100 text-gray-900 border border-gray-300'
-              } ${noteMode ? 'ring-2 ring-yellow-500' : ''}`}
+                  ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-white shadow-slate-900/30'
+                  : 'bg-gradient-to-br from-white to-gray-100 hover:from-gray-50 hover:to-gray-200 text-gray-900 border border-gray-300 shadow-gray-300/50'
+              } ${noteMode ? 'ring-2 ring-yellow-500 shadow-yellow-500/30' : ''}`}
             >
               {num}
             </button>

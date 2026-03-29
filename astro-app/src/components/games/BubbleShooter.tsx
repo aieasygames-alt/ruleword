@@ -101,24 +101,60 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     const width = canvas.width
     const height = canvas.height
 
-    // 清空画布
-    ctx.fillStyle = '#1e293b'
+    // 清空画布 - 添加渐变背景
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, height)
+    bgGradient.addColorStop(0, '#0f172a')
+    bgGradient.addColorStop(0.5, '#1e293b')
+    bgGradient.addColorStop(1, '#334155')
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, width, height)
 
     // 绘制气泡
     bubbles.forEach(bubble => {
+      // 气泡渐变
+      const colors = [
+        { main: '#ef4444', light: '#fca5a5', dark: '#b91c1c' },
+        { main: '#3b82f6', light: '#93c5fd', dark: '#1d4ed8' },
+        { main: '#22c55e', light: '#86efac', dark: '#15803d' },
+        { main: '#eab308', light: '#fde047', dark: '#a16207' },
+        { main: '#a855f7', light: '#d8b4fe', dark: '#7e22ce' },
+        { main: '#ec4899', light: '#f9a8d4', dark: '#be185d' },
+      ]
+      const color = colors[bubble.color]
+
+      // 外层阴影
+      ctx.beginPath()
+      ctx.arc(bubble.x, bubble.y, BUBBLE_RADIUS, 0, Math.PI * 2)
+      ctx.shadowColor = color.main
+      ctx.shadowBlur = 10
+      ctx.fillStyle = color.main
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // 渐变填充
+      const gradient = ctx.createRadialGradient(
+        bubble.x - 5, bubble.y - 5, 0,
+        bubble.x, bubble.y, BUBBLE_RADIUS
+      )
+      gradient.addColorStop(0, color.light)
+      gradient.addColorStop(0.5, color.main)
+      gradient.addColorStop(1, color.dark)
+
       ctx.beginPath()
       ctx.arc(bubble.x, bubble.y, BUBBLE_RADIUS - 2, 0, Math.PI * 2)
-
-      // 颜色
-      const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#ec4899']
-      ctx.fillStyle = colors[bubble.color]
+      ctx.fillStyle = gradient
       ctx.fill()
 
       // 高光
       ctx.beginPath()
       ctx.arc(bubble.x - 5, bubble.y - 5, 6, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(255,255,255,0.4)'
+      ctx.fillStyle = 'rgba(255,255,255,0.6)'
+      ctx.fill()
+
+      // 小高光
+      ctx.beginPath()
+      ctx.arc(bubble.x + 4, bubble.y + 6, 3, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(255,255,255,0.3)'
       ctx.fill()
     })
 
@@ -138,16 +174,64 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     ctx.stroke()
 
     // 当前气泡
+    const shooterColors = [
+      { main: '#ef4444', light: '#fca5a5', dark: '#b91c1c' },
+      { main: '#3b82f6', light: '#93c5fd', dark: '#1d4ed8' },
+      { main: '#22c55e', light: '#86efac', dark: '#15803d' },
+      { main: '#eab308', light: '#fde047', dark: '#a16207' },
+      { main: '#a855f7', light: '#d8b4fe', dark: '#7e22ce' },
+      { main: '#ec4899', light: '#f9a8d4', dark: '#be185d' },
+    ]
+    const sColor = shooterColors[shooterColor]
+
+    // 发射器气泡阴影
+    ctx.beginPath()
+    ctx.arc(shooterX, shooterY, BUBBLE_RADIUS + 2, 0, Math.PI * 2)
+    ctx.shadowColor = sColor.main
+    ctx.shadowBlur = 15
+    ctx.fillStyle = sColor.main
+    ctx.fill()
+    ctx.shadowBlur = 0
+
+    // 发射器气泡渐变
+    const shooterGradient = ctx.createRadialGradient(
+      shooterX - 5, shooterY - 5, 0,
+      shooterX, shooterY, BUBBLE_RADIUS
+    )
+    shooterGradient.addColorStop(0, sColor.light)
+    shooterGradient.addColorStop(0.5, sColor.main)
+    shooterGradient.addColorStop(1, sColor.dark)
+
     ctx.beginPath()
     ctx.arc(shooterX, shooterY, BUBBLE_RADIUS, 0, Math.PI * 2)
-    const colors = ['#ef4444', '#3b82f6', '#22c55e', '#eab308', '#a855f7', '#ec4899']
-    ctx.fillStyle = colors[shooterColor]
+    ctx.fillStyle = shooterGradient
+    ctx.fill()
+
+    // 发射器高光
+    ctx.beginPath()
+    ctx.arc(shooterX - 5, shooterY - 5, 6, 0, Math.PI * 2)
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'
     ctx.fill()
 
     // 下一个气泡
+    const nColor = shooterColors[nextColor]
+    const nextGradient = ctx.createRadialGradient(
+      shooterX + 55, shooterY - 5, 0,
+      shooterX + 60, shooterY, BUBBLE_RADIUS - 5
+    )
+    nextGradient.addColorStop(0, nColor.light)
+    nextGradient.addColorStop(0.5, nColor.main)
+    nextGradient.addColorStop(1, nColor.dark)
+
     ctx.beginPath()
     ctx.arc(shooterX + 60, shooterY, BUBBLE_RADIUS - 5, 0, Math.PI * 2)
-    ctx.fillStyle = colors[nextColor]
+    ctx.fillStyle = nextGradient
+    ctx.fill()
+
+    // 下一个气泡高光
+    ctx.beginPath()
+    ctx.arc(shooterX + 55, shooterY - 4, 4, 0, Math.PI * 2)
+    ctx.fillStyle = 'rgba(255,255,255,0.5)'
     ctx.fill()
 
   }, [bubbles, aimAngle, shooterColor, nextColor])

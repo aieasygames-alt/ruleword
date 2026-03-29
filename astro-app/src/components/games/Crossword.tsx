@@ -220,14 +220,14 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
 
         {/* Current Clue */}
         {currentClue && (
-          <div className="bg-blue-600 rounded-lg p-3 mb-4">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl p-3 mb-4 shadow-lg shadow-blue-500/30">
             <span className="font-bold">{currentClue.num}{direction === 'across' ? 'A' : 'D'}:</span> {currentClue.clue}
           </div>
         )}
 
         {/* Grid */}
         <div className="flex justify-center mb-6">
-          <div className="inline-grid gap-0.5 bg-black p-0.5 rounded-lg">
+          <div className="inline-grid gap-0.5 bg-gradient-to-br from-slate-800 to-slate-950 p-1 rounded-xl shadow-2xl">
             {grid.map((row, rowIndex) => (
               <div key={rowIndex} className="flex gap-0.5">
                 {row.map((cell, colIndex) => (
@@ -235,10 +235,15 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
                     key={colIndex}
                     onClick={() => handleCellClick(rowIndex, colIndex)}
                     className={`
-                      w-10 h-10 relative flex items-center justify-center text-xl font-bold
-                      ${cell.isBlack ? 'bg-black' : 'bg-white text-black'}
-                      ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex ? 'ring-2 ring-blue-500' : ''}
-                      ${!cell.isBlack && cell.letter === cell.answer && cell.letter ? 'bg-green-200' : ''}
+                      w-10 h-10 relative flex items-center justify-center text-xl font-bold transition-all
+                      ${cell.isBlack
+                        ? 'bg-gradient-to-br from-slate-800 to-slate-950'
+                        : 'bg-gradient-to-br from-white to-gray-100 text-slate-900 shadow-inner'}
+                      ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex
+                        ? 'ring-2 ring-blue-500 scale-105 shadow-lg shadow-blue-500/50 z-10'
+                        : 'hover:brightness-95'}
+                      ${!cell.isBlack && cell.letter === cell.answer && cell.letter
+                        ? 'bg-gradient-to-br from-green-200 to-green-300 shadow-inner' : ''}
                     `}
                   >
                     {cell.number && (

@@ -304,20 +304,20 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                 {Array(GRID_SIZE).fill(null).map((_, col) => (
                   <div key={col} className="flex">
                     <div
-                      className={`${isDark ? 'bg-slate-400' : 'bg-gray-600'} rounded-full`}
+                      className={`rounded-full shadow-lg ${isDark ? 'bg-gradient-to-br from-slate-300 to-slate-500 shadow-slate-500/50' : 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-gray-500/50'}`}
                       style={{ width: dotSize, height: dotSize }}
                     />
                     {col < GRID_SIZE - 1 && (
                       <div
                         onClick={() => handleHLineClick(row, col)}
-                        className={`flex items-center justify-center cursor-pointer transition-colors ${
+                        className={`flex items-center justify-center cursor-pointer transition-all transform hover:scale-105 ${
                           horizontalLines[row]?.[col] === 1
-                            ? 'bg-blue-500'
+                            ? 'bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
                             : horizontalLines[row]?.[col] === 2
-                            ? 'bg-red-500'
+                            ? 'bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/50'
                             : isDark
-                            ? 'bg-slate-700 hover:bg-slate-600'
-                            : 'bg-gray-300 hover:bg-gray-400'
+                            ? 'bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
+                            : 'bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
                         }`}
                         style={{ width: lineLength, height: dotSize }}
                       />
@@ -333,27 +333,27 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                     <div key={col} className="flex">
                       <div
                         onClick={() => handleVLineClick(row, col)}
-                        className={`flex items-center justify-center cursor-pointer transition-colors ${
+                        className={`flex items-center justify-center cursor-pointer transition-all transform hover:scale-105 ${
                           verticalLines[row]?.[col] === 1
-                            ? 'bg-blue-500'
+                            ? 'bg-gradient-to-b from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
                             : verticalLines[row]?.[col] === 2
-                            ? 'bg-red-500'
+                            ? 'bg-gradient-to-b from-red-400 to-red-600 shadow-lg shadow-red-500/50'
                             : isDark
-                            ? 'bg-slate-700 hover:bg-slate-600'
-                            : 'bg-gray-300 hover:bg-gray-400'
+                            ? 'bg-gradient-to-b from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
+                            : 'bg-gradient-to-b from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
                         }`}
                         style={{ width: dotSize, height: lineLength }}
                       />
                       {col < GRID_SIZE - 1 && (
                         <div
-                          className={`flex items-center justify-center ${
+                          className={`flex items-center justify-center transition-all ${
                             boxes[row]?.[col] === 1
-                              ? 'bg-blue-500/30'
+                              ? 'bg-gradient-to-br from-blue-400/40 to-blue-600/40 shadow-inner'
                               : boxes[row]?.[col] === 2
-                              ? 'bg-red-500/30'
+                              ? 'bg-gradient-to-br from-red-400/40 to-red-600/40 shadow-inner'
                               : isDark
-                              ? 'bg-slate-800'
-                              : 'bg-gray-100'
+                              ? 'bg-gradient-to-br from-slate-800 to-slate-900'
+                              : 'bg-gradient-to-br from-gray-50 to-gray-100'
                           }`}
                           style={{ width: lineLength, height: lineLength }}
                         >

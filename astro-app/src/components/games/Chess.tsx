@@ -173,13 +173,15 @@ export default function Chess({ settings }: Props) {
               <button
                 key={`${r}-${c}`}
                 onClick={() => handleClick(r, c)}
-                className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-3xl sm:text-4xl relative ${
-                  isLight ? (isDark ? 'bg-amber-200' : 'bg-amber-100') : (isDark ? 'bg-amber-700' : 'bg-amber-600')
-                } ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+                className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-3xl sm:text-4xl relative transition-all ${
+                  isLight
+                    ? 'bg-gradient-to-br from-amber-100 to-amber-200'
+                    : 'bg-gradient-to-br from-amber-600 to-amber-800'
+                } ${isSelected ? 'ring-4 ring-blue-500 shadow-lg shadow-blue-500/50 scale-105' : 'hover:brightness-110'}`}
               >
                 {piece && PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
                 {isValidMove && <div className="absolute inset-0 flex items-center justify-center">
-                  <div className={`w-4 h-4 rounded-full ${piece ? 'bg-red-500/50' : 'bg-gray-500/50'}`} />
+                  <div className={`w-4 h-4 rounded-full shadow-lg ${piece ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : 'bg-gradient-to-br from-gray-300 to-gray-500 shadow-gray-500/50'}`} />
                 </div>}
               </button>
             )
