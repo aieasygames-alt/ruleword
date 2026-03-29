@@ -309,18 +309,18 @@ export default function Skyscrapers({ settings, onBack }: { settings: { darkMode
                 </div>
 
                 {/* Grid */}
-                <div className={`grid gap-0.5 ${settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+                <div className={`grid gap-0.5 p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
                   {grid.map((row, r) =>
                     row.map((cell, c) => (
                       <div
                         key={`${r}-${c}`}
                         onClick={() => handleCellClick(r, c)}
-                        className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-colors ${
+                        className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-all ${
                           errors.has(`${r}-${c}`)
-                            ? 'bg-red-200 dark:bg-red-900'
+                            ? 'bg-gradient-to-br from-red-300 to-red-500 shadow-inner'
                             : selectedCell?.r === r && selectedCell?.c === c
-                            ? 'bg-blue-200 dark:bg-blue-800'
-                            : settings.darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-white hover:bg-gray-100'
+                            ? 'bg-gradient-to-br from-blue-300 to-blue-500 shadow-lg shadow-blue-500/30 scale-105 ring-2 ring-blue-400'
+                            : settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700' : 'bg-gradient-to-br from-white to-gray-100 hover:from-gray-50 hover:to-gray-200'
                         }`}
                         style={{ width: cellSize, height: cellSize }}
                       >
@@ -360,8 +360,8 @@ export default function Skyscrapers({ settings, onBack }: { settings: { darkMode
                 <button
                   key={i}
                   onClick={() => handleInput(i === size ? 0 : i + 1)}
-                  className={`w-10 h-10 rounded-lg font-bold text-lg ${
-                    settings.darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'
+                  className={`w-10 h-10 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${
+                    settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 shadow-lg shadow-slate-900/30' : 'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 shadow-lg shadow-gray-400/30'
                   }`}
                 >
                   {i === size ? '✕' : i + 1}

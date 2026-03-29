@@ -319,20 +319,20 @@ export default function Binary({ settings, onBack }: { settings: { darkMode: boo
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className={`grid gap-0.5 ${settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+            <div className={`grid gap-0.5 p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
               {grid.map((row, r) =>
                 row.map((cell, c) => (
                   <div
                     key={`${r}-${c}`}
                     onClick={() => handleCellClick(r, c)}
-                    className={`flex items-center justify-center cursor-pointer font-bold text-2xl transition-colors ${
-                      cell === 0 ? 'bg-blue-200 dark:bg-blue-800' :
-                      cell === 1 ? 'bg-gray-800 text-white dark:bg-white dark:text-gray-800' :
-                      settings.darkMode ? 'bg-slate-700' : 'bg-white'
+                    className={`flex items-center justify-center cursor-pointer font-bold text-2xl transition-all transform ${
+                      cell === 0 ? 'bg-gradient-to-br from-blue-300 to-blue-500 shadow-lg shadow-blue-500/30 text-blue-900' :
+                      cell === 1 ? 'bg-gradient-to-br from-gray-700 to-gray-900 shadow-lg shadow-gray-700/30 text-white dark:from-white dark:to-gray-200 dark:text-gray-800 dark:shadow-gray-300/30' :
+                      settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700' : 'bg-gradient-to-br from-white to-gray-100 hover:from-gray-50 hover:to-gray-200'
                     } ${
-                      errors.has(`${r}-${c}`) ? 'ring-2 ring-red-500' : ''
+                      errors.has(`${r}-${c}`) ? 'ring-2 ring-red-500 animate-pulse' : ''
                     } ${
-                      selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-500' : ''
+                      selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-400 scale-105 shadow-lg shadow-blue-400/50' : ''
                     } ${
                       given[r][c] ? 'font-black' : ''
                     }`}
@@ -349,19 +349,19 @@ export default function Binary({ settings, onBack }: { settings: { darkMode: boo
           <div className="flex justify-center gap-4 mb-4">
             <button
               onClick={() => handleInput(0)}
-              className={`w-14 h-14 rounded-lg font-bold text-2xl bg-blue-200 dark:bg-blue-800`}
+              className={`w-14 h-14 rounded-xl font-bold text-2xl bg-gradient-to-br from-blue-300 to-blue-500 shadow-lg shadow-blue-500/30 text-blue-900 hover:scale-105 transition-transform`}
             >
               0
             </button>
             <button
               onClick={() => handleInput(1)}
-              className={`w-14 h-14 rounded-lg font-bold text-2xl bg-gray-800 text-white dark:bg-white dark:text-gray-800`}
+              className={`w-14 h-14 rounded-xl font-bold text-2xl bg-gradient-to-br from-gray-700 to-gray-900 shadow-lg shadow-gray-700/30 text-white dark:from-white dark:to-gray-200 dark:text-gray-800 hover:scale-105 transition-transform`}
             >
               1
             </button>
             <button
               onClick={() => handleInput(-1)}
-              className={`w-14 h-14 rounded-lg font-bold text-2xl ${settings.darkMode ? 'bg-slate-700' : 'bg-gray-200'}`}
+              className={`w-14 h-14 rounded-xl font-bold text-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600' : 'bg-gradient-to-br from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'} hover:scale-105 transition-all shadow-lg`}
             >
               ✕
             </button>

@@ -203,7 +203,7 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className="relative" style={{ width: size * cellSize + 2, height: size * cellSize + 2 }}>
+            <div className={`relative p-2 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-gray-200 to-gray-300'}`} style={{ width: size * cellSize + 20, height: size * cellSize + 20 }}>
               {/* Clues */}
               {clues.map((row, r) =>
                 row.map((clue, c) => (
@@ -239,8 +239,8 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                         height: 8,
                       }}
                     >
-                      <div className={`h-full w-full rounded transition-colors ${
-                        cell.right === 'on' ? 'bg-blue-500' : 'bg-transparent hover:bg-blue-200 dark:hover:bg-blue-800'
+                      <div className={`h-full w-full rounded transition-all ${
+                        cell.right === 'on' ? 'bg-gradient-to-r from-blue-400 to-blue-600 shadow-md shadow-blue-500/50' : 'bg-transparent hover:bg-blue-200 dark:hover:bg-blue-800'
                       }`} />
                     </div>
                   )
@@ -262,8 +262,8 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                         height: cellSize,
                       }}
                     >
-                      <div className={`h-full w-full rounded transition-colors ${
-                        cell.down === 'on' ? 'bg-blue-500' : 'bg-transparent hover:bg-blue-200 dark:hover:bg-blue-800'
+                      <div className={`h-full w-full rounded transition-all ${
+                        cell.down === 'on' ? 'bg-gradient-to-b from-blue-400 to-blue-600 shadow-md shadow-blue-500/50' : 'bg-transparent hover:bg-blue-200 dark:hover:bg-blue-800'
                       }`} />
                     </div>
                   )
@@ -275,12 +275,12 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                 row.map((_, c) => (
                   <div
                     key={`d-${r}-${c}`}
-                    className="absolute rounded-full bg-gray-800 dark:bg-white"
+                    className={`absolute rounded-full shadow-md ${settings.darkMode ? 'bg-gradient-to-br from-slate-200 to-slate-400' : 'bg-gradient-to-br from-gray-700 to-gray-900'}`}
                     style={{
-                      left: c * cellSize - 3,
-                      top: r * cellSize - 3,
-                      width: 6,
-                      height: 6,
+                      left: c * cellSize + 4,
+                      top: r * cellSize + 4,
+                      width: 8,
+                      height: 8,
                     }}
                   />
                 ))

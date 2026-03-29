@@ -236,7 +236,7 @@ export default function Fillomino({ settings, onBack }: FillominoProps) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-4 gap-4">
         {/* Game Board */}
-        <div className="bg-slate-800 rounded-xl p-4">
+        <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-2xl">
           <div className="grid gap-1" style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}>
             {values.map((row, r) =>
               row.map((cell, c) => {
@@ -249,10 +249,10 @@ export default function Fillomino({ settings, onBack }: FillominoProps) {
                     key={`${r}-${c}`}
                     onClick={() => handleCellClick(r, c)}
                     className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center text-xl font-bold
-                      border-2 transition-all
-                      ${given ? 'bg-slate-700 border-slate-600' : 'bg-slate-800 border-slate-700'}
-                      ${isSelected ? 'ring-2 ring-yellow-400 border-yellow-400' : ''}
-                      ${!given && !isSelected ? 'hover:border-slate-500' : ''}
+                      border-2 transition-all transform
+                      ${given ? 'bg-gradient-to-br from-slate-600 to-slate-700 border-slate-500' : 'bg-gradient-to-br from-slate-700 to-slate-800 border-slate-600'}
+                      ${isSelected ? 'ring-2 ring-yellow-400 border-yellow-400 scale-105 shadow-lg shadow-yellow-500/30' : ''}
+                      ${!given && !isSelected ? 'hover:border-slate-400 hover:scale-102' : ''}
                       ${colorClass}
                     `}
                   >
@@ -271,14 +271,14 @@ export default function Fillomino({ settings, onBack }: FillominoProps) {
               <button
                 key={num}
                 onClick={() => handleNumberInput(num)}
-                className="w-10 h-10 rounded-lg bg-slate-700 hover:bg-slate-600 text-lg font-bold transition-colors"
+                className="w-10 h-10 rounded-xl bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 text-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-slate-900/30"
               >
                 {num}
               </button>
             ))}
             <button
               onClick={handleClear}
-              className="w-10 h-10 rounded-lg bg-red-700 hover:bg-red-600 text-sm font-bold transition-colors"
+              className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-sm font-bold transition-all transform hover:scale-105 shadow-lg shadow-red-900/30"
             >
               ✕
             </button>

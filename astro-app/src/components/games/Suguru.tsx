@@ -353,16 +353,16 @@ export default function Suguru({ settings, onBack }: { settings: { darkMode: boo
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className={`grid gap-0.5 ${settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+            <div className={`grid gap-0.5 p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
               {grid.map((row, r) =>
                 row.map((cell, c) => (
                   <div
                     key={`${r}-${c}`}
                     onClick={() => handleCellClick(r, c)}
-                    className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-colors ${regionColors[r]?.[c] || ''} ${
-                      errors.has(`${r}-${c}`) ? 'bg-red-300 dark:bg-red-900' : ''
+                    className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-all ${regionColors[r]?.[c] || ''} ${
+                      errors.has(`${r}-${c}`) ? 'ring-2 ring-red-500 animate-pulse' : ''
                     } ${
-                      selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-500' : ''
+                      selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-400 scale-105 shadow-lg shadow-blue-500/30' : ''
                     } ${
                       given[r][c] ? 'font-black' : ''
                     }`}
@@ -382,8 +382,8 @@ export default function Suguru({ settings, onBack }: { settings: { darkMode: boo
                 <button
                   key={i}
                   onClick={() => handleInput(i === Math.min(maxNum, 5) ? 0 : i + 1)}
-                  className={`w-10 h-10 rounded-lg font-bold text-lg ${
-                    settings.darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'
+                  className={`w-10 h-10 rounded-xl font-bold text-lg transition-all transform hover:scale-105 ${
+                    settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600 shadow-lg shadow-slate-900/30' : 'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 shadow-lg shadow-gray-400/30'
                   }`}
                 >
                   {i === Math.min(maxNum, 5) ? '✕' : i + 1}

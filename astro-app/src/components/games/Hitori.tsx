@@ -225,18 +225,18 @@ export default function Hitori({ settings, onBack }: { settings: { darkMode: boo
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className={`grid gap-1 ${settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+            <div className={`grid gap-1 p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
               {grid.map((row, r) =>
                 row.map((state, c) => (
                   <div
                     key={`${r}-${c}`}
                     onClick={() => handleCellClick(r, c)}
-                    className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-colors ${
+                    className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-all ${
                       state === 'shaded'
-                        ? 'bg-gray-900 text-gray-600'
+                        ? 'bg-gradient-to-br from-gray-800 to-gray-950 text-gray-500 shadow-inner'
                         : state === 'circled'
-                        ? 'bg-white text-gray-900 ring-2 ring-blue-500'
-                        : settings.darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-white hover:bg-gray-100 text-gray-900'
+                        ? 'bg-gradient-to-br from-white to-gray-100 text-gray-900 ring-2 ring-blue-400 shadow-lg shadow-blue-500/30'
+                        : settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white' : 'bg-gradient-to-br from-white to-gray-100 hover:from-gray-50 hover:to-gray-200 text-gray-900'
                     }`}
                     style={{ width: cellSize, height: cellSize }}
                   >
