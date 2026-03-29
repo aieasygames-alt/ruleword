@@ -197,7 +197,7 @@ export default function SpeedMath({ settings, onBack, toggleLanguage }: Props) {
 
             <button
               onClick={startGame}
-              className="w-full py-4 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-xl transition-colors"
+              className="w-full py-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 rounded-xl font-bold text-xl transition-all shadow-lg shadow-green-500/30 hover:shadow-green-500/50"
             >
               {t('Start Game', '开始游戏')}
             </button>
@@ -224,7 +224,7 @@ export default function SpeedMath({ settings, onBack, toggleLanguage }: Props) {
             </div>
 
             {/* Question */}
-            <div className="bg-slate-800 rounded-2xl p-8 text-center mb-6">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 text-center mb-6 shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
               <div className="text-6xl font-mono font-bold mb-6">
                 {num1} {operator} {num2} = ?
               </div>
@@ -236,13 +236,13 @@ export default function SpeedMath({ settings, onBack, toggleLanguage }: Props) {
                 onChange={e => setUserAnswer(e.target.value)}
                 onKeyDown={handleKeyDown}
                 autoFocus
-                className="w-48 text-center text-4xl font-mono bg-slate-700 border-2 border-slate-600 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500"
+                className="w-48 text-center text-4xl font-mono bg-gradient-to-br from-slate-700 to-slate-800 border-2 border-slate-600 rounded-xl px-4 py-3 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 shadow-inner"
                 placeholder="?"
               />
 
               <button
                 onClick={checkAnswer}
-                className="block mx-auto mt-4 px-8 py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold transition-colors"
+                className="block mx-auto mt-4 px-8 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 rounded-xl font-bold transition-all shadow-lg shadow-green-500/30"
               >
                 {t('Submit', '提交')}
               </button>
