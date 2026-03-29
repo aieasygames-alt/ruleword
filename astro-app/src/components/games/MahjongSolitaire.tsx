@@ -210,23 +210,25 @@ export default function MahjongSolitaire({ settings, onBack, toggleLanguage }: P
               disabled={!isSelectable}
               className={`
                 absolute w-10 h-12 flex items-center justify-center
-                text-2xl rounded-lg border-2 transition-all duration-200
+                text-2xl rounded-lg border-2 transition-all duration-200 font-bold
                 ${isSelectable
                   ? isSelected
-                    ? 'bg-yellow-500 border-yellow-300 scale-110 shadow-lg shadow-yellow-500/50'
+                    ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 border-yellow-300 scale-110 shadow-xl shadow-yellow-500/50 ring-2 ring-yellow-300'
                     : isHint
-                    ? 'bg-blue-500 border-blue-300 animate-pulse'
-                    : 'bg-white border-gray-300 hover:bg-gray-100 hover:scale-105 cursor-pointer'
-                  : 'bg-gray-600 border-gray-500 opacity-50 cursor-not-allowed'
+                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 border-blue-300 animate-pulse shadow-lg shadow-blue-500/50'
+                    : 'bg-gradient-to-br from-white to-gray-100 border-gray-300 hover:from-gray-50 hover:to-gray-200 hover:scale-105 cursor-pointer shadow-lg hover:shadow-xl'
+                  : 'bg-gradient-to-br from-gray-500 to-gray-700 border-gray-500 opacity-60 cursor-not-allowed'
                 }
               `}
               style={{
                 left: tile.col * 44,
                 top: tile.row * 52,
                 zIndex: tile.layer * 10,
+                textShadow: isSelectable && !isSelected ? '1px 1px 2px rgba(0,0,0,0.2)' : undefined,
+                boxShadow: tile.layer > 0 ? `-${tile.layer * 2}px ${tile.layer * 2}px ${4 + tile.layer * 2}px rgba(0,0,0,0.3)` : undefined,
               }}
             >
-              {tile.symbol}
+              <span className="drop-shadow-sm">{tile.symbol}</span>
             </button>
           )
         })}

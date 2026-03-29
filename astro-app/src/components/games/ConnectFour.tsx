@@ -509,14 +509,21 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
                   onMouseEnter={() => setHoveredCol(colIndex)}
                   onMouseLeave={() => setHoveredCol(null)}
                   disabled={!!winner || isDraw}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all
-                    ${cell === null ? (settings.darkMode ? 'bg-slate-700' : 'bg-gray-300') : ''}
-                    ${cell === 'red' ? 'bg-red-500' : ''}
-                    ${cell === 'yellow' ? 'bg-yellow-400' : ''}
-                    ${isWinningCell(rowIndex, colIndex) ? 'ring-4 ring-white ring-opacity-80 animate-pulse' : ''}
+                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shadow-lg
+                    ${cell === null ? (settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-200 to-gray-400') : ''}
+                    ${cell === 'red' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : ''}
+                    ${cell === 'yellow' ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-yellow-500/50' : ''}
+                    ${isWinningCell(rowIndex, colIndex) ? 'ring-4 ring-white ring-opacity-80 animate-pulse shadow-xl scale-110' : ''}
                     ${animatingCol === colIndex && cell !== null && rowIndex === 0 ? 'animate-bounce' : ''}
                     hover:opacity-80`}
-                />
+                  style={{
+                    boxShadow: cell ? `0 4px 15px ${cell === 'red' ? 'rgba(239, 68, 68, 0.5)' : 'rgba(250, 204, 21, 0.5)'}` : undefined
+                  }}
+                >
+                  {cell && (
+                    <span className="w-3 h-3 rounded-full bg-white/30" />
+                  )}
+                </button>
               ))
             )}
           </div>
