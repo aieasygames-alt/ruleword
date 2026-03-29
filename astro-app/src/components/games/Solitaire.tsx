@@ -199,22 +199,22 @@ export default function Solitaire({ settings, onBack, toggleLanguage }: Props) {
   const renderCard = (card: Card | null, isSelected: boolean = false) => {
     if (!card) {
       return (
-        <div className="w-14 h-20 bg-slate-700/50 border-2 border-dashed border-slate-600 rounded-lg" />
+        <div className="w-14 h-20 bg-gradient-to-br from-slate-600 to-slate-800 border-2 border-dashed border-slate-500 rounded-lg shadow-inner" />
       )
     }
     if (!card.faceUp) {
       return (
-        <div className="w-14 h-20 bg-gradient-to-br from-blue-600 to-blue-800 border-2 border-blue-400 rounded-lg flex items-center justify-center">
-          <span className="text-2xl">🂠</span>
+        <div className="w-14 h-20 bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 border-2 border-blue-400 rounded-lg flex items-center justify-center shadow-lg">
+          <span className="text-2xl opacity-60">🂠</span>
         </div>
       )
     }
     return (
-      <div className={`w-14 h-20 bg-white border-2 rounded-lg p-1 ${isSelected ? 'border-yellow-400 ring-2 ring-yellow-400' : 'border-gray-300'}`}>
+      <div className={`w-14 h-20 bg-gradient-to-br from-white to-gray-100 border-2 rounded-lg p-1 shadow-lg transition-all duration-200 ${isSelected ? 'border-yellow-400 ring-2 ring-yellow-400 scale-105 shadow-yellow-500/30' : 'border-gray-300 hover:shadow-xl'}`}>
         <div className={`text-xs font-bold ${SUIT_COLORS[card.suit]}`}>
           {getValueDisplay(card.value)}{card.suit}
         </div>
-        <div className={`text-2xl text-center ${SUIT_COLORS[card.suit]}`}>
+        <div className={`text-2xl text-center drop-shadow-sm ${SUIT_COLORS[card.suit]}`}>
           {card.suit}
         </div>
       </div>

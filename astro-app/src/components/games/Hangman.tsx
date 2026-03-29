@@ -193,8 +193,8 @@ export default function Hangman({ settings, onBack }: HangmanProps) {
           {[...Array(MAX_WRONG_GUESSES)].map((_, i) => (
             <div
               key={i}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                i < wrongGuesses ? 'bg-red-500' : isDark ? 'bg-slate-700' : 'bg-gray-300'
+              className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                i < wrongGuesses ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-500/50 scale-110' : isDark ? 'bg-slate-700' : 'bg-gray-300'
               }`}
             />
           ))}
@@ -204,10 +204,10 @@ export default function Hangman({ settings, onBack }: HangmanProps) {
         <div className="flex items-center gap-2 text-4xl font-mono">
           {word.split('').map((letter, i) => (
             <div key={i} className="flex flex-col items-center">
-              <span className={`${guessedLetters.has(letter) ? 'text-green-400' : isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+              <span className={`transition-all duration-200 ${guessedLetters.has(letter) ? 'text-green-400 scale-110 font-bold drop-shadow-lg' : isDark ? 'text-slate-500' : 'text-gray-400'}`}>
                 {guessedLetters.has(letter) || gameState === 'lost' ? letter : '_'}
               </span>
-              <div className={`w-8 h-1 ${isDark ? 'bg-slate-600' : 'bg-gray-400'} mt-1`} />
+              <div className={`w-8 h-1 rounded ${guessedLetters.has(letter) ? 'bg-green-500' : isDark ? 'bg-slate-600' : 'bg-gray-400'} mt-1 transition-colors`} />
             </div>
           ))}
         </div>
@@ -222,14 +222,14 @@ export default function Hangman({ settings, onBack }: HangmanProps) {
                   key={letter}
                   onClick={() => handleGuess(letter)}
                   disabled={guessedLetters.has(letter)}
-                  className={`w-10 h-10 rounded-lg font-bold text-sm transition-all ${
+                  className={`w-10 h-10 rounded-xl font-bold text-sm transition-all duration-200 shadow-lg ${
                     status === 'correct'
-                      ? 'bg-green-600 text-white'
+                      ? 'bg-gradient-to-br from-green-500 to-green-700 text-white scale-105 shadow-green-500/30'
                       : status === 'wrong'
-                      ? 'bg-red-600/50 text-red-300 line-through'
+                      ? 'bg-gradient-to-br from-red-400 to-red-600 text-red-200 line-through opacity-60 shadow-red-500/20'
                       : isDark
-                      ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                      : 'bg-gray-200 hover:bg-gray-300 text-gray-800'
+                      ? 'bg-gradient-to-br from-slate-600 to-slate-800 hover:from-slate-500 hover:to-slate-700 text-white hover:scale-105'
+                      : 'bg-gradient-to-br from-gray-100 to-gray-300 hover:from-gray-200 hover:to-gray-400 text-gray-800 hover:scale-105 shadow-gray-500/20'
                   }`}
                 >
                   {letter}
