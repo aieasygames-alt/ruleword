@@ -117,6 +117,7 @@ export default function CutTheRope({
   const [slicing, setSlicing] = useState(false)
   const [sliceStart, setSliceStart] = useState<Point | null>(null)
   const [sliceEnd, setSliceEnd] = useState<Point | null>(null)
+  const [animTime, setAnimTime] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -402,16 +403,51 @@ export default function CutTheRope({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Background
-    ctx.fillStyle = settings.darkMode ? '#1e3a5f' : '#87CEEB'
+    // Animation time
+    setAnimTime(prev => prev + 0.05)
+
+    // Background gradient
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, settings.darkMode ? '#0f172a' : '#87CEEB')
+    bgGradient.addColorStop(0.5, settings.darkMode ? '#1e3a5f' : '#B0E0E6')
+    bgGradient.addColorStop(1, settings.darkMode ? '#1e293b' : '#E0F7FA')
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    // Draw ropes
+    // Draw decorative clouds
+    const drawCloud = (x: number, y: number, scale: number) => {
+      ctx.fillStyle = settings.darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.6)'
+      ctx.beginPath()
+      ctx.arc(x, y, 15 * scale, 0, Math.PI * 2)
+      ctx.arc(x + 20 * scale, y - 5 * scale, 20 * scale, 0, Math.PI * 2)
+      ctx.arc(x + 40 * scale, y, 15 * scale, 0, Math.PI * 2)
+      ctx.fill()
+    }
+    drawCloud(50, 60, 1)
+    drawCloud(280, 80, 0.8)
+    drawCloud(180, 40, 0.6)
+
+    // Draw ropes with 3D effect
     for (const rope of ropes) {
       if (rope.cut) continue
 
-      ctx.strokeStyle = '#8B4513'
-      ctx.lineWidth = 4
+      // Rope shadow
+      ctx.strokeStyle = 'rgba(0,0,0,0.2)'
+      ctx.lineWidth = 6
+      ctx.beginPath()
+      ctx.moveTo(rope.anchor.x + 2, rope.anchor.y + 2)
+      for (const seg of rope.segments) {
+        ctx.lineTo(seg.x + 2, seg.y + 2)
+      }
+      ctx.stroke()
+
+      // Main rope with gradient
+      const ropeGradient = ctx.createLinearGradient(rope.anchor.x - 4, 0, rope.anchor.x + 4, 0)
+      ropeGradient.addColorStop(0, '#5D3A1A')
+      ropeGradient.addColorStop(0.5, '#8B4513')
+      ropeGradient.addColorStop(1, '#5D3A1A')
+      ctx.strokeStyle = ropeGradient
+      ctx.lineWidth = 5
       ctx.beginPath()
       ctx.moveTo(rope.anchor.x, rope.anchor.y)
       for (const seg of rope.segments) {
@@ -419,23 +455,52 @@ export default function CutTheRope({
       }
       ctx.stroke()
 
-      // Anchor point
-      ctx.fillStyle = '#666'
+      // Rope highlight
+      ctx.strokeStyle = 'rgba(255,255,255,0.2)'
+      ctx.lineWidth = 2
       ctx.beginPath()
-      ctx.arc(rope.anchor.x, rope.anchor.y, 8, 0, Math.PI * 2)
+      ctx.moveTo(rope.anchor.x - 1, rope.anchor.y)
+      for (let i = 0; i < rope.segments.length; i++) {
+        ctx.lineTo(rope.segments[i].x - 1, rope.segments[i].y)
+      }
+      ctx.stroke()
+
+      // Anchor point with metallic effect
+      const anchorGradient = ctx.createRadialGradient(rope.anchor.x - 2, rope.anchor.y - 2, 0, rope.anchor.x, rope.anchor.y, 10)
+      anchorGradient.addColorStop(0, '#999')
+      anchorGradient.addColorStop(0.7, '#666')
+      anchorGradient.addColorStop(1, '#333')
+      ctx.fillStyle = anchorGradient
+      ctx.beginPath()
+      ctx.arc(rope.anchor.x, rope.anchor.y, 10, 0, Math.PI * 2)
       ctx.fill()
+      ctx.strokeStyle = '#444'
+      ctx.lineWidth = 2
+      ctx.stroke()
     }
 
-    // Draw stars
+    // Draw stars with glow and animation
     for (const star of stars) {
       if (star.collected) continue
 
-      ctx.fillStyle = '#FFD700'
+      const pulseScale = 1 + Math.sin(animTime * 3) * 0.1
+
+      // Star glow
+      ctx.shadowColor = '#FFD700'
+      ctx.shadowBlur = 15
+
+      // Star gradient
+      const starGradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * pulseScale)
+      starGradient.addColorStop(0, '#FFFF00')
+      starGradient.addColorStop(0.5, '#FFD700')
+      starGradient.addColorStop(1, '#FFA500')
+      ctx.fillStyle = starGradient
+
       ctx.beginPath()
       const points = 5
       for (let i = 0; i < points * 2; i++) {
-        const radius = i % 2 === 0 ? star.radius : star.radius / 2
-        const angle = (i * Math.PI) / points - Math.PI / 2
+        const radius = (i % 2 === 0 ? star.radius : star.radius / 2) * pulseScale
+        const angle = (i * Math.PI) / points - Math.PI / 2 + animTime * 0.5
         const x = star.x + Math.cos(angle) * radius
         const y = star.y + Math.sin(angle) * radius
         if (i === 0) ctx.moveTo(x, y)
@@ -443,36 +508,94 @@ export default function CutTheRope({
       }
       ctx.closePath()
       ctx.fill()
+
+      ctx.shadowBlur = 0
+
+      // Star outline
+      ctx.strokeStyle = '#DAA520'
+      ctx.lineWidth = 1
+      ctx.stroke()
     }
 
-    // Draw frog
+    // Draw frog with detailed design
     if (frog) {
-      // Body
-      ctx.fillStyle = '#22c55e'
+      const cx = frog.x + frog.width / 2
+      const cy = frog.y + frog.height / 2
+
+      // Body shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.2)'
       ctx.beginPath()
-      ctx.ellipse(frog.x + frog.width / 2, frog.y + frog.height / 2, frog.width / 2, frog.height / 2, 0, 0, Math.PI * 2)
+      ctx.ellipse(cx + 3, cy + 5, frog.width / 2, frog.height / 2, 0, 0, Math.PI * 2)
       ctx.fill()
 
-      // Eyes
+      // Body gradient
+      const bodyGradient = ctx.createRadialGradient(cx - 10, cy - 10, 0, cx, cy, frog.width / 2)
+      bodyGradient.addColorStop(0, '#4ade80')
+      bodyGradient.addColorStop(0.7, '#22c55e')
+      bodyGradient.addColorStop(1, '#16a34a')
+      ctx.fillStyle = bodyGradient
+      ctx.beginPath()
+      ctx.ellipse(cx, cy, frog.width / 2, frog.height / 2, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Belly
+      ctx.fillStyle = '#86efac'
+      ctx.beginPath()
+      ctx.ellipse(cx, cy + 5, frog.width / 3, frog.height / 3, 0, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Eye whites with shadow
+      ctx.fillStyle = 'white'
+      ctx.shadowColor = 'rgba(0,0,0,0.3)'
+      ctx.shadowBlur = 3
+      ctx.beginPath()
+      ctx.ellipse(frog.x + 15, frog.y + 12, 12, 14, 0, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.ellipse(frog.x + 45, frog.y + 12, 12, 14, 0, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // Pupils (looking at candy)
+      let pupilOffsetX = 0, pupilOffsetY = 0
+      if (candy) {
+        const dx = candy.x - cx
+        const dy = candy.y - cy
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist > 0) {
+          pupilOffsetX = (dx / dist) * 3
+          pupilOffsetY = (dy / dist) * 3
+        }
+      }
+      ctx.fillStyle = '#1a1a1a'
+      ctx.beginPath()
+      ctx.arc(frog.x + 15 + pupilOffsetX, frog.y + 14 + pupilOffsetY, 6, 0, Math.PI * 2)
+      ctx.arc(frog.x + 45 + pupilOffsetX, frog.y + 14 + pupilOffsetY, 6, 0, Math.PI * 2)
+      ctx.fill()
+
+      // Eye shine
       ctx.fillStyle = 'white'
       ctx.beginPath()
-      ctx.arc(frog.x + 15, frog.y + 15, 10, 0, Math.PI * 2)
-      ctx.arc(frog.x + 45, frog.y + 15, 10, 0, Math.PI * 2)
+      ctx.arc(frog.x + 13, frog.y + 10, 2, 0, Math.PI * 2)
+      ctx.arc(frog.x + 43, frog.y + 10, 2, 0, Math.PI * 2)
       ctx.fill()
 
-      // Pupils
-      ctx.fillStyle = 'black'
-      ctx.beginPath()
-      ctx.arc(frog.x + 15, frog.y + 15, 5, 0, Math.PI * 2)
-      ctx.arc(frog.x + 45, frog.y + 15, 5, 0, Math.PI * 2)
-      ctx.fill()
-
-      // Mouth
+      // Mouth (happy smile)
       ctx.strokeStyle = '#166534'
       ctx.lineWidth = 3
+      ctx.lineCap = 'round'
       ctx.beginPath()
-      ctx.arc(frog.x + frog.width / 2, frog.y + frog.height / 2, 20, 0.2, Math.PI - 0.2)
+      ctx.arc(cx, cy + 5, 18, 0.3, Math.PI - 0.3)
       ctx.stroke()
+
+      // Cheeks (blush)
+      ctx.fillStyle = 'rgba(251, 113, 133, 0.4)'
+      ctx.beginPath()
+      ctx.ellipse(frog.x + 5, cy, 8, 5, 0, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.beginPath()
+      ctx.ellipse(frog.x + 55, cy, 8, 5, 0, 0, Math.PI * 2)
+      ctx.fill()
     }
 
     // Draw candy
