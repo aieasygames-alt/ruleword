@@ -279,13 +279,18 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
 
     return (
       <div
-        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg font-bold shadow-lg ${
+        className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-lg font-bold shadow-xl transition-transform ${
           isBlack
-            ? 'bg-gray-900 border-2 border-gray-600 text-gray-300'
-            : 'bg-gray-100 border-2 border-gray-300 text-gray-700'
+            ? 'bg-gradient-to-br from-gray-700 to-gray-900 border-2 border-gray-600 text-gray-300 shadow-black/50'
+            : 'bg-gradient-to-br from-white to-gray-200 border-2 border-gray-300 text-gray-700 shadow-white/30'
         }`}
+        style={{
+          boxShadow: isBlack
+            ? '0 4px 15px rgba(0,0,0,0.5), inset 0 2px 4px rgba(255,255,255,0.1)'
+            : '0 4px 15px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.8)'
+        }}
       >
-        {isKing && '♔'}
+        {isKing && <span className="drop-shadow-lg text-yellow-400">{isBlack ? '♚' : '♔'}</span>}
       </div>
     )
   }

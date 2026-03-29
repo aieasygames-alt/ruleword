@@ -188,7 +188,7 @@ export default function ChineseChess({ settings }: Props) {
         {settings.language === 'zh' ? '回合' : 'Turn'}: {turn === 'red' ? (settings.language === 'zh' ? '红方' : 'Red') : (settings.language === 'zh' ? '黑方' : 'Black')}
       </div>
 
-      <div className="grid grid-cols-9 border-2 border-amber-800 bg-amber-200">
+      <div className="grid grid-cols-9 border-2 border-amber-800 bg-gradient-to-br from-amber-100 to-amber-300 shadow-xl rounded">
         {board.map((row, r) =>
           row.map((piece, c) => {
             const isSelected = selected?.row === r && selected?.col === c
@@ -199,15 +199,19 @@ export default function ChineseChess({ settings }: Props) {
               <button
                 key={`${r}-${c}`}
                 onClick={() => handleClick(r, c)}
-                className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-lg sm:text-xl relative border border-amber-400/30 ${isSelected ? 'ring-2 ring-blue-500' : ''}`}
+                className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-lg sm:text-xl relative border border-amber-400/30 ${isSelected ? 'ring-2 ring-blue-500 bg-blue-100/50' : ''}`}
               >
                 {piece && (
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${piece.color === 'red' ? 'bg-red-100 text-red-600 border-2 border-red-600' : 'bg-gray-800 text-gray-200 border-2 border-gray-400'}`}>
-                    {PIECE_NAMES[`${piece.type}-${piece.color}`]}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg transition-transform ${isSelected ? 'scale-110' : ''} ${
+                    piece.color === 'red'
+                      ? 'bg-gradient-to-br from-red-100 to-red-200 text-red-600 border-2 border-red-600 shadow-red-500/30'
+                      : 'bg-gradient-to-br from-gray-700 to-gray-900 text-gray-100 border-2 border-gray-500 shadow-black/30'
+                  }`}>
+                    <span className="drop-shadow-sm">{PIECE_NAMES[`${piece.type}-${piece.color}`]}</span>
                   </div>
                 )}
                 {isValidMove && <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className={`w-3 h-3 rounded-full ${piece ? 'bg-red-500/50' : 'bg-green-500/50'}`} />
+                  <div className={`w-3 h-3 rounded-full animate-pulse ${piece ? 'bg-red-500/70' : 'bg-green-500/70'}`} />
                 </div>}
               </button>
             )
