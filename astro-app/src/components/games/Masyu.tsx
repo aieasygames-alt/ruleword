@@ -271,7 +271,7 @@ export default function Masyu({ settings, onBack }: MasyuProps) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-4 gap-4">
         {/* Game Board */}
-        <div className="bg-slate-800 rounded-xl p-4">
+        <div className={`rounded-2xl p-4 shadow-2xl ${isDark ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-gray-200 to-gray-400'}`}>
           <div className="relative" style={{ width: size * cellSize + 20, height: size * cellSize + 20 }}>
             {/* Grid cells with pearls */}
             {puzzle.grid.map((row, r) =>
@@ -310,7 +310,7 @@ export default function Masyu({ settings, onBack }: MasyuProps) {
                   }}
                 >
                   {edge === 'used' && (
-                    <div className="w-full h-full bg-yellow-400 rounded" />
+                    <div className="w-full h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded shadow-lg shadow-amber-500/30" />
                   )}
                 </button>
               ))
@@ -331,7 +331,7 @@ export default function Masyu({ settings, onBack }: MasyuProps) {
                   }}
                 >
                   {edge === 'used' && (
-                    <div className="w-full h-full bg-yellow-400 rounded" />
+                    <div className="w-full h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded shadow-lg shadow-amber-500/30" />
                   )}
                 </button>
               ))
@@ -342,7 +342,7 @@ export default function Masyu({ settings, onBack }: MasyuProps) {
               Array(size + 1).fill(null).map((_, c) => (
                 <div
                   key={`dot-${r}-${c}`}
-                  className="absolute w-2 h-2 bg-slate-400 rounded-full"
+                  className={`absolute w-2 h-2 rounded-full shadow-md ${isDark ? 'bg-gradient-to-br from-slate-300 to-slate-500' : 'bg-gradient-to-br from-gray-600 to-gray-800'}`}
                   style={{
                     left: c * cellSize + 9,
                     top: r * cellSize + 9,

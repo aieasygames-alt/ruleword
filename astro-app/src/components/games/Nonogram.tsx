@@ -304,17 +304,17 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
                 </div>
 
                 {/* Cells */}
-                <div className={`grid gap-px ${settings.darkMode ? 'bg-gray-600' : 'bg-gray-400'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+                <div className={`grid gap-px p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-500 to-slate-700' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
                   {grid.map((row, r) =>
                     row.map((cell, c) => (
                       <div
                         key={`${r}-${c}`}
                         className={`cursor-pointer flex items-center justify-center transition-all duration-150 ${
                           cell === 'filled'
-                            ? 'bg-gradient-to-br from-gray-800 to-gray-900 shadow-inner'
+                            ? 'bg-gradient-to-br from-gray-700 to-gray-950 shadow-inner'
                             : cell === 'crossed'
-                            ? settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700' : 'bg-gradient-to-br from-gray-100 to-gray-200'
-                            : settings.darkMode ? 'bg-slate-800 hover:bg-slate-700' : 'bg-white hover:bg-gray-50'
+                            ? settings.darkMode ? 'bg-gradient-to-br from-slate-500 to-slate-700' : 'bg-gradient-to-br from-gray-100 to-gray-300'
+                            : settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700' : 'bg-gradient-to-br from-white to-gray-100 hover:from-gray-50 hover:to-gray-200'
                         }`}
                         style={{ width: cellSize, height: cellSize }}
                         onMouseDown={(e) => handleMouseDown(r, c, e)}
@@ -327,7 +327,7 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
                           </svg>
                         )}
                         {cell === 'filled' && (
-                          <span className="w-2 h-2 rounded-full bg-gray-600 opacity-50" />
+                          <span className="w-2 h-2 rounded-full bg-gray-500 opacity-50" />
                         )}
                       </div>
                     ))
