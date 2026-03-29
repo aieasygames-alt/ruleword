@@ -960,6 +960,90 @@ export default function AngryBirds({
     }
   }, [gameState, birds, blocks, pigs, currentBirdIndex, isDragging, dragEnd, score, level, settings.darkMode, playSound, totalScore, updateScore])
 
+  // Render for gameover/levelComplete states
+  useEffect(() => {
+    if (gameState !== 'gameover' && gameState !== 'levelComplete') return
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    // Sky gradient
+    const skyGradient = ctx.createLinearGradient(0, 0, 0, GROUND_Y)
+    if (settings.darkMode) {
+      skyGradient.addColorStop(0, '#0f0f23')
+      skyGradient.addColorStop(1, '#1a1a3e')
+    } else {
+      skyGradient.addColorStop(0, '#87CEEB')
+      skyGradient.addColorStop(0.5, '#B0E0E6')
+      skyGradient.addColorStop(1, '#E0F7FA')
+    }
+    ctx.fillStyle = skyGradient
+    ctx.fillRect(0, 0, 500, GROUND_Y)
+
+    // Ground
+    ctx.fillStyle = settings.darkMode ? '#3d2817' : '#8B4513'
+    ctx.fillRect(0, GROUND_Y, 500, 50)
+    ctx.fillStyle = settings.darkMode ? '#4a6741' : '#228B22'
+    ctx.fillRect(0, GROUND_Y, 500, 12)
+
+    // Draw slingshot
+    ctx.fillStyle = '#8B4513'
+    ctx.beginPath()
+    ctx.moveTo(SLINGSHOT_X - 8, SLINGSHOT_Y + 20)
+    ctx.lineTo(SLINGSHOT_X - 6, SLINGSHOT_Y - 45)
+    ctx.lineTo(SLINGSHOT_X + 6, SLINGSHOT_Y - 45)
+    ctx.lineTo(SLINGSHOT_X + 8, SLINGSHOT_Y + 20)
+    ctx.fill()
+
+    // Draw remaining blocks
+    for (const block of blocks) {
+      ctx.fillStyle = block.type === 'wood' ? '#CD853F' : block.type === 'stone' ? '#808080' : 'rgba(173, 216, 230, 0.7)'
+      ctx.fillRect(block.x, block.y - block.height, block.width, block.height)
+      ctx.strokeStyle = block.type === 'wood' ? '#654321' : block.type === 'stone' ? '#404040' : 'rgba(100, 149, 237, 0.8)'
+      ctx.lineWidth = 2
+      ctx.strokeRect(block.x, block.y - block.height, block.width, block.height)
+    }
+
+    // Draw remaining pigs
+    for (const pig of pigs) {
+      ctx.fillStyle = '#90EE90'
+      ctx.beginPath()
+      ctx.arc(pig.x, pig.y, pig.radius, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.fillStyle = 'white'
+      ctx.beginPath()
+      ctx.arc(pig.x - pig.radius * 0.3, pig.y - pig.radius * 0.15, pig.radius * 0.2, 0, Math.PI * 2)
+      ctx.arc(pig.x + pig.radius * 0.3, pig.y - pig.radius * 0.15, pig.radius * 0.2, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    // Draw remaining birds
+    for (const bird of birds) {
+      if (bird.launched && bird.active) {
+        ctx.fillStyle = bird.type === 'red' ? '#EE5A5A' : bird.type === 'yellow' ? '#FFD700' : '#333333'
+        ctx.beginPath()
+        ctx.arc(bird.x, bird.y, 15, 0, Math.PI * 2)
+        ctx.fill()
+      }
+    }
+
+    // Score display
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'
+    ctx.fillRect(5, 10, 120, 30)
+    ctx.fillStyle = 'white'
+    ctx.font = 'bold 18px Arial'
+    ctx.textAlign = 'left'
+    ctx.fillText(`⭐ ${score}`, 15, 32)
+    ctx.fillStyle = 'rgba(0,0,0,0.5)'
+    ctx.fillRect(375, 10, 120, 30)
+    ctx.textAlign = 'right'
+    const birdsLeft = birds.filter(b => !b.launched).length
+    ctx.fillText(`🐦 × ${birdsLeft}`, 485, 32)
+
+  }, [gameState, birds, blocks, pigs, score, settings.darkMode])
+
   const texts = {
     title: isZh ? '愤怒的小鸟' : 'Angry Birds',
     level: isZh ? '关卡' : 'Level',
