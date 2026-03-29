@@ -66,6 +66,7 @@ export default function DoodleJump({
   })
   const [platforms, setPlatforms] = useState<Platform[]>([])
   const [keys, setKeys] = useState({ left: false, right: false })
+  const [animFrame, setAnimFrame] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -432,99 +433,242 @@ export default function DoodleJump({
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Clear
-    ctx.fillStyle = settings.darkMode ? '#1e293b' : '#f8fafc'
+    // Animation frame
+    setAnimFrame(prev => prev + 1)
+
+    // Background gradient
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, settings.darkMode ? '#0f172a' : '#fefce8')
+    bgGradient.addColorStop(0.5, settings.darkMode ? '#1e293b' : '#fef9c3')
+    bgGradient.addColorStop(1, settings.darkMode ? '#1e293b' : '#fef08a')
+    ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-    // Draw background grid
-    ctx.strokeStyle = settings.darkMode ? '#334155' : '#e2e8f0'
+    // Draw notebook paper lines (doodle style)
+    ctx.strokeStyle = settings.darkMode ? '#334155' : '#e5e7eb'
     ctx.lineWidth = 1
-    for (let x = 0; x < CANVAS_WIDTH; x += 40) {
-      ctx.beginPath()
-      ctx.moveTo(x, 0)
-      ctx.lineTo(x, CANVAS_HEIGHT)
-      ctx.stroke()
-    }
-    for (let y = 0; y < CANVAS_HEIGHT; y += 40) {
+    for (let y = (animFrame % 40); y < CANVAS_HEIGHT; y += 40) {
       ctx.beginPath()
       ctx.moveTo(0, y)
       ctx.lineTo(CANVAS_WIDTH, y)
       ctx.stroke()
     }
+    // Red margin line
+    ctx.strokeStyle = settings.darkMode ? '#7f1d1d' : '#fca5a5'
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(30, 0)
+    ctx.lineTo(30, CANVAS_HEIGHT)
+    ctx.stroke()
 
-    // Draw platforms
+    // Draw platforms with sketch style
     for (const platform of platforms) {
       if (platform.broken) continue
 
       const screenY = platform.y - cameraY.current
       if (screenY < -50 || screenY > CANVAS_HEIGHT + 50) continue
 
+      const px = platform.x
+      const pw = platform.width
+      const ph = platform.height
+
+      // Platform shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.15)'
       ctx.beginPath()
-
-      if (platform.type === 'normal') {
-        ctx.fillStyle = '#22c55e'
-      } else if (platform.type === 'moving') {
-        ctx.fillStyle = '#3b82f6'
-      } else if (platform.type === 'breakable') {
-        ctx.fillStyle = '#f59e0b'
-      } else if (platform.type === 'spring') {
-        ctx.fillStyle = '#22c55e'
-      }
-
-      // Platform shape
-      ctx.roundRect(platform.x, screenY, platform.width, platform.height, 4)
+      ctx.roundRect(px + 2, screenY + 3, pw, ph, 6)
       ctx.fill()
 
-      // Spring visual
-      if (platform.type === 'spring') {
-        ctx.fillStyle = '#ef4444'
+      if (platform.type === 'normal') {
+        // Green platform with grass texture
+        const grassGradient = ctx.createLinearGradient(px, screenY, px, screenY + ph)
+        grassGradient.addColorStop(0, '#4ade80')
+        grassGradient.addColorStop(0.5, '#22c55e')
+        grassGradient.addColorStop(1, '#16a34a')
+        ctx.fillStyle = grassGradient
         ctx.beginPath()
-        ctx.arc(platform.x + platform.width / 2, screenY - 8, 8, 0, Math.PI * 2)
+        ctx.roundRect(px, screenY, pw, ph, 6)
+        ctx.fill()
+
+        // Grass blades on top
+        ctx.strokeStyle = '#15803d'
+        ctx.lineWidth = 2
+        for (let i = 0; i < pw; i += 8) {
+          const gh = 4 + Math.sin(animFrame * 0.1 + i) * 2
+          ctx.beginPath()
+          ctx.moveTo(px + i, screenY)
+          ctx.lineTo(px + i + 2, screenY - gh)
+          ctx.stroke()
+        }
+
+      } else if (platform.type === 'moving') {
+        // Blue platform with arrow indicators
+        const blueGradient = ctx.createLinearGradient(px, screenY, px, screenY + ph)
+        blueGradient.addColorStop(0, '#60a5fa')
+        blueGradient.addColorStop(0.5, '#3b82f6')
+        blueGradient.addColorStop(1, '#2563eb')
+        ctx.fillStyle = blueGradient
+        ctx.beginPath()
+        ctx.roundRect(px, screenY, pw, ph, 6)
+        ctx.fill()
+
+        // Movement arrows
+        ctx.fillStyle = 'white'
+        ctx.font = 'bold 10px Arial'
+        ctx.textAlign = 'center'
+        const arrow = platform.vx && platform.vx > 0 ? '→→' : '←←'
+        ctx.fillText(arrow, px + pw / 2, screenY + 9)
+
+      } else if (platform.type === 'breakable') {
+        // Brown platform with crack pattern
+        const brownGradient = ctx.createLinearGradient(px, screenY, px, screenY + ph)
+        brownGradient.addColorStop(0, '#fbbf24')
+        brownGradient.addColorStop(0.5, '#f59e0b')
+        brownGradient.addColorStop(1, '#d97706')
+        ctx.fillStyle = brownGradient
+        ctx.beginPath()
+        ctx.roundRect(px, screenY, pw, ph, 6)
+        ctx.fill()
+
+        // Crack lines
+        ctx.strokeStyle = '#92400e'
+        ctx.lineWidth = 1
+        ctx.beginPath()
+        ctx.moveTo(px + pw * 0.3, screenY)
+        ctx.lineTo(px + pw * 0.4, screenY + ph * 0.5)
+        ctx.lineTo(px + pw * 0.35, screenY + ph)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.moveTo(px + pw * 0.7, screenY)
+        ctx.lineTo(px + pw * 0.65, screenY + ph)
+        ctx.stroke()
+
+      } else if (platform.type === 'spring') {
+        // Green platform with spring
+        const springGradient = ctx.createLinearGradient(px, screenY, px, screenY + ph)
+        springGradient.addColorStop(0, '#4ade80')
+        springGradient.addColorStop(1, '#16a34a')
+        ctx.fillStyle = springGradient
+        ctx.beginPath()
+        ctx.roundRect(px, screenY, pw, ph, 6)
+        ctx.fill()
+
+        // Spring coil
+        const springY = screenY - 12 + Math.sin(animFrame * 0.2) * 2
+        ctx.strokeStyle = '#ef4444'
+        ctx.lineWidth = 3
+        ctx.beginPath()
+        for (let i = 0; i < 4; i++) {
+          const sx = px + pw / 2 - 8 + (i % 2) * 16
+          const sy = springY + i * 3
+          ctx.moveTo(sx - 6, sy)
+          ctx.lineTo(sx + 6, sy)
+        }
+        ctx.stroke()
+
+        // Spring top
+        ctx.fillStyle = '#dc2626'
+        ctx.beginPath()
+        ctx.roundRect(px + pw / 2 - 10, springY - 6, 20, 8, 3)
         ctx.fill()
       }
     }
 
-    // Draw player
+    // Draw player (doodle style creature)
     const playerScreenY = player.y - cameraY.current
+    const px = player.x + player.width / 2
+    const py = playerScreenY + player.height / 2
+
+    // Body shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    ctx.beginPath()
+    ctx.ellipse(px + 2, py + 4, player.width / 2, player.height / 2.2, 0, 0, Math.PI * 2)
+    ctx.fill()
 
     // Body
-    ctx.fillStyle = '#4ade80'
+    const bodyGradient = ctx.createRadialGradient(px - 8, py - 8, 0, px, py, player.width / 2)
+    bodyGradient.addColorStop(0, '#86efac')
+    bodyGradient.addColorStop(0.7, '#4ade80')
+    bodyGradient.addColorStop(1, '#22c55e')
+    ctx.fillStyle = bodyGradient
     ctx.beginPath()
-    ctx.ellipse(
-      player.x + player.width / 2,
-      playerScreenY + player.height / 2,
-      player.width / 2,
-      player.height / 2,
-      0,
-      0,
-      Math.PI * 2
-    )
+    ctx.ellipse(px, py, player.width / 2, player.height / 2.2, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Body outline (sketch style)
+    ctx.strokeStyle = '#166534'
+    ctx.lineWidth = 2
+    ctx.stroke()
+
+    // Feet (animated when jumping)
+    const footOffset = player.vy < 0 ? -3 : player.vy > 5 ? 3 : 0
+    ctx.fillStyle = '#22c55e'
+    ctx.beginPath()
+    ctx.ellipse(px - 8, py + player.height / 2.2 + footOffset, 8, 5, 0, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.beginPath()
+    ctx.ellipse(px + 8, py + player.height / 2.2 + footOffset, 8, 5, 0, 0, Math.PI * 2)
     ctx.fill()
 
     // Eyes
+    const eyeOffset = player.vx > 0 ? 2 : player.vx < 0 ? -2 : 0
+
+    // Left eye
     ctx.fillStyle = 'white'
     ctx.beginPath()
-    ctx.arc(player.x + player.width / 3, playerScreenY + player.height / 3, 6, 0, Math.PI * 2)
-    ctx.arc(player.x + player.width * 2 / 3, playerScreenY + player.height / 3, 6, 0, Math.PI * 2)
+    ctx.ellipse(px - 6 + eyeOffset, py - 8, 8, 10, 0, 0, Math.PI * 2)
     ctx.fill()
+    ctx.strokeStyle = '#166534'
+    ctx.lineWidth = 1
+    ctx.stroke()
+
+    // Right eye
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.ellipse(px + 6 + eyeOffset, py - 8, 8, 10, 0, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.stroke()
 
     // Pupils
     ctx.fillStyle = 'black'
-    const pupilOffset = player.vx > 0 ? 2 : player.vx < 0 ? -2 : 0
     ctx.beginPath()
-    ctx.arc(player.x + player.width / 3 + pupilOffset, playerScreenY + player.height / 3, 3, 0, Math.PI * 2)
-    ctx.arc(player.x + player.width * 2 / 3 + pupilOffset, playerScreenY + player.height / 3, 3, 0, Math.PI * 2)
+    ctx.arc(px - 4 + eyeOffset * 1.5, py - 8, 4, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.beginPath()
+    ctx.arc(px + 8 + eyeOffset * 1.5, py - 8, 4, 0, Math.PI * 2)
+    ctx.fill()
+
+    // Eye shine
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.arc(px - 6 + eyeOffset, py - 10, 2, 0, Math.PI * 2)
+    ctx.arc(px + 4 + eyeOffset, py - 10, 2, 0, Math.PI * 2)
     ctx.fill()
 
     // Nose/beak
     ctx.fillStyle = '#f59e0b'
     ctx.beginPath()
-    ctx.moveTo(player.x + player.width / 2, playerScreenY + player.height / 2 - 5)
-    ctx.lineTo(player.x + player.width / 2 + 10, playerScreenY + player.height / 2)
-    ctx.lineTo(player.x + player.width / 2, playerScreenY + player.height / 2 + 5)
+    ctx.moveTo(px + eyeOffset, py - 2)
+    ctx.lineTo(px + 16 + eyeOffset, py + 2)
+    ctx.lineTo(px + eyeOffset, py + 6)
     ctx.closePath()
     ctx.fill()
-  }, [gameState, player, platforms, settings.darkMode])
+    ctx.strokeStyle = '#b45309'
+    ctx.lineWidth = 1
+    ctx.stroke()
+
+    // Score with doodle style
+    ctx.fillStyle = 'rgba(0,0,0,0.2)'
+    ctx.font = 'bold 24px Comic Sans MS, cursive'
+    ctx.textAlign = 'center'
+    ctx.fillText(score.toString(), CANVAS_WIDTH / 2 + 1, 31)
+
+    ctx.fillStyle = settings.darkMode ? '#fef08a' : '#1e3a8a'
+    ctx.strokeStyle = settings.darkMode ? '#fef08a' : '#1e3a8a'
+    ctx.lineWidth = 0.5
+    ctx.font = 'bold 24px Comic Sans MS, cursive'
+    ctx.fillText(score.toString(), CANVAS_WIDTH / 2, 30)
+
+  }, [gameState, player, platforms, settings.darkMode, animFrame, score])
 
   const texts = {
     title: settings.language === 'zh' ? '涂鸦跳跃' : 'Doodle Jump',
