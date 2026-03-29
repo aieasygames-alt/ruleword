@@ -8,6 +8,8 @@ interface Props {
   canonicalPath?: string
   ogImage?: string
   gameType?: string
+  isHomePage?: boolean
+  breadcrumbItems?: Array<{name: string; url: string}>
 }
 
 const {
@@ -16,7 +18,9 @@ const {
   keywords = 'free online games, puzzle games, word games, logic games, wordle, sudoku, 2048, tetris, chess, mahjong, typing test, aim trainer, memory games, arcade games, strategy games',
   canonicalPath = '/',
   ogImage = '/icons/og-image.png',
-  gameType
+  gameType,
+  isHomePage = false,
+  breadcrumbItems
 } = Astro.props
 
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
@@ -113,21 +117,99 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
         }
       })} />
     ) : (
-      <script type="application/ld+json" set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "RuleWord",
-        "description": "Play 103+ free online games: Wordle, Sudoku, 2048, Tetris, Chess, Mahjong, Typing Test and more! 7 categories of puzzle, word, logic, strategy, arcade, memory and skill games.",
-        "url": "https://ruleword.com",
-        "applicationCategory": "GameApplication",
-        "operatingSystem": "Any",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "genre": ["Puzzle", "Word Game", "Arcade", "Strategy", "Logic", "Memory", "Skill"]
-      })} />
+      <>
+        <script type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebApplication",
+          "name": "RuleWord",
+          "description": "Play 103+ free online games: Wordle, Sudoku, 2048, Tetris, Chess, Mahjong, Typing Test and more! 7 categories of puzzle, word, logic, strategy, arcade, memory and skill games.",
+          "url": "https://ruleword.com",
+          "applicationCategory": "GameApplication",
+          "operatingSystem": "Any",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "genre": ["Puzzle", "Word Game", "Arcade", "Strategy", "Logic", "Memory", "Skill"]
+        })} />
+        {/* FAQ Schema for Homepage */}
+        {isHomePage && (
+          <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Are all games on RuleWord really free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes! All 103+ games on RuleWord are completely free to play with no hidden costs, subscriptions, or in-app purchases. We believe gaming should be accessible to everyone."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Do I need to create an account to play?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "No registration required! Simply visit any game page and start playing instantly. Your progress and high scores are saved locally in your browser using localStorage."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I play RuleWord games on mobile devices?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Absolutely! All games are fully responsive and work on desktop computers, tablets, and mobile phones. No app download needed - everything runs in your browser."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "What types of games are available on RuleWord?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We offer 7 categories of games: Word Games (Wordle, Spelling Bee, Word Search), Logic & Numbers (Sudoku, 2048, Nonogram), Strategy (Chess, Gomoku, Reversi), Arcade (Tetris, Snake, Pac-Man), Memory & Reflex games, Skill games, and various Puzzles."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How often are new games added?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "We add new games regularly, typically several new games each month. Check back often for fresh challenges and don't forget to check the Featured section for our latest additions!"
+                }
+              }
+            ]
+          })} />
+        )}
+        {/* Breadcrumb Schema */}
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": breadcrumbItems.map((item, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "name": item.name,
+              "item": `https://ruleword.com${item.url}`
+            }))
+          })} />
+        )}
+        {/* Organization Schema for Homepage */}
+        {isHomePage && (
+          <script type="application/ld+json" set:html={JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "RuleWord",
+            "url": "https://ruleword.com",
+            "logo": "https://ruleword.com/icons/icon-512.png",
+            "description": "Free online puzzle games platform with 103+ games across 7 categories",
+            "sameAs": [
+              "https://twitter.com/ruleword"
+            ]
+          })} />
+        )}
+      </>
     )}
     <!-- Browser Upgrade Notice -->
     <style>

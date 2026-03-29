@@ -160,14 +160,25 @@ const externalGameData = isExternalGame ? (game as CMSGameData) : null
 
 // Feedback i18n data
 const f = t.feedback
+
+// Breadcrumb for structured data
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: categoryData?.name || category?.name || 'Games', url: `/category/${game.category}/` },
+  { name: getGameField('name', 'en') as string, url: `/games/${game.slug}/` }
+]
+
+// Enhanced SEO description
+const enhancedDescription = `Play ${getGameField('name', 'en')} free online at RuleWord. ${getGameField('desc', 'en')} ${getGameField('desc', 'zh')} Category: ${gameType}. No download required, play instantly in your browser!`
 ---
 
 <BaseLayout
   title={`${getGameField('name', 'en')} - RuleWord | Free Online Game`}
-  description={`${getGameField('desc', 'en')} ${getGameField('desc', 'zh')}. Play ${getGameField('name', 'en')} free online at RuleWord.`}
+  description={enhancedDescription}
   keywords={keywords}
   canonicalPath={`/games/${game.slug}/`}
   gameType={gameType}
+  breadcrumbItems={breadcrumbItems}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />

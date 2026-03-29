@@ -28,9 +28,34 @@ const allLanguages = languages
 const defaultLang: Language = 'en'
 const defaultT = i18n[defaultLang]
 const defaultF = defaultT.feedback
+
+// SEO: Custom meta description for each category
+const categoryDescriptions_seo: Record<string, string> = {
+  word: `Play ${categoryGames.length}+ free word games online at RuleWord. Wordle, Spelling Bee, Word Search, Crossword puzzles and more. Improve vocabulary while having fun. No download required.`,
+  logic: `Play ${categoryGames.length}+ free logic & number puzzles at RuleWord. Sudoku, 2048, Nonogram, Math puzzles and brain teasers. Train your mind with challenging games. No download required.`,
+  strategy: `Play ${categoryGames.length}+ free strategy games at RuleWord. Chess, Gomoku, Reversi, Checkers and more classic board games. Challenge AI opponents. No download required.`,
+  arcade: `Play ${categoryGames.length}+ free arcade games at RuleWord. Tetris, Snake, Pac-Man, Breakout and nostalgic classics. Relive the golden age of gaming. No download required.`,
+  memory: `Play ${categoryGames.length}+ free memory & reflex games at RuleWord. Pattern memory, reaction tests, Simon says and more brain training games. No download required.`,
+  skill: `Play ${categoryGames.length}+ free skill games at RuleWord. Typing Test, Aim Trainer, Trivia Quiz and more challenges to test your abilities. No download required.`,
+  puzzle: `Play ${categoryGames.length}+ free puzzle games at RuleWord. Mahjong, Block Puzzle, Jigsaw and more tile-matching fun. Relax and solve puzzles. No download required.`,
+}
+
+const metaDescription = categoryDescriptions_seo[category.id] || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at RuleWord. No download required.`
+
+// Breadcrumb for structured data
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: category.en, url: `/category/${category.id}/` }
+]
 ---
 
-<BaseLayout title={`${category.en} - RuleWord | Free Online Games`}>
+<BaseLayout
+  title={`${category.en} - RuleWord | Free Online Games`}
+  description={metaDescription}
+  keywords={`${category.en.toLowerCase()}, free ${category.en.toLowerCase()}, online games, puzzle games, ${categoryGames.slice(0, 5).map(g => g.name).join(', ')}`}
+  canonicalPath={`/category/${category.id}/`}
+  breadcrumbItems={breadcrumbItems}
+>
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
   <div class="min-h-screen bg-slate-950 text-white" id="app">
