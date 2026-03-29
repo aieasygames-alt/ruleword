@@ -317,7 +317,7 @@ export default function TypingTest({ settings, onBack, toggleLanguage }: Props) 
             </div>
 
             {/* Words */}
-            <div className="bg-slate-800 rounded-xl p-6 mb-6 font-mono text-xl leading-relaxed min-h-[200px]">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 mb-6 font-mono text-xl leading-relaxed min-h-[200px] shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
               {renderWords()}
             </div>
 
@@ -345,7 +345,7 @@ export default function TypingTest({ settings, onBack, toggleLanguage }: Props) 
         {/* Results */}
         {state === 'finished' && (
           <div className="text-center">
-            <div className="bg-slate-800 rounded-2xl p-8 mb-6">
+            <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-8 mb-6 shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
               <h2 className="text-2xl font-bold mb-6">
                 {settings.language === 'zh' ? '测试结果' : 'Test Results'}
               </h2>

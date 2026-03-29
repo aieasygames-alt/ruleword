@@ -31,15 +31,15 @@ const GAME_HEIGHT = 400
 const BASE_SPEED = 2
 
 const COLORS = [
-  'bg-red-500',
-  'bg-orange-500',
-  'bg-yellow-500',
-  'bg-green-500',
-  'bg-teal-500',
-  'bg-blue-500',
-  'bg-indigo-500',
-  'bg-purple-500',
-  'bg-pink-500',
+  'bg-gradient-to-r from-red-400 to-red-600',
+  'bg-gradient-to-r from-orange-400 to-orange-600',
+  'bg-gradient-to-r from-yellow-400 to-yellow-600',
+  'bg-gradient-to-r from-green-400 to-green-600',
+  'bg-gradient-to-r from-teal-400 to-teal-600',
+  'bg-gradient-to-r from-blue-400 to-blue-600',
+  'bg-gradient-to-r from-indigo-400 to-indigo-600',
+  'bg-gradient-to-r from-purple-400 to-purple-600',
+  'bg-gradient-to-r from-pink-400 to-pink-600',
 ]
 
 export default function Stack({
@@ -338,7 +338,7 @@ export default function Stack({
 
         {/* Game Area */}
         <div
-          className={`relative mx-auto overflow-hidden rounded-lg ${cardBgClass} border ${borderClass}`}
+          className={`relative mx-auto overflow-hidden rounded-xl bg-gradient-to-b ${settings.darkMode ? 'from-slate-800 to-slate-900' : 'from-gray-100 to-gray-200'} border ${borderClass} shadow-2xl ${settings.darkMode ? 'shadow-slate-900/50' : 'shadow-gray-400/50'}`}
           style={{ width: GAME_WIDTH, height: GAME_HEIGHT }}
           onClick={() => {
             if (!gameStarted) startGame()
@@ -359,7 +359,7 @@ export default function Stack({
           {blocks.map((block, index) => (
             <div
               key={index}
-              className={`absolute ${block.color} transition-all duration-100`}
+              className={`absolute ${block.color} transition-all duration-100 shadow-lg`}
               style={{
                 left: block.x,
                 width: block.width,
@@ -372,7 +372,7 @@ export default function Stack({
           {/* Current moving block */}
           {currentBlock && !gameOver && (
             <div
-              className={`absolute ${currentBlock.color} shadow-lg`}
+              className={`absolute ${currentBlock.color} shadow-xl ring-1 ring-white/20`}
               style={{
                 left: currentBlock.x,
                 width: currentBlock.width,

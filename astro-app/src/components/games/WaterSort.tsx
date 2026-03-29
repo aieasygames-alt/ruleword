@@ -273,11 +273,11 @@ export default function WaterSort({
         </div>
 
         <div className="flex justify-center gap-4 mb-6">
-          <div className={`${cardBgClass} px-4 py-2 rounded-lg`}>
+          <div className={`px-4 py-2 rounded-lg bg-gradient-to-br ${settings.darkMode ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-white to-gray-100 shadow-lg'} ring-1 ring-gray-500/20`}>
             <span className="text-sm opacity-60">{texts.level}: </span>
             <span className="font-bold">{level + 1}/{LEVELS.length}</span>
           </div>
-          <div className={`${cardBgClass} px-4 py-2 rounded-lg`}>
+          <div className={`px-4 py-2 rounded-lg bg-gradient-to-br ${settings.darkMode ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-white to-gray-100 shadow-lg'} ring-1 ring-gray-500/20`}>
             <span className="text-sm opacity-60">{texts.moves}: </span>
             <span className="font-bold">{moves}</span>
           </div>
@@ -288,26 +288,25 @@ export default function WaterSort({
             <button
               key={index}
               onClick={() => handleTubeClick(index)}
-              className={`relative flex flex-col-reverse items-center p-2 rounded-lg transition-all ${
+              className={`relative flex flex-col-reverse items-center p-2 rounded-lg transition-all transform ${
                 selectedTube === index
-                  ? 'ring-2 ring-yellow-400 scale-105'
-                  : 'hover:bg-gray-700/20'
+                  ? 'ring-2 ring-yellow-400 scale-110 shadow-lg shadow-yellow-500/30'
+                  : 'hover:bg-gray-700/20 hover:scale-105'
               }`}
             >
               <div
-                className={`relative w-12 border-2 rounded-b-xl overflow-hidden ${
-                  settings.darkMode ? 'border-gray-600 bg-gray-800' : 'border-gray-400 bg-gray-100'
-                }`}
+                className={`relative w-12 border-2 rounded-b-xl overflow-hidden bg-gradient-to-b ${settings.darkMode ? 'from-gray-700 to-gray-800 border-gray-500' : 'from-gray-200 to-gray-300 border-gray-400'} shadow-inner`}
                 style={{ height: TUBE_CAPACITY * 24 + 8 }}
               >
                 {tube.colors.map((color, colorIndex) => (
                   <div
                     key={colorIndex}
-                    className="absolute bottom-0 left-0 right-0 transition-all duration-200"
+                    className="absolute left-0 right-0 transition-all duration-200"
                     style={{
-                      backgroundColor: color,
+                      background: `linear-gradient(to bottom, ${color}, ${color}dd)`,
                       height: 24,
                       bottom: colorIndex * 24 + 4,
+                      boxShadow: 'inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -2px 4px rgba(0,0,0,0.2)'
                     }}
                   />
                 ))}

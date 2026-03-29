@@ -401,12 +401,12 @@ export default function TriviaQuiz({
                   const isCorrectAnswer = index === questions[currentQuestion].correct
                   const showResult = answered
 
-                  let bgColor = settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'
+                  let bgColor = settings.darkMode ? 'bg-gradient-to-r from-gray-700 to-gray-600 hover:from-gray-600 hover:to-gray-500' : 'bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300'
                   if (showResult) {
                     if (isCorrectAnswer) {
-                      bgColor = 'bg-green-600 text-white'
+                      bgColor = 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg shadow-green-500/30'
                     } else if (isSelected && !isCorrectAnswer) {
-                      bgColor = 'bg-red-600 text-white'
+                      bgColor = 'bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg shadow-red-500/30'
                     }
                   }
 
