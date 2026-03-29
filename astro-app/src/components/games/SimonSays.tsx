@@ -15,11 +15,65 @@ type Color = 'red' | 'green' | 'blue' | 'yellow'
 
 const COLORS: Color[] = ['red', 'green', 'blue', 'yellow']
 
-const COLOR_STYLES: Record<Color, { bg: string; active: string; text: string }> = {
-  red: { bg: 'bg-red-600', active: 'bg-red-400', text: 'bg-red-700' },
-  green: { bg: 'bg-green-600', active: 'bg-green-400', text: 'bg-green-700' },
-  blue: { bg: 'bg-blue-600', active: 'bg-blue-400', text: 'bg-blue-700' },
-  yellow: { bg: 'bg-yellow-500', active: 'bg-yellow-300', text: 'bg-yellow-600' },
+const COLOR_STYLES: Record<Color, {
+  bg: string
+  active: string
+  text: string
+  style: React.CSSProperties
+  activeStyle: React.CSSProperties
+}> = {
+  red: {
+    bg: 'bg-red-600',
+    active: 'bg-red-400',
+    text: 'bg-red-700',
+    style: {
+      background: 'linear-gradient(135deg, #f87171 0%, #dc2626 50%, #991b1b 100%)',
+      boxShadow: '0 0 20px rgba(239, 68, 68, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
+    },
+    activeStyle: {
+      background: 'linear-gradient(135deg, #fecaca 0%, #f87171 50%, #ef4444 100%)',
+      boxShadow: '0 0 40px rgba(239, 68, 68, 0.8), 0 0 60px rgba(239, 68, 68, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5)',
+    },
+  },
+  green: {
+    bg: 'bg-green-600',
+    active: 'bg-green-400',
+    text: 'bg-green-700',
+    style: {
+      background: 'linear-gradient(135deg, #4ade80 0%, #16a34a 50%, #14532d 100%)',
+      boxShadow: '0 0 20px rgba(34, 197, 94, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
+    },
+    activeStyle: {
+      background: 'linear-gradient(135deg, #bbf7d0 0%, #4ade80 50%, #22c55e 100%)',
+      boxShadow: '0 0 40px rgba(34, 197, 94, 0.8), 0 0 60px rgba(34, 197, 94, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5)',
+    },
+  },
+  blue: {
+    bg: 'bg-blue-600',
+    active: 'bg-blue-400',
+    text: 'bg-blue-700',
+    style: {
+      background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 50%, #1e3a8a 100%)',
+      boxShadow: '0 0 20px rgba(59, 130, 246, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
+    },
+    activeStyle: {
+      background: 'linear-gradient(135deg, #bfdbfe 0%, #60a5fa 50%, #3b82f6 100%)',
+      boxShadow: '0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5)',
+    },
+  },
+  yellow: {
+    bg: 'bg-yellow-500',
+    active: 'bg-yellow-300',
+    text: 'bg-yellow-600',
+    style: {
+      background: 'linear-gradient(135deg, #fde047 0%, #eab308 50%, #a16207 100%)',
+      boxShadow: '0 0 20px rgba(234, 179, 8, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)',
+    },
+    activeStyle: {
+      background: 'linear-gradient(135deg, #fef9c3 0%, #fde047 50%, #facc15 100%)',
+      boxShadow: '0 0 40px rgba(234, 179, 8, 0.8), 0 0 60px rgba(234, 179, 8, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.5)',
+    },
+  },
 }
 
 const getDailySeed = (): number => {
@@ -232,7 +286,12 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
             <div className="w-8" />
           </div>
 
-          <div className="text-6xl text-center mb-8">🔴🟢🔵🟡</div>
+          <div className="text-6xl text-center mb-8">
+            <span style={{ textShadow: '0 0 20px rgba(239, 68, 68, 0.6)' }}>🔴</span>
+            <span style={{ textShadow: '0 0 20px rgba(34, 197, 94, 0.6)' }}>🟢</span>
+            <span style={{ textShadow: '0 0 20px rgba(59, 130, 246, 0.6)' }}>🔵</span>
+            <span style={{ textShadow: '0 0 20px rgba(234, 179, 8, 0.6)' }}>🟡</span>
+          </div>
 
           {/* High Scores */}
           <div className={`grid grid-cols-2 gap-4 mb-8 ${cardBgClass} border ${borderClass} rounded-xl p-4`}>
@@ -350,11 +409,17 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
                 key={color}
                 onClick={() => handleColorClick(color)}
                 disabled={isShowingSequence || gameOver}
+                style={activeColor === color ? COLOR_STYLES[color].activeStyle : COLOR_STYLES[color].style}
                 className={`aspect-square rounded-2xl transition-all transform active:scale-95
-                  ${activeColor === color ? COLOR_STYLES[color].active + ' scale-105' : COLOR_STYLES[color].bg}
-                  ${!isShowingSequence && !gameOver ? 'hover:opacity-80 cursor-pointer' : 'opacity-70'}
-                  shadow-lg`}
-              />
+                  ${activeColor === color ? 'scale-110' : ''}
+                  ${!isShowingSequence && !gameOver ? 'hover:scale-105 cursor-pointer' : 'opacity-70'}
+                  shadow-lg border-2 border-white/20`}
+              >
+                {/* Inner highlight */}
+                <div className="w-full h-full rounded-xl flex items-center justify-center">
+                  <div className="w-3/4 h-3/4 rounded-lg bg-white/10 backdrop-blur-sm" />
+                </div>
+              </button>
             ))}
           </div>
         </div>
@@ -362,13 +427,13 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
         {/* Progress */}
         {isPlaying && !gameOver && (
           <div className={`mt-4 ${cardBgClass} border ${borderClass} rounded-xl p-3`}>
-            <div className="flex justify-center gap-1">
+            <div className="flex justify-center gap-1.5">
               {sequence.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-3 h-3 rounded-full ${
-                    index < playerIndex ? 'bg-green-500' :
-                    index === playerIndex ? 'bg-yellow-500' :
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    index < playerIndex ? 'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/50' :
+                    index === playerIndex ? 'bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-lg shadow-yellow-500/50 animate-pulse' :
                     settings.darkMode ? 'bg-gray-600' : 'bg-gray-300'
                   }`}
                 />

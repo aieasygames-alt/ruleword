@@ -230,7 +230,18 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
             <div className="w-8" />
           </div>
 
-          <div className="text-6xl text-center mb-8">🔨🐹</div>
+          <div className="text-6xl text-center mb-8">
+            <span style={{
+              display: 'inline-block',
+              animation: 'bounce 1s ease-in-out infinite',
+              filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
+            }}>🔨</span>
+            <span style={{
+              display: 'inline-block',
+              animation: 'bounce 1s ease-in-out infinite 0.2s',
+              filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3))'
+            }}>🐹</span>
+          </div>
 
           {/* High Scores */}
           <div className={`grid grid-cols-2 gap-4 mb-8 ${cardBgClass} border ${borderClass} rounded-xl p-4`}>
@@ -317,27 +328,58 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
 
         {/* Score & Time */}
         <div className="flex justify-between mb-4">
-          <div className={`flex-1 ${cardBgClass} border ${borderClass} rounded-xl p-3 text-center mr-2`}>
+          <div
+            className={`flex-1 border rounded-xl p-3 text-center mr-2`}
+            style={{
+              background: settings.darkMode
+                ? 'linear-gradient(135deg, #1e293b 0%, #334155 100%)'
+                : 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              borderColor: settings.darkMode ? '#475569' : '#e2e8f0'
+            }}
+          >
             <p className="text-xs">{settings.language === 'zh' ? '分数' : 'Score'}</p>
-            <p className="text-2xl font-bold">{score}</p>
+            <p className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">{score}</p>
           </div>
-          <div className={`flex-1 ${cardBgClass} border ${borderClass} rounded-xl p-3 text-center ml-2`}>
+          <div
+            className={`flex-1 border rounded-xl p-3 text-center ml-2`}
+            style={{
+              background: settings.darkMode
+                ? 'linear-gradient(135deg, #1e293b 0%, #334155 100%)'
+                : 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)',
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              borderColor: settings.darkMode ? '#475569' : '#e2e8f0'
+            }}
+          >
             <p className="text-xs">{settings.language === 'zh' ? '时间' : 'Time'}</p>
-            <p className={`text-2xl font-bold ${timeLeft <= 10 ? 'text-red-500' : ''}`}>{timeLeft}s</p>
+            <p className={`text-2xl font-bold ${timeLeft <= 10 ? 'text-red-500 animate-pulse' : 'bg-gradient-to-r from-blue-400 to-indigo-600 bg-clip-text text-transparent'}`}>{timeLeft}s</p>
           </div>
         </div>
 
         {/* Combo indicator */}
         {combo > 1 && (
           <div className="text-center mb-2">
-            <span className="px-3 py-1 bg-orange-500 text-white rounded-full text-sm font-bold animate-pulse">
+            <span
+              className="px-4 py-1.5 text-white rounded-full text-sm font-bold animate-pulse inline-block"
+              style={{
+                background: 'linear-gradient(135deg, #f97316 0%, #ea580c 50%, #c2410c 100%)',
+                boxShadow: '0 0 20px rgba(249, 115, 22, 0.6), 0 4px 6px rgba(0, 0, 0, 0.2)',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+              }}
+            >
               🔥 {combo}x {settings.language === 'zh' ? '连击!' : 'Combo!'}
             </span>
           </div>
         )}
 
         {/* Game Grid */}
-        <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
+        <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}
+          style={{
+            background: settings.darkMode
+              ? 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'
+              : 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #d97706 100%)'
+          }}
+        >
           <div className="grid grid-cols-3 gap-3">
             {moles.map((mole, index) => (
               <button
@@ -345,21 +387,36 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
                 onClick={() => handleWhack(index)}
                 className={`aspect-square rounded-full flex items-center justify-center text-4xl
                   transition-all transform ${mole.isHit ? 'scale-90' : ''}
-                  ${settings.darkMode ? 'bg-slate-700' : 'bg-amber-100'}
                   hover:opacity-80 active:scale-95`}
+                style={{
+                  background: settings.darkMode
+                    ? 'radial-gradient(circle at 30% 30%, #475569 0%, #334155 40%, #1e293b 100%)'
+                    : 'radial-gradient(circle at 30% 30%, #fef3c7 0%, #d97706 40%, #92400e 100%)',
+                  boxShadow: settings.darkMode
+                    ? 'inset 0 4px 8px rgba(0, 0, 0, 0.4), inset 0 -2px 4px rgba(255, 255, 255, 0.1)'
+                    : 'inset 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 -2px 4px rgba(255, 255, 255, 0.3)',
+                }}
               >
                 {mole.isVisible ? (
                   mole.isHit ? (
-                    '💫'
+                    <span style={{ filter: 'drop-shadow(0 0 8px rgba(255, 255, 0, 0.8))' }}>💫</span>
                   ) : mole.type === 'golden' ? (
-                    <span className="animate-bounce">⭐</span>
+                    <span className="animate-bounce" style={{ filter: 'drop-shadow(0 0 12px rgba(255, 215, 0, 0.9))' }}>⭐</span>
                   ) : mole.type === 'bomb' ? (
-                    <span className="animate-bounce">💣</span>
+                    <span className="animate-bounce" style={{ filter: 'drop-shadow(0 0 10px rgba(255, 0, 0, 0.7))' }}>💣</span>
                   ) : (
-                    <span className="animate-bounce">🐹</span>
+                    <span className="animate-bounce" style={{ filter: 'drop-shadow(0 0 6px rgba(139, 92, 246, 0.5))' }}>🐹</span>
                   )
                 ) : (
-                  <div className={`w-8 h-8 rounded-full ${settings.darkMode ? 'bg-slate-600' : 'bg-amber-200'}`} />
+                  <div
+                    className="w-10 h-10 rounded-full"
+                    style={{
+                      background: settings.darkMode
+                        ? 'radial-gradient(circle at 30% 30%, #334155 0%, #1e293b 100%)'
+                        : 'radial-gradient(circle at 30% 30%, #92400e 0%, #78350f 100%)',
+                      boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.3)',
+                    }}
+                  />
                 )}
               </button>
             ))}

@@ -290,23 +290,60 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
   }, [board, gameOver, config, stats, difficulty, timer])
 
   // 获取格子颜色
-  const getCellColor = (cell: Cell): string => {
+  const getCellStyle = (cell: Cell, isDark: boolean): React.CSSProperties => {
+    const baseStyle: React.CSSProperties = {
+      transition: 'all 0.15s ease',
+    }
+
     if (cell.state === 'revealed') {
-      if (cell.isMine) return 'bg-red-500'
-      return settings.darkMode ? 'bg-slate-600' : 'bg-gray-300'
+      if (cell.isMine) {
+        return {
+          ...baseStyle,
+          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%)',
+          boxShadow: 'inset 2px 2px 4px rgba(255, 255, 255, 0.3), inset -1px -1px 2px rgba(0, 0, 0, 0.2)',
+        }
+      }
+      return {
+        ...baseStyle,
+        background: isDark
+          ? 'linear-gradient(135deg, #475569 0%, #334155 50%, #1e293b 100%)'
+          : 'linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%)',
+        boxShadow: 'inset 1px 1px 3px rgba(0, 0, 0, 0.1)',
+      }
     }
+
     if (cell.state === 'flagged') {
-      return settings.darkMode ? 'bg-slate-700' : 'bg-gray-400'
+      return {
+        ...baseStyle,
+        background: isDark
+          ? 'linear-gradient(135deg, #475569 0%, #334155 100%)'
+          : 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2), inset 1px 1px 2px rgba(255, 255, 255, 0.1)',
+      }
     }
-    return settings.darkMode ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-400 hover:bg-gray-500'
+
+    // Hidden cell with 3D effect
+    return {
+      ...baseStyle,
+      background: isDark
+        ? 'linear-gradient(145deg, #475569 0%, #334155 50%, #1e293b 100%)'
+        : 'linear-gradient(145deg, #9ca3af 0%, #6b7280 50%, #4b5563 100%)',
+      boxShadow: '2px 2px 4px rgba(0, 0, 0, 0.3), -1px -1px 2px rgba(255, 255, 255, 0.1)',
+    }
   }
 
   // 获取数字颜色
   const getNumberColor = (num: number): string => {
     const colors = [
-      '', 'text-blue-500', 'text-green-500', 'text-red-500',
-      'text-purple-500', 'text-yellow-500', 'text-cyan-500',
-      'text-orange-500', 'text-pink-500'
+      '',
+      'text-blue-400 font-bold drop-shadow-sm',
+      'text-green-400 font-bold drop-shadow-sm',
+      'text-red-400 font-bold drop-shadow-sm',
+      'text-purple-400 font-bold drop-shadow-sm',
+      'text-yellow-400 font-bold drop-shadow-sm',
+      'text-cyan-400 font-bold drop-shadow-sm',
+      'text-orange-400 font-bold drop-shadow-sm',
+      'text-pink-400 font-bold drop-shadow-sm'
     ]
     return colors[num] || ''
   }
@@ -408,7 +445,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
                 onClick={() => revealCell(r, c)}
                 onContextMenu={(e) => toggleFlag(r, c, e)}
                 disabled={gameOver && cell.state === 'revealed'}
-                className={`${difficulty === 'hard' ? 'w-5 h-5 text-xs' : 'w-7 h-7 text-sm'} ${getCellColor(cell)} flex items-center justify-center font-bold transition-colors border ${settings.darkMode ? 'border-slate-600' : 'border-gray-500'}`}
+                className={`${difficulty === 'hard' ? 'w-5 h-5 text-xs' : 'w-7 h-7 text-sm'} flex items-center justify-center font-bold transition-all border ${settings.darkMode ? 'border-slate-700' : 'border-gray-600'} ${cell.state === 'hidden' ? 'hover:scale-105 active:scale-95' : ''} rounded-sm`}
+                style={getCellStyle(cell, settings.darkMode)}
               >
                 {cell.state === 'revealed' ? (
                   cell.isMine ? '💣' : (
