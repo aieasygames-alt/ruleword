@@ -402,6 +402,42 @@ export default function Asteroids({ settings }: Props) {
           </div>
         </div>
       )}
+
+      {/* Mobile touch controls */}
+      {gameState === 'playing' && (
+        <div className="flex gap-4 mt-4 sm:hidden">
+          <button
+            onTouchStart={() => { gameRef.current.keys['ArrowLeft'] = true }}
+            onTouchEnd={() => { gameRef.current.keys['ArrowLeft'] = false }}
+            className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
+          >
+            ↺
+          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              onTouchStart={() => { gameRef.current.keys['ArrowUp'] = true }}
+              onTouchEnd={() => { gameRef.current.keys['ArrowUp'] = false }}
+              className="w-16 h-12 rounded-lg bg-green-600 active:bg-green-500 flex items-center justify-center text-lg font-bold"
+            >
+              {settings.language === 'zh' ? '推进' : 'THRUST'}
+            </button>
+            <button
+              onTouchStart={() => { gameRef.current.keys[' '] = true }}
+              onTouchEnd={() => { gameRef.current.keys[' '] = false }}
+              className="w-16 h-12 rounded-lg bg-red-600 active:bg-red-500 flex items-center justify-center text-lg font-bold"
+            >
+              {settings.language === 'zh' ? '射击' : 'FIRE'}
+            </button>
+          </div>
+          <button
+            onTouchStart={() => { gameRef.current.keys['ArrowRight'] = true }}
+            onTouchEnd={() => { gameRef.current.keys['ArrowRight'] = false }}
+            className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
+          >
+            ↻
+          </button>
+        </div>
+      )}
     </div>
   )
 }
