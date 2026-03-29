@@ -326,15 +326,19 @@ const Memory: React.FC<MemoryProps> = ({ settings, onBack }) => {
               key={card.id}
               onClick={() => handleCardClick(card.id)}
               disabled={card.isMatched || card.isFlipped}
-              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl text-3xl sm:text-4xl transition-all duration-300 transform ${
+              className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl text-3xl sm:text-4xl transition-all duration-300 transform shadow-lg ${
                 card.isMatched
-                  ? 'bg-green-500 scale-95 opacity-70'
+                  ? 'bg-gradient-to-br from-green-400 to-green-600 scale-95 opacity-80 ring-2 ring-green-300'
                   : card.isFlipped
-                  ? `${settings.darkMode ? 'bg-slate-600' : 'bg-white'} rotate-0`
-                  : `${settings.darkMode ? 'bg-gradient-to-br from-blue-500 to-purple-600' : 'bg-gradient-to-br from-blue-400 to-purple-500'} hover:scale-105`
+                  ? `${settings.darkMode ? 'bg-gradient-to-br from-slate-500 to-slate-700' : 'bg-gradient-to-br from-white to-gray-100'} rotate-0 shadow-xl`
+                  : `${settings.darkMode ? 'bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500' : 'bg-gradient-to-br from-blue-400 via-purple-400 to-pink-400'} hover:scale-105 hover:shadow-xl hover:ring-2 hover:ring-white/50`
               }`}
+              style={{
+                transformStyle: 'preserve-3d',
+                backfaceVisibility: 'hidden',
+              }}
             >
-              {card.isFlipped || card.isMatched ? card.emoji : '❓'}
+              <span className="drop-shadow-lg">{card.isFlipped || card.isMatched ? card.emoji : '❓'}</span>
             </button>
           ))}
         </div>

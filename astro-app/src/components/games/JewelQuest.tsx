@@ -11,12 +11,30 @@ const GRID_SIZE = 8;
 const JEWEL_TYPES: JewelType[] = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
 
 const JEWEL_COLORS: Record<JewelType, string> = {
-  red: 'bg-red-500',
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
-  yellow: 'bg-yellow-500',
-  purple: 'bg-purple-500',
-  orange: 'bg-orange-500',
+  red: 'bg-gradient-to-br from-red-400 to-red-600',
+  blue: 'bg-gradient-to-br from-blue-400 to-blue-600',
+  green: 'bg-gradient-to-br from-green-400 to-green-600',
+  yellow: 'bg-gradient-to-br from-yellow-300 to-yellow-500',
+  purple: 'bg-gradient-to-br from-purple-400 to-purple-600',
+  orange: 'bg-gradient-to-br from-orange-400 to-orange-600',
+};
+
+const JEWEL_GLOW: Record<JewelType, string> = {
+  red: 'shadow-red-500/50',
+  blue: 'shadow-blue-500/50',
+  green: 'shadow-green-500/50',
+  yellow: 'shadow-yellow-500/50',
+  purple: 'shadow-purple-500/50',
+  orange: 'shadow-orange-500/50',
+};
+
+const JEWEL_EMOJI: Record<JewelType, string> = {
+  red: '💎',
+  blue: '💠',
+  green: '🟢',
+  yellow: '⭐',
+  purple: '🔮',
+  orange: '🟠',
 };
 
 const createBoard = (): Jewel[][] => {
@@ -248,20 +266,29 @@ export default function JewelQuest() {
 
         {/* Game Board */}
         <div className="flex justify-center mb-6">
-          <div className="grid gap-1 p-3 rounded-xl bg-slate-700/50">
+          <div className="grid gap-1 p-3 rounded-xl bg-gradient-to-br from-slate-700 to-slate-800 shadow-inner">
             {board.map((row, rowIndex) =>
               row.map((jewel, colIndex) => (
                 <div
                   key={`${rowIndex}-${colIndex}-${jewel.id}`}
                   onClick={() => handleClick(rowIndex, colIndex)}
                   className={`
-                    w-12 h-12 rounded-lg cursor-pointer transition-all
+                    w-12 h-12 rounded-xl cursor-pointer transition-all duration-200
+                    flex items-center justify-center text-xl
                     ${JEWEL_COLORS[jewel.type] || 'bg-gray-400'}
                     ${selected?.[0] === rowIndex && selected?.[1] === colIndex
-                      ? 'ring-4 ring-white scale-110'
+                      ? `ring-4 ring-white scale-110 shadow-lg ${JEWEL_GLOW[jewel.type] || ''}`
                       : 'hover:scale-105 hover:shadow-lg'}
+                    shadow-md
                   `}
-                />
+                  style={{
+                    boxShadow: selected?.[0] === rowIndex && selected?.[1] === colIndex
+                      ? `0 0 20px ${jewel.type === 'red' ? '#ef4444' : jewel.type === 'blue' ? '#3b82f6' : jewel.type === 'green' ? '#22c55e' : jewel.type === 'yellow' ? '#eab308' : jewel.type === 'purple' ? '#a855f7' : '#f97316'}`
+                      : undefined
+                  }}
+                >
+                  <span className="drop-shadow-md">{JEWEL_EMOJI[jewel.type] || ''}</span>
+                </div>
               ))
             )}
           </div>
