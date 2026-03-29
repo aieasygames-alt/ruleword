@@ -329,14 +329,16 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
                   key={`${rowIndex}-${colIndex}`}
                   onClick={() => handleCellClick(rowIndex, colIndex)}
                   disabled={isWon}
-                  className={`aspect-square rounded-lg transition-all transform active:scale-95
+                  className={`aspect-square rounded-xl transition-all transform active:scale-95 shadow-lg
                     ${isOn
-                      ? 'bg-yellow-400 shadow-lg shadow-yellow-400/50'
-                      : settings.darkMode ? 'bg-slate-700' : 'bg-gray-300'
+                      ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-yellow-400/50 ring-2 ring-yellow-200'
+                      : settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-200 to-gray-400'
                     }
                     ${!isWon ? 'hover:opacity-80 cursor-pointer' : ''}`}
                 >
-                  {isOn ? '💡' : ''}
+                  <span className={`transition-transform duration-200 ${isOn ? 'scale-110' : 'scale-0'}`}>
+                    {isOn ? '💡' : ''}
+                  </span>
                 </button>
               ))
             )}

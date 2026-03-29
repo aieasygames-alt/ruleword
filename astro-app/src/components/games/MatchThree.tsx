@@ -22,12 +22,12 @@ type Props = {
 const GRID_SIZE = 8
 const GEM_TYPES = 6
 const GEM_COLORS = [
-  'bg-red-500',
-  'bg-blue-500',
-  'bg-green-500',
-  'bg-yellow-500',
-  'bg-purple-500',
-  'bg-pink-500',
+  'bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-500/30',
+  'bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/30',
+  'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30',
+  'bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-lg shadow-yellow-500/30',
+  'bg-gradient-to-br from-purple-400 to-purple-600 shadow-lg shadow-purple-500/30',
+  'bg-gradient-to-br from-pink-400 to-pink-600 shadow-lg shadow-pink-500/30',
 ]
 const GEM_EMOJIS = ['🔴', '🔵', '🟢', '🟡', '🟣', '🩷']
 

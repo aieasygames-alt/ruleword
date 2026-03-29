@@ -358,17 +358,17 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
                     key={`${rowIndex}-${colIndex}`}
                     onClick={() => handleTileClick(rowIndex, colIndex)}
                     disabled={isEmpty || isWon}
-                    className={`aspect-square rounded-lg text-xl font-bold flex items-center justify-center
-                      transition-all transform
+                    className={`aspect-square rounded-xl text-xl font-bold flex items-center justify-center
+                      transition-all transform shadow-lg
                       ${isEmpty
-                        ? (settings.darkMode ? 'bg-slate-700' : 'bg-gray-200')
+                        ? (settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-800' : 'bg-gradient-to-br from-gray-100 to-gray-200')
                         : canMoveThis
-                          ? 'bg-blue-500 text-white hover:bg-blue-400 active:scale-95'
-                          : (settings.darkMode ? 'bg-slate-600 text-white' : 'bg-gray-300 text-gray-800')
+                          ? 'bg-gradient-to-br from-blue-400 to-blue-600 text-white hover:from-blue-300 hover:to-blue-500 active:scale-95 shadow-blue-500/30'
+                          : (settings.darkMode ? 'bg-gradient-to-br from-slate-500 to-slate-700 text-white' : 'bg-gradient-to-br from-gray-200 to-gray-400 text-gray-800')
                       }
                       ${!isEmpty && !isWon && canMoveThis ? 'cursor-pointer' : 'cursor-default'}`}
                   >
-                    {tile}
+                    <span className="drop-shadow">{tile}</span>
                   </button>
                 )
               })
