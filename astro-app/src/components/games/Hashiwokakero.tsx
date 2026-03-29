@@ -238,7 +238,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className="relative" style={{ width: size * cellSize, height: size * cellSize }}>
+            <div className={`relative p-3 rounded-2xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-blue-100 to-indigo-200'}`} style={{ width: size * cellSize + 24, height: size * cellSize + 24 }}>
               {/* Horizontal edges */}
               {edges.map((row, r) =>
                 row.map((cell, c) => (
@@ -255,7 +255,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
                       }}
                     >
                       {cell.right !== 'none' && (
-                        <div className={`w-full ${cell.right === 'double' ? 'h-3 border-y-2' : 'h-1.5'} bg-gray-800 dark:bg-white rounded`} />
+                        <div className={`w-full ${cell.right === 'double' ? 'h-3 border-y-2' : 'h-1.5'} bg-gradient-to-r from-amber-400 to-amber-600 rounded shadow-lg shadow-amber-500/30`} />
                       )}
                     </div>
                   )
@@ -278,7 +278,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
                       }}
                     >
                       {cell.down !== 'none' && (
-                        <div className={`h-full ${cell.down === 'double' ? 'w-3 border-x-2' : 'w-1.5'} bg-gray-800 dark:bg-white rounded`} />
+                        <div className={`h-full ${cell.down === 'double' ? 'w-3 border-x-2' : 'w-1.5'} bg-gradient-to-b from-amber-400 to-amber-600 rounded shadow-lg shadow-amber-500/30`} />
                       )}
                     </div>
                   )
@@ -292,10 +292,10 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
                     <div
                       key={`i-${r}-${c}`}
                       onClick={() => handleCellClick(r, c)}
-                      className={`absolute rounded-full flex items-center justify-center font-bold text-lg cursor-pointer transition-all ${
+                      className={`absolute rounded-full flex items-center justify-center font-bold text-lg cursor-pointer transition-all shadow-lg ${
                         selectedIsland?.r === r && selectedIsland?.c === c
-                          ? 'bg-blue-500 text-white scale-110'
-                          : 'bg-gray-800 dark:bg-white text-white dark:text-gray-800'
+                          ? 'bg-gradient-to-br from-blue-400 to-blue-600 text-white scale-110 shadow-blue-500/50 ring-2 ring-blue-300'
+                          : 'bg-gradient-to-br from-slate-700 to-slate-900 dark:from-white dark:to-gray-200 text-white dark:text-slate-800 shadow-slate-900/30'
                       }`}
                       style={{
                         left: c * cellSize + cellSize / 2 - cellSize / 3,

@@ -347,7 +347,7 @@ export default function Nurikabe({ settings, onBack }: NurikabeProps) {
         )}
 
         {/* Grid */}
-        <div className="bg-slate-600 rounded-lg p-1 shadow-lg">
+        <div className={`rounded-2xl p-2 shadow-2xl ${isDark ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`}>
           {grid.map((row, rowIdx) => (
             <div key={rowIdx} className="flex">
               {row.map((cell, colIdx) => {
@@ -357,11 +357,21 @@ export default function Nurikabe({ settings, onBack }: NurikabeProps) {
                     key={colIdx}
                     onClick={() => handleCellClick(rowIdx, colIdx)}
                     onContextMenu={(e) => handleCellRightClick(e, rowIdx, colIdx)}
-                    className={`${getCellClass(cell, isNumber)} flex items-center justify-center font-bold cursor-pointer transition-colors hover:opacity-80`}
+                    className={`flex items-center justify-center font-bold cursor-pointer transition-all ${
+                      isNumber
+                        ? 'bg-gradient-to-br from-white to-gray-200 text-slate-900 shadow-inner'
+                        : cell === 'black'
+                        ? 'bg-gradient-to-br from-gray-800 to-gray-950 shadow-inner'
+                        : cell === 'white'
+                        ? 'bg-gradient-to-br from-white to-gray-100'
+                        : isDark
+                        ? 'bg-gradient-to-br from-slate-500 to-slate-600 hover:from-slate-400 hover:to-slate-500'
+                        : 'bg-gradient-to-br from-gray-200 to-gray-300 hover:from-gray-100 hover:to-gray-200'
+                    }`}
                     style={{ width: cellSize, height: cellSize }}
                   >
                     {isNumber && (
-                      <span className="text-lg">{currentPuzzle.numbers[rowIdx][colIdx]}</span>
+                      <span className="text-lg font-bold">{currentPuzzle.numbers[rowIdx][colIdx]}</span>
                     )}
                     {cell === 'white' && !isNumber && (
                       <span className="text-slate-400 text-xs">●</span>

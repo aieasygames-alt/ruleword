@@ -130,7 +130,7 @@ export default function Yajilin({ settings }: Props) {
 
       {/* Grid */}
       <div className="flex-1 flex items-center justify-center p-4">
-        <div className={`grid gap-0.5 p-2 rounded-lg ${isDark ? 'bg-slate-800' : 'bg-white shadow-lg'}`}>
+        <div className={`grid gap-0.5 p-2 rounded-2xl shadow-2xl ${isDark ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-300 to-gray-400'}`}>
           {grid.map((row, r) => (
             <div key={r} className="flex gap-0.5">
               {row.map((cell, c) => (
@@ -138,22 +138,22 @@ export default function Yajilin({ settings }: Props) {
                   key={c}
                   onClick={() => toggleCell(r, c)}
                   disabled={cell.clue !== null}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-sm font-bold transition-colors border ${
+                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-sm font-bold transition-all border ${
                     cell.clue !== null
-                      ? `${isDark ? 'bg-slate-700 border-slate-600' : 'bg-gray-200 border-gray-300'} cursor-default`
+                      ? `${isDark ? 'bg-gradient-to-br from-slate-500 to-slate-600 border-slate-400' : 'bg-gradient-to-br from-gray-100 to-gray-200 border-gray-300'} cursor-default`
                       : cell.isBlack
-                      ? 'bg-gray-900 border-gray-700'
+                      ? 'bg-gradient-to-br from-gray-800 to-gray-950 border-gray-700 shadow-inner'
                       : cell.isPath
-                      ? 'bg-blue-500 border-blue-400'
+                      ? 'bg-gradient-to-br from-blue-400 to-blue-600 border-blue-300 shadow-lg shadow-blue-500/30'
                       : isDark
-                      ? 'bg-slate-600 border-slate-500 hover:bg-slate-500'
-                      : 'bg-white border-gray-300 hover:bg-gray-100'
+                      ? 'bg-gradient-to-br from-slate-500 to-slate-600 border-slate-400 hover:from-slate-400 hover:to-slate-500'
+                      : 'bg-gradient-to-br from-white to-gray-100 border-gray-300 hover:from-gray-50 hover:to-gray-200'
                   }`}
                 >
                   {cell.clue !== null && (
                     <div className="flex flex-col items-center">
-                      <span className="text-lg">{cell.clue}</span>
-                      <span className="text-xs">
+                      <span className="text-lg font-bold">{cell.clue}</span>
+                      <span className="text-xs text-amber-500">
                         {cell.clueDir === 'up' && '↑'}
                         {cell.clueDir === 'down' && '↓'}
                         {cell.clueDir === 'left' && '←'}
@@ -161,7 +161,7 @@ export default function Yajilin({ settings }: Props) {
                       </span>
                     </div>
                   )}
-                  {cell.isPath && !cell.clue && '●'}
+                  {cell.isPath && !cell.clue && <span className="text-white">●</span>}
                 </button>
               ))}
             </div>

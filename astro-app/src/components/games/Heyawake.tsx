@@ -261,7 +261,7 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
         </div>
 
         {/* Game Board */}
-        <div className="bg-slate-800 rounded-xl p-4">
+        <div className={`rounded-2xl p-3 shadow-2xl ${isDark ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-gray-300 to-gray-400'}`}>
           <div className="grid gap-0.5" style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}>
             {cells.map((row, r) =>
               row.map((cell, c) => {
@@ -277,16 +277,16 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
                   <button
                     key={`${r}-${c}`}
                     onClick={() => handleCellClick(r, c)}
-                    className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-colors relative
+                    className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-all relative
                       ${getRoomColor(roomId)}
-                      ${cell === 'black' ? 'bg-slate-950' : ''}
-                      ${cell === 'white' ? 'bg-white' : ''}
-                      border border-slate-600
-                      hover:brightness-125
+                      ${cell === 'black' ? 'bg-gradient-to-br from-gray-800 to-gray-950 shadow-inner' : ''}
+                      ${cell === 'white' ? 'bg-gradient-to-br from-white to-gray-200 shadow-sm' : ''}
+                      border border-slate-500
+                      hover:brightness-125 hover:scale-102
                     `}
                   >
-                    {cell === 'black' && <span className="text-white">■</span>}
-                    {cell === 'white' && <span className="text-slate-900">□</span>}
+                    {cell === 'black' && <span className="text-slate-400">■</span>}
+                    {cell === 'white' && <span className="text-slate-700">□</span>}
                   </button>
                 )
               })
