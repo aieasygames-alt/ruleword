@@ -376,14 +376,22 @@ export default function RubiksCube({
 
   const renderFace = (face: Face, label: string) => (
     <div className="flex flex-col items-center">
-      <span className="text-xs mb-1 opacity-60">{label}</span>
-      <div className="grid grid-cols-3 gap-0.5">
+      <span className="text-xs mb-1 opacity-60 font-medium">{label}</span>
+      <div className="grid grid-cols-3 gap-0.5 p-1 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg shadow-lg">
         {face.map((row, i) =>
           row.map((cell, j) => (
             <div
               key={`${i}-${j}`}
-              className="w-8 h-8 rounded-sm border border-gray-600"
-              style={{ backgroundColor: COLOR_HEX[cell] }}
+              className="w-7 h-7 rounded-sm border border-gray-500/50 shadow-inner transition-transform hover:scale-105"
+              style={{
+                backgroundColor: COLOR_HEX[cell],
+                boxShadow: cell === 0 ? 'inset 2px 2px 4px rgba(255,255,255,0.4), inset -1px -1px 2px rgba(0,0,0,0.1)' :
+                           cell === 1 ? 'inset 2px 2px 4px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.2)' :
+                           cell === 2 ? 'inset 2px 2px 4px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.3)' :
+                           cell === 3 ? 'inset 2px 2px 4px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.2)' :
+                           cell === 4 ? 'inset 2px 2px 4px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.3)' :
+                           'inset 2px 2px 4px rgba(255,255,255,0.3), inset -1px -1px 2px rgba(0,0,0,0.3)'
+              }}
             />
           ))
         )}
@@ -394,7 +402,7 @@ export default function RubiksCube({
   const MoveButton = ({ move, label }: { move: string; label: string }) => (
     <button
       onClick={() => handleMove(move)}
-      className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-bold transition-colors"
+      className="px-3 py-2 bg-gradient-to-br from-gray-600 to-gray-700 hover:from-gray-500 hover:to-gray-600 rounded-lg text-sm font-bold transition-all shadow-lg shadow-gray-900/30 hover:scale-105 active:scale-95"
     >
       {label}
     </button>

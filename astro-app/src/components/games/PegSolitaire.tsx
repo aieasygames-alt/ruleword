@@ -197,7 +197,7 @@ export default function PegSolitaire({ settings, onBack, toggleLanguage }: Props
 
         {/* Board */}
         <div className="flex justify-center mb-6">
-          <div className="bg-amber-800 p-4 rounded-2xl">
+          <div className="bg-gradient-to-br from-amber-700 to-amber-900 p-4 rounded-2xl shadow-2xl shadow-amber-900/50 ring-2 ring-amber-600">
             <div className="grid gap-1" style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}>
               {board.map((row, rowIndex) =>
                 row.map((cell, colIndex) => {
@@ -213,12 +213,12 @@ export default function PegSolitaire({ settings, onBack, toggleLanguage }: Props
                       key={`${rowIndex}-${colIndex}`}
                       onClick={() => handleCellClick(rowIndex, colIndex)}
                       className={`
-                        w-10 h-10 rounded-full transition-all duration-200
-                        ${cell === 0 ? 'bg-amber-900' : ''}
-                        ${cell === 1 ? 'bg-amber-600 shadow-inner' : ''}
-                        ${isSelected ? 'ring-4 ring-yellow-400 scale-110' : ''}
-                        ${isValidMove ? 'ring-2 ring-green-400 bg-green-900' : ''}
-                        ${cell === 1 && !isSelected ? 'hover:bg-amber-500' : ''}
+                        w-10 h-10 rounded-full transition-all duration-200 transform
+                        ${cell === 0 ? 'bg-gradient-to-br from-amber-900 to-amber-950' : ''}
+                        ${cell === 1 ? 'bg-gradient-to-br from-amber-400 to-amber-600 shadow-lg shadow-amber-500/30' : ''}
+                        ${isSelected ? 'ring-4 ring-yellow-300 scale-110 shadow-lg shadow-yellow-500/50' : ''}
+                        ${isValidMove ? 'ring-2 ring-green-400 bg-gradient-to-br from-green-800 to-green-900 scale-105' : ''}
+                        ${cell === 1 && !isSelected ? 'hover:from-amber-300 hover:to-amber-500 hover:scale-105' : ''}
                       `}
                     />
                   )

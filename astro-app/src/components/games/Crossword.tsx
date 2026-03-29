@@ -227,7 +227,7 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
 
         {/* Grid */}
         <div className="flex justify-center mb-6">
-          <div className="inline-grid gap-0.5 bg-gradient-to-br from-slate-800 to-slate-950 p-1 rounded-xl shadow-2xl">
+          <div className="inline-grid gap-0.5 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-2 rounded-xl shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
             {grid.map((row, rowIndex) => (
               <div key={rowIndex} className="flex gap-0.5">
                 {row.map((cell, colIndex) => (
@@ -235,15 +235,14 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
                     key={colIndex}
                     onClick={() => handleCellClick(rowIndex, colIndex)}
                     className={`
-                      w-10 h-10 relative flex items-center justify-center text-xl font-bold transition-all
+                      w-10 h-10 relative flex items-center justify-center text-xl font-bold transition-all duration-150
                       ${cell.isBlack
                         ? 'bg-gradient-to-br from-slate-800 to-slate-950'
-                        : 'bg-gradient-to-br from-white to-gray-100 text-slate-900 shadow-inner'}
+                        : 'bg-gradient-to-br from-white via-gray-50 to-gray-100 text-slate-900 shadow-inner ring-1 ring-gray-200'}
                       ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex
-                        ? 'ring-2 ring-blue-500 scale-105 shadow-lg shadow-blue-500/50 z-10'
-                        : 'hover:brightness-95'}
+                        ? 'ring-2 ring-blue-400 scale-110 shadow-lg shadow-blue-500/50 z-10 bg-gradient-to-br from-blue-100 to-blue-200' : 'hover:brightness-95 hover:scale-105'}
                       ${!cell.isBlack && cell.letter === cell.answer && cell.letter
-                        ? 'bg-gradient-to-br from-green-200 to-green-300 shadow-inner' : ''}
+                        ? 'bg-gradient-to-br from-green-100 to-green-300 ring-1 ring-green-400 shadow-lg shadow-green-500/20' : ''}
                     `}
                   >
                     {cell.number && (

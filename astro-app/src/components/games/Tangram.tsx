@@ -157,7 +157,7 @@ export default function Tangram() {
         </div>
 
         {/* Target Display */}
-        <div className={`mb-6 p-4 rounded-xl ${darkMode ? 'bg-slate-700' : 'bg-gray-100'}`}>
+        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br ${darkMode ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-gray-100 to-gray-200 shadow-lg'}`}>
           <div className={`text-sm font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
             Target Shape:
           </div>
@@ -165,7 +165,7 @@ export default function Tangram() {
             <svg width="200" height="120" viewBox="0 0 200 120">
               <polygon
                 points={TARGETS[currentTarget].points.map(p => p.join(',')).join(' ')}
-                fill="none"
+                fill={darkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.2)'}
                 stroke={darkMode ? '#60A5FA' : '#3B82F6'}
                 strokeWidth="2"
                 strokeDasharray="5,5"
@@ -177,10 +177,10 @@ export default function Tangram() {
               <button
                 key={i}
                 onClick={() => setCurrentTarget(i)}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`w-3 h-3 rounded-full transition-all transform ${
                   i === currentTarget
-                    ? 'bg-blue-500 scale-125'
-                    : darkMode ? 'bg-slate-600' : 'bg-gray-400'
+                    ? 'bg-gradient-to-br from-blue-400 to-blue-600 scale-125 shadow-lg shadow-blue-500/50'
+                    : darkMode ? 'bg-slate-600 hover:bg-slate-500' : 'bg-gray-400 hover:bg-gray-500'
                 }`}
               />
             ))}

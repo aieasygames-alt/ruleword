@@ -255,48 +255,51 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
   // 渲染单元格
   const renderCell = (cell: Cell, row: number, col: number) => {
     let content = ''
-    let bgClass = 'bg-slate-800'
+    let bgClass = 'bg-gradient-to-br from-slate-700 to-slate-800'
     let textClass = ''
+    let extraClass = ''
 
     switch (cell) {
       case '#':
-        bgClass = 'bg-amber-700'
+        bgClass = 'bg-gradient-to-br from-amber-600 to-amber-800 shadow-lg shadow-amber-900/50'
         content = ''
+        extraClass = 'border-amber-900'
         break
       case '$':
-        bgClass = 'bg-slate-700'
+        bgClass = 'bg-gradient-to-br from-amber-400 to-amber-600 shadow-lg shadow-amber-500/30'
         content = '📦'
-        textClass = 'text-2xl'
+        textClass = 'text-2xl drop-shadow-lg'
         break
       case '.':
-        bgClass = 'bg-slate-600'
+        bgClass = 'bg-gradient-to-br from-slate-500 to-slate-600'
         content = '✖️'
-        textClass = 'text-xl opacity-60'
+        textClass = 'text-xl opacity-70'
         break
       case '@':
-        bgClass = 'bg-slate-700'
+        bgClass = 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/30'
         content = '😊'
-        textClass = 'text-2xl'
+        textClass = 'text-2xl animate-pulse'
         break
       case '+':
-        bgClass = 'bg-slate-600'
+        bgClass = 'bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/30'
         content = '😊'
-        textClass = 'text-2xl'
+        textClass = 'text-2xl animate-pulse'
         break
       case '*':
-        bgClass = 'bg-green-700'
+        bgClass = 'bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/30'
         content = '📦'
-        textClass = 'text-2xl'
+        textClass = 'text-2xl drop-shadow-lg'
+        extraClass = 'ring-2 ring-green-400'
         break
       case ' ':
-        bgClass = 'bg-slate-800'
+        bgClass = 'bg-gradient-to-br from-slate-700 to-slate-800'
         break
     }
 
     return (
       <div
         key={`${row}-${col}`}
-        className={`w-10 h-10 flex items-center justify-center ${bgClass} ${textClass} border border-slate-600`}
+        className={`w-10 h-10 flex items-center justify-center ${bgClass} ${textClass} border border-slate-600/50 ${extraClass} transition-all duration-200`}
       >
         {content}
       </div>
