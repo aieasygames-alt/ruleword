@@ -22,6 +22,21 @@ export default function Pong({ settings, onBack }: PongProps) {
   const [winner, setWinner] = useState<'player' | 'ai' | null>(null)
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
 
+  interface Particle {
+    x: number
+    y: number
+    vx: number
+    vy: number
+    color: string
+    life: number
+  }
+
+  interface TrailPoint {
+    x: number
+    y: number
+    time: number
+  }
+
   const gameRef = useRef<{
     playerY: number
     aiY: number
@@ -32,6 +47,8 @@ export default function Pong({ settings, onBack }: PongProps) {
     playerSpeed: number
     aiSpeed: number
     ballSpeed: number
+    particles: Particle[]
+    trail: TrailPoint[]
   }>({
     playerY: 200,
     aiY: 200,
@@ -42,6 +59,8 @@ export default function Pong({ settings, onBack }: PongProps) {
     playerSpeed: 0,
     aiSpeed: 5,
     ballSpeed: 5,
+    particles: [],
+    trail: [],
   })
 
   const isDark = settings.darkMode
@@ -101,22 +120,43 @@ export default function Pong({ settings, onBack }: PongProps) {
 
     let animationId: number
 
+    const addParticles = (x: number, y: number, color: string) => {
+      const game = gameRef.current
+      for (let i = 0; i < 10; i++) {
+        game.particles.push({
+          x, y,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          color,
+          life: 1
+        })
+      }
+    }
+
     const gameLoop = () => {
       const game = gameRef.current
+      const now = Date.now()
 
-      // Clear canvas
-      ctx.fillStyle = isDark ? '#0f172a' : '#e5e7eb'
+      // Clear canvas with gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, CANVAS_WIDTH, 0)
+      bgGradient.addColorStop(0, isDark ? '#0c1929' : '#c7d2fe')
+      bgGradient.addColorStop(0.5, isDark ? '#1e293b' : '#e0e7ff')
+      bgGradient.addColorStop(1, isDark ? '#0c1929' : '#c7d2fe')
+      ctx.fillStyle = bgGradient
       ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
 
-      // Draw center line
-      ctx.setLineDash([10, 10])
-      ctx.strokeStyle = isDark ? '#334155' : '#9ca3af'
-      ctx.lineWidth = 2
+      // Draw center line with glow
+      ctx.setLineDash([15, 10])
+      ctx.strokeStyle = isDark ? 'rgba(100, 116, 139, 0.5)' : 'rgba(100, 116, 139, 0.3)'
+      ctx.lineWidth = 3
+      ctx.shadowColor = isDark ? '#3b82f6' : '#6366f1'
+      ctx.shadowBlur = 10
       ctx.beginPath()
       ctx.moveTo(CANVAS_WIDTH / 2, 0)
       ctx.lineTo(CANVAS_WIDTH / 2, CANVAS_HEIGHT)
       ctx.stroke()
       ctx.setLineDash([])
+      ctx.shadowBlur = 0
 
       // Update player paddle
       game.playerY += game.playerSpeed
@@ -201,17 +241,90 @@ export default function Pong({ settings, onBack }: PongProps) {
         })
       }
 
-      // Draw paddles
-      ctx.fillStyle = isDark ? '#3b82f6' : '#2563eb'
-      ctx.fillRect(20, game.playerY, PADDLE_WIDTH, PADDLE_HEIGHT)
+      // Update ball trail
+      game.trail.push({ x: game.ballX + BALL_SIZE / 2, y: game.ballY + BALL_SIZE / 2, time: now })
+      game.trail = game.trail.filter(t => now - t.time < 200)
 
-      ctx.fillStyle = isDark ? '#ef4444' : '#dc2626'
-      ctx.fillRect(CANVAS_WIDTH - PADDLE_WIDTH - 20, game.aiY, PADDLE_WIDTH, PADDLE_HEIGHT)
+      // Draw ball trail
+      game.trail.forEach((t, i) => {
+        const alpha = 1 - (now - t.time) / 200
+        ctx.fillStyle = `rgba(251, 191, 36, ${alpha * 0.5})`
+        ctx.beginPath()
+        ctx.arc(t.x, t.y, BALL_SIZE / 2 * alpha, 0, Math.PI * 2)
+        ctx.fill()
+      })
 
-      // Draw ball
-      ctx.fillStyle = isDark ? '#fbbf24' : '#f59e0b'
+      // Update and draw particles
+      game.particles = game.particles.filter(p => {
+        p.x += p.vx
+        p.y += p.vy
+        p.life -= 0.03
+        p.vx *= 0.95
+        p.vy *= 0.95
+        if (p.life > 0) {
+          ctx.fillStyle = p.color.replace('1)', `${p.life})`)
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, 3 * p.life, 0, Math.PI * 2)
+          ctx.fill()
+          return true
+        }
+        return false
+      })
+
+      // Draw player paddle with glow and gradient
+      ctx.shadowColor = '#3b82f6'
+      ctx.shadowBlur = 15
+      const playerGradient = ctx.createLinearGradient(20, game.playerY, 20 + PADDLE_WIDTH, game.playerY + PADDLE_HEIGHT)
+      playerGradient.addColorStop(0, '#60a5fa')
+      playerGradient.addColorStop(0.5, '#3b82f6')
+      playerGradient.addColorStop(1, '#1d4ed8')
+      ctx.fillStyle = playerGradient
+      ctx.beginPath()
+      ctx.roundRect(20, game.playerY, PADDLE_WIDTH, PADDLE_HEIGHT, 6)
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // Player paddle highlight
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
+      ctx.fillRect(22, game.playerY + 2, PADDLE_WIDTH - 4, 3)
+
+      // Draw AI paddle with glow and gradient
+      ctx.shadowColor = '#ef4444'
+      ctx.shadowBlur = 15
+      const aiGradient = ctx.createLinearGradient(CANVAS_WIDTH - PADDLE_WIDTH - 20, game.aiY, CANVAS_WIDTH - 20, game.aiY + PADDLE_HEIGHT)
+      aiGradient.addColorStop(0, '#f87171')
+      aiGradient.addColorStop(0.5, '#ef4444')
+      aiGradient.addColorStop(1, '#b91c1c')
+      ctx.fillStyle = aiGradient
+      ctx.beginPath()
+      ctx.roundRect(CANVAS_WIDTH - PADDLE_WIDTH - 20, game.aiY, PADDLE_WIDTH, PADDLE_HEIGHT, 6)
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // AI paddle highlight
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.3)'
+      ctx.fillRect(CANVAS_WIDTH - PADDLE_WIDTH - 18, game.aiY + 2, PADDLE_WIDTH - 4, 3)
+
+      // Draw ball with glow
+      ctx.shadowColor = '#fbbf24'
+      ctx.shadowBlur = 20
+      const ballGradient = ctx.createRadialGradient(
+        game.ballX + BALL_SIZE / 2, game.ballY + BALL_SIZE / 2, 0,
+        game.ballX + BALL_SIZE / 2, game.ballY + BALL_SIZE / 2, BALL_SIZE / 2
+      )
+      ballGradient.addColorStop(0, '#fef3c7')
+      ballGradient.addColorStop(0.5, '#fbbf24')
+      ballGradient.addColorStop(1, '#d97706')
+      ctx.fillStyle = ballGradient
       ctx.beginPath()
       ctx.arc(game.ballX + BALL_SIZE / 2, game.ballY + BALL_SIZE / 2, BALL_SIZE / 2, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // Ball highlight
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'
+      ctx.beginPath()
+      ctx.arc(game.ballX + BALL_SIZE / 2 - 2, game.ballY + BALL_SIZE / 2 - 2, 3, 0, Math.PI * 2)
       ctx.fill()
 
       // Draw scores
