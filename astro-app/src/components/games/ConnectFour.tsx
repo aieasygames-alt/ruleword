@@ -487,7 +487,7 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
 
         {/* Board */}
         <div
-          className={`${cardBgClass} border ${borderClass} rounded-xl p-2 relative`}
+          className="bg-blue-700 rounded-2xl p-3 shadow-xl relative border-4 border-blue-800"
           style={{ maxWidth: 'fit-content', margin: '0 auto' }}
         >
           {/* Preview piece */}
@@ -510,7 +510,7 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
                   onMouseLeave={() => setHoveredCol(null)}
                   disabled={!!winner || isDraw}
                   className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shadow-lg
-                    ${cell === null ? (settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-200 to-gray-400') : ''}
+                    ${cell === null ? (settings.darkMode ? 'bg-slate-800 shadow-inner' : 'bg-gray-300 shadow-inner') : ''}
                     ${cell === 'red' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : ''}
                     ${cell === 'yellow' ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-yellow-500/50' : ''}
                     ${isWinningCell(rowIndex, colIndex) ? 'ring-4 ring-white ring-opacity-80 animate-pulse shadow-xl scale-110' : ''}
@@ -521,7 +521,7 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
                   }}
                 >
                   {cell && (
-                    <span className="w-3 h-3 rounded-full bg-white/30" />
+                    <span className="w-5 h-5 rounded-full bg-white/30 self-start mt-1 ml-1" />
                   )}
                 </button>
               ))

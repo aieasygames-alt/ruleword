@@ -352,8 +352,16 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
                     'bg-gradient-to-br from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300'}
                   ${!cell && !winner && !isDraw && isPlayerTurn ? 'cursor-pointer hover:scale-105' : 'cursor-default'}`}
               >
-                {cell === 'X' && <span className="text-white drop-shadow-lg">✕</span>}
-                {cell === 'O' && <span className="text-white drop-shadow-lg">○</span>}
+                {cell === 'X' && (
+                  <svg className="w-10 h-10 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3} strokeLinecap="round">
+                    <path d="M6 6l12 12M6 18L18 6" />
+                  </svg>
+                )}
+                {cell === 'O' && (
+                  <svg className="w-10 h-10 text-white drop-shadow-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={3}>
+                    <circle cx="12" cy="12" r="7" />
+                  </svg>
+                )}
               </button>
             ))}
           </div>

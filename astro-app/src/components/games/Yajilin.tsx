@@ -212,7 +212,7 @@ export default function Yajilin({ settings }: Props) {
                   key={c}
                   onClick={() => toggleCell(r, c)}
                   disabled={cell.clue !== null}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-sm font-bold transition-all border ${
+                  className={`relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-sm font-bold transition-all border ${
                     cell.clue !== null
                       ? `${isDark ? 'bg-gradient-to-br from-slate-500 to-slate-600 border-slate-400' : 'bg-gradient-to-br from-gray-100 to-gray-200 border-gray-300'} cursor-default`
                       : cell.isBlack
@@ -235,7 +235,22 @@ export default function Yajilin({ settings }: Props) {
                       </span>
                     </div>
                   )}
-                  {cell.isPath && !cell.clue && <span className="text-white">●</span>}
+                  {cell.isPath && !cell.clue && (() => {
+                    const hasPathUp = r > 0 && grid[r - 1][c].isPath
+                    const hasPathDown = r < GRID_SIZE - 1 && grid[r + 1][c].isPath
+                    const hasPathLeft = c > 0 && grid[r][c - 1].isPath
+                    const hasPathRight = c < GRID_SIZE - 1 && grid[r][c + 1].isPath
+                    const neighborCount = [hasPathUp, hasPathDown, hasPathLeft, hasPathRight].filter(Boolean).length
+                    return (
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100">
+                        {hasPathUp && <line x1="50" y1="50" x2="50" y2="0" stroke="white" strokeWidth="6" strokeLinecap="round" />}
+                        {hasPathDown && <line x1="50" y1="50" x2="50" y2="100" stroke="white" strokeWidth="6" strokeLinecap="round" />}
+                        {hasPathLeft && <line x1="50" y1="50" x2="0" y2="50" stroke="white" strokeWidth="6" strokeLinecap="round" />}
+                        {hasPathRight && <line x1="50" y1="50" x2="100" y2="50" stroke="white" strokeWidth="6" strokeLinecap="round" />}
+                        {neighborCount !== 2 && <circle cx="50" cy="50" r="4" fill="white" />}
+                      </svg>
+                    )
+                  })()}
                 </button>
               ))}
             </div>

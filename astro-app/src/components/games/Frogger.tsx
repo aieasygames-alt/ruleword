@@ -238,8 +238,32 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
         ctx.fillStyle = goals[i] ? '#22c55e' : '#0d9488'
         ctx.fillRect(gx * CELL_SIZE, 0, 2 * CELL_SIZE, CELL_SIZE)
         if (goals[i]) {
-          ctx.font = '20px Arial'
-          ctx.fillText('🐸', gx * CELL_SIZE + 5, CELL_SIZE - 8)
+          // Draw a small canvas frog in the goal slot
+          const gFrogX = gx * CELL_SIZE + CELL_SIZE
+          const gFrogY = CELL_SIZE / 2
+          const gR = CELL_SIZE * 0.3
+          ctx.beginPath()
+          ctx.arc(gFrogX, gFrogY, gR, 0, Math.PI * 2)
+          ctx.fillStyle = '#22c55e'
+          ctx.fill()
+          ctx.strokeStyle = '#15803d'
+          ctx.lineWidth = 1.5
+          ctx.stroke()
+          // Eyes
+          ctx.beginPath()
+          ctx.arc(gFrogX - gR * 0.4, gFrogY - gR * 0.4, gR * 0.22, 0, Math.PI * 2)
+          ctx.fillStyle = '#ffffff'
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(gFrogX + gR * 0.4, gFrogY - gR * 0.4, gR * 0.22, 0, Math.PI * 2)
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(gFrogX - gR * 0.4, gFrogY - gR * 0.4, gR * 0.1, 0, Math.PI * 2)
+          ctx.fillStyle = '#1a1a2e'
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(gFrogX + gR * 0.4, gFrogY - gR * 0.4, gR * 0.1, 0, Math.PI * 2)
+          ctx.fill()
         }
       })
 
@@ -250,11 +274,64 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
       // Draw logs and turtles
       for (const obj of objectsRef.current) {
         if (obj.type === 'log') {
+          const logX = obj.x * CELL_SIZE
+          const logY = obj.y * CELL_SIZE
+          const logW = obj.width * CELL_SIZE
+          const logH = CELL_SIZE
+          const logR = logH / 2
+
+          // Log body with rounded ends (stadium shape)
+          ctx.beginPath()
+          ctx.moveTo(logX + logR, logY)
+          ctx.lineTo(logX + logW - logR, logY)
+          ctx.arc(logX + logW - logR, logY + logR, logR, -Math.PI / 2, Math.PI / 2)
+          ctx.lineTo(logX + logR, logY + logH)
+          ctx.arc(logX + logR, logY + logR, logR, Math.PI / 2, -Math.PI / 2)
+          ctx.closePath()
           ctx.fillStyle = '#78350f'
-          ctx.fillRect(obj.x * CELL_SIZE, obj.y * CELL_SIZE, obj.width * CELL_SIZE, CELL_SIZE)
+          ctx.fill()
           ctx.strokeStyle = '#92400e'
           ctx.lineWidth = 2
-          ctx.strokeRect(obj.x * CELL_SIZE, obj.y * CELL_SIZE, obj.width * CELL_SIZE, CELL_SIZE)
+          ctx.stroke()
+
+          // Wood grain lines (horizontal dark lines)
+          ctx.strokeStyle = '#451a03'
+          ctx.lineWidth = 1
+          const grainOffsets = [0.3, 0.5, 0.7]
+          for (const offset of grainOffsets) {
+            const gy = logY + logH * offset
+            ctx.beginPath()
+            ctx.moveTo(logX + logR, gy)
+            ctx.lineTo(logX + logW - logR, gy)
+            ctx.stroke()
+          }
+
+          // Bark texture dots
+          ctx.fillStyle = '#92400e'
+          const barkPositions = [0.2, 0.4, 0.6, 0.8]
+          for (const bp of barkPositions) {
+            const bx = logX + logW * bp
+            if (bx > logX + logR && bx < logX + logW - logR) {
+              ctx.beginPath()
+              ctx.arc(bx, logY + logH * 0.15, 1.5, 0, Math.PI * 2)
+              ctx.fill()
+              ctx.beginPath()
+              ctx.arc(bx + 5, logY + logH * 0.85, 1.5, 0, Math.PI * 2)
+              ctx.fill()
+            }
+          }
+
+          // End rings (tree rings on rounded ends)
+          ctx.strokeStyle = '#5c2d0e'
+          ctx.lineWidth = 1
+          // Left end ring
+          ctx.beginPath()
+          ctx.arc(logX + logR, logY + logR, logR * 0.5, 0, Math.PI * 2)
+          ctx.stroke()
+          // Right end ring
+          ctx.beginPath()
+          ctx.arc(logX + logW - logR, logY + logR, logR * 0.5, 0, Math.PI * 2)
+          ctx.stroke()
         } else if (obj.type === 'turtle') {
           ctx.fillStyle = '#065f46'
           for (let i = 0; i < obj.width; i++) {
@@ -284,14 +361,108 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
       }
       ctx.setLineDash([])
 
+      // Helper: rounded rectangle
+      const drawRoundedRect = (x: number, y: number, w: number, h: number, r: number) => {
+        ctx.beginPath()
+        ctx.moveTo(x + r, y)
+        ctx.lineTo(x + w - r, y)
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r)
+        ctx.lineTo(x + w, y + h - r)
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
+        ctx.lineTo(x + r, y + h)
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r)
+        ctx.lineTo(x, y + r)
+        ctx.quadraticCurveTo(x, y, x + r, y)
+        ctx.closePath()
+      }
+
       // Draw cars and trucks
+      const carColors = ['#ef4444', '#3b82f6', '#a855f7', '#f97316', '#ec4899']
+      const truckColors = ['#f59e0b', '#10b981', '#6366f1', '#14b8a6']
+
       for (const obj of objectsRef.current) {
         if (obj.type === 'car') {
-          ctx.fillStyle = obj.direction === 1 ? '#ef4444' : '#3b82f6'
-          ctx.fillRect(obj.x * CELL_SIZE + 2, obj.y * CELL_SIZE + 4, (obj.width * CELL_SIZE) - 4, CELL_SIZE - 8)
+          const carX = obj.x * CELL_SIZE + 2
+          const carY = obj.y * CELL_SIZE + 4
+          const carW = obj.width * CELL_SIZE - 4
+          const carH = CELL_SIZE - 8
+          const colorIdx = obj.y % carColors.length
+          const carColor = carColors[colorIdx]
+
+          // Car body (rounded rectangle)
+          drawRoundedRect(carX, carY, carW, carH, 5)
+          ctx.fillStyle = carColor
+          ctx.fill()
+          ctx.strokeStyle = '#1e293b'
+          ctx.lineWidth = 1
+          ctx.stroke()
+
+          // Windshield (lighter rectangle at front of car)
+          const windW = carW * 0.25
+          const windH = carH * 0.6
+          const windX = obj.direction === 1 ? carX + carW - windW - 3 : carX + 3
+          const windY = carY + (carH - windH) / 2
+          drawRoundedRect(windX, windY, windW, windH, 2)
+          ctx.fillStyle = 'rgba(186, 230, 253, 0.7)'
+          ctx.fill()
+
+          // Headlights
+          const hlY = carY + carH / 2
+          const hlX = obj.direction === 1 ? carX + carW - 2 : carX + 2
+          ctx.beginPath()
+          ctx.arc(hlX, hlY - carH * 0.2, 2, 0, Math.PI * 2)
+          ctx.fillStyle = '#fef08a'
+          ctx.fill()
+          ctx.beginPath()
+          ctx.arc(hlX, hlY + carH * 0.2, 2, 0, Math.PI * 2)
+          ctx.fill()
+
         } else if (obj.type === 'truck') {
-          ctx.fillStyle = obj.direction === 1 ? '#f59e0b' : '#10b981'
-          ctx.fillRect(obj.x * CELL_SIZE + 2, obj.y * CELL_SIZE + 2, (obj.width * CELL_SIZE) - 4, CELL_SIZE - 4)
+          const truckX = obj.x * CELL_SIZE + 2
+          const truckY = obj.y * CELL_SIZE + 2
+          const truckW = obj.width * CELL_SIZE - 4
+          const truckH = CELL_SIZE - 4
+          const colorIdx = obj.y % truckColors.length
+          const truckColor = truckColors[colorIdx]
+
+          // Cargo section (main body, slightly darker)
+          const cargoW = truckW * 0.65
+          const cargoX = obj.direction === 1 ? truckX : truckX + truckW - cargoW
+          drawRoundedRect(cargoX, truckY, cargoW, truckH, 3)
+          ctx.fillStyle = truckColor
+          ctx.fill()
+          ctx.strokeStyle = '#1e293b'
+          ctx.lineWidth = 1
+          ctx.stroke()
+
+          // Cargo detail lines
+          ctx.strokeStyle = 'rgba(0,0,0,0.15)'
+          ctx.lineWidth = 1
+          for (let lx = cargoX + 8; lx < cargoX + cargoW - 4; lx += 10) {
+            ctx.beginPath()
+            ctx.moveTo(lx, truckY + 3)
+            ctx.lineTo(lx, truckY + truckH - 3)
+            ctx.stroke()
+          }
+
+          // Cab section (front, slightly lighter)
+          const cabW = truckW * 0.35
+          const cabX = obj.direction === 1 ? truckX + cargoW : truckX
+          drawRoundedRect(cabX, truckY + 1, cabW, truckH - 2, 4)
+          ctx.fillStyle = truckColor
+          ctx.fill()
+          ctx.strokeStyle = '#1e293b'
+          ctx.lineWidth = 1
+          ctx.stroke()
+
+          // Cab windshield
+          const cabWindW = cabW * 0.6
+          const cabWindH = truckH * 0.45
+          const cabWindX = obj.direction === 1 ? cabX + cabW - cabWindW - 2 : cabX + 2
+          const cabWindY = truckY + (truckH - cabWindH) / 2
+          drawRoundedRect(cabWindX, cabWindY, cabWindW, cabWindH, 2)
+          ctx.fillStyle = 'rgba(186, 230, 253, 0.7)'
+          ctx.fill()
         }
       }
 
@@ -346,9 +517,67 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
         }
       }
 
-      // Draw frog
-      ctx.font = `${CELL_SIZE - 4}px Arial`
-      ctx.fillText('🐸', frogPos.x * CELL_SIZE + 2, frogPos.y * CELL_SIZE + CELL_SIZE - 4)
+      // Draw frog (canvas-drawn, not emoji)
+      const frogCenterX = frogPos.x * CELL_SIZE + CELL_SIZE / 2
+      const frogCenterY = frogPos.y * CELL_SIZE + CELL_SIZE / 2
+      const frogRadius = CELL_SIZE * 0.38
+
+      // Body
+      ctx.beginPath()
+      ctx.arc(frogCenterX, frogCenterY, frogRadius, 0, Math.PI * 2)
+      ctx.fillStyle = '#22c55e'
+      ctx.fill()
+      ctx.strokeStyle = '#15803d'
+      ctx.lineWidth = 2
+      ctx.stroke()
+
+      // Eyes (two bumps on top)
+      const eyeOffsetX = frogRadius * 0.55
+      const eyeOffsetY = -frogRadius * 0.55
+      const eyeRadius = frogRadius * 0.32
+
+      // Left eye
+      ctx.beginPath()
+      ctx.arc(frogCenterX - eyeOffsetX, frogCenterY + eyeOffsetY, eyeRadius, 0, Math.PI * 2)
+      ctx.fillStyle = '#ffffff'
+      ctx.fill()
+      ctx.strokeStyle = '#15803d'
+      ctx.lineWidth = 1.5
+      ctx.stroke()
+      // Left pupil
+      ctx.beginPath()
+      ctx.arc(frogCenterX - eyeOffsetX, frogCenterY + eyeOffsetY, eyeRadius * 0.45, 0, Math.PI * 2)
+      ctx.fillStyle = '#1a1a2e'
+      ctx.fill()
+
+      // Right eye
+      ctx.beginPath()
+      ctx.arc(frogCenterX + eyeOffsetX, frogCenterY + eyeOffsetY, eyeRadius, 0, Math.PI * 2)
+      ctx.fillStyle = '#ffffff'
+      ctx.fill()
+      ctx.strokeStyle = '#15803d'
+      ctx.lineWidth = 1.5
+      ctx.stroke()
+      // Right pupil
+      ctx.beginPath()
+      ctx.arc(frogCenterX + eyeOffsetX, frogCenterY + eyeOffsetY, eyeRadius * 0.45, 0, Math.PI * 2)
+      ctx.fillStyle = '#1a1a2e'
+      ctx.fill()
+
+      // Front legs (small bumps on sides)
+      ctx.fillStyle = '#22c55e'
+      ctx.strokeStyle = '#15803d'
+      ctx.lineWidth = 1.5
+      // Left leg
+      ctx.beginPath()
+      ctx.ellipse(frogCenterX - frogRadius * 0.9, frogCenterY + frogRadius * 0.3, frogRadius * 0.25, frogRadius * 0.15, -Math.PI / 6, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.stroke()
+      // Right leg
+      ctx.beginPath()
+      ctx.ellipse(frogCenterX + frogRadius * 0.9, frogCenterY + frogRadius * 0.3, frogRadius * 0.25, frogRadius * 0.15, Math.PI / 6, 0, Math.PI * 2)
+      ctx.fill()
+      ctx.stroke()
 
       gameLoopRef.current = requestAnimationFrame(gameLoop)
     }

@@ -59,14 +59,18 @@ const TARGETS = [
   { id: 'house', points: [[0, 80], [50, 0], [100, 80], [100, 100], [0, 100]] },
 ];
 
-export default function Tangram() {
+type Props = {
+  settings?: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+}
+
+export default function Tangram({ settings }: Props = { settings: undefined }) {
   const [shapes, setShapes] = useState<Shape[]>(() =>
     SHAPES.map((s, i) => ({ ...s, x: 50 + i * 80, y: 300, rotation: 0, placed: false }))
   );
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
   const [currentTarget, setCurrentTarget] = useState(0);
   const [gameWon, setGameWon] = useState(false);
-  const [darkMode] = useState(true);
+  const isDark = settings?.darkMode ?? true;
 
   const handleShapeClick = useCallback((shapeId: string) => {
     setSelectedShape(shapeId);
@@ -76,12 +80,16 @@ export default function Tangram() {
     if (!selectedShape) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    // Snap to 10px grid for easier alignment
+    x = Math.round((x - 25) / 10) * 10;
+    y = Math.round((y - 25) / 10) * 10;
 
     setShapes(prev => prev.map(shape =>
       shape.id === selectedShape
-        ? { ...shape, x: x - 25, y: y - 25, placed: true }
+        ? { ...shape, x, y, placed: true }
         : shape
     ));
 
@@ -117,7 +125,7 @@ export default function Tangram() {
     if (!allPlaced || shapes.length === 0) return;
 
     // Check each shape center is within the target polygon bounding box (with tolerance)
-    const tolerance = 80;
+    const tolerance = 30;
     let allInTarget = true;
     for (const shape of shapes) {
       const cx = shape.x + 50;
@@ -149,15 +157,15 @@ export default function Tangram() {
   }, []);
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <div className={`max-w-4xl w-full rounded-2xl shadow-2xl p-6 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
+    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
+      <div className={`max-w-4xl w-full rounded-2xl shadow-2xl p-6 ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className={`text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               Tangram 七巧板
             </h1>
-            <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
               Arrange shapes to form the target!
             </p>
           </div>
@@ -168,7 +176,7 @@ export default function Tangram() {
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
                 !selectedShape
                   ? 'bg-slate-600 cursor-not-allowed'
-                  : darkMode
+                  : isDark
                     ? 'bg-blue-600 hover:bg-blue-500 text-white'
                     : 'bg-blue-600 hover:bg-blue-500 text-white'
               }`}
@@ -178,7 +186,7 @@ export default function Tangram() {
             <button
               onClick={resetGame}
               className={`px-4 py-2 rounded-lg font-semibold transition-all ${
-                darkMode
+                isDark
                   ? 'bg-green-600 hover:bg-green-500 text-white'
                   : 'bg-green-600 hover:bg-green-500 text-white'
               }`}
@@ -189,16 +197,16 @@ export default function Tangram() {
         </div>
 
         {/* Target Display */}
-        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br ${darkMode ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-gray-100 to-gray-200 shadow-lg'}`}>
-          <div className={`text-sm font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
+        <div className={`mb-6 p-4 rounded-xl bg-gradient-to-br ${isDark ? 'from-slate-700 to-slate-800 shadow-lg shadow-slate-900/50' : 'from-gray-100 to-gray-200 shadow-lg'}`}>
+          <div className={`text-sm font-semibold mb-2 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
             Target Shape:
           </div>
           <div className="flex justify-center">
             <svg width="200" height="120" viewBox="0 0 200 120">
               <polygon
                 points={TARGETS[currentTarget].points.map(p => p.join(',')).join(' ')}
-                fill={darkMode ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.2)'}
-                stroke={darkMode ? '#60A5FA' : '#3B82F6'}
+                fill={isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.2)'}
+                stroke={isDark ? '#60A5FA' : '#3B82F6'}
                 strokeWidth="2"
                 strokeDasharray="5,5"
               />
@@ -212,7 +220,7 @@ export default function Tangram() {
                 className={`w-3 h-3 rounded-full transition-all transform ${
                   i === currentTarget
                     ? 'bg-gradient-to-br from-blue-400 to-blue-600 scale-125 shadow-lg shadow-blue-500/50'
-                    : darkMode ? 'bg-slate-600 hover:bg-slate-500' : 'bg-gray-400 hover:bg-gray-500'
+                    : isDark ? 'bg-slate-600 hover:bg-slate-500' : 'bg-gray-400 hover:bg-gray-500'
                 }`}
               />
             ))}
@@ -221,7 +229,7 @@ export default function Tangram() {
 
         {/* Game Area */}
         <div
-          className={`relative border-2 border-dashed rounded-xl mb-6 cursor-crosshair ${darkMode ? 'border-slate-600 bg-slate-700/50' : 'border-gray-400 bg-gray-100'}`}
+          className={`relative border-2 border-dashed rounded-xl mb-6 cursor-crosshair ${isDark ? 'border-slate-600 bg-slate-700/50' : 'border-gray-400 bg-gray-100'}`}
           style={{ height: '400px' }}
           onClick={handleCanvasClick}
         >
@@ -248,7 +256,7 @@ export default function Tangram() {
               <polygon
                 points={shape.points.map(p => p.join(',')).join(' ')}
                 fill={shape.color}
-                stroke={darkMode ? '#fff' : '#000'}
+                stroke={isDark ? '#fff' : '#000'}
                 strokeWidth="1"
               />
             </svg>
@@ -256,11 +264,11 @@ export default function Tangram() {
         </div>
 
         {/* Instructions */}
-        <div className={`p-4 rounded-xl ${darkMode ? 'bg-slate-700' : 'bg-gray-100'}`}>
-          <div className={`text-sm font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
+        <div className={`p-4 rounded-xl ${isDark ? 'bg-slate-700' : 'bg-gray-100'}`}>
+          <div className={`text-sm font-semibold mb-2 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
             How to Play:
           </div>
-          <ul className={`text-sm space-y-1 ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+          <ul className={`text-sm space-y-1 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
             <li>• Click a shape to select it, then click the canvas to place it</li>
             <li>• Use the Rotate button to rotate the selected shape</li>
             <li>• Arrange all 7 shapes to form the target</li>
@@ -270,17 +278,17 @@ export default function Tangram() {
 
         {/* Win Message */}
         {gameWon && (
-          <div className={`mt-6 p-6 rounded-xl text-center ${darkMode ? 'bg-green-900/50' : 'bg-green-100'}`}>
-            <h2 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+          <div className={`mt-6 p-6 rounded-xl text-center ${isDark ? 'bg-green-900/50' : 'bg-green-100'}`}>
+            <h2 className={`text-3xl font-bold mb-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
               🎉 Complete!
             </h2>
-            <p className={`text-lg mb-4 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
+            <p className={`text-lg mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
               You solved the Tangram puzzle!
             </p>
             <button
               onClick={resetGame}
               className={`px-6 py-3 rounded-xl font-semibold transition-all ${
-                darkMode
+                isDark
                   ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white'
                   : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white'
               }`}

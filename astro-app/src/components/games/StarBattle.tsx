@@ -63,6 +63,13 @@ const REGION_COLORS = [
   'bg-orange-500/30',
   'bg-indigo-500/30',
   'bg-teal-500/30',
+  'bg-rose-500/30',
+  'bg-lime-500/30',
+  'bg-amber-500/30',
+  'bg-sky-500/30',
+  'bg-fuchsia-500/30',
+  'bg-emerald-500/30',
+  'bg-violet-500/30',
 ]
 
 function createInitialState(size: number): CellState[][] {
@@ -235,7 +242,7 @@ export default function StarBattle({ settings, onBack }: StarBattleProps) {
   return (
     <div className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <header className={`sticky top-0 z-10 ${isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-white/90 border-gray-300'} border-b backdrop-blur-xl`}>
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
             onClick={onBack}
@@ -316,7 +323,9 @@ export default function StarBattle({ settings, onBack }: StarBattleProps) {
                       className={`${regionColor} border border-slate-600 flex items-center justify-center cursor-pointer transition-colors hover:opacity-80`}
                       style={{ width: cellSize, height: cellSize }}
                     >
-                      {cell === 'star' && <span className="text-2xl">⭐</span>}
+                      {cell === 'star' && <svg className="w-7 h-7" viewBox="0 0 24 24" fill="#FBBF24" stroke="#F59E0B" strokeWidth="1">
+  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+</svg>}
                       {cell === 'x' && <span className="text-slate-500 text-xl">✕</span>}
                     </div>
                   )

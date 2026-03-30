@@ -320,7 +320,7 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
         {/* Board */}
         <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
           <div
-            className="grid gap-2 max-w-xs mx-auto"
+            className="grid gap-2 max-w-sm mx-auto"
             style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
           >
             {board.map((row, rowIndex) =>
@@ -336,9 +336,6 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
                     }
                     ${!isWon ? 'hover:opacity-80 cursor-pointer' : ''}`}
                 >
-                  <span className={`transition-transform duration-200 ${isOn ? 'scale-110' : 'scale-0'}`}>
-                    {isOn ? '💡' : ''}
-                  </span>
                 </button>
               ))
             )}

@@ -44,30 +44,232 @@ function getDailySeed(): number {
   return Math.floor((now - startDate) / 86400000)
 }
 
-// 生成简单环和提示
-function generatePuzzle(size: number, rng: () => number): { clues: number[][], solution: EdgeState[][][] } {
-  const clues = Array(size).fill(null).map(() => Array(size).fill(-1))
+// Generate a random loop using a random walk that creates varied shapes
+function generateRandomLoop(size: number, rng: () => number): { row: number; col: number }[] {
+  // We'll create a loop on the grid vertices (0..size x 0..size)
+  // Strategy: start from a random point near center, do a random walk,
+  // then connect back to form a loop
+  const maxR = size
+  const maxC = size
+
+  // Start from a random vertex not on the very edge
+  const startR = 1 + Math.floor(rng() * (maxR - 2))
+  const startC = 1 + Math.floor(rng() * (maxC - 2))
+
+  // Random walk to build a path, then close it into a loop
+  const visited = new Set<string>()
+  const path: { row: number; col: number }[] = [{ row: startR, col: startC }]
+  visited.add(`${startR},${startC}`)
+
+  const dirs = [
+    { dr: -1, dc: 0 }, // up
+    { dr: 1, dc: 0 },  // down
+    { dr: 0, dc: -1 }, // left
+    { dr: 0, dc: 1 },  // right
+  ]
+
+  let current = { row: startR, col: startC }
+  const maxSteps = size * size * 2
+
+  for (let step = 0; step < maxSteps; step++) {
+    // Shuffle directions
+    const shuffled = [...dirs].sort(() => rng() - 0.5)
+    let moved = false
+
+    for (const { dr, dc } of shuffled) {
+      const nr = current.row + dr
+      const nc = current.col + dc
+
+      // Check bounds
+      if (nr < 0 || nr > maxR || nc < 0 || nc > maxC) continue
+
+      // Check if we can close the loop back to start (need at least 4 steps)
+      if (path.length >= 4 && nr === startR && nc === startC) {
+        path.push({ row: nr, col: nc })
+        return path
+      }
+
+      // Don't revisit
+      if (visited.has(`${nr},${nc}`)) continue
+
+      // Check that this step won't create a self-intersection
+      // (edge from current to nr,nc shouldn't cross any existing edge)
+      let edgeCrosses = false
+      for (let i = 0; i < path.length - 1; i++) {
+        const a = path[i]
+        const b = path[i + 1]
+        // Check if edge (current->nr,nc) crosses edge (a->b)
+        if (edgesCross(current.row, current.col, nr, nc, a.row, a.col, b.row, b.col)) {
+          edgeCrosses = true
+          break
+        }
+      }
+      if (edgeCrosses) continue
+
+      // Also check that closing edge from this new point back to start wouldn't cross
+      // We'll check this when we actually try to close
+
+      path.push({ row: nr, col: nc })
+      visited.add(`${nr},${nc}`)
+      current = { row: nr, col: nc }
+      moved = true
+      break
+    }
+
+    if (!moved) {
+      // Backtrack
+      if (path.length <= 2) break
+      const removed = path.pop()!
+      visited.delete(`${removed.row},${removed.col}`)
+      current = path[path.length - 1]
+    }
+  }
+
+  // If we didn't close the loop, force-close it by connecting back
+  if (path.length >= 4 && (path[path.length - 1].row !== startR || path[path.length - 1].col !== startC)) {
+    // Try to find a non-crossing path back
+    path.push({ row: startR, col: startC })
+  }
+
+  return path
+}
+
+// Check if two edges cross each other
+function edgesCross(
+  r1: number, c1: number, r2: number, c2: number,
+  r3: number, c3: number, r4: number, c4: number
+): boolean {
+  // An edge is either horizontal (same row, adjacent cols) or vertical (same col, adjacent rows)
+  // Two edges cross if one is horizontal and one is vertical and they share no endpoints
+  const horiz1 = r1 === r2 && Math.abs(c1 - c2) === 1
+  const vert1 = c1 === c2 && Math.abs(r1 - r2) === 1
+  const horiz2 = r3 === r4 && Math.abs(c3 - c4) === 1
+  const vert2 = c3 === c4 && Math.abs(r3 - r4) === 1
+
+  if (horiz1 && vert2) {
+    // H edge spans c1..c2, V edge is at col c3
+    const minC = Math.min(c1, c2)
+    const maxC = Math.max(c1, c2)
+    const minR = Math.min(r3, r4)
+    const maxR = Math.max(r3, r4)
+    return c3 > minC && c3 < maxC && r1 > minR && r1 < maxR
+  }
+  if (vert1 && horiz2) {
+    const minC = Math.min(c3, c4)
+    const maxC = Math.max(c3, c4)
+    const minR = Math.min(r1, r2)
+    const maxR = Math.max(r1, r2)
+    return c1 > minC && c1 < maxC && r3 > minR && r3 < maxR
+  }
+  return false
+}
+
+// Convert a loop path into solution edges
+function pathToEdges(
+  path: { row: number; col: number }[],
+  size: number
+): EdgeState[][][] {
   const solution: EdgeState[][][] = Array(size + 1).fill(null).map(() =>
     Array(size + 1).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
   )
 
-  // 生成简单的矩形环
-  const margin = 1
-  const r1 = margin
-  const c1 = margin
-  const r2 = size - margin - 1
-  const c2 = size - margin - 1
+  for (let i = 0; i < path.length - 1; i++) {
+    const a = path[i]
+    const b = path[i + 1]
 
-  // 画上边
-  for (let c = c1; c < c2; c++) solution[r1][c].right = 'on'
-  // 画下边
-  for (let c = c1; c < c2; c++) solution[r2][c].right = 'on'
-  // 画左边
-  for (let r = r1; r < r2; r++) solution[r][c1].down = 'on'
-  // 画右边
-  for (let r = r1; r < r2; r++) solution[r][c2].down = 'on'
+    if (a.row === b.row) {
+      // Horizontal edge
+      const minC = Math.min(a.col, b.col)
+      const maxC = Math.max(a.col, b.col)
+      for (let c = minC; c < maxC; c++) {
+        if (a.row <= size && c <= size) {
+          solution[a.row][c].right = 'on'
+        }
+      }
+    } else {
+      // Vertical edge
+      const minR = Math.min(a.row, b.row)
+      const maxR = Math.max(a.row, b.row)
+      for (let r = minR; r < maxR; r++) {
+        if (r <= size && a.col <= size) {
+          solution[r][a.col].down = 'on'
+        }
+      }
+    }
+  }
 
-  // 计算每个格子的边数
+  return solution
+}
+
+// Generate varied puzzle with interesting loop shapes
+function generatePuzzle(size: number, rng: () => number): { clues: number[][], solution: EdgeState[][][] } {
+  const clues = Array(size).fill(null).map(() => Array(size).fill(-1))
+
+  // Try multiple times to generate a valid loop
+  let path: { row: number; col: number }[] = []
+  let attempts = 0
+  const minLoopLength = Math.max(8, size * 2)
+
+  while (path.length < minLoopLength && attempts < 20) {
+    path = generateRandomLoop(size, rng)
+    attempts++
+  }
+
+  // Fallback: if random walk didn't produce a good loop, create a varied polygon
+  if (path.length < minLoopLength) {
+    const margin = 1
+    const points: { row: number; col: number }[] = []
+
+    // Create an irregular polygon
+    const topRow = margin + Math.floor(rng() * 2)
+    const bottomRow = size - margin - Math.floor(rng() * 2)
+    const leftCol = margin + Math.floor(rng() * 2)
+    const rightCol = size - margin - Math.floor(rng() * 2)
+
+    // Top edge with a bump
+    const topBump = Math.floor((rightCol - leftCol) * 0.3 + rng() * (rightCol - leftCol) * 0.4)
+    const topBumpDepth = Math.floor(1 + rng() * 2)
+
+    // Right edge with a bump
+    const rightBump = Math.floor((bottomRow - topRow) * 0.3 + rng() * (bottomRow - topRow) * 0.4)
+    const rightBumpDepth = Math.floor(1 + rng() * 2)
+
+    // Build path clockwise with bumps
+    // Top-left to top-bump-start
+    for (let c = leftCol; c <= leftCol + topBump; c++) points.push({ row: topRow, col: c })
+    // Top bump (goes up then back down)
+    if (topBumpDepth > 0 && topRow - topBumpDepth >= 0) {
+      for (let r = topRow - 1; r >= topRow - topBumpDepth; r--) points.push({ row: r, col: leftCol + topBump })
+      for (let c = leftCol + topBump + 1; c <= leftCol + topBump + topBumpDepth && c <= rightCol; c++) points.push({ row: topRow - topBumpDepth, col: c })
+      for (let r = topRow - topBumpDepth + 1; r <= topRow; r++) points.push({ row: r, col: Math.min(leftCol + topBump + topBumpDepth, rightCol) })
+    }
+    // Continue top edge to top-right
+    const resumeCol = Math.min(leftCol + topBump + topBumpDepth + 1, rightCol)
+    for (let c = resumeCol; c <= rightCol; c++) points.push({ row: topRow, col: c })
+
+    // Right edge to right-bump-start
+    for (let r = topRow + 1; r <= topRow + rightBump; r++) points.push({ row: r, col: rightCol })
+    // Right bump (goes right then back left)
+    if (rightBumpDepth > 0 && rightCol + rightBumpDepth <= size) {
+      for (let c = rightCol + 1; c <= rightCol + rightBumpDepth; c++) points.push({ row: topRow + rightBump, col: c })
+      for (let r = topRow + rightBump + 1; r <= topRow + rightBump + rightBumpDepth && r <= bottomRow; r++) points.push({ row: r, col: rightCol + rightBumpDepth })
+      for (let c = rightCol + rightBumpDepth - 1; c >= rightCol; c--) points.push({ row: Math.min(topRow + rightBump + rightBumpDepth, bottomRow), col: c })
+    }
+    // Continue right edge to bottom-right
+    const resumeRow = Math.min(topRow + rightBump + rightBumpDepth + 1, bottomRow)
+    for (let r = resumeRow; r <= bottomRow; r++) points.push({ row: r, col: rightCol })
+
+    // Bottom edge
+    for (let c = rightCol - 1; c >= leftCol; c--) points.push({ row: bottomRow, col: c })
+    // Left edge
+    for (let r = bottomRow - 1; r >= topRow; r--) points.push({ row: r, col: leftCol })
+
+    path = points
+  }
+
+  const solution = pathToEdges(path, size)
+
+  // Calculate clue numbers for each cell
   for (let r = 0; r < size; r++) {
     for (let c = 0; c < size; c++) {
       let count = 0
@@ -76,7 +278,7 @@ function generatePuzzle(size: number, rng: () => number): { clues: number[][], s
       if (r > 0 && solution[r - 1][c].down === 'on') count++
       if (c > 0 && solution[r][c - 1].right === 'on') count++
 
-      // 只显示部分提示
+      // Only show some clues to make it a puzzle
       if (count > 0 && rng() < 0.6) {
         clues[r][c] = count
       }
@@ -234,9 +436,9 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                       className="absolute cursor-pointer"
                       style={{
                         left: c * cellSize,
-                        top: r * cellSize - 4,
+                        top: r * cellSize - 7,
                         width: cellSize,
-                        height: 8,
+                        height: 14,
                       }}
                     >
                       <div className={`h-full w-full rounded transition-all ${
@@ -256,9 +458,9 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                       onClick={() => toggleEdge(r, c, 'down')}
                       className="absolute cursor-pointer"
                       style={{
-                        left: c * cellSize - 4,
+                        left: c * cellSize - 7,
                         top: r * cellSize,
-                        width: 8,
+                        width: 14,
                         height: cellSize,
                       }}
                     >
@@ -277,10 +479,10 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
                     key={`d-${r}-${c}`}
                     className={`absolute rounded-full shadow-md ${settings.darkMode ? 'bg-gradient-to-br from-slate-200 to-slate-400' : 'bg-gradient-to-br from-gray-700 to-gray-900'}`}
                     style={{
-                      left: c * cellSize + 4,
-                      top: r * cellSize + 4,
-                      width: 8,
-                      height: 8,
+                      left: c * cellSize + 3,
+                      top: r * cellSize + 3,
+                      width: 10,
+                      height: 10,
                     }}
                   />
                 ))

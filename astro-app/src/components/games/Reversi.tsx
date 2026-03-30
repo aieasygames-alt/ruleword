@@ -249,14 +249,14 @@ export default function Reversi({ settings, onBack }: ReversiProps) {
         </div>
 
         {/* Board */}
-        <div className={`${cellBgClass} rounded-xl p-2 shadow-lg`}>
+        <div className={`${cellBgClass} rounded-xl p-2 shadow-lg border-2 border-green-900`}>
           {board.map((row, rowIdx) => (
             <div key={rowIdx} className="flex">
               {row.map((cell, colIdx) => (
                 <div
                   key={colIdx}
                   onClick={() => handleCellClick(rowIdx, colIdx)}
-                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center cursor-pointer transition-all relative
+                  className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center cursor-pointer transition-all relative border border-green-900/50
                     ${isValidMove(rowIdx, colIdx) && currentPlayer === 1 ? 'hover:opacity-80' : ''}
                     ${isLastMove(rowIdx, colIdx) ? 'ring-2 ring-yellow-400 ring-inset' : ''}
                   `}

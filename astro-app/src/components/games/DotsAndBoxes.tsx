@@ -279,10 +279,6 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
     return () => clearTimeout(timer)
   }, [currentPlayer, gameOver, isAIThinking, horizontalLines, verticalLines, makeMove])
 
-  const dotSize = 12
-  const lineLength = 48
-  const boxSize = lineLength
-
   return (
     <div className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
       {/* Header */}
@@ -322,7 +318,7 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
             <span className="text-slate-400">AI is thinking...</span>
           ) : gameOver ? (
             <span className="font-bold text-lg">
-              {playerScore > aiScore ? '🎉 You Win!' : playerScore < aiScore ? '🤖 AI Wins!' : "It's a Tie!"}
+              {playerScore > aiScore ? 'You Win!' : playerScore < aiScore ? 'AI Wins!' : "It's a Tie!"}
             </span>
           ) : (
             <span className={currentPlayer === 1 ? 'text-blue-400' : 'text-slate-400'}>
@@ -331,77 +327,110 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
           )}
         </div>
 
-        {/* Game Board */}
-        <div className="p-4">
-          {Array(GRID_SIZE).fill(null).map((_, row) => (
-            <div key={row} className="flex flex-col">
-              {/* Horizontal lines + dots */}
-              <div className="flex">
-                {Array(GRID_SIZE).fill(null).map((_, col) => (
-                  <div key={col} className="flex">
-                    <div
-                      className={`rounded-full shadow-lg ${isDark ? 'bg-gradient-to-br from-slate-300 to-slate-500 shadow-slate-500/50' : 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-gray-500/50'}`}
-                      style={{ width: dotSize, height: dotSize }}
-                    />
-                    {col < GRID_SIZE - 1 && (
-                      <div
-                        onClick={() => handleHLineClick(row, col)}
-                        className={`flex items-center justify-center cursor-pointer transition-all transform hover:scale-105 ${
-                          horizontalLines[row]?.[col] === 1
-                            ? 'bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
-                            : horizontalLines[row]?.[col] === 2
-                            ? 'bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/50'
-                            : isDark
-                            ? 'bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
-                            : 'bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
-                        }`}
-                        style={{ width: lineLength, height: dotSize }}
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
+        {/* Game Board - responsive using CSS Grid */}
+        <div
+          className="mx-auto p-4"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${GRID_SIZE * 2 - 1}, minmax(0, 1fr))`,
+            gridTemplateRows: `repeat(${GRID_SIZE * 2 - 1}, minmax(0, 1fr))`,
+            width: '100%',
+            maxWidth: '420px',
+            aspectRatio: '1 / 1',
+          }}
+        >
+          {Array(GRID_SIZE * 2 - 1).fill(null).map((_, gridRow) => (
+            Array(GRID_SIZE * 2 - 1).fill(null).map((_, gridCol) => {
+              const isDotRow = gridRow % 2 === 0
+              const isDotCol = gridCol % 2 === 0
+              const dotRow = gridRow / 2
+              const dotCol = gridCol / 2
 
-              {/* Vertical lines + boxes */}
-              {row < GRID_SIZE - 1 && (
-                <div className="flex">
-                  {Array(GRID_SIZE).fill(null).map((_, col) => (
-                    <div key={col} className="flex">
-                      <div
-                        onClick={() => handleVLineClick(row, col)}
-                        className={`flex items-center justify-center cursor-pointer transition-all transform hover:scale-105 ${
-                          verticalLines[row]?.[col] === 1
-                            ? 'bg-gradient-to-b from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
-                            : verticalLines[row]?.[col] === 2
-                            ? 'bg-gradient-to-b from-red-400 to-red-600 shadow-lg shadow-red-500/50'
-                            : isDark
-                            ? 'bg-gradient-to-b from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
-                            : 'bg-gradient-to-b from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
-                        }`}
-                        style={{ width: dotSize, height: lineLength }}
-                      />
-                      {col < GRID_SIZE - 1 && (
-                        <div
-                          className={`flex items-center justify-center transition-all ${
-                            boxes[row]?.[col] === 1
-                              ? 'bg-gradient-to-br from-blue-400/40 to-blue-600/40 shadow-inner'
-                              : boxes[row]?.[col] === 2
-                              ? 'bg-gradient-to-br from-red-400/40 to-red-600/40 shadow-inner'
-                              : isDark
-                              ? 'bg-gradient-to-br from-slate-800 to-slate-900'
-                              : 'bg-gradient-to-br from-gray-50 to-gray-100'
-                          }`}
-                          style={{ width: lineLength, height: lineLength }}
-                        >
-                          {boxes[row]?.[col] === 1 && <span className="text-2xl">🔵</span>}
-                          {boxes[row]?.[col] === 2 && <span className="text-2xl">🔴</span>}
-                        </div>
-                      )}
+              // Dot position (intersection)
+              if (isDotRow && isDotCol) {
+                return (
+                  <div
+                    key={`${gridRow}-${gridCol}`}
+                    className={`rounded-full shadow-lg ${isDark ? 'bg-gradient-to-br from-slate-300 to-slate-500 shadow-slate-500/50' : 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-gray-500/50'}`}
+                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, width: '60%', height: '60%', margin: 'auto' }}
+                  />
+                )
+              }
+
+              // Horizontal line position
+              if (isDotRow && !isDotCol) {
+                const hRow = dotRow
+                const hCol = Math.floor(gridCol / 2)
+                return (
+                  <div
+                    key={`${gridRow}-${gridCol}`}
+                    onClick={() => handleHLineClick(hRow, hCol)}
+                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm ${
+                      horizontalLines[hRow]?.[hCol] === 1
+                        ? 'bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
+                        : horizontalLines[hRow]?.[hCol] === 2
+                        ? 'bg-gradient-to-r from-red-400 to-red-600 shadow-lg shadow-red-500/50'
+                        : isDark
+                        ? 'bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
+                        : 'bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
+                    }`}
+                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, height: '25%', margin: 'auto 0' }}
+                  />
+                )
+              }
+
+              // Vertical line position
+              if (!isDotRow && isDotCol) {
+                const vRow = Math.floor(gridRow / 2)
+                const vCol = dotCol
+                return (
+                  <div
+                    key={`${gridRow}-${gridCol}`}
+                    onClick={() => handleVLineClick(vRow, vCol)}
+                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm ${
+                      verticalLines[vRow]?.[vCol] === 1
+                        ? 'bg-gradient-to-b from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
+                        : verticalLines[vRow]?.[vCol] === 2
+                        ? 'bg-gradient-to-b from-red-400 to-red-600 shadow-lg shadow-red-500/50'
+                        : isDark
+                        ? 'bg-gradient-to-b from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
+                        : 'bg-gradient-to-b from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
+                    }`}
+                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, width: '25%', margin: '0 auto' }}
+                  />
+                )
+              }
+
+              // Box position
+              const boxRow = Math.floor(gridRow / 2)
+              const boxCol = Math.floor(gridCol / 2)
+              return (
+                <div
+                  key={`${gridRow}-${gridCol}`}
+                  className={`flex items-center justify-center transition-all ${
+                    boxes[boxRow]?.[boxCol] === 1
+                      ? 'bg-gradient-to-br from-blue-400/40 to-blue-600/40 shadow-inner'
+                      : boxes[boxRow]?.[boxCol] === 2
+                      ? 'bg-gradient-to-br from-red-400/40 to-red-600/40 shadow-inner'
+                      : isDark
+                      ? 'bg-gradient-to-br from-slate-800 to-slate-900'
+                      : 'bg-gradient-to-br from-gray-50 to-gray-100'
+                  }`}
+                  style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1 }}
+                >
+                  {boxes[boxRow]?.[boxCol] === 1 && (
+                    <div className="w-1/2 h-1/2 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50 flex items-center justify-center">
+                      <div className="w-1/4 h-1/4 rounded-full bg-blue-200/80" />
                     </div>
-                  ))}
+                  )}
+                  {boxes[boxRow]?.[boxCol] === 2 && (
+                    <div className="w-1/2 h-1/2 rounded-full bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-500/50 flex items-center justify-center">
+                      <div className="w-1/4 h-1/4 rounded-full bg-red-200/80" />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              )
+            })
           ))}
         </div>
 

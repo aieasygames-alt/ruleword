@@ -238,31 +238,60 @@ export default function Chess({ settings }: Props) {
         {settings.language === 'zh' ? '回合' : 'Turn'}: {turn === 'white' ? (settings.language === 'zh' ? '白方' : 'White') : (settings.language === 'zh' ? '黑方' : 'Black')}
       </div>
 
-      <div className="grid grid-cols-8 border-2 border-gray-800">
-        {board.map((row, r) =>
-          row.map((piece, c) => {
-            const isLight = (r + c) % 2 === 0
-            const isSelected = selected?.row === r && selected?.col === c
-            const isValidMove = validMoves.some(m => m.row === r && m.col === c)
+      <div className="relative">
+        <div className="bg-amber-900 p-1 rounded shadow-2xl">
+          <div className="grid grid-cols-8 border-4 border-amber-900 rounded shadow-xl">
+            {board.map((row, r) =>
+              row.map((piece, c) => {
+                const isLight = (r + c) % 2 === 0
+                const isSelected = selected?.row === r && selected?.col === c
+                const isValidMove = validMoves.some(m => m.row === r && m.col === c)
 
-            return (
-              <button
-                key={`${r}-${c}`}
-                onClick={() => handleClick(r, c)}
-                className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-3xl sm:text-4xl relative transition-all ${
-                  isLight
-                    ? 'bg-gradient-to-br from-amber-100 to-amber-200'
-                    : 'bg-gradient-to-br from-amber-600 to-amber-800'
-                } ${isSelected ? 'ring-4 ring-blue-500 shadow-lg shadow-blue-500/50 scale-105' : 'hover:brightness-110'}`}
-              >
-                {piece && PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
-                {isValidMove && <div className="absolute inset-0 flex items-center justify-center">
-                  <div className={`w-4 h-4 rounded-full shadow-lg ${piece ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : 'bg-gradient-to-br from-gray-300 to-gray-500 shadow-gray-500/50'}`} />
-                </div>}
-              </button>
-            )
-          })
-        )}
+                return (
+                  <button
+                    key={`${r}-${c}`}
+                    onClick={() => handleClick(r, c)}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-3xl sm:text-4xl relative transition-all ${
+                      isLight
+                        ? 'bg-gradient-to-br from-amber-100 to-amber-200'
+                        : 'bg-gradient-to-br from-amber-600 to-amber-800'
+                    } ${isSelected ? 'ring-4 ring-blue-500 shadow-lg shadow-blue-500/50 scale-105' : 'hover:brightness-110'}`}
+                  >
+                    {piece && (
+                      <span
+                        className={piece.color === 'white'
+                          ? 'drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]'
+                          : 'drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]'}
+                        style={piece.color === 'white'
+                          ? { color: 'white', WebkitTextStroke: '1px #333' }
+                          : { color: '#1a1a1a', WebkitTextStroke: '0.5px #000' }}
+                      >
+                        {PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
+                      </span>
+                    )}
+                    {isValidMove && <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className={`rounded-full shadow-lg ${piece ? 'w-4 h-4 bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : 'w-6 h-6 bg-black/25 shadow-gray-500/50'}`} />
+                    </div>}
+                  </button>
+                )
+              })
+            )}
+          </div>
+
+          {/* File labels (a-h) */}
+          <div className="grid grid-cols-8 mt-0.5">
+            {['a','b','c','d','e','f','g','h'].map(file => (
+              <div key={file} className="text-center text-xs font-bold text-amber-200">{file}</div>
+            ))}
+          </div>
+        </div>
+
+        {/* Rank labels (8-1) on the left */}
+        <div className="absolute -left-5 top-0 bottom-6 flex flex-col" style={{ marginTop: '4px' }}>
+          {[8,7,6,5,4,3,2,1].map(rank => (
+            <div key={rank} className="flex-1 flex items-center justify-center text-xs font-bold text-amber-200">{rank}</div>
+          ))}
+        </div>
       </div>
 
       <button

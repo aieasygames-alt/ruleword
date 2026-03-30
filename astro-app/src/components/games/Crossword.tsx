@@ -22,6 +22,7 @@ type Props = {
 // Simple crossword puzzle data
 const PUZZLES = [
   {
+    name: 'Animals & Actions',
     grid: [
       ['C', 'A', 'T', '#', 'D', 'O', 'G'],
       ['A', '#', 'O', '#', 'A', '#', 'O'],
@@ -49,6 +50,70 @@ const PUZZLES = [
         { num: 5, clue: 'Consumed food', row: 2, col: 6 },
         { num: 6, clue: 'Flying insect', row: 4, col: 5 },
         { num: 9, clue: 'Avian creature', row: 4, col: 0 },
+      ],
+    },
+  },
+  {
+    name: 'Nature & Weather',
+    grid: [
+      ['#', 'S', 'T', 'O', 'R', 'M', '#'],
+      ['#', 'E', '#', '#', 'I', '#', '#'],
+      ['#', 'A', '#', '#', 'S', 'U', 'N'],
+      ['#', '#', '#', '#', 'E', '#', '#'],
+      ['#', 'R', 'A', 'I', 'N', '#', '#'],
+      ['#', '#', '#', '#', '#', '#', '#'],
+    ],
+    clues: {
+      across: [
+        { num: 1, clue: 'Violent weather event', row: 0, col: 1 },
+        { num: 9, clue: 'Star in the daytime sky', row: 2, col: 4 },
+        { num: 13, clue: 'Water from clouds', row: 4, col: 1 },
+      ],
+      down: [
+        { num: 1, clue: 'Large body of water', row: 0, col: 1 },
+        { num: 4, clue: 'Ascended, went upward', row: 0, col: 4 },
+      ],
+    },
+  },
+  {
+    name: 'Food & Kitchen',
+    grid: [
+      ['#', 'B', 'R', 'E', 'A', 'D', '#'],
+      ['#', 'A', '#', '#', '#', 'I', '#'],
+      ['#', 'K', '#', '#', '#', 'C', '#'],
+      ['#', 'E', '#', '#', '#', 'E', '#'],
+      ['#', '#', '#', '#', '#', '#', '#'],
+    ],
+    clues: {
+      across: [
+        { num: 1, clue: 'Baked staple food', row: 0, col: 1 },
+      ],
+      down: [
+        { num: 1, clue: 'Prepare food with heat', row: 0, col: 1 },
+        { num: 5, clue: 'Cut into small cubes', row: 0, col: 5 },
+      ],
+    },
+  },
+  {
+    name: 'Body & Health',
+    grid: [
+      ['#', 'E', 'Y', 'E', '#', '#'],
+      ['#', 'A', '#', '#', '#', '#'],
+      ['#', 'R', '#', '#', '#', '#'],
+      ['#', '#', 'L', 'I', 'P', '#'],
+      ['#', '#', 'U', '#', '#', '#'],
+      ['#', '#', 'N', '#', '#', '#'],
+      ['#', '#', 'G', '#', '#', '#'],
+      ['#', '#', '#', '#', '#', '#'],
+    ],
+    clues: {
+      across: [
+        { num: 1, clue: 'Organ of sight', row: 0, col: 1 },
+        { num: 6, clue: 'Edge of the mouth', row: 3, col: 2 },
+      ],
+      down: [
+        { num: 1, clue: 'What you hear with', row: 0, col: 1 },
+        { num: 6, clue: 'Breathing organ', row: 3, col: 2 },
       ],
     },
   },
@@ -209,7 +274,7 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-6">
+      <main className="max-w-5xl mx-auto px-4 py-6">
         <input
           ref={inputRef}
           type="text"
@@ -227,15 +292,17 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
 
         {/* Grid */}
         <div className="flex justify-center mb-6">
-          <div className="inline-grid gap-0.5 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-2 rounded-xl shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
+          <div className="inline-grid gap-0.5 sm:gap-1 bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-2 sm:p-3 md:p-4 rounded-xl shadow-2xl shadow-slate-900/50 ring-1 ring-slate-700">
             {grid.map((row, rowIndex) => (
-              <div key={rowIndex} className="flex gap-0.5">
+              <div key={rowIndex} className="flex gap-0.5 sm:gap-1">
                 {row.map((cell, colIndex) => (
                   <button
                     key={colIndex}
                     onClick={() => handleCellClick(rowIndex, colIndex)}
                     className={`
-                      w-10 h-10 relative flex items-center justify-center text-xl font-bold transition-all duration-150
+                      w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16
+                      relative flex items-center justify-center
+                      text-base sm:text-lg md:text-xl lg:text-2xl font-bold transition-all duration-150
                       ${cell.isBlack
                         ? 'bg-gradient-to-br from-slate-800 to-slate-950'
                         : 'bg-gradient-to-br from-white via-gray-50 to-gray-100 text-slate-900 shadow-inner ring-1 ring-gray-200'}
@@ -246,7 +313,7 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
                     `}
                   >
                     {cell.number && (
-                      <span className="absolute top-0 left-0.5 text-[10px] font-normal">{cell.number}</span>
+                      <span className="absolute top-0 left-0.5 text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs font-normal">{cell.number}</span>
                     )}
                     {!cell.isBlack && cell.letter}
                   </button>
@@ -280,9 +347,19 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
           </div>
         </div>
 
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center flex flex-wrap items-center justify-center gap-3">
+          <span className="text-slate-400 text-sm">
+            {t('Puzzle', '谜题')} {currentPuzzle + 1} / {PUZZLES.length}
+            {PUZZLES[currentPuzzle].name && ` — ${PUZZLES[currentPuzzle].name}`}
+          </span>
           <button onClick={initPuzzle} className="px-6 py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold">
             {t('Reset Puzzle', '重置谜题')}
+          </button>
+          <button
+            onClick={() => setCurrentPuzzle((currentPuzzle + 1) % PUZZLES.length)}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold"
+          >
+            {t('Next Puzzle', '下一题')} →
           </button>
         </div>
       </main>
@@ -293,9 +370,17 @@ export default function Crossword({ settings, onBack, toggleLanguage }: Props) {
           <div className="bg-slate-800 rounded-2xl p-8 text-center">
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-2xl font-bold mb-4">{t('Puzzle Complete!', '谜题完成！')}</h2>
-            <button onClick={initPuzzle} className="px-6 py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold">
-              {t('Play Again', '再玩一次')}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button onClick={initPuzzle} className="px-6 py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold">
+                {t('Play Again', '再玩一次')}
+              </button>
+              <button
+                onClick={() => { setCurrentPuzzle((currentPuzzle + 1) % PUZZLES.length) }}
+                className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold"
+              >
+                {t('Next Puzzle', '下一题')} →
+              </button>
+            </div>
           </div>
         </div>
       )}

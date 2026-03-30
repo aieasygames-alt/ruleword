@@ -86,6 +86,10 @@ export default function KillerSudoku({ settings }: Props) {
     return CAGES.find(cage => cage.cells.some(([r, c]) => r === row && c === col))
   }
 
+  const getCageIndex = (row: number, col: number): number => {
+    return CAGES.findIndex(cage => cage.cells.some(([r, c]) => r === row && c === col))
+  }
+
   const checkValid = useCallback((g: number[][]) => {
     // Check all basic Sudoku rules + cage sums
     for (let r = 0; r < 9; r++) {
@@ -162,27 +166,62 @@ export default function KillerSudoku({ settings }: Props) {
         {settings.language === 'zh' ? '虚线格内数字之和等于角上数字' : 'Numbers in dotted areas sum to the corner value'}
       </p>
 
-      <div className="grid grid-cols-9 border-2 border-gray-800">
+      <div className={`grid grid-cols-9 border-2 ${isDark ? 'border-gray-300' : 'border-gray-800'}`}>
         {grid.map((row, r) =>
           row.map((cell, c) => {
             const isSelected = selected?.row === r && selected?.col === c
             const cage = getCage(r, c)
+            const cageIdx = getCageIndex(r, c)
             const isCageStart = cage && cage.cells[0][0] === r && cage.cells[0][1] === c
-            const boxBorder = (c % 3 === 0 ? 'border-l-2 border-gray-800' : 'border-l border-gray-400') +
-                              (r % 3 === 0 ? 'border-t-2 border-gray-800' : 'border-t border-gray-400')
+
+            // Determine per-side borders: thick for cage boundaries and 3x3 box edges, thin otherwise
+            const thickBorder = isDark ? 'border-gray-200' : 'border-gray-800'
+            const thinBorder = isDark ? 'border-gray-500' : 'border-gray-300'
+            const cageEdgeBorder = isDark ? 'border-gray-300' : 'border-gray-700'
+
+            const topCageDiff = r === 0 || getCageIndex(r - 1, c) !== cageIdx
+            const bottomCageDiff = r === 8 || getCageIndex(r + 1, c) !== cageIdx
+            const leftCageDiff = c === 0 || getCageIndex(r, c - 1) !== cageIdx
+            const rightCageDiff = c === 8 || getCageIndex(r, c + 1) !== cageIdx
+
+            const borderTop = r % 3 === 0
+              ? `border-t-2 ${thickBorder}`
+              : topCageDiff
+                ? `border-t-[3px] ${cageEdgeBorder}`
+                : `border-t ${thinBorder}`
+            const borderLeft = c % 3 === 0
+              ? `border-l-2 ${thickBorder}`
+              : leftCageDiff
+                ? `border-l-[3px] ${cageEdgeBorder}`
+                : `border-l ${thinBorder}`
+            const borderBottom = r % 3 === 2
+              ? ''
+              : bottomCageDiff
+                ? `border-b-[3px] ${cageEdgeBorder}`
+                : ''
+            const borderRight = c % 3 === 2
+              ? ''
+              : rightCageDiff
+                ? `border-r-[3px] ${cageEdgeBorder}`
+                : ''
+
+            // Dark mode: override cage bg with dark variant
+            const cageBg = isDark && cage?.color
+              ? cage.color.replace(/bg-(\w+)-(\d+)/, (_, color, shade) => `bg-${color}-${Math.min(Number(shade) + 500, 900)}`)
+              : cage?.color
 
             return (
               <button
                 key={`${r}-${c}`}
                 onClick={() => handleClick(r, c)}
                 className={`w-10 h-10 sm:w-12 sm:h-12 flex flex-col items-center justify-center text-lg font-medium relative
-                  ${cage?.color || (isDark ? 'bg-slate-700' : 'bg-white')}
+                  ${cageBg || (isDark ? 'bg-slate-700' : 'bg-white')}
                   ${isSelected ? 'ring-2 ring-blue-500 z-10' : ''}
-                  ${boxBorder}
+                  ${borderTop} ${borderLeft} ${borderBottom} ${borderRight}
                 `}
               >
-                {isCageStart && <span className="absolute top-0.5 left-1 text-xs font-bold opacity-70">{cage!.sum}</span>}
-                <span className={`text-xl ${isDark ? 'text-gray-900' : 'text-gray-900'}`}>{cell !== 0 ? cell : ''}</span>
+                {isCageStart && <span className={`absolute top-0.5 left-1 text-xs font-bold opacity-70 ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{cage!.sum}</span>}
+                <span className={`text-xl ${isDark ? 'text-white' : 'text-gray-900'}`}>{cell !== 0 ? cell : ''}</span>
               </button>
             )
           })

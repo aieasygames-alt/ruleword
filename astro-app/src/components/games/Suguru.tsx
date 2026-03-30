@@ -421,22 +421,39 @@ export default function Suguru({ settings, onBack }: { settings: { darkMode: boo
           <div className="flex justify-center mb-4">
             <div className={`grid gap-0.5 p-1 rounded-xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-gray-400 to-gray-500'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
               {grid.map((row, r) =>
-                row.map((cell, c) => (
-                  <div
-                    key={`${r}-${c}`}
-                    onClick={() => handleCellClick(r, c)}
-                    className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-all ${regionColors[r]?.[c] || ''} ${
-                      errors.has(`${r}-${c}`) ? 'ring-2 ring-red-500 animate-pulse' : ''
-                    } ${
-                      selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-400 scale-105 shadow-lg shadow-blue-500/30' : ''
-                    } ${
-                      given[r][c] ? 'font-black' : ''
-                    }`}
-                    style={{ width: cellSize, height: cellSize }}
-                  >
-                    {cell || ''}
-                  </div>
-                ))
+                row.map((cell, c) => {
+                  const currentRegion = regions[r]?.[c]
+                  const borderTop = r === 0 || regions[r - 1]?.[c] !== currentRegion
+                  const borderBottom = r === size - 1 || regions[r + 1]?.[c] !== currentRegion
+                  const borderLeft = c === 0 || regions[r]?.[c - 1] !== currentRegion
+                  const borderRight = c === size - 1 || regions[r]?.[c + 1] !== currentRegion
+                  const thick = '2px solid #374151'
+                  const thin = '1px solid #9CA3AF'
+
+                  return (
+                    <div
+                      key={`${r}-${c}`}
+                      onClick={() => handleCellClick(r, c)}
+                      className={`flex items-center justify-center cursor-pointer font-bold text-lg transition-all ${regionColors[r]?.[c] || ''} ${
+                        errors.has(`${r}-${c}`) ? 'ring-2 ring-red-500 animate-pulse' : ''
+                      } ${
+                        selectedCell?.r === r && selectedCell?.c === c ? 'ring-2 ring-blue-400 scale-105 shadow-lg shadow-blue-500/30' : ''
+                      } ${
+                        given[r][c] ? 'font-black' : ''
+                      }`}
+                      style={{
+                        width: cellSize,
+                        height: cellSize,
+                        borderTop: borderTop ? thick : thin,
+                        borderBottom: borderBottom ? thick : thin,
+                        borderLeft: borderLeft ? thick : thin,
+                        borderRight: borderRight ? thick : thin,
+                      }}
+                    >
+                      {cell || ''}
+                    </div>
+                  )
+                })
               )}
             </div>
           </div>

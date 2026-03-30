@@ -326,9 +326,6 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                           </svg>
                         )}
-                        {cell === 'filled' && (
-                          <span className="w-2 h-2 rounded-full bg-gray-500 opacity-50" />
-                        )}
                       </div>
                     ))
                   )}
