@@ -29,9 +29,14 @@ const COLORS = [
   'bg-purple-500',
   'bg-pink-500',
 ]
-const BUBBLE_RADIUS = 20
-const ROWS = 8
+const BUBBLE_RADIUS = 18
+const ROWS = 10
 const COLS = 12
+const CANVAS_WIDTH = 480
+const CANVAS_HEIGHT = 640
+const SHOOTER_Y = CANVAS_HEIGHT - 50
+const SHOOTER_X = CANVAS_WIDTH / 2
+const INITIAL_ROWS = 5
 
 export default function BubbleShooter({ settings, onBack, toggleLanguage }: Props) {
   const [bubbles, setBubbles] = useState<Bubble[]>([])
@@ -43,25 +48,47 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
   const [isShooting, setIsShooting] = useState(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const animFrameRef = useRef<number>(0)
+  const flyingBubbleRef = useRef<{ x: number; y: number; vx: number; vy: number; color: number } | null>(null)
 
   const t = (en: string, zh: string) => settings.language === 'zh' ? zh : en
 
-  // 计算气泡位置
+  // 计算气泡网格位置
   const getBubblePosition = (row: number, col: number): { x: number; y: number } => {
     const offset = row % 2 === 0 ? 0 : BUBBLE_RADIUS
     return {
       x: col * BUBBLE_RADIUS * 2 + BUBBLE_RADIUS + offset,
-      y: row * BUBBLE_RADIUS * 1.7 + BUBBLE_RADIUS,
+      y: row * BUBBLE_RADIUS * 1.732 + BUBBLE_RADIUS + 10, // ~sqrt(3) for hex grid
     }
+  }
+
+  // 获取某行的列数
+  const getColsForRow = (row: number) => row % 2 === 0 ? COLS : COLS - 1
+
+  // 获取邻居格子 (row, col) 偏移
+  const getNeighborPositions = (row: number, col: number): [number, number][] => {
+    const neighbors: [number, number][] = []
+    if (row % 2 === 0) {
+      // 偶数行
+      neighbors.push([row - 1, col - 1], [row - 1, col])
+      neighbors.push([row, col - 1], [row, col + 1])
+      neighbors.push([row + 1, col - 1], [row + 1, col])
+    } else {
+      // 奇数行
+      neighbors.push([row - 1, col], [row - 1, col + 1])
+      neighbors.push([row, col - 1], [row, col + 1])
+      neighbors.push([row + 1, col], [row + 1, col + 1])
+    }
+    return neighbors
   }
 
   // 生成初始气泡
   const generateBubbles = useCallback((): Bubble[] => {
     const newBubbles: Bubble[] = []
-    for (let row = 0; row < ROWS; row++) {
-      const cols = row % 2 === 0 ? COLS : COLS - 1
+    for (let row = 0; row < INITIAL_ROWS; row++) {
+      const cols = getColsForRow(row)
       for (let col = 0; col < cols; col++) {
-        if (Math.random() > 0.3) {
+        if (Math.random() > 0.15) {
           const pos = getBubblePosition(row, col)
           newBubbles.push({
             id: `${row}-${col}`,
@@ -82,6 +109,8 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     setBubbles(generateBubbles())
     setScore(0)
     setGameOver(false)
+    setIsShooting(false)
+    flyingBubbleRef.current = null
     setShooterColor(Math.floor(Math.random() * COLORS.length))
     setNextColor(Math.floor(Math.random() * COLORS.length))
   }, [generateBubbles])
@@ -89,6 +118,257 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
   useEffect(() => {
     initGame()
   }, [initGame])
+
+  // 找到最近的空网格位置（用于吸附）
+  const findSnapPosition = (x: number, y: number, existingBubbles: Bubble[]): { row: number; col: number } | null => {
+    let bestRow = -1
+    let bestCol = -1
+    let minDist = Infinity
+
+    // Only consider positions that are adjacent to existing bubbles or in row 0
+    const candidatePositions: [number, number][] = []
+
+    // Row 0 positions
+    for (let col = 0; col < getColsForRow(0); col++) {
+      candidatePositions.push([0, col])
+    }
+
+    // Positions adjacent to existing bubbles
+    const existingSet = new Set(existingBubbles.map(b => `${b.row}-${b.col}`))
+    const addedSet = new Set<string>()
+    for (const bubble of existingBubbles) {
+      const neighbors = getNeighborPositions(bubble.row, bubble.col)
+      for (const [nr, nc] of neighbors) {
+        const key = `${nr}-${nc}`
+        if (!existingSet.has(key) && !addedSet.has(key) && nr >= 0 && nc >= 0 && nc < getColsForRow(nr)) {
+          candidatePositions.push([nr, nc])
+          addedSet.add(key)
+        }
+      }
+    }
+
+    for (const [row, col] of candidatePositions) {
+      const pos = getBubblePosition(row, col)
+      const dist = Math.sqrt((pos.x - x) ** 2 + (pos.y - y) ** 2)
+      if (dist < minDist) {
+        minDist = dist
+        bestRow = row
+        bestCol = col
+      }
+    }
+
+    if (bestRow >= 0) return { row: bestRow, col: bestCol }
+    return null
+  }
+
+  // 模拟泡泡飞行并确定最终位置
+  const simulateShot = useCallback((angle: number, currentBubbles: Bubble[]): { row: number; col: number } | null => {
+    let x = SHOOTER_X
+    let y = SHOOTER_Y
+    const speed = 12
+    const vx = Math.cos(angle) * speed
+    const vy = -Math.sin(angle) * speed
+    const maxSteps = 500
+
+    for (let step = 0; step < maxSteps; step++) {
+      x += vx
+      y += vy
+
+      // 墙壁反弹
+      if (x - BUBBLE_RADIUS < 0) {
+        x = BUBBLE_RADIUS
+        // Reflect vx (but vx is const, so we'd need to track it)
+        // For simplicity, recalculate
+      }
+      if (x + BUBBLE_RADIUS > CANVAS_WIDTH) {
+        x = CANVAS_WIDTH - BUBBLE_RADIUS
+      }
+
+      // 碰到顶部
+      if (y - BUBBLE_RADIUS <= 0) {
+        return findSnapPosition(x, BUBBLE_RADIUS, currentBubbles)
+      }
+
+      // 碰到已有泡泡
+      for (const bubble of currentBubbles) {
+        const dx = x - bubble.x
+        const dy = y - bubble.y
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < BUBBLE_RADIUS * 2) {
+          // 碰到了，回退一步并吸附
+          const snapX = x - vx
+          const snapY = y - vy
+          return findSnapPosition(snapX, snapY, currentBubbles)
+        }
+      }
+    }
+
+    // Fallback: 找最近的位置
+    return findSnapPosition(x, y, currentBubbles)
+  }, [])
+
+  // 查找匹配的气泡（BFS）
+  const findMatches = (allBubbles: Bubble[], start: Bubble): Bubble[] => {
+    const matches: Bubble[] = []
+    const visited = new Set<string>()
+
+    const queue = [start]
+    visited.add(start.id)
+
+    while (queue.length > 0) {
+      const bubble = queue.shift()!
+      if (bubble.color !== start.color) continue
+      matches.push(bubble)
+
+      // 查找相邻气泡
+      const neighbors = getNeighborPositions(bubble.row, bubble.col)
+      for (const [nr, nc] of neighbors) {
+        const neighbor = allBubbles.find(b => b.row === nr && b.col === nc)
+        if (neighbor && !visited.has(neighbor.id)) {
+          visited.add(neighbor.id)
+          queue.push(neighbor)
+        }
+      }
+    }
+
+    return matches
+  }
+
+  // 移除悬空气泡（BFS从第0行开始）
+  const removeFloating = (allBubbles: Bubble[]): Bubble[] => {
+    const connected = new Set<string>()
+    const queue: Bubble[] = []
+
+    // 从第0行开始
+    allBubbles.filter(b => b.row === 0).forEach(b => {
+      if (!connected.has(b.id)) {
+        connected.add(b.id)
+        queue.push(b)
+      }
+    })
+
+    while (queue.length > 0) {
+      const bubble = queue.shift()!
+      const neighbors = getNeighborPositions(bubble.row, bubble.col)
+      for (const [nr, nc] of neighbors) {
+        const neighbor = allBubbles.find(b => b.row === nr && b.col === nc)
+        if (neighbor && !connected.has(neighbor.id)) {
+          connected.add(neighbor.id)
+          queue.push(neighbor)
+        }
+      }
+    }
+
+    return allBubbles.filter(b => connected.has(b.id))
+  }
+
+  // 发射泡泡（带动画）
+  const handleShoot = useCallback(() => {
+    if (isShooting || gameOver) return
+    setIsShooting(true)
+
+    const canvas = canvasRef.current
+    if (!canvas) { setIsShooting(false); return }
+
+    const currentBubbles = bubbles
+    const snapPos = simulateShot(aimAngle, currentBubbles)
+
+    if (!snapPos) {
+      setIsShooting(false)
+      return
+    }
+
+    // 创建飞行泡泡动画
+    const pos = getBubblePosition(snapPos.row, snapPos.col)
+    const newBubble: Bubble = {
+      id: `shot-${Date.now()}`,
+      row: snapPos.row,
+      col: snapPos.col,
+      color: shooterColor,
+      x: pos.x,
+      y: pos.y,
+    }
+
+    // Animate the bubble flying
+    let curX = SHOOTER_X
+    let curY = SHOOTER_Y
+    const speed = 14
+    let vx = Math.cos(aimAngle) * speed
+    let vy = -Math.sin(aimAngle) * speed
+
+    flyingBubbleRef.current = { x: curX, y: curY, vx, vy, color: shooterColor }
+
+    const animate = () => {
+      const fb = flyingBubbleRef.current
+      if (!fb) return
+
+      fb.x += fb.vx
+      fb.y += fb.vy
+
+      // Wall bounce
+      if (fb.x - BUBBLE_RADIUS < 0) {
+        fb.x = BUBBLE_RADIUS
+        fb.vx = -fb.vx
+      }
+      if (fb.x + BUBBLE_RADIUS > CANVAS_WIDTH) {
+        fb.x = CANVAS_WIDTH - BUBBLE_RADIUS
+        fb.vx = -fb.vx
+      }
+
+      // Check if reached target position (close enough)
+      const dx = fb.x - pos.x
+      const dy = fb.y - pos.y
+      const dist = Math.sqrt(dx * dx + dy * dy)
+
+      // Check collision with existing bubbles
+      let hitBubble = false
+      for (const bubble of currentBubbles) {
+        const bdx = fb.x - bubble.x
+        const bdy = fb.y - bubble.y
+        const bdist = Math.sqrt(bdx * bdx + bdy * bdy)
+        if (bdist < BUBBLE_RADIUS * 2) {
+          hitBubble = true
+          break
+        }
+      }
+
+      if (dist < speed || hitBubble || fb.y - BUBBLE_RADIUS <= 0) {
+        // Reached destination - place bubble
+        flyingBubbleRef.current = null
+
+        setBubbles(prev => {
+          let newBubbles = [...prev, newBubble]
+
+          // 检查匹配
+          const matches = findMatches(newBubbles, newBubble)
+          if (matches.length >= 3) {
+            const matchIds = new Set(matches.map(b => b.id))
+            newBubbles = newBubbles.filter(b => !matchIds.has(b.id))
+            newBubbles = removeFloating(newBubbles)
+            setScore(s => s + matches.length * 10)
+          }
+
+          // 检查游戏结束
+          const maxY = Math.max(...newBubbles.map(b => b.y), 0)
+          if (maxY > CANVAS_HEIGHT - 120) {
+            setGameOver(true)
+          }
+
+          return newBubbles
+        })
+
+        // 切换颜色
+        setShooterColor(nextColor)
+        setNextColor(Math.floor(Math.random() * COLORS.length))
+        setIsShooting(false)
+        return
+      }
+
+      animFrameRef.current = requestAnimationFrame(animate)
+    }
+
+    animFrameRef.current = requestAnimationFrame(animate)
+  }, [isShooting, gameOver, bubbles, aimAngle, shooterColor, nextColor, simulateShot])
 
   // 渲染游戏
   useEffect(() => {
@@ -101,7 +381,7 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     const width = canvas.width
     const height = canvas.height
 
-    // 清空画布 - 添加渐变背景
+    // 清空画布
     const bgGradient = ctx.createLinearGradient(0, 0, 0, height)
     bgGradient.addColorStop(0, '#0f172a')
     bgGradient.addColorStop(0.5, '#1e293b')
@@ -109,72 +389,16 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     ctx.fillStyle = bgGradient
     ctx.fillRect(0, 0, width, height)
 
-    // 绘制气泡
-    bubbles.forEach(bubble => {
-      // 气泡渐变
-      const colors = [
-        { main: '#ef4444', light: '#fca5a5', dark: '#b91c1c' },
-        { main: '#3b82f6', light: '#93c5fd', dark: '#1d4ed8' },
-        { main: '#22c55e', light: '#86efac', dark: '#15803d' },
-        { main: '#eab308', light: '#fde047', dark: '#a16207' },
-        { main: '#a855f7', light: '#d8b4fe', dark: '#7e22ce' },
-        { main: '#ec4899', light: '#f9a8d4', dark: '#be185d' },
-      ]
-      const color = colors[bubble.color]
-
-      // 外层阴影
-      ctx.beginPath()
-      ctx.arc(bubble.x, bubble.y, BUBBLE_RADIUS, 0, Math.PI * 2)
-      ctx.shadowColor = color.main
-      ctx.shadowBlur = 10
-      ctx.fillStyle = color.main
-      ctx.fill()
-      ctx.shadowBlur = 0
-
-      // 渐变填充
-      const gradient = ctx.createRadialGradient(
-        bubble.x - 5, bubble.y - 5, 0,
-        bubble.x, bubble.y, BUBBLE_RADIUS
-      )
-      gradient.addColorStop(0, color.light)
-      gradient.addColorStop(0.5, color.main)
-      gradient.addColorStop(1, color.dark)
-
-      ctx.beginPath()
-      ctx.arc(bubble.x, bubble.y, BUBBLE_RADIUS - 2, 0, Math.PI * 2)
-      ctx.fillStyle = gradient
-      ctx.fill()
-
-      // 高光
-      ctx.beginPath()
-      ctx.arc(bubble.x - 5, bubble.y - 5, 6, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(255,255,255,0.6)'
-      ctx.fill()
-
-      // 小高光
-      ctx.beginPath()
-      ctx.arc(bubble.x + 4, bubble.y + 6, 3, 0, Math.PI * 2)
-      ctx.fillStyle = 'rgba(255,255,255,0.3)'
-      ctx.fill()
-    })
-
-    // 绘制发射器
-    const shooterX = width / 2
-    const shooterY = height - 40
-
-    // 瞄准线
+    // 绘制边界线
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'
+    ctx.lineWidth = 1
     ctx.beginPath()
-    ctx.moveTo(shooterX, shooterY)
-    ctx.lineTo(
-      shooterX + Math.cos(aimAngle) * 200,
-      shooterY - Math.sin(aimAngle) * 200
-    )
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)'
-    ctx.lineWidth = 2
+    ctx.moveTo(0, CANVAS_HEIGHT - 120)
+    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - 120)
     ctx.stroke()
 
-    // 当前气泡
-    const shooterColors = [
+    // 气泡颜色
+    const colorDefs = [
       { main: '#ef4444', light: '#fca5a5', dark: '#b91c1c' },
       { main: '#3b82f6', light: '#93c5fd', dark: '#1d4ed8' },
       { main: '#22c55e', light: '#86efac', dark: '#15803d' },
@@ -182,59 +406,142 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
       { main: '#a855f7', light: '#d8b4fe', dark: '#7e22ce' },
       { main: '#ec4899', light: '#f9a8d4', dark: '#be185d' },
     ]
-    const sColor = shooterColors[shooterColor]
 
-    // 发射器气泡阴影
+    // 绘制函数
+    const drawBubble = (cx: number, cy: number, colorIdx: number, radius: number = BUBBLE_RADIUS) => {
+      const color = colorDefs[colorIdx % colorDefs.length]
+
+      // 外层阴影
+      ctx.beginPath()
+      ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+      ctx.shadowColor = color.main
+      ctx.shadowBlur = 8
+      ctx.fillStyle = color.main
+      ctx.fill()
+      ctx.shadowBlur = 0
+
+      // 渐变填充
+      const gradient = ctx.createRadialGradient(
+        cx - radius * 0.25, cy - radius * 0.25, 0,
+        cx, cy, radius
+      )
+      gradient.addColorStop(0, color.light)
+      gradient.addColorStop(0.5, color.main)
+      gradient.addColorStop(1, color.dark)
+
+      ctx.beginPath()
+      ctx.arc(cx, cy, radius - 1, 0, Math.PI * 2)
+      ctx.fillStyle = gradient
+      ctx.fill()
+
+      // 高光
+      ctx.beginPath()
+      ctx.arc(cx - radius * 0.25, cy - radius * 0.25, radius * 0.3, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(255,255,255,0.5)'
+      ctx.fill()
+
+      ctx.beginPath()
+      ctx.arc(cx + radius * 0.2, cy + radius * 0.3, radius * 0.15, 0, Math.PI * 2)
+      ctx.fillStyle = 'rgba(255,255,255,0.2)'
+      ctx.fill()
+    }
+
+    // 绘制网格中的气泡
+    bubbles.forEach(bubble => {
+      drawBubble(bubble.x, bubble.y, bubble.color)
+    })
+
+    // 绘制飞行中的泡泡
+    const fb = flyingBubbleRef.current
+    if (fb) {
+      drawBubble(fb.x, fb.y, fb.color)
+    }
+
+    // 绘制瞄准线（虚线）
+    ctx.save()
+    ctx.setLineDash([8, 8])
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)'
+    ctx.lineWidth = 2
     ctx.beginPath()
-    ctx.arc(shooterX, shooterY, BUBBLE_RADIUS + 2, 0, Math.PI * 2)
-    ctx.shadowColor = sColor.main
-    ctx.shadowBlur = 15
-    ctx.fillStyle = sColor.main
+    ctx.moveTo(SHOOTER_X, SHOOTER_Y)
+
+    // Draw aim line with wall bounces
+    let aimX = SHOOTER_X
+    let aimY = SHOOTER_Y
+    let aimVx = Math.cos(aimAngle)
+    let aimVy = -Math.sin(aimAngle)
+    const aimSteps = 600
+    const aimStepSize = 2
+
+    for (let i = 0; i < aimSteps; i++) {
+      aimX += aimVx * aimStepSize
+      aimY += aimVy * aimStepSize
+
+      // Wall bounce
+      if (aimX - BUBBLE_RADIUS < 0) {
+        aimX = BUBBLE_RADIUS
+        aimVx = -aimVx
+      }
+      if (aimX + BUBBLE_RADIUS > CANVAS_WIDTH) {
+        aimX = CANVAS_WIDTH - BUBBLE_RADIUS
+        aimVx = -aimVx
+      }
+
+      // Stop at bubble or top
+      let hit = false
+      if (aimY - BUBBLE_RADIUS <= 0) hit = true
+      for (const bubble of bubbles) {
+        const dx = aimX - bubble.x
+        const dy = aimY - bubble.y
+        if (Math.sqrt(dx * dx + dy * dy) < BUBBLE_RADIUS * 2) {
+          hit = true
+          break
+        }
+      }
+      if (hit) break
+    }
+
+    ctx.lineTo(aimX, aimY)
+    ctx.stroke()
+
+    // Aim dot at end
+    ctx.beginPath()
+    ctx.arc(aimX, aimY, 4, 0, Math.PI * 2)
+    ctx.fillStyle = 'rgba(255,255,255,0.4)'
     ctx.fill()
-    ctx.shadowBlur = 0
+    ctx.restore()
 
-    // 发射器气泡渐变
-    const shooterGradient = ctx.createRadialGradient(
-      shooterX - 5, shooterY - 5, 0,
-      shooterX, shooterY, BUBBLE_RADIUS
-    )
-    shooterGradient.addColorStop(0, sColor.light)
-    shooterGradient.addColorStop(0.5, sColor.main)
-    shooterGradient.addColorStop(1, sColor.dark)
-
+    // 绘制发射器底座
     ctx.beginPath()
-    ctx.arc(shooterX, shooterY, BUBBLE_RADIUS, 0, Math.PI * 2)
-    ctx.fillStyle = shooterGradient
+    ctx.arc(SHOOTER_X, SHOOTER_Y, BUBBLE_RADIUS + 8, 0, Math.PI * 2)
+    ctx.fillStyle = 'rgba(255,255,255,0.1)'
     ctx.fill()
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)'
+    ctx.lineWidth = 2
+    ctx.stroke()
 
-    // 发射器高光
-    ctx.beginPath()
-    ctx.arc(shooterX - 5, shooterY - 5, 6, 0, Math.PI * 2)
-    ctx.fillStyle = 'rgba(255,255,255,0.6)'
-    ctx.fill()
+    // 当前泡泡
+    drawBubble(SHOOTER_X, SHOOTER_Y, shooterColor)
 
-    // 下一个气泡
-    const nColor = shooterColors[nextColor]
-    const nextGradient = ctx.createRadialGradient(
-      shooterX + 55, shooterY - 5, 0,
-      shooterX + 60, shooterY, BUBBLE_RADIUS - 5
-    )
-    nextGradient.addColorStop(0, nColor.light)
-    nextGradient.addColorStop(0.5, nColor.main)
-    nextGradient.addColorStop(1, nColor.dark)
+    // 下一个泡泡（缩小显示）
+    drawBubble(SHOOTER_X + 50, SHOOTER_Y, nextColor, BUBBLE_RADIUS - 5)
 
-    ctx.beginPath()
-    ctx.arc(shooterX + 60, shooterY, BUBBLE_RADIUS - 5, 0, Math.PI * 2)
-    ctx.fillStyle = nextGradient
-    ctx.fill()
-
-    // 下一个气泡高光
-    ctx.beginPath()
-    ctx.arc(shooterX + 55, shooterY - 4, 4, 0, Math.PI * 2)
+    // "Next" 标签
+    ctx.font = '10px sans-serif'
     ctx.fillStyle = 'rgba(255,255,255,0.5)'
-    ctx.fill()
+    ctx.textAlign = 'center'
+    ctx.fillText('NEXT', SHOOTER_X + 50, SHOOTER_Y + 20)
 
   }, [bubbles, aimAngle, shooterColor, nextColor])
+
+  // 清理动画
+  useEffect(() => {
+    return () => {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current)
+      }
+    }
+  }, [])
 
   // 鼠标移动瞄准
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -242,143 +549,38 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     if (!canvas) return
 
     const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    // Scale mouse coords to canvas coords
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const x = (e.clientX - rect.left) * scaleX
+    const y = (e.clientY - rect.top) * scaleY
 
-    const shooterX = canvas.width / 2
-    const shooterY = canvas.height - 40
-
-    const angle = Math.atan2(shooterY - y, x - shooterX)
-    // 限制角度
-    const clampedAngle = Math.max(0.2, Math.min(Math.PI - 0.2, angle))
+    const angle = Math.atan2(SHOOTER_Y - y, x - SHOOTER_X)
+    // 限制角度范围（不要太平）
+    const clampedAngle = Math.max(0.15, Math.min(Math.PI - 0.15, angle))
     setAimAngle(clampedAngle)
   }
 
-  // 发射气泡
-  const handleShoot = () => {
-    if (isShooting || gameOver) return
-    setIsShooting(true)
-
-    // 简化版：直接在最近位置添加气泡
+  // 触摸支持
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
     const canvas = canvasRef.current
-    if (!canvas) return
+    if (!canvas || !e.touches[0]) return
 
-    const shooterX = canvas.width / 2
-    const targetX = shooterX + Math.cos(aimAngle) * 100
-    const targetY = canvas.height - 40 - Math.sin(aimAngle) * 100
+    const rect = canvas.getBoundingClientRect()
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const x = (e.touches[0].clientX - rect.left) * scaleX
+    const y = (e.touches[0].clientY - rect.top) * scaleY
 
-    // 找到最近的空位
-    let bestRow = 0
-    let bestCol = 0
-    let minDist = Infinity
-
-    for (let row = 0; row < ROWS + 5; row++) {
-      const cols = row % 2 === 0 ? COLS : COLS - 1
-      for (let col = 0; col < cols; col++) {
-        const existing = bubbles.find(b => b.row === row && b.col === col)
-        if (existing) continue
-
-        const pos = getBubblePosition(row, col)
-        const dist = Math.sqrt((pos.x - targetX) ** 2 + (pos.y - targetY) ** 2)
-
-        if (dist < minDist) {
-          minDist = dist
-          bestRow = row
-          bestCol = col
-        }
-      }
-    }
-
-    // 添加新气泡
-    const pos = getBubblePosition(bestRow, bestCol)
-    const newBubble: Bubble = {
-      id: `shot-${Date.now()}`,
-      row: bestRow,
-      col: bestCol,
-      color: shooterColor,
-      x: pos.x,
-      y: pos.y,
-    }
-
-    setBubbles(prev => {
-      let newBubbles = [...prev, newBubble]
-
-      // 检查匹配
-      const matches = findMatches(newBubbles, newBubble)
-      if (matches.length >= 3) {
-        // 移除匹配的气泡
-        const matchIds = new Set(matches.map(b => b.id))
-        newBubbles = newBubbles.filter(b => !matchIds.has(b.id))
-
-        // 移除悬空气泡
-        newBubbles = removeFloating(newBubbles)
-
-        setScore(s => s + matches.length * 10)
-      }
-
-      // 检查游戏结束
-      const maxY = Math.max(...newBubbles.map(b => b.y), 0)
-      if (maxY > canvas.height - 100) {
-        setGameOver(true)
-      }
-
-      return newBubbles
-    })
-
-    // 切换颜色
-    setShooterColor(nextColor)
-    setNextColor(Math.floor(Math.random() * COLORS.length))
-    setIsShooting(false)
+    const angle = Math.atan2(SHOOTER_Y - y, x - SHOOTER_X)
+    const clampedAngle = Math.max(0.15, Math.min(Math.PI - 0.15, angle))
+    setAimAngle(clampedAngle)
   }
 
-  // 查找匹配的气泡
-  const findMatches = (allBubbles: Bubble[], start: Bubble): Bubble[] => {
-    const matches: Bubble[] = []
-    const visited = new Set<string>()
-
-    const dfs = (bubble: Bubble) => {
-      if (visited.has(bubble.id)) return
-      visited.add(bubble.id)
-
-      if (bubble.color === start.color) {
-        matches.push(bubble)
-
-        // 查找相邻气泡
-        const neighbors = allBubbles.filter(b => {
-          const dx = Math.abs(b.x - bubble.x)
-          const dy = Math.abs(b.y - bubble.y)
-          return dx < BUBBLE_RADIUS * 2.5 && dy < BUBBLE_RADIUS * 2 && b.id !== bubble.id
-        })
-
-        neighbors.forEach(n => dfs(n))
-      }
-    }
-
-    dfs(start)
-    return matches
-  }
-
-  // 移除悬空气泡
-  const removeFloating = (allBubbles: Bubble[]): Bubble[] => {
-    const connected = new Set<string>()
-
-    const dfs = (bubble: Bubble) => {
-      if (connected.has(bubble.id)) return
-      connected.add(bubble.id)
-
-      const neighbors = allBubbles.filter(b => {
-        const dx = Math.abs(b.x - bubble.x)
-        const dy = Math.abs(b.y - bubble.y)
-        return dx < BUBBLE_RADIUS * 2.5 && dy < BUBBLE_RADIUS * 2 && b.id !== bubble.id
-      })
-
-      neighbors.forEach(n => dfs(n))
-    }
-
-    // 从顶行开始找连接的气泡
-    allBubbles.filter(b => b.row === 0).forEach(b => dfs(b))
-
-    return allBubbles.filter(b => connected.has(b.id))
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault()
+    handleShoot()
   }
 
   return (
@@ -416,18 +618,21 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
         <div className="bg-slate-800 rounded-2xl overflow-hidden">
           <canvas
             ref={canvasRef}
-            width={480}
-            height={600}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
             onMouseMove={handleMouseMove}
             onClick={handleShoot}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             className="w-full cursor-crosshair"
+            style={{ touchAction: 'none' }}
           />
         </div>
 
         {/* Instructions */}
         <div className="text-center mt-4 text-slate-400 text-sm">
-          {t('Click to shoot! Match 3 or more bubbles of the same color.',
-            '点击发射！匹配3个或更多相同颜色的泡泡。')}
+          {t('Click or tap to shoot! Match 3+ bubbles of the same color to pop them.',
+            '点击或触摸发射！匹配3个或更多相同颜色的泡泡来消除。')}
         </div>
 
         {/* New Game Button */}
