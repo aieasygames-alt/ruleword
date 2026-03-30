@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 type Piece = {
   type: 'K' | 'A' | 'E' | 'H' | 'R' | 'C' | 'P'
@@ -10,34 +10,43 @@ type Props = {
 }
 
 // 正确的中国象棋初始布局（红方在下，黑方在上）
-// 行0-4是黑方区域，行5-9是红方区域
-// 楚河汉界在行4和行5之间
 const INITIAL_BOARD: (Piece | null)[][] = [
-  // 行0: 黑方底线 车-马-象-士-将-士-象-马-车
   [{ type: 'R', color: 'black' }, { type: 'H', color: 'black' }, { type: 'E', color: 'black' }, { type: 'A', color: 'black' }, { type: 'K', color: 'black' }, { type: 'A', color: 'black' }, { type: 'E', color: 'black' }, { type: 'H', color: 'black' }, { type: 'R', color: 'black' }],
-  // 行1: 空
   [null, null, null, null, null, null, null, null, null],
-  // 行2: 黑炮在第2列和第8列（索引1和7）
   [null, { type: 'C', color: 'black' }, null, null, null, null, null, { type: 'C', color: 'black' }, null],
-  // 行3: 黑卒
   [{ type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }],
-  // 行4: 空（楚河）
   [null, null, null, null, null, null, null, null, null],
-  // 行5: 空（汉界）
   [null, null, null, null, null, null, null, null, null],
-  // 行6: 红兵
   [{ type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }],
-  // 行7: 红炮在第2列和第8列（索引1和7）
   [null, { type: 'C', color: 'red' }, null, null, null, null, null, { type: 'C', color: 'red' }, null],
-  // 行8: 空
   [null, null, null, null, null, null, null, null, null],
-  // 行9: 红方底线 车-马-相-仕-帥-仕-相-马-车
   [{ type: 'R', color: 'red' }, { type: 'H', color: 'red' }, { type: 'E', color: 'red' }, { type: 'A', color: 'red' }, { type: 'K', color: 'red' }, { type: 'A', color: 'red' }, { type: 'E', color: 'red' }, { type: 'H', color: 'red' }, { type: 'R', color: 'red' }],
 ]
 
 const PIECE_NAMES: Record<string, string> = {
   'K-red': '帥', 'A-red': '仕', 'E-red': '相', 'H-red': '馬', 'R-red': '車', 'C-red': '炮', 'P-red': '兵',
   'K-black': '將', 'A-black': '士', 'E-black': '象', 'H-black': '馬', 'R-black': '車', 'C-black': '砲', 'P-black': '卒',
+}
+
+// 棋子价值（用于AI评估）
+const PIECE_VALUES: Record<string, number> = {
+  'K': 10000, 'R': 900, 'C': 450, 'H': 400, 'E': 200, 'A': 200, 'P': 100
+}
+
+// 位置加成表（简化版）
+const POSITION_BONUS = {
+  'P': [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [90, 90, 110, 120, 120, 120, 110, 90, 90],
+    [90, 90, 110, 120, 120, 120, 110, 90, 90],
+    [70, 90, 110, 110, 110, 110, 110, 90, 70],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ]
 }
 
 export default function ChineseChess({ settings }: Props) {
@@ -47,6 +56,9 @@ export default function ChineseChess({ settings }: Props) {
   const [validMoves, setValidMoves] = useState<{ row: number; col: number }[]>([])
   const [gameOver, setGameOver] = useState<string | null>(null)
   const [moveHistory, setMoveHistory] = useState<string[]>([])
+  const [gameMode, setGameMode] = useState<'pvp' | 'ai'>('ai')
+  const [aiDifficulty, setAiDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
+  const [isAiThinking, setIsAiThinking] = useState(false)
 
   const isDark = settings.darkMode
   const isZh = settings.language === 'zh'
@@ -75,7 +87,6 @@ export default function ChineseChess({ settings }: Props) {
     if (!redKing || !blackKing) return false
     if (redKing[1] !== blackKing[1]) return false
 
-    // 检查两将之间是否有棋子
     const minR = Math.min(redKing[0], blackKing[0])
     const maxR = Math.max(redKing[0], blackKing[0])
     for (let r = minR + 1; r < maxR; r++) {
@@ -101,78 +112,51 @@ export default function ChineseChess({ settings }: Props) {
     }
 
     switch (piece.type) {
-      case 'K': // 将/帅 - 只能在九宫格内移动，每次一步
+      case 'K':
         [[0, 1], [0, -1], [1, 0], [-1, 0]].forEach(([dr, dc]) => {
           const nr = row + dr, nc = col + dc
           if (inPalace(nr, nc, piece.color)) addMove(nr, nc)
         })
         break
 
-      case 'A': // 士/仕 - 只能在九宫格内斜着走
+      case 'A':
         [[1, 1], [1, -1], [-1, 1], [-1, -1]].forEach(([dr, dc]) => {
           const nr = row + dr, nc = col + dc
           if (inPalace(nr, nc, piece.color)) addMove(nr, nc)
         })
         break
 
-      case 'E': // 象/相 - 走"田"字，不能过河，有塞象眼
+      case 'E':
         [[2, 2, 1, 1], [2, -2, 1, -1], [-2, 2, -1, 1], [-2, -2, -1, -1]].forEach(([dr, dc, br, bc]) => {
           const nr = row + dr, nc = col + dc
           const blockRow = row + br, blockCol = col + bc
-          // 检查是否塞象眼
           if (boardState[blockRow]?.[blockCol]) return
-          // 检查是否过河
           if (piece.color === 'red' && nr < 5) return
           if (piece.color === 'black' && nr > 4) return
           addMove(nr, nc)
         })
         break
 
-      case 'H': // 马 - 走"日"字，有蹩马腿
-        // 马的8个方向和对应的蹩马腿位置
+      case 'H':
         [
-          [-2, -1, -1, 0], // 上左
-          [-2, 1, -1, 0],  // 上右
-          [2, -1, 1, 0],   // 下左
-          [2, 1, 1, 0],    // 下右
-          [-1, -2, 0, -1], // 左上
-          [-1, 2, 0, 1],   // 左下
-          [1, -2, 0, -1],  // 右上
-          [1, 2, 0, 1],    // 右下
+          [-2, -1, -1, 0], [-2, 1, -1, 0], [2, -1, 1, 0], [2, 1, 1, 0],
+          [-1, -2, 0, -1], [-1, 2, 0, 1], [1, -2, 0, -1], [1, 2, 0, 1],
         ].forEach(([dr, dc, br, bc]) => {
           const nr = row + dr, nc = col + dc
           const blockRow = row + br, blockCol = col + bc
-          // 检查是否蹩马腿
           if (boardState[blockRow]?.[blockCol]) return
           addMove(nr, nc)
         })
         break
 
-      case 'R': // 车 - 直线走，不能跳过棋子
-        // 上
-        for (let r = row - 1; r >= 0; r--) {
-          addMove(r, col)
-          if (boardState[r][col]) break
-        }
-        // 下
-        for (let r = row + 1; r < 10; r++) {
-          addMove(r, col)
-          if (boardState[r][col]) break
-        }
-        // 左
-        for (let c = col - 1; c >= 0; c--) {
-          addMove(row, c)
-          if (boardState[row][c]) break
-        }
-        // 右
-        for (let c = col + 1; c < 9; c++) {
-          addMove(row, c)
-          if (boardState[row][c]) break
-        }
+      case 'R':
+        for (let r = row - 1; r >= 0; r--) { addMove(r, col); if (boardState[r][col]) break }
+        for (let r = row + 1; r < 10; r++) { addMove(r, col); if (boardState[r][col]) break }
+        for (let c = col - 1; c >= 0; c--) { addMove(row, c); if (boardState[row][c]) break }
+        for (let c = col + 1; c < 9; c++) { addMove(row, c); if (boardState[row][c]) break }
         break
 
-      case 'C': // 炮 - 移动时直线走，吃子时需要翻山
-        // 四个方向
+      case 'C':
         const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
         directions.forEach(([dr, dc]) => {
           let foundPlatform = false
@@ -181,19 +165,10 @@ export default function ChineseChess({ settings }: Props) {
           while (r >= 0 && r < 10 && c >= 0 && c < 9) {
             const target = boardState[r][c]
             if (!foundPlatform) {
-              // 还没有翻山，可以移动
-              if (!target) {
-                addMove(r, c)
-              } else {
-                // 遇到棋子，开始翻山
-                foundPlatform = true
-              }
+              if (!target) addMove(r, c)
+              else foundPlatform = true
             } else {
-              // 已经翻山，只能吃子
-              if (target) {
-                addMove(r, c)
-                break
-              }
+              if (target) { addMove(r, c); break }
             }
             r += dr
             c += dc
@@ -201,14 +176,10 @@ export default function ChineseChess({ settings }: Props) {
         })
         break
 
-      case 'P': // 兵/卒 - 过河前只能向前，过河后可以左右
-        const dir = piece.color === 'red' ? -1 : 1 // 红方向上（负），黑方向下（正）
+      case 'P':
+        const dir = piece.color === 'red' ? -1 : 1
         const hasCrossedRiver = piece.color === 'red' ? row <= 4 : row >= 5
-
-        // 向前
         addMove(row + dir, col)
-
-        // 过河后可以左右移动
         if (hasCrossedRiver) {
           addMove(row, col - 1)
           addMove(row, col + 1)
@@ -221,7 +192,6 @@ export default function ChineseChess({ settings }: Props) {
 
   // 检查是否被将军
   const isInCheck = useCallback((color: 'red' | 'black', boardState: (Piece | null)[][]): boolean => {
-    // 找到该方的将/帅
     let kingPos: [number, number] | null = null
     for (let r = 0; r < 10; r++) {
       for (let c = 0; c < 9; c++) {
@@ -233,9 +203,8 @@ export default function ChineseChess({ settings }: Props) {
       }
       if (kingPos) break
     }
-    if (!kingPos) return true // 将/帅被吃了
+    if (!kingPos) return true
 
-    // 检查对方所有棋子是否能吃到将/帅
     const enemyColor = color === 'red' ? 'black' : 'red'
     for (let r = 0; r < 10; r++) {
       for (let c = 0; c < 9; c++) {
@@ -249,56 +218,227 @@ export default function ChineseChess({ settings }: Props) {
       }
     }
 
-    // 检查飞将
     if (kingsFacing(boardState)) return true
-
     return false
   }, [getValidMoves, kingsFacing])
 
-  // 获取合法移动（排除会导致自己被将军的移动）
-  const getLegalMoves = useCallback((row: number, col: number): { row: number; col: number }[] => {
-    const piece = board[row][col]
+  // 获取合法移动
+  const getLegalMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
+    const piece = boardState[row][col]
     if (!piece) return []
 
-    const moves = getValidMoves(row, col, board)
-
+    const moves = getValidMoves(row, col, boardState)
     return moves.filter(move => {
-      // 模拟移动
-      const newBoard = board.map(r => [...r])
+      const newBoard = boardState.map(r => [...r])
       newBoard[move.row][move.col] = newBoard[row][col]
       newBoard[row][col] = null
-
-      // 检查移动后是否会被将军
       return !isInCheck(piece.color, newBoard)
     })
-  }, [board, getValidMoves, isInCheck])
+  }, [getValidMoves, isInCheck])
 
   // 检查是否将死
-  const isCheckmate = useCallback((color: 'red' | 'black'): boolean => {
-    // 检查该方是否有任何合法移动
+  const isCheckmate = useCallback((color: 'red' | 'black', boardState: (Piece | null)[][]): boolean => {
     for (let r = 0; r < 10; r++) {
       for (let c = 0; c < 9; c++) {
-        const piece = board[r][c]
+        const piece = boardState[r][c]
         if (piece && piece.color === color) {
-          const tempSelected = { row: r, col: c }
-          const moves = getValidMoves(r, c, board)
-          // 检查是否有合法移动
-          for (const move of moves) {
-            const newBoard = board.map(row => [...row])
-            newBoard[move.row][move.col] = newBoard[r][c]
-            newBoard[r][c] = null
-            if (!isInCheck(color, newBoard)) {
-              return false // 有合法移动，不是将死
-            }
-          }
+          const moves = getLegalMoves(r, c, boardState)
+          if (moves.length > 0) return false
         }
       }
     }
-    return true // 没有合法移动，将死
-  }, [board, getValidMoves, isInCheck])
+    return true
+  }, [getLegalMoves])
+
+  // AI评估函数
+  const evaluateBoard = useCallback((boardState: (Piece | null)[][], color: 'red' | 'black'): number => {
+    let score = 0
+    const enemyColor = color === 'red' ? 'black' : 'red'
+
+    for (let r = 0; r < 10; r++) {
+      for (let c = 0; c < 9; c++) {
+        const piece = boardState[r][c]
+        if (piece) {
+          let value = PIECE_VALUES[piece.type]
+
+          // 位置加成
+          if (piece.type === 'P' && POSITION_BONUS['P']) {
+            const posValue = piece.color === 'black'
+              ? POSITION_BONUS['P'][r][c]
+              : POSITION_BONUS['P'][9 - r][c]
+            value += posValue
+          }
+
+          // 过河兵加分
+          if (piece.type === 'P') {
+            const crossed = piece.color === 'red' ? r <= 4 : r >= 5
+            if (crossed) value += 50
+          }
+
+          if (piece.color === color) score += value
+          else score -= value
+        }
+      }
+    }
+
+    // 将军加分
+    if (isInCheck(enemyColor, boardState)) score += 50
+
+    return score
+  }, [isInCheck])
+
+  // Minimax with Alpha-Beta pruning
+  const minimax = useCallback((
+    boardState: (Piece | null)[][],
+    depth: number,
+    alpha: number,
+    beta: number,
+    isMaximizing: boolean,
+    aiColor: 'red' | 'black'
+  ): number => {
+    if (depth === 0) {
+      return evaluateBoard(boardState, aiColor)
+    }
+
+    const currentColor = isMaximizing ? aiColor : (aiColor === 'red' ? 'black' : 'red')
+
+    if (isCheckmate(currentColor, boardState)) {
+      return isMaximizing ? -100000 : 100000
+    }
+
+    const moves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
+    for (let r = 0; r < 10; r++) {
+      for (let c = 0; c < 9; c++) {
+        const piece = boardState[r][c]
+        if (piece && piece.color === currentColor) {
+          const legalMoves = getLegalMoves(r, c, boardState)
+          legalMoves.forEach(move => {
+            moves.push({ from: { row: r, col: c }, to: move })
+          })
+        }
+      }
+    }
+
+    if (moves.length === 0) {
+      return isMaximizing ? -100000 : 100000
+    }
+
+    if (isMaximizing) {
+      let maxEval = -Infinity
+      for (const move of moves) {
+        const newBoard = boardState.map(r => [...r])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+        const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, aiColor)
+        maxEval = Math.max(maxEval, evalScore)
+        alpha = Math.max(alpha, evalScore)
+        if (beta <= alpha) break
+      }
+      return maxEval
+    } else {
+      let minEval = Infinity
+      for (const move of moves) {
+        const newBoard = boardState.map(r => [...r])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+        const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, aiColor)
+        minEval = Math.min(minEval, evalScore)
+        beta = Math.min(beta, evalScore)
+        if (beta <= alpha) break
+      }
+      return minEval
+    }
+  }, [evaluateBoard, isCheckmate, getLegalMoves])
+
+  // AI走棋
+  const aiMove = useCallback(() => {
+    if (gameOver || turn !== 'black') return
+
+    setIsAiThinking(true)
+
+    setTimeout(() => {
+      const depth = aiDifficulty === 'easy' ? 1 : aiDifficulty === 'medium' ? 2 : 3
+
+      let bestMove: { from: { row: number; col: number }; to: { row: number; col: number } } | null = null
+      let bestScore = -Infinity
+
+      const moves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
+      for (let r = 0; r < 10; r++) {
+        for (let c = 0; c < 9; c++) {
+          const piece = board[r][c]
+          if (piece && piece.color === 'black') {
+            const legalMoves = getLegalMoves(r, c, board)
+            legalMoves.forEach(move => {
+              moves.push({ from: { row: r, col: c }, to: move })
+            })
+          }
+        }
+      }
+
+      // 随机打乱移动顺序增加变化性
+      for (let i = moves.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        [moves[i], moves[j]] = [moves[j], moves[i]]
+      }
+
+      for (const move of moves) {
+        const newBoard = board.map(r => [...r])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+
+        const score = minimax(newBoard, depth - 1, -Infinity, Infinity, false, 'black')
+
+        if (score > bestScore) {
+          bestScore = score
+          bestMove = move
+        }
+      }
+
+      if (bestMove) {
+        const newBoard = board.map(r => [...r])
+        const movingPiece = newBoard[bestMove.from.row][bestMove.from.col]
+        const capturedPiece = board[bestMove.to.row][bestMove.to.col]
+        newBoard[bestMove.to.row][bestMove.to.col] = movingPiece
+        newBoard[bestMove.from.row][bestMove.from.col] = null
+
+        // 记录移动
+        const fromPos = `${String.fromCharCode(65 + bestMove.from.col)}${10 - bestMove.from.row}`
+        const toPos = `${String.fromCharCode(65 + bestMove.to.col)}${10 - bestMove.to.row}`
+        const pieceName = PIECE_NAMES[`${movingPiece!.type}-${movingPiece!.color}`]
+        const captureText = capturedPiece ? ` 吃${PIECE_NAMES[`${capturedPiece.type}-${capturedPiece.color}`]}` : ''
+        setMoveHistory(prev => [...prev, `${pieceName} ${fromPos}-${toPos}${captureText}`])
+
+        if (capturedPiece?.type === 'K') {
+          setGameOver(isZh ? '黑方胜利！' : 'Black wins!')
+        }
+
+        setBoard(newBoard)
+        const nextTurn = 'red'
+        setTurn(nextTurn)
+
+        setTimeout(() => {
+          if (isInCheck(nextTurn, newBoard)) {
+            if (isCheckmate(nextTurn, newBoard)) {
+              setGameOver(isZh ? '黑方将死红方获胜！' : 'Black checkmates and wins!')
+            }
+          }
+        }, 100)
+      }
+
+      setIsAiThinking(false)
+    }, 500)
+  }, [board, gameOver, turn, aiDifficulty, getLegalMoves, minimax, isInCheck, isCheckmate, isZh])
+
+  // AI回合自动走棋
+  useEffect(() => {
+    if (gameMode === 'ai' && turn === 'black' && !gameOver && !isAiThinking) {
+      aiMove()
+    }
+  }, [gameMode, turn, gameOver, isAiThinking, aiMove])
 
   const handleClick = useCallback((row: number, col: number) => {
-    if (gameOver) return
+    if (gameOver || isAiThinking) return
+    if (gameMode === 'ai' && turn === 'black') return // AI模式下不能操作黑方
 
     const piece = board[row][col]
 
@@ -311,14 +451,12 @@ export default function ChineseChess({ settings }: Props) {
         newBoard[row][col] = movingPiece
         newBoard[selected.row][selected.col] = null
 
-        // 记录移动
         const fromPos = `${String.fromCharCode(65 + selected.col)}${10 - selected.row}`
         const toPos = `${String.fromCharCode(65 + col)}${10 - row}`
         const pieceName = PIECE_NAMES[`${movingPiece!.type}-${movingPiece!.color}`]
         const captureText = capturedPiece ? ` 吃${PIECE_NAMES[`${capturedPiece.type}-${capturedPiece.color}`]}` : ''
         setMoveHistory(prev => [...prev, `${pieceName} ${fromPos}-${toPos}${captureText}`])
 
-        // 检查是否吃掉了将/帅
         if (capturedPiece?.type === 'K') {
           setGameOver(turn === 'red'
             ? (isZh ? '红方胜利！' : 'Red wins!')
@@ -329,10 +467,9 @@ export default function ChineseChess({ settings }: Props) {
         const nextTurn = turn === 'red' ? 'black' : 'red'
         setTurn(nextTurn)
 
-        // 检查对方是否被将军或将死
         setTimeout(() => {
           if (isInCheck(nextTurn, newBoard)) {
-            if (isCheckmate(nextTurn)) {
+            if (isCheckmate(nextTurn, newBoard)) {
               setGameOver(turn === 'red'
                 ? (isZh ? '红方将死黑方获胜！' : 'Red checkmates and wins!')
                 : (isZh ? '黑方将死红方获胜！' : 'Black checkmates and wins!'))
@@ -344,69 +481,52 @@ export default function ChineseChess({ settings }: Props) {
         setValidMoves([])
       } else if (piece && piece.color === turn) {
         setSelected({ row, col })
-        setValidMoves(getLegalMoves(row, col))
+        setValidMoves(getLegalMoves(row, col, board))
       } else {
         setSelected(null)
         setValidMoves([])
       }
     } else if (piece && piece.color === turn) {
       setSelected({ row, col })
-      setValidMoves(getLegalMoves(row, col))
+      setValidMoves(getLegalMoves(row, col, board))
     }
-  }, [board, selected, turn, validMoves, gameOver, getLegalMoves, isInCheck, isCheckmate, isZh])
+  }, [board, selected, turn, validMoves, gameOver, isAiThinking, gameMode, getLegalMoves, isInCheck, isCheckmate, isZh])
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     setBoard(INITIAL_BOARD.map(row => [...row]))
     setSelected(null)
     setValidMoves([])
     setTurn('red')
     setGameOver(null)
     setMoveHistory([])
-  }
+    setIsAiThinking(false)
+  }, [])
 
-  // 检查当前位置是否是有效移动目标
   const isValidMoveTarget = (row: number, col: number) =>
     validMoves.some(m => m.row === row && m.col === col)
 
-  // 渲染棋盘格子的辅助函数
   const renderCell = (row: number, col: number) => {
     const piece = board[row][col]
     const isSelected = selected?.row === row && selected?.col === col
     const isValidMove = isValidMoveTarget(row, col)
     const isRiver = row === 4 || row === 5
-    const isPalace = (row <= 2 || row >= 7) && col >= 3 && col <= 5
 
-    // 计算是否显示斜线（九宫格）
-    const showDiagonal = isPalace && (
-      // 上方九宫格的斜线
-      (row === 0 && (col === 3 || col === 5)) ||
-      (row === 1 && col === 4) ||
-      (row === 2 && (col === 3 || col === 5)) ||
-      // 下方九宫格的斜线
-      (row === 7 && (col === 3 || col === 5)) ||
-      (row === 8 && col === 4) ||
-      (row === 9 && (col === 3 || col === 5))
-    )
-
-    // 兵/卒和炮的标记点位置
     const isMarkerPos =
-      // 黑炮位置
       (row === 2 && (col === 1 || col === 7)) ||
-      // 黑卒位置
       (row === 3 && col % 2 === 0) ||
-      // 红兵位置
       (row === 6 && col % 2 === 0) ||
-      // 红炮位置
       (row === 7 && (col === 1 || col === 7))
 
     return (
       <button
         key={`${row}-${col}`}
         onClick={() => handleClick(row, col)}
+        disabled={isAiThinking}
         className={`
           w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center
           relative transition-all duration-150
           ${isSelected ? 'z-10' : ''}
+          ${isAiThinking ? 'cursor-wait' : ''}
         `}
         style={{
           background: isRiver
@@ -414,15 +534,9 @@ export default function ChineseChess({ settings }: Props) {
             : 'linear-gradient(135deg, #F5DEB3 0%, #DEB887 100%)',
         }}
       >
-        {/* 棋盘格子线 */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* 横线 */}
           <div className="absolute top-1/2 left-0 right-0 h-px bg-amber-800/60" />
-          {/* 竖线（楚河汉界处断开） */}
-          {!isRiver && (
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-amber-800/60" />
-          )}
-          {/* 楚河汉界文字 */}
+          {!isRiver && <div className="absolute left-1/2 top-0 bottom-0 w-px bg-amber-800/60" />}
           {row === 4 && col === 4 && (
             <div className="absolute inset-0 flex items-center justify-center text-amber-800/40 text-lg font-bold tracking-widest">
               {isZh ? '楚 河' : 'RIVER'}
@@ -433,7 +547,6 @@ export default function ChineseChess({ settings }: Props) {
               {isZh ? '漢 界' : 'BORDER'}
             </div>
           )}
-          {/* 兵/卒和炮的标记点 */}
           {isMarkerPos && !piece && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-2 h-2 rounded-full border border-amber-800/40" />
@@ -441,7 +554,6 @@ export default function ChineseChess({ settings }: Props) {
           )}
         </div>
 
-        {/* 棋子 */}
         {piece && (
           <div
             className={`
@@ -461,15 +573,9 @@ export default function ChineseChess({ settings }: Props) {
           </div>
         )}
 
-        {/* 有效移动指示器 */}
         {isValidMove && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-            <div
-              className={`
-                rounded-full animate-pulse
-                ${piece ? 'w-8 h-8 border-2 border-red-500/70' : 'w-4 h-4 bg-green-500/60'}
-              `}
-            />
+            <div className={`rounded-full animate-pulse ${piece ? 'w-8 h-8 border-2 border-red-500/70' : 'w-4 h-4 bg-green-500/60'}`} />
           </div>
         )}
       </button>
@@ -481,6 +587,49 @@ export default function ChineseChess({ settings }: Props) {
       <h1 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
         {isZh ? '中国象棋' : 'Chinese Chess'}
       </h1>
+
+      {/* 游戏模式选择 */}
+      <div className="mb-4 flex gap-2">
+        <button
+          onClick={() => { setGameMode('pvp'); resetGame() }}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            gameMode === 'pvp'
+              ? 'bg-blue-600 text-white'
+              : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          {isZh ? '双人对战' : 'PvP'}
+        </button>
+        <button
+          onClick={() => { setGameMode('ai'); resetGame() }}
+          className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+            gameMode === 'ai'
+              ? 'bg-blue-600 text-white'
+              : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'
+          }`}
+        >
+          {isZh ? '人机对战' : 'vs AI'}
+        </button>
+      </div>
+
+      {/* AI难度选择 */}
+      {gameMode === 'ai' && (
+        <div className="mb-4 flex gap-2">
+          {(['easy', 'medium', 'hard'] as const).map(diff => (
+            <button
+              key={diff}
+              onClick={() => { setAiDifficulty(diff); resetGame() }}
+              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                aiDifficulty === diff
+                  ? 'bg-amber-600 text-white'
+                  : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'
+              }`}
+            >
+              {diff === 'easy' ? (isZh ? '简单' : 'Easy') : diff === 'medium' ? (isZh ? '中等' : 'Medium') : (isZh ? '困难' : 'Hard')}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* 游戏状态 */}
       <div className={`mb-3 flex items-center gap-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -495,30 +644,23 @@ export default function ChineseChess({ settings }: Props) {
             {isZh ? '将军！' : 'Check!'}
           </span>
         )}
+        {isAiThinking && (
+          <span className="text-amber-500 font-medium animate-pulse">
+            {isZh ? 'AI思考中...' : 'AI thinking...'}
+          </span>
+        )}
       </div>
 
       {/* 棋盘 */}
       <div className="relative">
-        {/* 外边框 */}
-        <div
-          className="absolute -inset-2 rounded-lg shadow-2xl"
-          style={{
-            background: 'linear-gradient(135deg, #8B4513 0%, #654321 50%, #8B4513 100%)',
-          }}
+        <div className="absolute -inset-2 rounded-lg shadow-2xl"
+          style={{ background: 'linear-gradient(135deg, #8B4513 0%, #654321 50%, #8B4513 100%)' }}
         />
-
-        {/* 棋盘主体 */}
-        <div
-          className="relative grid gap-0 rounded overflow-hidden"
-          style={{
-            gridTemplateColumns: 'repeat(9, 1fr)',
-            boxShadow: 'inset 0 0 20px rgba(139, 69, 19, 0.3)',
-          }}
+        <div className="relative grid gap-0 rounded overflow-hidden"
+          style={{ gridTemplateColumns: 'repeat(9, 1fr)', boxShadow: 'inset 0 0 20px rgba(139, 69, 19, 0.3)' }}
         >
           {board.map((row, r) => row.map((_, c) => renderCell(r, c)))}
         </div>
-
-        {/* 坐标标签 */}
         <div className="absolute -left-6 top-0 bottom-0 flex flex-col justify-around text-xs text-amber-800/60">
           {[...Array(10)].map((_, i) => (
             <span key={i} className="h-11 sm:h-12 flex items-center">{10 - i}</span>
@@ -538,26 +680,10 @@ export default function ChineseChess({ settings }: Props) {
 
       {/* 控制按钮 */}
       <div className="mt-8 flex gap-4">
-        <button
-          onClick={resetGame}
-          className={`
-            px-6 py-2 rounded-lg font-medium transition-colors
-            ${isDark
-              ? 'bg-slate-700 hover:bg-slate-600 text-white'
-              : 'bg-amber-600 hover:bg-amber-500 text-white'}
-          `}
-        >
+        <button onClick={resetGame} className={`px-6 py-2 rounded-lg font-medium transition-colors ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-amber-600 hover:bg-amber-500 text-white'}`}>
           {isZh ? '重新开始' : 'New Game'}
         </button>
-        <button
-          onClick={() => setMoveHistory([])}
-          className={`
-            px-6 py-2 rounded-lg font-medium transition-colors
-            ${isDark
-              ? 'bg-slate-700 hover:bg-slate-600 text-white'
-              : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}
-          `}
-        >
+        <button onClick={() => setMoveHistory([])} className={`px-6 py-2 rounded-lg font-medium transition-colors ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}`}>
           {isZh ? '清除记录' : 'Clear History'}
         </button>
       </div>
@@ -570,10 +696,7 @@ export default function ChineseChess({ settings }: Props) {
           </h3>
           <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto">
             {moveHistory.map((move, i) => (
-              <span
-                key={i}
-                className={`text-xs px-2 py-1 rounded ${isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}
-              >
+              <span key={i} className={`text-xs px-2 py-1 rounded ${isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>
                 {i + 1}. {move}
               </span>
             ))}
@@ -586,10 +709,7 @@ export default function ChineseChess({ settings }: Props) {
         <div className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
           <div className={`p-8 rounded-2xl text-center shadow-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-3xl font-bold text-green-500 mb-4">{gameOver}</h2>
-            <button
-              onClick={resetGame}
-              className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium transition-colors"
-            >
+            <button onClick={resetGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium transition-colors">
               {isZh ? '再来一次' : 'Play Again'}
             </button>
           </div>
