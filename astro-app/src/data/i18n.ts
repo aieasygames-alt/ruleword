@@ -110,8 +110,8 @@ export const i18n: Record<Language, {
   fr: {
     nav: { home: 'Accueil', feedback: 'Commentaires', language: 'Langue' },
     home: {
-      title: 'Jeux de Puzzle en Ligne Gratuits',
-      subtitle: 'Puzzles classiques, jeux de stratégie, arcade. Sans téléchargement, jouez instantanément.',
+      title: 'Jouer à Wordle, Sudoku, 2048 Gratuit en Ligne',
+      subtitle: '100+ jeux de puzzle, mots, arcade et stratégie. Sans téléchargement, jouez instantanément!',
       featured: 'Jeux en Vedette', allGames: 'Tous les Jeux', gamesCount: 'jeux', freeGames: 'Jeux Gratuits',
       categories: 'Catégories', copyright: '© 2026 RuleWord', aboutTitle: 'À Propos de RuleWord',
       feature1Title: '100% Gratuit et Illimité', feature1Desc: 'Jouez à tous les jeux sans aucun coût ni limite de temps.',
@@ -135,8 +135,8 @@ export const i18n: Record<Language, {
   de: {
     nav: { home: 'Startseite', feedback: 'Feedback', language: 'Sprache' },
     home: {
-      title: 'Kostenlose Online-Puzzlespiele',
-      subtitle: 'Klassische Puzzles, Strategiespiele, Arcade-Spaß. Kein Download, sofort spielen.',
+      title: 'Wordle, Sudoku, 2048 Kostenlos Online Spielen',
+      subtitle: '100+ Puzzle-, Wort-, Arcade- & Strategiespiele. Kein Download, sofort spielen!',
       featured: 'Empfohlene Spiele', allGames: 'Alle Spiele', gamesCount: 'Spiele', freeGames: 'Kostenlose Spiele',
       categories: 'Kategorien', copyright: '© 2026 RuleWord', aboutTitle: 'Über RuleWord',
       feature1Title: '100% Kostenlos & Unbegrenzt', feature1Desc: 'Spielen Sie alle Spiele ohne Kosten oder Zeitlimits.',
@@ -160,8 +160,8 @@ export const i18n: Record<Language, {
   es: {
     nav: { home: 'Inicio', feedback: 'Comentarios', language: 'Idioma' },
     home: {
-      title: 'Juegos de Puzzle en Línea Gratuitos',
-      subtitle: 'Puzzles clásicos, juegos de estrategia, diversión arcade. Sin descargas, juega al instante.',
+      title: 'Jugar Wordle, Sudoku, 2048 Gratis Online',
+      subtitle: '100+ juegos de puzzle, palabras, arcade y estrategia. Sin descargas, juega al instante!',
       featured: 'Juegos Destacados', allGames: 'Todos los Juegos', gamesCount: 'juegos', freeGames: 'Juegos Gratis',
       categories: 'Categorías', copyright: '© 2026 RuleWord', aboutTitle: 'Sobre RuleWord',
       feature1Title: '100% Gratis e Ilimitado', feature1Desc: 'Juega todos los juegos sin costo ni límites de tiempo.',
@@ -185,8 +185,8 @@ export const i18n: Record<Language, {
   ru: {
     nav: { home: 'Главная', feedback: 'Обратная связь', language: 'Язык' },
     home: {
-      title: 'Бесплатные Онлайн Головоломки',
-      subtitle: 'Классические головоломки, стратегии, аркады. Без загрузок, играйте мгновенно.',
+      title: 'Играть Wordle, Sudoku, 2048 Бесплатно Онлайн',
+      subtitle: '100+ головоломок, словесных, аркадных и стратегических игр. Без загрузок, играйте мгновенно!',
       featured: 'Рекомендуемые Игры', allGames: 'Все Игры', gamesCount: 'игр', freeGames: 'Бесплатные Игры',
       categories: 'Категории', copyright: '© 2026 RuleWord', aboutTitle: 'О RuleWord',
       feature1Title: '100% Бесплатно и Безлимитно', feature1Desc: 'Играйте во все игры бесплатно и без ограничений.',
@@ -210,8 +210,8 @@ export const i18n: Record<Language, {
   ja: {
     nav: { home: 'ホーム', feedback: 'フィードバック', language: '言語' },
     home: {
-      title: '無料オンラインパズルゲーム',
-      subtitle: '定番パズル、ストラテジーゲーム、アーケード。ダウンロード不要、すぐに遊べます。',
+      title: 'Wordle, 数独, 2048 無料でオンラインプレイ',
+      subtitle: '100以上のパズル、ワード、アーケード、ストラテジーゲーム。ダウンロード不要、すぐに遊べます！',
       featured: 'おすすめゲーム', allGames: 'すべてのゲーム', gamesCount: 'ゲーム', freeGames: '無料ゲーム',
       categories: 'カテゴリー', copyright: '© 2026 RuleWord', aboutTitle: 'RuleWordについて',
       feature1Title: '100%無料で無制限', feature1Desc: 'すべてのゲームを無料で制限なくプレイ。',
@@ -235,8 +235,8 @@ export const i18n: Record<Language, {
   'zh-TW': {
     nav: { home: '首頁', feedback: '意見反饋', language: '語言' },
     home: {
-      title: '免費線上益智遊戲',
-      subtitle: '經典益智、策略遊戲、街機樂趣。無需下載,即開即玩。',
+      title: '免費玩 Wordle, 數獨, 2048 線上遊戲',
+      subtitle: '100+ 益智、文字、街機和策略遊戲。無需下載，即開即玩！',
       featured: '精選遊戲', allGames: '所有遊戲', gamesCount: '個遊戲', freeGames: '免費遊戲',
       categories: '遊戲分類', copyright: '© 2026 RuleWord', aboutTitle: '關於 RuleWord',
       feature1Title: '完全免費 無限暢玩', feature1Desc: '所有遊戲完全免費,無時間限制,無需註冊即可暢玩。',
@@ -260,8 +260,8 @@ export const i18n: Record<Language, {
   'zh-CN': {
     nav: { home: '首页', feedback: '意见反馈', language: '语言' },
     home: {
-      title: '免费在线益智游戏',
-      subtitle: '经典益智、策略游戏、街机乐趣。无需下载,即开即玩。',
+      title: '免费玩 Wordle, 数独, 2048 在线游戏',
+      subtitle: '100+ 益智、文字、街机和策略游戏。无需下载，即开即玩！',
       featured: '精选游戏', allGames: '所有游戏', gamesCount: '款游戏', freeGames: '免费游戏',
       categories: '游戏分类', copyright: '© 2026 RuleWord', aboutTitle: '关于 RuleWord',
       feature1Title: '完全免费 无限畅玩', feature1Desc: '所有游戏完全免费,无时间限制,无需注册即可畅玩。',
