@@ -15,12 +15,71 @@ interface Cage {
 
 const GRID_SIZE = 4;
 
-const generateCages = (): Cage[] => {
+// Generate a valid Latin square (each row/column has 1-4 exactly once)
+const generateLatinSquare = (): number[][] => {
+  const grid: number[][] = [];
+
+  // Use a shifted pattern for valid Latin square
+  for (let i = 0; i < GRID_SIZE; i++) {
+    grid.push([]);
+    for (let j = 0; j < GRID_SIZE; j++) {
+      grid[i].push(((i + j) % GRID_SIZE) + 1);
+    }
+  }
+
+  // Shuffle rows to add variety
+  for (let i = grid.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [grid[i], grid[j]] = [grid[j], grid[i]];
+  }
+
+  return grid;
+};
+
+// Calculate cage target based on actual cell values
+const calculateCageTarget = (values: number[], operation: '+' | '-' | '*' | '/'): { target: number; operation: '+' | '-' | '*' | '/' } => {
+  if (values.length === 1) {
+    return { target: values[0], operation: '+' };
+  }
+
+  // For division, find first divisible pair
+  if (operation === '/') {
+    for (let i = 0; i < values.length; i++) {
+      for (let j = i + 1; j < values.length; j++) {
+        if (values[i] % values[j] === 0 && values[i] / values[j] >= 1) {
+          return { target: values[i] / values[j], operation: '/' };
+        }
+        if (values[j] % values[i] === 0 && values[j] / values[i] >= 1) {
+          return { target: values[j] / values[i], operation: '/' };
+        }
+      }
+    }
+    // Fallback to addition if no good division
+    return { target: values.reduce((a, b) => a + b, 0), operation: '+' };
+  }
+
+  // For subtraction, use difference of max and min
+  if (operation === '-') {
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    return { target: max - min, operation: '-' };
+  }
+
+  // For multiplication, multiply all
+  if (operation === '*') {
+    return { target: values.reduce((a, b) => a * b, 1), operation: '*' };
+  }
+
+  // For addition, sum all
+  return { target: values.reduce((a, b) => a + b, 0), operation: '+' };
+};
+
+const generateCages = (solution: number[][]): Cage[] => {
   const cages: Cage[] = [];
   const usedCells = new Set<string>();
   let cageId = 0;
 
-  const operations: Array<'+' | '-' | '*' | '/'> = ['+', '-', '*', '/'];
+  const operations: Array<'+' | '-' | '*' | '/'> = ['+', '*', '-', '/'];
 
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
@@ -30,8 +89,8 @@ const generateCages = (): Cage[] => {
       const cells: [number, number][] = [[row, col]];
       usedCells.add(key);
 
-      // Randomly decide to add adjacent cell (50% chance)
-      if (Math.random() > 0.5) {
+      // Randomly decide to add adjacent cell (60% chance for larger cages)
+      if (Math.random() > 0.4) {
         const directions = [[0, 1], [1, 0]];
         const dir = directions[Math.floor(Math.random() * directions.length)];
         const newRow = row + dir[0];
@@ -46,10 +105,14 @@ const generateCages = (): Cage[] => {
         }
       }
 
-      const operation = operations[Math.floor(Math.random() * operations.length)];
-      const target = Math.floor(Math.random() * 10) + 1;
+      // Get actual values from solution
+      const cellValues = cells.map(([r, c]) => solution[r][c]);
 
-      cages.push({ id: cageId++, cells, target, operation });
+      // Choose appropriate operation and calculate target
+      const operation = operations[Math.floor(Math.random() * operations.length)];
+      const { target, operation: finalOp } = calculateCageTarget(cellValues, operation);
+
+      cages.push({ id: cageId++, cells, target, operation: finalOp });
     }
   }
 
@@ -57,17 +120,13 @@ const generateCages = (): Cage[] => {
 };
 
 const createPuzzle = (): { grid: Cell[][], cages: Cage[], solution: number[][] } => {
-  const cages = generateCages();
-  const grid: Cell[][] = [];
+  // Generate valid solution first
+  const solution = generateLatinSquare();
 
-  // Simple solution - just fill with 1-4 pattern
-  const solution: number[][] = [];
-  for (let i = 0; i < GRID_SIZE; i++) {
-    solution.push([]);
-    for (let j = 0; j < GRID_SIZE; j++) {
-      solution[i].push(((i + j) % 4) + 1);
-    }
-  }
+  // Generate cages based on solution
+  const cages = generateCages(solution);
+
+  const grid: Cell[][] = [];
 
   // Create grid from cages
   for (let i = 0; i < GRID_SIZE; i++) {
@@ -77,7 +136,7 @@ const createPuzzle = (): { grid: Cell[][], cages: Cage[], solution: number[][] }
       grid[i].push({
         value: 0,
         cageId: cage?.id || 0,
-        isGiven: Math.random() > 0.7 // 30% chance of being given
+        isGiven: Math.random() > 0.75 // 25% chance of being given (fewer hints = more challenging)
       });
     }
   }
