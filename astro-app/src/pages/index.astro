@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content'
 import { categories } from '../data/games'
 import { languages, i18n, categoryI18n, type Language } from '../data/i18n'
 import { homepageSEO } from '../data/seo'
+import { gameGuides } from '../data/gameGuidesSEO'
 import GameSearch from '../components/GameSearch.astro'
 import GameShowcase from '../components/GameShowcase.astro'
 
@@ -150,6 +151,47 @@ const categoryI18nData = categoryI18n
               </div>
             </a>
           ))}
+        </div>
+      </section>
+
+      <!-- Game Guides Section -->
+      <section class="mt-8 mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📖</span>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="gameGuides">Game Guides</h2>
+          </div>
+          <a href="/guides/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium" data-i18n="viewAllGuides">View All Guides →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.values(gameGuides).map(guide => {
+            const game = games.find(g => g.slug === guide.slug)
+            return (
+              <a
+                href={`/guides/${guide.slug}/`}
+                class="group block rounded-xl p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700"
+              >
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl shrink-0">{game?.icon || '🎮'}</span>
+                  <div class="min-w-0">
+                    <h3 class="font-semibold text-gray-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 line-clamp-2">
+                      {guide.title}
+                    </h3>
+                    <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 line-clamp-2">
+                      {guide.description}
+                    </p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                      {guide.keywords.slice(0, 3).map(kw => (
+                        <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
+                          {kw}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            )
+          })}
         </div>
       </section>
 
@@ -312,9 +354,13 @@ const categoryI18nData = categoryI18n
             </div>
             <span class="font-semibold text-gray-600 dark:text-slate-400">RuleWord</span>
           </div>
-          <p class="text-sm text-gray-600 dark:text-slate-400">
-            <span data-i18n="copyright">© 2026 RuleWord</span> · <span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span>
-          </p>
+          <div class="flex items-center gap-4">
+            <a href="/guides/" class="text-sm text-gray-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-i18n="gameGuides">Game Guides</a>
+            <span class="text-gray-300 dark:text-slate-700">|</span>
+            <p class="text-sm text-gray-600 dark:text-slate-400">
+              <span data-i18n="copyright">© 2026 RuleWord</span> · <span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

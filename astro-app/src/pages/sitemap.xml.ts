@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { categories } from '../data/games'
+import { gameGuides } from '../data/gameGuidesSEO'
 
 export const GET: APIRoute = async () => {
   // 获取所有游戏
@@ -9,6 +10,9 @@ export const GET: APIRoute = async () => {
 
   // 分类
   const categoryIds = categories.map(c => c.id)
+
+  // 攻略页面
+  const guideSlugs = Object.keys(gameGuides)
 
   const baseUrl = 'https://ruleword.com'
   const lastmod = new Date().toISOString().split('T')[0]
@@ -39,6 +43,22 @@ ${gameSlugs.map(slug => `  <url>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>`).join('\n')}
+
+  <!-- Game Guides Index -->
+  <url>
+    <loc>${baseUrl}/guides/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Game Guide Pages (${guideSlugs.length} guides) -->
+${guideSlugs.map(slug => `  <url>
+    <loc>${baseUrl}/guides/${slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>`).join('\n')}
 
 </urlset>`
