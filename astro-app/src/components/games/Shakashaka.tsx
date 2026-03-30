@@ -72,7 +72,111 @@ export default function Shakashaka({ settings }: Props) {
     setSolved(false)
   }
 
-  const checkSolution = () => setSolved(true)
+  const checkSolution = () => {
+    // Rule 1: Check no 2x2 black cells
+    for (let r = 0; r < GRID_SIZE - 1; r++) {
+      for (let c = 0; c < GRID_SIZE - 1; c++) {
+        if (grid[r][c].isBlack && grid[r + 1][c].isBlack &&
+            grid[r][c + 1].isBlack && grid[r + 1][c + 1].isBlack) {
+          return
+        }
+      }
+    }
+
+    // Rule 2: Validate triangle count matches clues
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].clue === null) continue
+
+        // Count triangles around this cell
+        let triangleCount = 0
+
+        // Check all 8 adjacent cells for triangles
+        const neighbors = [
+          [r - 1, c - 1], [r - 1, c], [r - 1, c + 1],
+          [r, c - 1], [r, c + 1],
+          [r + 1, c - 1], [r + 1, c], [r + 1, c + 1]
+        ]
+
+        for (const [nr, nc] of neighbors) {
+          if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
+            if (grid[nr][nc].triangle !== null) {
+              triangleCount++
+            }
+          }
+        }
+
+        if (triangleCount !== grid[r][c].clue) {
+          return
+        }
+      }
+    }
+
+    // Rule 3: Check white areas are rectangles (no L-shapes)
+    // Use flood fill to find white regions and check if each is a rectangle
+    const visited = new Set<string>()
+
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].isBlack) continue
+        const key = `${r},${c}`
+        if (visited.has(key)) continue
+
+        // Start flood fill to find white region
+        const region: [number, number][] = []
+        const queue: [number, number][] = [[r, c]]
+        visited.add(key)
+
+        while (queue.length > 0) {
+          const [cr, cc] = queue.shift()!
+          region.push([cr, cc])
+
+          const neighbors = [[cr - 1, cc], [cr + 1, cc], [cr, cc - 1], [cr, cc + 1]]
+          for (const [nr, nc] of neighbors) {
+            if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE && !grid[nr][nc].isBlack) {
+              const nkey = `${nr},${nc}`
+              if (!visited.has(nkey)) {
+                visited.add(nkey)
+                queue.push([nr, nc])
+              }
+            }
+          }
+        }
+
+        // Check if region forms a rectangle
+        if (region.length > 0) {
+          const minR = Math.min(...region.map(([x]) => x))
+          const maxR = Math.max(...region.map(([x]) => x))
+          const minC = Math.min(...region.map(([, x]) => x))
+          const maxC = Math.max(...region.map(([, x]) => x))
+
+          // Count cells that should be in the rectangle
+          const expectedCells = (maxR - minR + 1) * (maxC - minC + 1)
+
+          // Check if region matches rectangle
+          const regionSet = new Set(region.map(([x, y]) => `${x},${y}`))
+          let actualCells = 0
+          for (let i = minR; i <= maxR; i++) {
+            for (let j = minC; j <= maxC; j++) {
+              if (!grid[i][j].isBlack) {
+                actualCells++
+                if (!regionSet.has(`${i},${j}`)) {
+                  // Region doesn't fill the rectangle completely
+                  return
+                }
+              }
+            }
+          }
+
+          if (actualCells !== region.length) {
+            return
+          }
+        }
+      }
+    }
+
+    setSolved(true)
+  }
 
   return (
     <div className={`min-h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>

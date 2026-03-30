@@ -96,8 +96,114 @@ export default function Aqre({ settings }: Props) {
   }
 
   const checkSolution = useCallback(() => {
+    // Rule 1: No 2x2 black cells
+    for (let r = 0; r < GRID_SIZE - 1; r++) {
+      for (let c = 0; c < GRID_SIZE - 1; c++) {
+        if (grid[r][c].state === 'black' && grid[r + 1][c].state === 'black' &&
+            grid[r][c + 1].state === 'black' && grid[r + 1][c + 1].state === 'black') {
+          return
+        }
+      }
+    }
+
+    // Rule 2: Max 2 consecutive black cells in each row/col
+    for (let r = 0; r < GRID_SIZE; r++) {
+      let consecutive = 0
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].state === 'black') {
+          consecutive++
+          if (consecutive > 2) return
+        } else {
+          consecutive = 0
+        }
+      }
+    }
+
+    for (let c = 0; c < GRID_SIZE; c++) {
+      let consecutive = 0
+      for (let r = 0; r < GRID_SIZE; r++) {
+        if (grid[r][c].state === 'black') {
+          consecutive++
+          if (consecutive > 2) return
+        } else {
+          consecutive = 0
+        }
+      }
+    }
+
+    // Rule 3: All black cells must be connected
+    const blackCells = new Set<string>()
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].state === 'black') {
+          blackCells.add(`${r},${c}`)
+        }
+      }
+    }
+
+    if (blackCells.size > 0) {
+      const visited = new Set<string>()
+      const queue: string[] = [Array.from(blackCells)[0]]
+
+      while (queue.length > 0) {
+        const current = queue.shift()!
+        if (visited.has(current)) continue
+        visited.add(current)
+
+        const [r, c] = current.split(',').map(Number)
+        const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
+
+        for (const [nr, nc] of neighbors) {
+          const key = `${nr},${nc}`
+          if (blackCells.has(key) && !visited.has(key)) {
+            queue.push(key)
+          }
+        }
+      }
+
+      if (visited.size !== blackCells.size) return
+    }
+
+    // Rule 4: Validate clues match black region sizes
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const clue = grid[r][c].clue
+        if (clue === null) continue
+
+        // Count black cells in same region (connected horizontally and vertically)
+        const regionCells = new Set<string>()
+        const queue: [number, number][] = [[r, c]]
+
+        while (queue.length > 0) {
+          const [cr, cc] = queue.shift()!
+          const key = `${cr},${cc}`
+          if (regionCells.has(key)) continue
+          regionCells.add(key)
+
+          // Only expand through black cells
+          if (grid[cr][cc].state === 'black') {
+            const neighbors = [[cr - 1, cc], [cr + 1, cc], [cr, cc - 1], [cr, cc + 1]]
+            for (const [nr, nc] of neighbors) {
+              if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
+                if (grid[nr][nc].state === 'black' && !regionCells.has(`${nr},${nc}`)) {
+                  queue.push([nr, nc])
+                }
+              }
+            }
+          }
+        }
+
+        // Count black cells in region (excluding the clue cell itself if it's not black)
+        const blackCount = Array.from(regionCells).filter(([x, y]) => grid[x][y].state === 'black').length
+
+        if (blackCount !== clue) {
+          return
+        }
+      }
+    }
+
     setSolved(true)
-  }, [])
+  }, [grid])
 
   const reset = () => {
     setGrid(createInitialGrid(currentLevel))

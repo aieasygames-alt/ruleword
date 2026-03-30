@@ -48,60 +48,182 @@ function getDailySeed(): number {
 function generatePuzzle(size: number, seed?: number): { puzzle: number[][], solution: boolean[][] } {
   const rng = seed !== undefined ? seededRandom(seed) : () => Math.random()
 
-  // 先生成一个无重复的完整网格
+  // Generate a valid solution first (which cells to shade)
+  const solution: boolean[][] = Array(size).fill(null).map(() => Array(size).fill(false))
+
+  // Generate Latin square base (no duplicates in rows/cols)
   const grid: number[][] = []
   for (let r = 0; r < size; r++) {
     grid.push([])
     for (let c = 0; c < size; c++) {
-      grid[r].push(Math.floor(rng() * size) + 1)
+      grid[r].push(((r + c) % size) + 1)
     }
   }
 
-  // 生成解（哪些格子需要被涂黑）
-  const solution: boolean[][] = Array(size).fill(null).map(() => Array(size).fill(false))
-
-  // 简单算法：标记造成冲突的格子
-  for (let r = 0; r < size; r++) {
-    const seen: Record<number, number> = {}
-    for (let c = 0; c < size; c++) {
-      const num = grid[r][c]
-      if (seen[num] !== undefined) {
-        // 随机选择一个涂黑
-        const toShade = rng() < 0.5 ? seen[num] : c
-        solution[r][toShade] = true
-      } else {
-        seen[num] = c
-      }
-    }
+  // Shuffle rows
+  for (let i = size - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1))
+    ;[grid[i], grid[j]] = [grid[j], grid[i]]
   }
 
-  for (let c = 0; c < size; c++) {
-    const seen: Record<number, number> = {}
+  // Shuffle columns
+  for (let i = size - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1))
     for (let r = 0; r < size; r++) {
-      if (solution[r][c]) continue
-      const num = grid[r][c]
-      if (seen[num] !== undefined) {
-        solution[r][c] = true
-      } else {
-        seen[num] = r
-      }
+      ;[grid[r][i], grid[r][j]] = [grid[r][j], grid[r][i]]
     }
   }
 
-  // 确保涂黑的格子不相邻
+  // Intentionally create duplicates by modifying some cells
+  // This creates the puzzle that needs to be solved
+  const numDuplicates = Math.floor(size * size * 0.3) // ~30% of cells
+
+  for (let i = 0; i < numDuplicates; i++) {
+    const r = Math.floor(rng() * size)
+    const c = Math.floor(rng() * size)
+
+    // Find a duplicate value in the same row or column
+    const currentValue = grid[r][c]
+
+    // Look for same value in row
+    const rowDupCol = grid[r].findIndex((v, ci) => ci !== c && v === currentValue)
+    if (rowDupCol !== -1) {
+      // Mark one of them for solution
+      solution[r][Math.floor(rng() * 2) === 0 ? c : rowDupCol] = true
+    }
+
+    // Look for same value in column
+    const colDupRow = grid.findIndex((rr, ri) => ri !== r && rr[c] === currentValue)
+    if (colDupRow !== -1) {
+      solution[Math.floor(rng() * 2) === 0 ? r : colDupRow][c] = true
+    }
+  }
+
+  // Fix solution: ensure no adjacent shaded cells
   for (let r = 0; r < size; r++) {
     for (let c = 0; c < size; c++) {
       if (solution[r][c]) {
-        // 检查是否有相邻的被涂黑
-        const neighbors = [[r-1, c], [r+1, c], [r, c-1], [r, c+1]]
+        const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
         for (const [nr, nc] of neighbors) {
           if (nr >= 0 && nr < size && nc >= 0 && nc < size && solution[nr][nc]) {
-            solution[r][c] = false
+            // Remove one of the adjacent shaded cells
+            if (rng() < 0.5) {
+              solution[r][c] = false
+            } else {
+              solution[nr][nc] = false
+            }
             break
           }
         }
       }
     }
+  }
+
+  // Verify solution is valid
+  const verifySolution = (sol: boolean[][]): boolean => {
+    // Check no duplicates in rows/cols (excluding shaded cells)
+    for (let r = 0; r < size; r++) {
+      const seen: Record<number, boolean> = {}
+      for (let c = 0; c < size; c++) {
+        if (sol[r][c]) continue
+        const num = grid[r][c]
+        if (seen[num]) return false
+        seen[num] = true
+      }
+    }
+
+    for (let c = 0; c < size; c++) {
+      const seen: Record<number, boolean> = {}
+      for (let r = 0; r < size; r++) {
+        if (sol[r][c]) continue
+        const num = grid[r][c]
+        if (seen[num]) return false
+        seen[num] = true
+      }
+    }
+
+    // Check no adjacent shaded cells
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (sol[r][c]) {
+          const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
+          for (const [nr, nc] of neighbors) {
+            if (nr >= 0 && nr < size && nc >= 0 && nc < size && sol[nr][nc]) {
+              return false
+            }
+          }
+        }
+      }
+    }
+
+    // Check unshaded cells are connected
+    const visited = new Set<string>()
+    const queue: [number, number][] = []
+
+    // Find first unshaded cell
+    outer: for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (!sol[r][c]) {
+          queue.push([r, c])
+          visited.add(`${r},${c}`)
+          break outer
+        }
+      }
+    }
+
+    while (queue.length > 0) {
+      const [cr, cc] = queue.shift()!
+      const neighbors = [[cr - 1, cc], [cr + 1, cc], [cr, cc - 1], [cr, cc + 1]]
+      for (const [nr, nc] of neighbors) {
+        if (nr >= 0 && nr < size && nc >= 0 && nc < size && !sol[nr][nc]) {
+          const key = `${nr},${nc}`
+          if (!visited.has(key)) {
+            visited.add(key)
+            queue.push([nr, nc])
+          }
+        }
+      }
+    }
+
+    // Count unshaded cells
+    let unshadedCount = 0
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (!sol[r][c]) unshadedCount++
+      }
+    }
+
+    return visited.size === unshadedCount
+  }
+
+  // If solution is not valid, regenerate
+  let attempts = 0
+  while (!verifySolution(solution) && attempts < 100) {
+    // Reset and try again
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        solution[r][c] = false
+      }
+    }
+
+    // Recreate duplicates
+    for (let i = 0; i < numDuplicates; i++) {
+      const r = Math.floor(rng() * size)
+      const c = Math.floor(rng() * size)
+      const currentValue = grid[r][c]
+
+      const rowDupCol = grid[r].findIndex((v, ci) => ci !== c && v === currentValue)
+      if (rowDupCol !== -1) {
+        solution[r][Math.floor(rng() * 2) === 0 ? c : rowDupCol] = true
+      }
+
+      const colDupRow = grid.findIndex((rr, ri) => ri !== r && rr[c] === currentValue)
+      if (colDupRow !== -1) {
+        solution[Math.floor(rng() * 2) === 0 ? r : colDupRow][c] = true
+      }
+    }
+
+    attempts++
   }
 
   return { puzzle: grid, solution }

@@ -60,9 +60,113 @@ export default function Tapa({ settings }: Props) {
   }, [grid])
 
   const checkSolution = useCallback(() => {
-    // Check all black cells are connected
+    // Validate Tapa solution
+    const blackCells = new Set<string>()
+
+    // Collect all black cells
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].state === 'black') {
+          blackCells.add(`${r},${c}`)
+        }
+      }
+    }
+
+    // Rule 1: Check all black cells form a single connected component
+    if (blackCells.size === 0) return
+
+    const visited = new Set<string>()
+    const queue: string[] = [Array.from(blackCells)[0]]
+
+    while (queue.length > 0) {
+      const current = queue.shift()!
+      if (visited.has(current)) continue
+      visited.add(current)
+
+      const [r, c] = current.split(',').map(Number)
+      const neighbors = [
+        [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]
+      ]
+
+      for (const [nr, nc] of neighbors) {
+        const key = `${nr},${nc}`
+        if (blackCells.has(key) && !visited.has(key)) {
+          queue.push(key)
+        }
+      }
+    }
+
+    // All black cells must be visited (connected)
+    if (visited.size !== blackCells.size) return
+
+    // Rule 2: Check no 2x2 area of black cells
+    for (let r = 0; r < GRID_SIZE - 1; r++) {
+      for (let c = 0; c < GRID_SIZE - 1; c++) {
+        if (grid[r][c].state === 'black' &&
+            grid[r + 1][c].state === 'black' &&
+            grid[r][c + 1].state === 'black' &&
+            grid[r + 1][c + 1].state === 'black') {
+          return
+        }
+      }
+    }
+
+    // Rule 3: Validate clues match
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const clues = grid[r][c].clues
+        if (clues === null) continue
+
+        // Get black cells around this clue (8 directions)
+        const directions = [
+          [-1, 0], [-1, 1], [0, 1], [1, 1],
+          [1, 0], [1, -1], [0, -1], [-1, -1]
+        ]
+
+        // Find consecutive black cell runs in clockwise order
+        const runs: number[] = []
+        let inRun = false
+        let currentRun = 0
+
+        // Start from top and go clockwise
+        const order = [0, 1, 2, 3, 4, 5, 6, 7]
+        for (let i = 0; i < 8; i++) {
+          const dir = directions[order[i]]
+          const nr = r + dir[0]
+          const nc = c + dir[1]
+
+          if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE && grid[nr][nc].state === 'black') {
+            if (!inRun || (i > 0 && directions[order[i - 1]][0] === dir[0] && directions[order[i - 1]][1] === dir[1])) {
+              inRun = true
+              currentRun++
+            } else {
+              if (currentRun > 0) runs.push(currentRun)
+              currentRun = 1
+              inRun = true
+            }
+          } else {
+            if (inRun) {
+              runs.push(currentRun)
+              currentRun = 0
+              inRun = false
+            }
+          }
+        }
+
+        if (currentRun > 0) runs.push(currentRun)
+
+        // Check if runs match clues
+        if (runs.length !== clues.length) return
+
+        for (let i = 0; i < clues.length; i++) {
+          if (runs[i] !== clues[i]) return
+        }
+      }
+    }
+
+    // All checks passed
     setSolved(true)
-  }, [])
+  }, [grid])
 
   const reset = () => {
     setGrid(createInitialGrid())

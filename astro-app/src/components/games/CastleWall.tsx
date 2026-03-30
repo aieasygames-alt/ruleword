@@ -62,9 +62,96 @@ export default function CastleWall({ settings }: Props) {
   }, [grid])
 
   const checkSolution = useCallback(() => {
-    // Simplified validation
+    // Rule 1: Validate clues - count cells until wall in arrow direction
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        const clue = grid[r][c].clue
+        const dir = grid[r][c].clueDir
+        if (clue === null || dir === null) continue
+
+        let count = 0
+        let cr = r
+        let cc = c
+
+        // Count cells in arrow direction until we hit a wall or edge
+        while (true) {
+          if (dir === 'up') cr--
+          else if (dir === 'down') cr++
+          else if (dir === 'left') cc--
+          else if (dir === 'right') cc++
+
+          // Check bounds
+          if (cr < 0 || cr >= GRID_SIZE || cc < 0 || cc >= GRID_SIZE) break
+
+          // Check if this cell is a wall
+          if (grid[cr][cc].isWall === true) break
+
+          count++
+        }
+
+        if (count !== clue) {
+          return
+        }
+      }
+    }
+
+    // Rule 2: Check walls form a single continuous loop
+    const wallCells = new Set<string>()
+
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].isWall === true) {
+          wallCells.add(`${r},${c}`)
+        }
+      }
+    }
+
+    // Walls must form a loop (connected and forms cycle)
+    if (wallCells.size > 0) {
+      const visited = new Set<string>()
+      const queue: string[] = [Array.from(wallCells)[0]]
+
+      while (queue.length > 0) {
+        const current = queue.shift()!
+        if (visited.has(current)) continue
+        visited.add(current)
+
+        const [r, c] = current.split(',').map(Number)
+        const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
+
+        for (const [nr, nc] of neighbors) {
+          const key = `${nr},${nc}`
+          if (wallCells.has(key) && !visited.has(key)) {
+            queue.push(key)
+          }
+        }
+      }
+
+      // All wall cells must be connected
+      if (visited.size !== wallCells.size) return
+    }
+
+    // Rule 3: Check no 2x2 wall cells
+    for (let r = 0; r < GRID_SIZE - 1; r++) {
+      for (let c = 0; c < GRID_SIZE - 1; c++) {
+        if (grid[r][c].isWall === true && grid[r + 1][c].isWall === true &&
+            grid[r][c + 1].isWall === true && grid[r + 1][c + 1].isWall === true) {
+          return
+        }
+      }
+    }
+
+    // Rule 4: All cells must be determined (no null values)
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].isWall === null) {
+          return
+        }
+      }
+    }
+
     setSolved(true)
-  }, [])
+  }, [grid])
 
   const reset = () => {
     setGrid(createInitialGrid())
