@@ -38,6 +38,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
 
   const objectsRef = useRef<MovingObject[]>([])
   const gameLoopRef = useRef<number | null>(null)
+  const invulnerableRef = useRef(false)
 
   const isDark = settings.darkMode
 
@@ -86,6 +87,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
   }, [])
 
   const startGame = useCallback(() => {
+    invulnerableRef.current = false
     setLives(3)
     setScore(0)
     setLevel(1)
@@ -189,6 +191,23 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
 
     let lastTime = 0
 
+    const loseLife = () => {
+      if (invulnerableRef.current) return
+      invulnerableRef.current = true
+      setLives(prev => {
+        const newLives = prev - 1
+        if (newLives <= 0) {
+          setGameState('gameOver')
+        } else {
+          setFrogPos({ x: 6, y: 13 })
+        }
+        return newLives
+      })
+      setTimeout(() => {
+        invulnerableRef.current = false
+      }, 2000)
+    }
+
     const gameLoop = (time: number) => {
       const delta = (time - lastTime) / 1000
       lastTime = time
@@ -285,26 +304,10 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
 
       if (hit) {
         // Frog got hit by car
-        setLives(prev => {
-          const newLives = prev - 1
-          if (newLives <= 0) {
-            setGameState('gameOver')
-          } else {
-            setFrogPos({ x: 6, y: 13 })
-          }
-          return newLives
-        })
+        loseLife()
       } else if (isInWater(frogPos.y) && !onLog) {
         // Frog drowned
-        setLives(prev => {
-          const newLives = prev - 1
-          if (newLives <= 0) {
-            setGameState('gameOver')
-          } else {
-            setFrogPos({ x: 6, y: 13 })
-          }
-          return newLives
-        })
+        loseLife()
       } else if (onLog) {
         // Move frog with log
         const newX = frogPos.x + onLog.speed * onLog.direction * delta * 60 / 60
@@ -312,15 +315,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
           setFrogPos(prev => ({ ...prev, x: newX }))
         } else {
           // Frog went off screen
-          setLives(prev => {
-            const newLives = prev - 1
-            if (newLives <= 0) {
-              setGameState('gameOver')
-            } else {
-              setFrogPos({ x: 6, y: 13 })
-            }
-            return newLives
-          })
+          loseLife()
         }
       }
 
@@ -347,15 +342,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
           })
         } else {
           // Invalid position
-          setLives(prev => {
-            const newLives = prev - 1
-            if (newLives <= 0) {
-              setGameState('gameOver')
-            } else {
-              setFrogPos({ x: 6, y: 13 })
-            }
-            return newLives
-          })
+          loseLife()
         }
       }
 

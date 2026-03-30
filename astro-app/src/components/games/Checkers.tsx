@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 type Piece = 0 | 1 | 2 | 3 | 4 // 0=empty, 1=black, 2=white, 3=black king, 4=white king
 type Settings = {
@@ -109,7 +109,84 @@ function hasCaptureAvailable(board: Piece[][], isBlack: boolean): boolean {
   return false
 }
 
-// AI move logic
+// Get all capture moves from a specific position (for multi-jump)
+function getCaptureMoves(board: Piece[][], row: number, col: number): { row: number; col: number; captures: { row: number; col: number }[] }[] {
+  const piece = board[row][col]
+  if (piece === 0) return []
+
+  const isKing = piece === 3 || piece === 4
+  const isBlack = piece === 1 || piece === 3
+  const moves: { row: number; col: number; captures: { row: number; col: number }[] }[] = []
+
+  for (const [dr, dc] of (isKing ? [[-1, -1], [-1, 1], [1, -1], [1, 1]] : (isBlack ? [[1, -1], [1, 1]] : [[-1, -1], [-1, 1]]))) {
+    const jumpRow = row + dr * 2
+    const jumpCol = col + dc * 2
+    const midRow = row + dr
+    const midCol = col + dc
+
+    if (jumpRow >= 0 && jumpRow < BOARD_SIZE && jumpCol >= 0 && jumpCol < BOARD_SIZE) {
+      const midPiece = board[midRow][midCol]
+      const isOpponent = isBlack
+        ? (midPiece === 2 || midPiece === 4)
+        : (midPiece === 1 || midPiece === 3)
+
+      if (isOpponent && board[jumpRow][jumpCol] === 0) {
+        moves.push({ row: jumpRow, col: jumpCol, captures: [{ row: midRow, col: midCol }] })
+      }
+    }
+  }
+
+  return moves
+}
+
+// Check if a piece should be promoted to king, and return the promoted piece value
+function promoteIfNeeded(piece: Piece, toRow: number): Piece {
+  if (piece === 1 && toRow === 7) return 3 // black regular -> black king
+  if (piece === 2 && toRow === 0) return 4 // white regular -> white king
+  return piece
+}
+
+// Execute a complete AI multi-jump sequence and return the final board state
+function executeAIMultiJump(board: Piece[][], startRow: number, startCol: number): { board: Piece[][]; capturedCount: number } {
+  const newBoard = board.map(r => [...r])
+  let currentRow = startRow
+  let currentCol = startCol
+  let capturedCount = 0
+
+  // Keep jumping as long as captures are available
+  while (true) {
+    const captureMoves = getCaptureMoves(newBoard, currentRow, currentCol)
+    if (captureMoves.length === 0) break
+
+    // Pick the first available capture (simple AI strategy)
+    const move = captureMoves[0]
+    const piece = newBoard[currentRow][currentCol]
+    newBoard[currentRow][currentCol] = 0
+
+    // Remove captured piece
+    for (const cap of move.captures) {
+      newBoard[cap.row][cap.col] = 0
+      capturedCount++
+    }
+
+    // Place piece in new position
+    newBoard[move.row][move.col] = piece
+
+    // Check promotion BEFORE continuing multi-jump
+    const promoted = promoteIfNeeded(piece, move.row)
+    newBoard[move.row][move.col] = promoted
+
+    currentRow = move.row
+    currentCol = move.col
+
+    // If the piece was just promoted, stop the multi-jump
+    if (promoted !== piece) break
+  }
+
+  return { board: newBoard, capturedCount }
+}
+
+// AI move logic with multi-jump support
 function getAIMove(board: Piece[][]) {
   const pieces: { row: number; col: number }[] = []
 
@@ -123,19 +200,72 @@ function getAIMove(board: Piece[][]) {
   }
 
   const mustCapture = hasCaptureAvailable(board, true)
-  let bestMove: { from: { row: number; col: number }; to: { row: number; col: number }; captures: { row: number; col: number }[] } | null = null
+
+  // Evaluate all possible first moves
+  type EvaluatedMove = {
+    from: { row: number; col: number }
+    to: { row: number; col: number }
+    captures: { row: number; col: number }[]
+    totalCaptures: number
+    becomesKing: boolean
+    board: Piece[][]
+  }
+
+  let bestMove: EvaluatedMove | null = null
 
   for (const { row, col } of pieces) {
     const moves = getValidMoves(board, row, col, mustCapture)
     for (const move of moves) {
-      // Prioritize captures, then king conversions
       const isCapture = move.captures.length > 0
-      const becomesKing = board[row][col] === 1 && move.row === 7
+
+      // Simulate the full multi-jump if it's a capture
+      let totalCaptures = move.captures.length
+      let resultingBoard: Piece[][]
+
+      if (isCapture) {
+        // Execute full multi-jump sequence
+        const tempBoard = board.map(r => [...r])
+        const piece = tempBoard[row][col]
+        tempBoard[row][col] = 0
+        for (const cap of move.captures) {
+          tempBoard[cap.row][cap.col] = 0
+        }
+        tempBoard[move.row][move.col] = piece
+        const promoted = promoteIfNeeded(piece, move.row)
+        tempBoard[move.row][move.col] = promoted
+
+        // Continue multi-jumping if not promoted
+        if (promoted === piece) {
+          const continuation = executeAIMultiJump(tempBoard, move.row, move.col)
+          totalCaptures += continuation.capturedCount
+          resultingBoard = continuation.board
+        } else {
+          resultingBoard = tempBoard
+        }
+      } else {
+        resultingBoard = board.map(r => [...r])
+        const piece = resultingBoard[row][col]
+        resultingBoard[row][col] = 0
+        resultingBoard[move.row][move.col] = piece
+        const promoted = promoteIfNeeded(piece, move.row)
+        resultingBoard[move.row][move.col] = promoted
+      }
+
+      const becomesKing = board[row][col] === 1 && resultingBoard[move.row][move.col] === 3
+
+      const evaluated: EvaluatedMove = {
+        from: { row, col },
+        to: move,
+        captures: move.captures,
+        totalCaptures,
+        becomesKing,
+        board: resultingBoard
+      }
 
       if (!bestMove ||
-          (isCapture && !bestMove.captures.length) ||
-          (becomesKing && !bestMove.captures.length)) {
-        bestMove = { from: { row, col }, to: move, captures: move.captures }
+          (totalCaptures > bestMove.totalCaptures) ||
+          (totalCaptures === bestMove.totalCaptures && becomesKing && !bestMove.becomesKing)) {
+        bestMove = evaluated
       }
     }
   }
@@ -151,6 +281,7 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
   const [gameOver, setGameOver] = useState<0 | 1 | 2>(0) // 0=playing, 1=player wins, 2=ai wins
   const [capturedWhite, setCapturedWhite] = useState(0)
   const [capturedBlack, setCapturedBlack] = useState(0)
+  const [multiJumpFrom, setMultiJumpFrom] = useState<{ row: number; col: number } | null>(null)
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
@@ -171,40 +302,21 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
     else if (blackCount === 0) setGameOver(1)
   }, [board])
 
-  // AI turn
+  // AI turn with multi-jump support
   useEffect(() => {
     if (isPlayerTurn || gameOver) return
 
     const timer = setTimeout(() => {
       const aiMove = getAIMove(board)
       if (aiMove) {
-        const { from, to, captures } = aiMove
-        setBoard(prev => {
-          const newBoard = prev.map(r => [...r])
-          const piece = newBoard[from.row][from.col]
-          newBoard[from.row][from.col] = 0
-          newBoard[to.row][to.col] = piece
+        // The AI move now returns the fully computed board after multi-jump
+        setBoard(aiMove.board)
 
-          // Remove captured pieces
-          for (const cap of captures) {
-            const capPiece = newBoard[cap.row][cap.col]
-            newBoard[cap.row][cap.col] = 0
-            if (capPiece === 2 || capPiece === 4) {
-              setCapturedWhite(c => c + 1)
-            } else {
-              setCapturedBlack(c => c + 1)
-            }
-          }
-
-          // Promote to king
-          if (piece === 1 && to.row === 7) {
-            newBoard[to.row][to.col] = 3
-          } else if (piece === 2 && to.row === 0) {
-            newBoard[to.row][to.col] = 4
-          }
-
-          return newBoard
-        })
+        // Count captured pieces for display
+        const capturedInMove = aiMove.totalCaptures
+        if (capturedInMove > 0) {
+          setCapturedWhite(c => c + capturedInMove)
+        }
       }
       setIsPlayerTurn(true)
     }, 500)
@@ -215,8 +327,60 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
   const handleCellClick = (row: number, col: number) => {
     if (!isPlayerTurn || gameOver) return
 
-    const piece = board[row][col]
-    const isWhitePiece = piece === 2 || piece === 4
+    const clickedPiece = board[row][col]
+    const isWhitePiece = clickedPiece === 2 || clickedPiece === 4
+
+    // If we are in a multi-jump sequence, only the jumping piece can move
+    if (multiJumpFrom) {
+      if (!validMoves.some(m => m.row === row && m.col === col)) return
+
+      const moves = getCaptureMoves(board, multiJumpFrom.row, multiJumpFrom.col)
+      const move = moves.find(m => m.row === row && m.col === col)
+      if (!move) return
+
+      // Compute the new board locally
+      const newBoard = board.map(r => [...r])
+      const movingPiece = newBoard[multiJumpFrom.row][multiJumpFrom.col]
+      newBoard[multiJumpFrom.row][multiJumpFrom.col] = 0
+
+      // Remove captured piece
+      for (const cap of move.captures) {
+        newBoard[cap.row][cap.col] = 0
+      }
+
+      // Check promotion
+      const promoted = promoteIfNeeded(movingPiece, row)
+      newBoard[row][col] = promoted
+      const wasPromoted = promoted !== movingPiece
+
+      // Apply the new board
+      setBoard(newBoard)
+      setCapturedBlack(c => c + move.captures.length)
+
+      if (wasPromoted) {
+        // Promotion ends the multi-jump
+        setMultiJumpFrom(null)
+        setSelectedPiece(null)
+        setValidMoves([])
+        setIsPlayerTurn(false)
+      } else {
+        // Check for additional captures from the new position
+        const furtherCaptures = getCaptureMoves(newBoard, row, col)
+        if (furtherCaptures.length > 0) {
+          // Must continue jumping
+          setMultiJumpFrom({ row, col })
+          setSelectedPiece({ row, col })
+          setValidMoves(furtherCaptures.map(m => ({ row: m.row, col: m.col })))
+        } else {
+          // No more captures, turn ends
+          setMultiJumpFrom(null)
+          setSelectedPiece(null)
+          setValidMoves([])
+          setIsPlayerTurn(false)
+        }
+      }
+      return
+    }
 
     // If clicking on own piece, select it
     if (isWhitePiece) {
@@ -234,30 +398,50 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
       const move = moves.find(m => m.row === row && m.col === col)
 
       if (move) {
-        setBoard(prev => {
-          const newBoard = prev.map(r => [...r])
-          const piece = newBoard[selectedPiece.row][selectedPiece.col]
-          newBoard[selectedPiece.row][selectedPiece.col] = 0
-          newBoard[row][col] = piece
+        const isCapture = move.captures.length > 0
 
-          // Remove captured pieces
-          for (const cap of move.captures) {
-            const capPiece = newBoard[cap.row][cap.col]
-            newBoard[cap.row][cap.col] = 0
-            setCapturedBlack(c => c + 1)
+        // Compute the new board locally
+        const newBoard = board.map(r => [...r])
+        const movingPiece = newBoard[selectedPiece.row][selectedPiece.col]
+        newBoard[selectedPiece.row][selectedPiece.col] = 0
+
+        // Remove captured pieces
+        for (const cap of move.captures) {
+          newBoard[cap.row][cap.col] = 0
+        }
+
+        // Promote to king
+        const promoted = promoteIfNeeded(movingPiece, row)
+        newBoard[row][col] = promoted
+        const wasPromoted = promoted !== movingPiece
+
+        // Apply the new board
+        setBoard(newBoard)
+        if (isCapture) {
+          setCapturedBlack(c => c + move.captures.length)
+        }
+
+        // Check if this was a capture and multi-jump is possible
+        if (isCapture && !wasPromoted) {
+          // Check for additional captures from the landing position
+          const furtherCaptures = getCaptureMoves(newBoard, row, col)
+          if (furtherCaptures.length > 0) {
+            // Must continue jumping - set multiJumpFrom
+            setMultiJumpFrom({ row, col })
+            setSelectedPiece({ row, col })
+            setValidMoves(furtherCaptures.map(m => ({ row: m.row, col: m.col })))
+          } else {
+            // No more captures, end turn
+            setSelectedPiece(null)
+            setValidMoves([])
+            setIsPlayerTurn(false)
           }
-
-          // Promote to king
-          if (piece === 2 && row === 0) {
-            newBoard[row][col] = 4
-          }
-
-          return newBoard
-        })
-
-        setSelectedPiece(null)
-        setValidMoves([])
-        setIsPlayerTurn(false)
+        } else {
+          // Regular move or promotion on capture, end turn
+          setSelectedPiece(null)
+          setValidMoves([])
+          setIsPlayerTurn(false)
+        }
       }
     }
   }
@@ -270,6 +454,7 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
     setGameOver(0)
     setCapturedWhite(0)
     setCapturedBlack(0)
+    setMultiJumpFrom(null)
   }
 
   const renderPiece = (piece: Piece) => {
@@ -333,7 +518,11 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
             </span>
           ) : (
             <span className={isPlayerTurn ? 'text-green-400' : 'text-slate-400'}>
-              {isPlayerTurn ? "Your turn (White)" : "AI's turn (Black)"}
+              {multiJumpFrom
+                ? "Multi-jump! Continue capturing!"
+                : isPlayerTurn
+                  ? "Your turn (White)"
+                  : "AI's turn (Black)"}
             </span>
           )}
         </div>
@@ -345,6 +534,7 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
               {row.map((cell, colIdx) => {
                 const isLight = (rowIdx + colIdx) % 2 === 0
                 const isSelected = selectedPiece?.row === rowIdx && selectedPiece?.col === colIdx
+                const isMultiJumping = multiJumpFrom?.row === rowIdx && multiJumpFrom?.col === colIdx
                 const isValidMove = validMoves.some(m => m.row === rowIdx && m.col === colIdx)
 
                 return (
@@ -354,6 +544,8 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
                     className={`flex items-center justify-center cursor-pointer transition-colors ${
                       isLight ? 'bg-amber-200' : 'bg-amber-700'
                     } ${isSelected ? 'ring-2 ring-green-400 ring-inset' : ''} ${
+                      isMultiJumping ? 'ring-2 ring-yellow-400 ring-inset' : ''
+                    } ${
                       isValidMove ? 'hover:bg-green-600/50' : ''
                     }`}
                     style={{ width: cellSize, height: cellSize }}
@@ -372,7 +564,7 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
         {/* Instructions */}
         <div className="text-sm text-slate-400 text-center max-w-md">
           <p>Click your piece to select, then click a valid square to move.</p>
-          <p>Captures are mandatory. Reach the opposite end to become a King (♔)!</p>
+          <p>Captures are mandatory. Multiple jumps are required when available. Reach the opposite end to become a King!</p>
         </div>
       </main>
 

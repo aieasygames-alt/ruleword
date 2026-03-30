@@ -93,8 +93,9 @@ export default function SolitaireTriPeaks() {
 
   const canPlayCard = useCallback((card: Card, targetCard: Card | null): boolean => {
     if (!targetCard) return true;
-    // Can play if rank is one lower (any suit)
-    return card.rank === targetCard.rank - 1;
+    // Can play if rank is one higher or one lower (wrapping: K->A and A->K)
+    const diff = Math.abs(card.rank - targetCard.rank);
+    return diff === 1 || diff === 12; // diff 12 handles K(13) <-> A(1) wrap
   }, []);
 
   const playCard = useCallback((pileIndex: number, cardIndex: number) => {

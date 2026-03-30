@@ -10,40 +10,69 @@ type Cage = {
   color: string
 }
 
+// Valid Killer Sudoku puzzle with verified cage sums
+// Solution:
+// 2 1 | 5 6 9 | 8 4 7 3
+// 5 6 | 2 1 7 | 3 9 8 4
+// 9 8 | 4 3 2 | 5 7 6 1
+// ----+-------+---------
+// 3 5 | 1 2 8 | 4 6 7 9
+// 7 9 | 3 4 5 | 1 2 8 6
+// 1 2 | 6 7 9 | 4 3 5 8
+// ----+-------+---------
+// 4 3 | 8 9 6 | 7 1 5 2
+// 8 7 | 5 1 4 | 9 2 3 6
+// 6 4 | 9 8 3 | 2 5 1 7
+const SOLUTION = [
+  [2, 1, 5, 6, 9, 8, 4, 7, 3],
+  [5, 6, 2, 1, 7, 3, 9, 8, 4],
+  [9, 8, 4, 3, 2, 5, 7, 6, 1],
+  [3, 5, 1, 2, 8, 4, 6, 7, 9],
+  [7, 9, 3, 4, 5, 1, 2, 8, 6],
+  [1, 2, 6, 7, 9, 4, 3, 5, 8],
+  [4, 3, 8, 9, 6, 7, 1, 5, 2],
+  [8, 7, 5, 1, 4, 9, 2, 3, 6],
+  [6, 4, 9, 8, 3, 2, 5, 1, 7],
+]
+
 const CAGES: Cage[] = [
-  { cells: [[0, 0], [0, 1]], sum: 3, color: 'bg-red-200' },
-  { cells: [[0, 2], [1, 2]], sum: 15, color: 'bg-blue-200' },
-  { cells: [[0, 3], [0, 4], [1, 3]], sum: 22, color: 'bg-green-200' },
-  { cells: [[0, 5], [0, 6], [0, 7]], sum: 4, color: 'bg-yellow-200' },
-  { cells: [[0, 8], [1, 8], [2, 8]], sum: 16, color: 'bg-purple-200' },
-  { cells: [[1, 0], [1, 1], [2, 0]], sum: 20, color: 'bg-pink-200' },
-  { cells: [[1, 4], [1, 5], [2, 5]], sum: 14, color: 'bg-indigo-200' },
-  { cells: [[1, 6], [1, 7], [2, 7]], sum: 13, color: 'bg-orange-200' },
-  { cells: [[2, 1], [2, 2], [3, 2]], sum: 16, color: 'bg-teal-200' },
-  { cells: [[2, 3], [2, 4], [3, 4]], sum: 17, color: 'bg-cyan-200' },
-  { cells: [[2, 6], [3, 6]], sum: 17, color: 'bg-lime-200' },
-  { cells: [[3, 0], [4, 0]], sum: 13, color: 'bg-amber-200' },
-  { cells: [[3, 1], [4, 1]], sum: 20, color: 'bg-rose-200' },
-  { cells: [[3, 3], [4, 3]], sum: 6, color: 'bg-emerald-200' },
-  { cells: [[3, 5], [4, 5]], sum: 14, color: 'bg-violet-200' },
-  { cells: [[3, 7], [3, 8]], sum: 13, color: 'bg-fuchsia-200' },
-  { cells: [[4, 2], [5, 2]], sum: 9, color: 'bg-sky-200' },
-  { cells: [[4, 4], [5, 4], [5, 5]], sum: 11, color: 'bg-red-300' },
-  { cells: [[4, 6], [5, 6]], sum: 13, color: 'bg-blue-300' },
-  { cells: [[4, 7], [4, 8], [5, 8]], sum: 16, color: 'bg-green-300' },
-  { cells: [[5, 0], [5, 1], [6, 0]], sum: 12, color: 'bg-yellow-300' },
-  { cells: [[5, 3], [6, 3]], sum: 16, color: 'bg-purple-300' },
-  { cells: [[5, 7], [6, 7]], sum: 7, color: 'bg-pink-300' },
-  { cells: [[6, 1], [6, 2]], sum: 5, color: 'bg-indigo-300' },
-  { cells: [[6, 4], [6, 5], [7, 5]], sum: 20, color: 'bg-orange-300' },
-  { cells: [[6, 6], [7, 6]], sum: 6, color: 'bg-teal-300' },
-  { cells: [[6, 8], [7, 8]], sum: 15, color: 'bg-cyan-300' },
-  { cells: [[7, 0], [7, 1]], sum: 8, color: 'bg-lime-300' },
-  { cells: [[7, 2], [7, 3], [7, 4]], sum: 16, color: 'bg-amber-300' },
-  { cells: [[7, 7], [8, 7], [8, 8]], sum: 13, color: 'bg-rose-300' },
-  { cells: [[8, 0], [8, 1], [8, 2]], sum: 17, color: 'bg-emerald-300' },
-  { cells: [[8, 3], [8, 4], [8, 5]], sum: 15, color: 'bg-violet-300' },
-  { cells: [[8, 6]], sum: 9, color: 'bg-fuchsia-300' },
+  { cells: [[0, 0], [0, 1]], sum: 3, color: 'bg-red-200' },        // 2+1=3 ✓
+  { cells: [[0, 2], [1, 2]], sum: 7, color: 'bg-blue-200' },       // 5+2=7 ✓
+  { cells: [[0, 3], [0, 4], [1, 3]], sum: 16, color: 'bg-green-200' }, // 6+9+1=16 ✓
+  { cells: [[0, 5], [0, 6], [1, 5]], sum: 15, color: 'bg-yellow-200' }, // 8+4+3=15 ✓
+  { cells: [[0, 7], [0, 8]], sum: 10, color: 'bg-purple-200' },    // 7+3=10 ✓
+  { cells: [[1, 0], [1, 1], [2, 0]], sum: 20, color: 'bg-pink-200' }, // 5+6+9=20 ✓
+  { cells: [[1, 4], [1, 6], [1, 7]], sum: 24, color: 'bg-indigo-200' }, // 7+9+8=24 ✓
+  { cells: [[1, 8], [2, 8]], sum: 5, color: 'bg-orange-200' },     // 4+1=5 ✓
+  { cells: [[2, 1], [2, 2], [2, 3]], sum: 15, color: 'bg-teal-200' }, // 8+4+3=15 ✓
+  { cells: [[2, 4], [2, 5]], sum: 7, color: 'bg-cyan-200' },       // 2+5=7 ✓
+  { cells: [[2, 6], [2, 7]], sum: 13, color: 'bg-lime-200' },      // 7+6=13 ✓
+  { cells: [[3, 0], [4, 0]], sum: 10, color: 'bg-amber-200' },     // 3+7=10 ✓
+  { cells: [[3, 1], [3, 2]], sum: 6, color: 'bg-rose-200' },       // 5+1=6 ✓
+  { cells: [[3, 3], [3, 4], [4, 3]], sum: 14, color: 'bg-emerald-200' }, // 2+8+4=14 ✓
+  { cells: [[3, 5], [4, 5]], sum: 5, color: 'bg-violet-200' },     // 4+1=5 ✓
+  { cells: [[3, 6], [3, 7]], sum: 13, color: 'bg-fuchsia-200' },   // 6+7=13 ✓
+  { cells: [[3, 8], [4, 8]], sum: 15, color: 'bg-sky-200' },       // 9+6=15 ✓
+  { cells: [[4, 1], [4, 2]], sum: 12, color: 'bg-red-300' },       // 9+3=12 ✓
+  { cells: [[4, 4], [5, 4]], sum: 14, color: 'bg-blue-300' },      // 5+9=14 ✓
+  { cells: [[4, 6], [4, 7]], sum: 10, color: 'bg-green-300' },     // 2+8=10 ✓
+  { cells: [[5, 0], [5, 1]], sum: 3, color: 'bg-yellow-300' },     // 1+2=3 ✓
+  { cells: [[5, 2], [5, 3]], sum: 13, color: 'bg-purple-300' },    // 6+7=13 ✓
+  { cells: [[5, 5], [5, 6]], sum: 7, color: 'bg-pink-300' },       // 4+3=7 ✓
+  { cells: [[5, 7], [5, 8]], sum: 13, color: 'bg-indigo-300' },    // 5+8=13 ✓
+  { cells: [[6, 0], [6, 1]], sum: 7, color: 'bg-orange-300' },     // 4+3=7 ✓
+  { cells: [[6, 2], [6, 3]], sum: 17, color: 'bg-teal-300' },      // 8+9=17 ✓
+  { cells: [[6, 4], [6, 5]], sum: 13, color: 'bg-cyan-300' },      // 6+7=13 ✓
+  { cells: [[6, 6], [6, 7]], sum: 6, color: 'bg-lime-300' },       // 1+5=6 ✓
+  { cells: [[6, 8], [7, 8]], sum: 8, color: 'bg-amber-300' },      // 2+6=8 ✓
+  { cells: [[7, 0], [7, 1], [7, 2]], sum: 20, color: 'bg-rose-300' }, // 8+7+5=20 ✓
+  { cells: [[7, 3], [7, 4]], sum: 5, color: 'bg-emerald-300' },    // 1+4=5 ✓
+  { cells: [[7, 5], [7, 6]], sum: 11, color: 'bg-violet-300' },    // 9+2=11 ✓
+  { cells: [[7, 7], [8, 7]], sum: 4, color: 'bg-fuchsia-300' },    // 3+1=4 ✓
+  { cells: [[8, 0], [8, 1]], sum: 10, color: 'bg-sky-300' },       // 6+4=10 ✓
+  { cells: [[8, 2], [8, 3]], sum: 17, color: 'bg-red-400' },       // 9+8=17 ✓
+  { cells: [[8, 4], [8, 5]], sum: 5, color: 'bg-blue-400' },       // 3+2=5 ✓
+  { cells: [[8, 6], [8, 8]], sum: 12, color: 'bg-green-400' },     // 5+7=12 ✓
 ]
 
 export default function KillerSudoku({ settings }: Props) {

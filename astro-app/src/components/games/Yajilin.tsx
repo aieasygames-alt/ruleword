@@ -67,26 +67,100 @@ export default function Yajilin({ settings }: Props) {
   }, [grid, mode])
 
   const checkSolution = useCallback(() => {
-    // Simplified check - verify black cells don't touch and path forms loop
-    let valid = true
-
-    // Check black cells don't touch orthogonally
+    // 1. Black cells must not touch orthogonally
     for (let r = 0; r < GRID_SIZE; r++) {
       for (let c = 0; c < GRID_SIZE; c++) {
         if (grid[r][c].isBlack) {
-          const neighbors = [
-            [r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]
-          ]
+          const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
           for (const [nr, nc] of neighbors) {
             if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
-              if (grid[nr][nc].isBlack) valid = false
+              if (grid[nr][nc].isBlack) {
+                setSolved(false)
+                return
+              }
             }
           }
         }
       }
     }
 
-    setSolved(valid)
+    // 2. Clue cells must have correct number of black cells in the indicated direction
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].clue !== null && grid[r][c].clueDir) {
+          let count = 0
+          let dr = 0, dc = 0
+          if (grid[r][c].clueDir === 'up') dr = -1
+          else if (grid[r][c].clueDir === 'down') dr = 1
+          else if (grid[r][c].clueDir === 'left') dc = -1
+          else if (grid[r][c].clueDir === 'right') dc = 1
+
+          let nr = r + dr, nc = c + dc
+          while (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE) {
+            if (grid[nr][nc].isBlack) count++
+            nr += dr
+            nc += dc
+          }
+          if (count !== grid[r][c].clue) {
+            setSolved(false)
+            return
+          }
+        }
+      }
+    }
+
+    // 3. Path cells must form a single connected path visiting all non-black, non-clue cells
+    const pathCells: [number, number][] = []
+    for (let r = 0; r < GRID_SIZE; r++) {
+      for (let c = 0; c < GRID_SIZE; c++) {
+        if (grid[r][c].isPath) pathCells.push([r, c])
+      }
+    }
+
+    if (pathCells.length < 2) {
+      setSolved(false)
+      return
+    }
+
+    // Check connectivity via BFS
+    const visited = new Set<string>()
+    const queue: [number, number][] = [pathCells[0]]
+    visited.add(`${pathCells[0][0]}-${pathCells[0][1]}`)
+
+    while (queue.length > 0) {
+      const [cr, cc] = queue.shift()!
+      const neighbors = [[cr - 1, cc], [cr + 1, cc], [cr, cc - 1], [cr, cc + 1]]
+      for (const [nr, nc] of neighbors) {
+        const key = `${nr}-${nc}`
+        if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE &&
+            grid[nr][nc].isPath && !visited.has(key)) {
+          visited.add(key)
+          queue.push([nr, nc])
+        }
+      }
+    }
+
+    if (visited.size !== pathCells.length) {
+      setSolved(false)
+      return
+    }
+
+    // 4. Every path cell must have exactly 2 path neighbors (forming a loop/line)
+    for (const [r, c] of pathCells) {
+      let neighborCount = 0
+      const neighbors = [[r - 1, c], [r + 1, c], [r, c - 1], [r, c + 1]]
+      for (const [nr, nc] of neighbors) {
+        if (nr >= 0 && nr < GRID_SIZE && nc >= 0 && nc < GRID_SIZE && grid[nr][nc].isPath) {
+          neighborCount++
+        }
+      }
+      if (neighborCount !== 2) {
+        setSolved(false)
+        return
+      }
+    }
+
+    setSolved(true)
   }, [grid])
 
   const reset = () => {

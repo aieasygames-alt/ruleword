@@ -351,20 +351,23 @@ export default function SpaceInvaders({ settings }: Props) {
       })
 
       // Check bullet-enemy collisions
-      game.bullets.forEach((bullet, bi) => {
-        game.enemies.forEach(enemy => {
+      game.bullets = game.bullets.filter(bullet => {
+        let bulletHit = false
+        for (const enemy of game.enemies) {
           if (enemy.alive &&
               bullet.x < enemy.x + ENEMY_WIDTH &&
               bullet.x + BULLET_WIDTH > enemy.x &&
               bullet.y < enemy.y + ENEMY_HEIGHT &&
               bullet.y + BULLET_HEIGHT > enemy.y) {
             enemy.alive = false
-            game.bullets.splice(bi, 1)
+            bulletHit = true
             const color = enemy.type === 2 ? 'rgba(239, 68, 68, 1)' : enemy.type === 1 ? 'rgba(245, 158, 11, 1)' : 'rgba(139, 92, 246, 1)'
             addExplosion(enemy.x + ENEMY_WIDTH / 2, enemy.y + ENEMY_HEIGHT / 2, color)
             setScore(prev => prev + (enemy.type === 2 ? 30 : enemy.type === 1 ? 20 : 10))
+            break
           }
-        })
+        }
+        return !bulletHit
       })
 
       // Check win

@@ -173,31 +173,73 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     return () => clearInterval(interval)
   }, [isRunning, gameOver])
 
+  // 生成安全棋盘（第一次点击位置及周围无雷）
+  const generateSafeBoard = useCallback((safeRow: number, safeCol: number): Cell[][] => {
+    let attempts = 0
+    while (attempts < 200) {
+      const newBoard = generateBoard(config.rows, config.cols, config.mines)
+      // 确保点击位置及周围8格都无雷
+      let safe = true
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          const nr = safeRow + dr
+          const nc = safeCol + dc
+          if (nr >= 0 && nr < config.rows && nc >= 0 && nc < config.cols && newBoard[nr][nc].isMine) {
+            safe = false
+            break
+          }
+        }
+        if (!safe) break
+      }
+      if (safe) return newBoard
+      attempts++
+    }
+    // Fallback: force safety
+    const fallback = generateBoard(config.rows, config.cols, config.mines)
+    for (let dr = -1; dr <= 1; dr++) {
+      for (let dc = -1; dc <= 1; dc++) {
+        const nr = safeRow + dr
+        const nc = safeCol + dc
+        if (nr >= 0 && nr < config.rows && nc >= 0 && nc < config.cols && fallback[nr][nc].isMine) {
+          fallback[nr][nc].isMine = false
+        }
+      }
+    }
+    // Recalculate adjacent counts
+    for (let r = 0; r < config.rows; r++) {
+      for (let c = 0; c < config.cols; c++) {
+        if (!fallback[r][c].isMine) {
+          let count = 0
+          for (let dr2 = -1; dr2 <= 1; dr2++) {
+            for (let dc2 = -1; dc2 <= 1; dc2++) {
+              const nr2 = r + dr2, nc2 = c + dc2
+              if (nr2 >= 0 && nr2 < config.rows && nc2 >= 0 && nc2 < config.cols && fallback[nr2][nc2].isMine) count++
+            }
+          }
+          fallback[r][c].adjacentMines = count
+        }
+      }
+    }
+    return fallback
+  }, [config])
+
   // 揭开格子
   const revealCell = useCallback((r: number, c: number) => {
     if (gameOver || board[r][c].state !== 'hidden') return
 
-    // 第一次点击时不触发地雷（重新生成不含地雷的板）
-    if (firstClick && board[r][c].isMine) {
-      const newBoard = generateBoard(config.rows, config.cols, config.mines)
-      // 确保第一次点击的位置不是地雷
-      while (newBoard[r][c].isMine) {
-        const tempBoard = generateBoard(config.rows, config.cols, config.mines)
-        newBoard.forEach((row, i) => row.forEach((cell, j) => {
-          newBoard[i][j] = tempBoard[i][j]
-        }))
-      }
-      setBoard(newBoard)
+    // 第一次点击时生成安全棋盘
+    let currentBoard = board
+    if (firstClick) {
+      currentBoard = generateSafeBoard(r, c)
+      setBoard(currentBoard)
       setFirstClick(false)
+      setIsRunning(true)
     }
 
-    if (firstClick) {
-      setIsRunning(true)
-      setFirstClick(false)
-    }
+    const boardToUse = currentBoard
 
     setBoard(prev => {
-      const newBoard = prev.map(row => row.map(cell => ({ ...cell })))
+      const newBoard = (prev === board ? boardToUse : prev).map(row => row.map(cell => ({ ...cell })))
 
       // 如果是地雷，游戏结束
       if (newBoard[r][c].isMine) {
@@ -236,7 +278,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
 
       return newBoard
     })
-  }, [gameOver, board, firstClick, config, stats])
+  }, [gameOver, board, firstClick, config, stats, generateSafeBoard])
 
   // 切换旗帜
   const toggleFlag = useCallback((r: number, c: number, e: React.MouseEvent) => {

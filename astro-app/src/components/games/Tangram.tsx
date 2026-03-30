@@ -99,12 +99,44 @@ export default function Tangram() {
   }, [selectedShape]);
 
   const checkWin = useCallback(() => {
-    // Simplified win check - all shapes placed
+    // Check that all shapes are placed AND overlap with the target area
+    const target = TARGETS[currentTarget];
+    // Calculate target bounding box center
+    const targetCenter = {
+      x: target.points.reduce((sum, p) => sum + p[0], 0) / target.points.length,
+      y: target.points.reduce((sum, p) => sum + p[1], 0) / target.points.length,
+    };
+    // Offset to canvas coordinate space (target is displayed in 200x120 SVG centered)
+    const canvasCenterX = 100; // center of SVG display
+    const canvasCenterY = 60;
+    const offsetX = canvasCenterX - targetCenter.x;
+    const offsetY = canvasCenterY - targetCenter.y;
+    const targetInCanvas = target.points.map(p => [p[0] + offsetX, p[1] + offsetY + 50]);
+
     const allPlaced = shapes.every(s => s.placed);
-    if (allPlaced && shapes.length > 0) {
+    if (!allPlaced || shapes.length === 0) return;
+
+    // Check each shape center is within the target polygon bounding box (with tolerance)
+    const tolerance = 80;
+    let allInTarget = true;
+    for (const shape of shapes) {
+      const cx = shape.x + 50;
+      const cy = shape.y + 25;
+      // Simple bounding box check with tolerance
+      const minX = Math.min(...targetInCanvas.map(p => p[0])) - tolerance;
+      const maxX = Math.max(...targetInCanvas.map(p => p[0])) + tolerance;
+      const minY = Math.min(...targetInCanvas.map(p => p[1])) - tolerance;
+      const maxY = Math.max(...targetInCanvas.map(p => p[1])) + tolerance;
+      if (cx < minX || cx > maxX || cy < minY || cy > maxY) {
+        allInTarget = false;
+        break;
+      }
+    }
+
+    if (allInTarget) {
       setGameWon(true);
     }
-  }, [shapes]);
+  }, [shapes, currentTarget]);
 
   useEffect(() => {
     checkWin();

@@ -86,7 +86,7 @@ function generateRegions(size: number, rng: () => number): number[][] {
   return regions
 }
 
-// 生成解
+// 生成解 - 使用回溯法确保邻接约束
 function generateSolution(size: number, regions: number[][], rng: () => number): number[][] {
   const solution = Array(size).fill(null).map(() => Array(size).fill(0))
 
@@ -100,19 +100,85 @@ function generateSolution(size: number, regions: number[][], rng: () => number):
     }
   }
 
-  // 填充每个区域
-  for (const region of Object.keys(regionCells)) {
-    const cells = regionCells[parseInt(region)]
-    const regionSize = cells.length
-    const nums = [...Array(regionSize)].map((_, i) => i + 1).sort(() => rng() - 0.5)
-
-    for (let i = 0; i < cells.length; i++) {
-      const [r, c] = cells[i]
-      solution[r][c] = nums[i]
+  // Get all cells in order
+  const allCells: [number, number][] = []
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      allCells.push([r, c])
     }
   }
 
+  // Shuffle for randomness
+  for (let i = allCells.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [allCells[i], allCells[j]] = [allCells[j], allCells[i]]
+  }
+
+  // Backtracking solver
+  function solve(idx: number): boolean {
+    if (idx >= allCells.length) return true
+
+    const [r, c] = allCells[idx]
+    const region = regions[r][c]
+    const cells = regionCells[region]
+    const regionSize = cells.length
+
+    // Get numbers 1..regionSize in random order
+    const nums = [...Array(regionSize)].map((_, i) => i + 1)
+    for (let i = nums.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1));
+      [nums[i], nums[j]] = [nums[j], nums[i]]
+    }
+
+    for (const num of nums) {
+      if (isValidPlacement(solution, regions, r, c, num, regionCells)) {
+        solution[r][c] = num
+        if (solve(idx + 1)) return true
+        solution[r][c] = 0
+      }
+    }
+
+    return false
+  }
+
+  if (!solve(0)) {
+    // Fallback: return zeroed grid (shouldn't happen with valid regions)
+    return Array(size).fill(null).map(() => Array(size).fill(0))
+  }
+
   return solution
+}
+
+// Check if placing num at (r,c) is valid
+function isValidPlacement(
+  grid: number[][],
+  regions: number[][],
+  r: number,
+  c: number,
+  num: number,
+  regionCells: Record<number, [number, number][]>
+): boolean {
+  const size = grid.length
+  const region = regions[r][c]
+
+  // Check no duplicate in same region
+  const cells = regionCells[region]
+  for (const [cr, cc] of cells) {
+    if (grid[cr][cc] === num && (cr !== r || cc !== c)) return false
+  }
+
+  // Check no same number in adjacent cells (including diagonals)
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue
+      const nr = r + dr, nc = c + dc
+      if (nr >= 0 && nr < size && nc >= 0 && nc < size && grid[nr][nc] === num) {
+        return false
+      }
+    }
+  }
+
+  return true
 }
 
 // 检查是否有效

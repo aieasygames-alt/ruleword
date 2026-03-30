@@ -60,51 +60,61 @@ const canSelect = (tile: Tile, allTiles: Tile[]): boolean => {
   return !(hasLeft && hasRight)
 }
 
-// 生成可解的麻将布局
+// 生成可解的麻将布局 - 从底向上放置配对牌确保可解
 const generateLayout = (): Tile[] => {
   const tiles: Tile[] = []
   let id = 0
 
-  // 简化版布局 - 3层金字塔
-  // 底层 6x6
+  // 3层金字塔布局
+  // 底层 6x6 = 36
   for (let row = 0; row < 6; row++) {
     for (let col = 0; col < 6; col++) {
       tiles.push({ id: id++, symbol: '', layer: 0, row, col, isRemoved: false })
     }
   }
-  // 中层 4x4
+  // 中层 4x4 = 16
   for (let row = 0; row < 4; row++) {
     for (let col = 0; col < 4; col++) {
       tiles.push({ id: id++, symbol: '', layer: 1, row: row + 1, col: col + 1, isRemoved: false })
     }
   }
-  // 顶层 2x2
+  // 顶层 2x2 = 4
   for (let row = 0; row < 2; row++) {
     for (let col = 0; col < 2; col++) {
       tiles.push({ id: id++, symbol: '', layer: 2, row: row + 2, col: col + 2, isRemoved: false })
     }
   }
 
-  // 分配牌（确保每个符号出现偶数次）
-  const totalTiles = tiles.length
+  const totalTiles = tiles.length // 56 tiles = 28 pairs
+
+  // Strategy: assign pairs in reverse removal order (top layer first, then middle, then bottom)
+  // This ensures that when playing forward, matches are always available
+  // Sort tiles by layer (highest first) then by position
+  const sortedTiles = [...tiles].sort((a, b) => {
+    if (a.layer !== b.layer) return b.layer - a.layer // top layer first
+    return a.row * 10 + a.col - (b.row * 10 + b.col)
+  })
+
+  // Assign pairs to sorted tiles
   const pairsNeeded = Math.floor(totalTiles / 2)
   const symbols: string[] = []
-
   for (let i = 0; i < pairsNeeded; i++) {
     const symbol = TILE_SYMBOLS[i % TILE_SYMBOLS.length]
     symbols.push(symbol, symbol)
   }
 
-  // 洗牌
-  for (let i = symbols.length - 1; i > 0; i--) {
+  // Shuffle pairs (not individual symbols) to maintain pair integrity
+  for (let i = pairsNeeded - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
-    ;[symbols[i], symbols[j]] = [symbols[j], symbols[i]]
+    // Swap pair positions
+    ;[symbols[i * 2], symbols[j * 2]] = [symbols[j * 2], symbols[i * 2]]
+    ;[symbols[i * 2 + 1], symbols[j * 2 + 1]] = [symbols[j * 2 + 1], symbols[i * 2 + 1]]
   }
 
-  // 分配给每个位置
-  tiles.forEach((tile, index) => {
-    tile.symbol = symbols[index] || TILE_SYMBOLS[0]
-  })
+  // Assign to sorted tiles (top layer gets pairs first)
+  for (let i = 0; i < sortedTiles.length && i < symbols.length; i++) {
+    sortedTiles[i].symbol = symbols[i]
+  }
 
   return tiles
 }

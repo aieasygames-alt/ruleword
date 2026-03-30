@@ -110,42 +110,78 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
 
     if (type === 'h') {
       setHorizontalLines(prev => {
-        if (prev[row][col] !== 0) return prev
-        const newLines = prev.map(r => [...r])
-        newLines[row][col] = player
+        if (prev[row]?.[col] !== 0) return prev
+        const newHLines = prev.map(r => [...r])
+        newHLines[row][col] = player
 
-        const completed = updateBoxes(newLines, verticalLines, player)
-        if (player === 1) setPlayerScore(s => s + completed)
-        else setAiScore(s => s + completed)
+        // Use functional updates to get latest vertical lines
+        setVerticalLines(currentVLines => {
+          // Check completed boxes
+          const newBoxes = boxes.map(r => [...r])
+          let completedCount = 0
 
-        if (checkGameOver(newLines, verticalLines)) {
-          setGameOver(true)
-        } else if (completed === 0) {
-          setCurrentPlayer(player === 1 ? 2 : 1)
-        }
+          for (let br = 0; br < GRID_SIZE - 1; br++) {
+            for (let bc = 0; bc < GRID_SIZE - 1; bc++) {
+              if (newBoxes[br][bc] === 0 && checkBox(br, bc, newHLines, currentVLines)) {
+                newBoxes[br][bc] = player
+                completedCount++
+              }
+            }
+          }
 
-        return newLines
+          setBoxes(newBoxes)
+          if (player === 1) setPlayerScore(s => s + completedCount)
+          else setAiScore(s => s + completedCount)
+
+          if (checkGameOver(newHLines, currentVLines)) {
+            setGameOver(true)
+          } else if (completedCount === 0) {
+            setCurrentPlayer(player === 1 ? 2 : 1)
+          }
+
+          return currentVLines // Don't modify vertical lines
+        })
+
+        return newHLines
       })
     } else {
       setVerticalLines(prev => {
-        if (prev[row][col] !== 0) return prev
-        const newLines = prev.map(r => [...r])
-        newLines[row][col] = player
+        if (prev[row]?.[col] !== 0) return prev
+        const newVLines = prev.map(r => [...r])
+        newVLines[row][col] = player
 
-        const completed = updateBoxes(horizontalLines, newLines, player)
-        if (player === 1) setPlayerScore(s => s + completed)
-        else setAiScore(s => s + completed)
+        // Use functional updates to get latest horizontal lines
+        setHorizontalLines(currentHLines => {
+          // Check completed boxes
+          const newBoxes = boxes.map(r => [...r])
+          let completedCount = 0
 
-        if (checkGameOver(horizontalLines, newLines)) {
-          setGameOver(true)
-        } else if (completed === 0) {
-          setCurrentPlayer(player === 1 ? 2 : 1)
-        }
+          for (let br = 0; br < GRID_SIZE - 1; br++) {
+            for (let bc = 0; bc < GRID_SIZE - 1; bc++) {
+              if (newBoxes[br][bc] === 0 && checkBox(br, bc, currentHLines, newVLines)) {
+                newBoxes[br][bc] = player
+                completedCount++
+              }
+            }
+          }
 
-        return newLines
+          setBoxes(newBoxes)
+          if (player === 1) setPlayerScore(s => s + completedCount)
+          else setAiScore(s => s + completedCount)
+
+          if (checkGameOver(currentHLines, newVLines)) {
+            setGameOver(true)
+          } else if (completedCount === 0) {
+            setCurrentPlayer(player === 1 ? 2 : 1)
+          }
+
+          return currentHLines // Don't modify horizontal lines
+        })
+
+        return newVLines
       })
     }
-  }, [gameOver, horizontalLines, verticalLines, updateBoxes, checkGameOver])
+  }, [gameOver, boxes, checkGameOver])
 
   // Handle horizontal line click
   const handleHLineClick = (row: number, col: number) => {

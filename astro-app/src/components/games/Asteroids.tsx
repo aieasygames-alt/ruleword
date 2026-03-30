@@ -239,11 +239,13 @@ export default function Asteroids({ settings }: Props) {
       })
 
       // Bullet-asteroid collision
-      game.bullets.forEach((bullet, bi) => {
-        game.asteroids.forEach((asteroid, ai) => {
+      const asteroidsToRemove = new Set<number>()
+      game.bullets = game.bullets.filter(bullet => {
+        for (let ai = 0; ai < game.asteroids.length; ai++) {
+          if (asteroidsToRemove.has(ai)) continue
+          const asteroid = game.asteroids[ai]
           const dist = Math.sqrt((bullet.x - asteroid.x) ** 2 + (bullet.y - asteroid.y) ** 2)
           if (dist < asteroid.size) {
-            game.bullets.splice(bi, 1)
             if (asteroid.size > 15) {
               // Split asteroid
               for (let i = 0; i < 2; i++) {
@@ -258,11 +260,18 @@ export default function Asteroids({ settings }: Props) {
                 })
               }
             }
-            game.asteroids.splice(ai, 1)
+            asteroidsToRemove.add(ai)
             setScore(prev => prev + Math.floor(100 / asteroid.size * 10))
+            return false // remove bullet
           }
-        })
+        }
+        return true
       })
+      // Remove destroyed asteroids (iterate in reverse to preserve indices)
+      const sortedRemovals = Array.from(asteroidsToRemove).sort((a, b) => b - a)
+      for (const idx of sortedRemovals) {
+        game.asteroids.splice(idx, 1)
+      }
 
       // Ship-asteroid collision
       for (const asteroid of game.asteroids) {

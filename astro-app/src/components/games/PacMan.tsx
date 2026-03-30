@@ -289,10 +289,17 @@ export default function PacMan({ settings }: Props) {
               })
             }
             ghost.dir = validDirs[0]
+          } else {
+            // No valid forward moves - reverse direction
+            ghost.dir = { x: -ghost.dir.x, y: -ghost.dir.y }
           }
 
-          ghost.x += ghost.dir.x
-          ghost.y += ghost.dir.y
+          const newGhostX = ghost.x + ghost.dir.x
+          const newGhostY = ghost.y + ghost.dir.y
+          if (canMove(newGhostX, newGhostY)) {
+            ghost.x = newGhostX
+            ghost.y = newGhostY
+          }
           if (ghost.x < 0) ghost.x = COLS - 1
           if (ghost.x >= COLS) ghost.x = 0
         })

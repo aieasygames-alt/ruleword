@@ -104,6 +104,60 @@ export default function Chess({ settings }: Props) {
     return moves
   }, [])
 
+  // Check if a position is attacked by the given color
+  const isAttackedBy = useCallback((r: number, c: number, byColor: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
+    for (let row = 0; row < 8; row++) {
+      for (let col = 0; col < 8; col++) {
+        const p = boardState[row][col]
+        if (!p || p.color !== byColor) continue
+        if (p.type === 'P') {
+          const dir = p.color === 'white' ? -1 : 1
+          if (row + dir === r && (col - 1 === c || col + 1 === c)) return true
+        } else if (p.type === 'K') {
+          if (Math.abs(row - r) <= 1 && Math.abs(col - c) <= 1 && (row !== r || col !== c)) return true
+        } else {
+          const rawMoves = getValidMoves(row, col, boardState)
+          if (rawMoves.some(m => m.row === r && m.col === c)) return true
+        }
+      }
+    }
+    return false
+  }, [getValidMoves])
+
+  // Find king position
+  const findKing = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): [number, number] | null => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const p = boardState[r][c]
+        if (p && p.type === 'K' && p.color === color) return [r, c]
+      }
+    }
+    return null
+  }, [])
+
+  // Check if color is in check
+  const isInCheck = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
+    const kingPos = findKing(color, boardState)
+    if (!kingPos) return false
+    const enemy = color === 'white' ? 'black' : 'white'
+    return isAttackedBy(kingPos[0], kingPos[1], enemy, boardState)
+  }, [findKing, isAttackedBy])
+
+  // Get legal moves (filter out moves that leave king in check)
+  const getLegalMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
+    const piece = boardState[row][col]
+    if (!piece) return []
+
+    const rawMoves = getValidMoves(row, col, boardState)
+    return rawMoves.filter(move => {
+      // Simulate move and check if king is safe
+      const simBoard = boardState.map(r => [...r])
+      simBoard[move.row][move.col] = simBoard[row][col]
+      simBoard[row][col] = null
+      return !isInCheck(piece.color, simBoard)
+    })
+  }, [getValidMoves, isInCheck])
+
   const handleClick = useCallback((row: number, col: number) => {
     if (gameOver) return
 
@@ -123,28 +177,50 @@ export default function Chess({ settings }: Props) {
           newBoard[row][col] = { type: 'Q', color: movingPiece.color }
         }
 
-        // Check for king capture
-        const capturedPiece = board[row][col]
-        if (capturedPiece?.type === 'K') {
-          setGameOver(turn === 'white' ? (settings.language === 'zh' ? '白方胜利！' : 'White wins!') : (settings.language === 'zh' ? '黑方胜利！' : 'Black wins!'))
+        setBoard(newBoard)
+        const nextTurn = turn === 'white' ? 'black' : 'white'
+        setTurn(nextTurn)
+
+        // Check if opponent is in checkmate or stalemate
+        const enemyHasLegalMoves = () => {
+          for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+              const p = newBoard[r][c]
+              if (p && p.color === nextTurn) {
+                const moves = getLegalMoves(r, c, newBoard)
+                if (moves.length > 0) return true
+              }
+            }
+          }
+          return false
         }
 
-        setBoard(newBoard)
-        setTurn(t => t === 'white' ? 'black' : 'white')
+        if (!enemyHasLegalMoves()) {
+          if (isInCheck(nextTurn, newBoard)) {
+            // Checkmate
+            setGameOver(turn === 'white'
+              ? (settings.language === 'zh' ? '白方将杀获胜！' : 'White wins by checkmate!')
+              : (settings.language === 'zh' ? '黑方将杀获胜！' : 'Black wins by checkmate!'))
+          } else {
+            // Stalemate
+            setGameOver(settings.language === 'zh' ? '和棋（逼和）！' : 'Stalemate - Draw!')
+          }
+        }
+
         setSelected(null)
         setValidMoves([])
       } else if (piece && piece.color === turn) {
         setSelected({ row, col })
-        setValidMoves(getValidMoves(row, col, board))
+        setValidMoves(getLegalMoves(row, col, board))
       } else {
         setSelected(null)
         setValidMoves([])
       }
     } else if (piece && piece.color === turn) {
       setSelected({ row, col })
-      setValidMoves(getValidMoves(row, col, board))
+      setValidMoves(getLegalMoves(row, col, board))
     }
-  }, [board, selected, turn, validMoves, gameOver, getValidMoves, settings.language])
+  }, [board, selected, turn, validMoves, gameOver, getLegalMoves, isInCheck, settings.language])
 
   const resetGame = () => {
     setBoard(INITIAL_BOARD.map(row => [...row]))
