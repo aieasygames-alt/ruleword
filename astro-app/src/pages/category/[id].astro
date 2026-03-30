@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { games } from '../../data/games'
 import { languages, categoryI18n, categoryDescriptions, i18n, type Language } from '../../data/i18n'
+import { categorySEO } from '../../data/seo'
 
 // Generate static paths for all categories - inline data to avoid hoisting issues
 export function getStaticPaths() {
@@ -29,18 +30,11 @@ const defaultLang: Language = 'en'
 const defaultT = i18n[defaultLang]
 const defaultF = defaultT.feedback
 
-// SEO: Custom meta description for each category
-const categoryDescriptions_seo: Record<string, string> = {
-  word: `Play ${categoryGames.length}+ free word games online at RuleWord. Wordle, Spelling Bee, Word Search, Crossword puzzles and more. Improve vocabulary while having fun. No download required.`,
-  logic: `Play ${categoryGames.length}+ free logic & number puzzles at RuleWord. Sudoku, 2048, Nonogram, Math puzzles and brain teasers. Train your mind with challenging games. No download required.`,
-  strategy: `Play ${categoryGames.length}+ free strategy games at RuleWord. Chess, Gomoku, Reversi, Checkers and more classic board games. Challenge AI opponents. No download required.`,
-  arcade: `Play ${categoryGames.length}+ free arcade games at RuleWord. Tetris, Snake, Pac-Man, Breakout and nostalgic classics. Relive the golden age of gaming. No download required.`,
-  memory: `Play ${categoryGames.length}+ free memory & reflex games at RuleWord. Pattern memory, reaction tests, Simon says and more brain training games. No download required.`,
-  skill: `Play ${categoryGames.length}+ free skill games at RuleWord. Typing Test, Aim Trainer, Trivia Quiz and more challenges to test your abilities. No download required.`,
-  puzzle: `Play ${categoryGames.length}+ free puzzle games at RuleWord. Mahjong, Block Puzzle, Jigsaw and more tile-matching fun. Relax and solve puzzles. No download required.`,
-}
-
-const metaDescription = categoryDescriptions_seo[category.id] || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at RuleWord. No download required.`
+// Get SEO config for this category
+const seoConfig = categorySEO[category.id]
+const seoTitle = seoConfig?.title || `${category.en} - Free Online Games | RuleWord`
+const seoDescription = seoConfig?.description || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at RuleWord. No download required.`
+const seoKeywords = seoConfig?.keywords || `${category.en.toLowerCase()}, free online games`
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -50,9 +44,9 @@ const breadcrumbItems = [
 ---
 
 <BaseLayout
-  title={`${category.en} - RuleWord | Free Online Games`}
-  description={metaDescription}
-  keywords={`${category.en.toLowerCase()}, free ${category.en.toLowerCase()}, online games, puzzle games, ${categoryGames.slice(0, 5).map(g => g.name).join(', ')}`}
+  title={seoTitle}
+  description={seoDescription}
+  keywords={seoKeywords}
   canonicalPath={`/category/${category.id}/`}
   breadcrumbItems={breadcrumbItems}
 >
