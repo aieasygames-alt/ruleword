@@ -3,251 +3,454 @@ import React, { useState, useCallback, useEffect } from 'react';
 type Cell = number | null;
 
 interface HidatoProps {
-  size?: number;
+  settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
 }
 
-const generatePuzzle = (size: number): { grid: Cell[][], solution: number[][] } => {
-  // Simple Hidato puzzle generator
-  const grid: Cell[][] = Array(size).fill(null).map(() => Array(size).fill(null));
+// Generate a valid Hidato puzzle using backtracking
+function generatePuzzle(size: number): { grid: Cell[][], solution: number[][] } {
   const solution: number[][] = Array(size).fill(null).map(() => Array(size).fill(0));
 
-  // Create a valid Hidato puzzle
-  const total = size * size;
-  const sequence = Array.from({ length: total }, (_, i) => i + 1);
+  // All 8 directions for adjacency
+  const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],          [0, 1],
+    [1, -1],  [1, 0], [1, 1]
+  ];
 
-  // Simple pattern - snake fill
-  let index = 0;
-  for (let y = 0; y < size; y++) {
-    if (y % 2 === 0) {
-      for (let x = 0; x < size; x++) {
-        solution[y][x] = sequence[index++];
+  // Check if position is valid
+  const isValid = (r: number, c: number): boolean => {
+    return r >= 0 && r < size && c >= 0 && c < size;
+  };
+
+  // Get all empty neighbors
+  const getEmptyNeighbors = (r: number, c: number): [number, number][] => {
+    const neighbors: [number, number][] = [];
+    for (const [dr, dc] of directions) {
+      const nr = r + dr, nc = c + dc;
+      if (isValid(nr, nc) && solution[nr][nc] === 0) {
+        neighbors.push([nr, nc]);
       }
-    } else {
-      for (let x = size - 1; x >= 0; x--) {
-        solution[y][x] = sequence[index++];
+    }
+    return neighbors;
+  };
+
+  // Get all neighbors (including filled)
+  const getNeighbors = (r: number, c: number): [number, number][] => {
+    const neighbors: [number, number][] = [];
+    for (const [dr, dc] of directions) {
+      const nr = r + dr, nc = c + dc;
+      if (isValid(nr, nc)) {
+        neighbors.push([nr, nc]);
+      }
+    }
+    return neighbors;
+  };
+
+  // Shuffle array
+  const shuffle = <T,>(arr: T[]): T[] => {
+    const result = [...arr];
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
+  };
+
+  // Backtracking to fill the grid
+  const solve = (num: number, r: number, c: number): boolean => {
+    solution[r][c] = num;
+
+    if (num === size * size) {
+      return true; // All cells filled
+    }
+
+    // Get empty neighbors and shuffle for randomness
+    const neighbors = shuffle(getEmptyNeighbors(r, c));
+
+    for (const [nr, nc] of neighbors) {
+      if (solve(num + 1, nr, nc)) {
+        return true;
+      }
+    }
+
+    // Backtrack
+    solution[r][c] = 0;
+    return false;
+  };
+
+  // Try multiple starting positions until we find a solution
+  let found = false;
+  const starts = shuffle(
+    Array.from({ length: size * size }, (_, i) =>
+      [Math.floor(i / size), i % size] as [number, number]
+    )
+  );
+
+  for (const [sr, sc] of starts) {
+    // Reset solution
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        solution[r][c] = 0;
+      }
+    }
+    if (solve(1, sr, sc)) {
+      found = true;
+      break;
+    }
+  }
+
+  if (!found) {
+    // Fallback: create a simple spiral pattern
+    let num = 1;
+    let r = 0, c = 0;
+    let dir = 0;
+    const dirOrder = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+    const visited = new Set<string>();
+
+    while (num <= size * size) {
+      solution[r][c] = num++;
+      visited.add(`${r},${c}`);
+
+      const [dr, dc] = dirOrder[dir];
+      const nr = r + dr, nc = c + dc;
+
+      if (!isValid(nr, nc) || visited.has(`${nr},${nc}`)) {
+        dir = (dir + 1) % 4;
+        const [ndr, ndc] = dirOrder[dir];
+        r += ndr;
+        c += ndc;
+      } else {
+        r = nr;
+        c = nc;
       }
     }
   }
 
-  // Copy some cells as hints
-  const hintCount = Math.floor(total * 0.4);
-  const hints = new Set<number>();
-  while (hints.size < hintCount) {
-    hints.add(Math.floor(Math.random() * total) + 1);
+  // Create puzzle by keeping some numbers as hints (about 30-40%)
+  const grid: Cell[][] = Array(size).fill(null).map(() => Array(size).fill(null));
+  const total = size * size;
+  const hintCount = Math.floor(total * 0.35);
+
+  // Always show 1 and the last number
+  const hintsToShow = new Set([1, total]);
+
+  // Randomly select other hints
+  while (hintsToShow.size < hintCount + 2) {
+    hintsToShow.add(Math.floor(Math.random() * (total - 2)) + 2);
   }
 
-  for (let y = 0; y < size; y++) {
-    for (let x = 0; x < size; x++) {
-      if (hints.has(solution[y][x])) {
-        grid[y][x] = solution[y][x];
+  for (let r = 0; r < size; r++) {
+    for (let c = 0; c < size; c++) {
+      if (hintsToShow.has(solution[r][c])) {
+        grid[r][c] = solution[r][c];
       }
     }
   }
 
   return { grid, solution };
-};
+}
 
-const isValidMove = (grid: Cell[][], row: number, col: number, value: number, size: number): boolean => {
-  // Check if placing value is valid (adjacent to value-1 and will have value+1 adjacent)
-  const hasNeighbor = (target: number): boolean => {
-    const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]];
-    for (const [dr, dc] of dirs) {
-      const nr = row + dr;
-      const nc = col + dc;
-      if (nr >= 0 && nr < size && nc >= 0 && nc < size) {
-        if (grid[nr][nc] === target) return true;
+// Check if a move is valid
+const isValidMove = (
+  grid: Cell[][],
+  row: number,
+  col: number,
+  value: number,
+  size: number
+): boolean => {
+  const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],          [0, 1],
+    [1, -1],  [1, 0], [1, 1]
+  ];
+
+  const isValid = (r: number, c: number): boolean =>
+    r >= 0 && r < size && c >= 0 && c < size;
+
+  // Check if previous number exists and is adjacent
+  if (value > 1) {
+    let hasPrev = false;
+    for (const [dr, dc] of directions) {
+      const nr = row + dr, nc = col + dc;
+      if (isValid(nr, nc) && grid[nr][nc] === value - 1) {
+        hasPrev = true;
+        break;
       }
     }
-    return false;
-  };
+    // If previous number is in grid but not adjacent, invalid
+    let prevInGrid = false;
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (grid[r][c] === value - 1) {
+          prevInGrid = true;
+          break;
+        }
+      }
+      if (prevInGrid) break;
+    }
+    if (prevInGrid && !hasPrev) return false;
+  }
 
-  // Must be adjacent to value-1 (if it exists and is placed)
-  if (value > 1 && !hasNeighbor(value - 1)) {
-    // Check if value-1 exists anywhere in grid
-    let prevExists = false;
-    for (let y = 0; y < size; y++) {
-      for (let x = 0; x < size; x++) {
-        if (grid[y][x] === value - 1) prevExists = true;
+  // Check if next number exists and is adjacent
+  if (value < size * size) {
+    let hasNext = false;
+    for (const [dr, dc] of directions) {
+      const nr = row + dr, nc = col + dc;
+      if (isValid(nr, nc) && grid[nr][nc] === value + 1) {
+        hasNext = true;
+        break;
       }
     }
-    if (prevExists && !hasNeighbor(value - 1)) return false;
+    // If next number is in grid but not adjacent, invalid
+    let nextInGrid = false;
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (grid[r][c] === value + 1) {
+          nextInGrid = true;
+          break;
+        }
+      }
+      if (nextInGrid) break;
+    }
+    if (nextInGrid && !hasNext) return false;
   }
 
   return true;
 };
 
-export default function Hidato({ size = 6 }: HidatoProps) {
+export default function Hidato({ settings }: HidatoProps) {
+  const size = 5;
+  const [puzzleData, setPuzzleData] = useState(() => generatePuzzle(size));
   const [grid, setGrid] = useState<Cell[][]>([]);
-  const [solution, setSolution] = useState<number[][]>([]);
-  const [selectedCell, setSelectedCell] = useState<[number, number] | null>(null);
   const [currentNumber, setCurrentNumber] = useState(1);
   const [gameWon, setGameWon] = useState(false);
-  const [darkMode] = useState(true);
+
+  const isDark = settings.darkMode;
+  const isZh = settings.language === 'zh';
 
   const initGame = useCallback(() => {
-    const { grid: newGrid, solution: newSolution } = generatePuzzle(size);
-    setGrid(newGrid);
-    setSolution(newSolution);
+    const newData = generatePuzzle(size);
+    setPuzzleData(newData);
+    setGrid(newData.grid.map(row => [...row]));
     setCurrentNumber(1);
     setGameWon(false);
-    setSelectedCell(null);
-  }, [size]);
+  }, []);
 
   useEffect(() => {
     initGame();
   }, [initGame]);
 
-  const findNextNumber = useCallback(() => {
-    for (let num = currentNumber + 1; num <= size * size; num++) {
-      let found = false;
-      for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
-          if (grid[y][x] === num) {
-            setCurrentNumber(num);
-            return num;
-          }
+  // Find the next number to place (smallest gap)
+  const findNextNumber = useCallback((): number => {
+    const placed = new Set<number>();
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (grid[r][c] !== null) {
+          placed.add(grid[r][c]!);
         }
       }
-      if (found) break;
     }
-    return currentNumber;
-  }, [currentNumber, grid, size]);
+
+    for (let n = 1; n <= size * size; n++) {
+      if (!placed.has(n)) {
+        return n;
+      }
+    }
+    return size * size;
+  }, [grid]);
+
+  // Update current number when grid changes
+  useEffect(() => {
+    if (!gameWon) {
+      setCurrentNumber(findNextNumber());
+    }
+  }, [grid, gameWon, findNextNumber]);
 
   const handleCellClick = useCallback((row: number, col: number) => {
-    if (gameWon || grid[row][col] !== null) return;
+    if (gameWon) return;
 
+    // Can't modify hint cells
+    if (puzzleData.grid[row][col] !== null) return;
+
+    const cell = grid[row][col];
+
+    // If already filled, allow clearing
+    if (cell !== null) {
+      const newGrid = grid.map(r => [...r]);
+      newGrid[row][col] = null;
+      setGrid(newGrid);
+      return;
+    }
+
+    // Try to place current number
     if (isValidMove(grid, row, col, currentNumber, size)) {
       const newGrid = grid.map(r => [...r]);
       newGrid[row][col] = currentNumber;
       setGrid(newGrid);
 
-      // Move to next number
-      if (currentNumber === size * size) {
+      // Check if complete
+      let complete = true;
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          if (newGrid[r][c] === null) {
+            complete = false;
+            break;
+          }
+        }
+        if (!complete) break;
+      }
+
+      if (complete) {
         setGameWon(true);
-      } else {
-        const nextNum = currentNumber + 1;
-        setCurrentNumber(nextNum);
       }
     }
-  }, [grid, currentNumber, size, gameWon]);
+  }, [grid, currentNumber, size, gameWon, puzzleData.grid]);
 
   const handleRightClick = useCallback((e: React.MouseEvent, row: number, col: number) => {
     e.preventDefault();
     if (gameWon) return;
+    if (puzzleData.grid[row][col] !== null) return; // Can't clear hints
 
     const newGrid = grid.map(r => [...r]);
     newGrid[row][col] = null;
     setGrid(newGrid);
+  }, [grid, gameWon, puzzleData.grid]);
 
-    // Update current number to max placed + 1
-    let maxPlaced = 0;
-    for (let y = 0; y < size; y++) {
-      for (let x = 0; x < size; x++) {
-        if (newGrid[y][x] && newGrid[y][x]! > maxPlaced) {
-          maxPlaced = newGrid[y][x]!;
-        }
-      }
+  const getCellClass = (value: Cell, row: number, col: number, isHint: boolean): string => {
+    const base = 'aspect-square flex items-center justify-center font-bold rounded-lg transition-all cursor-pointer text-sm sm:text-base ';
+
+    if (isHint) {
+      return base + 'bg-amber-500 text-white';
     }
-    setCurrentNumber(maxPlaced + 1);
-    setGameWon(false);
-  }, [grid, size, gameWon]);
-
-  const getCellClass = (value: Cell, row: number, col: number): string => {
-    const base = 'aspect-square flex items-center justify-center font-bold rounded-lg transition-all cursor-pointer ';
     if (value === null) {
-      return base + (darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900');
+      return base + (isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300');
     }
     if (value === currentNumber) {
-      return base + 'bg-green-500 text-white ring-4 ring-green-300 scale-110';
+      return base + 'bg-green-500 text-white ring-2 ring-green-300';
     }
-    if (value < currentNumber) {
-      return base + 'bg-slate-600 text-slate-400';
-    }
-    return base + (darkMode ? 'bg-blue-500 text-white' : 'bg-blue-500 text-white');
+    return base + 'bg-blue-500 text-white';
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <div className={`max-w-lg w-full rounded-2xl shadow-2xl p-6 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
+    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
+      <div className={`max-w-md w-full rounded-2xl shadow-2xl p-6 ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
         {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-4">
           <div>
-            <h1 className={`text-2xl font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+            <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               Hidato
             </h1>
-            <p className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-              Fill in consecutive numbers connecting horizontally, vertically, or diagonally
+            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+              {isZh ? '连接连续数字（包括对角线）' : 'Connect consecutive numbers (including diagonals)'}
             </p>
           </div>
           <div className="text-right">
-            <div className={`text-3xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-              {currentNumber}/{size * size}
+            <div className={`text-3xl font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+              {currentNumber}
             </div>
-            <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>Next</div>
+            <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+              {isZh ? '下一个' : 'Next'}
+            </div>
           </div>
+        </div>
+
+        {/* Progress bar */}
+        <div className="mb-4">
+          {(() => {
+            const filled = grid.flat().filter(c => c !== null).length;
+            const progress = (filled / (size * size)) * 100;
+            return (
+              <>
+                <div className={`h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-gray-200'}`}>
+                  <div
+                    className="h-full bg-green-500 transition-all"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+                <div className={`text-center mt-1 text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+                  {filled}/{size * size}
+                </div>
+              </>
+            );
+          })()}
         </div>
 
         {/* Game Grid */}
-        <div className="grid gap-2 mb-6" style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}>
+        <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}>
           {grid.map((row, y) =>
-            row.map((cell, x) => (
-              <div
-                key={`${y}-${x}`}
-                onClick={() => handleCellClick(y, x)}
-                onContextMenu={(e) => handleRightClick(e, y, x)}
-                className={getCellClass(cell, y, x)}
-              >
-                {cell || ''}
-              </div>
-            ))
+            row.map((cell, x) => {
+              const isHint = puzzleData.grid[y][x] !== null;
+              return (
+                <div
+                  key={`${y}-${x}`}
+                  onClick={() => handleCellClick(y, x)}
+                  onContextMenu={(e) => handleRightClick(e, y, x)}
+                  className={getCellClass(cell, y, x, isHint)}
+                >
+                  {cell || ''}
+                </div>
+              );
+            })
           )}
         </div>
 
-        {/* Instructions */}
-        <div className={`p-4 rounded-xl mb-4 ${darkMode ? 'bg-slate-700' : 'bg-gray-100'}`}>
-          <div className={`text-sm font-semibold mb-2 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
-            How to Play:
+        {/* Number selector */}
+        <div className="mb-4">
+          <div className={`text-sm mb-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+            {isZh ? '选择数字：' : 'Select number:'}
           </div>
-          <ul className={`text-sm space-y-1 ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-            <li>• Click empty cells to place the next number</li>
-            <li>• Numbers must connect consecutively (horizontally, vertically, or diagonally)</li>
-            <li>• Right-click to remove a number</li>
-            <li>• Fill all cells with numbers 1-{size * size}</li>
-          </ul>
+          <div className="flex flex-wrap gap-1">
+            {Array.from({ length: Math.min(15, size * size) }, (_, i) => i + 1).map(num => (
+              <button
+                key={num}
+                onClick={() => setCurrentNumber(num)}
+                className={`w-7 h-7 rounded text-sm font-medium transition-all ${
+                  currentNumber === num
+                    ? 'bg-blue-500 text-white'
+                    : isDark
+                      ? 'bg-slate-700 hover:bg-slate-600 text-white'
+                      : 'bg-gray-200 hover:bg-gray-300'
+                }`}
+              >
+                {num}
+              </button>
+            ))}
+            {size * size > 15 && (
+              <span className={`w-7 h-7 flex items-center justify-center text-sm ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+                ...
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className={`p-3 rounded-xl mb-4 text-sm ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-gray-100 text-gray-700'}`}>
+          <p>{isZh ? '点击空格放置数字，右键清除' : 'Click empty cells to place numbers, right-click to clear'}</p>
+          <p className="mt-1">{isZh ? '黄色数字是提示，不能修改' : 'Yellow numbers are hints and cannot be changed'}</p>
         </div>
 
         {/* Controls */}
-        <div className="flex gap-4">
-          <button
-            onClick={initGame}
-            className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
-              darkMode
-                ? 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white'
-                : 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white'
-            }`}
-          >
-            New Game
-          </button>
-        </div>
+        <button
+          onClick={initGame}
+          className="w-full py-3 rounded-xl font-semibold transition-all bg-blue-600 hover:bg-blue-500 text-white"
+        >
+          {isZh ? '新游戏' : 'New Game'}
+        </button>
 
         {/* Win Message */}
         {gameWon && (
-          <div className={`mt-6 p-6 rounded-xl text-center ${darkMode ? 'bg-green-900/50' : 'bg-green-100'}`}>
-            <h2 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-              🎉 Complete!
+          <div className={`mt-6 p-6 rounded-xl text-center ${isDark ? 'bg-green-900/50' : 'bg-green-100'}`}>
+            <h2 className={`text-3xl font-bold mb-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
+              🎉 {isZh ? '完成！' : 'Complete!'}
             </h2>
-            <p className={`text-lg mb-4 ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
-              You solved the Hidato puzzle!
+            <p className={`text-lg mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
+              {isZh ? '你解开了 Hidato 谜题！' : 'You solved the Hidato puzzle!'}
             </p>
             <button
               onClick={initGame}
-              className={`px-6 py-3 rounded-xl font-semibold transition-all ${
-                darkMode
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white'
-                  : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white'
-              }`}
+              className="px-6 py-3 rounded-xl font-semibold bg-green-600 hover:bg-green-500 text-white"
             >
-              Play Again
+              {isZh ? '再来一次' : 'Play Again'}
             </button>
           </div>
         )}

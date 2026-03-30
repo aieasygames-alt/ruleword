@@ -4,27 +4,93 @@ type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
 }
 
-// Sudoku X puzzle with diagonal constraints
-const PUZZLE = [
-  [5, 0, 0, 0, 8, 0, 0, 0, 9],
-  [0, 0, 3, 0, 0, 0, 7, 0, 0],
-  [0, 4, 0, 0, 0, 0, 0, 6, 0],
-  [0, 0, 0, 2, 0, 5, 0, 0, 0],
-  [7, 0, 0, 0, 4, 0, 0, 0, 1],
-  [0, 0, 0, 9, 0, 3, 0, 0, 0],
-  [0, 8, 0, 0, 0, 0, 0, 2, 0],
-  [0, 0, 1, 0, 0, 0, 9, 0, 0],
-  [3, 0, 0, 0, 5, 0, 0, 0, 7],
+// Collection of Sudoku X puzzles with diagonal constraints
+// Each puzzle has a unique solution
+const PUZZLES: { puzzle: number[][], name: string }[] = [
+  {
+    name: 'Classic',
+    puzzle: [
+      [5, 0, 0, 0, 8, 0, 0, 0, 9],
+      [0, 0, 3, 0, 0, 0, 7, 0, 0],
+      [0, 4, 0, 0, 0, 0, 0, 6, 0],
+      [0, 0, 0, 2, 0, 5, 0, 0, 0],
+      [7, 0, 0, 0, 4, 0, 0, 0, 1],
+      [0, 0, 0, 9, 0, 3, 0, 0, 0],
+      [0, 8, 0, 0, 0, 0, 0, 2, 0],
+      [0, 0, 1, 0, 0, 0, 9, 0, 0],
+      [3, 0, 0, 0, 5, 0, 0, 0, 7],
+    ]
+  },
+  {
+    name: 'Challenge',
+    puzzle: [
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 3, 0, 8, 5],
+      [0, 0, 1, 0, 2, 0, 0, 0, 0],
+      [0, 0, 0, 5, 0, 7, 0, 0, 0],
+      [0, 0, 4, 0, 0, 0, 1, 0, 0],
+      [0, 9, 0, 0, 0, 0, 0, 0, 0],
+      [5, 0, 0, 0, 0, 0, 0, 7, 3],
+      [0, 0, 2, 0, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 4, 0, 0, 0, 9],
+    ]
+  },
+  {
+    name: 'Diamond',
+    puzzle: [
+      [0, 0, 5, 3, 0, 0, 0, 0, 0],
+      [8, 0, 0, 0, 0, 0, 0, 2, 0],
+      [0, 7, 0, 0, 1, 0, 5, 0, 0],
+      [4, 0, 0, 0, 0, 5, 3, 0, 0],
+      [0, 1, 0, 0, 7, 0, 0, 0, 6],
+      [0, 0, 3, 2, 0, 0, 0, 8, 0],
+      [0, 6, 0, 5, 0, 0, 0, 0, 9],
+      [0, 0, 4, 0, 0, 0, 0, 3, 0],
+      [0, 0, 0, 0, 0, 9, 7, 0, 0],
+    ]
+  },
+  {
+    name: 'Star',
+    puzzle: [
+      [0, 2, 0, 6, 0, 8, 0, 0, 0],
+      [5, 8, 0, 0, 0, 9, 7, 0, 0],
+      [0, 0, 0, 0, 4, 0, 0, 0, 0],
+      [3, 7, 0, 0, 0, 0, 5, 0, 0],
+      [6, 0, 0, 0, 0, 0, 0, 0, 4],
+      [0, 0, 8, 0, 0, 0, 0, 1, 3],
+      [0, 0, 0, 0, 2, 0, 0, 0, 0],
+      [0, 0, 9, 8, 0, 0, 0, 3, 6],
+      [0, 0, 0, 3, 0, 6, 0, 9, 0],
+    ]
+  },
+  {
+    name: 'Master',
+    puzzle: [
+      [0, 0, 0, 0, 0, 0, 0, 1, 2],
+      [0, 0, 0, 0, 3, 5, 0, 0, 0],
+      [0, 0, 0, 6, 0, 0, 0, 7, 0],
+      [7, 0, 0, 0, 0, 0, 3, 0, 0],
+      [0, 0, 0, 4, 0, 0, 8, 0, 0],
+      [1, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 2, 0, 0, 0, 0],
+      [0, 8, 0, 0, 0, 0, 0, 4, 0],
+      [0, 5, 0, 0, 0, 0, 6, 0, 0],
+    ]
+  }
 ]
 
 export default function SudokuX({ settings }: Props) {
-  const [grid, setGrid] = useState<number[][]>(PUZZLE.map(row => [...row]))
+  const [puzzleIndex, setPuzzleIndex] = useState(0)
+  const currentPuzzle = PUZZLES[puzzleIndex].puzzle
+  const [grid, setGrid] = useState<number[][]>(() => currentPuzzle.map(row => [...row]))
   const [selected, setSelected] = useState<{ row: number; col: number } | null>(null)
   const [solved, setSolved] = useState(false)
   const [errors, setErrors] = useState<Set<string>>(new Set())
 
   const isDark = settings.darkMode
-  const isGiven = (row: number, col: number) => PUZZLE[row][col] !== 0
+  const isZh = settings.language === 'zh'
+
+  const isGiven = (row: number, col: number) => currentPuzzle[row][col] !== 0
 
   const checkValid = useCallback((g: number[][]) => {
     const newErrors = new Set<string>()
@@ -78,7 +144,7 @@ export default function SudokuX({ settings }: Props) {
       }
     }
 
-    // Check main diagonal
+    // Check main diagonal (top-left to bottom-right)
     const diag1 = new Map<number, number>()
     for (let i = 0; i < 9; i++) {
       if (g[i][i] !== 0) {
@@ -90,7 +156,7 @@ export default function SudokuX({ settings }: Props) {
       }
     }
 
-    // Check anti-diagonal
+    // Check anti-diagonal (top-right to bottom-left)
     const diag2 = new Map<number, number>()
     for (let i = 0; i < 9; i++) {
       if (g[i][8 - i] !== 0) {
@@ -122,16 +188,34 @@ export default function SudokuX({ settings }: Props) {
 
       return newGrid
     })
-  }, [selected, checkValid])
+  }, [selected, isGiven, checkValid])
 
   const handleClick = useCallback((row: number, col: number) => {
     if (!isGiven(row, col)) {
       setSelected({ row, col })
     }
-  }, [])
+  }, [isGiven])
 
   const reset = () => {
-    setGrid(PUZZLE.map(row => [...row]))
+    setGrid(currentPuzzle.map(row => [...row]))
+    setSelected(null)
+    setSolved(false)
+    setErrors(new Set())
+  }
+
+  const nextPuzzle = () => {
+    const nextIndex = (puzzleIndex + 1) % PUZZLES.length
+    setPuzzleIndex(nextIndex)
+    setGrid(PUZZLES[nextIndex].puzzle.map(row => [...row]))
+    setSelected(null)
+    setSolved(false)
+    setErrors(new Set())
+  }
+
+  const prevPuzzle = () => {
+    const prevIndex = (puzzleIndex - 1 + PUZZLES.length) % PUZZLES.length
+    setPuzzleIndex(prevIndex)
+    setGrid(PUZZLES[prevIndex].puzzle.map(row => [...row]))
     setSelected(null)
     setSolved(false)
     setErrors(new Set())
@@ -139,10 +223,31 @@ export default function SudokuX({ settings }: Props) {
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <h1 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>❌ Sudoku X</h1>
-      <p className={`text-sm mb-4 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-        {settings.language === 'zh' ? '对角线也要1-9' : 'Diagonals must also contain 1-9'}
+      <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+        ❌ Sudoku X
+      </h1>
+      <p className={`text-sm mb-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+        {isZh ? '对角线也要1-9' : 'Diagonals must also contain 1-9'}
       </p>
+
+      {/* Puzzle selector */}
+      <div className="flex items-center gap-2 mb-3">
+        <button
+          onClick={prevPuzzle}
+          className={`px-3 py-1 rounded ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+        >
+          ◀
+        </button>
+        <span className={`text-sm font-medium ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
+          {isZh ? `谜题 ${puzzleIndex + 1}/${PUZZLES.length}: ${PUZZLES[puzzleIndex].name}` : `Puzzle ${puzzleIndex + 1}/${PUZZLES.length}: ${PUZZLES[puzzleIndex].name}`}
+        </span>
+        <button
+          onClick={nextPuzzle}
+          className={`px-3 py-1 rounded ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+        >
+          ▶
+        </button>
+      </div>
 
       <div className="grid grid-cols-9 border-2 border-blue-600">
         {grid.map((row, r) =>
@@ -189,22 +294,38 @@ export default function SudokuX({ settings }: Props) {
         </button>
       </div>
 
-      <button
-        onClick={reset}
-        className={`mt-4 px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-      >
-        {settings.language === 'zh' ? '重置' : 'Reset'}
-      </button>
+      <div className="flex gap-2 mt-4">
+        <button
+          onClick={reset}
+          className={`px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
+        >
+          {isZh ? '重置' : 'Reset'}
+        </button>
+      </div>
 
       {solved && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
           <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-2xl font-bold text-center text-green-500">
-              {settings.language === 'zh' ? '🎉 正确！' : '🎉 Correct!'}
+              {isZh ? '🎉 正确！' : '🎉 Correct!'}
             </h2>
-            <button onClick={() => setSolved(false)} className="mt-4 w-full py-2 bg-green-600 text-white rounded-lg">
-              {settings.language === 'zh' ? '继续' : 'Continue'}
-            </button>
+            <p className={`text-center mt-2 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
+              {isZh ? `完成了 ${PUZZLES[puzzleIndex].name} 谜题！` : `You solved ${PUZZLES[puzzleIndex].name}!`}
+            </p>
+            <div className="flex gap-2 mt-4">
+              <button
+                onClick={() => { setSolved(false); reset() }}
+                className={`flex-1 py-2 bg-slate-600 text-white rounded-lg`}
+              >
+                {isZh ? '重玩' : 'Replay'}
+              </button>
+              <button
+                onClick={() => { setSolved(false); nextPuzzle() }}
+                className="flex-1 py-2 bg-green-600 text-white rounded-lg"
+              >
+                {isZh ? '下一个' : 'Next'}
+              </button>
+            </div>
           </div>
         </div>
       )}

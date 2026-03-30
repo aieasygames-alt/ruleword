@@ -27,7 +27,7 @@ const DIFFICULTY_CONFIG = {
   hard: { gridSize: 5, name: '5×5' },
 }
 
-// 模拟拼图颜色
+// Puzzle colors
 const COLORS = [
   'from-red-400 to-red-600',
   'from-blue-400 to-blue-600',
@@ -38,6 +38,40 @@ const COLORS = [
   'from-cyan-400 to-cyan-600',
   'from-orange-400 to-orange-600',
 ]
+
+// Count inversions in the permutation
+const countInversions = (positions: number[]): number => {
+  let inversions = 0
+  for (let i = 0; i < positions.length - 1; i++) {
+    for (let j = i + 1; j < positions.length; j++) {
+      if (positions[i] > positions[j]) {
+        inversions++
+      }
+    }
+  }
+  return inversions
+}
+
+// Check if a puzzle configuration is solvable
+// For a sliding puzzle, it's solvable if:
+// - Grid width is odd: inversions must be even
+// - Grid width is even: (inversions + blank row from bottom) must be odd
+const isSolvable = (positions: number[], gridSize: number): boolean => {
+  const inversions = countInversions(positions)
+
+  if (gridSize % 2 === 1) {
+    // Odd grid: solvable if inversions is even
+    return inversions % 2 === 0
+  } else {
+    // Even grid: need to consider blank position
+    // Find where the blank (last piece) is
+    const blankIndex = positions.indexOf(positions.length - 1)
+    const blankRowFromBottom = gridSize - Math.floor(blankIndex / gridSize)
+
+    // Solvable if (inversions + blankRowFromBottom) is odd
+    return (inversions + blankRowFromBottom) % 2 === 1
+  }
+}
 
 export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
   const [difficulty, setDifficulty] = useState<Difficulty>('medium')
@@ -53,8 +87,9 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
 
   const t = (en: string, zh: string) => settings.language === 'zh' ? zh : en
 
-  // 生成拼图
+  // Generate a solvable puzzle
   const generatePuzzle = useCallback(() => {
+    // Create pieces in correct order first
     const newPieces: Piece[] = []
     for (let i = 0; i < totalPieces; i++) {
       newPieces.push({
@@ -65,11 +100,38 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
       })
     }
 
-    // 打乱拼图（确保可解）
-    for (let i = newPieces.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[newPieces[i].currentPos, newPieces[j].currentPos] =
-       [newPieces[j].currentPos, newPieces[i].currentPos]
+    // Shuffle positions until we get a solvable configuration
+    let attempts = 0
+    const maxAttempts = 1000
+
+    while (attempts < maxAttempts) {
+      // Shuffle currentPos values
+      const positions = Array.from({ length: totalPieces }, (_, i) => i)
+
+      // Fisher-Yates shuffle
+      for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[positions[i], positions[j]] = [positions[j], positions[i]]
+      }
+
+      // Check if solvable
+      if (isSolvable(positions, gridSize)) {
+        // Apply positions to pieces
+        positions.forEach((pos, index) => {
+          newPieces[index].currentPos = pos
+        })
+        break
+      }
+
+      attempts++
+    }
+
+    // If we couldn't find a solvable config (shouldn't happen), use a simple swap
+    if (attempts >= maxAttempts) {
+      // Swap first two pieces - this creates a solvable puzzle for odd grids
+      const temp = newPieces[0].currentPos
+      newPieces[0].currentPos = newPieces[1].currentPos
+      newPieces[1].currentPos = temp
     }
 
     setPieces(newPieces)
@@ -78,13 +140,13 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
     setStartTime(Date.now())
     setElapsedTime(0)
     setSelectedPiece(null)
-  }, [totalPieces])
+  }, [totalPieces, gridSize])
 
   useEffect(() => {
     generatePuzzle()
   }, [generatePuzzle])
 
-  // 计时器
+  // Timer
   useEffect(() => {
     if (isComplete) return
     const interval = setInterval(() => {
@@ -93,7 +155,7 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
     return () => clearInterval(interval)
   }, [startTime, isComplete])
 
-  // 检查完成
+  // Check completion
   useEffect(() => {
     const complete = pieces.every(p => p.currentPos === p.correctPos)
     if (complete && pieces.length > 0) {
@@ -101,7 +163,7 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
     }
   }, [pieces])
 
-  // 点击拼图块
+  // Click a puzzle piece
   const handlePieceClick = (index: number) => {
     if (isComplete) return
 
@@ -110,7 +172,7 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
     } else if (selectedPiece === index) {
       setSelectedPiece(null)
     } else {
-      // 交换两块
+      // Swap two pieces
       setPieces(prev => {
         const newPieces = [...prev]
         const temp = newPieces[selectedPiece].currentPos
@@ -123,7 +185,7 @@ export default function Jigsaw({ settings, onBack, toggleLanguage }: Props) {
     }
   }
 
-  // 获取当前位置的拼图块
+  // Get piece at position
   const getPieceAtPosition = (pos: number): Piece | undefined => {
     return pieces.find(p => p.currentPos === pos)
   }
