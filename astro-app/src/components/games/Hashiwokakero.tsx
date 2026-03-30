@@ -51,46 +51,161 @@ function getDailySeed(): number {
 
 // 生成岛屿和桥梁
 function generatePuzzle(size: number, rng: () => number): { islands: number[][], solution: EdgeCell[][] } {
-  const islands = Array(size).fill(null).map(() => Array(size).fill(0))
-  const solution: EdgeCell[][] = Array(size).fill(null).map(() =>
-    Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
-  )
+  // 根据难度确定目标岛屿数量
+  const targetIslandCount = size === 5 ? 6 : size === 7 ? 10 : 15
+  const maxAttempts = 100
 
-  // 随机放置岛屿
-  const islandPositions: [number, number][] = []
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
-      if (rng() < 0.35 && (r + c) % 2 === 0) {
-        islandPositions.push([r, c])
-        islands[r][c] = 1 // 临时标记
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const islands = Array(size).fill(null).map(() => Array(size).fill(0))
+    const solution: EdgeCell[][] = Array(size).fill(null).map(() =>
+      Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
+    )
+
+    // 放置岛屿（避开边界，确保有空间连接）
+    const islandPositions: [number, number][] = []
+    const positions: [number, number][] = []
+
+    // 生成所有可能的内部位置
+    for (let r = 1; r < size - 1; r++) {
+      for (let c = 1; c < size - 1; c++) {
+        positions.push([r, c])
       }
+    }
+
+    // 随机打乱位置
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(rng() * (i + 1))
+      ;[positions[i], positions[j]] = [positions[j], positions[i]]
+    }
+
+    // 选择目标数量的岛屿位置
+    for (let i = 0; i < Math.min(targetIslandCount, positions.length); i++) {
+      const [r, c] = positions[i]
+      islandPositions.push([r, c])
+      islands[r][c] = 1 // 临时标记
+    }
+
+    // 构建最小生成树确保连通性
+    const visited = new Set<string>()
+    const edges: { from: [number, number], to: [number, number], dist: number }[] = []
+
+    // 计算所有岛屿之间的距离（曼哈顿距离）
+    for (let i = 0; i < islandPositions.length; i++) {
+      for (let j = i + 1; j < islandPositions.length; j++) {
+        const [r1, c1] = islandPositions[i]
+        const [r2, c2] = islandPositions[j]
+
+        // 只考虑同一行或同一列的岛屿对
+        if (r1 === r2 || c1 === c2) {
+          // 检查中间没有其他岛屿阻挡
+          let blocked = false
+          if (r1 === r2) {
+            const minC = Math.min(c1, c2), maxC = Math.max(c1, c2)
+            for (let c = minC + 1; c < maxC; c++) {
+              if (islands[r1][c] > 0) blocked = true
+            }
+          } else {
+            const minR = Math.min(r1, r2), maxR = Math.max(r1, r2)
+            for (let r = minR + 1; r < maxR; r++) {
+              if (islands[r][c1] > 0) blocked = true
+            }
+          }
+
+          if (!blocked) {
+            const dist = Math.abs(r1 - r2) + Math.abs(c1 - c2)
+            edges.push({ from: islandPositions[i], to: islandPositions[j], dist })
+          }
+        }
+      }
+    }
+
+    // 使用 Prim 算法构建最小生成树
+    if (edges.length === 0) continue
+
+    visited.add(JSON.stringify(islandPositions[0]))
+    const mstEdges: typeof edges = []
+
+    while (visited.size < islandPositions.length) {
+      let bestEdge: typeof edges[0] | null = null
+      let minDist = Infinity
+
+      for (const edge of edges) {
+        const fromKey = JSON.stringify(edge.from)
+        const toKey = JSON.stringify(edge.to)
+        const hasFrom = visited.has(fromKey)
+        const hasTo = visited.has(toKey)
+
+        if ((hasFrom && !hasTo) || (hasTo && !hasFrom)) {
+          if (edge.dist < minDist) {
+            minDist = edge.dist
+            bestEdge = edge
+          }
+        }
+      }
+
+      if (!bestEdge) break
+      mstEdges.push(bestEdge)
+      visited.add(JSON.stringify(bestEdge.to))
+    }
+
+    // 如果无法连通所有岛屿，重试
+    if (visited.size !== islandPositions.length) continue
+
+    // 添加一些额外的边使谜题更有趣
+    const extraEdges = Math.floor(rng() * 3) + 1
+    for (let i = 0; i < extraEdges && mstEdges.length < edges.length; i++) {
+      const randomEdge = edges[Math.floor(rng() * edges.length)]
+      if (!mstEdges.includes(randomEdge)) {
+        mstEdges.push(randomEdge)
+      }
+    }
+
+    // 设置桥梁
+    for (const edge of mstEdges) {
+      const [r1, c1] = edge.from
+      const [r2, c2] = edge.to
+
+      if (r1 === r2) {
+        // 水平桥梁
+        const minC = Math.min(c1, c2)
+        solution[r1][minC].right = rng() < 0.3 ? 'double' : 'single'
+      } else {
+        // 垂直桥梁
+        const minR = Math.min(r1, r2)
+        solution[minR][c1].down = rng() < 0.3 ? 'double' : 'single'
+      }
+    }
+
+    // 计算每个岛屿的桥梁数量
+    const valid = islandPositions.every(([r, c]) => {
+      let count = 0
+      if (r > 0 && solution[r - 1][c].down !== 'none') count += solution[r - 1][c].down === 'double' ? 2 : 1
+      if (solution[r][c].down !== 'none') count += solution[r][c].down === 'double' ? 2 : 1
+      if (c > 0 && solution[r][c - 1].right !== 'none') count += solution[r][c - 1].right === 'double' ? 2 : 1
+      if (solution[r][c].right !== 'none') count += solution[r][c].right === 'double' ? 2 : 1
+
+      islands[r][c] = count
+      return count > 0
+    })
+
+    if (valid) {
+      return { islands, solution }
     }
   }
 
-  // 连接相邻岛屿
-  for (const [r, c] of islandPositions) {
-    const bridges: EdgeState[] = []
-
-    // 右边
-    for (let nc = c + 1; nc < size; nc++) {
-      if (islands[r][nc] > 0) {
-        bridges.push(solution[r][c].right = rng() < 0.3 ? 'double' : 'single')
-        break
-      }
-    }
-
-    // 下边
-    for (let nr = r + 1; nr < size; nr++) {
-      if (islands[nr][c] > 0) {
-        bridges.push(solution[r][c].down = rng() < 0.3 ? 'double' : 'single')
-        break
-      }
-    }
-
-    islands[r][c] = bridges.length + Math.floor(rng() * 2)
+  // 如果无法生成有效谜题，返回一个简单的默认谜题
+  return {
+    islands: [
+      [0, 0, 0, 0, 0],
+      [0, 2, 0, 3, 0],
+      [0, 0, 0, 0, 0],
+      [0, 4, 0, 2, 0],
+      [0, 0, 0, 0, 0],
+    ],
+    solution: Array(5).fill(null).map(() =>
+      Array(5).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
+    )
   }
-
-  return { islands, solution }
 }
 
 export default function Hashiwokakero({ settings, onBack }: { settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }; onBack: () => void }) {
