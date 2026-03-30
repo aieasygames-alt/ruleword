@@ -1,4 +1,6 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+
+import React from 'react'
 
 type Piece = {
   type: 'K' | 'Q' | 'R' | 'B' | 'N' | 'P'
@@ -25,16 +27,27 @@ const PIECE_SYMBOLS: Record<string, string> = {
   'K-black': '♚', 'Q-black': '♛', 'R-black': '♜', 'B-black': '♝', 'N-black': '♞', 'P-black': '♟',
 }
 
+const PIECE_VALUES: Record<string, number> = {
+  'P': 100, 'N': 320, 'B': 330, 'R': 500, 'Q': 900, 'K': 20000
+}
+
 export default function Chess({ settings }: Props) {
   const [board, setBoard] = useState<(Piece | null)[][]>(INITIAL_BOARD.map(row => [...row]))
   const [selected, setSelected] = useState<{ row: number; col: number } | null>(null)
   const [turn, setTurn] = useState<'white' | 'black'>('white')
   const [validMoves, setValidMoves] = useState<{ row: number; col: number }[]>([])
   const [gameOver, setGameOver] = useState<string | null>(null)
+  const [gameMode, setGameMode] = useState<'pvp' | 'ai'>('ai')
+  const [aiDifficulty, setAiDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
+  const [isAiThinking, setIsAiThinking] = useState(false)
+  const [moveHistory, setMoveHistory] = useState<string[]>([])
+  const [inCheck, setInCheck] = useState(false)
 
   const isDark = settings.darkMode
+  const isZh = settings.language === 'zh'
 
-  const getValidMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
+  // Get all valid moves for a piece (without check validation)
+  const getRawMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
     const piece = boardState[row][col]
     if (!piece) return []
 
@@ -57,7 +70,9 @@ export default function Chess({ settings }: Props) {
         if (!target) {
           moves.push({ row: r, col: c })
         } else {
-          if (target.color !== piece.color) moves.push({ row: r, col: c })
+          if (target.color !== piece.color) {
+            moves.push({ row: r, col: c })
+          }
           break
         }
       }
@@ -67,148 +82,291 @@ export default function Chess({ settings }: Props) {
       case 'P': {
         const dir = piece.color === 'white' ? -1 : 1
         const startRow = piece.color === 'white' ? 6 : 1
+        // Forward move
         if (!boardState[row + dir]?.[col]) {
-          moves.push({ row: row + dir, col })
-          if (row === startRow && !boardState[row + 2 * dir]?.[col]) {
-            moves.push({ row: row + 2 * dir, col })
+          addMove(row + dir, col)
+          // Double move from start
+          if (row === startRow && !boardState[row + dir * 2]?.[col]) {
+            addMove(row + dir * 2, col)
           }
         }
         // Captures
-        const diagLeft = boardState[row + dir]?.[col - 1]
-        const diagRight = boardState[row + dir]?.[col + 1]
-        if (diagLeft && diagLeft.color !== piece.color) moves.push({ row: row + dir, col: col - 1 })
-        if (diagRight && diagRight.color !== piece.color) moves.push({ row: row + dir, col: col + 1 })
+        const leftTarget = boardState[row + dir]?.[col - 1]
+        const rightTarget = boardState[row + dir]?.[col + 1]
+        if (leftTarget && leftTarget.color !== piece.color) addMove(row + dir, col - 1)
+        if (rightTarget && rightTarget.color !== piece.color) addMove(row + dir, col + 1)
         break
       }
-      case 'R':
-        addLine(0, 1); addLine(0, -1); addLine(1, 0); addLine(-1, 0)
-        break
       case 'N':
-        [[-2, -1], [-2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2], [2, -1], [2, 1]].forEach(([dr, dc]) => addMove(row + dr, col + dc))
+        [[-2, -1], [-2, 1], [2, -1], [2, 1], [-1, -2], [-1, 2], [1, -2], [1, 2]].forEach(([dr, dc]) => {
+          addMove(row + dr, col + dc)
+        })
         break
       case 'B':
-        addLine(1, 1); addLine(1, -1); addLine(-1, 1); addLine(-1, -1)
+        [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(([dr, dc]) => addLine(dr, dc))
+        break
+      case 'R':
+        [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach(([dr, dc]) => addLine(dr, dc))
         break
       case 'Q':
-        addLine(0, 1); addLine(0, -1); addLine(1, 0); addLine(-1, 0)
-        addLine(1, 1); addLine(1, -1); addLine(-1, 1); addLine(-1, -1)
+        [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].forEach(([dr, dc]) => addLine(dr, dc))
         break
       case 'K':
-        for (let dr = -1; dr <= 1; dr++) {
-          for (let dc = -1; dc <= 1; dc++) {
-            if (dr !== 0 || dc !== 0) addMove(row + dr, col + dc)
-          }
-        }
+        [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]].forEach(([dr, dc]) => {
+          addMove(row + dr, col + dc)
+        })
         break
     }
     return moves
   }, [])
 
-  // Check if a position is attacked by the given color
-  const isAttackedBy = useCallback((r: number, c: number, byColor: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const p = boardState[row][col]
-        if (!p || p.color !== byColor) continue
-        if (p.type === 'P') {
-          const dir = p.color === 'white' ? -1 : 1
-          if (row + dir === r && (col - 1 === c || col + 1 === c)) return true
-        } else if (p.type === 'K') {
-          if (Math.abs(row - r) <= 1 && Math.abs(col - c) <= 1 && (row !== r || col !== c)) return true
-        } else {
-          const rawMoves = getValidMoves(row, col, boardState)
-          if (rawMoves.some(m => m.row === r && m.col === c)) return true
-        }
-      }
-    }
-    return false
-  }, [getValidMoves])
-
   // Find king position
-  const findKing = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): [number, number] | null => {
+  const findKing = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): { row: number; col: number } | null => {
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
-        const p = boardState[r][c]
-        if (p && p.type === 'K' && p.color === color) return [r, c]
+        const piece = boardState[r][c]
+        if (piece && piece.type === 'K' && piece.color === color) {
+          return { row: r, col: c }
+        }
       }
     }
     return null
   }, [])
 
-  // Check if color is in check
-  const isInCheck = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
-    const kingPos = findKing(color, boardState)
-    if (!kingPos) return false
-    const enemy = color === 'white' ? 'black' : 'white'
-    return isAttackedBy(kingPos[0], kingPos[1], enemy, boardState)
-  }, [findKing, isAttackedBy])
+  // Check if a square is attacked by enemy
+  const isSquareAttacked = useCallback((row: number, col: number, byColor: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c]
+        if (piece && piece.color === byColor) {
+          const moves = getRawMoves(r, c, boardState)
+          if (moves.some(m => m.row === row && m.col === col)) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }, [getRawMoves])
 
-  // Get legal moves (filter out moves that leave king in check)
+  // Check if king is in check
+  const isInCheck = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
+    const king = findKing(color, boardState)
+    if (!king) return true
+    const enemyColor = color === 'white' ? 'black' : 'white'
+    return isSquareAttacked(king.row, king.col, enemyColor, boardState)
+  }, [findKing, isSquareAttacked])
+
+  // Get legal moves (filtering out moves that leave king in check)
   const getLegalMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
     const piece = boardState[row][col]
     if (!piece) return []
-
-    const rawMoves = getValidMoves(row, col, boardState)
+    const rawMoves = getRawMoves(row, col, boardState)
     return rawMoves.filter(move => {
-      // Simulate move and check if king is safe
-      const simBoard = boardState.map(r => [...r])
-      simBoard[move.row][move.col] = simBoard[row][col]
-      simBoard[row][col] = null
-      return !isInCheck(piece.color, simBoard)
+      const newBoard = boardState.map(r => [...r])
+      newBoard[move.row][move.col] = newBoard[row][col]
+      newBoard[row][col] = null
+      return !isInCheck(piece.color, newBoard)
     })
-  }, [getValidMoves, isInCheck])
+  }, [getRawMoves, isInCheck])
 
-  const handleClick = useCallback((row: number, col: number) => {
-    if (gameOver) return
-
-    const piece = board[row][col]
-
-    if (selected) {
-      const isValidMove = validMoves.some(m => m.row === row && m.col === col)
-      if (isValidMove) {
-        // Make move
-        const newBoard = board.map(r => [...r])
-        const movingPiece = newBoard[selected.row][selected.col]
-        newBoard[row][col] = movingPiece
-        newBoard[selected.row][selected.col] = null
-
-        // Pawn promotion
-        if (movingPiece?.type === 'P' && (row === 0 || row === 7)) {
-          newBoard[row][col] = { type: 'Q', color: movingPiece.color }
+  // Check for checkmate
+  const isCheckmate = useCallback((color: 'white' | 'black', boardState: (Piece | null)[][]): boolean => {
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c]
+        if (piece && piece.color === color) {
+          const moves = getLegalMoves(r, c, boardState)
+          if (moves.length > 0) return false
         }
+      }
+    }
+    return true
+  }, [getLegalMoves])
 
-        setBoard(newBoard)
-        const nextTurn = turn === 'white' ? 'black' : 'white'
-        setTurn(nextTurn)
-
-        // Check if opponent is in checkmate or stalemate
-        const enemyHasLegalMoves = () => {
-          for (let r = 0; r < 8; r++) {
-            for (let c = 0; c < 8; c++) {
-              const p = newBoard[r][c]
-              if (p && p.color === nextTurn) {
-                const moves = getLegalMoves(r, c, newBoard)
-                if (moves.length > 0) return true
-              }
-            }
-          }
-          return false
-        }
-
-        if (!enemyHasLegalMoves()) {
-          if (isInCheck(nextTurn, newBoard)) {
-            // Checkmate
-            setGameOver(turn === 'white'
-              ? (settings.language === 'zh' ? '白方将杀获胜！' : 'White wins by checkmate!')
-              : (settings.language === 'zh' ? '黑方将杀获胜！' : 'Black wins by checkmate!'))
+  // Evaluate board for AI
+  const evaluateBoard = useCallback((boardState: (Piece | null)[][], aiColor: 'white' | 'black'): number => {
+    let score = 0
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c]
+        if (piece) {
+          const value = PIECE_VALUES[piece.type]
+          if (piece.color === aiColor) {
+            score += value
           } else {
-            // Stalemate
-            setGameOver(settings.language === 'zh' ? '和棋（逼和）！' : 'Stalemate - Draw!')
+            score -= value
           }
         }
+      }
+    }
+    if (isInCheck(aiColor === 'white' ? 'black' : 'white', boardState)) {
+      score += 50
+    }
+    return score
+  }, [isInCheck])
 
+  // Minimax with alpha-beta pruning
+  const minimax = useCallback((
+    boardState: (Piece | null)[][],
+    depth: number,
+    alpha: number,
+    beta: number,
+    isMaximizing: boolean,
+    aiColor: 'white' | 'black'
+  ): number => {
+    if (depth === 0) {
+      return evaluateBoard(boardState, aiColor)
+    }
+
+    const currentColor = isMaximizing ? aiColor : (aiColor === 'white' ? 'black' : 'white')
+
+    // Get all moves
+    const allMoves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const piece = boardState[r][c]
+        if (piece && piece.color === currentColor) {
+          const moves = getLegalMoves(r, c, boardState)
+          moves.forEach(move => {
+            allMoves.push({ from: { row: r, col: c }, to: move })
+          })
+        }
+      }
+    }
+
+    if (allMoves.length === 0) {
+      return isMaximizing ? -100000 : 100000
+    }
+
+    if (isMaximizing) {
+      let maxEval = -Infinity
+      for (const move of allMoves) {
+        const newBoard = boardState.map(row => [...row])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+        const evalScore = minimax(newBoard, depth - 1, alpha, beta, false, aiColor)
+        maxEval = Math.max(maxEval, evalScore)
+        alpha = Math.max(alpha, evalScore)
+        if (beta <= alpha) break
+      }
+      return maxEval
+    } else {
+      let minEval = Infinity
+      for (const move of allMoves) {
+        const newBoard = boardState.map(row => [...row])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+        const evalScore = minimax(newBoard, depth - 1, alpha, beta, true, aiColor)
+        minEval = Math.min(minEval, evalScore)
+        beta = Math.min(beta, evalScore)
+        if (beta <= alpha) break
+      }
+      return minEval
+    }
+  }, [evaluateBoard, getLegalMoves])
+
+  // AI makes a move
+  const aiMove = useCallback(() => {
+    if (gameOver || turn !== 'black') return
+
+    setIsAiThinking(true)
+
+    setTimeout(() => {
+      const depth = aiDifficulty === 'easy' ? 1 : aiDifficulty === 'medium' ? 2 : 3
+      let bestMove: { from: { row: number; col: number }; to: { row: number; col: number } } | null = null
+      let bestScore = -Infinity
+
+      const allMoves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
+      for (let r = 0; r < 8; r++) {
+        for (let c = 0; c < 8; c++) {
+          const piece = board[r][c]
+          if (piece && piece.color === 'black') {
+            const moves = getLegalMoves(r, c, board)
+            moves.forEach(move => {
+              allMoves.push({ from: { row: r, col: c }, to: move })
+            })
+          }
+        }
+      }
+
+      // Shuffle for variety
+      for (let i = allMoves.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allMoves[i], allMoves[j]] = [allMoves[j], allMoves[i]]
+      }
+
+      for (const move of allMoves) {
+        const newBoard = board.map(row => [...row])
+        newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
+        newBoard[move.from.row][move.from.col] = null
+        const score = minimax(newBoard, depth - 1, -Infinity, Infinity, false, 'black')
+        if (score > bestScore) {
+          bestScore = score
+          bestMove = move
+        }
+      }
+
+      if (bestMove) {
+        const newBoard = board.map(row => [...row])
+        const capturedPiece = board[bestMove.to.row][bestMove.to.col]
+        newBoard[bestMove.to.row][bestMove.to.col] = newBoard[bestMove.from.row][bestMove.from.col]
+        newBoard[bestMove.from.row][bestMove.from.col] = null
+
+        setMoveHistory(prev => [...prev, `Black: ${bestMove.from.col},${bestMove.from.row} → ${bestMove.to.col},${bestMove.to.row}`])
+        setBoard(newBoard)
+        setTurn('white')
         setSelected(null)
         setValidMoves([])
+
+        setTimeout(() => {
+          if (isInCheck('white', newBoard)) {
+            setInCheck(true)
+            if (isCheckmate('white', newBoard)) {
+              setGameOver(isZh ? '黑方获胜！将死!' : 'Black wins by checkmate!')
+            }
+          } else {
+            setInCheck(false)
+          }
+        }, 100)
+      }
+
+      setIsAiThinking(false)
+    }, 500)
+  }, [board, gameOver, turn, aiDifficulty, getLegalMoves, minimax, isInCheck, isCheckmate, isZh])
+  // Trigger AI move when it's AI's turn
+  useEffect(() => {
+    if (gameMode === 'ai' && turn === 'black' && !gameOver && !isAiThinking) {
+      aiMove()
+    }
+  }, [gameMode, turn, gameOver, isAiThinking, aiMove])
+  const handleClick = useCallback((row: number, col: number) => {
+    if (gameOver || isAiThinking) return
+    if (gameMode === 'ai' && turn === 'black') return
+    const piece = board[row][col]
+    if (selected) {
+      const isValid = validMoves.some(m => m.row === row && m.col === col)
+      if (isValid) {
+        const newBoard = board.map(r => [...r])
+        const capturedPiece = board[row][col]
+        newBoard[row][col] = newBoard[selected.row][selected.col]
+        newBoard[selected.row][selected.col] = null
+        setMoveHistory(prev => [...prev, `White: ${selected.col},${selected.row} → ${col},${row}`])
+        setBoard(newBoard)
+        setTurn('black')
+        setSelected(null)
+        setValidMoves([])
+
+        setTimeout(() => {
+          if (isInCheck('black', newBoard)) {
+            setInCheck(true)
+            if (isCheckmate('black', newBoard)) {
+              setGameOver(isZh ? '白方获胜!将死!' : 'White wins by checkmate!')
+            }
+          } else {
+            setInCheck(false)
+          }
+        }, 100)
       } else if (piece && piece.color === turn) {
         setSelected({ row, col })
         setValidMoves(getLegalMoves(row, col, board))
@@ -220,93 +378,122 @@ export default function Chess({ settings }: Props) {
       setSelected({ row, col })
       setValidMoves(getLegalMoves(row, col, board))
     }
-  }, [board, selected, turn, validMoves, gameOver, getLegalMoves, isInCheck, settings.language])
-
-  const resetGame = () => {
+  }, [board, selected, turn, validMoves, gameOver, isAiThinking, gameMode, getLegalMoves, isInCheck, isCheckmate, isZh])
+  const resetGame = useCallback(() => {
     setBoard(INITIAL_BOARD.map(row => [...row]))
     setSelected(null)
     setValidMoves([])
     setTurn('white')
     setGameOver(null)
-  }
-
+    setMoveHistory([])
+    setIsAiThinking(false)
+    setInCheck(false)
+  }, [])
+  const isValidMoveTarget = (row: number, col: number) =>
+    validMoves.some(m => m.row === row && m.col === col)
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <h1 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>♔ Chess</h1>
-
-      <div className={`mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-        {settings.language === 'zh' ? '回合' : 'Turn'}: {turn === 'white' ? (settings.language === 'zh' ? '白方' : 'White') : (settings.language === 'zh' ? '黑方' : 'Black')}
+    <div className={`min-h-screen flex flex-col items-center py-6 px-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
+      <h1 className={`text-2xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+        {isZh ? '国际象棋' : 'Chess'}
+      </h1>
+      {/* Game mode */}
+      <div className="mb-4 flex gap-2">
+        <button onClick={() => { setGameMode('pvp'); resetGame() }}
+          className={`px-4 py-2 rounded-lg font-medium ${gameMode === 'pvp' ? 'bg-blue-600 text-white' : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'}`}>
+          {isZh ? '双人对战' : 'PvP'}
+        </button>
+        <button onClick={() => { setGameMode('ai'); resetGame() }}
+          className={`px-4 py-2 rounded-lg font-medium ${gameMode === 'ai' ? 'bg-blue-600 text-white' : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'}`}>
+          {isZh ? '人机对战' : 'vs AI'}
+        </button>
       </div>
-
-      <div className="relative">
-        <div className="bg-amber-900 p-1 rounded shadow-2xl">
-          <div className="grid grid-cols-8 border-4 border-amber-900 rounded shadow-xl">
-            {board.map((row, r) =>
-              row.map((piece, c) => {
-                const isLight = (r + c) % 2 === 0
-                const isSelected = selected?.row === r && selected?.col === c
-                const isValidMove = validMoves.some(m => m.row === r && m.col === c)
-
-                return (
-                  <button
-                    key={`${r}-${c}`}
-                    onClick={() => handleClick(r, c)}
-                    className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center text-3xl sm:text-4xl relative transition-all ${
-                      isLight
-                        ? 'bg-gradient-to-br from-amber-100 to-amber-200'
-                        : 'bg-gradient-to-br from-amber-600 to-amber-800'
-                    } ${isSelected ? 'ring-4 ring-blue-500 shadow-lg shadow-blue-500/50 scale-105' : 'hover:brightness-110'}`}
-                  >
-                    {piece && (
-                      <span
-                        className={piece.color === 'white'
-                          ? 'drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]'
-                          : 'drop-shadow-[0_1px_1px_rgba(0,0,0,0.3)]'}
-                        style={piece.color === 'white'
-                          ? { color: 'white', WebkitTextStroke: '1px #333' }
-                          : { color: '#1a1a1a', WebkitTextStroke: '0.5px #000' }}
-                      >
-                        {PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
-                      </span>
-                    )}
-                    {isValidMove && <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className={`rounded-full shadow-lg ${piece ? 'w-4 h-4 bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : 'w-6 h-6 bg-black/25 shadow-gray-500/50'}`} />
-                    </div>}
-                  </button>
-                )
-              })
-            )}
-          </div>
-
-          {/* File labels (a-h) */}
-          <div className="grid grid-cols-8 mt-0.5">
-            {['a','b','c','d','e','f','g','h'].map(file => (
-              <div key={file} className="text-center text-xs font-bold text-amber-200">{file}</div>
+      {/* AI difficulty */}
+      {gameMode === 'ai' && (
+        <div className="mb-4 flex gap-2">
+          {(['easy', 'medium', 'hard'] as const).map(diff => (
+            <button key={diff} onClick={() => { setAiDifficulty(diff as any); resetGame() }}
+              className={`px-3 py-1 rounded-lg text-sm font-medium ${aiDifficulty === diff ? 'bg-amber-600 text-white' : isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-200 text-gray-700'}`}>
+              {diff === 'easy' ? (isZh ? '简单' : 'Easy') : diff === 'medium' ? (isZh ? '中等' : 'Medium') : (isZh ? '困难' : 'Hard')}
+            </button>
+          ))}
+        </div>
+      )}
+      {/* Status */}
+      <div className={`mb-3 flex items-center gap-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+        <span className="font-medium">
+          {isZh ? '回合:' : 'Turn:'}{' '}
+          <span className={turn === 'white' ? 'text-gray-100' : 'text-gray-800'}>
+            {turn === 'white' ? (isZh ? '白方' : 'White') : (isZh ? '黑方' : 'Black')}
+          </span>
+        </span>
+        {inCheck && !gameOver && (
+          <span className="text-red-500 font-bold animate-pulse">{isZh ? '将军!' : 'Check!'}</span>
+        )}
+        {isAiThinking && (
+          <span className="text-amber-500 font-medium animate-pulse">{isZh ? 'AI思考中...' : 'AI thinking...'}</span>
+        )}
+      </div>
+      {/* Board */}
+      <div className="relative inline-block">
+        <div className="absolute -inset-1 rounded-lg shadow-inner" style={{ background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)' }} />
+        <div className="grid grid-cols-8 border-2 border-amber-900 rounded shadow-lg" style={{ background: 'linear-gradient(180deg, #c8a37f 0%, #854d0e 100%)' }}>
+          {board.map((row, rowIdx) =>
+            row.map((piece, colIdx) => {
+              const isSelected = selected?.row === rowIdx && selected?.col === colIdx
+              const isValidMove = isValidMoveTarget(rowIdx, colIdx)
+              const isLightSquare = (rowIdx + colIdx) % 2 === 0
+              return (
+                <button
+                  key={`${rowIdx}-${colIdx}`}
+                  onClick={() => handleClick(rowIdx, colIdx)}
+                  disabled={isAiThinking}
+                  className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center relative transition-all duration-150
+                    ${isLightSquare ? 'bg-amber-100' : 'bg-amber-600'}
+                    ${isSelected ? 'ring-2 ring-yellow-400' : ''}
+                    ${isValidMove ? 'bg-green-400/50' : ''}
+                    ${isAiThinking ? 'cursor-wait' : 'hover:bg-amber-200'}
+                  `}
+                >
+                  {piece && (
+                    <span className={`text-3xl drop-shadow-md ${piece.color === 'white' ? 'text-white' : 'text-black'}`}>
+                      {PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
+                    </span>
+                  )}
+                  {isValidMove && !piece && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-4 h-4 rounded-full bg-green-500/50" />
+                    </div>
+                  )}
+                </button>
+              )
+            })
+          )}
+        </div>
+      </div>
+      {/* Move history */}
+      {moveHistory.length > 0 && (
+        <div className={`mt-4 w-full max-w-md ${isDark ? 'bg-slate-800' : 'bg-white'} rounded-lg p-4 shadow`}>
+          <h3 className={`font-bold mb-2 text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>{isZh ? '走棋记录' : 'Move History'}</h3>
+          <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto text-xs">
+            {moveHistory.map((move, i) => (
+              <span key={i} className={`px-2 py-1 rounded ${isDark ? 'bg-slate-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>{i + 1}. {move}</span>
             ))}
           </div>
         </div>
-
-        {/* Rank labels (8-1) on the left */}
-        <div className="absolute -left-5 top-0 bottom-6 flex flex-col" style={{ marginTop: '4px' }}>
-          {[8,7,6,5,4,3,2,1].map(rank => (
-            <div key={rank} className="flex-1 flex items-center justify-center text-xs font-bold text-amber-200">{rank}</div>
-          ))}
-        </div>
+      )}
+      {/* Controls */}
+      <div className="mt-4 flex gap-4">
+        <button onClick={resetGame} className={`px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}>
+          {isZh ? '新游戏' : 'New Game'}
+        </button>
       </div>
-
-      <button
-        onClick={resetGame}
-        className={`mt-4 px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`}
-      >
-        {settings.language === 'zh' ? '重新开始' : 'New Game'}
-      </button>
-
+      {/* Game Over */}
       {gameOver && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/70">
-          <div className={`p-8 rounded-2xl text-center ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
-            <h2 className="text-2xl font-bold text-green-500 mb-4">{gameOver}</h2>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+          <div className={`p-8 rounded-2xl text-center shadow-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
+            <h2 className="text-3xl font-bold text-green-500 mb-4">{gameOver}</h2>
             <button onClick={resetGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
-              {settings.language === 'zh' ? '再来一次' : 'Play Again'}
+              {isZh ? '再来一次' : 'Play Again'}
             </button>
           </div>
         </div>
