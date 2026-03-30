@@ -5,6 +5,7 @@ import { getCollection, type CollectionEntry } from 'astro:content'
 import { getAllGames, getAllGameSlugs, getGameBySlug, type GameData as CMSGameData } from '../../lib/games'
 import { categories } from '../../data/games'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
+import { getGameSEO, generateKeywords } from '../../data/seo'
 
 // 在 getStaticPaths 中获取所有游戏
 export async function getStaticPaths() {
@@ -142,8 +143,15 @@ const category = categories.find(c => c.id === game.category)
 const categoryData = categoryI18n[lang]?.[game.category]
 const gameType = categoryData?.name || category?.name || 'Puzzle'
 
-// Build keywords from game info
-const keywords = `${getGameField('name', 'en')}, ${getGameField('name', 'zh')}, ${getGameField('desc', 'en')}, ${getGameField('desc', 'zh')}, free online game, puzzle game`
+// Get game name for SEO
+const gameNameEn = getGameField('name', 'en') as string
+const gameNameZh = getGameField('name', 'zh') as string
+
+// Get SEO config for this game
+const gameSEO = getGameSEO(game.slug)
+
+// Build optimized keywords from SEO config
+const keywords = generateKeywords(gameSEO)
 
 // Helper for localized game name
 const getGameName = () => getGameField('name', lang === 'zh-CN' || lang === 'zh-TW' ? 'zh' : 'en') as string
@@ -165,16 +173,22 @@ const f = t.feedback
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: categoryData?.name || category?.name || 'Games', url: `/category/${game.category}/` },
-  { name: getGameField('name', 'en') as string, url: `/games/${game.slug}/` }
+  { name: gameNameEn, url: `/games/${game.slug}/` }
 ]
 
-// Enhanced SEO description
-const enhancedDescription = `Play ${getGameField('name', 'en')} free online at RuleWord. ${getGameField('desc', 'en')} ${getGameField('desc', 'zh')} Category: ${gameType}. No download required, play instantly in your browser!`
+// Optimized SEO title and description
+const seoTitle = gameSEO.titleTemplate
+  .replace('{game}', gameNameEn)
+  .replace('{brand}', 'RuleWord')
+
+const seoDescription = gameSEO.descriptionTemplate
+  .replace('{game}', gameNameEn)
+  .replace('{brand}', 'RuleWord')
 ---
 
 <BaseLayout
-  title={`${getGameField('name', 'en')} - RuleWord | Free Online Game`}
-  description={enhancedDescription}
+  title={seoTitle}
+  description={seoDescription}
   keywords={keywords}
   canonicalPath={`/games/${game.slug}/`}
   gameType={gameType}

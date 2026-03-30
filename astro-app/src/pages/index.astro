@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
 import { categories } from '../data/games'
 import { languages, i18n, categoryI18n, type Language } from '../data/i18n'
+import { homepageSEO } from '../data/seo'
 import GameSearch from '../components/GameSearch.astro'
 import GameShowcase from '../components/GameShowcase.astro'
 
@@ -25,7 +26,12 @@ const allLanguages = languages
 const categoryI18nData = categoryI18n
 ---
 
-<BaseLayout title="RuleWord - Free Online Games | 103+ Puzzle, Word, Logic & More" isHomePage={true}>
+<BaseLayout
+  title={homepageSEO.title}
+  description={homepageSEO.description}
+  keywords={homepageSEO.keywords}
+  isHomePage={true}
+>
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
