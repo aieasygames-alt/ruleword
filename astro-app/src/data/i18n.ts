@@ -85,8 +85,8 @@ export const i18n: Record<Language, {
   en: {
     nav: { home: 'Home', feedback: 'Feedback', language: 'Language' },
     home: {
-      title: 'Free Online Puzzle Games',
-      subtitle: 'Classic puzzles, strategy games, arcade fun. No downloads, play instantly.',
+      title: 'Play Wordle, Sudoku, 2048 Online Free',
+      subtitle: '100+ puzzle, word, arcade & strategy games. No download, play instantly in browser!',
       featured: 'Featured Games', allGames: 'All Games', gamesCount: 'games', freeGames: 'Free Games',
       categories: 'Categories', copyright: '© 2026 RuleWord', aboutTitle: 'About RuleWord',
       feature1Title: '100% Free & Unlimited', feature1Desc: 'Play all games without any cost or time limits. No registration required.',
