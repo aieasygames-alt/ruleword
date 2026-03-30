@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { gameGuides, getAllGuideSlugs, getGameGuide } from '../../data/gameGuidesSEO'
+import { games } from '../../data/games'
+
+const guideSlugs = getAllGuideSlugs()
+
+// Get all guides with related game info
+const allGuides = guideSlugs.map(slug => {
+  const guide = getGameGuide(slug)!
+  const game = games.find(g => g.slug === slug)
+  return { slug, guide, game }
+})
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Game Guides', url: '/guides/' }
+]
+---
+
+<BaseLayout
+  title="Game Strategy Guides - Tips, Tricks & How to Play | RuleWord"
+  description="Free game guides and strategy tips for Wordle, Sudoku, 2048, Tetris, Chess, Minesweeper and more. Learn winning strategies and improve your gameplay."
+  keywords="game guides, game strategy, wordle tips, sudoku strategy, 2048 tricks, how to play, game tips, puzzle game guides"
+  canonicalPath="/guides/"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="min-h-screen bg-slate-950 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              R
+            </div>
+            <span class="font-semibold">RuleWord</span>
+          </a>
+
+          <a href="/" class="text-sm text-slate-400 hover:text-white transition-colors">
+            ← Back to Games
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <!-- Hero -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+          Game Strategy Guides
+        </h1>
+        <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+          Master your favorite games with our comprehensive guides. Learn winning strategies,
+          discover tips and tricks, and improve your skills.
+        </p>
+      </div>
+
+      <!-- Guide Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {allGuides.map(({ slug, guide, game }) => (
+          <a
+            href={`/guides/${slug}/`}
+            class="group bg-slate-900/50 border border-slate-800 rounded-xl p-6 hover:border-slate-600 transition-all hover:-translate-y-1"
+          >
+            <div class="flex items-start gap-4">
+              {game && (
+                <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                  <span class="text-2xl">{game.icon}</span>
+                </div>
+              )}
+              <div class="flex-1 min-w-0">
+                <h2 class="text-lg font-semibold group-hover:text-green-400 transition-colors mb-2">
+                  {guide.title.split(':')[0]}
+                </h2>
+                <p class="text-sm text-slate-400 line-clamp-2 mb-3">
+                  {guide.description}
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  {guide.keywords.slice(0, 3).map(keyword => (
+                    <span class="px-2 py-1 text-xs rounded-full bg-slate-800 text-slate-300">
+                      {keyword}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Why Read Our Guides -->
+      <section class="mt-16 bg-slate-900/50 border border-slate-800 rounded-xl p-8">
+        <h2 class="text-2xl font-bold mb-6 text-center">Why Read Our Game Guides?</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="text-3xl mb-3">📚</div>
+            <h3 class="font-semibold mb-2">Expert Strategies</h3>
+            <p class="text-sm text-slate-400">
+              Learn proven techniques used by top players to consistently win.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-3">🎯</div>
+            <h3 class="font-semibold mb-2">Step-by-Step</h3>
+            <p class="text-sm text-slate-400">
+              Clear, easy-to-follow instructions for players of all skill levels.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-3">💡</div>
+            <h3 class="font-semibold mb-2">Pro Tips</h3>
+            <p class="text-sm text-slate-400">
+              Insider tips and tricks to take your gameplay to the next level.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Popular Keywords -->
+      <section class="mt-12 text-center">
+        <h2 class="text-lg font-semibold mb-4 text-slate-400">Popular Searches</h2>
+        <div class="flex flex-wrap justify-center gap-2">
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">wordle tips</span>
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">sudoku strategy</span>
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">how to beat 2048</span>
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">tetris guide</span>
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">chess for beginners</span>
+          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">minesweeper tricks</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 px-4">
+      <div class="max-w-4xl mx-auto text-center text-sm text-slate-400">
+        <p>© 2026 RuleWord · Free Online Games</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

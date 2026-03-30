@@ -1,0 +1,310 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { gameGuides, getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
+import { games } from '../../data/games'
+
+export function getStaticPaths() {
+  const slugs = getAllGuideSlugs()
+  return slugs.map(slug => ({
+    params: { slug },
+    props: { slug }
+  }))
+}
+
+const { slug } = Astro.props
+const guide = getGameGuide(slug)
+
+if (!guide) {
+  return Astro.redirect('/404')
+}
+
+// Get related game
+const relatedGame = games.find(g => g.slug === slug)
+
+// Breadcrumb for structured data
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Game Guides', url: '/guides/' },
+  { name: guide.title, url: `/guides/${slug}/` }
+]
+
+// HowTo Schema for SEO
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": guide.title,
+  "description": guide.description,
+  "step": guide.sections.map((section, index) => ({
+    "@type": "HowToStep",
+    "position": index + 1,
+    "name": section.title,
+    "text": section.content
+  })),
+  "totalTime": "PT15M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0"
+  }
+}
+
+// FAQ Schema
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": guide.faq.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+}
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": guide.title,
+  "description": guide.description,
+  "author": {
+    "@type": "Organization",
+    "name": "RuleWord"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "RuleWord",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ruleword.com/icons/icon-192.png"
+    }
+  },
+  "datePublished": "2024-01-01",
+  "dateModified": new Date().toISOString().split('T')[0]
+}
+---
+
+<BaseLayout
+  title={`${guide.title} | RuleWord`}
+  description={guide.description}
+  keywords={guide.keywords.join(', ')}
+  canonicalPath={`/guides/${slug}/`}
+  breadcrumbItems={breadcrumbItems}
+>
+  <!-- HowTo Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <!-- Article Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <div class="min-h-screen bg-slate-950 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              R
+            </div>
+            <span class="font-semibold">RuleWord</span>
+          </a>
+
+          <div class="flex items-center gap-3">
+            <a href="/" class="text-sm text-slate-400 hover:text-white transition-colors">
+              ← Back to Games
+            </a>
+            {relatedGame && (
+              <a
+                href={`/games/${slug}/`}
+                class="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-sm font-medium transition-all"
+              >
+                Play {relatedGame.name} →
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-6">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-slate-500">Game Guides</span>
+        <span>/</span>
+        <span class="text-white">{guide.title.split(':')[0]}</span>
+      </nav>
+
+      <!-- Hero -->
+      <article>
+        <header class="mb-8">
+          <h1 class="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+            {guide.title}
+          </h1>
+          <p class="text-lg text-slate-300 leading-relaxed">
+            {guide.description}
+          </p>
+        </header>
+
+        <!-- Introduction -->
+        <section class="prose prose-invert max-w-none mb-8">
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <p class="text-slate-300 leading-relaxed whitespace-pre-line">
+              {guide.introduction}
+            </p>
+          </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <nav class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+          <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span class="text-xl">📋</span>
+            Table of Contents
+          </h2>
+          <ol class="space-y-2">
+            {guide.sections.map((section, index) => (
+              <li>
+                <a
+                  href={`#section-${index + 1}`}
+                  class="text-slate-300 hover:text-green-400 transition-colors flex items-center gap-2"
+                >
+                  <span class="text-slate-500 w-6">{index + 1}.</span>
+                  {section.title}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href="#faq"
+                class="text-slate-300 hover:text-green-400 transition-colors flex items-center gap-2"
+              >
+                <span class="text-slate-500 w-6">?</span>
+                Frequently Asked Questions
+              </a>
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Guide Sections -->
+        {guide.sections.map((section, index) => (
+          <section
+            id={`section-${index + 1}`}
+            class="mb-8 scroll-mt-20"
+          >
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-sm font-bold">
+                {index + 1}
+              </span>
+              {section.title}
+            </h2>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-4">
+              <p class="text-slate-300 leading-relaxed whitespace-pre-line">
+                {section.content}
+              </p>
+            </div>
+
+            {section.tips && section.tips.length > 0 && (
+              <div class="bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-800/50 rounded-xl p-6">
+                <h3 class="text-lg font-semibold mb-3 flex items-center gap-2 text-green-400">
+                  <span>💡</span>
+                  Pro Tips
+                </h3>
+                <ul class="space-y-2">
+                  {section.tips.map((tip, tipIndex) => (
+                    <li class="flex items-start gap-3 text-slate-300">
+                      <span class="text-green-400 mt-1">✓</span>
+                      <span>{tip}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        ))}
+
+        <!-- FAQ Section -->
+        <section id="faq" class="mb-8 scroll-mt-20">
+          <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+            <span class="text-2xl">❓</span>
+            Frequently Asked Questions
+          </h2>
+
+          <div class="space-y-4">
+            {guide.faq.map((item, index) => (
+              <details
+                class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden"
+                open={index === 0}
+              >
+                <summary class="flex items-center justify-between p-5 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                  <span class="font-medium text-lg pr-4">{item.question}</span>
+                  <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </summary>
+                <div class="px-5 pb-5 text-slate-300 leading-relaxed">
+                  {item.answer}
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <!-- Play Game CTA -->
+        {relatedGame && (
+          <section class="bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl p-8 text-center">
+            <h2 class="text-2xl font-bold mb-3">Ready to Play?</h2>
+            <p class="text-slate-300 mb-6">
+              Put your new skills to the test! Play {relatedGame.name} now and see how much you've improved.
+            </p>
+            <a
+              href={`/games/${slug}/`}
+              class="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 font-semibold text-lg transition-all hover:scale-105"
+            >
+              <span>🎮</span>
+              Play {relatedGame.name} Free
+            </a>
+          </section>
+        )}
+      </article>
+
+      <!-- Related Guides -->
+      <section class="mt-12 pt-8 border-t border-slate-800">
+        <h2 class="text-xl font-bold mb-4">Related Guides</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {getAllGuideSlugs()
+            .filter(s => s !== slug)
+            .slice(0, 4)
+            .map(relatedSlug => {
+              const relatedGuide = getGameGuide(relatedSlug)
+              if (!relatedGuide) return null
+              return (
+                <a
+                  href={`/guides/${relatedSlug}/`}
+                  class="group p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-slate-600 transition-all"
+                >
+                  <h3 class="font-semibold group-hover:text-green-400 transition-colors">
+                    {relatedGuide.title.split(':')[0]}
+                  </h3>
+                  <p class="text-sm text-slate-400 mt-1 line-clamp-2">
+                    {relatedGuide.description}
+                  </p>
+                </a>
+              )
+            })}
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 px-4">
+      <div class="max-w-4xl mx-auto text-center text-sm text-slate-400">
+        <p>© 2026 RuleWord · Free Online Games</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
