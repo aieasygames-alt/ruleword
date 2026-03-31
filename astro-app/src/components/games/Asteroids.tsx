@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+  onBack?: () => void
 }
 
 const CANVAS_WIDTH = 600
@@ -9,7 +10,7 @@ const CANVAS_HEIGHT = 500
 
 type Vec2 = { x: number; y: number }
 
-export default function Asteroids({ settings }: Props) {
+export default function Asteroids({ settings, onBack }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover'>('menu')
   const [score, setScore] = useState(0)
@@ -44,6 +45,7 @@ export default function Asteroids({ settings }: Props) {
     game.ship = { x: CANVAS_WIDTH / 2, y: CANVAS_HEIGHT / 2, angle: -Math.PI / 2, vx: 0, vy: 0 }
     game.bullets = []
     game.asteroids = []
+    game.keys = {}
 
     // Create initial asteroids
     for (let i = 0; i < 5; i++) {
@@ -60,6 +62,19 @@ export default function Asteroids({ settings }: Props) {
 
     setScore(0)
     setGameState('playing')
+  }, [])
+
+  // Touch control handlers with proper event handling
+  const touchStartHandler = useCallback((key: string) => (e: React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    gameRef.current.keys[key] = true
+  }, [])
+
+  const touchEndHandler = useCallback((key: string) => (e: React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    gameRef.current.keys[key] = false
   }, [])
 
   useEffect(() => {
@@ -370,36 +385,52 @@ export default function Asteroids({ settings }: Props) {
   }, [gameState, settings.darkMode])
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <h1 className={`text-2xl font-bold mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-        ☄️ Asteroids
-      </h1>
-
-      <div className={`mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
-        {settings.language === 'zh' ? '得分' : 'Score'}: {score}
+    <div
+      className={`min-h-screen flex flex-col items-center p-2 sm:p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}
+      style={{ touchAction: 'none' }}
+    >
+      {/* Header */}
+      <div className={`w-full max-w-xl flex items-center justify-between mb-2 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
+        <button
+          onClick={() => gameState === 'playing' ? setGameState('menu') : onBack?.()}
+          className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <h1 className="text-lg font-bold">☄️ Asteroids</h1>
+        <div className="text-sm">
+          {settings.language === 'zh' ? '得分' : 'Score'}: {score}
+        </div>
       </div>
 
-      <canvas
-        ref={canvasRef}
-        width={CANVAS_WIDTH}
-        height={CANVAS_HEIGHT}
-        className="border-2 rounded-lg max-w-full"
-        style={{ borderColor: settings.darkMode ? '#334155' : '#9ca3af' }}
-      />
+      {/* Canvas - responsive */}
+      <div className="w-full max-w-xl">
+        <canvas
+          ref={canvasRef}
+          width={CANVAS_WIDTH}
+          height={CANVAS_HEIGHT}
+          className="w-full rounded-lg border-2"
+          style={{ borderColor: settings.darkMode ? '#334155' : '#9ca3af', touchAction: 'none' }}
+        />
+      </div>
 
       {gameState === 'menu' && (
         <div className="mt-4 text-center">
           <button onClick={initGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-lg">
             {settings.language === 'zh' ? '开始游戏' : 'Start Game'}
           </button>
-          <p className={`mt-4 text-sm ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-            {settings.language === 'zh' ? '← → 旋转 | ↑ 推进 | 空格 射击' : '← → Rotate | ↑ Thrust | Space Shoot'}
+          <p className={`mt-3 text-sm ${settings.darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
+            {settings.language === 'zh'
+              ? '← → 旋转 | ↑ 推进 | 空格 射击'
+              : '← → Rotate | ↑ Thrust | Space Shoot'}
           </p>
         </div>
       )}
 
       {gameState === 'gameover' && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/70">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
           <div className={`p-8 rounded-2xl text-center ${settings.darkMode ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-3xl font-bold text-red-500 mb-4">{settings.language === 'zh' ? '游戏结束' : 'Game Over'}</h2>
             <p className={`text-xl mb-4 ${settings.darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -412,39 +443,53 @@ export default function Asteroids({ settings }: Props) {
         </div>
       )}
 
-      {/* Mobile touch controls */}
+      {/* Mobile touch controls - always visible on small screens */}
       {gameState === 'playing' && (
-        <div className="flex gap-4 mt-4 sm:hidden">
-          <button
-            onTouchStart={() => { gameRef.current.keys['ArrowLeft'] = true }}
-            onTouchEnd={() => { gameRef.current.keys['ArrowLeft'] = false }}
-            className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
-          >
-            ↺
-          </button>
-          <div className="flex flex-col gap-2">
+        <div
+          className="w-full max-w-xl mt-3 sm:hidden"
+          style={{ touchAction: 'none' }}
+        >
+          <div className="flex items-center justify-between px-2">
+            {/* Left side: Rotate Left */}
             <button
-              onTouchStart={() => { gameRef.current.keys['ArrowUp'] = true }}
-              onTouchEnd={() => { gameRef.current.keys['ArrowUp'] = false }}
-              className="w-16 h-12 rounded-lg bg-green-600 active:bg-green-500 flex items-center justify-center text-lg font-bold"
+              onTouchStart={touchStartHandler('ArrowLeft')}
+              onTouchEnd={touchEndHandler('ArrowLeft')}
+              className="w-20 h-20 rounded-full bg-slate-700/80 active:bg-slate-500 flex items-center justify-center text-3xl select-none"
+              style={{ touchAction: 'none' }}
             >
-              {settings.language === 'zh' ? '推进' : 'THRUST'}
+              ↺
             </button>
+
+            {/* Center: Thrust + Fire */}
+            <div className="flex flex-col gap-3">
+              <button
+                onTouchStart={touchStartHandler('ArrowUp')}
+                onTouchEnd={touchEndHandler('ArrowUp')}
+                className="w-28 h-14 rounded-xl bg-green-600/80 active:bg-green-400 flex items-center justify-center text-base font-bold text-white select-none"
+                style={{ touchAction: 'none' }}
+              >
+                {settings.language === 'zh' ? '▲ 推进' : '▲ THRUST'}
+              </button>
+              <button
+                onTouchStart={touchStartHandler(' ')}
+                onTouchEnd={touchEndHandler(' ')}
+                className="w-28 h-14 rounded-xl bg-red-600/80 active:bg-red-400 flex items-center justify-center text-base font-bold text-white select-none"
+                style={{ touchAction: 'none' }}
+              >
+                {settings.language === 'zh' ? '● 射击' : '● FIRE'}
+              </button>
+            </div>
+
+            {/* Right side: Rotate Right */}
             <button
-              onTouchStart={() => { gameRef.current.keys[' '] = true }}
-              onTouchEnd={() => { gameRef.current.keys[' '] = false }}
-              className="w-16 h-12 rounded-lg bg-red-600 active:bg-red-500 flex items-center justify-center text-lg font-bold"
+              onTouchStart={touchStartHandler('ArrowRight')}
+              onTouchEnd={touchEndHandler('ArrowRight')}
+              className="w-20 h-20 rounded-full bg-slate-700/80 active:bg-slate-500 flex items-center justify-center text-3xl select-none"
+              style={{ touchAction: 'none' }}
             >
-              {settings.language === 'zh' ? '射击' : 'FIRE'}
+              ↻
             </button>
           </div>
-          <button
-            onTouchStart={() => { gameRef.current.keys['ArrowRight'] = true }}
-            onTouchEnd={() => { gameRef.current.keys['ArrowRight'] = false }}
-            className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
-          >
-            ↻
-          </button>
         </div>
       )}
     </div>
