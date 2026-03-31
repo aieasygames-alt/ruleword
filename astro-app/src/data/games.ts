@@ -180,6 +180,9 @@ export const games: GameConfig[] = [
   { slug: 'tower-defense', id: 'towerdefense', name: 'Tower Defense', nameZh: '塔防游戏', icon: '🏰', desc: 'Place towers strategically to defend against waves of enemies! Upgrade towers and manage resources.', descZh: '策略性地放置塔来抵御一波又一波的敌人！升级塔并管理资源。', category: 'strategy', featured: true, color: 'from-green-500 to-emerald-600' },
   { slug: 'angry-birds', id: 'angrybirds', name: 'Angry Birds', nameZh: '愤怒的小鸟', icon: '🐦', desc: 'Launch birds from a slingshot to destroy pigs and structures! Physics-based destruction game.', descZh: '用弹弓发射小鸟摧毁猪和建筑！基于物理的破坏游戏。', category: 'skill', featured: true, color: 'from-red-500 to-orange-600' },
   { slug: 'rubiks-cube', id: 'rubikscube', name: 'Rubik\'s Cube', nameZh: '魔方', icon: '🧊', desc: 'Solve the classic 3D puzzle! Rotate faces to align all colors on each side.', descZh: '解开经典3D谜题！旋转各个面使每面颜色一致。', category: 'puzzle', featured: true, color: 'from-cyan-400 to-blue-600' },
+
+  // More Puzzle Games
+  { slug: 'flow-free', id: 'flowfree', name: 'Flow Free', nameZh: '连线填色', icon: '🔗', desc: 'Connect matching dots with continuous paths! Fill every cell without crossing paths.', descZh: '用连续路径连接相同颜色的点！填满每个格子，路径不能交叉。', category: 'puzzle', featured: true, color: 'from-violet-500 to-purple-600' },
 ]
 
 // Get a game by its slug
