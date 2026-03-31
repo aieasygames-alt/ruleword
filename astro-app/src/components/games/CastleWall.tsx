@@ -12,7 +12,34 @@ type Props = {
 
 const GRID_SIZE = 7
 
-const createInitialGrid = (): Cell[][] => {
+const PUZZLES: [number, number, number, 'up' | 'down' | 'left' | 'right'][][] = [
+  // Puzzle 1
+  [
+    [0, 2, 2, 'down'],
+    [1, 5, 1, 'left'],
+    [3, 1, 3, 'right'],
+    [4, 6, 1, 'up'],
+    [6, 3, 2, 'left'],
+  ],
+  // Puzzle 2
+  [
+    [0, 4, 1, 'down'],
+    [1, 1, 2, 'right'],
+    [3, 5, 3, 'left'],
+    [5, 2, 1, 'up'],
+    [6, 6, 2, 'left'],
+  ],
+  // Puzzle 3
+  [
+    [0, 0, 3, 'down'],
+    [2, 3, 1, 'right'],
+    [3, 6, 2, 'left'],
+    [5, 1, 2, 'up'],
+    [6, 5, 1, 'right'],
+  ],
+]
+
+const createInitialGrid = (puzzleIndex: number): Cell[][] => {
   const grid: Cell[][] = Array(GRID_SIZE).fill(null).map(() =>
     Array(GRID_SIZE).fill(null).map(() => ({
       isWall: null,
@@ -21,14 +48,8 @@ const createInitialGrid = (): Cell[][] => {
     }))
   )
 
-  // Add clues
-  const clues: [number, number, number, 'up' | 'down' | 'left' | 'right'][] = [
-    [0, 2, 2, 'down'],
-    [1, 5, 1, 'left'],
-    [3, 1, 3, 'right'],
-    [4, 6, 1, 'up'],
-    [6, 3, 2, 'left'],
-  ]
+  // Add clues for the selected puzzle
+  const clues = PUZZLES[puzzleIndex % PUZZLES.length]
 
   clues.forEach(([row, col, num, dir]) => {
     grid[row][col].clue = num
@@ -39,7 +60,8 @@ const createInitialGrid = (): Cell[][] => {
 }
 
 export default function CastleWall({ settings }: Props) {
-  const [grid, setGrid] = useState<Cell[][]>(createInitialGrid)
+  const [puzzleIndex, setPuzzleIndex] = useState(0)
+  const [grid, setGrid] = useState<Cell[][]>(() => createInitialGrid(0))
   const [solved, setSolved] = useState(false)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
@@ -164,7 +186,15 @@ export default function CastleWall({ settings }: Props) {
   }, [grid])
 
   const reset = () => {
-    setGrid(createInitialGrid())
+    setGrid(createInitialGrid(puzzleIndex))
+    setSolved(false)
+    setErrorMsg(null)
+  }
+
+  const nextPuzzle = () => {
+    const nextIndex = (puzzleIndex + 1) % PUZZLES.length
+    setPuzzleIndex(nextIndex)
+    setGrid(createInitialGrid(nextIndex))
     setSolved(false)
     setErrorMsg(null)
   }
@@ -175,6 +205,11 @@ export default function CastleWall({ settings }: Props) {
         <h1 className="text-xl font-bold text-center">🏰 Castle Wall</h1>
         <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
           {settings.language === 'zh' ? '画出城墙包围数字' : 'Draw walls to enclose the clues'}
+        </p>
+        <p className={`text-center text-xs mt-1 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+          {settings.language === 'zh'
+            ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}`
+            : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
         </p>
       </div>
 
@@ -220,6 +255,9 @@ export default function CastleWall({ settings }: Props) {
       </div>
 
       <div className="flex justify-center gap-4 p-4">
+        <button onClick={nextPuzzle} className={`px-4 py-2 rounded-lg font-medium ${isDark ? 'bg-indigo-700 hover:bg-indigo-600 text-white' : 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'}`}>
+          {settings.language === 'zh' ? '新谜题' : 'New Puzzle'}
+        </button>
         <button onClick={reset} className={`px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
           {settings.language === 'zh' ? '重置' : 'Reset'}
         </button>
@@ -238,9 +276,19 @@ export default function CastleWall({ settings }: Props) {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
           <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-2xl font-bold text-center text-green-500">🎉 {settings.language === 'zh' ? '正确！' : 'Correct!'}</h2>
-            <button onClick={() => setSolved(false)} className="mt-4 w-full py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg">
-              {settings.language === 'zh' ? '继续' : 'Continue'}
-            </button>
+            <p className={`mt-2 text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
+              {settings.language === 'zh'
+                ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}`
+                : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
+            </p>
+            <div className="mt-4 flex gap-2">
+              <button onClick={() => setSolved(false)} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}>
+                {settings.language === 'zh' ? '继续' : 'Continue'}
+              </button>
+              <button onClick={nextPuzzle} className="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
+                {settings.language === 'zh' ? '新谜题' : 'New Puzzle'}
+              </button>
+            </div>
           </div>
         </div>
       )}

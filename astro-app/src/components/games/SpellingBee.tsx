@@ -13,11 +13,23 @@ const WORD_LIST = new Set([
   'aboard', 'absent', 'absorb', 'access', 'accident', 'account', 'achieve', 'action', 'active', 'actual', 'adjust', 'admire', 'advice', 'advise', 'affair', 'affect', 'afford', 'afraid', 'agency', 'agenda', 'almost', 'always', 'amount', 'animal', 'annual', 'answer', 'anyone', 'anyway', 'appeal', 'appear', 'around', 'artist', 'aspect', 'assess', 'assist', 'assume', 'attack', 'attend', 'author', 'autumn', 'avenue',
 ])
 
-const HIVE = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+const generatePuzzle = (): { centerLetter: string; outerLetters: string[] } => {
+  // Pick 7 unique random letters
+  const available = ALL_LETTERS.split('')
+  const chosen: string[] = []
+  for (let i = 0; i < 7; i++) {
+    const idx = Math.floor(Math.random() * available.length)
+    chosen.push(available.splice(idx, 1)[0])
+  }
+  const centerLetter = chosen[0]
+  const outerLetters = chosen.slice(1)
+  return { centerLetter, outerLetters }
+}
 
 export default function SpellingBee({ settings }: Props) {
-  const [centerLetter] = useState(() => HIVE[Math.floor(Math.random() * HIVE.length)])
-  const [outerLetters] = useState(() => HIVE.filter(l => l !== centerLetter))
+  const [puzzle, setPuzzle] = useState(() => generatePuzzle())
   const [input, setInput] = useState('')
   const [foundWords, setFoundWords] = useState<Set<string>>(new Set())
   const [message, setMessage] = useState('')
@@ -25,7 +37,16 @@ export default function SpellingBee({ settings }: Props) {
   const isDark = settings.darkMode
   const lang = settings.language
 
+  const centerLetter = puzzle.centerLetter
+  const outerLetters = puzzle.outerLetters
   const allLetters = [centerLetter, ...outerLetters]
+
+  const newPuzzle = () => {
+    setPuzzle(generatePuzzle())
+    setInput('')
+    setFoundWords(new Set())
+    setMessage('')
+  }
 
   const isValidWord = useCallback((word: string): { valid: boolean; reason?: string } => {
     const upperWord = word.toUpperCase()
@@ -120,6 +141,9 @@ export default function SpellingBee({ settings }: Props) {
 
       {/* Buttons */}
       <div className="flex gap-2 mb-4">
+        <button onClick={newPuzzle} className={`px-4 py-2 rounded-lg font-medium ${isDark ? 'bg-indigo-700 hover:bg-indigo-600 text-white' : 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'}`}>
+          {lang === 'zh' ? '新谜题' : 'New Puzzle'}
+        </button>
         <button onClick={() => handleKeyPress('DELETE')} className={`px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 text-white' : 'bg-gray-200'}`}>
           {lang === 'zh' ? '删除' : 'Delete'}
         </button>

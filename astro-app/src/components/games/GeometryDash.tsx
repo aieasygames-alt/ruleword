@@ -477,7 +477,7 @@ export default function GeometryDash({
           </div>
         </div>
 
-        <div className="relative mx-auto" style={{ width: CANVAS_WIDTH }}>
+        <div className="relative mx-auto" style={{ width: CANVAS_WIDTH, maxWidth: '100%' }}>
           <canvas
             ref={canvasRef}
             width={CANVAS_WIDTH}

@@ -649,7 +649,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
               ref={canvasRef}
               width={GRID_COLS * CELL_SIZE}
               height={GRID_ROWS * CELL_SIZE}
-              className="rounded-xl border-2 border-slate-700"
+              className="rounded-xl border-2 border-slate-700 max-w-full"
             />
 
             {/* Mobile Controls */}

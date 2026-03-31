@@ -260,10 +260,14 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowUp') move('up')
-      else if (e.key === 'ArrowDown') move('down')
-      else if (e.key === 'ArrowLeft') move('left')
-      else if (e.key === 'ArrowRight') move('right')
+      const gameKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd']
+      if (gameKeys.includes(e.key)) {
+        e.preventDefault()
+      }
+      if (e.key === 'ArrowUp' || e.key === 'w') move('up')
+      else if (e.key === 'ArrowDown' || e.key === 's') move('down')
+      else if (e.key === 'ArrowLeft' || e.key === 'a') move('left')
+      else if (e.key === 'ArrowRight' || e.key === 'd') move('right')
     }
 
     window.addEventListener('keydown', handleKeyDown)

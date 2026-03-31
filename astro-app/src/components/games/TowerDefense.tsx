@@ -614,7 +614,7 @@ export default function TowerDefense({
                 width={GRID_COLS * CELL_SIZE}
                 height={GRID_ROWS * CELL_SIZE}
                 onClick={handleCanvasClick}
-                className="block mx-auto rounded-lg border border-gray-700 cursor-pointer"
+                className="block mx-auto rounded-lg border border-gray-700 cursor-pointer max-w-full"
               />
 
               {/* Wave start button */}

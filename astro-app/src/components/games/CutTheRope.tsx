@@ -684,7 +684,7 @@ export default function CutTheRope({
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
-            className="block mx-auto cursor-crosshair"
+            className="block mx-auto cursor-crosshair max-w-full"
             onMouseDown={handleStart}
             onMouseMove={handleMove}
             onMouseUp={handleEnd}

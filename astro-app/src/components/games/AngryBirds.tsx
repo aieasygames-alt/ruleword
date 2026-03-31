@@ -1254,7 +1254,7 @@ export default function AngryBirds({
               ref={canvasRef}
               width={500}
               height={500}
-              className="block mx-auto rounded-lg border border-gray-700"
+              className="block mx-auto rounded-lg border border-gray-700 max-w-full"
             />
 
             {gameState === 'levelComplete' && (

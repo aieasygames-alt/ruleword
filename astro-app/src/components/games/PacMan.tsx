@@ -95,13 +95,16 @@ export default function PacMan({ settings }: Props) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const game = gameRef.current
+      const gameKeys = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd']
+      if (gameKeys.includes(e.key)) {
+        e.preventDefault()
+      }
       switch (e.key) {
         case 'ArrowLeft': case 'a': game.pacman.nextDir = { x: -1, y: 0 }; break
         case 'ArrowRight': case 'd': game.pacman.nextDir = { x: 1, y: 0 }; break
         case 'ArrowUp': case 'w': game.pacman.nextDir = { x: 0, y: -1 }; break
         case 'ArrowDown': case 's': game.pacman.nextDir = { x: 0, y: 1 }; break
       }
-      e.preventDefault()
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
@@ -492,7 +495,7 @@ export default function PacMan({ settings }: Props) {
           </div>
         </div>
 
-        <div className="relative mx-auto" style={{ width: COLS * CELL_SIZE }}>
+        <div className="relative mx-auto" style={{ width: COLS * CELL_SIZE, maxWidth: '100%' }}>
           <canvas
             ref={canvasRef}
             width={COLS * CELL_SIZE}

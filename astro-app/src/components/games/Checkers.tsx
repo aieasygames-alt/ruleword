@@ -528,7 +528,7 @@ export default function Checkers({ settings, onBack }: CheckersProps) {
         </div>
 
         {/* Board */}
-        <div className="bg-amber-800 rounded-lg p-2 shadow-lg">
+        <div className="bg-amber-800 rounded-lg p-2 shadow-lg overflow-hidden" style={{ maxWidth: '100%' }}>
           {board.map((row, rowIdx) => (
             <div key={rowIdx} className="flex">
               {row.map((cell, colIdx) => {

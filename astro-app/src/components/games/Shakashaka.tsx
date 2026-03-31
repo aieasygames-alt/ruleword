@@ -12,7 +12,22 @@ type Props = {
 
 const GRID_SIZE = 8
 
-const createInitialGrid = (): Cell[][] => {
+const PUZZLES: [number, number, number][][] = [
+  // Puzzle 1
+  [
+    [0, 3, 2], [2, 0, 1], [2, 5, 0], [4, 7, 1], [7, 2, 3]
+  ],
+  // Puzzle 2
+  [
+    [0, 0, 1], [1, 4, 2], [3, 7, 0], [5, 1, 3], [6, 6, 2], [7, 3, 1]
+  ],
+  // Puzzle 3
+  [
+    [0, 5, 1], [1, 1, 2], [3, 3, 0], [4, 0, 3], [5, 6, 2], [7, 4, 1]
+  ],
+]
+
+const createInitialGrid = (puzzleIndex: number): Cell[][] => {
   const grid: Cell[][] = Array(GRID_SIZE).fill(null).map(() =>
     Array(GRID_SIZE).fill(null).map(() => ({
       isBlack: false,
@@ -21,10 +36,8 @@ const createInitialGrid = (): Cell[][] => {
     }))
   )
 
-  // Add black cells with clues
-  const blackClues: [number, number, number][] = [
-    [0, 3, 2], [2, 0, 1], [2, 5, 0], [4, 7, 1], [7, 2, 3]
-  ]
+  // Add black cells with clues for the selected puzzle
+  const blackClues = PUZZLES[puzzleIndex % PUZZLES.length]
 
   blackClues.forEach(([row, col, clue]) => {
     grid[row][col].isBlack = true
@@ -35,7 +48,8 @@ const createInitialGrid = (): Cell[][] => {
 }
 
 export default function Shakashaka({ settings }: Props) {
-  const [grid, setGrid] = useState<Cell[][]>(createInitialGrid)
+  const [puzzleIndex, setPuzzleIndex] = useState(0)
+  const [grid, setGrid] = useState<Cell[][]>(() => createInitialGrid(0))
   const [solved, setSolved] = useState(false)
 
   const isDark = settings.darkMode
@@ -68,7 +82,14 @@ export default function Shakashaka({ settings }: Props) {
   }
 
   const reset = () => {
-    setGrid(createInitialGrid())
+    setGrid(createInitialGrid(puzzleIndex))
+    setSolved(false)
+  }
+
+  const nextPuzzle = () => {
+    const nextIndex = (puzzleIndex + 1) % PUZZLES.length
+    setPuzzleIndex(nextIndex)
+    setGrid(createInitialGrid(nextIndex))
     setSolved(false)
   }
 
@@ -185,6 +206,11 @@ export default function Shakashaka({ settings }: Props) {
         <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
           {settings.language === 'zh' ? '放置三角形使白色区域形成矩形' : 'Place triangles to form rectangles in white areas'}
         </p>
+        <p className={`text-center text-xs mt-1 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+          {settings.language === 'zh'
+            ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}`
+            : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
+        </p>
       </div>
 
       <div className="flex-1 flex items-center justify-center p-4">
@@ -221,6 +247,9 @@ export default function Shakashaka({ settings }: Props) {
       </div>
 
       <div className="flex justify-center gap-4 p-4">
+        <button onClick={nextPuzzle} className={`px-4 py-2 rounded-lg font-medium ${isDark ? 'bg-indigo-700 hover:bg-indigo-600 text-white' : 'bg-indigo-100 hover:bg-indigo-200 text-indigo-800'}`}>
+          {settings.language === 'zh' ? '新谜题' : 'New Puzzle'}
+        </button>
         <button onClick={reset} className={`px-6 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
           {settings.language === 'zh' ? '重置' : 'Reset'}
         </button>
@@ -233,9 +262,19 @@ export default function Shakashaka({ settings }: Props) {
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">
           <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-2xl font-bold text-center text-green-500">🎉 {settings.language === 'zh' ? '正确！' : 'Correct!'}</h2>
-            <button onClick={() => setSolved(false)} className="mt-4 w-full py-2 bg-green-600 text-white rounded-lg">
-              {settings.language === 'zh' ? '继续' : 'Continue'}
-            </button>
+            <p className={`mt-2 text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
+              {settings.language === 'zh'
+                ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}`
+                : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
+            </p>
+            <div className="mt-4 flex gap-2">
+              <button onClick={() => setSolved(false)} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}>
+                {settings.language === 'zh' ? '继续' : 'Continue'}
+              </button>
+              <button onClick={nextPuzzle} className="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
+                {settings.language === 'zh' ? '新谜题' : 'New Puzzle'}
+              </button>
+            </div>
           </div>
         </div>
       )}

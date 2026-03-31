@@ -305,7 +305,7 @@ export default function BreakoutGame({ settings }: Props) {
         ref={canvasRef}
         width={CANVAS_WIDTH}
         height={CANVAS_HEIGHT}
-        className="border-2 rounded-lg"
+        className="border-2 rounded-lg max-w-full"
         style={{ borderColor: settings.darkMode ? '#334155' : '#9ca3af' }}
       />
 

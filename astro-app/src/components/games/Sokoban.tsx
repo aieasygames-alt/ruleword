@@ -228,7 +228,6 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
           break
         case 'r':
         case 'R':
-          e.preventDefault()
           resetLevel()
           break
       }

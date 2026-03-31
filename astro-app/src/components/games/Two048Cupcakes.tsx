@@ -224,6 +224,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
       className={`min-h-screen flex flex-col items-center justify-center p-4 ${darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}
       onKeyDown={handleKeyPress}
       tabIndex={0}
+      autoFocus
     >
       <div className={`max-w-md w-full rounded-2xl shadow-2xl p-6 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
         {/* Header */}
