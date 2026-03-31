@@ -52,8 +52,10 @@ export default function AgarIo({
   const audioContext = useRef<AudioContext | null>(null)
   const cellsRef = useRef<Cell[]>([])
   const playerRef = useRef<Cell | null>(null)
-  const mouseRef = useRef({ x: 0, y: 0 })
+  const mouseRef = useRef({ x: 180, y: 250 }) // center of 360x500 canvas
   const cameraRef = useRef({ x: 0, y: 0, zoom: 1 })
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const isTouchingRef = useRef(false)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -151,28 +153,75 @@ export default function AgarIo({
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect()
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
       mouseRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY,
       }
+    }
+
+    const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault()
+      const rect = canvas.getBoundingClientRect()
+      const touch = e.touches[0]
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      const x = (touch.clientX - rect.left) * scaleX
+      const y = (touch.clientY - rect.top) * scaleY
+      touchStartRef.current = { x, y }
+      isTouchingRef.current = true
+      // Set mouse to touch position
+      mouseRef.current = { x, y }
     }
 
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault()
+      if (!touchStartRef.current) return
       const rect = canvas.getBoundingClientRect()
       const touch = e.touches[0]
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      const x = (touch.clientX - rect.left) * scaleX
+      const y = (touch.clientY - rect.top) * scaleY
+
+      // Calculate direction from touch start to current position
+      const startDX = x - touchStartRef.current.x
+      const startDY = y - touchStartRef.current.y
+      const startDist = Math.sqrt(startDX * startDX + startDY * startDY)
+
+      // Amplify the direction to make the ball follow finger intent
+      // Map the touch delta to a target position relative to canvas center
+      const amplify = 3
+      const centerX = canvas.width / 2
+      const centerY = canvas.height / 2
+      if (startDist > 10) {
+        mouseRef.current = {
+          x: centerX + startDX * amplify,
+          y: centerY + startDY * amplify,
+        }
+      }
+    }
+
+    const handleTouchEnd = () => {
+      isTouchingRef.current = false
+      // Reset mouse to center so ball stops moving
       mouseRef.current = {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top,
+        x: canvas.width / 2,
+        y: canvas.height / 2,
       }
     }
 
     canvas.addEventListener('mousemove', handleMouseMove)
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false })
     canvas.addEventListener('touchmove', handleTouchMove, { passive: false })
+    canvas.addEventListener('touchend', handleTouchEnd)
 
     return () => {
       canvas.removeEventListener('mousemove', handleMouseMove)
+      canvas.removeEventListener('touchstart', handleTouchStart)
       canvas.removeEventListener('touchmove', handleTouchMove)
+      canvas.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
 
@@ -210,9 +259,12 @@ export default function AgarIo({
       const dist = Math.sqrt(dx * dx + dy * dy)
 
       if (dist > 5) {
-        const speed = Math.max(2, 8 - player.radius / 30)
-        player.vx = (dx / dist) * speed
-        player.vy = (dy / dist) * speed
+        const speed = Math.max(1.5, 4 - player.radius / 50)
+        // Smooth acceleration instead of instant speed
+        const targetVx = (dx / dist) * speed
+        const targetVy = (dy / dist) * speed
+        player.vx += (targetVx - player.vx) * 0.15
+        player.vy += (targetVy - player.vy) * 0.15
       } else {
         player.vx *= 0.9
         player.vy *= 0.9
@@ -424,7 +476,7 @@ export default function AgarIo({
     playAgain: settings.language === 'zh' ? '再来一局' : 'Retry',
     gameOver: settings.language === 'zh' ? '游戏结束' : 'Game Over',
     enterName: settings.language === 'zh' ? '输入名字' : 'Enter Name',
-    controls: settings.language === 'zh' ? '鼠标控制移动，吃掉比你小的细胞' : 'Move with mouse, eat smaller cells',
+    controls: settings.language === 'zh' ? '鼠标/触摸控制方向，吃掉比你小的细胞' : 'Touch/drag to steer, eat smaller cells',
   }
 
   return (
@@ -470,7 +522,7 @@ export default function AgarIo({
               ref={canvasRef}
               width={360}
               height={500}
-              className="block mx-auto rounded-lg border border-gray-700"
+              className="block mx-auto rounded-lg border border-gray-700 max-w-full"
             />
 
             {gameState === 'gameover' && (
