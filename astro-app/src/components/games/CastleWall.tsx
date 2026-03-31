@@ -41,6 +41,7 @@ const createInitialGrid = (): Cell[][] => {
 export default function CastleWall({ settings }: Props) {
   const [grid, setGrid] = useState<Cell[][]>(createInitialGrid)
   const [solved, setSolved] = useState(false)
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const isDark = settings.darkMode
 
@@ -62,6 +63,8 @@ export default function CastleWall({ settings }: Props) {
   }, [grid])
 
   const checkSolution = useCallback(() => {
+    const isZh = settings.language === 'zh'
+
     // Rule 1: Validate clues - count cells until wall in arrow direction
     for (let r = 0; r < GRID_SIZE; r++) {
       for (let c = 0; c < GRID_SIZE; c++) {
@@ -90,6 +93,7 @@ export default function CastleWall({ settings }: Props) {
         }
 
         if (count !== clue) {
+          setErrorMsg(isZh ? `线索 ${clue} 不匹配` : `Clue ${clue} at row ${r+1}, col ${c+1} doesn't match (expected ${clue}, got ${count})`)
           return
         }
       }
@@ -128,7 +132,10 @@ export default function CastleWall({ settings }: Props) {
       }
 
       // All wall cells must be connected
-      if (visited.size !== wallCells.size) return
+      if (visited.size !== wallCells.size) {
+          setErrorMsg(isZh ? '城墙没有连通' : 'Walls must form a single connected loop')
+          return
+        }
     }
 
     // Rule 3: Check no 2x2 wall cells
@@ -136,6 +143,7 @@ export default function CastleWall({ settings }: Props) {
       for (let c = 0; c < GRID_SIZE - 1; c++) {
         if (grid[r][c].isWall === true && grid[r + 1][c].isWall === true &&
             grid[r][c + 1].isWall === true && grid[r + 1][c + 1].isWall === true) {
+          setErrorMsg(isZh ? '不能有2x2的城墙区域' : 'No 2×2 wall areas allowed')
           return
         }
       }
@@ -145,17 +153,20 @@ export default function CastleWall({ settings }: Props) {
     for (let r = 0; r < GRID_SIZE; r++) {
       for (let c = 0; c < GRID_SIZE; c++) {
         if (grid[r][c].isWall === null) {
+          setErrorMsg(isZh ? '还有未确定的格子' : 'All cells must be determined (no empty cells)')
           return
         }
       }
     }
 
+    setErrorMsg(null)
     setSolved(true)
   }, [grid])
 
   const reset = () => {
     setGrid(createInitialGrid())
     setSolved(false)
+    setErrorMsg(null)
   }
 
   return (
@@ -216,6 +227,12 @@ export default function CastleWall({ settings }: Props) {
           {settings.language === 'zh' ? '检查' : 'Check'}
         </button>
       </div>
+
+      {errorMsg && (
+        <div className="text-center px-4 py-2">
+          <p className="text-red-500 text-sm">{errorMsg}</p>
+        </div>
+      )}
 
       {solved && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50">

@@ -41,6 +41,8 @@ export default function Centipede() {
   const [darkMode] = useState(true);
   const gameLoopRef = useRef<number>();
   const keysRef = useRef<Set<string>>(new Set());
+  const playerRef = useRef(player);
+  playerRef.current = player;
 
   const initGame = useCallback(() => {
     setPlayer({ x: GRID_WIDTH / 2, y: GRID_HEIGHT - 40 });
@@ -74,15 +76,20 @@ export default function Centipede() {
   }, [initGame]);
 
   useEffect(() => {
-    const handleKeyDown = (e: string) => keysRef.current.add(e);
-    const handleKeyUp = (e: string) => keysRef.current.delete(e);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      e.preventDefault();
+      keysRef.current.add(e.key);
+    };
+    const handleKeyUp = (e: KeyboardEvent) => {
+      keysRef.current.delete(e.key);
+    };
 
-    window.addEventListener('keydown', () => handleKeyDown);
-    window.addEventListener('keyup', () => handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      window.removeEventListener('keydown', () => handleKeyDown);
-      window.removeEventListener('keyup', () => handleKeyUp);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
@@ -171,8 +178,8 @@ export default function Centipede() {
     // Player vs Centipede
     setCentipede(prev => {
       const hit = prev.some(seg =>
-        Math.abs(player.x - seg.x) < PLAYER_WIDTH / 2 + SEGMENT_SIZE / 2 &&
-        Math.abs(player.y - seg.y) < PLAYER_HEIGHT / 2 + SEGMENT_SIZE / 2
+        Math.abs(playerRef.current.x - seg.x) < PLAYER_WIDTH / 2 + SEGMENT_SIZE / 2 &&
+        Math.abs(playerRef.current.y - seg.y) < PLAYER_HEIGHT / 2 + SEGMENT_SIZE / 2
       );
 
       if (hit) {
@@ -188,7 +195,7 @@ export default function Centipede() {
 
       return prev;
     });
-  }, [gameOver, gameWon, player]);
+  }, [gameOver, gameWon]);
 
   useEffect(() => {
     const loop = setInterval(update, 1000 / 60);

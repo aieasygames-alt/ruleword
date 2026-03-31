@@ -66,6 +66,12 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
 
   const directionRef = useRef(direction)
   const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
+  const scoreRef = useRef(score)
+  scoreRef.current = score
+  const foodRef = useRef(food)
+  foodRef.current = food
+  const statsRef = useRef(stats)
+  statsRef.current = stats
 
   const t = {
     title: '🐍 Snake',
@@ -137,8 +143,10 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
       if (newHead.x < 0 || newHead.x >= GRID_SIZE || newHead.y < 0 || newHead.y >= GRID_SIZE) {
         setGameOver(true)
         setIsPaused(true)
-        const newStats = { ...stats, played: stats.played + 1 }
-        if (score > newStats.highScore) newStats.highScore = score
+        const currentStats = statsRef.current
+        const currentScore = scoreRef.current
+        const newStats = { ...currentStats, played: currentStats.played + 1 }
+        if (currentScore > newStats.highScore) newStats.highScore = currentScore
         setStats(newStats)
         saveStats(newStats)
         return prevSnake
@@ -148,8 +156,10 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
       if (prevSnake.some(segment => segment.x === newHead.x && segment.y === newHead.y)) {
         setGameOver(true)
         setIsPaused(true)
-        const newStats = { ...stats, played: stats.played + 1 }
-        if (score > newStats.highScore) newStats.highScore = score
+        const currentStats = statsRef.current
+        const currentScore = scoreRef.current
+        const newStats = { ...currentStats, played: currentStats.played + 1 }
+        if (currentScore > newStats.highScore) newStats.highScore = currentScore
         setStats(newStats)
         saveStats(newStats)
         return prevSnake
@@ -158,7 +168,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
       const newSnake = [newHead, ...prevSnake]
 
       // 检查吃到食物
-      if (newHead.x === food.x && newHead.y === food.y) {
+      if (newHead.x === foodRef.current.x && newHead.y === foodRef.current.y) {
         setScore(s => s + 10)
         setFood(generateFood(newSnake))
       } else {
@@ -167,7 +177,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
 
       return newSnake
     })
-  }, [food, generateFood, score, stats])
+  }, [generateFood])
 
   // 启动/停止游戏循环
   useEffect(() => {
@@ -182,7 +192,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
     return () => {
       if (gameLoopRef.current) clearInterval(gameLoopRef.current)
     }
-  }, [isPaused, gameOver, gameLoop, score, difficulty])
+  }, [isPaused, gameOver, gameLoop, difficulty])
 
   // 键盘控制
   useEffect(() => {
@@ -510,14 +520,14 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
         <div className="grid grid-cols-3 gap-2 w-36">
           <div />
           <button
-            onClick={() => { if (directionRef.current !== 'down') { setDirection('up'); directionRef.current = 'up'; } }}
+            onClick={() => { if (gameOver || isPaused) return; if (directionRef.current !== 'down') { setDirection('up'); directionRef.current = 'up'; } }}
             className={`${cardBgClass} p-3 rounded-lg text-center`}
           >
             ⬆️
           </button>
           <div />
           <button
-            onClick={() => { if (directionRef.current !== 'right') { setDirection('left'); directionRef.current = 'left'; } }}
+            onClick={() => { if (gameOver || isPaused) return; if (directionRef.current !== 'right') { setDirection('left'); directionRef.current = 'left'; } }}
             className={`${cardBgClass} p-3 rounded-lg text-center`}
           >
             ⬅️
@@ -529,14 +539,14 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
             {isPaused ? '▶️' : '⏸️'}
           </button>
           <button
-            onClick={() => { if (directionRef.current !== 'left') { setDirection('right'); directionRef.current = 'right'; } }}
+            onClick={() => { if (gameOver || isPaused) return; if (directionRef.current !== 'left') { setDirection('right'); directionRef.current = 'right'; } }}
             className={`${cardBgClass} p-3 rounded-lg text-center`}
           >
             ➡️
           </button>
           <div />
           <button
-            onClick={() => { if (directionRef.current !== 'up') { setDirection('down'); directionRef.current = 'down'; } }}
+            onClick={() => { if (gameOver || isPaused) return; if (directionRef.current !== 'up') { setDirection('down'); directionRef.current = 'down'; } }}
             className={`${cardBgClass} p-3 rounded-lg text-center`}
           >
             ⬇️

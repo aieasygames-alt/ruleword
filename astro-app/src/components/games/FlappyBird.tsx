@@ -45,7 +45,7 @@ export default function FlappyBird({
   const [pipes, setPipes] = useState<Pipe[]>([])
   const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
-  const [wingAngle, setWingAngle] = useState(0)
+  const wingAngleRef = useRef(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -208,7 +208,7 @@ export default function FlappyBird({
 
     // Animate wings
     if (gameState === 'playing') {
-      setWingAngle(prev => (prev + 0.3) % (Math.PI * 2))
+      wingAngleRef.current = (wingAngleRef.current + 0.3) % (Math.PI * 2)
     }
 
     // Sky gradient
@@ -306,7 +306,7 @@ export default function FlappyBird({
     ctx.rotate(bird.rotation * Math.PI / 180)
 
     // Wing animation
-    const wingOffset = Math.sin(wingAngle) * 8
+    const wingOffset = Math.sin(wingAngleRef.current) * 8
 
     // Body shadow
     ctx.fillStyle = 'rgba(0,0,0,0.2)'
@@ -390,7 +390,7 @@ export default function FlappyBird({
       ctx.strokeText(score.toString(), CANVAS_WIDTH / 2, 50)
       ctx.fillText(score.toString(), CANVAS_WIDTH / 2, 50)
     }
-  }, [bird, pipes, score, gameState, settings.darkMode, wingAngle])
+  }, [bird, pipes, score, gameState, settings.darkMode])
 
   // Keyboard controls
   useEffect(() => {
@@ -436,7 +436,7 @@ export default function FlappyBird({
           />
 
           {gameState === 'menu' && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-lg">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 rounded-lg cursor-pointer" onClick={jump}>
               <div className="text-6xl mb-4">🐦</div>
               <h2 className="text-2xl font-bold mb-4">{texts.title}</h2>
               <p className="text-lg animate-pulse">{texts.start}</p>

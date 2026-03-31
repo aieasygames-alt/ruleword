@@ -54,7 +54,7 @@ export default function PacMan({ settings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover' | 'win'>('menu')
   const [score, setScore] = useState(0)
-  const [animTime, setAnimTime] = useState(0)
+  const animTimeRef = useRef(0)
 
   const gameRef = useRef({
     maze: [] as number[][],
@@ -141,7 +141,7 @@ export default function PacMan({ settings }: Props) {
 
     const gameLoop = (time: number) => {
       const game = gameRef.current
-      setAnimTime(time)
+      animTimeRef.current = time
 
       // Background gradient
       const bgGradient = ctx.createLinearGradient(0, 0, 0, ROWS * CELL_SIZE)

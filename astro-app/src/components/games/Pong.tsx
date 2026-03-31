@@ -37,6 +37,11 @@ export default function Pong({ settings, onBack }: PongProps) {
     time: number
   }
 
+  const playerScoreRef = useRef(playerScore)
+  playerScoreRef.current = playerScore
+  const aiScoreRef = useRef(aiScore)
+  aiScoreRef.current = aiScore
+
   const gameRef = useRef<{
     playerY: number
     aiY: number
@@ -331,8 +336,8 @@ export default function Pong({ settings, onBack }: PongProps) {
       ctx.font = 'bold 48px sans-serif'
       ctx.textAlign = 'center'
       ctx.fillStyle = isDark ? '#94a3b8' : '#64748b'
-      ctx.fillText(playerScore.toString(), CANVAS_WIDTH / 4, 60)
-      ctx.fillText(aiScore.toString(), (CANVAS_WIDTH * 3) / 4, 60)
+      ctx.fillText(playerScoreRef.current.toString(), CANVAS_WIDTH / 4, 60)
+      ctx.fillText(aiScoreRef.current.toString(), (CANVAS_WIDTH * 3) / 4, 60)
 
       if (gameState === 'playing') {
         animationId = requestAnimationFrame(gameLoop)
@@ -344,7 +349,7 @@ export default function Pong({ settings, onBack }: PongProps) {
     return () => {
       if (animationId) cancelAnimationFrame(animationId)
     }
-  }, [gameState, isDark, resetBall, playerScore, aiScore])
+  }, [gameState, isDark, resetBall])
 
   // Keyboard controls
   useEffect(() => {
@@ -461,14 +466,14 @@ export default function Pong({ settings, onBack }: PongProps) {
             {/* Mobile Controls */}
             <div className="flex gap-4 sm:hidden">
               <button
-                onTouchStart={() => { gameRef.current.playerSpeed = -8 }}
+                onTouchStart={() => { if (gameState === 'playing') gameRef.current.playerSpeed = -8 }}
                 onTouchEnd={() => { gameRef.current.playerSpeed = 0 }}
                 className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
               >
                 ↑
               </button>
               <button
-                onTouchStart={() => { gameRef.current.playerSpeed = 8 }}
+                onTouchStart={() => { if (gameState === 'playing') gameRef.current.playerSpeed = 8 }}
                 onTouchEnd={() => { gameRef.current.playerSpeed = 0 }}
                 className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
               >

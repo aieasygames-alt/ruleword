@@ -122,7 +122,7 @@ function generatePuzzle(size: number, rng: () => number): { islands: number[][],
     // 使用 Prim 算法构建最小生成树
     if (edges.length === 0) continue
 
-    visited.add(JSON.stringify(islandPositions[0]))
+    visited.add(`${islandPositions[0][0]},${islandPositions[0][1]}`)
     const mstEdges: typeof edges = []
 
     while (visited.size < islandPositions.length) {
@@ -130,8 +130,8 @@ function generatePuzzle(size: number, rng: () => number): { islands: number[][],
       let minDist = Infinity
 
       for (const edge of edges) {
-        const fromKey = JSON.stringify(edge.from)
-        const toKey = JSON.stringify(edge.to)
+        const fromKey = `${edge.from[0]},${edge.from[1]}`
+        const toKey = `${edge.to[0]},${edge.to[1]}`
         const hasFrom = visited.has(fromKey)
         const hasTo = visited.has(toKey)
 
@@ -145,7 +145,7 @@ function generatePuzzle(size: number, rng: () => number): { islands: number[][],
 
       if (!bestEdge) break
       mstEdges.push(bestEdge)
-      visited.add(JSON.stringify(bestEdge.to))
+      visited.add(`${bestEdge.to[0]},${bestEdge.to[1]}`)
     }
 
     // 如果无法连通所有岛屿，重试
@@ -197,14 +197,18 @@ function generatePuzzle(size: number, rng: () => number): { islands: number[][],
   return {
     islands: [
       [0, 0, 0, 0, 0],
-      [0, 2, 0, 3, 0],
+      [0, 4, 0, 4, 0],
       [0, 0, 0, 0, 0],
-      [0, 4, 0, 2, 0],
+      [0, 4, 0, 4, 0],
       [0, 0, 0, 0, 0],
     ],
-    solution: Array(5).fill(null).map(() =>
-      Array(5).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
-    )
+    solution: [
+      [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
+      [{ right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
+      [{ right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+    ]
   }
 }
 
@@ -250,7 +254,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
 
   useEffect(() => {
     initializeGame()
-  }, [])
+  }, [initializeGame])
 
   const countBridges = (edge: EdgeState): number => {
     if (edge === 'single') return 1

@@ -193,17 +193,22 @@ export default function AngryBirds({
 
   const nextLevel = useCallback(() => {
     if (level >= LEVELS.length - 1) {
-      // Game complete
+      // Game complete - restart
       if (updateScore) updateScore(totalScore + score)
       if (totalScore + score > highScore) {
         setHighScore(totalScore + score)
         localStorage.setItem('angrybirds-highscore', (totalScore + score).toString())
       }
-      setGameState('gameover')
+      setTotalScore(0)
+      setLevel(0)
+      initLevel(0)
+      setGameState('playing')
     } else {
       setTotalScore(prev => prev + score)
-      setLevel(prev => prev + 1)
-      initLevel(level + 1)
+      const nextLevelIndex = level + 1
+      setLevel(nextLevelIndex)
+      initLevel(nextLevelIndex)
+      setGameState('playing')
     }
   }, [level, score, totalScore, highScore, updateScore, initLevel])
 

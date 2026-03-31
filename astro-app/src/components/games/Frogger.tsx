@@ -34,6 +34,8 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
   const [score, setScore] = useState(0)
   const [level, setLevel] = useState(1)
   const [frogPos, setFrogPos] = useState({ x: 6, y: 13 })
+  const frogPosRef = useRef(frogPos)
+  frogPosRef.current = frogPos
   const [goals, setGoals] = useState<boolean[]>([false, false, false, false, false])
 
   const objectsRef = useRef<MovingObject[]>([])
@@ -189,7 +191,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    let lastTime = 0
+    let lastTime = performance.now()
 
     const loseLife = () => {
       if (invulnerableRef.current) return
@@ -211,10 +213,11 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
     const gameLoop = (time: number) => {
       const delta = (time - lastTime) / 1000
       lastTime = time
+      const cappedDelta = Math.min(delta, 0.05) // Cap at 50ms
 
       // Update objects
       for (const obj of objectsRef.current) {
-        obj.x += obj.speed * obj.direction * delta * 60 / 60
+        obj.x += obj.speed * obj.direction * cappedDelta * 60 / 60
 
         // Wrap around
         if (obj.direction === 1 && obj.x > GRID_COLS) {
@@ -471,17 +474,17 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
       ctx.fillRect(0, 13 * CELL_SIZE, GRID_COLS * CELL_SIZE, CELL_SIZE)
 
       // Check frog status
-      const { hit, onLog } = checkCollision(frogPos.x, frogPos.y)
+      const { hit, onLog } = checkCollision(frogPosRef.current.x, frogPosRef.current.y)
 
       if (hit) {
         // Frog got hit by car
         loseLife()
-      } else if (isInWater(frogPos.y) && !onLog) {
+      } else if (isInWater(frogPosRef.current.y) && !onLog) {
         // Frog drowned
         loseLife()
       } else if (onLog) {
         // Move frog with log
-        const newX = frogPos.x + onLog.speed * onLog.direction * delta * 60 / 60
+        const newX = frogPosRef.current.x + onLog.speed * onLog.direction * cappedDelta * 60 / 60
         if (newX >= 0 && newX < GRID_COLS - 1) {
           setFrogPos(prev => ({ ...prev, x: newX }))
         } else {
@@ -491,8 +494,8 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
       }
 
       // Check if reached goal
-      if (frogPos.y === 0) {
-        const goalIndex = checkGoal(frogPos.x)
+      if (frogPosRef.current.y === 0) {
+        const goalIndex = checkGoal(frogPosRef.current.x)
         if (goalIndex !== -1 && !goals[goalIndex]) {
           setGoals(prev => {
             const newGoals = [...prev]
@@ -518,8 +521,8 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
       }
 
       // Draw frog (canvas-drawn, not emoji)
-      const frogCenterX = frogPos.x * CELL_SIZE + CELL_SIZE / 2
-      const frogCenterY = frogPos.y * CELL_SIZE + CELL_SIZE / 2
+      const frogCenterX = frogPosRef.current.x * CELL_SIZE + CELL_SIZE / 2
+      const frogCenterY = frogPosRef.current.y * CELL_SIZE + CELL_SIZE / 2
       const frogRadius = CELL_SIZE * 0.38
 
       // Body
@@ -589,7 +592,7 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
         cancelAnimationFrame(gameLoopRef.current)
       }
     }
-  }, [gameState, frogPos, goals, checkCollision, isInWater, checkGoal])
+  }, [gameState, goals, checkCollision, isInWater, checkGoal])
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-slate-900' : 'bg-gray-100'} ${isDark ? 'text-white' : 'text-gray-900'} flex flex-col`}>
@@ -653,26 +656,26 @@ export default function Frogger({ settings, onBack }: FroggerProps) {
             <div className="grid grid-cols-3 gap-2 sm:hidden">
               <div></div>
               <button
-                onClick={() => setFrogPos(p => ({ ...p, y: Math.max(0, p.y - 1) }))}
+                onClick={() => { if (gameState === 'playing') setFrogPos(p => ({ ...p, y: Math.max(0, p.y - 1) })) }}
                 className="w-14 h-14 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-xl"
               >
                 ↑
               </button>
               <div></div>
               <button
-                onClick={() => setFrogPos(p => ({ ...p, x: Math.max(0, p.x - 1) }))}
+                onClick={() => { if (gameState === 'playing') setFrogPos(p => ({ ...p, x: Math.max(0, p.x - 1) })) }}
                 className="w-14 h-14 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-xl"
               >
                 ←
               </button>
               <button
-                onClick={() => setFrogPos(p => ({ ...p, y: Math.min(GRID_ROWS - 1, p.y + 1) }))}
+                onClick={() => { if (gameState === 'playing') setFrogPos(p => ({ ...p, y: Math.min(GRID_ROWS - 1, p.y + 1) })) }}
                 className="w-14 h-14 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-xl"
               >
                 ↓
               </button>
               <button
-                onClick={() => setFrogPos(p => ({ ...p, x: Math.min(GRID_COLS - 1, p.x + 1) }))}
+                onClick={() => { if (gameState === 'playing') setFrogPos(p => ({ ...p, x: Math.min(GRID_COLS - 1, p.x + 1) })) }}
                 className="w-14 h-14 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-xl"
               >
                 →

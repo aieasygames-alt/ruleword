@@ -54,6 +54,8 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
   const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
   const moleTimerRef = useRef<ReturnType<typeof setInterval>>()
   const lastMoleRef = useRef<number | null>(null)
+  const scoreRef = useRef(score)
+  scoreRef.current = score
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -99,21 +101,23 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
     setIsPlaying(false)
     setGameOver(true)
 
-    if (score > highScore) {
-      setHighScore(score)
-      localStorage.setItem('whackamole-highscore', score.toString())
+    const finalScore = scoreRef.current
+
+    if (finalScore > highScore) {
+      setHighScore(finalScore)
+      localStorage.setItem('whackamole-highscore', finalScore.toString())
     }
 
     if (gameMode === 'daily') {
-      if (score > dailyHighScore) {
-        setDailyHighScore(score)
-        localStorage.setItem('whackamole-daily-score', score.toString())
+      if (finalScore > dailyHighScore) {
+        setDailyHighScore(finalScore)
+        localStorage.setItem('whackamole-daily-score', finalScore.toString())
       }
       const today = getDailySeed().toString()
       localStorage.setItem('whackamole-daily-date', today)
       setDailyPlayed(true)
     }
-  }, [score, highScore, dailyHighScore, gameMode])
+  }, [highScore, dailyHighScore, gameMode])
 
   // Game timer
   useEffect(() => {

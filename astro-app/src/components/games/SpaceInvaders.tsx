@@ -29,6 +29,8 @@ export default function SpaceInvaders({ settings }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover'>('menu')
   const [score, setScore] = useState(0)
+  const scoreRef = useRef(score)
+  scoreRef.current = score
   const [highScore, setHighScore] = useState(0)
 
   const gameRef = useRef({
@@ -248,7 +250,7 @@ export default function SpaceInvaders({ settings }: Props) {
           game.lives--
           addExplosion(game.player.x + PLAYER_WIDTH / 2, game.player.y + PLAYER_HEIGHT / 2, 'rgba(34, 197, 94, 1)')
           if (game.lives <= 0) {
-            setHighScore(prev => Math.max(prev, score))
+            setHighScore(prev => Math.max(prev, scoreRef.current))
             setGameState('gameover')
           }
           return false
@@ -447,7 +449,7 @@ export default function SpaceInvaders({ settings }: Props) {
       ctx.fillStyle = '#facc15'
       ctx.font = 'bold 18px sans-serif'
       ctx.textAlign = 'right'
-      ctx.fillText(`${score}`, CANVAS_WIDTH - 10, 25)
+      ctx.fillText(`${scoreRef.current}`, CANVAS_WIDTH - 10, 25)
       ctx.shadowBlur = 0
 
       animationId = requestAnimationFrame(gameLoop)
@@ -455,7 +457,7 @@ export default function SpaceInvaders({ settings }: Props) {
 
     animationId = requestAnimationFrame(gameLoop)
     return () => cancelAnimationFrame(animationId)
-  }, [gameState, settings.darkMode, settings.language, score])
+  }, [gameState, settings.darkMode])
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}>
