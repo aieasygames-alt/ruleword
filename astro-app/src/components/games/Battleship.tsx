@@ -163,11 +163,11 @@ export default function Battleship({ settings }: Props) {
         row.map((cell, c) => {
           const bgClass =
             cell === 'ship' ? (isPlayer || gameState === 'won' || gameState === 'lost'
-              ? 'bg-gradient-to-br from-gray-500 to-gray-700 shadow-inner'
+              ? 'bg-gradient-to-br from-amber-600 to-amber-800 shadow-inner border-amber-900/50'
               : 'bg-gradient-to-br from-blue-300 to-blue-500') :
             cell === 'hit' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-lg shadow-red-500/30' :
             cell === 'miss' ? 'bg-gradient-to-br from-blue-200 to-blue-400' :
-            isDark ? 'bg-gradient-to-br from-slate-500 to-slate-700' : 'bg-gradient-to-br from-blue-50 to-blue-200'
+            isDark ? 'bg-gradient-to-br from-slate-600 to-slate-800' : 'bg-gradient-to-br from-blue-50 to-blue-200'
 
           return (
             <button
