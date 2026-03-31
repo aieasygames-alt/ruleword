@@ -224,6 +224,23 @@ export default function Binary({ settings, onBack }: { settings: { darkMode: boo
 
   const handleCellClick = (r: number, c: number) => {
     if (given[r][c]) return
+    // Directly cycle: empty → 0 → 1 → empty
+    setGrid(prev => {
+      const newGrid = prev.map(row => [...row])
+      const current = newGrid[r][c]
+      newGrid[r][c] = current === -1 ? 0 : current === 0 ? 1 : -1
+
+      setErrors(validate(newGrid))
+
+      if (checkComplete(newGrid)) {
+        setIsComplete(true)
+        const newStats = { ...stats, played: stats.played + 1, completed: stats.completed + 1 }
+        setStats(newStats)
+        saveStats(newStats)
+      }
+
+      return newGrid
+    })
     setSelectedCell({ r, c })
   }
 
@@ -361,9 +378,10 @@ export default function Binary({ settings, onBack }: { settings: { darkMode: boo
             </button>
             <button
               onClick={() => handleInput(-1)}
-              className={`w-14 h-14 rounded-xl font-bold text-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600' : 'bg-gradient-to-br from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'} hover:scale-105 transition-all shadow-lg`}
+              className={`w-14 h-14 rounded-xl font-bold text-lg ${settings.darkMode ? 'bg-gradient-to-br from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600' : 'bg-gradient-to-br from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'} hover:scale-105 transition-all shadow-lg`}
+              title={settings.language === 'zh' ? '清除' : 'Clear'}
             >
-              ✕
+              {settings.language === 'zh' ? '清除' : 'CLR'}
             </button>
           </div>
 
