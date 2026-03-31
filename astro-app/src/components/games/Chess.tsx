@@ -23,7 +23,7 @@ const INITIAL_BOARD: (Piece | null)[][] = [
 ]
 
 const PIECE_SYMBOLS: Record<string, string> = {
-  'K-white': '♚', 'Q-white': '♛', 'R-white': '♜', 'B-white': '♝', 'N-white': '♞', 'P-white': '♟',
+  'K-white': '♔', 'Q-white': '♕', 'R-white': '♖', 'B-white': '♗', 'N-white': '♘', 'P-white': '♙',
   'K-black': '♚', 'Q-black': '♛', 'R-black': '♜', 'B-black': '♝', 'N-black': '♞', 'P-black': '♟',
 }
 
@@ -455,7 +455,7 @@ export default function Chess({ settings }: Props) {
                   `}
                 >
                   {piece && (
-                    <span className={`text-3xl ${piece.color === 'white' ? 'text-amber-100' : 'text-gray-800'}`} style={piece.color === 'white' ? { textShadow: '-1px -1px 0 #555, 1px -1px 0 #555, -1px 1px 0 #555, 1px 1px 0 #555' } : undefined}>
+                    <span className={`text-3xl sm:text-4xl ${piece.color === 'white' ? 'text-amber-50' : 'text-gray-900'}`} style={piece.color === 'white' ? { textShadow: '-1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333' } : { textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                       {PIECE_SYMBOLS[`${piece.type}-${piece.color}`]}
                     </span>
                   )}

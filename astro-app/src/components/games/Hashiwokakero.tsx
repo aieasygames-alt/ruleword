@@ -212,11 +212,24 @@ function generatePuzzle(size: number, rng: () => number): { islands: number[][],
   }
 }
 
+function createInitialPuzzle(difficulty: Difficulty) {
+  const config = DIFFICULTY_CONFIG[difficulty]
+  const size = config.size
+  const seed = getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(difficulty) * 1000
+  const rng = seededRandom(seed)
+  const { islands, solution } = generatePuzzle(size, rng)
+  const edges: EdgeCell[][] = Array(size).fill(null).map(() =>
+    Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
+  )
+  return { islands, solution, edges, size }
+}
+
 export default function Hashiwokakero({ settings, onBack }: { settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }; onBack: () => void }) {
-  const [islands, setIslands] = useState<number[][]>([])
-  const [edges, setEdges] = useState<EdgeCell[][]>([])
-  const [solution, setSolution] = useState<EdgeCell[][]>([])
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
+  const [initial] = useState(() => createInitialPuzzle('easy'))
+  const [islands, setIslands] = useState<number[][]>(initial.islands)
+  const [edges, setEdges] = useState<EdgeCell[][]>(initial.edges)
+  const [solution, setSolution] = useState<EdgeCell[][]>(initial.solution)
   const [isComplete, setIsComplete] = useState(false)
   const [stats, setStats] = useState<Stats>(loadStats)
   const [showGameGuide, setShowGameGuide] = useState(false)
@@ -345,7 +358,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
             {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => (
               <button
                 key={d}
-                onClick={() => { setDifficulty(d); initializeGame() }}
+                onClick={() => setDifficulty(d)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   difficulty === d ? 'bg-blue-600 text-white' : `${cardBgClass} border ${borderClass}`
                 }`}
@@ -361,7 +374,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
               {/* Horizontal edges */}
               {edges.map((row, r) =>
                 row.map((cell, c) => (
-                  c < size - 1 && islands[r][c] >= 0 && (
+                  c < size - 1 && islands[r]?.[c] !== undefined && (
                     <div
                       key={`h-${r}-${c}`}
                       onClick={() => handleEdgeClick(r, c, 'right')}
@@ -384,7 +397,7 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
               {/* Vertical edges */}
               {edges.map((row, r) =>
                 row.map((cell, c) => (
-                  r < size - 1 && islands[r][c] >= 0 && (
+                  r < size - 1 && islands[r]?.[c] !== undefined && (
                     <div
                       key={`v-${r}-${c}`}
                       onClick={() => handleEdgeClick(r, c, 'down')}

@@ -37,6 +37,7 @@ interface Pig {
   y: number
   radius: number
   hp: number
+  vy: number
 }
 
 const GRAVITY = 0.3
@@ -54,7 +55,7 @@ const LEVELS = [
       { x: 400, y: 380, width: 20, height: 60, hp: 30, type: 'wood' as const },
     ],
     pigs: [
-      { x: 310, y: 360, radius: 20, hp: 30 },
+      { x: 310, y: 360, radius: 20, hp: 30, vy: 0 },
     ],
   },
   {
@@ -66,8 +67,8 @@ const LEVELS = [
       { x: 320, y: 410, width: 20, height: 40, hp: 20, type: 'glass' as const },
     ],
     pigs: [
-      { x: 300, y: 390, radius: 20, hp: 40 },
-      { x: 340, y: 410, radius: 15, hp: 25 },
+      { x: 300, y: 390, radius: 20, hp: 40, vy: 0 },
+      { x: 340, y: 410, radius: 15, hp: 25, vy: 0 },
     ],
   },
   {
@@ -80,9 +81,9 @@ const LEVELS = [
       { x: 280, y: 330, width: 100, height: 20, hp: 50, type: 'stone' as const },
     ],
     pigs: [
-      { x: 270, y: 330, radius: 20, hp: 40 },
-      { x: 410, y: 330, radius: 20, hp: 40 },
-      { x: 340, y: 310, radius: 25, hp: 50 },
+      { x: 270, y: 330, radius: 20, hp: 40, vy: 0 },
+      { x: 410, y: 330, radius: 20, hp: 40, vy: 0 },
+      { x: 340, y: 310, radius: 25, hp: 50, vy: 0 },
     ],
   },
 ]
@@ -446,6 +447,102 @@ export default function AngryBirds({
           return newPigs
         })
       }
+
+      // Update pig physics - gravity and support checking
+      setPigs(prevPigs => {
+        return prevPigs.map(pig => {
+          const pigBottom = pig.y + pig.radius
+          const onGround = pigBottom >= GROUND_Y
+
+          if (onGround) {
+            // Already on ground, stay there
+            return { ...pig, y: GROUND_Y - pig.radius, vy: 0 }
+          }
+
+          // Check if pig is supported by any block
+          let supported = false
+          for (const block of blocks) {
+            const blockTop = block.y - block.height
+            const blockLeft = block.x
+            const blockRight = block.x + block.width
+
+            // Check if block's top edge is right below the pig's bottom
+            const verticalGap = blockTop - pigBottom
+            // Pig must overlap horizontally with the block
+            const horizontalOverlap = pig.x + pig.radius > blockLeft && pig.x - pig.radius < blockRight
+
+            if (horizontalOverlap && verticalGap >= -2 && verticalGap <= 4) {
+              supported = true
+              break
+            }
+          }
+
+          if (supported) {
+            // Pig is resting on a block, no falling
+            return { ...pig, vy: 0 }
+          }
+
+          // Pig is not supported - apply gravity
+          let newVy = pig.vy + GRAVITY
+          let newY = pig.y + newVy
+
+          // Check for landing on a block below (during fall)
+          let landedOnBlock = false
+          for (const block of blocks) {
+            const blockTop = block.y - block.height
+            const blockLeft = block.x
+            const blockRight = block.x + block.width
+
+            const horizontalOverlap = pig.x + pig.radius > blockLeft && pig.x - pig.radius < blockRight
+
+            if (horizontalOverlap) {
+              // Check if pig crossed the block top this frame
+              const prevBottom = pig.y + pig.radius
+              const newBottom = newY + pig.radius
+              if (prevBottom <= blockTop + 2 && newBottom >= blockTop) {
+                newY = blockTop - pig.radius
+                newVy = 0
+                landedOnBlock = true
+                break
+              }
+            }
+          }
+
+          // Check for landing on ground
+          if (newY + pig.radius >= GROUND_Y) {
+            const fallDistance = newY - pig.y
+            newY = GROUND_Y - pig.radius
+            newVy = 0
+            // Take damage from falling (1 damage per pixel fallen, minimum 0)
+            const fallDamage = Math.max(0, fallDistance * 0.5)
+            const newHp = pig.hp - fallDamage
+            if (newHp <= 0) {
+              playSound('destroy')
+              setScore(s => s + 100)
+              return null as unknown as Pig // Will be filtered below
+            }
+            return { ...pig, y: newY, vy: newVy, hp: newHp }
+          }
+
+          if (landedOnBlock) {
+            const fallDistance = newY - pig.y
+            // Small fall damage when landing on a block
+            if (fallDistance > 10) {
+              const fallDamage = fallDistance * 0.3
+              const newHp = pig.hp - fallDamage
+              if (newHp <= 0) {
+                playSound('destroy')
+                setScore(s => s + 100)
+                return null as unknown as Pig
+              }
+              return { ...pig, y: newY, vy: newVy, hp: newHp }
+            }
+            return { ...pig, y: newY, vy: newVy }
+          }
+
+          return { ...pig, y: newY, vy: newVy }
+        }).filter(Boolean) as Pig[]
+      })
 
       // Check if current bird is done
       const activeBird = birds[currentBirdIndex]

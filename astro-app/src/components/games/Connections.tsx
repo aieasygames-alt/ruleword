@@ -11,18 +11,47 @@ type Category = {
   color: string
 }
 
-const CATEGORIES: Category[] = [
-  { name: 'FRUITS', nameZh: '水果', words: ['APPLE', 'BANANA', 'ORANGE', 'GRAPE'], color: 'bg-yellow-500' },
-  { name: 'PLANETS', nameZh: '行星', words: ['MARS', 'VENUS', 'SATURN', 'EARTH'], color: 'bg-green-500' },
-  { name: 'COLORS', nameZh: '颜色', words: ['RED', 'BLUE', 'GREEN', 'PINK'], color: 'bg-blue-500' },
-  { name: 'ANIMALS', nameZh: '动物', words: ['LION', 'TIGER', 'BEAR', 'WOLF'], color: 'bg-purple-500' },
+const PUZZLE_SETS: Category[][] = [
+  [
+    { name: 'FRUITS', nameZh: '水果', words: ['APPLE', 'BANANA', 'ORANGE', 'GRAPE'], color: 'bg-yellow-500' },
+    { name: 'PLANETS', nameZh: '行星', words: ['MARS', 'VENUS', 'SATURN', 'EARTH'], color: 'bg-green-500' },
+    { name: 'COLORS', nameZh: '颜色', words: ['RED', 'BLUE', 'GREEN', 'PINK'], color: 'bg-blue-500' },
+    { name: 'ANIMALS', nameZh: '动物', words: ['LION', 'TIGER', 'BEAR', 'WOLF'], color: 'bg-purple-500' },
+  ],
+  [
+    { name: 'OCEAN', nameZh: '海洋', words: ['WHALE', 'SHARK', 'CORAL', 'WAVE'], color: 'bg-yellow-500' },
+    { name: 'MUSIC', nameZh: '音乐', words: ['PIANO', 'DRUMS', 'GUITAR', 'VIOLIN'], color: 'bg-green-500' },
+    { name: 'WEATHER', nameZh: '天气', words: ['RAIN', 'SNOW', 'STORM', 'CLOUD'], color: 'bg-blue-500' },
+    { name: 'SPORTS', nameZh: '运动', words: ['SOCCER', 'TENNIS', 'GOLF', 'RUGBY'], color: 'bg-purple-500' },
+  ],
+  [
+    { name: 'FURNITURE', nameZh: '家具', words: ['CHAIR', 'TABLE', 'COUCH', 'DESK'], color: 'bg-yellow-500' },
+    { name: 'JEWELRY', nameZh: '珠宝', words: ['RING', 'NECKLACE', 'BRACELET', 'CROWN'], color: 'bg-green-500' },
+    { name: 'TOOLS', nameZh: '工具', words: ['HAMMER', 'DRILL', 'WRENCH', 'SAW'], color: 'bg-blue-500' },
+    { name: 'FLOWERS', nameZh: '花', words: ['ROSE', 'LILY', 'TULIP', 'DAISY'], color: 'bg-purple-500' },
+  ],
+  [
+    { name: 'BIRDS', nameZh: '鸟', words: ['EAGLE', 'PARROT', 'ROBIN', 'HAWK'], color: 'bg-yellow-500' },
+    { name: 'CLOTHING', nameZh: '服装', words: ['SHIRT', 'PANTS', 'JACKET', 'SCARF'], color: 'bg-green-500' },
+    { name: 'METALS', nameZh: '金属', words: ['GOLD', 'SILVER', 'COPPER', 'IRON'], color: 'bg-blue-500' },
+    { name: 'TREES', nameZh: '树', words: ['OAK', 'PINE', 'MAPLE', 'BIRCH'], color: 'bg-purple-500' },
+  ],
+  [
+    { name: 'VEHICLES', nameZh: '交通工具', words: ['TRUCK', 'TRAIN', 'PLANE', 'BOAT'], color: 'bg-yellow-500' },
+    { name: 'SPICES', nameZh: '香料', words: ['PEPPER', 'CINNAMON', 'GINGER', 'CLOVE'], color: 'bg-green-500' },
+    { name: 'GEMS', nameZh: '宝石', words: ['RUBY', 'EMERALD', 'TOPAZ', 'OPAL'], color: 'bg-blue-500' },
+    { name: 'DANCES', nameZh: '舞蹈', words: ['WALTZ', 'TANGO', 'SALSA', 'SWING'], color: 'bg-purple-500' },
+  ],
 ]
 
 const GROUP_COLORS = ['bg-yellow-500', 'bg-green-500', 'bg-blue-500', 'bg-purple-500']
 
 export default function Connections({ settings }: Props) {
+  const [level, setLevel] = useState(0)
+  const currentCategories = PUZZLE_SETS[level % PUZZLE_SETS.length]
+
   const [words, setWords] = useState<string[]>(() => {
-    return CATEGORIES.flatMap(c => c.words).sort(() => Math.random() - 0.5)
+    return PUZZLE_SETS[0].flatMap(c => c.words).sort(() => Math.random() - 0.5)
   })
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [solved, setSolved] = useState<Category[]>([])
@@ -60,7 +89,7 @@ export default function Connections({ settings }: Props) {
     const selectedArr = Array.from(selected)
 
     // Find matching category
-    for (const category of CATEGORIES) {
+    for (const category of currentCategories) {
       if (!solved.includes(category) && category.words.every(w => selectedArr.includes(w))) {
         // Correct!
         setSolved(prev => [...prev, category])
@@ -76,7 +105,7 @@ export default function Connections({ settings }: Props) {
 
     // Wrong - check if close (3 correct)
     let closest = 0
-    for (const category of CATEGORIES) {
+    for (const category of currentCategories) {
       if (!solved.includes(category)) {
         const match = category.words.filter(w => selectedArr.includes(w)).length
         closest = Math.max(closest, match)
@@ -94,16 +123,29 @@ export default function Connections({ settings }: Props) {
       if (newMistakes >= MAX_MISTAKES) {
         setGameState('lost')
         // Reveal remaining categories
-        setSolved(CATEGORIES)
+        setSolved(currentCategories)
       }
       return newMistakes
     })
-  }, [selected, solved, lang])
+  }, [selected, solved, lang, currentCategories])
 
   const deselectAll = () => setSelected(new Set())
 
   const resetGame = () => {
-    setWords(CATEGORIES.flatMap(c => c.words).sort(() => Math.random() - 0.5))
+    const cats = PUZZLE_SETS[level % PUZZLE_SETS.length]
+    setWords(cats.flatMap(c => c.words).sort(() => Math.random() - 0.5))
+    setSelected(new Set())
+    setSolved([])
+    setMistakes(0)
+    setMessage('')
+    setGameState('playing')
+  }
+
+  const nextLevel = () => {
+    const nextLevelNum = level + 1
+    setLevel(nextLevelNum)
+    const cats = PUZZLE_SETS[nextLevelNum % PUZZLE_SETS.length]
+    setWords(cats.flatMap(c => c.words).sort(() => Math.random() - 0.5))
     setSelected(new Set())
     setSolved([])
     setMistakes(0)
@@ -114,7 +156,7 @@ export default function Connections({ settings }: Props) {
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
       <h1 className={`text-2xl font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-        🔗 {lang === 'zh' ? '词语连线' : 'Connections'}
+        🔗 {lang === 'zh' ? '词语连线' : 'Connections'} - {lang === 'zh' ? `第 ${level + 1} 关` : `Level ${level + 1}`}
       </h1>
       <p className={`text-sm mb-4 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
         {lang === 'zh' ? '找出4组相关词语' : 'Find 4 groups of related words'}
@@ -135,7 +177,7 @@ export default function Connections({ settings }: Props) {
         {solved.map((category, i) => (
           <div
             key={category.name}
-            className={`${GROUP_COLORS[CATEGORIES.indexOf(category)]} p-3 rounded-lg text-white text-center`}
+            className={`${GROUP_COLORS[currentCategories.indexOf(category)]} p-3 rounded-lg text-white text-center`}
           >
             <div className="font-bold">{lang === 'zh' ? category.nameZh : category.name}</div>
             <div className="text-sm">{category.words.join(', ')}</div>
@@ -195,9 +237,16 @@ export default function Connections({ settings }: Props) {
           <h2 className={`text-2xl font-bold mb-4 ${gameState === 'won' ? 'text-green-500' : 'text-red-500'}`}>
             {gameState === 'won' ? (lang === 'zh' ? '🎉 太棒了！' : '🎉 Great!') : (lang === 'zh' ? '游戏结束' : 'Game Over')}
           </h2>
-          <button onClick={resetGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
-            {lang === 'zh' ? '再来一次' : 'Play Again'}
-          </button>
+          <div className="flex gap-3 justify-center">
+            {gameState === 'won' && (
+              <button onClick={nextLevel} className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium">
+                {lang === 'zh' ? '下一关' : 'Next Level'}
+              </button>
+            )}
+            <button onClick={resetGame} className="px-8 py-3 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
+              {lang === 'zh' ? '再来一次' : 'Play Again'}
+            </button>
+          </div>
         </div>
       )}
     </div>

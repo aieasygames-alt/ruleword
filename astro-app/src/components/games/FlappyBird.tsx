@@ -29,10 +29,10 @@ const CANVAS_WIDTH = 320
 const CANVAS_HEIGHT = 480
 const BIRD_SIZE = 30
 const PIPE_WIDTH = 50
-const PIPE_GAP = 140
-const GRAVITY = 0.5
-const JUMP_FORCE = -8
-const PIPE_SPEED = 3
+const PIPE_GAP = 160
+const GRAVITY = 0.3
+const JUMP_FORCE = -7
+const PIPE_SPEED = 2
 
 export default function FlappyBird({
   settings,
@@ -46,6 +46,7 @@ export default function FlappyBird({
   const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
   const wingAngleRef = useRef(0)
+  const frameCountRef = useRef(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
@@ -109,6 +110,7 @@ export default function FlappyBird({
     setBird({ y: CANVAS_HEIGHT / 2, velocity: 0, rotation: 0 })
     setPipes([])
     setScore(0)
+    frameCountRef.current = 0
     setGameState('playing')
   }, [])
 
@@ -117,6 +119,8 @@ export default function FlappyBird({
     if (gameState !== 'playing') return
 
     const gameLoop = () => {
+      frameCountRef.current++
+
       // Update bird
       setBird(prev => {
         const newVelocity = prev.velocity + GRAVITY
@@ -129,9 +133,9 @@ export default function FlappyBird({
       setPipes(prev => {
         let newPipes = prev.map(p => ({ ...p, x: p.x - PIPE_SPEED }))
 
-        // Add new pipe
+        // Add new pipe (delay first pipe by 60 frames)
         const lastPipe = newPipes[newPipes.length - 1]
-        if (!lastPipe || lastPipe.x < CANVAS_WIDTH - 200) {
+        if (frameCountRef.current >= 60 && (!lastPipe || lastPipe.x < CANVAS_WIDTH - 250)) {
           newPipes.push({
             x: CANVAS_WIDTH + PIPE_WIDTH,
             gapY: 80 + Math.random() * (CANVAS_HEIGHT - 240),

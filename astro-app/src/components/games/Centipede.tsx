@@ -21,8 +21,8 @@ interface Segment {
   y: number;
 }
 
-const GRID_WIDTH = 600;
-const GRID_HEIGHT = 700;
+const GRID_WIDTH = 400;
+const GRID_HEIGHT = 500;
 const PLAYER_WIDTH = 30;
 const PLAYER_HEIGHT = 20;
 const BULLET_SIZE = 4;
@@ -43,6 +43,12 @@ export default function Centipede() {
   const keysRef = useRef<Set<string>>(new Set());
   const playerRef = useRef(player);
   playerRef.current = player;
+
+  // Use refs for gameOver and gameWon so the update callback stays stable
+  const gameOverRef = useRef(gameOver);
+  gameOverRef.current = gameOver;
+  const gameWonRef = useRef(gameWon);
+  gameWonRef.current = gameWon;
 
   const initGame = useCallback(() => {
     setPlayer({ x: GRID_WIDTH / 2, y: GRID_HEIGHT - 40 });
@@ -75,10 +81,24 @@ export default function Centipede() {
     initGame();
   }, [initGame]);
 
+  // Shoot function uses refs so it doesn't need gameOver/gameWon in deps
+  const shoot = useCallback(() => {
+    if (gameOverRef.current || gameWonRef.current) return;
+    setBullets(prev => [...prev, { x: playerRef.current.x, y: playerRef.current.y - 10 }]);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      e.preventDefault();
+      // Only prevent default for game keys to avoid blocking all keyboard input
+      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', ' '].includes(e.key)) {
+        e.preventDefault();
+      }
       keysRef.current.add(e.key);
+
+      // Handle space/shoot directly in the window listener
+      if (e.key === ' ') {
+        shoot();
+      }
     };
     const handleKeyUp = (e: KeyboardEvent) => {
       keysRef.current.delete(e.key);
@@ -91,15 +111,11 @@ export default function Centipede() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, []);
+  }, [shoot]);
 
-  const shoot = useCallback(() => {
-    if (gameOver || gameWon) return;
-    setBullets(prev => [...prev, { x: player.x, y: player.y - 10 }]);
-  }, [player, gameOver, gameWon]);
-
+  // Update function uses refs for gameOver/gameWon so it stays stable
   const update = useCallback(() => {
-    if (gameOver || gameWon) return;
+    if (gameOverRef.current || gameWonRef.current) return;
 
     // Move player
     setPlayer(prev => {
@@ -195,26 +211,18 @@ export default function Centipede() {
 
       return prev;
     });
-  }, [gameOver, gameWon]);
+  }, []); // Stable - uses refs instead of state values
 
   useEffect(() => {
     const loop = setInterval(update, 1000 / 60);
     gameLoopRef.current = loop as unknown as number;
 
     return () => clearInterval(loop);
-  }, [update]);
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === ' ') {
-      e.preventDefault();
-      shoot();
-    }
-  };
+  }, [update]); // update is now stable, so this only runs once
 
   return (
     <div
       className={`min-h-screen flex flex-col items-center justify-center p-4 ${darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}
-      onKeyDown={handleKeyPress}
       tabIndex={0}
     >
       <div className={`max-w-2xl w-full rounded-2xl shadow-2xl p-6 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
@@ -240,68 +248,77 @@ export default function Centipede() {
           </div>
         </div>
 
-        {/* Game Canvas */}
-        <div
-          className={`relative mx-auto rounded-lg overflow-hidden mb-4 border-2 ${
-            darkMode ? 'border-slate-600 bg-slate-950' : 'border-gray-400 bg-gray-50'
-          }`}
-          style={{ width: GRID_WIDTH, height: GRID_HEIGHT }}
-        >
-          {/* Mushrooms */}
-          {mushrooms.map((mush, i) => (
-            <div
-              key={i}
-              className={`absolute rounded-full ${
-                mush.health > 2 ? 'bg-red-500' : mush.health > 1 ? 'bg-orange-500' : 'bg-yellow-500'
-              }`}
-              style={{
-                left: mush.x,
-                top: mush.y,
-                width: MUSHROOM_SIZE,
-                height: MUSHROOM_SIZE,
-                opacity: mush.health / 4
-              }}
-            />
-          ))}
-
-          {/* Centipede */}
-          {centipede.map((seg, i) => (
-            <div
-              key={i}
-              className={`absolute rounded-full ${i === 0 ? 'bg-purple-500' : 'bg-green-500'}`}
-              style={{
-                left: seg.x,
-                top: seg.y,
-                width: SEGMENT_SIZE,
-                height: SEGMENT_SIZE
-              }}
-            />
-          ))}
-
-          {/* Bullets */}
-          {bullets.map((bullet, i) => (
-            <div
-              key={i}
-              className="absolute bg-yellow-400 rounded-full"
-              style={{
-                left: bullet.x - BULLET_SIZE / 2,
-                top: bullet.y,
-                width: BULLET_SIZE,
-                height: BULLET_SIZE * 2
-              }}
-            />
-          ))}
-
-          {/* Player */}
+        {/* Responsive Game Canvas Wrapper */}
+        <div className="w-full flex justify-center mb-4">
           <div
-            className={`absolute rounded ${darkMode ? 'bg-cyan-400' : 'bg-cyan-500'}`}
+            className="relative overflow-hidden rounded-lg border-2"
             style={{
-              left: player.x - PLAYER_WIDTH / 2,
-              top: player.y - PLAYER_HEIGHT / 2,
-              width: PLAYER_WIDTH,
-              height: PLAYER_HEIGHT
+              width: GRID_WIDTH,
+              height: GRID_HEIGHT,
+              maxWidth: '100%',
+              aspectRatio: `${GRID_WIDTH} / ${GRID_HEIGHT}`,
+              borderColor: darkMode ? '#475569' : '#9ca3af',
+              backgroundColor: darkMode ? '#020617' : '#f9fafb'
             }}
-          />
+          >
+            <div style={{ width: GRID_WIDTH, height: GRID_HEIGHT, transformOrigin: 'top left' }} className="absolute top-0 left-0" id="centipede-game-inner">
+              {/* Mushrooms */}
+              {mushrooms.map((mush, i) => (
+                <div
+                  key={i}
+                  className={`absolute rounded-full ${
+                    mush.health > 2 ? 'bg-red-500' : mush.health > 1 ? 'bg-orange-500' : 'bg-yellow-500'
+                  }`}
+                  style={{
+                    left: mush.x,
+                    top: mush.y,
+                    width: MUSHROOM_SIZE,
+                    height: MUSHROOM_SIZE,
+                    opacity: mush.health / 4
+                  }}
+                />
+              ))}
+
+              {/* Centipede */}
+              {centipede.map((seg, i) => (
+                <div
+                  key={i}
+                  className={`absolute rounded-full ${i === 0 ? 'bg-purple-500' : 'bg-green-500'}`}
+                  style={{
+                    left: seg.x,
+                    top: seg.y,
+                    width: SEGMENT_SIZE,
+                    height: SEGMENT_SIZE
+                  }}
+                />
+              ))}
+
+              {/* Bullets */}
+              {bullets.map((bullet, i) => (
+                <div
+                  key={i}
+                  className="absolute bg-yellow-400 rounded-full"
+                  style={{
+                    left: bullet.x - BULLET_SIZE / 2,
+                    top: bullet.y,
+                    width: BULLET_SIZE,
+                    height: BULLET_SIZE * 2
+                  }}
+                />
+              ))}
+
+              {/* Player */}
+              <div
+                className={`absolute rounded ${darkMode ? 'bg-cyan-400' : 'bg-cyan-500'}`}
+                style={{
+                  left: player.x - PLAYER_WIDTH / 2,
+                  top: player.y - PLAYER_HEIGHT / 2,
+                  width: PLAYER_WIDTH,
+                  height: PLAYER_HEIGHT
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* Instructions */}
@@ -310,10 +327,10 @@ export default function Centipede() {
             How to Play:
           </div>
           <ul className={`text-sm space-y-1 ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>
-            <li>• Arrow Keys to move left/right</li>
-            <li>• Spacebar to shoot</li>
-            <li>• Destroy centipede segments for points</li>
-            <li>• Avoid or shoot mushrooms (they block shots)</li>
+            <li>Arrow Keys to move left/right</li>
+            <li>Spacebar to shoot</li>
+            <li>Destroy centipede segments for points</li>
+            <li>Avoid or shoot mushrooms (they block shots)</li>
           </ul>
         </div>
 
@@ -325,10 +342,10 @@ export default function Centipede() {
               onTouchEnd={() => keysRef.current.delete('ArrowLeft')}
               className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
             >
-              ←
+              &larr;
             </button>
             <button
-              onTouchStart={() => keysRef.current.add(' ')}
+              onTouchStart={() => { keysRef.current.add(' '); shoot(); }}
               onTouchEnd={() => keysRef.current.delete(' ')}
               className="flex-1 h-16 rounded-lg bg-red-600 active:bg-red-500 flex items-center justify-center text-lg font-bold"
             >
@@ -339,7 +356,7 @@ export default function Centipede() {
               onTouchEnd={() => keysRef.current.delete('ArrowRight')}
               className="w-16 h-16 rounded-full bg-slate-700 active:bg-slate-600 flex items-center justify-center text-2xl"
             >
-              →
+              &rarr;
             </button>
           </div>
         )}
@@ -373,7 +390,7 @@ export default function Centipede() {
         {gameWon && (
           <div className={`mt-6 p-6 rounded-xl text-center ${darkMode ? 'bg-green-900/50' : 'bg-green-100'}`}>
             <h2 className={`text-3xl font-bold mb-2 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-              🎉 You Win!
+              You Win!
             </h2>
             <p className={`text-lg ${darkMode ? 'text-slate-300' : 'text-gray-700'}`}>
               Score: {score}
