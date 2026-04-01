@@ -195,6 +195,18 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
     makeMove('v', row, col, 1)
   }
 
+  // Handle touch events for horizontal lines
+  const handleHLineTouch = (e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault()
+    handleHLineClick(row, col)
+  }
+
+  // Handle touch events for vertical lines
+  const handleVLineTouch = (e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault()
+    handleVLineClick(row, col)
+  }
+
   // AI move
   useEffect(() => {
     if (currentPlayer !== 2 || gameOver || isAIThinking) return
@@ -288,24 +300,29 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
             onClick={onBack}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm"
           >
-            ← Back
+            ← {settings.language === 'zh' ? '返回' : 'Back'}
           </button>
-          <div className="flex items-center gap-6">
-            <div className="text-center">
-              <div className="text-xs text-slate-400">You (Blue)</div>
-              <div className="text-lg font-bold text-blue-400">{playerScore}</div>
-            </div>
-            <span className="text-slate-500">-</span>
-            <div className="text-center">
-              <div className="text-xs text-slate-400">AI (Red)</div>
-              <div className="text-lg font-bold text-red-400">{aiScore}</div>
+          <div className="text-center">
+            <h1 className="text-sm font-bold">
+              {settings.language === 'zh' ? '点格棋 (人机对战)' : 'Dots & Boxes (vs AI)'}
+            </h1>
+            <div className="flex items-center gap-4 mt-1">
+              <div className="text-center">
+                <div className="text-xs text-slate-400">{settings.language === 'zh' ? '你 (蓝)' : 'You (Blue)'}</div>
+                <div className="text-lg font-bold text-blue-400">{playerScore}</div>
+              </div>
+              <span className="text-slate-500">-</span>
+              <div className="text-center">
+                <div className="text-xs text-slate-400">{settings.language === 'zh' ? 'AI (红)' : 'AI (Red)'}</div>
+                <div className="text-lg font-bold text-red-400">{aiScore}</div>
+              </div>
             </div>
           </div>
           <button
             onClick={initGame}
             className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium"
           >
-            New Game
+            {settings.language === 'zh' ? '新游戏' : 'New Game'}
           </button>
         </div>
       </header>
@@ -365,7 +382,8 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                   <div
                     key={`${gridRow}-${gridCol}`}
                     onClick={() => handleHLineClick(hRow, hCol)}
-                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm ${
+                    onTouchStart={(e) => handleHLineTouch(e, hRow, hCol)}
+                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm active:scale-95 ${
                       horizontalLines[hRow]?.[hCol] === 1
                         ? 'bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
                         : horizontalLines[hRow]?.[hCol] === 2
@@ -374,7 +392,7 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                         ? 'bg-gradient-to-r from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
                         : 'bg-gradient-to-r from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
                     }`}
-                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, height: '25%', margin: 'auto 0' }}
+                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, height: '25%', margin: 'auto 0', touchAction: 'manipulation' }}
                   />
                 )
               }
@@ -387,7 +405,8 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                   <div
                     key={`${gridRow}-${gridCol}`}
                     onClick={() => handleVLineClick(vRow, vCol)}
-                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm ${
+                    onTouchStart={(e) => handleVLineTouch(e, vRow, vCol)}
+                    className={`cursor-pointer transition-all transform hover:scale-105 rounded-sm active:scale-95 ${
                       verticalLines[vRow]?.[vCol] === 1
                         ? 'bg-gradient-to-b from-blue-400 to-blue-600 shadow-lg shadow-blue-500/50'
                         : verticalLines[vRow]?.[vCol] === 2
@@ -396,7 +415,7 @@ export default function DotsAndBoxes({ settings, onBack }: DotsAndBoxesProps) {
                         ? 'bg-gradient-to-b from-slate-600 to-slate-700 hover:from-slate-500 hover:to-slate-600'
                         : 'bg-gradient-to-b from-gray-200 to-gray-300 hover:from-gray-300 hover:to-gray-400'
                     }`}
-                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, width: '25%', margin: '0 auto' }}
+                    style={{ gridRow: gridRow + 1, gridColumn: gridCol + 1, width: '25%', margin: '0 auto', touchAction: 'manipulation' }}
                   />
                 )
               }
