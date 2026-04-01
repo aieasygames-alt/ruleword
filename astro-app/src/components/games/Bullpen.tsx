@@ -194,6 +194,7 @@ const Bullpen: React.FC<BullpenProps> = ({ settings, onBack }) => {
   const [isComplete, setIsComplete] = useState(false)
   const [stats, setStats] = useState<Stats>(loadStats)
   const [showGameGuide, setShowGameGuide] = useState(false)
+  const [level, setLevel] = useState(1)
 
   const config = DIFFICULTY_CONFIG[difficulty]
 
@@ -204,6 +205,8 @@ const Bullpen: React.FC<BullpenProps> = ({ settings, onBack }) => {
     newGame: settings.language === 'zh' ? '新游戏' : 'New Game',
     rules: settings.language === 'zh' ? '规则' : 'Rules',
     complete: settings.language === 'zh' ? '恭喜完成！' : 'Puzzle Complete!',
+    nextLevel: settings.language === 'zh' ? '下一关' : 'Next Level',
+    level: settings.language === 'zh' ? '关卡' : 'Level',
     rule1: settings.language === 'zh' ? '每个围栏放1头公牛' : '1 bull per pen',
     rule2: settings.language === 'zh' ? '每行每列各1头公牛' : '1 bull per row & column',
     rule3: settings.language === 'zh' ? '公牛不能相邻（含对角线）' : 'Bulls cannot touch',
@@ -215,14 +218,18 @@ const Bullpen: React.FC<BullpenProps> = ({ settings, onBack }) => {
   }
 
   // 初始化游戏
-  const initializeGame = useCallback((mode?: GameMode, diff?: Difficulty) => {
-    const newMode = mode || gameMode
-    const newDiff = diff || difficulty
-    setGameMode(newMode)
-    setDifficulty(newDiff)
+  const initializeGame = useCallback((mode?: GameMode, diff?: Difficulty, newLevel?: number) => {
+    const actualMode = mode || gameMode
+    const actualDiff = diff || difficulty
+    const actualLevel = newLevel ?? (level + 1)
+    setGameMode(actualMode)
+    setDifficulty(actualDiff)
+    setLevel(actualLevel)
 
-    const { size, bullsPerLine } = DIFFICULTY_CONFIG[newDiff]
-    const seed = newMode === 'daily' ? getDailySeed() + (newDiff === 'easy' ? 0 : newDiff === 'normal' ? 1000 : 2000) : undefined
+    const { size, bullsPerLine } = DIFFICULTY_CONFIG[actualDiff]
+    // 使用 level 作为种子的一部分，确保每个关卡不同
+    const baseSeed = actualMode === 'daily' ? getDailySeed() : actualLevel * 1000
+    const seed = baseSeed + (actualDiff === 'easy' ? 0 : actualDiff === 'normal' ? 1000 : 2000)
 
     // 生成围栏和解
     const newPens = generatePens(size, seed)
@@ -478,17 +485,30 @@ const Bullpen: React.FC<BullpenProps> = ({ settings, onBack }) => {
         </div>
       )}
 
-      {/* Complete Message */}
+      {/* Complete Modal */}
       {isComplete && (
-        <div className={`mt-6 ${cardBgClass} rounded-xl p-6 text-center`}>
-          <div className="text-4xl mb-3">🎉🐂</div>
-          <div className="text-xl font-bold text-green-500 mb-4">{t.complete}</div>
-          <button
-            onClick={() => initializeGame()}
-            className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-medium"
-          >
-            {t.newGame}
-          </button>
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4">
+          <div className={`${cardBgClass} rounded-2xl p-6 text-center max-w-sm w-full shadow-2xl`}>
+            <div className="text-5xl mb-4">🎉🐂</div>
+            <div className="text-2xl font-bold text-green-500 mb-2">{t.complete}</div>
+            <div className={`text-lg mb-6 ${settings.darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              {t.level} {level}
+            </div>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => initializeGame(gameMode, difficulty, level + 1)}
+                className="w-full px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
+              >
+                {t.nextLevel} →
+              </button>
+              <button
+                onClick={() => initializeGame(gameMode, difficulty, 1)}
+                className={`w-full px-6 py-2 rounded-lg font-medium ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+              >
+                {t.newGame}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
