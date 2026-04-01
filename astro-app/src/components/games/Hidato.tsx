@@ -1,9 +1,19 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 
 type Cell = number | null;
 
+type Settings = {
+  darkMode: boolean
+  soundEnabled: boolean
+  language: 'en' | 'zh'
+}
+
 interface HidatoProps {
-  settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+  settings: Settings
+  onBack: () => void
+  toggleLanguage: () => void
+  toggleTheme: () => void
+  toggleSound: () => void
 }
 
 // Generate a valid Hidato puzzle using backtracking
@@ -218,7 +228,7 @@ const isValidMove = (
   return true;
 };
 
-export default function Hidato({ settings }: HidatoProps) {
+export default function Hidato({ settings, onBack }: HidatoProps) {
   const size = 5;
   const [puzzleData, setPuzzleData] = useState(() => generatePuzzle(size));
   const [grid, setGrid] = useState<Cell[][]>([]);
@@ -227,6 +237,56 @@ export default function Hidato({ settings }: HidatoProps) {
 
   const isDark = settings.darkMode;
   const isZh = settings.language === 'zh';
+
+  const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100';
+  const textClass = isDark ? 'text-white' : 'text-gray-900';
+
+  const audioContext = useRef<AudioContext | null>(null);
+
+  const texts = {
+    title: isZh ? 'Hidato 数字连线' : 'Hidato',
+    back: isZh ? '返回' : 'Back',
+    newGame: isZh ? '新游戏' : 'New Game',
+    next: isZh ? '下一个' : 'Next',
+    selectNumber: isZh ? '选择数字：' : 'Select number:',
+    instruction1: isZh ? '点击空格放置数字，右键清除' : 'Click empty cells to place numbers, right-click to clear',
+    instruction2: isZh ? '黄色数字是提示，不能修改' : 'Yellow numbers are hints and cannot be changed',
+    connectHint: isZh ? '连接连续数字（包括对角线）' : 'Connect consecutive numbers (including diagonals)',
+    complete: isZh ? '完成！' : 'Complete!',
+    solvedMsg: isZh ? '你解开了 Hidato 谜题！' : 'You solved the Hidato puzzle!',
+    playAgain: isZh ? '再来一次' : 'Play Again',
+  };
+
+  const playSound = useCallback((type: 'click' | 'win' | 'error') => {
+    if (!settings.soundEnabled) return;
+    try {
+      if (!audioContext.current) audioContext.current = new AudioContext();
+      const ctx = audioContext.current;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+
+      if (type === 'click') {
+        osc.frequency.value = 500;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
+      } else if (type === 'win') {
+        osc.frequency.value = 800;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0.15, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      } else {
+        osc.frequency.value = 200;
+        osc.type = 'sawtooth';
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+      }
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.3);
+    } catch {}
+  }, [settings.soundEnabled]);
 
   const initGame = useCallback(() => {
     const newData = generatePuzzle(size);
@@ -276,6 +336,7 @@ export default function Hidato({ settings }: HidatoProps) {
 
     // If already filled, allow clearing
     if (cell !== null) {
+      playSound('click');
       const newGrid = grid.map(r => [...r]);
       newGrid[row][col] = null;
       setGrid(newGrid);
@@ -284,6 +345,7 @@ export default function Hidato({ settings }: HidatoProps) {
 
     // Try to place current number
     if (isValidMove(grid, row, col, currentNumber, size)) {
+      playSound('click');
       const newGrid = grid.map(r => [...r]);
       newGrid[row][col] = currentNumber;
       setGrid(newGrid);
@@ -302,9 +364,12 @@ export default function Hidato({ settings }: HidatoProps) {
 
       if (complete) {
         setGameWon(true);
+        playSound('win');
       }
+    } else {
+      playSound('error');
     }
-  }, [grid, currentNumber, size, gameWon, puzzleData.grid]);
+  }, [grid, currentNumber, size, gameWon, puzzleData.grid, playSound]);
 
   const handleRightClick = useCallback((e: React.MouseEvent, row: number, col: number) => {
     e.preventDefault();
@@ -315,6 +380,12 @@ export default function Hidato({ settings }: HidatoProps) {
     newGrid[row][col] = null;
     setGrid(newGrid);
   }, [grid, gameWon, puzzleData.grid]);
+
+  // Touch support for mobile
+  const handleCellTouch = useCallback((e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault();
+    handleCellClick(row, col);
+  }, [handleCellClick]);
 
   const getCellClass = (value: Cell, row: number, col: number, isHint: boolean): string => {
     const base = 'aspect-square flex items-center justify-center font-bold rounded-lg transition-all cursor-pointer text-sm sm:text-base ';
@@ -332,129 +403,151 @@ export default function Hidato({ settings }: HidatoProps) {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
-      <div className={`max-w-md w-full rounded-2xl shadow-2xl p-6 ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
-          <div>
-            <h1 className={`text-2xl font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              Hidato
-            </h1>
-            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-              {isZh ? '连接连续数字（包括对角线）' : 'Connect consecutive numbers (including diagonals)'}
-            </p>
+    <div className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
+      {/* Header */}
+      <header className="sticky top-0 z-10 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm"
+          >
+            ← {texts.back}
+          </button>
+          <div className="text-center">
+            <span className="text-lg font-bold">{texts.title}</span>
           </div>
-          <div className="text-right">
-            <div className={`text-3xl font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-              {currentNumber}
-            </div>
-            <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-              {isZh ? '下一个' : 'Next'}
-            </div>
-          </div>
-        </div>
-
-        {/* Progress bar */}
-        <div className="mb-4">
-          {(() => {
-            const filled = grid.flat().filter(c => c !== null).length;
-            const progress = (filled / (size * size)) * 100;
-            return (
-              <>
-                <div className={`h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-gray-200'}`}>
-                  <div
-                    className="h-full bg-green-500 transition-all"
-                    style={{ width: `${progress}%` }}
-                  />
-                </div>
-                <div className={`text-center mt-1 text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-                  {filled}/{size * size}
-                </div>
-              </>
-            );
-          })()}
-        </div>
-
-        {/* Game Grid */}
-        <div className="grid gap-1.5 mb-4" style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))` }}>
-          {grid.map((row, y) =>
-            row.map((cell, x) => {
-              const isHint = puzzleData.grid[y][x] !== null;
-              return (
-                <div
-                  key={`${y}-${x}`}
-                  onClick={() => handleCellClick(y, x)}
-                  onContextMenu={(e) => handleRightClick(e, y, x)}
-                  className={getCellClass(cell, y, x, isHint)}
-                >
-                  {cell || ''}
-                </div>
-              );
-            })
-          )}
-        </div>
-
-        {/* Number selector */}
-        <div className="mb-4">
-          <div className={`text-sm mb-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-            {isZh ? '选择数字：' : 'Select number:'}
-          </div>
-          <div className="flex flex-wrap gap-1">
-            {Array.from({ length: Math.min(15, size * size) }, (_, i) => i + 1).map(num => (
-              <button
-                key={num}
-                onClick={() => setCurrentNumber(num)}
-                className={`w-7 h-7 rounded text-sm font-medium transition-all ${
-                  currentNumber === num
-                    ? 'bg-blue-500 text-white'
-                    : isDark
-                      ? 'bg-slate-700 hover:bg-slate-600 text-white'
-                      : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-            {size * size > 15 && (
-              <span className={`w-7 h-7 flex items-center justify-center text-sm ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
-                ...
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* Instructions */}
-        <div className={`p-3 rounded-xl mb-4 text-sm ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-gray-100 text-gray-700'}`}>
-          <p>{isZh ? '点击空格放置数字，右键清除' : 'Click empty cells to place numbers, right-click to clear'}</p>
-          <p className="mt-1">{isZh ? '黄色数字是提示，不能修改' : 'Yellow numbers are hints and cannot be changed'}</p>
-        </div>
-
-        {/* Controls */}
-        <button
-          onClick={initGame}
-          className="w-full py-3 rounded-xl font-semibold transition-all bg-blue-600 hover:bg-blue-500 text-white"
-        >
-          {isZh ? '新游戏' : 'New Game'}
-        </button>
-
-        {/* Win Message */}
-        {gameWon && (
-          <div className={`mt-6 p-6 rounded-xl text-center ${isDark ? 'bg-green-900/50' : 'bg-green-100'}`}>
-            <h2 className={`text-3xl font-bold mb-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
-              🎉 {isZh ? '完成！' : 'Complete!'}
-            </h2>
-            <p className={`text-lg mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
-              {isZh ? '你解开了 Hidato 谜题！' : 'You solved the Hidato puzzle!'}
-            </p>
+          <div className="flex gap-2">
             <button
               onClick={initGame}
-              className="px-6 py-3 rounded-xl font-semibold bg-green-600 hover:bg-green-500 text-white"
+              className="px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors text-sm"
             >
-              {isZh ? '再来一次' : 'Play Again'}
+              {texts.newGame}
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center justify-center p-4">
+        <div className={`max-w-md w-full rounded-2xl shadow-2xl p-6 ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
+          {/* Current Number Display */}
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                {texts.title}
+              </h2>
+              <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+                {texts.connectHint}
+              </p>
+            </div>
+            <div className="text-right">
+              <div className={`text-3xl font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                {currentNumber}
+              </div>
+              <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+                {texts.next}
+              </div>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div className="mb-4">
+            {(() => {
+              const filled = grid.flat().filter(c => c !== null).length;
+              const progress = (filled / (size * size)) * 100;
+              return (
+                <>
+                  <div className={`h-2 rounded-full overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-gray-200'}`}>
+                    <div
+                      className="h-full bg-green-500 transition-all"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                  <div className={`text-center mt-1 text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+                    {filled}/{size * size}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+
+          {/* Game Grid */}
+          <div
+            className="grid gap-1.5 mb-4"
+            style={{ gridTemplateColumns: `repeat(${size}, minmax(0, 1fr))`, touchAction: 'manipulation' }}
+          >
+            {grid.map((row, y) =>
+              row.map((cell, x) => {
+                const isHint = puzzleData.grid[y][x] !== null;
+                return (
+                  <div
+                    key={`${y}-${x}`}
+                    onClick={() => handleCellClick(y, x)}
+                    onTouchEnd={(e) => handleCellTouch(e, y, x)}
+                    onContextMenu={(e) => handleRightClick(e, y, x)}
+                    className={getCellClass(cell, y, x, isHint)}
+                  >
+                    {cell || ''}
+                  </div>
+                );
+              })
+            )}
+          </div>
+
+          {/* Number selector */}
+          <div className="mb-4">
+            <div className={`text-sm mb-2 ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+              {texts.selectNumber}
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {Array.from({ length: Math.min(15, size * size) }, (_, i) => i + 1).map(num => (
+                <button
+                  key={num}
+                  onClick={() => setCurrentNumber(num)}
+                  className={`w-7 h-7 rounded text-sm font-medium transition-all ${
+                    currentNumber === num
+                      ? 'bg-blue-500 text-white'
+                      : isDark
+                        ? 'bg-slate-700 hover:bg-slate-600 text-white'
+                        : 'bg-gray-200 hover:bg-gray-300'
+                  }`}
+                >
+                  {num}
+                </button>
+              ))}
+              {size * size > 15 && (
+                <span className={`w-7 h-7 flex items-center justify-center text-sm ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+                  ...
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className={`p-3 rounded-xl mb-4 text-sm ${isDark ? 'bg-slate-700 text-slate-300' : 'bg-gray-100 text-gray-700'}`}>
+            <p>{texts.instruction1}</p>
+            <p className="mt-1">{texts.instruction2}</p>
+          </div>
+
+          {/* Win Message */}
+          {gameWon && (
+            <div className={`p-6 rounded-xl text-center ${isDark ? 'bg-green-900/50' : 'bg-green-100'}`}>
+              <h2 className={`text-3xl font-bold mb-2 ${isDark ? 'text-green-400' : 'text-green-600'}`}>
+                🎉 {texts.complete}
+              </h2>
+              <p className={`text-lg mb-4 ${isDark ? 'text-slate-300' : 'text-gray-700'}`}>
+                {texts.solvedMsg}
+              </p>
+              <button
+                onClick={initGame}
+                className="px-6 py-3 rounded-xl font-semibold bg-green-600 hover:bg-green-500 text-white"
+              >
+                {texts.playAgain}
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
