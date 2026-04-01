@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 
 type Piece = {
   type: 'K' | 'A' | 'E' | 'H' | 'R' | 'C' | 'P'
@@ -59,6 +59,20 @@ export default function ChineseChess({ settings }: Props) {
   const [gameMode, setGameMode] = useState<'pvp' | 'ai'>('ai')
   const [aiDifficulty, setAiDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [isAiThinking, setIsAiThinking] = useState(false)
+
+  // 使用 ref 保持最新状态，避免闭包过时
+  const boardRef = useRef(board)
+  const gameOverRef = useRef(gameOver)
+  const turnRef = useRef(turn)
+  const isAiThinkingRef = useRef(isAiThinking)
+  const aiDifficultyRef = useRef(aiDifficulty)
+
+  // 更新 refs
+  useEffect(() => { boardRef.current = board }, [board])
+  useEffect(() => { gameOverRef.current = gameOver }, [gameOver])
+  useEffect(() => { turnRef.current = turn }, [turn])
+  useEffect(() => { isAiThinkingRef.current = isAiThinking }, [isAiThinking])
+  useEffect(() => { aiDifficultyRef.current = aiDifficulty }, [aiDifficulty])
 
   const isDark = settings.darkMode
   const isZh = settings.language === 'zh'
@@ -350,14 +364,28 @@ export default function ChineseChess({ settings }: Props) {
     }
   }, [evaluateBoard, isCheckmate, getLegalMoves])
 
-  // AI走棋
+  // AI走棋 - 使用 ref 确保获取最新状态
   const aiMove = useCallback(() => {
-    if (gameOver || turn !== 'black') return
+    // 使用 ref 获取最新值
+    const currentBoard = boardRef.current
+    const currentGameOver = gameOverRef.current
+    const currentTurn = turnRef.current
+    const currentDifficulty = aiDifficultyRef.current
+
+    if (currentGameOver || currentTurn !== 'black') return
 
     setIsAiThinking(true)
 
+    // 使用 setTimeout 让 UI 有时间更新
     setTimeout(() => {
-      const depth = aiDifficulty === 'easy' ? 1 : aiDifficulty === 'medium' ? 2 : 3
+      // 再次检查状态（使用 ref 获取最新值）
+      if (gameOverRef.current || turnRef.current !== 'black') {
+        setIsAiThinking(false)
+        return
+      }
+
+      const boardState = boardRef.current
+      const depth = currentDifficulty === 'easy' ? 1 : currentDifficulty === 'medium' ? 2 : 3
 
       let bestMove: { from: { row: number; col: number }; to: { row: number; col: number } } | null = null
       let bestScore = -Infinity
@@ -365,9 +393,9 @@ export default function ChineseChess({ settings }: Props) {
       const moves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
       for (let r = 0; r < 10; r++) {
         for (let c = 0; c < 9; c++) {
-          const piece = board[r][c]
+          const piece = boardState[r][c]
           if (piece && piece.color === 'black') {
-            const legalMoves = getLegalMoves(r, c, board)
+            const legalMoves = getLegalMoves(r, c, boardState)
             legalMoves.forEach(move => {
               moves.push({ from: { row: r, col: c }, to: move })
             })
@@ -378,11 +406,11 @@ export default function ChineseChess({ settings }: Props) {
       // 随机打乱移动顺序增加变化性
       for (let i = moves.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1))
-        [moves[i], moves[j]] = [moves[j], moves[i]]
+        ;[moves[i], moves[j]] = [moves[j], moves[i]]
       }
 
       for (const move of moves) {
-        const newBoard = board.map(r => [...r])
+        const newBoard = boardState.map(r => [...r])
         newBoard[move.to.row][move.to.col] = newBoard[move.from.row][move.from.col]
         newBoard[move.from.row][move.from.col] = null
 
@@ -395,9 +423,9 @@ export default function ChineseChess({ settings }: Props) {
       }
 
       if (bestMove) {
-        const newBoard = board.map(r => [...r])
+        const newBoard = boardState.map(r => [...r])
         const movingPiece = newBoard[bestMove.from.row][bestMove.from.col]
-        const capturedPiece = board[bestMove.to.row][bestMove.to.col]
+        const capturedPiece = boardState[bestMove.to.row][bestMove.to.col]
         newBoard[bestMove.to.row][bestMove.to.col] = movingPiece
         newBoard[bestMove.from.row][bestMove.from.col] = null
 
@@ -413,12 +441,11 @@ export default function ChineseChess({ settings }: Props) {
         }
 
         setBoard(newBoard)
-        const nextTurn = 'red'
-        setTurn(nextTurn)
+        setTurn('red')
 
         setTimeout(() => {
-          if (isInCheck(nextTurn, newBoard)) {
-            if (isCheckmate(nextTurn, newBoard)) {
+          if (isInCheck('red', newBoard)) {
+            if (isCheckmate('red', newBoard)) {
               setGameOver(isZh ? '黑方将死红方获胜！' : 'Black checkmates and wins!')
             }
           }
@@ -426,13 +453,19 @@ export default function ChineseChess({ settings }: Props) {
       }
 
       setIsAiThinking(false)
-    }, 500)
-  }, [board, gameOver, turn, aiDifficulty, getLegalMoves, minimax, isInCheck, isCheckmate, isZh])
+    }, 300)
+  }, [getLegalMoves, minimax, isInCheck, isCheckmate, isZh])
 
-  // AI回合自动走棋
+  // AI回合自动走棋 - 使用 ref 检查状态
   useEffect(() => {
-    if (gameMode === 'ai' && turn === 'black' && !gameOver && !isAiThinking) {
-      aiMove()
+    if (gameMode === 'ai' && turnRef.current === 'black' && !gameOverRef.current && !isAiThinkingRef.current) {
+      // 短暂延迟确保状态已更新
+      const timer = setTimeout(() => {
+        if (!isAiThinkingRef.current) {
+          aiMove()
+        }
+      }, 100)
+      return () => clearTimeout(timer)
     }
   }, [gameMode, turn, gameOver, isAiThinking, aiMove])
 
