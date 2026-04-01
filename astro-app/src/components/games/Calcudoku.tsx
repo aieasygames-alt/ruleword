@@ -37,40 +37,45 @@ const generateLatinSquare = (): number[][] => {
 };
 
 // Calculate cage target based on actual cell values
+// Rules: - Subtraction and division ONLY for 2-cell cages
+//       - Addition and multiplication for any size cage
 const calculateCageTarget = (values: number[], operation: '+' | '-' | '*' | '/'): { target: number; operation: '+' | '-' | '*' | '/' } => {
   if (values.length === 1) {
     return { target: values[0], operation: '+' };
   }
 
-  // For division, find first divisible pair
-  if (operation === '/') {
-    for (let i = 0; i < values.length; i++) {
-      for (let j = i + 1; j < values.length; j++) {
-        if (values[i] % values[j] === 0 && values[i] / values[j] >= 1) {
-          return { target: values[i] / values[j], operation: '/' };
-        }
-        if (values[j] % values[i] === 0 && values[j] / values[i] >= 1) {
-          return { target: values[j] / values[i], operation: '/' };
-        }
+  // For 2-cell cages, allow all operations
+  if (values.length === 2) {
+    const [a, b] = values;
+    const max = Math.max(a, b);
+    const min = Math.min(a, b);
+
+    if (operation === '/') {
+      // Division: larger / smaller must be exact
+      if (max % min === 0) {
+        return { target: max / min, operation: '/' };
       }
+      // Fallback to addition if not divisible
+      return { target: a + b, operation: '+' };
     }
-    // Fallback to addition if no good division
-    return { target: values.reduce((a, b) => a + b, 0), operation: '+' };
+
+    if (operation === '-') {
+      return { target: max - min, operation: '-' };
+    }
+
+    if (operation === '*') {
+      return { target: a * b, operation: '*' };
+    }
+
+    return { target: a + b, operation: '+' };
   }
 
-  // For subtraction, use difference of max and min
-  if (operation === '-') {
-    const max = Math.max(...values);
-    const min = Math.min(...values);
-    return { target: max - min, operation: '-' };
-  }
-
-  // For multiplication, multiply all
-  if (operation === '*') {
+  // For cages with 3+ cells, only allow addition and multiplication
+  if (operation === '*' && values.length >= 3) {
     return { target: values.reduce((a, b) => a * b, 1), operation: '*' };
   }
 
-  // For addition, sum all
+  // Default to addition for all other cases
   return { target: values.reduce((a, b) => a + b, 0), operation: '+' };
 };
 
@@ -79,7 +84,10 @@ const generateCages = (solution: number[][]): Cage[] => {
   const usedCells = new Set<string>();
   let cageId = 0;
 
-  const operations: Array<'+' | '-' | '*' | '/'> = ['+', '*', '-', '/'];
+  // Operations for 2-cell cages
+  const twoCellOperations: Array<'+' | '-' | '*' | '/'> = ['+', '-', '*', '/'];
+  // Operations for larger cages (only + and *)
+  const multiCellOperations: Array<'+' | '*'> = ['+', '*'];
 
   for (let row = 0; row < GRID_SIZE; row++) {
     for (let col = 0; col < GRID_SIZE; col++) {
@@ -108,8 +116,14 @@ const generateCages = (solution: number[][]): Cage[] => {
       // Get actual values from solution
       const cellValues = cells.map(([r, c]) => solution[r][c]);
 
-      // Choose appropriate operation and calculate target
-      const operation = operations[Math.floor(Math.random() * operations.length)];
+      // Choose appropriate operation based on cage size
+      let operation: '+' | '-' | '*' | '/';
+      if (cells.length === 2) {
+        operation = twoCellOperations[Math.floor(Math.random() * twoCellOperations.length)];
+      } else {
+        operation = multiCellOperations[Math.floor(Math.random() * multiCellOperations.length)];
+      }
+
       const { target, operation: finalOp } = calculateCageTarget(cellValues, operation);
 
       cages.push({ id: cageId++, cells, target, operation: finalOp });
@@ -259,7 +273,7 @@ export default function Calcudoku() {
                         </div>
                       )}
                       {cell.value > 0 && (
-                        <span className={`text-xl font-bold ${darkMode ? 'text-slate-900' : 'text-gray-900'}`}>
+                        <span className={`text-2xl font-bold ${darkMode ? 'text-white drop-shadow-[0_2_2px_rgba(0,0,0,0.8)]' : 'text-gray-900'}`}>
                           {cell.value}
                         </span>
                       )}
