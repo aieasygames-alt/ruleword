@@ -300,29 +300,44 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
 
   if (!GameComponent) {
     return (
-      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
-        <div className="text-center max-w-md">
-          {/* Game Icon Placeholder */}
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-3xl shadow-lg shadow-green-500/25">
-            🎮
+      <div className="min-h-screen bg-slate-900 text-white flex flex-col">
+        {/* Placeholder navigation bar - instant display */}
+        <nav className="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between h-14">
+              <div className="flex items-center gap-4">
+                <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                    R
+                  </div>
+                  <span className="font-semibold hidden sm:inline">RuleWord</span>
+                </a>
+              </div>
+              <h1 className="text-lg font-bold truncate max-w-[200px] sm:max-w-none">
+                {gameName}
+              </h1>
+              <div className="w-24" />
+            </div>
           </div>
+        </nav>
 
-          {/* Loading Spinner */}
-          <div className="animate-spin w-12 h-12 border-3 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+        {/* Loading content */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="text-center max-w-md">
+            {/* Game Icon */}
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-3xl shadow-lg shadow-green-500/25 animate-pulse">
+              🎮
+            </div>
 
-          {/* Loading Text */}
-          <h2 className="text-xl font-bold mb-2">{gameName}</h2>
-          <p className="text-slate-400 text-sm mb-4">Loading game...</p>
+            {/* Loading Spinner */}
+            <div className="animate-spin w-10 h-10 border-3 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
 
-          {/* Progress Bar */}
-          <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-green-400 to-emerald-600 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+            {/* Loading Text */}
+            <h2 className="text-xl font-bold mb-2">{gameName}</h2>
+            <p className="text-slate-400 text-sm">
+              {settings.language === 'zh' ? '游戏加载中...' : 'Loading game...'}
+            </p>
           </div>
-
-          {/* Tip */}
-          <p className="text-slate-500 text-xs mt-4">
-            💡 Tip: Use keyboard shortcuts for better experience
-          </p>
         </div>
       </div>
     )

@@ -273,7 +273,7 @@ const seoDescription = gameSEO.descriptionTemplate
       ) : (
         <!-- Built-in Game -->
         <GameWrapper
-          client:visible
+          client:load
           gameId={gameId}
           gameName={getGameField('name', 'en') as string}
           gameSlug={gameSlug}
