@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 type Settings = {
   darkMode: boolean
@@ -235,6 +235,27 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
   const [gameMode, setGameMode] = useState<'menu' | 'pvp' | 'pvc' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [animatingCol, setAnimatingCol] = useState<number | null>(null)
+  const [isAiThinking, setIsAiThinking] = useState(false)
+
+  // 使用 ref 保持最新状态
+  const boardRef = useRef(board)
+  const currentPlayerRef = useRef(currentPlayer)
+  const winnerRef = useRef(winner)
+  const isDrawRef = useRef(isDraw)
+  const gameModeRef = useRef(gameMode)
+  const difficultyRef = useRef(difficulty)
+  const statsRef = useRef(stats)
+  const isAiThinkingRef = useRef(isAiThinking)
+
+  // 更新 refs
+  useEffect(() => { boardRef.current = board }, [board])
+  useEffect(() => { currentPlayerRef.current = currentPlayer }, [currentPlayer])
+  useEffect(() => { winnerRef.current = winner }, [winner])
+  useEffect(() => { isDrawRef.current = isDraw }, [isDraw])
+  useEffect(() => { gameModeRef.current = gameMode }, [gameMode])
+  useEffect(() => { difficultyRef.current = difficulty }, [difficulty])
+  useEffect(() => { statsRef.current = stats }, [stats])
+  useEffect(() => { isAiThinkingRef.current = isAiThinking }, [isAiThinking])
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -252,20 +273,28 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
     setDailyPlayed(lastPlayed === today)
   }, [])
 
-  const saveStats = (newStats: typeof stats) => {
+  const saveStats = useCallback((newStats: typeof stats) => {
     setStats(newStats)
     localStorage.setItem('connectfour-stats', JSON.stringify(newStats))
-  }
+  }, [])
 
-  const handleColumnClick = useCallback((col: number) => {
-    if (winner || isDraw || board[0][col] !== null) return
-    if (gameMode === 'pvc' && currentPlayer === 'yellow') return
+  // 使用 ref 的移动函数，避免闭包问题
+  const makeMove = useCallback((col: number) => {
+    const currentBoard = boardRef.current
+    const currentTurn = currentPlayerRef.current
+    const currentWinner = winnerRef.current
+    const currentIsDraw = isDrawRef.current
+    const currentGameMode = gameModeRef.current
+    const currentStats = statsRef.current
+
+    if (currentWinner || currentIsDraw || currentBoard[0][col] !== null) return false
+    if (currentGameMode === 'pvc' && currentTurn === 'yellow') return false
 
     setAnimatingCol(col)
     setTimeout(() => setAnimatingCol(null), 300)
 
-    const newBoard = dropPiece(board, col, currentPlayer)
-    if (!newBoard) return
+    const newBoard = dropPiece(currentBoard, col, currentTurn)
+    if (!newBoard) return false
 
     setBoard(newBoard)
 
@@ -273,37 +302,64 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
     if (result) {
       setWinner(result.winner)
       setWinningCells(result.cells)
-      if (gameMode === 'pvc') {
+      if (currentGameMode === 'pvc') {
         if (result.winner === 'red') {
-          saveStats({ ...stats, wins: stats.wins + 1 })
+          saveStats({ ...currentStats, wins: currentStats.wins + 1 })
         } else {
-          saveStats({ ...stats, losses: stats.losses + 1 })
+          saveStats({ ...currentStats, losses: currentStats.losses + 1 })
         }
       }
-      return
+      return true
     }
 
     if (isBoardFull(newBoard)) {
       setIsDraw(true)
-      saveStats({ ...stats, draws: stats.draws + 1 })
-      return
+      saveStats({ ...currentStats, draws: currentStats.draws + 1 })
+      return true
     }
 
-    setCurrentPlayer(currentPlayer === 'red' ? 'yellow' : 'red')
-  }, [board, currentPlayer, winner, isDraw, gameMode, stats])
+    setCurrentPlayer(currentTurn === 'red' ? 'yellow' : 'red')
+    return true
+  }, [saveStats])
 
-  useEffect(() => {
-    if (gameMode !== 'pvc' || currentPlayer !== 'yellow' || winner || isDraw) return
+  const handleColumnClick = useCallback((col: number) => {
+    if (isAiThinkingRef.current) return
+    makeMove(col)
+  }, [makeMove])
 
-    const timeout = setTimeout(() => {
-      const col = getComputerMove(board, difficulty)
-      if (col !== -1) {
-        handleColumnClick(col)
+  // AI 移动
+  const aiMove = useCallback(() => {
+    if (isAiThinkingRef.current) return
+    if (gameModeRef.current !== 'pvc' || currentPlayerRef.current !== 'yellow' || winnerRef.current || isDrawRef.current) return
+
+    setIsAiThinking(true)
+
+    setTimeout(() => {
+      // 再次检查状态
+      if (gameModeRef.current !== 'pvc' || currentPlayerRef.current !== 'yellow' || winnerRef.current || isDrawRef.current) {
+        setIsAiThinking(false)
+        return
       }
-    }, 500)
 
-    return () => clearTimeout(timeout)
-  }, [currentPlayer, winner, isDraw, gameMode, difficulty, board, handleColumnClick])
+      const col = getComputerMove(boardRef.current, difficultyRef.current)
+      if (col !== -1) {
+        makeMove(col)
+      }
+      setIsAiThinking(false)
+    }, 400)
+  }, [makeMove])
+
+  // AI 回合触发
+  useEffect(() => {
+    if (gameMode === 'pvc' && currentPlayer === 'yellow' && !winner && !isDraw && !isAiThinking) {
+      const timer = setTimeout(() => {
+        if (!isAiThinkingRef.current) {
+          aiMove()
+        }
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [gameMode, currentPlayer, winner, isDraw, isAiThinking, aiMove])
 
   const startGame = (mode: 'pvp' | 'pvc' | 'daily') => {
     setBoard(createEmptyBoard())
