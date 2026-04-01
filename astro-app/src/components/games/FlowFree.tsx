@@ -151,6 +151,7 @@ export default function FlowFree({
     let clientX: number, clientY: number
 
     if ('touches' in e) {
+      if (e.touches.length === 0) return null
       clientX = e.touches[0].clientX
       clientY = e.touches[0].clientY
     } else {
@@ -158,8 +159,14 @@ export default function FlowFree({
       clientY = e.clientY
     }
 
-    const x = Math.floor((clientX - rect.left) / CELL_SIZE)
-    const y = Math.floor((clientY - rect.top) / CELL_SIZE)
+    // Scale coordinates to account for CSS scaling of canvas
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const canvasX = (clientX - rect.left) * scaleX
+    const canvasY = (clientY - rect.top) * scaleY
+
+    const x = Math.floor(canvasX / CELL_SIZE)
+    const y = Math.floor(canvasY / CELL_SIZE)
 
     if (x >= 0 && x < currentLevel.size && y >= 0 && y < currentLevel.size) {
       return { x, y }

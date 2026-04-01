@@ -241,6 +241,11 @@ export default function FruitNinja({
   const handleMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (gameState !== 'playing') return
 
+    // Prevent default touch behavior (scrolling, zooming)
+    if ('touches' in e) {
+      e.preventDefault()
+    }
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -256,8 +261,11 @@ export default function FruitNinja({
       clientY = e.clientY
     }
 
-    const x = clientX - rect.left
-    const y = clientY - rect.top
+    // Scale coordinates to account for CSS scaling of canvas
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const x = (clientX - rect.left) * scaleX
+    const y = (clientY - rect.top) * scaleY
 
     setSliceTrail(prev => [...prev.slice(-10), { x, y, time: Date.now() }])
     checkSlice(x, y)
@@ -454,6 +462,7 @@ export default function FruitNinja({
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
             className="block mx-auto rounded-lg cursor-crosshair"
+            style={{ touchAction: 'none' }}
             onMouseMove={handleMove}
             onTouchMove={handleMove}
           />

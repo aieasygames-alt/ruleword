@@ -517,13 +517,32 @@ export default function TowerDefense({
     }
   }, [gameState, waveInProgress, enemiesSpawned, wave, enemies, towers, projectiles, settings.darkMode, playSound, score, highScore, updateScore])
 
-  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current
     if (!canvas) return
 
+    // Prevent default touch behavior
+    if ('touches' in e) {
+      e.preventDefault()
+    }
+
     const rect = canvas.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    let clientX: number, clientY: number
+
+    if ('touches' in e) {
+      if (e.touches.length === 0) return
+      clientX = e.touches[0].clientX
+      clientY = e.touches[0].clientY
+    } else {
+      clientX = e.clientX
+      clientY = e.clientY
+    }
+
+    // Scale coordinates to account for CSS scaling of canvas
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+    const x = (clientX - rect.left) * scaleX
+    const y = (clientY - rect.top) * scaleY
 
     const gridX = Math.floor(x / CELL_SIZE)
     const gridY = Math.floor(y / CELL_SIZE)
@@ -614,7 +633,9 @@ export default function TowerDefense({
                 width={GRID_COLS * CELL_SIZE}
                 height={GRID_ROWS * CELL_SIZE}
                 onClick={handleCanvasClick}
+                onTouchStart={handleCanvasClick}
                 className="block mx-auto rounded-lg border border-gray-700 cursor-pointer max-w-full"
+                style={{ touchAction: 'none' }}
               />
 
               {/* Wave start button */}

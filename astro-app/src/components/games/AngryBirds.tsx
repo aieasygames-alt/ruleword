@@ -275,8 +275,11 @@ export default function AngryBirds({
       e.preventDefault()
       const touch = e.touches[0]
       const rect = canvas.getBoundingClientRect()
-      const x = touch.clientX - rect.left
-      const y = touch.clientY - rect.top
+      // Scale coordinates to account for CSS scaling of canvas
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      const x = (touch.clientX - rect.left) * scaleX
+      const y = (touch.clientY - rect.top) * scaleY
 
       const dx = x - SLINGSHOT_X
       const dy = y - SLINGSHOT_Y
@@ -294,8 +297,11 @@ export default function AngryBirds({
       if (!isDragging) return
       const touch = e.touches[0]
       const rect = canvas.getBoundingClientRect()
-      const x = Math.max(SLINGSHOT_X - 80, Math.min(touch.clientX - rect.left, SLINGSHOT_X))
-      const y = Math.max(GROUND_Y - 100, Math.min(touch.clientY - rect.top, SLINGSHOT_Y + 50))
+      // Scale coordinates to account for CSS scaling of canvas
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      const x = Math.max(SLINGSHOT_X - 80, Math.min((touch.clientX - rect.left) * scaleX, SLINGSHOT_X))
+      const y = Math.max(GROUND_Y - 100, Math.min((touch.clientY - rect.top) * scaleY, SLINGSHOT_Y + 50))
       setDragEnd({ x, y })
     }
 
@@ -1255,6 +1261,7 @@ export default function AngryBirds({
               width={500}
               height={500}
               className="block mx-auto rounded-lg border border-gray-700 max-w-full"
+              style={{ touchAction: 'none' }}
             />
 
             {gameState === 'levelComplete' && (

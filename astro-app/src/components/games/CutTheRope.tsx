@@ -367,14 +367,22 @@ export default function CutTheRope({
       clientY = e.clientY
     }
 
+    // Scale coordinates to account for CSS scaling of canvas
+    const scaleX = canvas.width / rect.width
+    const scaleY = canvas.height / rect.height
+
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top,
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
     }
   }
 
   const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     if (gameState !== 'playing') return
+    // Prevent default touch behavior (scrolling, zooming)
+    if ('touches' in e) {
+      e.preventDefault()
+    }
     const pos = getEventPos(e)
     setSlicing(true)
     setSliceStart(pos)
@@ -383,11 +391,18 @@ export default function CutTheRope({
 
   const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!slicing || gameState !== 'playing') return
+    // Prevent default touch behavior (scrolling, zooming)
+    if ('touches' in e) {
+      e.preventDefault()
+    }
     const pos = getEventPos(e)
     setSliceEnd(pos)
   }
 
-  const handleEnd = () => {
+  const handleEnd = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e && 'touches' in e) {
+      e.preventDefault()
+    }
     if (slicing && sliceStart && sliceEnd) {
       handleSlice(sliceStart, sliceEnd)
     }
@@ -685,6 +700,7 @@ export default function CutTheRope({
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
             className="block mx-auto cursor-crosshair max-w-full"
+            style={{ touchAction: 'none' }}
             onMouseDown={handleStart}
             onMouseMove={handleMove}
             onMouseUp={handleEnd}
