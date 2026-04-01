@@ -19,6 +19,17 @@ interface Obstacle {
   passed: boolean
 }
 
+interface GameState {
+  playerY: number
+  playerVy: number
+  isGrounded: boolean
+  obstacles: Obstacle[]
+  score: number
+  rotation: number
+  bgOffset: number
+  gameOver: boolean
+}
+
 const CANVAS_WIDTH = 400
 const CANVAS_HEIGHT = 300
 const GROUND_HEIGHT = 40
@@ -34,19 +45,25 @@ export default function GeometryDash({
   getHighScore,
 }: GeometryDashProps) {
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'gameover'>('menu')
-  const [playerY, setPlayerY] = useState(0)
-  const [playerVy, setPlayerVy] = useState(0)
-  const [isGrounded, setIsGrounded] = useState(true)
-  const [obstacles, setObstacles] = useState<Obstacle[]>([])
-  const [score, setScore] = useState(0)
   const [highScore, setHighScore] = useState(0)
   const [attempts, setAttempts] = useState(0)
-  const [rotation, setRotation] = useState(0)
-  const [bgOffset, setBgOffset] = useState(0)
+  const [displayScore, setDisplayScore] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
   const audioContext = useRef<AudioContext | null>(null)
+
+  // Use ref for game state to avoid re-renders during gameplay
+  const gameStateRef = useRef<GameState>({
+    playerY: 0,
+    playerVy: 0,
+    isGrounded: true,
+    obstacles: [],
+    score: 0,
+    rotation: 0,
+    bgOffset: 0,
+    gameOver: false,
+  })
 
   const groundY = CANVAS_HEIGHT - GROUND_HEIGHT - PLAYER_SIZE
 
@@ -89,105 +106,127 @@ export default function GeometryDash({
   }, [settings.soundEnabled])
 
   const jump = useCallback(() => {
-    if (isGrounded && gameState === 'playing') {
-      setPlayerVy(JUMP_FORCE)
-      setIsGrounded(false)
+    const state = gameStateRef.current
+    if (state.isGrounded && !state.gameOver) {
+      state.playerVy = JUMP_FORCE
+      state.isGrounded = false
       playSound('jump')
     }
-  }, [isGrounded, gameState, playSound])
+  }, [playSound])
 
   const startGame = useCallback(() => {
-    setPlayerY(groundY)
-    setPlayerVy(0)
-    setIsGrounded(true)
-    setObstacles([])
-    setScore(0)
+    gameStateRef.current = {
+      playerY: groundY,
+      playerVy: 0,
+      isGrounded: true,
+      obstacles: [],
+      score: 0,
+      rotation: 0,
+      bgOffset: 0,
+      gameOver: false,
+    }
+    setDisplayScore(0)
     setAttempts(prev => prev + 1)
     setGameState('playing')
   }, [groundY])
 
-  // Generate obstacles
-  const generateObstacle = useCallback(() => {
-    const type = Math.random() > 0.5 ? 'spike' : 'block'
-    const obstacle: Obstacle = {
-      x: CANVAS_WIDTH + 50,
-      type,
-      passed: false,
-    }
-    setObstacles(prev => [...prev, obstacle])
-  }, [])
-
-  // Game loop
+  // Game loop with rendering
   useEffect(() => {
     if (gameState !== 'playing') return
 
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
     let lastObstacleTime = Date.now()
+    let lastScoreUpdate = 0
 
     const gameLoop = () => {
+      const state = gameStateRef.current
+
+      if (state.gameOver) return
+
       // Update player physics
-      setPlayerVy(prev => prev + GRAVITY)
-      setPlayerY(prev => {
-        const newY = prev + playerVy
-        if (newY >= groundY) {
-          setIsGrounded(true)
-          setPlayerVy(0)
-          return groundY
-        }
-        return newY
-      })
+      state.playerVy += GRAVITY
+      state.playerY += state.playerVy
+
+      if (state.playerY >= groundY) {
+        state.playerY = groundY
+        state.playerVy = 0
+        state.isGrounded = true
+      }
+
+      // Update rotation
+      if (!state.isGrounded) {
+        state.rotation += 0.15
+      }
+
+      // Update bg offset
+      state.bgOffset = (state.bgOffset + GAME_SPEED) % 100
 
       // Update obstacles
-      setObstacles(prev => {
-        const newObstacles = prev.map(obs => ({
-          ...obs,
-          x: obs.x - GAME_SPEED,
-        })).filter(obs => obs.x > -50)
+      state.obstacles = state.obstacles
+        .map(obs => ({ ...obs, x: obs.x - GAME_SPEED }))
+        .filter(obs => obs.x > -50)
 
-        // Check collisions
-        for (const obs of newObstacles) {
-          const playerLeft = 50
-          const playerRight = playerLeft + PLAYER_SIZE
-          const playerTop = playerY
-          const playerBottom = playerY + PLAYER_SIZE
+      // Check collisions and scoring
+      const playerLeft = 50
+      const playerRight = playerLeft + PLAYER_SIZE
+      const playerTop = state.playerY
+      const playerBottom = state.playerY + PLAYER_SIZE
 
-          const obsLeft = obs.x
-          const obsRight = obs.x + (obs.type === 'spike' ? 30 : 40)
-          const obsTop = obs.type === 'spike' ? groundY + PLAYER_SIZE - 25 : groundY - 10
-          const obsBottom = groundY + PLAYER_SIZE
+      for (const obs of state.obstacles) {
+        const obsLeft = obs.x
+        const obsRight = obs.x + (obs.type === 'spike' ? 30 : 40)
+        const obsTop = obs.type === 'spike' ? groundY + PLAYER_SIZE - 25 : groundY - 10
+        const obsBottom = groundY + PLAYER_SIZE
 
-          if (
-            playerRight > obsLeft + 10 &&
-            playerLeft < obsRight - 10 &&
-            playerBottom > obsTop &&
-            playerTop < obsBottom
-          ) {
-            playSound('hit')
-            setGameState('gameover')
-            if (updateScore) updateScore(score)
-            if (score > highScore) {
-              setHighScore(score)
-              localStorage.setItem('geometrydash-highscore', score.toString())
-            }
-            return prev
+        if (
+          playerRight > obsLeft + 10 &&
+          playerLeft < obsRight - 10 &&
+          playerBottom > obsTop &&
+          playerTop < obsBottom
+        ) {
+          playSound('hit')
+          state.gameOver = true
+          const finalScore = state.score
+          if (updateScore) updateScore(finalScore)
+          if (finalScore > highScore) {
+            setHighScore(finalScore)
+            localStorage.setItem('geometrydash-highscore', finalScore.toString())
           }
-
-          // Score for passing obstacles
-          if (!obs.passed && obs.x + 30 < playerLeft) {
-            obs.passed = true
-            setScore(s => s + 1)
-            playSound('score')
-          }
+          setGameState('gameover')
+          return
         }
 
-        return newObstacles
-      })
+        if (!obs.passed && obs.x + 30 < playerLeft) {
+          obs.passed = true
+          state.score++
+          playSound('score')
+        }
+      }
+
+      // Update display score periodically
+      const now = Date.now()
+      if (now - lastScoreUpdate > 100) {
+        setDisplayScore(state.score)
+        lastScoreUpdate = now
+      }
 
       // Generate new obstacles
-      const now = Date.now()
       if (now - lastObstacleTime > 1500 + Math.random() * 1000) {
-        generateObstacle()
+        const type = Math.random() > 0.5 ? 'spike' : 'block'
+        state.obstacles.push({
+          x: CANVAS_WIDTH + 50,
+          type,
+          passed: false,
+        })
         lastObstacleTime = now
       }
+
+      // Render
+      render(ctx, state, settings.darkMode)
 
       gameLoopRef.current = requestAnimationFrame(gameLoop)
     }
@@ -197,7 +236,236 @@ export default function GeometryDash({
     return () => {
       if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current)
     }
-  }, [gameState, playerVy, playerY, groundY, generateObstacle, playSound, updateScore, score, highScore])
+  }, [gameState, groundY, playSound, updateScore, highScore, settings.darkMode])
+
+  // Render function
+  const render = (ctx: CanvasRenderingContext2D, state: GameState, darkMode: boolean) => {
+    // Background with neon grid
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, darkMode ? '#0a0a1a' : '#4c1d95')
+    bgGradient.addColorStop(0.5, darkMode ? '#1a1a3e' : '#7c3aed')
+    bgGradient.addColorStop(1, darkMode ? '#0f172a' : '#8b5cf6')
+    ctx.fillStyle = bgGradient
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+    // Neon grid lines (moving)
+    ctx.strokeStyle = darkMode ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255, 255, 255, 0.1)'
+    ctx.lineWidth = 1
+    for (let x = -state.bgOffset; x < CANVAS_WIDTH + 50; x += 50) {
+      ctx.beginPath()
+      ctx.moveTo(x, 0)
+      ctx.lineTo(x, CANVAS_HEIGHT - GROUND_HEIGHT)
+      ctx.stroke()
+    }
+    for (let y = 0; y < CANVAS_HEIGHT - GROUND_HEIGHT; y += 50) {
+      ctx.beginPath()
+      ctx.moveTo(0, y)
+      ctx.lineTo(CANVAS_WIDTH, y)
+      ctx.stroke()
+    }
+
+    // Ground with neon effect
+    const groundGradient = ctx.createLinearGradient(0, CANVAS_HEIGHT - GROUND_HEIGHT, 0, CANVAS_HEIGHT)
+    groundGradient.addColorStop(0, darkMode ? '#1e1b4b' : '#374151')
+    groundGradient.addColorStop(1, darkMode ? '#0f0a1a' : '#1f2937')
+    ctx.fillStyle = groundGradient
+    ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, GROUND_HEIGHT)
+
+    // Ground top glow line
+    ctx.shadowColor = '#a855f7'
+    ctx.shadowBlur = 15
+    ctx.strokeStyle = '#a855f7'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(0, CANVAS_HEIGHT - GROUND_HEIGHT)
+    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_HEIGHT)
+    ctx.stroke()
+    ctx.shadowBlur = 0
+
+    // Ground pattern
+    ctx.fillStyle = darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)'
+    for (let x = -state.bgOffset % 20; x < CANVAS_WIDTH; x += 20) {
+      ctx.fillRect(x, CANVAS_HEIGHT - GROUND_HEIGHT + 5, 10, GROUND_HEIGHT - 5)
+    }
+
+    // Obstacles with neon glow
+    for (const obs of state.obstacles) {
+      if (obs.type === 'spike') {
+        ctx.shadowColor = '#ef4444'
+        ctx.shadowBlur = 20
+
+        const spikeGradient = ctx.createLinearGradient(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT, obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 25)
+        spikeGradient.addColorStop(0, '#dc2626')
+        spikeGradient.addColorStop(0.5, '#ef4444')
+        spikeGradient.addColorStop(1, '#fca5a5')
+        ctx.fillStyle = spikeGradient
+        ctx.beginPath()
+        ctx.moveTo(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 30)
+        ctx.lineTo(obs.x + 30, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.closePath()
+        ctx.fill()
+
+        ctx.strokeStyle = '#fca5a5'
+        ctx.lineWidth = 2
+        ctx.stroke()
+
+        ctx.fillStyle = '#fca5a5'
+        ctx.beginPath()
+        ctx.moveTo(obs.x + 10, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 18)
+        ctx.lineTo(obs.x + 20, CANVAS_HEIGHT - GROUND_HEIGHT)
+        ctx.closePath()
+        ctx.fill()
+
+        ctx.shadowBlur = 0
+      } else {
+        ctx.shadowColor = '#3b82f6'
+        ctx.shadowBlur = 20
+
+        const blockY = CANVAS_HEIGHT - GROUND_HEIGHT - 40
+
+        const blockGradient = ctx.createLinearGradient(obs.x, blockY, obs.x + 40, blockY + 40)
+        blockGradient.addColorStop(0, '#60a5fa')
+        blockGradient.addColorStop(0.5, '#3b82f6')
+        blockGradient.addColorStop(1, '#1d4ed8')
+        ctx.fillStyle = blockGradient
+        ctx.fillRect(obs.x, blockY, 40, 40)
+
+        ctx.strokeStyle = '#93c5fd'
+        ctx.lineWidth = 2
+        ctx.strokeRect(obs.x, blockY, 40, 40)
+
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+        ctx.lineWidth = 2
+        ctx.beginPath()
+        ctx.moveTo(obs.x + 10, blockY + 10)
+        ctx.lineTo(obs.x + 30, blockY + 30)
+        ctx.moveTo(obs.x + 30, blockY + 10)
+        ctx.lineTo(obs.x + 10, blockY + 30)
+        ctx.stroke()
+
+        ctx.shadowBlur = 0
+      }
+    }
+
+    // Player (neon cube)
+    const playerX = 50
+    ctx.save()
+    ctx.translate(playerX + PLAYER_SIZE / 2, state.playerY + PLAYER_SIZE / 2)
+
+    if (!state.isGrounded) {
+      ctx.rotate(state.rotation)
+    }
+
+    ctx.shadowColor = '#4ade80'
+    ctx.shadowBlur = 20
+
+    const playerGradient = ctx.createLinearGradient(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE / 2, PLAYER_SIZE / 2)
+    playerGradient.addColorStop(0, '#86efac')
+    playerGradient.addColorStop(0.5, '#4ade80')
+    playerGradient.addColorStop(1, '#22c55e')
+    ctx.fillStyle = playerGradient
+    ctx.fillRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'
+    ctx.lineWidth = 2
+    ctx.strokeRect(-PLAYER_SIZE / 2 + 4, -PLAYER_SIZE / 2 + 4, PLAYER_SIZE - 8, PLAYER_SIZE - 8)
+
+    ctx.strokeStyle = '#86efac'
+    ctx.lineWidth = 3
+    ctx.strokeRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
+
+    ctx.shadowBlur = 0
+
+    ctx.fillStyle = '#0f172a'
+    ctx.beginPath()
+    ctx.ellipse(5, -2, 9, 10, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.ellipse(5, -2, 7, 8, 0, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = '#1e293b'
+    ctx.beginPath()
+    ctx.arc(7, -1, 4, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.fillStyle = 'white'
+    ctx.beginPath()
+    ctx.arc(4, -4, 2, 0, Math.PI * 2)
+    ctx.fill()
+
+    ctx.restore()
+
+    // Trail effect when jumping
+    if (!state.isGrounded) {
+      for (let i = 1; i <= 3; i++) {
+        ctx.fillStyle = `rgba(74, 222, 128, ${0.3 - i * 0.08})`
+        ctx.fillRect(playerX - PLAYER_SIZE / 2 - i * 8, state.playerY + PLAYER_SIZE / 2 - 5, PLAYER_SIZE, PLAYER_SIZE * 0.8)
+      }
+    }
+
+    // Score with neon effect
+    ctx.shadowColor = '#a855f7'
+    ctx.shadowBlur = 10
+    ctx.fillStyle = 'white'
+    ctx.font = 'bold 28px Arial'
+    ctx.textAlign = 'left'
+    ctx.fillText(`${state.score}`, 20, 40)
+    ctx.shadowBlur = 0
+
+    // Progress bar with glow
+    const progress = (state.score % 10) / 10
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
+    ctx.fillRect(CANVAS_WIDTH - 120, 15, 100, 12)
+    ctx.shadowColor = '#4ade80'
+    ctx.shadowBlur = 10
+    ctx.fillStyle = '#4ade80'
+    ctx.fillRect(CANVAS_WIDTH - 120, 15, progress * 100, 12)
+    ctx.shadowBlur = 0
+
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
+    ctx.lineWidth = 1
+    ctx.strokeRect(CANVAS_WIDTH - 120, 15, 100, 12)
+  }
+
+  // Initial render when not playing
+  useEffect(() => {
+    if (gameState === 'playing') return
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    // Render static background
+    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
+    bgGradient.addColorStop(0, settings.darkMode ? '#0a0a1a' : '#4c1d95')
+    bgGradient.addColorStop(0.5, settings.darkMode ? '#1a1a3e' : '#7c3aed')
+    bgGradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#8b5cf6')
+    ctx.fillStyle = bgGradient
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
+
+    // Ground
+    const groundGradient = ctx.createLinearGradient(0, CANVAS_HEIGHT - GROUND_HEIGHT, 0, CANVAS_HEIGHT)
+    groundGradient.addColorStop(0, settings.darkMode ? '#1e1b4b' : '#374151')
+    groundGradient.addColorStop(1, settings.darkMode ? '#0f0a1a' : '#1f2937')
+    ctx.fillStyle = groundGradient
+    ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, GROUND_HEIGHT)
+
+    ctx.shadowColor = '#a855f7'
+    ctx.shadowBlur = 15
+    ctx.strokeStyle = '#a855f7'
+    ctx.lineWidth = 3
+    ctx.beginPath()
+    ctx.moveTo(0, CANVAS_HEIGHT - GROUND_HEIGHT)
+    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_HEIGHT)
+    ctx.stroke()
+    ctx.shadowBlur = 0
+  }, [gameState, settings.darkMode])
 
   // Keyboard controls
   useEffect(() => {
@@ -215,231 +483,6 @@ export default function GeometryDash({
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [gameState, startGame, jump])
-
-  // Render
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    // Update animation
-    if (gameState === 'playing') {
-      setRotation(prev => prev + (isGrounded ? 0 : 0.15))
-      setBgOffset(prev => (prev + GAME_SPEED) % 100)
-    }
-
-    // Background with neon grid
-    const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT)
-    bgGradient.addColorStop(0, settings.darkMode ? '#0a0a1a' : '#4c1d95')
-    bgGradient.addColorStop(0.5, settings.darkMode ? '#1a1a3e' : '#7c3aed')
-    bgGradient.addColorStop(1, settings.darkMode ? '#0f172a' : '#8b5cf6')
-    ctx.fillStyle = bgGradient
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT)
-
-    // Neon grid lines (moving)
-    ctx.strokeStyle = settings.darkMode ? 'rgba(139, 92, 246, 0.15)' : 'rgba(255, 255, 255, 0.1)'
-    ctx.lineWidth = 1
-    for (let x = -bgOffset; x < CANVAS_WIDTH + 50; x += 50) {
-      ctx.beginPath()
-      ctx.moveTo(x, 0)
-      ctx.lineTo(x, CANVAS_HEIGHT - GROUND_HEIGHT)
-      ctx.stroke()
-    }
-    for (let y = 0; y < CANVAS_HEIGHT - GROUND_HEIGHT; y += 50) {
-      ctx.beginPath()
-      ctx.moveTo(0, y)
-      ctx.lineTo(CANVAS_WIDTH, y)
-      ctx.stroke()
-    }
-
-    // Ground with neon effect
-    const groundGradient = ctx.createLinearGradient(0, CANVAS_HEIGHT - GROUND_HEIGHT, 0, CANVAS_HEIGHT)
-    groundGradient.addColorStop(0, settings.darkMode ? '#1e1b4b' : '#374151')
-    groundGradient.addColorStop(1, settings.darkMode ? '#0f0a1a' : '#1f2937')
-    ctx.fillStyle = groundGradient
-    ctx.fillRect(0, CANVAS_HEIGHT - GROUND_HEIGHT, CANVAS_WIDTH, GROUND_HEIGHT)
-
-    // Ground top glow line
-    ctx.shadowColor = '#a855f7'
-    ctx.shadowBlur = 15
-    ctx.strokeStyle = '#a855f7'
-    ctx.lineWidth = 3
-    ctx.beginPath()
-    ctx.moveTo(0, CANVAS_HEIGHT - GROUND_HEIGHT)
-    ctx.lineTo(CANVAS_WIDTH, CANVAS_HEIGHT - GROUND_HEIGHT)
-    ctx.stroke()
-    ctx.shadowBlur = 0
-
-    // Ground pattern
-    ctx.fillStyle = settings.darkMode ? 'rgba(139, 92, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)'
-    for (let x = -bgOffset % 20; x < CANVAS_WIDTH; x += 20) {
-      ctx.fillRect(x, CANVAS_HEIGHT - GROUND_HEIGHT + 5, 10, GROUND_HEIGHT - 5)
-    }
-
-    // Obstacles with neon glow
-    for (const obs of obstacles) {
-      if (obs.type === 'spike') {
-        // Spike glow
-        ctx.shadowColor = '#ef4444'
-        ctx.shadowBlur = 20
-
-        // Spike body with gradient
-        const spikeGradient = ctx.createLinearGradient(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT, obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 25)
-        spikeGradient.addColorStop(0, '#dc2626')
-        spikeGradient.addColorStop(0.5, '#ef4444')
-        spikeGradient.addColorStop(1, '#fca5a5')
-        ctx.fillStyle = spikeGradient
-        ctx.beginPath()
-        ctx.moveTo(obs.x, CANVAS_HEIGHT - GROUND_HEIGHT)
-        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 30)
-        ctx.lineTo(obs.x + 30, CANVAS_HEIGHT - GROUND_HEIGHT)
-        ctx.closePath()
-        ctx.fill()
-
-        // Spike outline
-        ctx.strokeStyle = '#fca5a5'
-        ctx.lineWidth = 2
-        ctx.stroke()
-
-        // Inner spike detail
-        ctx.fillStyle = '#fca5a5'
-        ctx.beginPath()
-        ctx.moveTo(obs.x + 10, CANVAS_HEIGHT - GROUND_HEIGHT)
-        ctx.lineTo(obs.x + 15, CANVAS_HEIGHT - GROUND_HEIGHT - 18)
-        ctx.lineTo(obs.x + 20, CANVAS_HEIGHT - GROUND_HEIGHT)
-        ctx.closePath()
-        ctx.fill()
-
-        ctx.shadowBlur = 0
-
-      } else {
-        // Block glow
-        ctx.shadowColor = '#3b82f6'
-        ctx.shadowBlur = 20
-
-        const blockY = CANVAS_HEIGHT - GROUND_HEIGHT - 40
-
-        // Block body with gradient
-        const blockGradient = ctx.createLinearGradient(obs.x, blockY, obs.x + 40, blockY + 40)
-        blockGradient.addColorStop(0, '#60a5fa')
-        blockGradient.addColorStop(0.5, '#3b82f6')
-        blockGradient.addColorStop(1, '#1d4ed8')
-        ctx.fillStyle = blockGradient
-        ctx.fillRect(obs.x, blockY, 40, 40)
-
-        // Block outline
-        ctx.strokeStyle = '#93c5fd'
-        ctx.lineWidth = 2
-        ctx.strokeRect(obs.x, blockY, 40, 40)
-
-        // Inner cross pattern
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
-        ctx.lineWidth = 2
-        ctx.beginPath()
-        ctx.moveTo(obs.x + 10, blockY + 10)
-        ctx.lineTo(obs.x + 30, blockY + 30)
-        ctx.moveTo(obs.x + 30, blockY + 10)
-        ctx.lineTo(obs.x + 10, blockY + 30)
-        ctx.stroke()
-
-        ctx.shadowBlur = 0
-      }
-    }
-
-    // Player (neon cube)
-    const playerX = 50
-    ctx.save()
-    ctx.translate(playerX + PLAYER_SIZE / 2, playerY + PLAYER_SIZE / 2)
-
-    // Rotate when jumping
-    if (!isGrounded) {
-      ctx.rotate(rotation)
-    }
-
-    // Player glow
-    ctx.shadowColor = '#4ade80'
-    ctx.shadowBlur = 20
-
-    // Cube body gradient
-    const playerGradient = ctx.createLinearGradient(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE / 2, PLAYER_SIZE / 2)
-    playerGradient.addColorStop(0, '#86efac')
-    playerGradient.addColorStop(0.5, '#4ade80')
-    playerGradient.addColorStop(1, '#22c55e')
-    ctx.fillStyle = playerGradient
-    ctx.fillRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
-
-    // Inner pattern
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'
-    ctx.lineWidth = 2
-    ctx.strokeRect(-PLAYER_SIZE / 2 + 4, -PLAYER_SIZE / 2 + 4, PLAYER_SIZE - 8, PLAYER_SIZE - 8)
-
-    // Neon outline
-    ctx.strokeStyle = '#86efac'
-    ctx.lineWidth = 3
-    ctx.strokeRect(-PLAYER_SIZE / 2, -PLAYER_SIZE / 2, PLAYER_SIZE, PLAYER_SIZE)
-
-    ctx.shadowBlur = 0
-
-    // Eye background
-    ctx.fillStyle = '#0f172a'
-    ctx.beginPath()
-    ctx.ellipse(5, -2, 9, 10, 0, 0, Math.PI * 2)
-    ctx.fill()
-
-    // Eye white
-    ctx.fillStyle = 'white'
-    ctx.beginPath()
-    ctx.ellipse(5, -2, 7, 8, 0, 0, Math.PI * 2)
-    ctx.fill()
-
-    // Pupil
-    ctx.fillStyle = '#1e293b'
-    ctx.beginPath()
-    ctx.arc(7, -1, 4, 0, Math.PI * 2)
-    ctx.fill()
-
-    // Eye shine
-    ctx.fillStyle = 'white'
-    ctx.beginPath()
-    ctx.arc(4, -4, 2, 0, Math.PI * 2)
-    ctx.fill()
-
-    ctx.restore()
-
-    // Trail effect when jumping
-    if (!isGrounded && gameState === 'playing') {
-      for (let i = 1; i <= 3; i++) {
-        ctx.fillStyle = `rgba(74, 222, 128, ${0.3 - i * 0.08})`
-        ctx.fillRect(playerX - PLAYER_SIZE / 2 - i * 8, playerY + PLAYER_SIZE / 2 - 5, PLAYER_SIZE, PLAYER_SIZE * 0.8)
-      }
-    }
-
-    // Score with neon effect
-    ctx.shadowColor = '#a855f7'
-    ctx.shadowBlur = 10
-    ctx.fillStyle = 'white'
-    ctx.font = 'bold 28px Arial'
-    ctx.textAlign = 'left'
-    ctx.fillText(`${score}`, 20, 40)
-    ctx.shadowBlur = 0
-
-    // Progress bar with glow
-    const progress = (score % 10) / 10
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'
-    ctx.fillRect(CANVAS_WIDTH - 120, 15, 100, 12)
-    ctx.shadowColor = '#4ade80'
-    ctx.shadowBlur = 10
-    ctx.fillStyle = '#4ade80'
-    ctx.fillRect(CANVAS_WIDTH - 120, 15, progress * 100, 12)
-    ctx.shadowBlur = 0
-
-    // Progress bar border
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'
-    ctx.lineWidth = 1
-    ctx.strokeRect(CANVAS_WIDTH - 120, 15, 100, 12)
-
-  }, [playerY, playerVy, obstacles, score, isGrounded, settings.darkMode, gameState, rotation, bgOffset])
 
   const texts = {
     title: settings.language === 'zh' ? '几何冲刺' : 'Geometry Dash',
@@ -483,7 +526,13 @@ export default function GeometryDash({
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
             className="block mx-auto rounded-lg cursor-pointer"
+            style={{ touchAction: 'manipulation' }}
             onClick={() => {
+              if (gameState === 'menu' || gameState === 'gameover') startGame()
+              else jump()
+            }}
+            onTouchStart={(e) => {
+              e.preventDefault()
               if (gameState === 'menu' || gameState === 'gameover') startGame()
               else jump()
             }}
@@ -503,8 +552,8 @@ export default function GeometryDash({
           {gameState === 'gameover' && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 rounded-lg">
               <h2 className="text-3xl font-bold mb-4">{texts.gameOver}</h2>
-              <p className="text-xl mb-2">{texts.score}: {score}</p>
-              {score >= highScore && score > 0 && (
+              <p className="text-xl mb-2">{texts.score}: {displayScore}</p>
+              {displayScore >= highScore && displayScore > 0 && (
                 <p className="text-yellow-400 mb-4">🏆 {settings.language === 'zh' ? '新纪录!' : 'New Record!'}</p>
               )}
               <button onClick={startGame} className="px-8 py-3 bg-green-600 text-white rounded-lg font-bold hover:bg-green-700">
