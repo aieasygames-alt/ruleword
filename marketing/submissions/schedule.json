@@ -1,0 +1,96 @@
+{
+  "schedule": [
+    {
+      "day": 1,
+      "date": "2026-04-01",
+      "platforms": ["product-hunt", "reddit-sideproject"],
+      "notes": "Product Hunt 需要提前预约，Reddit 选择工作日上午发布"
+    },
+    {
+      "day": 2,
+      "date": "2026-04-02",
+      "platforms": ["indiehackers", "hacker-news"],
+      "notes": "Hacker News 选择美东时间 8-9 AM 发布"
+    },
+    {
+      "day": 3,
+      "date": "2026-04-03",
+      "platforms": ["alternative-to", "uneed", "dev-hunt", "betalist"],
+      "notes": "批量提交目录站"
+    },
+    {
+      "week": 1,
+      "dateRange": ["2026-04-07", "2026-04-11"],
+      "platforms": [
+        "launched",
+        "toolbase",
+        "makerpeak",
+        "findcooltools",
+        "toolhunter",
+        "startupbase",
+        "killerstartups",
+        "pitchwall",
+        "productradar",
+        "upcomingproduct"
+      ],
+      "notes": "工具目录站，每天提交 2-3 个"
+    },
+    {
+      "week": 1,
+      "dateRange": ["2026-04-07", "2026-04-11"],
+      "platforms": ["v2ex", "jike", "w2solo", "juejin"],
+      "notes": "中文平台"
+    },
+    {
+      "week": 2,
+      "dateRange": ["2026-04-14", "2026-04-18"],
+      "platforms": ["reddit-imadethis", "reddit-internetIsBeautiful", "reddit-puzzles"],
+      "notes": "Reddit 其他子版块"
+    },
+    {
+      "week": 2,
+      "dateRange": ["2026-04-14", "2026-04-18"],
+      "platforms": ["devto", "medium"],
+      "notes": "发布技术文章"
+    },
+    {
+      "week": 3,
+      "dateRange": ["2026-04-21", "2026-04-25"],
+      "platforms": ["reddit-webdev"],
+      "notes": "r/webdev 仅周六允许发布"
+    }
+  ],
+  "bestPractices": {
+    "product-hunt": {
+      "bestDays": ["Tuesday", "Wednesday", "Thursday"],
+      "bestTime": "00:01 PST",
+      "leadTime": "1-2 weeks to schedule",
+      "checklist": [
+        "Schedule launch date",
+        "Prepare thumbnail and preview images",
+        "Prepare maker comment",
+        "Notify supporters"
+      ]
+    },
+    "hacker-news": {
+      "bestDays": ["Tuesday", "Wednesday"],
+      "bestTime": "8-9 AM EST",
+      "checklist": [
+        "Title must start with 'Show HN:'",
+        "Include tech details",
+        "Reply to comments quickly",
+        "No marketing language"
+      ]
+    },
+    "reddit": {
+      "bestDays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "bestTime": "6-8 AM EST",
+      "checklist": [
+        "Reply to all comments within 1 hour",
+        "No [self-promotion] in title",
+        "Accept criticism gracefully",
+        "Don't upvote your own post"
+      ]
+    }
+  }
+}

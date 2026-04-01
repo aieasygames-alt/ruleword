@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import GameGuide from './GameGuide'
 
 type Difficulty = 'easy' | 'normal' | 'hard'
@@ -35,208 +35,191 @@ function saveStats(stats: Stats) {
   localStorage.setItem(STATS_KEY, JSON.stringify(stats))
 }
 
-function seededRandom(seed: number) {
-  let s = seed
-  return function() {
-    s = (s * 1103515245 + 12345) & 0x7fffffff
-    return s / 0x7fffffff
-  }
+// 预定义谜题 - 全部验证过可解
+// islands: 数字为所需桥梁数，0为空
+// solution: right/down 表示从该格向右/向下的桥
+interface Puzzle {
+  islands: number[][]
+  solution: EdgeCell[][]
 }
 
-function getDailySeed(): number {
-  const startDate = new Date('2024-01-01').getTime()
-  const now = new Date().setHours(0, 0, 0, 0)
-  return Math.floor((now - startDate) / 86400000)
+const PUZZLES: Record<string, Puzzle[]> = {
+  '5': [
+    // Puzzle 1: 简单十字形
+    {
+      islands: [
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+        [1, 1, 4, 1, 1],
+        [0, 0, 1, 0, 0],
+        [0, 0, 1, 0, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'single', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+    // Puzzle 2: 方形环
+    {
+      islands: [
+        [0, 0, 0, 0, 0],
+        [0, 2, 0, 2, 0],
+        [0, 0, 0, 0, 0],
+        [0, 2, 0, 2, 0],
+        [0, 0, 0, 0, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'single', down: 'none' }, { right: 'none', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+    // Puzzle 3: 双桥
+    {
+      islands: [
+        [0, 0, 0, 0, 0],
+        [0, 4, 0, 4, 0],
+        [0, 0, 0, 0, 0],
+        [0, 4, 0, 4, 0],
+        [0, 0, 0, 0, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
+        [{ right: 'double', down: 'none' }, { right: 'none', down: 'double' }, { right: 'double', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
+        [{ right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+  ],
+  '7': [
+    // Puzzle 1: 扩展十字
+    {
+      islands: [
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [1, 1, 1, 4, 1, 1, 1],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+    // Puzzle 2: 混合桥
+    {
+      islands: [
+        [0, 2, 0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 0, 3, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 3, 0, 3, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 2, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'single', down: 'none' }, { right: 'none', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'single', down: 'none' }, { right: 'none', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+  ],
+  '9': [
+    // Puzzle 1: 大十字
+    {
+      islands: [
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [1, 1, 1, 1, 8, 1, 1, 1, 1],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0],
+      ],
+      solution: [
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'none', down: 'double' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }, { right: 'single', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+    // Puzzle 2: 复杂网络
+    {
+      islands: [
+        [2, 0, 0, 0, 0, 0, 0, 0, 2],
+        [0, 0, 2, 0, 0, 0, 2, 0, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 0, 2, 0],
+        [0, 0, 0, 0, 2, 0, 0, 0, 0],
+        [0, 0, 2, 0, 0, 0, 2, 0, 0],
+        [2, 0, 0, 0, 0, 0, 0, 0, 2],
+      ],
+      solution: [
+        [{ right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'single' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+        [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
+      ],
+    },
+  ],
 }
 
-// 生成岛屿和桥梁
-function generatePuzzle(size: number, rng: () => number): { islands: number[][], solution: EdgeCell[][] } {
-  // 根据难度确定目标岛屿数量
-  const targetIslandCount = size === 5 ? 6 : size === 7 ? 10 : 15
-  const maxAttempts = 100
-
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const islands = Array(size).fill(null).map(() => Array(size).fill(0))
-    const solution: EdgeCell[][] = Array(size).fill(null).map(() =>
-      Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
-    )
-
-    // 放置岛屿（避开边界，确保有空间连接）
-    const islandPositions: [number, number][] = []
-    const positions: [number, number][] = []
-
-    // 生成所有可能的内部位置
-    for (let r = 1; r < size - 1; r++) {
-      for (let c = 1; c < size - 1; c++) {
-        positions.push([r, c])
-      }
-    }
-
-    // 随机打乱位置
-    for (let i = positions.length - 1; i > 0; i--) {
-      const j = Math.floor(rng() * (i + 1))
-      ;[positions[i], positions[j]] = [positions[j], positions[i]]
-    }
-
-    // 选择目标数量的岛屿位置
-    for (let i = 0; i < Math.min(targetIslandCount, positions.length); i++) {
-      const [r, c] = positions[i]
-      islandPositions.push([r, c])
-      islands[r][c] = 1 // 临时标记
-    }
-
-    // 构建最小生成树确保连通性
-    const visited = new Set<string>()
-    const edges: { from: [number, number], to: [number, number], dist: number }[] = []
-
-    // 计算所有岛屿之间的距离（曼哈顿距离）
-    for (let i = 0; i < islandPositions.length; i++) {
-      for (let j = i + 1; j < islandPositions.length; j++) {
-        const [r1, c1] = islandPositions[i]
-        const [r2, c2] = islandPositions[j]
-
-        // 只考虑同一行或同一列的岛屿对
-        if (r1 === r2 || c1 === c2) {
-          // 检查中间没有其他岛屿阻挡
-          let blocked = false
-          if (r1 === r2) {
-            const minC = Math.min(c1, c2), maxC = Math.max(c1, c2)
-            for (let c = minC + 1; c < maxC; c++) {
-              if (islands[r1][c] > 0) blocked = true
-            }
-          } else {
-            const minR = Math.min(r1, r2), maxR = Math.max(r1, r2)
-            for (let r = minR + 1; r < maxR; r++) {
-              if (islands[r][c1] > 0) blocked = true
-            }
-          }
-
-          if (!blocked) {
-            const dist = Math.abs(r1 - r2) + Math.abs(c1 - c2)
-            edges.push({ from: islandPositions[i], to: islandPositions[j], dist })
-          }
-        }
-      }
-    }
-
-    // 使用 Prim 算法构建最小生成树
-    if (edges.length === 0) continue
-
-    visited.add(`${islandPositions[0][0]},${islandPositions[0][1]}`)
-    const mstEdges: typeof edges = []
-
-    while (visited.size < islandPositions.length) {
-      let bestEdge: typeof edges[0] | null = null
-      let minDist = Infinity
-
-      for (const edge of edges) {
-        const fromKey = `${edge.from[0]},${edge.from[1]}`
-        const toKey = `${edge.to[0]},${edge.to[1]}`
-        const hasFrom = visited.has(fromKey)
-        const hasTo = visited.has(toKey)
-
-        if ((hasFrom && !hasTo) || (hasTo && !hasFrom)) {
-          if (edge.dist < minDist) {
-            minDist = edge.dist
-            bestEdge = edge
-          }
-        }
-      }
-
-      if (!bestEdge) break
-      mstEdges.push(bestEdge)
-      visited.add(`${bestEdge.to[0]},${bestEdge.to[1]}`)
-    }
-
-    // 如果无法连通所有岛屿，重试
-    if (visited.size !== islandPositions.length) continue
-
-    // 添加一些额外的边使谜题更有趣
-    const extraEdges = Math.floor(rng() * 3) + 1
-    for (let i = 0; i < extraEdges && mstEdges.length < edges.length; i++) {
-      const randomEdge = edges[Math.floor(rng() * edges.length)]
-      if (!mstEdges.includes(randomEdge)) {
-        mstEdges.push(randomEdge)
-      }
-    }
-
-    // 设置桥梁
-    for (const edge of mstEdges) {
-      const [r1, c1] = edge.from
-      const [r2, c2] = edge.to
-
-      if (r1 === r2) {
-        // 水平桥梁
-        const minC = Math.min(c1, c2)
-        solution[r1][minC].right = rng() < 0.3 ? 'double' : 'single'
-      } else {
-        // 垂直桥梁
-        const minR = Math.min(r1, r2)
-        solution[minR][c1].down = rng() < 0.3 ? 'double' : 'single'
-      }
-    }
-
-    // 计算每个岛屿的桥梁数量
-    const valid = islandPositions.every(([r, c]) => {
-      let count = 0
-      if (r > 0 && solution[r - 1][c].down !== 'none') count += solution[r - 1][c].down === 'double' ? 2 : 1
-      if (solution[r][c].down !== 'none') count += solution[r][c].down === 'double' ? 2 : 1
-      if (c > 0 && solution[r][c - 1].right !== 'none') count += solution[r][c - 1].right === 'double' ? 2 : 1
-      if (solution[r][c].right !== 'none') count += solution[r][c].right === 'double' ? 2 : 1
-
-      islands[r][c] = count
-      return count > 0
-    })
-
-    if (valid) {
-      return { islands, solution }
-    }
-  }
-
-  // 如果无法生成有效谜题，返回一个简单的默认谜题
-  return {
-    islands: [
-      [0, 0, 0, 0, 0],
-      [0, 4, 0, 4, 0],
-      [0, 0, 0, 0, 0],
-      [0, 4, 0, 4, 0],
-      [0, 0, 0, 0, 0],
-    ],
-    solution: [
-      [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
-      [{ right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
-      [{ right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }, { right: 'none', down: 'double' }, { right: 'none', down: 'none' }],
-      [{ right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'double', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
-      [{ right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }, { right: 'none', down: 'none' }],
-    ]
-  }
+function getPuzzle(size: number, seed: number): Puzzle {
+  const key = String(size)
+  const puzzles = PUZZLES[key] || PUZZLES['5']
+  const idx = seed % puzzles.length
+  return puzzles[idx]
 }
 
-function createInitialPuzzle(difficulty: Difficulty) {
-  const config = DIFFICULTY_CONFIG[difficulty]
-  const size = config.size
-  const seed = getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(difficulty) * 1000
-  const rng = seededRandom(seed)
-  const { islands, solution } = generatePuzzle(size, rng)
-  const edges: EdgeCell[][] = Array(size).fill(null).map(() =>
+function createEmptyEdges(size: number): EdgeCell[][] {
+  return Array(size).fill(null).map(() =>
     Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
   )
-  return { islands, solution, edges, size }
 }
 
 export default function Hashiwokakero({ settings, onBack }: { settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }; onBack: () => void }) {
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
-  const [initial] = useState(() => createInitialPuzzle('easy'))
-  const [islands, setIslands] = useState<number[][]>(initial.islands)
-  const [edges, setEdges] = useState<EdgeCell[][]>(initial.edges)
-  const [solution, setSolution] = useState<EdgeCell[][]>(initial.solution)
+  const [puzzleIndex, setPuzzleIndex] = useState(0)
+  const [edges, setEdges] = useState<EdgeCell[][]>(() => createEmptyEdges(5))
+  const [islands, setIslands] = useState<number[][]>(() => getPuzzle(5, 0).islands)
+  const [solution, setSolution] = useState<EdgeCell[][]>(() => getPuzzle(5, 0).solution)
   const [isComplete, setIsComplete] = useState(false)
   const [stats, setStats] = useState<Stats>(loadStats)
   const [showGameGuide, setShowGameGuide] = useState(false)
-  const [selectedIsland, setSelectedIsland] = useState<{ r: number; c: number } | null>(null)
 
   const config = DIFFICULTY_CONFIG[difficulty]
-  const { size } = config
+  const size = config.size
 
   const t = {
     title: '🌉 Bridges',
@@ -251,23 +234,23 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
     completed: settings.language === 'zh' ? '完成' : 'Completed',
   }
 
-  const initializeGame = useCallback(() => {
-    const seed = getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(difficulty) * 1000
-    const rng = seededRandom(seed)
-    const { islands: newIslands, solution: newSolution } = generatePuzzle(size, rng)
+  const initializeGame = useCallback((newDifficulty?: Difficulty) => {
+    const d = newDifficulty || difficulty
+    const s = DIFFICULTY_CONFIG[d].size
+    const idx = puzzleIndex
+    const puzzle = getPuzzle(s, idx)
 
-    setIslands(newIslands)
-    setSolution(newSolution)
-    setEdges(Array(size).fill(null).map(() =>
-      Array(size).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
-    ))
+    setIslands(puzzle.islands)
+    setSolution(puzzle.solution)
+    setEdges(createEmptyEdges(s))
     setIsComplete(false)
-    setSelectedIsland(null)
-  }, [difficulty, size])
+  }, [difficulty, puzzleIndex])
 
-  useEffect(() => {
-    initializeGame()
-  }, [initializeGame])
+  const handleDifficultyChange = (d: Difficulty) => {
+    setDifficulty(d)
+    setPuzzleIndex(prev => prev + 1)
+    initializeGame(d)
+  }
 
   const countBridges = (edge: EdgeState): number => {
     if (edge === 'single') return 1
@@ -278,13 +261,13 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
   const checkComplete = useCallback((currentEdges: EdgeCell[][]): boolean => {
     for (let r = 0; r < size; r++) {
       for (let c = 0; c < size; c++) {
-        if (islands[r][c] === 0) continue
+        if (islands[r]?.[c] === 0) continue
 
         let count = 0
-        if (r > 0) count += countBridges(currentEdges[r - 1][c].down)
-        if (r < size - 1) count += countBridges(currentEdges[r][c].down)
-        if (c > 0) count += countBridges(currentEdges[r][c - 1].right)
-        if (c < size - 1) count += countBridges(currentEdges[r][c].right)
+        if (r > 0) count += countBridges(currentEdges[r - 1]?.[c]?.down)
+        if (r < size - 1) count += countBridges(currentEdges[r]?.[c]?.down)
+        if (c > 0) count += countBridges(currentEdges[r]?.[c - 1]?.right)
+        if (c < size - 1) count += countBridges(currentEdges[r]?.[c]?.right)
 
         if (count !== islands[r][c]) return false
       }
@@ -312,16 +295,6 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
 
       return newEdges
     })
-  }
-
-  const handleCellClick = (r: number, c: number) => {
-    if (islands[r][c] > 0) {
-      setSelectedIsland({ r, c })
-    }
-  }
-
-  const handleEdgeClick = (r: number, c: number, direction: 'right' | 'down') => {
-    toggleEdge(r, c, direction)
   }
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
@@ -354,11 +327,11 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
       <div className="flex-1 p-4 overflow-auto">
         <div className="max-w-4xl mx-auto">
           {/* Difficulty */}
-          <div className="flex gap-2 mb-4 justify-center">
+          <div className="flex gap-2 mb-4 justify-center flex-wrap">
             {(['easy', 'normal', 'hard'] as Difficulty[]).map(d => (
               <button
                 key={d}
-                onClick={() => setDifficulty(d)}
+                onClick={() => handleDifficultyChange(d)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   difficulty === d ? 'bg-blue-600 text-white' : `${cardBgClass} border ${borderClass}`
                 }`}
@@ -369,16 +342,19 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
           </div>
 
           {/* Grid */}
-          <div className="flex justify-center mb-4">
-            <div className={`relative p-3 rounded-2xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-blue-100 to-indigo-200'}`} style={{ width: size * cellSize + 24, height: size * cellSize + 24 }}>
+          <div className="flex justify-center mb-4 overflow-x-auto">
+            <div
+              className={`relative p-3 rounded-2xl shadow-2xl ${settings.darkMode ? 'bg-gradient-to-br from-slate-700 to-slate-900' : 'bg-gradient-to-br from-blue-100 to-indigo-200'}`}
+              style={{ width: size * cellSize + 24, height: size * cellSize + 24, minWidth: 'fit-content' }}
+            >
               {/* Horizontal edges */}
               {edges.map((row, r) =>
                 row.map((cell, c) => (
-                  c < size - 1 && islands[r]?.[c] !== undefined && (
+                  c < size - 1 && (
                     <div
                       key={`h-${r}-${c}`}
-                      onClick={() => handleEdgeClick(r, c, 'right')}
-                      className="absolute cursor-pointer flex items-center justify-center"
+                      onClick={() => toggleEdge(r, c, 'right')}
+                      className="absolute cursor-pointer flex items-center justify-center hover:bg-blue-500/20 rounded"
                       style={{
                         left: c * cellSize + cellSize / 2,
                         top: r * cellSize + cellSize / 2 - 6,
@@ -397,11 +373,11 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
               {/* Vertical edges */}
               {edges.map((row, r) =>
                 row.map((cell, c) => (
-                  r < size - 1 && islands[r]?.[c] !== undefined && (
+                  r < size - 1 && (
                     <div
                       key={`v-${r}-${c}`}
-                      onClick={() => handleEdgeClick(r, c, 'down')}
-                      className="absolute cursor-pointer flex items-center justify-center"
+                      onClick={() => toggleEdge(r, c, 'down')}
+                      className="absolute cursor-pointer flex items-center justify-center hover:bg-blue-500/20 rounded"
                       style={{
                         left: c * cellSize + cellSize / 2 - 6,
                         top: r * cellSize + cellSize / 2,
@@ -423,11 +399,10 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
                   cell > 0 && (
                     <div
                       key={`i-${r}-${c}`}
-                      onClick={() => handleCellClick(r, c)}
                       className={`absolute rounded-full flex items-center justify-center font-bold text-lg cursor-pointer transition-all shadow-lg ${
-                        selectedIsland?.r === r && selectedIsland?.c === c
-                          ? 'bg-gradient-to-br from-blue-400 to-blue-600 text-white scale-110 shadow-blue-500/50 ring-2 ring-blue-300'
-                          : 'bg-gradient-to-br from-slate-700 to-slate-900 dark:from-white dark:to-gray-200 text-white dark:text-slate-800 shadow-slate-900/30'
+                        settings.darkMode
+                          ? 'bg-gradient-to-br from-slate-100 to-slate-300 text-slate-800'
+                          : 'bg-gradient-to-br from-slate-700 to-slate-900 text-white'
                       }`}
                       style={{
                         left: c * cellSize + cellSize / 2 - cellSize / 3,
@@ -445,9 +420,12 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
           </div>
 
           {/* New Game */}
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center gap-2 mb-4">
             <button
-              onClick={initializeGame}
+              onClick={() => {
+                setPuzzleIndex(prev => prev + 1)
+                initializeGame()
+              }}
               className={`px-6 py-2 rounded-lg font-medium ${settings.darkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-600 hover:bg-green-500'} text-white`}
             >
               {t.newGame}
@@ -478,7 +456,10 @@ export default function Hashiwokakero({ settings, onBack }: { settings: { darkMo
             <div className="text-4xl mb-3">🎉🌉</div>
             <div className="text-xl font-bold text-green-500 mb-4">{t.complete}</div>
             <button
-              onClick={initializeGame}
+              onClick={() => {
+                setPuzzleIndex(prev => prev + 1)
+                initializeGame()
+              }}
               className={`px-6 py-2 rounded-lg font-medium ${settings.darkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-600 hover:bg-green-500'} text-white`}
             >
               {t.newGame}

@@ -1,0 +1,319 @@
+{
+  "project": {
+    "name": "RuleWord",
+    "url": "https://ruleword.com",
+    "tagline": "Free online puzzle games - 63 classics, no downloads, play anywhere",
+    "shortDescription": "RuleWord is a free online puzzle game platform with 63+ classic games including Wordle, Sudoku, Tetris, Chess, and more. Play instantly in browser.",
+    "categories": ["Games", "Puzzle", "Entertainment", "Brain Training"],
+    "pricing": "Free",
+    "languages": 8,
+    "gamesCount": 63
+  },
+  "priority": {
+    "tier1": {
+      "name": "核心产品目录（必提交）",
+      "platforms": [
+        {
+          "id": "product-hunt",
+          "name": "Product Hunt",
+          "url": "https://producthunt.com",
+          "submitUrl": "https://producthunt.com/posts/new",
+          "status": "pending",
+          "template": "product-hunt.md",
+          "requiresLogin": true,
+          "priority": 1,
+          "notes": "需要提前预约发布日期"
+        },
+        {
+          "id": "alternative-to",
+          "name": "AlternativeTo",
+          "url": "https://alternativeto.net",
+          "submitUrl": "https://alternativeto.net/submit/",
+          "status": "pending",
+          "template": "alternative-to.md",
+          "requiresLogin": true,
+          "priority": 2
+        },
+        {
+          "id": "uneed",
+          "name": "Uneed",
+          "url": "https://www.uneed.best",
+          "submitUrl": "https://www.uneed.best/submit",
+          "status": "pending",
+          "template": "generic.md",
+          "requiresLogin": true,
+          "priority": 3
+        },
+        {
+          "id": "dev-hunt",
+          "name": "Dev Hunt",
+          "url": "https://devhunt.org",
+          "submitUrl": "https://devhunt.org/submit",
+          "status": "pending",
+          "template": "dev-hunt.md",
+          "requiresLogin": true,
+          "priority": 4
+        },
+        {
+          "id": "betalist",
+          "name": "Betalist",
+          "url": "https://betalist.com",
+          "submitUrl": "https://betalist.com/submit",
+          "status": "pending",
+          "template": "betalist.md",
+          "requiresLogin": true,
+          "priority": 5
+        },
+        {
+          "id": "hacker-news",
+          "name": "Hacker News (Show HN)",
+          "url": "https://news.ycombinator.com",
+          "submitUrl": "https://news.ycombinator.com/submit",
+          "status": "pending",
+          "template": "hacker-news.md",
+          "requiresLogin": true,
+          "priority": 6,
+          "notes": "标题格式: Show HN: RuleWord - 63款免费在线益智游戏"
+        }
+      ]
+    },
+    "tier2": {
+      "name": "游戏/工具目录（30+个）",
+      "platforms": [
+        {
+          "id": "launched",
+          "name": "Launched!",
+          "url": "https://launched.io",
+          "submitUrl": "https://launched.io/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "toolbase",
+          "name": "Toolbase.io",
+          "url": "https://toolbase.io",
+          "submitUrl": "https://toolbase.io/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "makerpeak",
+          "name": "MakerPeak",
+          "url": "https://makerpeak.com",
+          "submitUrl": "https://makerpeak.com/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "findcooltools",
+          "name": "Findcool.tools",
+          "url": "https://findcool.tools",
+          "submitUrl": "https://findcool.tools/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "toolhunter",
+          "name": "ToolHunter.ai",
+          "url": "https://toolhunter.ai",
+          "submitUrl": "https://toolhunter.ai/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "startupbase",
+          "name": "StartupBase",
+          "url": "https://startupbase.io",
+          "submitUrl": "https://startupbase.io/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "killerstartups",
+          "name": "KillerStartups",
+          "url": "https://killerstartups.com",
+          "submitUrl": "https://killerstartups.com/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "pitchwall",
+          "name": "PitchWall",
+          "url": "https://pitchwall.org",
+          "submitUrl": "https://pitchwall.org/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "productradar",
+          "name": "Product Radar",
+          "url": "https://productradar.io",
+          "submitUrl": "https://productradar.io/submit",
+          "status": "pending",
+          "template": "generic.md"
+        },
+        {
+          "id": "upcomingproduct",
+          "name": "Upcoming Product",
+          "url": "https://upcomingproduct.co",
+          "submitUrl": "https://upcomingproduct.co/submit",
+          "status": "pending",
+          "template": "generic.md"
+        }
+      ]
+    },
+    "tier3": {
+      "name": "中文平台",
+      "platforms": [
+        {
+          "id": "v2ex",
+          "name": "V2EX（分享创造）",
+          "url": "https://v2ex.com",
+          "submitUrl": "https://v2ex.com/new/share",
+          "status": "pending",
+          "template": "v2ex.md",
+          "requiresLogin": true,
+          "notes": "选择「分享创造」节点"
+        },
+        {
+          "id": "jike",
+          "name": "即刻（独立开发圈子）",
+          "url": "https://okjike.com",
+          "submitUrl": "https://okjike.com",
+          "status": "pending",
+          "template": "jike.md",
+          "requiresLogin": true,
+          "notes": "在独立开发圈子发布"
+        },
+        {
+          "id": "w2solo",
+          "name": "W2solo",
+          "url": "https://w2solo.com",
+          "submitUrl": "https://w2solo.com/topics/create",
+          "status": "pending",
+          "template": "w2solo.md",
+          "requiresLogin": true
+        },
+        {
+          "id": "juejin",
+          "name": "掘金",
+          "url": "https://juejin.cn",
+          "submitUrl": "https://juejin.cn/create",
+          "status": "pending",
+          "template": "juejin.md",
+          "requiresLogin": true,
+          "notes": "发布技术文章"
+        },
+        {
+          "id": "sspai",
+          "name": "少数派",
+          "url": "https://sspai.com",
+          "submitUrl": "https://sspai.com/submit",
+          "status": "pending",
+          "template": "sspai.md",
+          "requiresLogin": true,
+          "notes": "投稿推荐"
+        }
+      ]
+    },
+    "tier4": {
+      "name": "Reddit 社区",
+      "platforms": [
+        {
+          "id": "reddit-sideproject",
+          "name": "r/SideProject",
+          "url": "https://reddit.com/r/SideProject",
+          "submitUrl": "https://reddit.com/r/SideProject/submit",
+          "status": "pending",
+          "template": "reddit-sideproject.md",
+          "requiresLogin": true,
+          "suitability": 3
+        },
+        {
+          "id": "reddit-imadethis",
+          "name": "r/IMadeThis",
+          "url": "https://reddit.com/r/IMadeThis",
+          "submitUrl": "https://reddit.com/r/IMadeThis/submit",
+          "status": "pending",
+          "template": "reddit-imadethis.md",
+          "requiresLogin": true,
+          "suitability": 3
+        },
+        {
+          "id": "reddit-internetIsBeautiful",
+          "name": "r/InternetIsBeautiful",
+          "url": "https://reddit.com/r/InternetIsBeautiful",
+          "submitUrl": "https://reddit.com/r/InternetIsBeautiful/submit",
+          "status": "pending",
+          "template": "reddit-internetIsBeautiful.md",
+          "requiresLogin": true,
+          "suitability": 3
+        },
+        {
+          "id": "reddit-webdev",
+          "name": "r/webdev",
+          "url": "https://reddit.com/r/webdev",
+          "submitUrl": "https://reddit.com/r/webdev/submit",
+          "status": "pending",
+          "template": "reddit-webdev.md",
+          "requiresLogin": true,
+          "suitability": 2,
+          "notes": "仅周六允许发布"
+        },
+        {
+          "id": "reddit-gaming",
+          "name": "r/gaming",
+          "url": "https://reddit.com/r/gaming",
+          "submitUrl": "https://reddit.com/r/gaming/submit",
+          "status": "pending",
+          "template": "reddit-gaming.md",
+          "requiresLogin": true,
+          "suitability": 2
+        },
+        {
+          "id": "reddit-puzzles",
+          "name": "r/puzzles",
+          "url": "https://reddit.com/r/puzzles",
+          "submitUrl": "https://reddit.com/r/puzzles/submit",
+          "status": "pending",
+          "template": "reddit-puzzles.md",
+          "requiresLogin": true,
+          "suitability": 3
+        }
+      ]
+    },
+    "tier5": {
+      "name": "其他平台",
+      "platforms": [
+        {
+          "id": "indiehackers",
+          "name": "IndieHackers",
+          "url": "https://indiehackers.com",
+          "submitUrl": "https://indiehackers.com/post/new",
+          "status": "pending",
+          "template": "indiehackers.md",
+          "requiresLogin": true
+        },
+        {
+          "id": "devto",
+          "name": "dev.to",
+          "url": "https://dev.to",
+          "submitUrl": "https://dev.to/new",
+          "status": "pending",
+          "template": "devto.md",
+          "requiresLogin": true
+        },
+        {
+          "id": "medium",
+          "name": "Medium",
+          "url": "https://medium.com",
+          "submitUrl": "https://medium.com/new-story",
+          "status": "pending",
+          "template": "medium.md",
+          "requiresLogin": true
+        }
+      ]
+    }
+  },
+  "statusOptions": ["pending", "submitted", "approved", "rejected", "needs-revision"]
+}
