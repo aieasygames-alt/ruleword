@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 
 type Settings = {
   darkMode: boolean
@@ -41,6 +41,28 @@ const PUZZLES: { grid: number[][]; targets: (number | null)[] }[] = [
     ],
     targets: [2, 1, 2, 2, 1, 1, 2, 1],
   },
+  {
+    grid: [
+      [0, 0, 0, 1, 1],
+      [0, 0, 0, 1, 1],
+      [2, 2, 2, 1, 1],
+      [2, 2, 3, 3, 3],
+      [2, 2, 3, 3, 3],
+    ],
+    targets: [2, 2, 1, 2],
+  },
+  {
+    grid: [
+      [0, 0, 1, 1, 2, 2, 2],
+      [0, 0, 1, 1, 2, 2, 2],
+      [0, 0, 3, 3, 3, 4, 4],
+      [5, 5, 3, 3, 3, 4, 4],
+      [5, 5, 6, 6, 6, 4, 4],
+      [5, 5, 6, 6, 6, 7, 7],
+      [5, 5, 6, 6, 6, 7, 7],
+    ],
+    targets: [2, 2, 2, 3, 2, 2, 1, 1],
+  },
 ]
 
 export default function Heyawake({ settings, onBack }: HeyawakeProps) {
@@ -53,10 +75,65 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
   )
   const [solved, setSolved] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showWinModal, setShowWinModal] = useState(false)
+
+  const audioContext = useRef<AudioContext | null>(null)
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = isDark ? 'text-white' : 'text-gray-900'
+
+  const texts = {
+    title: settings.language === 'zh' ? 'Heyawake' : 'Heyawake',
+    back: settings.language === 'zh' ? '返回' : 'Back',
+    reset: settings.language === 'zh' ? '重置' : 'Reset',
+    solved: settings.language === 'zh' ? '🎉 恭喜通关！' : '🎉 Solved!',
+    nextPuzzle: settings.language === 'zh' ? '下一关' : 'Next Puzzle',
+    playAgain: settings.language === 'zh' ? '再玩一次' : 'Play Again',
+    roomTarget: settings.language === 'zh' ? '区域' : 'Room',
+    black: settings.language === 'zh' ? '黑格' : 'black',
+    any: settings.language === 'zh' ? '任意' : 'any',
+    rules: settings.language === 'zh' ? '游戏规则：' : 'Rules:',
+    rule1: settings.language === 'zh' ? '将格子填为黑色或白色' : 'Fill cells black or white',
+    rule2: settings.language === 'zh' ? '每个区域必须有指定数量的黑格' : 'Each room must have the target number of black cells',
+    rule3: settings.language === 'zh' ? '不能有连续3个或更多的黑格' : 'No 3+ consecutive black cells in any row or column',
+    rule4: settings.language === 'zh' ? '所有白色格子必须连通' : 'All white cells must be connected',
+  }
+
+  // Keep puzzleIndex in sync
+  const puzzleIndexRef = useRef(puzzleIndex)
+  puzzleIndexRef.current = puzzleIndex
+
+  const playSound = useCallback((type: 'click' | 'win' | 'error') => {
+    if (!settings.soundEnabled) return
+    try {
+      if (!audioContext.current) audioContext.current = new AudioContext()
+      const ctx = audioContext.current
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+
+      if (type === 'click') {
+        osc.frequency.value = 400
+        osc.type = 'sine'
+        gain.gain.setValueAtTime(0.1, ctx.currentTime)
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1)
+      } else if (type === 'win') {
+        osc.frequency.value = 800
+        osc.type = 'sine'
+        gain.gain.setValueAtTime(0.15, ctx.currentTime)
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3)
+      } else {
+        osc.frequency.value = 200
+        osc.type = 'sawtooth'
+        gain.gain.setValueAtTime(0.1, ctx.currentTime)
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2)
+      }
+      osc.start(ctx.currentTime)
+      osc.stop(ctx.currentTime + 0.3)
+    } catch {}
+  }, [settings.soundEnabled])
 
   // Get rooms from puzzle
   const getRooms = useCallback((): Room[] => {
@@ -175,6 +252,8 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
   const handleCellClick = (row: number, col: number) => {
     if (solved) return
 
+    playSound('click')
+
     setCells(prev => {
       const newGrid = prev.map(r => [...r])
       const current = newGrid[row][col]
@@ -188,22 +267,34 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
         newGrid[row][col] = 'empty'
       }
 
-      const { valid, error } = validate(newGrid)
-      setError(error)
+      const { valid, error: validationError } = validate(newGrid)
+      setError(validationError)
 
-      // Check if solved
-      if (valid && !newGrid.some(row => row.some(cell => cell === 'empty'))) {
+      // Check if solved - all cells filled and valid
+      const allFilled = !newGrid.some(row => row.some(cell => cell === 'empty'))
+      if (valid && allFilled) {
         setSolved(true)
+        setShowWinModal(true)
+        playSound('win')
+      } else if (validationError) {
+        playSound('error')
       }
 
       return newGrid
     })
   }
 
+  // Handle touch events
+  const handleCellTouch = (e: React.TouchEvent, row: number, col: number) => {
+    e.preventDefault()
+    handleCellClick(row, col)
+  }
+
   const resetPuzzle = () => {
     setCells(Array(size).fill(null).map(() => Array(size).fill('empty')))
     setSolved(false)
     setError(null)
+    setShowWinModal(false)
   }
 
   const nextPuzzle = () => {
@@ -212,7 +303,16 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
     setCells(Array(PUZZLES[nextIndex].grid.length).fill(null).map(() => Array(PUZZLES[nextIndex].grid.length).fill('empty')))
     setSolved(false)
     setError(null)
+    setShowWinModal(false)
   }
+
+  // Reset cells when puzzle changes
+  useEffect(() => {
+    setCells(Array(size).fill(null).map(() => Array(size).fill('empty')))
+    setSolved(false)
+    setError(null)
+    setShowWinModal(false)
+  }, [puzzleIndex, size])
 
   const rooms = getRooms()
   const getRoomColor = (roomId: number) => {
@@ -314,15 +414,42 @@ export default function Heyawake({ settings, onBack }: HeyawakeProps) {
 
         {/* Instructions */}
         <div className="text-sm text-slate-400 text-center max-w-md space-y-2">
-          <p><strong>Heyawake Rules:</strong></p>
+          <p><strong>{texts.rules}</strong></p>
           <ul className="text-left list-disc list-inside space-y-1">
-            <li>Fill cells black or white</li>
-            <li>Each room must have the target number of black cells</li>
-            <li>No 3+ consecutive black cells in any row or column</li>
-            <li>All white cells must be connected</li>
+            <li>{texts.rule1}</li>
+            <li>{texts.rule2}</li>
+            <li>{texts.rule3}</li>
+            <li>{texts.rule4}</li>
           </ul>
         </div>
       </main>
+
+      {/* Win Modal */}
+      {showWinModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-8 text-center shadow-2xl max-w-sm mx-4`}>
+            <div className="text-6xl mb-4">🎉</div>
+            <h2 className="text-2xl font-bold mb-2">{texts.solved}</h2>
+            <p className={`${isDark ? 'text-slate-300' : 'text-gray-600'} mb-6`}>
+              {settings.language === 'zh' ? `第 ${puzzleIndex + 1} 关完成！` : `Puzzle ${puzzleIndex + 1} completed!`}
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={resetPuzzle}
+                className={`px-4 py-2 rounded-lg ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'} transition-colors`}
+              >
+                {texts.playAgain}
+              </button>
+              <button
+                onClick={nextPuzzle}
+                className="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-500 text-white transition-colors font-medium"
+              >
+                {texts.nextPuzzle}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
