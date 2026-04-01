@@ -36,6 +36,7 @@ interface Level {
 const CELL_SIZE = 50
 
 const LEVELS: Level[] = [
+  // Level 1 - Simple 5x5
   { size: 5, dots: [
     { pos: { x: 0, y: 0 }, color: '#ef4444' },
     { pos: { x: 3, y: 3 }, color: '#ef4444' },
@@ -44,6 +45,7 @@ const LEVELS: Level[] = [
     { pos: { x: 2, y: 1 }, color: '#22c55e' },
     { pos: { x: 2, y: 3 }, color: '#22c55e' },
   ]},
+  // Level 2 - 5x5 with 4 colors
   { size: 5, dots: [
     { pos: { x: 0, y: 0 }, color: '#ef4444' },
     { pos: { x: 4, y: 4 }, color: '#ef4444' },
@@ -54,6 +56,7 @@ const LEVELS: Level[] = [
     { pos: { x: 0, y: 2 }, color: '#f59e0b' },
     { pos: { x: 4, y: 2 }, color: '#f59e0b' },
   ]},
+  // Level 3 - 6x6 with 5 colors
   { size: 6, dots: [
     { pos: { x: 0, y: 0 }, color: '#ef4444' },
     { pos: { x: 5, y: 5 }, color: '#ef4444' },
@@ -65,6 +68,101 @@ const LEVELS: Level[] = [
     { pos: { x: 4, y: 2 }, color: '#f59e0b' },
     { pos: { x: 3, y: 0 }, color: '#8b5cf6' },
     { pos: { x: 2, y: 5 }, color: '#8b5cf6' },
+  ]},
+  // Level 4 - 5x5 cross pattern
+  { size: 5, dots: [
+    { pos: { x: 2, y: 0 }, color: '#ef4444' },
+    { pos: { x: 2, y: 4 }, color: '#ef4444' },
+    { pos: { x: 0, y: 2 }, color: '#3b82f6' },
+    { pos: { x: 4, y: 2 }, color: '#3b82f6' },
+    { pos: { x: 1, y: 1 }, color: '#22c55e' },
+    { pos: { x: 3, y: 3 }, color: '#22c55e' },
+    { pos: { x: 3, y: 1 }, color: '#f59e0b' },
+    { pos: { x: 1, y: 3 }, color: '#f59e0b' },
+  ]},
+  // Level 5 - 6x6 challenge
+  { size: 6, dots: [
+    { pos: { x: 0, y: 0 }, color: '#ef4444' },
+    { pos: { x: 5, y: 0 }, color: '#ef4444' },
+    { pos: { x: 0, y: 5 }, color: '#3b82f6' },
+    { pos: { x: 5, y: 5 }, color: '#3b82f6' },
+    { pos: { x: 2, y: 2 }, color: '#22c55e' },
+    { pos: { x: 3, y: 3 }, color: '#22c55e' },
+    { pos: { x: 2, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 3, y: 2 }, color: '#f59e0b' },
+    { pos: { x: 1, y: 4 }, color: '#8b5cf6' },
+    { pos: { x: 4, y: 1 }, color: '#8b5cf6' },
+  ]},
+  // Level 6 - 7x7 advanced
+  { size: 7, dots: [
+    { pos: { x: 0, y: 0 }, color: '#ef4444' },
+    { pos: { x: 6, y: 6 }, color: '#ef4444' },
+    { pos: { x: 6, y: 0 }, color: '#3b82f6' },
+    { pos: { x: 0, y: 6 }, color: '#3b82f6' },
+    { pos: { x: 3, y: 1 }, color: '#22c55e' },
+    { pos: { x: 3, y: 5 }, color: '#22c55e' },
+    { pos: { x: 1, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 5, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 2, y: 2 }, color: '#8b5cf6' },
+    { pos: { x: 4, y: 4 }, color: '#8b5cf6' },
+    { pos: { x: 4, y: 2 }, color: '#ec4899' },
+    { pos: { x: 2, y: 4 }, color: '#ec4899' },
+  ]},
+  // Level 7 - 5x5 zigzag
+  { size: 5, dots: [
+    { pos: { x: 0, y: 0 }, color: '#ef4444' },
+    { pos: { x: 4, y: 2 }, color: '#ef4444' },
+    { pos: { x: 1, y: 0 }, color: '#3b82f6' },
+    { pos: { x: 3, y: 4 }, color: '#3b82f6' },
+    { pos: { x: 4, y: 0 }, color: '#22c55e' },
+    { pos: { x: 0, y: 3 }, color: '#22c55e' },
+    { pos: { x: 2, y: 2 }, color: '#f59e0b' },
+    { pos: { x: 1, y: 4 }, color: '#f59e0b' },
+  ]},
+  // Level 8 - 6x6 expert
+  { size: 6, dots: [
+    { pos: { x: 0, y: 1 }, color: '#ef4444' },
+    { pos: { x: 5, y: 4 }, color: '#ef4444' },
+    { pos: { x: 1, y: 0 }, color: '#3b82f6' },
+    { pos: { x: 4, y: 5 }, color: '#3b82f6' },
+    { pos: { x: 5, y: 1 }, color: '#22c55e' },
+    { pos: { x: 0, y: 4 }, color: '#22c55e' },
+    { pos: { x: 2, y: 2 }, color: '#f59e0b' },
+    { pos: { x: 3, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 2, y: 5 }, color: '#8b5cf6' },
+    { pos: { x: 3, y: 0 }, color: '#8b5cf6' },
+  ]},
+  // Level 9 - 7x7 master
+  { size: 7, dots: [
+    { pos: { x: 0, y: 0 }, color: '#ef4444' },
+    { pos: { x: 6, y: 0 }, color: '#ef4444' },
+    { pos: { x: 0, y: 6 }, color: '#3b82f6' },
+    { pos: { x: 6, y: 6 }, color: '#3b82f6' },
+    { pos: { x: 3, y: 0 }, color: '#22c55e' },
+    { pos: { x: 3, y: 6 }, color: '#22c55e' },
+    { pos: { x: 0, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 6, y: 3 }, color: '#f59e0b' },
+    { pos: { x: 1, y: 1 }, color: '#8b5cf6' },
+    { pos: { x: 5, y: 5 }, color: '#8b5cf6' },
+    { pos: { x: 5, y: 1 }, color: '#ec4899' },
+    { pos: { x: 1, y: 5 }, color: '#ec4899' },
+    { pos: { x: 2, y: 3 }, color: '#14b8a6' },
+    { pos: { x: 4, y: 3 }, color: '#14b8a6' },
+  ]},
+  // Level 10 - 6x6 finale
+  { size: 6, dots: [
+    { pos: { x: 0, y: 2 }, color: '#ef4444' },
+    { pos: { x: 5, y: 3 }, color: '#ef4444' },
+    { pos: { x: 2, y: 0 }, color: '#3b82f6' },
+    { pos: { x: 3, y: 5 }, color: '#3b82f6' },
+    { pos: { x: 5, y: 0 }, color: '#22c55e' },
+    { pos: { x: 0, y: 5 }, color: '#22c55e' },
+    { pos: { x: 1, y: 1 }, color: '#f59e0b' },
+    { pos: { x: 4, y: 4 }, color: '#f59e0b' },
+    { pos: { x: 4, y: 1 }, color: '#8b5cf6' },
+    { pos: { x: 1, y: 4 }, color: '#8b5cf6' },
+    { pos: { x: 3, y: 2 }, color: '#ec4899' },
+    { pos: { x: 2, y: 3 }, color: '#ec4899' },
   ]},
 ]
 
@@ -390,7 +488,8 @@ export default function FlowFree({
             ref={canvasRef}
             width={canvasSize}
             height={canvasSize}
-            className="cursor-pointer touch-none"
+            className="cursor-pointer max-w-full"
+            style={{ touchAction: 'none' }}
             onMouseDown={handleStart}
             onMouseMove={handleMove}
             onMouseUp={handleEnd}
