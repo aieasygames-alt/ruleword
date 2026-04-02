@@ -422,6 +422,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const [history, setHistory] = useState<Arrow[][]>([])
   const [numberBlocks, setNumberBlocks] = useState<NumberBlock[]>([])
 
+  const [selectedChapter, setSelectedChapter] = useState(1)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
   const soundRef = useRef(new SoundManager())
@@ -429,6 +430,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const numberBlocksRef = useRef(numberBlocks)
   const gameStateRef = useRef(gameState)
   const animatingArrows = useRef<Set<number>>(new Set())
+  const restartKey = useRef(0)
 
   const isZh = settings.language === 'zh'
 
@@ -459,7 +461,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       { id: 4, name: isZh ? '大师篇' : 'Master', range: '121-200', color: 'from-amber-400 to-red-600', icon: '👑' },
     ]
 
-    const [selectedChapter, setSelectedChapter] = useState(1)
     const chapter = chapters.find(c => c.id === selectedChapter)!
     const startLevel = selectedChapter === 1 ? 1 : selectedChapter === 2 ? 31 : selectedChapter === 3 ? 71 : 121
     const endLevel = selectedChapter === 1 ? 30 : selectedChapter === 2 ? 70 : selectedChapter === 3 ? 120 : 200
@@ -544,6 +545,12 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   // ===== GAME SCREEN =====
   // Initialize level
   useEffect(() => {
+    if (screen !== 'game') return
+    if (currentLevel < 1) return
+
+    cancelAnimationFrame(animRef.current)
+    animatingArrows.current.clear()
+
     const ld = getLevel(currentLevel)
     setLevelData(ld)
     setMistakes(0)
@@ -551,33 +558,16 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setGameState('playing')
     setHintArrow(null)
     setHistory([])
-    setAnimatingArrowsEmpty()
-    animatingArrows.current.clear()
 
-    const initArrows: Arrow[] = ld.arrows.map((a, i) => ({
-      id: i,
-      row: a.row,
-      col: a.col,
-      directions: a.directions,
-      isExiting: false,
-      isBlocked: false,
-      exitProgress: 0,
-      blockedTimer: 0,
-    }))
-    setArrows(initArrows)
+    setArrows(ld.arrows.map((a, i) => ({
+      id: i, row: a.row, col: a.col, directions: a.directions,
+      isExiting: false, isBlocked: false, exitProgress: 0, blockedTimer: 0,
+    })))
 
-    const initBlocks: NumberBlock[] = (ld.numberBlocks || []).map(b => ({
-      row: b.row,
-      col: b.col,
-      hits: 0,
-      maxHits: b.maxHits,
-    }))
-    setNumberBlocks(initBlocks)
-  }, [currentLevel])
-
-  function setAnimatingArrowsEmpty() {
-    // no-op placeholder
-  }
+    setNumberBlocks((ld.numberBlocks || []).map(b => ({
+      row: b.row, col: b.col, hits: 0, maxHits: b.maxHits,
+    })))
+  }, [currentLevel, screen])
 
   // Check if arrow can exit
   const canArrowExit = useCallback((arrow: Arrow): boolean => {
@@ -726,15 +716,27 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     }
   }, [gameState, levelData])
 
-  // Restart
+  // Restart - directly reinitialize without changing screen
   const handleRestart = useCallback(() => {
-    setScreen('game')
-    // Force re-init by toggling
-    setCurrentLevel(prev => {
-      const tmp = -1
-      setTimeout(() => setCurrentLevel(currentLevel), 0)
-      return tmp
-    })
+    cancelAnimationFrame(animRef.current)
+    animatingArrows.current.clear()
+
+    const ld = getLevel(currentLevel)
+    setLevelData(ld)
+    setMistakes(0)
+    setMoves(0)
+    setGameState('playing')
+    setHintArrow(null)
+    setHistory([])
+
+    setArrows(ld.arrows.map((a, i) => ({
+      id: i, row: a.row, col: a.col, directions: a.directions,
+      isExiting: false, isBlocked: false, exitProgress: 0, blockedTimer: 0,
+    })))
+
+    setNumberBlocks((ld.numberBlocks || []).map(b => ({
+      row: b.row, col: b.col, hits: 0, maxHits: b.maxHits,
+    })))
   }, [currentLevel])
 
   // Next level
