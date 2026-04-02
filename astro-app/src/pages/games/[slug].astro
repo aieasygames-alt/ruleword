@@ -254,9 +254,10 @@ const howToSchema = gameGuideEn.howToPlay ? {
             </a>
           </div>
 
-          <!-- Center: Game Title -->
+<!-- Center: Game Title (SEO optimized) -->
           <h1 class="text-lg font-bold truncate max-w-[200px] sm:max-w-none">
-            {gameIcon} {getGameName()}
+            <span class="hidden sm:inline">Play {getGameName()} Online Free</span>
+            <span class="sm:hidden">{gameIcon} {getGameName()}</span>
           </h1>
 
           <!-- Right: Language and Feedback -->

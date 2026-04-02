@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>Ruleword.com SEO 审计报告</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-light.min.css">
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px;
+            /* Poki background colors: clean light grayish with subtle blue gradient */
+            background: linear-gradient(135deg, #e1f5fe 0%, #f0f8ff 50%, #e8eaf6 100%);
+            font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .markdown-body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px;
+            border-radius: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 15px 50px rgba(0, 174, 238, 0.15);
+        }
+        .markdown-body h1, .markdown-body h2 {
+            color: #00aeee; /* Poki primary blue */
+            border-bottom: 3px solid #b3e5fc;
+            padding-bottom: 10px;
+        }
+        .markdown-body h3, .markdown-body h4 {
+            color: #007bb5;
+        }
+        .markdown-body table th {
+            /* Poki blue gradient header */
+            background: linear-gradient(135deg, #00aeee 0%, #0088cc 100%) !important;
+            color: white !important;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 12px;
+            border: none !important;
+        }
+        .markdown-body table {
+            display: table;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 174, 238, 0.1);
+            border-collapse: collapse;
+            margin-bottom: 25px;
+            border: none;
+        }
+        .markdown-body table tr:nth-child(2n) td {
+            background-color: #f6fcff; /* Very faint poki blue */
+        }
+        .markdown-body table td {
+            padding: 10px;
+            border-color: #e1f5fe;
+        }
+        .markdown-body a {
+            color: #00aeee;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .markdown-body a:hover {
+            color: #ffcc00; /* Poki primary yellow hover */
+            text-decoration: underline;
+        }
+        em {
+            background: #ffcc00; /* Poki yellow highlight */
+            color: #333;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-style: normal;
+            font-weight: bold;
+        }
+        @media (max-width: 767px) {
+            .markdown-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="markdown-body"><h1>Ruleword.com 综合 SEO 审计报告</h1>
+<blockquote>
+<p><strong>审计日期：</strong> 2026-04-02<br><strong>审计范围：</strong> 页面内容 SEO · 关键词排名与挖掘 · 外链分析 · 竞争对手分析 · GEO/AI 可见性<br><strong>排除范围：</strong> 技术 SEO 检查（页面速度、Core Web Vitals、服务器配置等）</p>
+</blockquote>
+<hr>
+<h2>1. Executive Summary</h2>
+<p>Ruleword.com 是一个新上线的在线益智游戏聚合平台（111+ 游戏），采用程序化 SEO (Programmatic SEO) 架构。</p>
+<p><strong>核心判断：</strong> 站点基础架构良好，但处于 Google 沙盒期（<code>site:ruleword.com</code> 无索引结果），域名权威度接近零，且 robots.txt 屏蔽了所有主流 AI 爬虫，完全切断 GEO 流量通道。</p>
+<table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="center">评分</th>
+<th align="left">核心发现</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">网站架构</td>
+<td align="center">⭐⭐⭐⭐</td>
+<td align="left">扁平化架构，内部链接密集，所有页面 ≤2 次点击可达</td>
+</tr>
+<tr>
+<td align="left">页面 On-Page SEO</td>
+<td align="center">⭐⭐⭐</td>
+<td align="left">Title/Meta 基础完善，但 H1 多语言混乱，部分页面内容偏薄</td>
+</tr>
+<tr>
+<td align="left">关键词策略</td>
+<td align="center">⭐⭐⭐</td>
+<td align="left">瞄准高流量头部词（wordle, sudoku），但竞争极其激烈</td>
+</tr>
+<tr>
+<td align="left">内容深度</td>
+<td align="center">⭐⭐⚡</td>
+<td align="left">游戏页面内容较薄（300-500字），指南仅 10 篇（覆盖率 9%）</td>
+</tr>
+<tr>
+<td align="left">外链权威</td>
+<td align="center">⭐</td>
+<td align="left">新站，几乎无外部反向链接，DR ≈ 0</td>
+</tr>
+<tr>
+<td align="left">GEO/AI 可见性</td>
+<td align="center">⭐</td>
+<td align="left">robots.txt 屏蔽了所有 AI 爬虫</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>2. 网站概览与架构</h2>
+<h3>2.1 平台数据</h3>
+<ul>
+<li><strong>域名：</strong> ruleword.com</li>
+<li><strong>游戏数量：</strong> 111+</li>
+<li><strong>分类体系：</strong> 7 个核心类目</li>
+<li><strong>内容类型：</strong> 游戏页面 111 个 + 攻略指南 10 篇 + 分类页 8 个</li>
+<li><strong>多语言：</strong> 支持 8 种语言（动态渲染，同一 URL）</li>
+<li><strong>技术栈：</strong> Astro 框架（基于 robots.txt 中 <code>/_astro/</code> 路径推断）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">类目</th>
+<th align="center">游戏数</th>
+<th align="left">URL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Word Games</td>
+<td align="center">13</td>
+<td align="left"><code>/category/word/</code></td>
+</tr>
+<tr>
+<td align="left">Logic &amp; Numbers</td>
+<td align="center">33</td>
+<td align="left"><code>/category/logic/</code></td>
+</tr>
+<tr>
+<td align="left">Strategy</td>
+<td align="center">12</td>
+<td align="left"><code>/category/strategy/</code></td>
+</tr>
+<tr>
+<td align="left">Arcade</td>
+<td align="center">16</td>
+<td align="left"><code>/category/arcade/</code></td>
+</tr>
+<tr>
+<td align="left">Memory &amp; Reflex</td>
+<td align="center">8</td>
+<td align="left"><code>/category/memory/</code></td>
+</tr>
+<tr>
+<td align="left">Skill Games</td>
+<td align="center">11</td>
+<td align="left"><code>/category/skill/</code></td>
+</tr>
+<tr>
+<td align="left">Puzzle</td>
+<td align="center">18</td>
+<td align="left"><code>/category/puzzle/</code></td>
+</tr>
+</tbody></table>
+<h3>2.2 架构优点</h3>
+<ul>
+<li>✅ 扁平化 Hub-and-Spoke 结构，所有页面距首页 ≤ 2 跳</li>
+<li>✅ XML Sitemap 完善，包含全部 130+ URL，配置了优先级和更新频率</li>
+<li>✅ 清晰的 URL 结构：<code>/games/{slug}/</code>、<code>/guides/{slug}/</code>、<code>/category/{slug}/</code></li>
+<li>✅ 游戏页 ↔ 攻略指南之间有 CTA 交叉链接</li>
+</ul>
+<h3>2.3 架构问题</h3>
+<ul>
+<li>❌ 缺少 Blog/资讯板块，无法承接信息性长尾关键词流量</li>
+<li>❌ 分类页缺少分页导航（随游戏数量增长会成为问题）</li>
+<li>❌ 多语言实现可能存在 hreflang 缺失问题（见第 7 节详述）</li>
+</ul>
+<hr>
+<h2>3. 页面内容 SEO 审计</h2>
+<h3>3.1 首页</h3>
+<table>
+<thead>
+<tr>
+<th align="left">元素</th>
+<th align="left">内容</th>
+<th align="center">评估</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Title</td>
+<td align="left"><code>Play Wordle, Sudoku, 2048 Online Free - 100+ Puzzle Games | RuleWord</code></td>
+<td align="center">✅ 好</td>
+</tr>
+<tr>
+<td align="left">Meta Description</td>
+<td align="left"><code>Play free online games: Wordle, Sudoku, 2048, Tetris...100+ puzzle, word, arcade &amp; brain games. No download!</code></td>
+<td align="center">✅ 好</td>
+</tr>
+<tr>
+<td align="left">H1</td>
+<td align="left">免费玩 Wordle, 数独, 2048 在线游戏（中文）</td>
+<td align="center">⚠️ 多语言设计，需确认 Googlebot 看到的默认版本</td>
+</tr>
+<tr>
+<td align="left">Schema Markup</td>
+<td align="left">未检测到</td>
+<td align="center">❌ 缺失</td>
+</tr>
+</tbody></table>
+<h3>3.2 游戏页面（以 <code>/games/wordle/</code> 为例）</h3>
+<table>
+<thead>
+<tr>
+<th align="left">元素</th>
+<th align="left">内容</th>
+<th align="center">评估</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Title</td>
+<td align="left"><code>Wordle Online Free - Play Daily Word Puzzle Game | RuleWord</code></td>
+<td align="center">✅ 关键词丰富</td>
+</tr>
+<tr>
+<td align="left">Meta Description</td>
+<td align="left"><code>Play Wordle online free! Guess the hidden 5-letter word in 6 tries...</code></td>
+<td align="center">✅ CTA 明确</td>
+</tr>
+<tr>
+<td align="left">H1</td>
+<td align="left"><code>🟩 Wordle</code></td>
+<td align="center">❌ 过于简短，缺少修饰关键词</td>
+</tr>
+<tr>
+<td align="left">内容量</td>
+<td align="left">~400 字（About + How to Play + Tips + FAQ）</td>
+<td align="center">❌ 内容偏薄</td>
+</tr>
+</tbody></table>
+<p><strong>游戏页面通用问题：</strong></p>
+<ol>
+<li>内容模板化严重，每页仅 300-500 字，无法与竞品 1000+ 字页面竞争</li>
+<li>H1 仅包含游戏名称 + emoji，未包含 &quot;online free&quot; &quot;play&quot; 等搜索修饰词</li>
+<li>缺少用户生成内容（评论、评分、排行榜等社交证明）</li>
+<li>缺少 <code>VideoGame</code> / <code>WebApplication</code> / <code>FAQPage</code> Schema 结构化数据</li>
+<li>FAQ 部分存在但无对应 Schema，无法触发 Rich Snippets</li>
+</ol>
+<h3>3.3 攻略指南（以 <code>/guides/wordle/</code> 为例）</h3>
+<table>
+<thead>
+<tr>
+<th align="left">元素</th>
+<th align="left">内容</th>
+<th align="center">评估</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Title</td>
+<td align="left"><code>Wordle Strategy Guide: How to Win Every Game | RuleWord</code></td>
+<td align="center">✅ 优秀</td>
+</tr>
+<tr>
+<td align="left">Content Structure</td>
+<td align="left">5 H2 + TOC + Pro Tips 卡片 + Related Guides</td>
+<td align="center">✅ 结构清晰</td>
+</tr>
+<tr>
+<td align="left">内容量</td>
+<td align="left">~1200 字</td>
+<td align="center">⚠️ 可增至 2000+</td>
+</tr>
+<tr>
+<td align="left">CTA</td>
+<td align="left">&quot;Play Wordle →&quot; 按钮</td>
+<td align="center">✅ 明确</td>
+</tr>
+</tbody></table>
+<p><strong>指南页面评估：</strong></p>
+<ul>
+<li>✅ 设计精美（暗色主题 + 绿色高亮），视觉效果专业</li>
+<li>✅ Guide ↔ Game 双向交叉链接</li>
+<li>❌ <strong>数量严重不足</strong>：111 个游戏仅 10 篇指南（覆盖率 9%）</li>
+<li>❌ 缺少多媒体素材（数据图表、视频、互动元素）</li>
+</ul>
+<h3>3.4 On-Page SEO 综合评分</h3>
+<table>
+<thead>
+<tr>
+<th align="left">评分项</th>
+<th align="center">得分/满分</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Title Tags</td>
+<td align="center">8/10</td>
+</tr>
+<tr>
+<td align="left">Meta Descriptions</td>
+<td align="center">8/10</td>
+</tr>
+<tr>
+<td align="left">H1 Tags</td>
+<td align="center">5/10</td>
+</tr>
+<tr>
+<td align="left">Content Depth (Game Pages)</td>
+<td align="center">4/10</td>
+</tr>
+<tr>
+<td align="left">Content Depth (Guides)</td>
+<td align="center">6/10</td>
+</tr>
+<tr>
+<td align="left">Internal Linking</td>
+<td align="center">8/10</td>
+</tr>
+<tr>
+<td align="left">Schema Markup</td>
+<td align="center">2/10</td>
+</tr>
+<tr>
+<td align="left">Multi-language Implementation</td>
+<td align="center">3/10</td>
+</tr>
+<tr>
+<td align="left"><strong>总分</strong></td>
+<td align="center"><strong>44/80</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2>4. 关键词排名分析与竞争格局</h2>
+<h3>4.1 当前索引状态</h3>
+<p><strong><code>site:ruleword.com</code> 在 Google 中返回 0 条结果。</strong> 网站处于沙盒期，尚未被 Google 信任。</p>
+<h3>4.2 全站 111 游戏关键词总表</h3>
+<p>以下按类目列出所有游戏的核心关键词、搜索量估算、竞争难度及优先级。</p>
+<h4>🔤 Word Games（文字游戏 · 13 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">Wordle</td>
+<td align="left">wordle online free</td>
+<td align="center">10M+</td>
+<td align="center">95</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/wordle/</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">Spelling Bee</td>
+<td align="left">spelling bee game online</td>
+<td align="center">200K+</td>
+<td align="center">60</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/spelling-bee/</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">Connections</td>
+<td align="left">connections game online</td>
+<td align="center">500K+</td>
+<td align="center">70</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/connections/</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">Crossword</td>
+<td align="left">crossword puzzle online free</td>
+<td align="center">500K+</td>
+<td align="center">80</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/crossword/</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left">Boggle</td>
+<td align="left">boggle online free</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/boggle/</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">Crosswordle</td>
+<td align="left">crosswordle game</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/crosswordle/</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">Anagrams</td>
+<td align="left">anagram game online</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/anagrams/</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">Word Search</td>
+<td align="left">word search online free</td>
+<td align="center">100K+</td>
+<td align="center">55</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/word-search/</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">Word Scramble</td>
+<td align="left">word scramble game</td>
+<td align="center">20K-30K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/word-scramble/</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">Wordscapes</td>
+<td align="left">wordscapes online free</td>
+<td align="center">50K-100K</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/wordscapes/</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">Text Twist</td>
+<td align="left">text twist game online</td>
+<td align="center">20K-30K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/text-twist/</td>
+</tr>
+<tr>
+<td align="center">12</td>
+<td align="left">Hangman</td>
+<td align="left">hangman game online</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/hangman/</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">Trivia Quiz</td>
+<td align="left">trivia quiz online</td>
+<td align="center">30K-50K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/trivia-quiz/</td>
+</tr>
+</tbody></table>
+<h4>🧩 Logic &amp; Numbers（数字逻辑 · 33 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">14</td>
+<td align="left">Sudoku</td>
+<td align="left">sudoku online free</td>
+<td align="center">3M+</td>
+<td align="center">90</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/sudoku/</td>
+</tr>
+<tr>
+<td align="center">15</td>
+<td align="left">2048</td>
+<td align="left">2048 game online</td>
+<td align="center">2M+</td>
+<td align="center">85</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/2048/</td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="left">Killer Sudoku</td>
+<td align="left">killer sudoku online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/killer-sudoku/</td>
+</tr>
+<tr>
+<td align="center">17</td>
+<td align="left">Sudoku X</td>
+<td align="left">sudoku x online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/sudoku-x/</td>
+</tr>
+<tr>
+<td align="center">18</td>
+<td align="left">Calcudoku</td>
+<td align="left">calcudoku online</td>
+<td align="center">5K-10K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/calcudoku/</td>
+</tr>
+<tr>
+<td align="center">19</td>
+<td align="left">Kakuro</td>
+<td align="left">kakuro puzzle online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/kakuro/</td>
+</tr>
+<tr>
+<td align="center">20</td>
+<td align="left">KenKen</td>
+<td align="left">kenken puzzle online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/kenken/</td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="left">Nonogram</td>
+<td align="left">nonogram online free</td>
+<td align="center">30K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/nonogram/</td>
+</tr>
+<tr>
+<td align="center">22</td>
+<td align="left">Hidato</td>
+<td align="left">hidato puzzle online</td>
+<td align="center">2K-5K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/hidato/</td>
+</tr>
+<tr>
+<td align="center">23</td>
+<td align="left">Minesweeper</td>
+<td align="left">minesweeper online</td>
+<td align="center">300K+</td>
+<td align="center">55</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/minesweeper/</td>
+</tr>
+<tr>
+<td align="center">24</td>
+<td align="left">Minesweeper Flags</td>
+<td align="left">minesweeper flags</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/minesweeper-flags/</td>
+</tr>
+<tr>
+<td align="center">25</td>
+<td align="left">Binary</td>
+<td align="left">binary puzzle online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/binary/</td>
+</tr>
+<tr>
+<td align="center">26</td>
+<td align="left">Bridges</td>
+<td align="left">bridges puzzle online</td>
+<td align="center">5K-10K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/bridges/</td>
+</tr>
+<tr>
+<td align="center">27</td>
+<td align="left">Fillomino</td>
+<td align="left">fillomino puzzle</td>
+<td align="center">1K-3K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/fillomino/</td>
+</tr>
+<tr>
+<td align="center">28</td>
+<td align="left">Hitori</td>
+<td align="left">hitori puzzle</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/hitori/</td>
+</tr>
+<tr>
+<td align="center">29</td>
+<td align="left">Masyu</td>
+<td align="left">masyu puzzle online</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/masyu/</td>
+</tr>
+<tr>
+<td align="center">30</td>
+<td align="left">Nurikabe</td>
+<td align="left">nurikabe puzzle</td>
+<td align="center">2K-5K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/nurikabe/</td>
+</tr>
+<tr>
+<td align="center">31</td>
+<td align="left">Slitherlink</td>
+<td align="left">slitherlink online</td>
+<td align="center">5K-10K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/slitherlink/</td>
+</tr>
+<tr>
+<td align="center">32</td>
+<td align="left">Star Battle</td>
+<td align="left">star battle puzzle</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/star-battle/</td>
+</tr>
+<tr>
+<td align="center">33</td>
+<td align="left">Aqre</td>
+<td align="left">aqre puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/aqre/</td>
+</tr>
+<tr>
+<td align="center">34</td>
+<td align="left">Bullpen</td>
+<td align="left">bullpen puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/bullpen/</td>
+</tr>
+<tr>
+<td align="center">35</td>
+<td align="left">Castle Wall</td>
+<td align="left">castle wall puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/castle-wall/</td>
+</tr>
+<tr>
+<td align="center">36</td>
+<td align="left">Heyawake</td>
+<td align="left">heyawake puzzle</td>
+<td align="center">1K-3K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/heyawake/</td>
+</tr>
+<tr>
+<td align="center">37</td>
+<td align="left">Kakurasu</td>
+<td align="left">kakurasu puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/kakurasu/</td>
+</tr>
+<tr>
+<td align="center">38</td>
+<td align="left">Shakashaka</td>
+<td align="left">shakashaka puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/shakashaka/</td>
+</tr>
+<tr>
+<td align="center">39</td>
+<td align="left">Skyscrapers</td>
+<td align="left">skyscrapers puzzle</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/skyscrapers/</td>
+</tr>
+<tr>
+<td align="center">40</td>
+<td align="left">Suguru</td>
+<td align="left">suguru puzzle online</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/suguru/</td>
+</tr>
+<tr>
+<td align="center">41</td>
+<td align="left">Tapa</td>
+<td align="left">tapa puzzle</td>
+<td align="center">1K-3K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/tapa/</td>
+</tr>
+<tr>
+<td align="center">42</td>
+<td align="left">Yajilin</td>
+<td align="left">yajilin puzzle</td>
+<td align="center">500-1K</td>
+<td align="center">5</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/yajilin/</td>
+</tr>
+<tr>
+<td align="center">43</td>
+<td align="left">Lights Out</td>
+<td align="left">lights out puzzle game</td>
+<td align="center">5K-10K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/lights-out/</td>
+</tr>
+<tr>
+<td align="center">44</td>
+<td align="left">Speed Math</td>
+<td align="left">speed math game online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/speed-math/</td>
+</tr>
+<tr>
+<td align="center">45</td>
+<td align="left">Threes</td>
+<td align="left">threes game online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/threes/</td>
+</tr>
+<tr>
+<td align="center">46</td>
+<td align="left">2048 Cupcakes</td>
+<td align="left">2048 cupcakes</td>
+<td align="center">50K-100K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/2048-cupcakes/</td>
+</tr>
+</tbody></table>
+<h4>♟️ Strategy（策略对战 · 12 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">47</td>
+<td align="left">Chess</td>
+<td align="left">chess online free</td>
+<td align="center">2M+</td>
+<td align="center">90</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/chess/</td>
+</tr>
+<tr>
+<td align="center">48</td>
+<td align="left">Chinese Chess</td>
+<td align="left">chinese chess online</td>
+<td align="center">20K-50K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/chinese-chess/</td>
+</tr>
+<tr>
+<td align="center">49</td>
+<td align="left">Checkers</td>
+<td align="left">checkers online free</td>
+<td align="center">100K+</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/checkers/</td>
+</tr>
+<tr>
+<td align="center">50</td>
+<td align="left">Gomoku</td>
+<td align="left">gomoku online free</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/gomoku/</td>
+</tr>
+<tr>
+<td align="center">51</td>
+<td align="left">Reversi</td>
+<td align="left">reversi online free</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/reversi/</td>
+</tr>
+<tr>
+<td align="center">52</td>
+<td align="left">Connect Four</td>
+<td align="left">connect four online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/connect-four/</td>
+</tr>
+<tr>
+<td align="center">53</td>
+<td align="left">Battleship</td>
+<td align="left">battleship game online</td>
+<td align="center">50K-100K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/battleship/</td>
+</tr>
+<tr>
+<td align="center">54</td>
+<td align="left">Tic-Tac-Toe</td>
+<td align="left">tic tac toe online</td>
+<td align="center">100K+</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/tic-tac-toe/</td>
+</tr>
+<tr>
+<td align="center">55</td>
+<td align="left">Mastermind</td>
+<td align="left">mastermind game online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/mastermind/</td>
+</tr>
+<tr>
+<td align="center">56</td>
+<td align="left">Nim</td>
+<td align="left">nim game online</td>
+<td align="center">2K-5K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/nim/</td>
+</tr>
+<tr>
+<td align="center">57</td>
+<td align="left">Dots and Boxes</td>
+<td align="left">dots and boxes online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/dots-and-boxes/</td>
+</tr>
+<tr>
+<td align="center">58</td>
+<td align="left">Peg Solitaire</td>
+<td align="left">peg solitaire online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/peg-solitaire/</td>
+</tr>
+</tbody></table>
+<h4>👾 Arcade（经典街机 · 16 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">59</td>
+<td align="left">Tetris</td>
+<td align="left">tetris online free</td>
+<td align="center">1M+</td>
+<td align="center">85</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/tetris/</td>
+</tr>
+<tr>
+<td align="center">60</td>
+<td align="left">Pac-Man</td>
+<td align="left">pac man online free</td>
+<td align="center">500K+</td>
+<td align="center">70</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/pac-man/</td>
+</tr>
+<tr>
+<td align="center">61</td>
+<td align="left">Snake</td>
+<td align="left">snake game online</td>
+<td align="center">500K+</td>
+<td align="center">60</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/snake/</td>
+</tr>
+<tr>
+<td align="center">62</td>
+<td align="left">Space Invaders</td>
+<td align="left">space invaders online</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/space-invaders/</td>
+</tr>
+<tr>
+<td align="center">63</td>
+<td align="left">Flappy Bird</td>
+<td align="left">flappy bird online</td>
+<td align="center">100K+</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/flappy-bird/</td>
+</tr>
+<tr>
+<td align="center">64</td>
+<td align="left">Frogger</td>
+<td align="left">frogger game online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/frogger/</td>
+</tr>
+<tr>
+<td align="center">65</td>
+<td align="left">Breakout</td>
+<td align="left">breakout game online</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/breakout/</td>
+</tr>
+<tr>
+<td align="center">66</td>
+<td align="left">Brick Breaker</td>
+<td align="left">brick breaker online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/brick-breaker/</td>
+</tr>
+<tr>
+<td align="center">67</td>
+<td align="left">Centipede</td>
+<td align="left">centipede game online</td>
+<td align="center">5K-10K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/centipede/</td>
+</tr>
+<tr>
+<td align="center">68</td>
+<td align="left">Asteroids</td>
+<td align="left">asteroids game online</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/asteroids/</td>
+</tr>
+<tr>
+<td align="center">69</td>
+<td align="left">Pong</td>
+<td align="left">pong game online</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/pong/</td>
+</tr>
+<tr>
+<td align="center">70</td>
+<td align="left">Geometry Dash</td>
+<td align="left">geometry dash online</td>
+<td align="center">500K+</td>
+<td align="center">65</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/geometry-dash/</td>
+</tr>
+<tr>
+<td align="center">71</td>
+<td align="left">Doodle Jump</td>
+<td align="left">doodle jump online</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/doodle-jump/</td>
+</tr>
+<tr>
+<td align="center">72</td>
+<td align="left">Angry Birds</td>
+<td align="left">angry birds online free</td>
+<td align="center">100K+</td>
+<td align="center">55</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/angry-birds/</td>
+</tr>
+<tr>
+<td align="center">73</td>
+<td align="left">Temple Run</td>
+<td align="left">temple run online</td>
+<td align="center">50K-100K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/temple-run/</td>
+</tr>
+<tr>
+<td align="center">74</td>
+<td align="left">Bubble Shooter</td>
+<td align="left">bubble shooter free</td>
+<td align="center">300K+</td>
+<td align="center">60</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/bubble-shooter/</td>
+</tr>
+</tbody></table>
+<h4>🧠 Memory &amp; Reflex（记忆反应 · 8 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">75</td>
+<td align="left">Chimp Test</td>
+<td align="left">chimp test online</td>
+<td align="center">50K-100K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/chimp-test/</td>
+</tr>
+<tr>
+<td align="center">76</td>
+<td align="left">Stroop Test</td>
+<td align="left">stroop test online</td>
+<td align="center">20K-50K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/stroop-test/</td>
+</tr>
+<tr>
+<td align="center">77</td>
+<td align="left">Reaction Test</td>
+<td align="left">reaction time test</td>
+<td align="center">30K-50K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/reaction-test/</td>
+</tr>
+<tr>
+<td align="center">78</td>
+<td align="left">Reaction Time</td>
+<td align="left">reaction time online</td>
+<td align="center">20K-30K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/reaction-time/</td>
+</tr>
+<tr>
+<td align="center">79</td>
+<td align="left">Number Memory</td>
+<td align="left">number memory test</td>
+<td align="center">10K-20K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/number-memory/</td>
+</tr>
+<tr>
+<td align="center">80</td>
+<td align="left">Memory Grid</td>
+<td align="left">memory grid test</td>
+<td align="center">2K-5K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/memory-grid/</td>
+</tr>
+<tr>
+<td align="center">81</td>
+<td align="left">Memory Matrix</td>
+<td align="left">memory matrix test</td>
+<td align="center">5K-10K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/memory-matrix/</td>
+</tr>
+<tr>
+<td align="center">82</td>
+<td align="left">Pattern Memory</td>
+<td align="left">pattern memory test</td>
+<td align="center">2K-5K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/pattern-memory/</td>
+</tr>
+</tbody></table>
+<h4>🎯 Skill Games（技巧游戏 · 11 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">83</td>
+<td align="left">Typing Test</td>
+<td align="left">typing test online</td>
+<td align="center">1M+</td>
+<td align="center">70</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/typing-test/</td>
+</tr>
+<tr>
+<td align="center">84</td>
+<td align="left">Aim Trainer</td>
+<td align="left">aim trainer online</td>
+<td align="center">500K+</td>
+<td align="center">60</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/aim-trainer/</td>
+</tr>
+<tr>
+<td align="center">85</td>
+<td align="left">Color Match</td>
+<td align="left">color match game</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/color-match/</td>
+</tr>
+<tr>
+<td align="center">86</td>
+<td align="left">Simon Game</td>
+<td align="left">simon game online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/simon-game/</td>
+</tr>
+<tr>
+<td align="center">87</td>
+<td align="left">Simon Says</td>
+<td align="left">simon says game online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/simon-says/</td>
+</tr>
+<tr>
+<td align="center">88</td>
+<td align="left">Whack a Mole</td>
+<td align="left">whack a mole game</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/whack-a-mole/</td>
+</tr>
+<tr>
+<td align="center">89</td>
+<td align="left">Stack</td>
+<td align="left">stack game online</td>
+<td align="center">10K-20K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/stack/</td>
+</tr>
+<tr>
+<td align="center">90</td>
+<td align="left">Tower Defense</td>
+<td align="left">tower defense online</td>
+<td align="center">50K-100K</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/tower-defense/</td>
+</tr>
+<tr>
+<td align="center">91</td>
+<td align="left">Cut the Rope</td>
+<td align="left">cut the rope online</td>
+<td align="center">50K-100K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/cut-the-rope/</td>
+</tr>
+<tr>
+<td align="center">92</td>
+<td align="left">Among Us</td>
+<td align="left">among us online free</td>
+<td align="center">500K+</td>
+<td align="center">65</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/among-us/</td>
+</tr>
+<tr>
+<td align="center">93</td>
+<td align="left">Paper.io</td>
+<td align="left">paper io online</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/paper-io/</td>
+</tr>
+</tbody></table>
+<h4>🧩 Puzzle（拼图解谜 · 18 款）</h4>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">游戏名</th>
+<th align="left">核心关键词</th>
+<th align="center">预估月搜索量</th>
+<th align="center">KD</th>
+<th align="center">Tier</th>
+<th align="center">优先级</th>
+<th align="left">对应页面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">94</td>
+<td align="left">Solitaire</td>
+<td align="left">solitaire online free</td>
+<td align="center">5M+</td>
+<td align="center">95</td>
+<td align="center">T1</td>
+<td align="center">🔴 放弃</td>
+<td align="left">/games/solitaire/</td>
+</tr>
+<tr>
+<td align="center">95</td>
+<td align="left">Solitaire TriPeaks</td>
+<td align="left">tripeaks solitaire online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/solitaire-tripeaks/</td>
+</tr>
+<tr>
+<td align="center">96</td>
+<td align="left">Mahjong Solitaire</td>
+<td align="left">mahjong solitaire free</td>
+<td align="center">500K+</td>
+<td align="center">65</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/mahjong-solitaire/</td>
+</tr>
+<tr>
+<td align="center">97</td>
+<td align="left">Mahjong Titans</td>
+<td align="left">mahjong titans online</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/mahjong-titans/</td>
+</tr>
+<tr>
+<td align="center">98</td>
+<td align="left">Shisen-Sho</td>
+<td align="left">shisen sho online</td>
+<td align="center">5K-10K</td>
+<td align="center">15</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/shisen-sho/</td>
+</tr>
+<tr>
+<td align="center">99</td>
+<td align="left">Block Puzzle</td>
+<td align="left">block puzzle online free</td>
+<td align="center">50K-100K</td>
+<td align="center">40</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/block-puzzle/</td>
+</tr>
+<tr>
+<td align="center">100</td>
+<td align="left">Jigsaw Puzzle</td>
+<td align="left">jigsaw puzzle online</td>
+<td align="center">100K+</td>
+<td align="center">55</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/jigsaw/</td>
+</tr>
+<tr>
+<td align="center">101</td>
+<td align="left">Tangram</td>
+<td align="left">tangram puzzle online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/tangram/</td>
+</tr>
+<tr>
+<td align="center">102</td>
+<td align="left">Sokoban</td>
+<td align="left">sokoban online free</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/sokoban/</td>
+</tr>
+<tr>
+<td align="center">103</td>
+<td align="left">15 Puzzle</td>
+<td align="left">15 puzzle online</td>
+<td align="center">5K-10K</td>
+<td align="center">20</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/15-puzzle/</td>
+</tr>
+<tr>
+<td align="center">104</td>
+<td align="left">Flow Free</td>
+<td align="left">flow free online</td>
+<td align="center">10K-20K</td>
+<td align="center">25</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/flow-free/</td>
+</tr>
+<tr>
+<td align="center">105</td>
+<td align="left">Water Sort</td>
+<td align="left">water sort puzzle online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/water-sort/</td>
+</tr>
+<tr>
+<td align="center">106</td>
+<td align="left">Rubik&#39;s Cube</td>
+<td align="left">rubiks cube online</td>
+<td align="center">50K-100K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/rubiks-cube/</td>
+</tr>
+<tr>
+<td align="center">107</td>
+<td align="left">Huarong Pass</td>
+<td align="left">huarong pass puzzle</td>
+<td align="center">2K-5K</td>
+<td align="center">10</td>
+<td align="center">T3</td>
+<td align="center">🟢 极佳</td>
+<td align="left">/games/huarong-pass/</td>
+</tr>
+<tr>
+<td align="center">108</td>
+<td align="left">Jewel Quest</td>
+<td align="left">jewel quest online</td>
+<td align="center">20K-50K</td>
+<td align="center">35</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/jewel-quest/</td>
+</tr>
+<tr>
+<td align="center">109</td>
+<td align="left">Match-3</td>
+<td align="left">match 3 games online</td>
+<td align="center">50K-100K</td>
+<td align="center">45</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/match-three/</td>
+</tr>
+<tr>
+<td align="center">110</td>
+<td align="left">Memory</td>
+<td align="left">memory card game online</td>
+<td align="center">20K-50K</td>
+<td align="center">30</td>
+<td align="center">T3</td>
+<td align="center">🟢 优先</td>
+<td align="left">/games/memory/</td>
+</tr>
+<tr>
+<td align="center">111</td>
+<td align="left">Agar.io</td>
+<td align="left">agar io online</td>
+<td align="center">100K+</td>
+<td align="center">50</td>
+<td align="center">T2</td>
+<td align="center">🟡 中期</td>
+<td align="left">/games/agar-io/</td>
+</tr>
+</tbody></table>
+<h3>4.3 关键词统计汇总</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Tier</th>
+<th align="left">定义</th>
+<th align="center">游戏数</th>
+<th align="left">策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>T1</strong> 🔴</td>
+<td align="left">KD 85+，头部大词</td>
+<td align="center">7</td>
+<td align="left">战略放弃，保持页面即可</td>
+</tr>
+<tr>
+<td align="center"><strong>T2</strong> 🟡</td>
+<td align="left">KD 50-80，中竞争</td>
+<td align="center">22</td>
+<td align="left">中期目标，DR 15+ 后投入</td>
+</tr>
+<tr>
+<td align="center"><strong>T3</strong> 🟢</td>
+<td align="left">KD 5-45，蓝海机会</td>
+<td align="center">82</td>
+<td align="left"><strong>当前首要发力点</strong></td>
+</tr>
+</tbody></table>
+<h3>4.4 长尾关键词扩展矩阵</h3>
+<p>以下修饰词模板可与全部 111 个游戏名组合，形成数千个长尾关键词：</p>
+<table>
+<thead>
+<tr>
+<th align="left">修饰词类型</th>
+<th align="left">修饰词模式</th>
+<th align="left">示例</th>
+<th align="center">预估 KD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">交易意图</td>
+<td align="left">play [game] online free</td>
+<td align="left">play boggle online free</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">交易意图</td>
+<td align="left">[game] no download</td>
+<td align="left">tetris no download</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">交易意图</td>
+<td align="left">[game] unblocked</td>
+<td align="left">chess unblocked</td>
+<td align="center">中</td>
+</tr>
+<tr>
+<td align="left">交易意图</td>
+<td align="left">[game] browser game</td>
+<td align="left">minesweeper browser game</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">信息意图</td>
+<td align="left">how to play [game]</td>
+<td align="left">how to play minesweeper</td>
+<td align="center">低-中</td>
+</tr>
+<tr>
+<td align="left">信息意图</td>
+<td align="left">[game] strategy guide</td>
+<td align="left">sudoku strategy guide</td>
+<td align="center">低-中</td>
+</tr>
+<tr>
+<td align="left">信息意图</td>
+<td align="left">[game] tips and tricks</td>
+<td align="left">2048 tips and tricks</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">信息意图</td>
+<td align="left">[game] rules explained</td>
+<td align="left">chess rules for beginners</td>
+<td align="center">低-中</td>
+</tr>
+<tr>
+<td align="left">信息意图</td>
+<td align="left">[game] history origin</td>
+<td align="left">tetris history origin</td>
+<td align="center">极低</td>
+</tr>
+<tr>
+<td align="left">求助意图</td>
+<td align="left">how to beat [game]</td>
+<td align="left">how to beat minesweeper expert</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">求助意图</td>
+<td align="left">best [game] starting word</td>
+<td align="left">best wordle starting word</td>
+<td align="center">中</td>
+</tr>
+<tr>
+<td align="left">求助意图</td>
+<td align="left">[game] solver techniques</td>
+<td align="left">sudoku solver techniques</td>
+<td align="center">中</td>
+</tr>
+<tr>
+<td align="left">对比意图</td>
+<td align="left">[game] vs [game]</td>
+<td align="left">wordle vs quordle</td>
+<td align="center">极低</td>
+</tr>
+<tr>
+<td align="left">场景意图</td>
+<td align="left">[game] for kids</td>
+<td align="left">sudoku for kids online</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="left">场景意图</td>
+<td align="left">best free [category] games</td>
+<td align="left">best free logic puzzle games</td>
+<td align="center">中</td>
+</tr>
+<tr>
+<td align="left">场景意图</td>
+<td align="left">brain training games free</td>
+<td align="left">brain training games free online</td>
+<td align="center">中</td>
+</tr>
+<tr>
+<td align="left">日频意图</td>
+<td align="left">daily [game] puzzle</td>
+<td align="left">daily word puzzle</td>
+<td align="center">中</td>
+</tr>
+</tbody></table>
+<h3>4.5 高价值 Blog 文章主题</h3>
+<table>
+<thead>
+<tr>
+<th align="left">内容类型</th>
+<th align="left">标题示例</th>
+<th align="left">目标关键词</th>
+<th align="center">预估价值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">列表文章</td>
+<td align="left">&quot;15 Best Free Brain Training Games Online in 2026&quot;</td>
+<td align="left">best brain training games</td>
+<td align="center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td align="left">对比文章</td>
+<td align="left">&quot;Wordle vs Connections vs Spelling Bee: Which is Right for You?&quot;</td>
+<td align="left">wordle alternatives</td>
+<td align="center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td align="left">科普文章</td>
+<td align="left">&quot;Stroop Effect Explained: Why Your Brain Struggles with Colors&quot;</td>
+<td align="left">stroop effect psychology</td>
+<td align="center">⭐⭐</td>
+</tr>
+<tr>
+<td align="left">历史文章</td>
+<td align="left">&quot;The Complete History of Wordle&quot;</td>
+<td align="left">wordle history</td>
+<td align="center">⭐⭐</td>
+</tr>
+<tr>
+<td align="left">工具文章</td>
+<td align="left">&quot;Ultimate Sudoku Cheat Sheet: Every Technique You Need&quot;</td>
+<td align="left">sudoku techniques</td>
+<td align="center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td align="left">排行文章</td>
+<td align="left">&quot;Top 10 Hardest Logic Puzzles You Can Play Online&quot;</td>
+<td align="left">hardest puzzle games</td>
+<td align="center">⭐⭐</td>
+</tr>
+<tr>
+<td align="left">科普文章</td>
+<td align="left">&quot;Do Brain Games Actually Work? Science Explains&quot;</td>
+<td align="left">do brain games work</td>
+<td align="center">⭐⭐⭐</td>
+</tr>
+<tr>
+<td align="left">列表文章</td>
+<td align="left">&quot;20 Best Free Japanese Logic Puzzles (Nonogram, Kakuro...)&quot;</td>
+<td align="left">japanese logic puzzles</td>
+<td align="center">⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>5. 外链分析与策略</h2>
+<h3>5.1 当前状态</h3>
+<table>
+<thead>
+<tr>
+<th align="left">指标</th>
+<th align="center">估算值</th>
+<th align="left">行业竞争基准</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Domain Rating (DR)</td>
+<td align="center">0-5</td>
+<td align="left">DR 50+ 有竞争力</td>
+</tr>
+<tr>
+<td align="left">反向链接总数</td>
+<td align="center">~0</td>
+<td align="left">竞品 10K+</td>
+</tr>
+<tr>
+<td align="left">Referring Domains</td>
+<td align="center">~0</td>
+<td align="left">竞品 5K-15K+</td>
+</tr>
+<tr>
+<td align="left">品牌搜索量</td>
+<td align="center">0</td>
+<td align="left">无品牌知名度</td>
+</tr>
+</tbody></table>
+<h3>5.2 外链获取策略</h3>
+<p><strong>速赢 (0-3月)：</strong></p>
+<ol>
+<li>游戏目录提交：Product Hunt、AlternativeTo、Reddit r/WebGames</li>
+<li>教育资源列表：推广为 &quot;classroom-friendly, ad-free games&quot;</li>
+<li>Guest Post：向益智游戏/脑科学/教育博客投稿</li>
+</ol>
+<p><strong>中期 (3-9月)：</strong>
+4. 可嵌入 Widget：开发&quot;每日谜题&quot;小组件供其他网站引用
+5. 数据驱动 PR：&quot;We Analyzed 1M Wordle Plays&quot; 类文章
+6. 学术/心理学合作：Stroop Test、Chimp Test 相关研究引用</p>
+<hr>
+<h2>6. 竞争对手对比</h2>
+<table>
+<thead>
+<tr>
+<th align="left">竞争对手</th>
+<th align="center">DR</th>
+<th align="center">月有机流量</th>
+<th align="center">游戏数</th>
+<th align="center">威胁等级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Poki.com</td>
+<td align="center">~79</td>
+<td align="center">100M-230M</td>
+<td align="center">5000+</td>
+<td align="center">🔴 极高</td>
+</tr>
+<tr>
+<td align="left">CrazyGames.com</td>
+<td align="center">~80</td>
+<td align="center">70M-118M</td>
+<td align="center">4500+</td>
+<td align="center">🔴 极高</td>
+</tr>
+<tr>
+<td align="left">CoolMathGames.com</td>
+<td align="center">~76</td>
+<td align="center">15M-19M</td>
+<td align="center">400+</td>
+<td align="center">🔴 高</td>
+</tr>
+<tr>
+<td align="left">HumanBenchmark.com</td>
+<td align="center">~65</td>
+<td align="center">5M-10M</td>
+<td align="center">8</td>
+<td align="center">🟡 中（脑测试直接竞品）</td>
+</tr>
+<tr>
+<td align="left">WordleGame.org</td>
+<td align="center">~39</td>
+<td align="center">60K-200K+</td>
+<td align="center">1</td>
+<td align="center">🟢 低</td>
+</tr>
+<tr>
+<td align="left"><strong>RuleWord.com</strong></td>
+<td align="center">~0</td>
+<td align="center">~0</td>
+<td align="center">111</td>
+<td align="center">—</td>
+</tr>
+</tbody></table>
+<p><strong>差异化方向：</strong></p>
+<ul>
+<li>垂直深度：专注 Logic/Puzzle/Brain Test，做&quot;专而精&quot;</li>
+<li>内容质量：每游戏配深度攻略（目标 100% 覆盖率）</li>
+<li>教育定位：强化 &quot;Brain Training&quot; 区隔纯娱乐竞品</li>
+<li>日式逻辑谜题：Nurikabe/Masyu/Hitori/Kakuro 是低竞争蓝海</li>
+<li>多语言优势：加强非英语市场布局</li>
+</ul>
+<hr>
+<h2>7. GEO/AI 可见性评估</h2>
+<h3>7.1 当前被屏蔽的 AI 爬虫</h3>
+<table>
+<thead>
+<tr>
+<th align="left">AI Bot</th>
+<th align="left">所属平台</th>
+<th align="center">状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">GPTBot</td>
+<td align="left">OpenAI (ChatGPT)</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">ClaudeBot</td>
+<td align="left">Anthropic (Claude)</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">Google-Extended</td>
+<td align="left">Google AI (Gemini/SGE)</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">Bytespider</td>
+<td align="left">ByteDance</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">Amazonbot</td>
+<td align="left">Amazon</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">CCBot</td>
+<td align="left">CommonCrawl</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">Applebot-Extended</td>
+<td align="left">Apple Intelligence</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+<tr>
+<td align="left">meta-externalagent</td>
+<td align="left">Meta AI</td>
+<td align="center">❌ 已屏蔽</td>
+</tr>
+</tbody></table>
+<h3>7.2 建议操作</h3>
+<ol>
+<li><strong>立即解除</strong> GPTBot / ClaudeBot / Google-Extended 的屏蔽</li>
+<li>保留 <code>Content-Signal: ai-train=no</code>（拒绝训练但允许引用检索）</li>
+<li>增加 &quot;AI-quotable&quot; 内容块（统计数据、规则摘要）</li>
+<li>添加 Schema.org/Game 结构化数据</li>
+</ol>
+<h3>7.3 多语言设计的 SEO 注意事项</h3>
+<p>首页 H1 为中文动态渲染（已确认为多语言设计），需要：</p>
+<ul>
+<li><strong>hreflang 标签：</strong> 每个语言版本必须有 <code>&lt;link rel=&quot;alternate&quot; hreflang=&quot;xx&quot; ...&gt;</code> 互指标签</li>
+<li><strong>Googlebot 默认版本：</strong> 确认 Googlebot（不携带语言偏好）抓取到的是英文版本</li>
+<li><strong>URL 结构：</strong> 建议使用 <code>/zh/</code> 子路径或 <code>?lang=zh</code> 区分语言版本</li>
+<li><strong>Canonical 标签：</strong> 多语言页面 canonical 应指向自身</li>
+</ul>
+<hr>
+<h2>8. 优先行动计划</h2>
+<h3>Phase 1：紧急修复（0-2 周）</h3>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">行动项</th>
+<th align="left">预期影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="left">解除 AI 爬虫屏蔽（修改 robots.txt）</td>
+<td align="left">开启 GEO 流量通道</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">实现 hreflang 标签（多语言 URL 分离）</td>
+<td align="left">避免语言信号混乱</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">添加 Game/FAQ Schema 结构化数据</td>
+<td align="left">Rich Snippets 展现</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">优化游戏页 H1 为 &quot;Play [Game] Online Free&quot; 格式</td>
+<td align="left">关键词相关性提升</td>
+</tr>
+</tbody></table>
+<h3>Phase 2：内容扩充（1-3 个月）</h3>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">行动项</th>
+<th align="left">预期影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">5</td>
+<td align="left">补齐 100+ 篇游戏攻略指南（优先 Tier 3 游戏）</td>
+<td align="left">信息性流量 +300%</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">丰富游戏页面内容至 800-1500 字</td>
+<td align="left">页面权威度提升</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left">创建 Blog 板块（列表/对比/科普文章）</td>
+<td align="left">长尾流量来源</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left">深度打造日式逻辑谜题专区</td>
+<td align="left">蓝海品类先发优势</td>
+</tr>
+</tbody></table>
+<h3>Phase 3：外链建设（持续进行）</h3>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">行动项</th>
+<th align="left">预期影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">9</td>
+<td align="left">提交游戏目录和社区（Product Hunt, Reddit）</td>
+<td align="left">初始外链 + 品牌曝光</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">教育类资源外展</td>
+<td align="left">高质量外链</td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="left">开发可嵌入&quot;每日谜题&quot; Widget</td>
+<td align="left">被动外链获取</td>
+</tr>
+</tbody></table>
+<h3>Phase 4：关键词攻坚（3-9 个月）</h3>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">行动项</th>
+<th align="left">预期影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">12</td>
+<td align="left">全力优化 Tier 3 蓝海关键词</td>
+<td align="left">首批排名信号建立</td>
+</tr>
+<tr>
+<td align="center">13</td>
+<td align="left">长尾内容矩阵（每游戏 3-5 篇衍生文章）</td>
+<td align="left">内容飞轮效应</td>
+</tr>
+<tr>
+<td align="center">14</td>
+<td align="left">DR 达 20+ 后攻入 Tier 2 词</td>
+<td align="left">中等流量获取</td>
+</tr>
+</tbody></table>
+<hr>
+<blockquote>
+<p><strong>追踪建议：</strong> 使用 Google Search Console 监控索引状态，在 Ahrefs/Semrush 设置跟踪项目。首要目标：3 个月内完成 Google 完全索引并在 Tier 3 关键词获得前 50 名排名。</p>
+</blockquote>
+
+
+</body></html>
