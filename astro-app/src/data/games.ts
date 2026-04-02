@@ -183,6 +183,9 @@ export const games: GameConfig[] = [
 
   // More Puzzle Games
   { slug: 'flow-free', id: 'flowfree', name: 'Flow Free', nameZh: '连线填色', icon: '🔗', desc: 'Connect matching dots with continuous paths! Fill every cell without crossing paths.', descZh: '用连续路径连接相同颜色的点！填满每个格子，路径不能交叉。', category: 'puzzle', featured: true, color: 'from-violet-500 to-purple-600' },
+
+  // Arrow Puzzle
+  { slug: 'arrow-puzzle', id: 'arrowpuzzle', name: 'Arrow Puzzle', nameZh: '箭头解谜', icon: '➡️', desc: 'Click arrows to slide them off the grid! Find the right order to clear all arrows. 200 levels with increasing difficulty.', descZh: '点击箭头让它们滑出网格！找到正确的顺序清除所有箭头。200关递进难度。', category: 'logic', featured: true, color: 'from-rose-400 to-pink-600' },
 ]
 
 // Get a game by its slug

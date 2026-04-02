@@ -146,6 +146,7 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'towerdefense': () => import('./games/TowerDefense'),
   'angrybirds': () => import('./games/AngryBirds'),
   'rubikscube': () => import('./games/RubiksCube'),
+  'arrowpuzzle': () => import('./games/ArrowPuzzle'),
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {

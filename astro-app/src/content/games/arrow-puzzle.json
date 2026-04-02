@@ -1,0 +1,113 @@
+{
+  "id": "arrowpuzzle",
+  "slug": "arrow-puzzle",
+  "icon": "➡️",
+  "category": "logic",
+  "color": "from-rose-400 to-pink-600",
+  "en": {
+    "name": "Arrow Puzzle",
+    "desc": "Click arrows to slide them off the grid! Find the right order to clear all arrows. 200 levels with increasing difficulty.",
+    "description": "Arrow Puzzle is a brain-teasing logic game where you must clear a grid of arrows by clicking them in the right order. Each arrow points in one or more directions — click it and it slides along that direction until it exits the grid. But if its path is blocked by another arrow, it bounces back and counts as a mistake! With 200 handcrafted and procedurally generated levels across 4 difficulty chapters, Arrow Puzzle offers endless strategic thinking challenges. Features include multi-directional arrows, number blocks, walls, undo, hints, and star ratings.",
+    "objectives": "Clear all arrows from the grid by clicking them in the correct order. Each arrow slides along its pointing direction and exits the grid if the path is clear. Avoid mistakes by planning your moves carefully — you only get 3 mistakes per level!",
+    "howToPlay": "Click an arrow to make it slide in its pointing direction. If the path is clear, the arrow exits the grid and disappears. If blocked by another arrow or wall, it bounces back (mistake). Clear all arrows to win. Plan your order carefully!",
+    "rules": {
+      "controls": "Click or tap an arrow to activate it. Use the Undo button to reverse your last move. Use the Hint button to highlight the next arrow you should click.",
+      "mechanics": [
+        "Arrows slide in their pointing direction until they exit the grid",
+        "If an arrow hits another arrow or wall, it bounces back (mistake)",
+        "3 mistakes = game over",
+        "Multi-direction arrows must have at least one clear path",
+        "Number blocks disappear after being hit N times",
+        "Later levels introduce walls and number blocks"
+      ],
+      "features": [
+        "200 Levels - Across 4 difficulty chapters",
+        "Multi-direction Arrows - Complex path planning",
+        "Number Blocks - Strategic obstacle clearing",
+        "Undo System - Reverse mistakes instantly",
+        "Hint System - Get help when stuck",
+        "Star Ratings - 3 stars for perfect play",
+        "Touch Support - Play on any device"
+      ]
+    },
+    "tips": [
+      "Start with arrows on the edges — they have fewer obstacles",
+      "Look for arrows that block the most others, clear those first",
+      "Use the Hint button if stuck — it shows the next correct move",
+      "Multi-direction arrows are more flexible, save them for later",
+      "Aim for 0 mistakes to earn 3 stars",
+      "In later levels, number blocks can be used as temporary walls"
+    ],
+    "faq": [
+      {
+        "question": "How do I unlock more levels?",
+        "answer": "Complete levels to unlock the next one. Each chapter has 30-80 levels. Complete earlier chapters to unlock harder ones."
+      },
+      {
+        "question": "What do multi-direction arrows do?",
+        "answer": "Multi-direction arrows can exit through any of their pointing directions. At least one path must be clear for the arrow to exit. This gives you more flexibility in planning."
+      },
+      {
+        "question": "What are number blocks?",
+        "answer": "Number blocks show a number N. They act as walls until an arrow passes over them N times. After that, they disappear and the cell becomes empty."
+      },
+      {
+        "question": "How are star ratings calculated?",
+        "answer": "You earn 3 stars for 0 mistakes, 2 stars for 1 mistake, and 1 star for 2 mistakes. Your best star rating is saved for each level."
+      }
+    ]
+  },
+  "zh": {
+    "name": "箭头解谜",
+    "desc": "点击箭头让它们滑出网格！找到正确的顺序清除所有箭头。200关递进难度。",
+    "description": "箭头解谜是一款烧脑的逻辑游戏，你需要按照正确的顺序点击网格上的箭头来清除它们。每个箭头指向一个或多个方向——点击后它会沿该方向滑行直到离开网格。但如果路径被其他箭头阻挡，它会弹回并计为一次失误！游戏包含200个精心设计的关卡，分为4个难度篇章，提供多方向箭头、数字方块、墙壁、撤销、提示和星级评分等丰富功能。",
+    "objectives": "按照正确的顺序点击所有箭头，使它们全部滑出网格。每个箭头沿指向方向滑行，路径畅通则离开网格。小心规划你的操作顺序——每关只有3次失误机会！",
+    "howToPlay": "点击箭头让它沿指向方向滑动。如果路径畅通，箭头离开网格消失。如果被其他箭头或墙壁阻挡，会弹回（计为失误）。清除所有箭头即可获胜。仔细规划顺序！",
+    "rules": {
+      "controls": "点击或触摸箭头来激活它。使用撤销按钮回退上一步。使用提示按钮高亮显示下一步应点击的箭头。",
+      "mechanics": [
+        "箭头沿指向方向滑动直到离开网格",
+        "如果箭头碰到其他箭头或墙壁，会弹回（失误）",
+        "3次失误 = 游戏结束",
+        "多方向箭头至少需要一个方向路径畅通",
+        "数字方块被经过N次后消失",
+        "后期关卡引入墙壁和数字方块"
+      ],
+      "features": [
+        "200个关卡 - 4个难度篇章",
+        "多方向箭头 - 复杂路径规划",
+        "数字方块 - 策略性障碍清除",
+        "撤销系统 - 即时回退失误",
+        "提示系统 - 卡住时获取帮助",
+        "星级评分 - 完美表现获3星",
+        "触摸支持 - 任何设备都可玩"
+      ]
+    },
+    "tips": [
+      "优先清除边缘的箭头——它们障碍更少",
+      "寻找阻挡其他箭头最多的，优先清除",
+      "卡住时使用提示按钮——它会显示正确的下一步",
+      "多方向箭头更灵活，可以留到后面处理",
+      "目标是0失误获得3星评价",
+      "后期关卡中，数字方块可以作为临时墙壁"
+    ],
+    "faq": [
+      {
+        "question": "如何解锁更多关卡？",
+        "answer": "完成关卡即可解锁下一关。每个篇章有30-80个关卡。完成前面的篇章可以解锁更难的篇章。"
+      },
+      {
+        "question": "多方向箭头怎么用？",
+        "answer": "多方向箭头可以通过其任意指向方向离开。至少一个方向路径畅通才能离开。这让你在规划时有更多灵活性。"
+      },
+      {
+        "question": "数字方块是什么？",
+        "answer": "数字方块上显示数字N。它们充当墙壁，直到被箭头经过N次。之后它们会消失，该格子变为空。"
+      },
+      {
+        "question": "星级评分怎么计算？",
+        "answer": "0次失误获得3星，1次失误获得2星，2次失误获得1星。每个关卡保存你的最佳星级。"
+      }
+    ]
+  }
+}
