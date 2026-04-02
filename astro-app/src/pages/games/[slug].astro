@@ -184,6 +184,20 @@ const seoTitle = gameSEO.titleTemplate
 const seoDescription = gameSEO.descriptionTemplate
   .replace('{game}', gameNameEn)
   .replace('{brand}', 'RuleWord')
+
+// Handle lang parameter for SEO
+const hasLangParam = Astro.url.searchParams.has('lang')
+const currentLangParam = Astro.url.searchParams.get('lang')
+const canonicalUrl = `https://ruleword.com/games/${game.slug}/`
+
+// Build hreflang URLs for all languages
+const hreflangUrls = languages.map(l => ({
+  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
+  url: `https://ruleword.com/games/${game.slug}/?lang=${l.code}`
+}))
+
+// Add x-default for language detection
+hreflangUrls.unshift({ lang: 'x-default', url: canonicalUrl })
 ---
 
 <BaseLayout
@@ -193,6 +207,7 @@ const seoDescription = gameSEO.descriptionTemplate
   canonicalPath={`/games/${game.slug}/`}
   gameType={gameType}
   breadcrumbItems={breadcrumbItems}
+  hreflangUrls={hreflangUrls}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />

@@ -25,6 +25,13 @@ const categoryList = categories.filter(c => c.id !== 'all')
 // Get all language codes for dropdown
 const allLanguages = languages
 const categoryI18nData = categoryI18n
+
+// Build hreflang URLs for homepage
+const homepageHreflangUrls = languages.map(l => ({
+  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
+  url: `https://ruleword.com/?lang=${l.code}`
+}))
+homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' })
 ---
 
 <BaseLayout
@@ -32,6 +39,7 @@ const categoryI18nData = categoryI18n
   description={homepageSEO.description}
   keywords={homepageSEO.keywords}
   isHomePage={true}
+  hreflangUrls={homepageHreflangUrls}
 >
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->

@@ -10,6 +10,7 @@ interface Props {
   gameType?: string
   isHomePage?: boolean
   breadcrumbItems?: Array<{name: string; url: string}>
+  hreflangUrls?: Array<{lang: string; url: string}>
 }
 
 const {
@@ -25,6 +26,8 @@ const {
 
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
 const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com${ogImage}`
+
+const { hreflangUrls } = Astro.props
 ---
 
 <!DOCTYPE html>
@@ -59,6 +62,13 @@ const ogImageUrl = ogImage.startsWith('http') ? ogImage : `https://ruleword.com$
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Hreflang tags for multilingual SEO -->
+    {hreflangUrls && hreflangUrls.length > 0 ? (
+      hreflangUrls.map(item => (
+        <link rel="alternate" hreflang={item.lang} href={item.url} />
+      ))
+    ) : null}
 
     <!-- Open Graph -->
     <meta property="og:type" content={gameType ? 'game' : 'website'} />

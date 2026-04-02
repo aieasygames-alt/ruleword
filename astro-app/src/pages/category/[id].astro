@@ -25,6 +25,13 @@ const { category } = Astro.props
 const categoryGames = games.filter(g => g.category === category.id)
 const allLanguages = languages
 
+// Build hreflang URLs for this category
+const categoryHreflangUrls = languages.map(l => ({
+  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
+  url: `https://ruleword.com/category/${category.id}/?lang=${l.code}`
+}))
+categoryHreflangUrls.unshift({ lang: 'x-default', url: `https://ruleword.com/category/${category.id}/` })
+
 // Default language for server render (client will update based on localStorage)
 const defaultLang: Language = 'en'
 const defaultT = i18n[defaultLang]
@@ -49,6 +56,7 @@ const breadcrumbItems = [
   keywords={seoKeywords}
   canonicalPath={`/category/${category.id}/`}
   breadcrumbItems={breadcrumbItems}
+  hreflangUrls={categoryHreflangUrls}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
