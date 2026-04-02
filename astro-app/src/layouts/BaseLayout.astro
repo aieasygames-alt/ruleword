@@ -11,6 +11,7 @@ interface Props {
   isHomePage?: boolean
   breadcrumbItems?: Array<{name: string; url: string}>
   hreflangUrls?: Array<{lang: string; url: string}>
+  howToSchema?: object
 }
 
 const {
@@ -21,7 +22,8 @@ const {
   ogImage = '/icons/og-image.png',
   gameType,
   isHomePage = false,
-  breadcrumbItems
+  breadcrumbItems,
+  howToSchema
 } = Astro.props
 
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
@@ -139,6 +141,10 @@ const { hreflangUrls } = Astro.props
               "item": `https://ruleword.com${item.url}`
             }))
           })} />
+        )}
+        {/* HowTo Schema for Game Pages */}
+        {howToSchema && (
+          <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
         )}
       </>
     ) : (

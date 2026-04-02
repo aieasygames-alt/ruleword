@@ -178,21 +178,143 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
 
-  // Skill Games
-  'typing-test': {
-    primaryKeyword: 'typing test',
-    secondaryKeywords: ['typing speed test', 'wpm test', 'typing game'],
-    longTailKeywords: ['free typing test online', 'check typing speed', 'words per minute test', 'keyboard practice'],
-    titleTemplate: 'Typing Test Online Free - Check Your WPM Speed | {brand}',
-    descriptionTemplate: 'Free online typing test! Check your typing speed in WPM. Improve keyboard skills with instant results. No download required!',
+  // Skill Games - HIGH POTENTIAL (Tier 1 SEO)
+  'chimp-test': {
+    primaryKeyword: 'chimp test',
+    secondaryKeywords: ['chimpanzee memory test', 'chimp memory', 'ape memory test', 'animal memory'],
+    longTailKeywords: ['chimp test online free', 'can you beat a chimp', 'chimpanzee memory game', 'memory test vs chimp', 'beat chimpanzee memory'],
+    titleTemplate: 'Chimp Test Online Free - Can You Beat a Chimpanzee? | {brand}',
+    descriptionTemplate: 'Take the Chimp Test! Can you beat a chimpanzee at memory? Remember number positions and prove your memory skills. Free online, no download!',
+    intent: 'play'
+  },
+  'stroop-test': {
+    primaryKeyword: 'stroop test',
+    secondaryKeywords: ['stroop effect test', 'stroop task', 'color word test', 'cognitive test'],
+    longTailKeywords: ['stroop test online free', 'stroop effect game', 'color word interference', 'psychology test online', 'brain reaction test'],
+    titleTemplate: 'Stroop Test Online Free - Test Your Cognitive Control | {brand}',
+    descriptionTemplate: 'Take the free Stroop Test online! Test your cognitive flexibility and reaction time. Classic psychology experiment. No download required!',
     intent: 'play'
   },
   'aim-trainer': {
     primaryKeyword: 'aim trainer',
-    secondaryKeywords: ['aim training', 'click accuracy', 'fps trainer'],
-    longTailKeywords: ['free aim trainer online', 'improve mouse aim', 'click speed trainer', 'target practice game'],
-    titleTemplate: 'Aim Trainer Online Free - Improve Mouse Accuracy | {brand}',
-    descriptionTemplate: 'Free online aim trainer! Improve your mouse precision and reaction time. Perfect for FPS gamers. Track accuracy and speed!',
+    secondaryKeywords: ['aim training', 'click accuracy', 'fps trainer', 'target practice'],
+    longTailKeywords: ['free aim trainer online', 'improve mouse aim', 'click speed trainer', 'fps aim practice', 'mouse accuracy test'],
+    titleTemplate: 'Aim Trainer Online Free - Improve Mouse Accuracy for FPS | {brand}',
+    descriptionTemplate: 'Free online aim trainer! Improve your mouse precision and reaction time. Perfect for FPS gamers. Track accuracy, speed, and score!',
+    intent: 'play'
+  },
+  'typing-test': {
+    primaryKeyword: 'typing test',
+    secondaryKeywords: ['typing speed test', 'wpm test', 'typing game', 'keyboard test'],
+    longTailKeywords: ['free typing test online', 'check typing speed', 'words per minute test', 'keyboard practice', 'typing speed checker'],
+    titleTemplate: 'Typing Test Online Free - Check Your WPM Speed | {brand}',
+    descriptionTemplate: 'Free online typing test! Check your typing speed in WPM. Improve keyboard skills with instant results. No download required!',
+    intent: 'play'
+  },
+  'number-memory': {
+    primaryKeyword: 'number memory test',
+    secondaryKeywords: ['digit memory', 'number sequence', 'memory span', 'digit span'],
+    longTailKeywords: ['number memory test online', 'digit span test free', 'memory digit sequence', 'how many digits can you remember'],
+    titleTemplate: 'Number Memory Test Online Free - Test Your Digit Memory | {brand}',
+    descriptionTemplate: 'Test your number memory online! Remember increasingly long digit sequences. How many numbers can you memorize? Free, no download!',
+    intent: 'play'
+  },
+  'reaction-test': {
+    primaryKeyword: 'reaction time test',
+    secondaryKeywords: ['reaction test', 'reflex test', 'response time', 'reaction speed'],
+    longTailKeywords: ['reaction time test online', 'test your reaction speed', 'reflex test free', 'human reaction time', 'click speed test'],
+    titleTemplate: 'Reaction Time Test Online Free - Test Your Reflexes | {brand}',
+    descriptionTemplate: 'Test your reaction time online! Measure your reflex speed in milliseconds. Track your best times and challenge friends. Free!',
+    intent: 'play'
+  },
+
+  // Logic Puzzles - NICHE LOW COMPETITION (Tier 1 SEO for Japan/Germany)
+  nonogram: {
+    primaryKeyword: 'nonogram puzzle',
+    secondaryKeywords: ['picross', 'picture cross', 'paint by numbers', 'griddler'],
+    longTailKeywords: ['nonogram online free', 'play picross online', 'japanese picture puzzle', 'pixel art puzzle game', 'ノノグラム'],
+    titleTemplate: 'Nonogram Puzzle Online Free - Play Picross Game | {brand}',
+    descriptionTemplate: 'Play Nonogram (Picross) online free! Use number clues to reveal hidden pixel art. Japanese logic puzzle. No download required!',
+    intent: 'play'
+  },
+  slitherlink: {
+    primaryKeyword: 'slitherlink puzzle',
+    secondaryKeywords: ['slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu'],
+    longTailKeywords: ['slitherlink online free', 'play slitherlink puzzle', 'logic loop game', 'スリザーリンク', 'single loop puzzle'],
+    titleTemplate: 'Slitherlink Puzzle Online Free - Play Loop Logic Game | {brand}',
+    descriptionTemplate: 'Play Slitherlink online free! Draw a single loop through the grid using number clues. Japanese logic puzzle. No download!',
+    intent: 'play'
+  },
+  suguru: {
+    primaryKeyword: 'suguru puzzle',
+    secondaryKeywords: ['suguru online', 'number regions', 'japanese number puzzle'],
+    longTailKeywords: ['suguru puzzle online free', 'play suguru game', 'number region puzzle', 'japanese logic puzzle'],
+    titleTemplate: 'Suguru Puzzle Online Free - Play Japanese Number Game | {brand}',
+    descriptionTemplate: 'Play Suguru online free! Fill regions with numbers so no adjacent cells match. Japanese logic puzzle. No download required!',
+    intent: 'play'
+  },
+  nurikabe: {
+    primaryKeyword: 'nurikabe puzzle',
+    secondaryKeywords: ['nurikabe online', 'island puzzle', 'wall puzzle', 'ぬりかべ'],
+    longTailKeywords: ['nurikabe puzzle online free', 'play nurikabe game', 'japanese wall puzzle', 'island logic puzzle'],
+    titleTemplate: 'Nurikabe Puzzle Online Free - Play Japanese Wall Game | {brand}',
+    descriptionTemplate: 'Play Nurikabe online free! Build walls to form islands. Japanese logic puzzle with number clues. No download required!',
+    intent: 'play'
+  },
+  'star-battle': {
+    primaryKeyword: 'star battle puzzle',
+    secondaryKeywords: ['star battle online', 'two stars puzzle', 'place stars game'],
+    longTailKeywords: ['star battle puzzle online', 'play star battle free', 'logic star placement', 'region star puzzle'],
+    titleTemplate: 'Star Battle Puzzle Online Free - Place Stars Logic Game | {brand}',
+    descriptionTemplate: 'Play Star Battle online free! Place stars in grid so each row, column, and region has exactly two. Logic puzzle, no download!',
+    intent: 'play'
+  },
+  masyu: {
+    primaryKeyword: 'masyu puzzle',
+    secondaryKeywords: ['masyu online', 'pearl puzzle', 'loop path', 'ましゅ'],
+    longTailKeywords: ['masyu puzzle online free', 'play masyu game', 'pearl loop puzzle', 'japanese path puzzle'],
+    titleTemplate: 'Masyu Puzzle Online Free - Play Pearl Loop Game | {brand}',
+    descriptionTemplate: 'Play Masyu online free! Draw a loop through all pearls following the rules. Japanese logic puzzle. No download required!',
+    intent: 'play'
+  },
+  kakuro: {
+    primaryKeyword: 'kakuro puzzle',
+    secondaryKeywords: ['kakuro online', 'cross sum', 'math crossword', 'カックロ'],
+    longTailKeywords: ['kakuro puzzle online free', 'play kakuro game', 'cross sum puzzle', 'math logic puzzle', 'kakuro kostenlos'],
+    titleTemplate: 'Kakuro Puzzle Online Free - Play Cross Sum Game | {brand}',
+    descriptionTemplate: 'Play Kakuro online free! Fill cells with digits that sum to the target. Crossword-style math puzzle. No download required!',
+    intent: 'play'
+  },
+  skyscrapers: {
+    primaryKeyword: 'skyscrapers puzzle',
+    secondaryKeywords: ['skyscrapers online', 'building puzzle', 'visibility puzzle', 'wolkenkratzer'],
+    longTailKeywords: ['skyscrapers puzzle online', 'play skyscrapers free', '3d logic puzzle', 'building visibility game'],
+    titleTemplate: 'Skyscrapers Puzzle Online Free - Play Building Logic Game | {brand}',
+    descriptionTemplate: 'Play Skyscrapers online free! Place buildings so the visible count matches clues. 3D logic puzzle. No download required!',
+    intent: 'play'
+  },
+  hitori: {
+    primaryKeyword: 'hitori puzzle',
+    secondaryKeywords: ['hitori online', 'shade cells', 'japanese elimination'],
+    longTailKeywords: ['hitori puzzle online free', 'play hitori game', 'elimination puzzle', 'shade duplicate numbers'],
+    titleTemplate: 'Hitori Puzzle Online Free - Play Shade Cell Game | {brand}',
+    descriptionTemplate: 'Play Hitori online free! Shade cells so no row or column has duplicate numbers. Japanese logic puzzle. No download!',
+    intent: 'play'
+  },
+  bridges: {
+    primaryKeyword: 'bridges puzzle',
+    secondaryKeywords: ['hashiwokakero', 'build bridges', 'connect islands', '橋をかけろ'],
+    longTailKeywords: ['bridges puzzle online free', 'hashiwokakero online', 'connect islands game', 'bridge building puzzle'],
+    titleTemplate: 'Bridges Puzzle Online Free - Play Hashiwokakero Game | {brand}',
+    descriptionTemplate: 'Play Bridges (Hashiwokakero) online free! Connect islands with bridges. Japanese logic puzzle. No download required!',
+    intent: 'play'
+  },
+  calcudoku: {
+    primaryKeyword: 'calcudoku',
+    secondaryKeywords: ['math sudoku', 'calcudoku online', 'math grid puzzle', 'kenken style'],
+    longTailKeywords: ['calcudoku online free', 'play calcudoku puzzle', 'math based sudoku', 'arithmetic puzzle game'],
+    titleTemplate: 'Calcudoku Online Free - Play Math Sudoku Puzzle | {brand}',
+    descriptionTemplate: 'Play Calcudoku online free! Fill grid with numbers satisfying math operations. Math-based logic puzzle. No download!',
     intent: 'play'
   },
 
@@ -265,22 +387,24 @@ export function generateKeywords(seo: GameSEO): string {
   return allKeywords.join(', ')
 }
 
-// Homepage SEO - Optimized for high-value keywords
+// Homepage SEO - Optimized for high-value keywords (updated for Tier 1 games)
 export const homepageSEO = {
   title: 'Play Wordle, Sudoku, 2048 Online Free - 100+ Puzzle Games | RuleWord',
-  description: 'Play free online games: Wordle, Sudoku, 2048, Tetris, Chess, Minesweeper, Snake, Typing Test. 100+ puzzle, word, arcade & strategy games. No download, play instantly!',
-  keywords: 'wordle online free, sudoku online, 2048 game, tetris online, chess online, minesweeper, snake game, typing test, free online games, puzzle games, word games, arcade games, browser games, no download games, play games online free',
+  description: 'Play free online games: Wordle, Sudoku, 2048, Tetris, Chimp Test, Stroop Test, Typing Test, Aim Trainer. 100+ puzzle, word, arcade & brain games. No download!',
+  keywords: 'wordle online free, sudoku online, 2048 game, chimp test, stroop test, aim trainer, typing test, tetris online, chess online, minesweeper, snake game, nonogram, picross, brain test, memory test, reaction test, free online games, puzzle games, word games, arcade games, browser games, no download games, play games online free',
   longTailKeywords: [
     'play wordle online free no download',
     'free sudoku puzzle game online',
-    '2048 game online no download',
-    'play tetris free in browser',
-    'free chess game against computer',
+    'chimp test online free',
+    'stroop effect test online',
+    'aim trainer for fps players',
     'typing speed test free online',
+    'nonogram picross online free',
+    'brain training games free',
+    'memory test vs chimpanzee',
     'online puzzle games free no download',
     'word games free no registration',
-    'arcade games play online free',
-    'brain training games free'
+    'arcade games play online free'
   ]
 }
 

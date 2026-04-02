@@ -198,6 +198,33 @@ const hreflangUrls = languages.map(l => ({
 
 // Add x-default for language detection
 hreflangUrls.unshift({ lang: 'x-default', url: canonicalUrl })
+
+// Generate HowTo Schema for games with howToPlay content
+const howToSchema = gameGuideEn.howToPlay ? {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": `How to Play ${gameNameEn}`,
+  "description": gameGuideEn.description || gameGuideEn.intro,
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Game",
+      "text": `Navigate to ${gameNameEn} on RuleWord and wait for the game to load.`,
+      "url": canonicalUrl
+    },
+    ...(gameGuideEn.rules?.mechanics?.slice(0, 4).map((mechanic, i) => ({
+      "@type": "HowToStep",
+      "name": `Step ${i + 2}`,
+      "text": mechanic,
+      "url": canonicalUrl
+    })) || [])
+  ],
+  "totalTime": "PT5M",
+  "tool": {
+    "@type": "HowToTool",
+    "name": "Web Browser"
+  }
+} : undefined
 ---
 
 <BaseLayout
@@ -208,6 +235,7 @@ hreflangUrls.unshift({ lang: 'x-default', url: canonicalUrl })
   gameType={gameType}
   breadcrumbItems={breadcrumbItems}
   hreflangUrls={hreflangUrls}
+  howToSchema={howToSchema}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />

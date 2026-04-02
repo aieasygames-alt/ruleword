@@ -90,6 +90,7 @@ export const i18n: Record<Language, {
       featured: 'Featured Games', allGames: 'All Games', gamesCount: 'games', freeGames: 'Free Games',
       categories: 'Categories', copyright: '© 2026 RuleWord', aboutTitle: 'About RuleWord',
       gameGuides: 'Game Guides', viewAllGuides: 'View All Guides →',
+      brainTests: 'Brain Tests & Cognitive Challenges', brainTestsDesc: 'Test your memory, reaction speed, and cognitive control with these popular brain challenges!',
       feature1Title: '100% Free & Unlimited', feature1Desc: 'Play all games without any cost or time limits. No registration required.',
       feature2Title: 'Instant Play, No Downloads', feature2Desc: 'All games run directly in your browser. No app installation needed.',
       feature3Title: 'Play Anywhere', feature3Desc: 'Works on desktop, tablet, and mobile devices. Enjoy games on the go.',
