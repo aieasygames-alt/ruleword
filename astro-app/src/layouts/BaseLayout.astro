@@ -51,12 +51,10 @@ const { hreflangUrls } = Astro.props
       })();
     </script>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    <meta name="twitter:site" content="@Freegameshub" />
-
     <meta name="robots" content="index, follow" />
 
     <!-- Theme Color -->
@@ -74,16 +72,17 @@ const { hreflangUrls } = Astro.props
     ) : null}
 
     <!-- Open Graph -->
-    <meta property="og:type" content={gameType ? 'game' : 'website'} />
+    <meta property="og:type" content={gameType ? 'website' : 'website'} />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Free games Hub" />
+    <meta property="og:site_name" content="Free Games Hub" />
     <meta property="og:image" content={ogImageUrl} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@ruleword" />
+    <meta name="twitter:site" content="@Freegameshub" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />

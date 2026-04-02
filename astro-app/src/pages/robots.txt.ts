@@ -4,6 +4,7 @@ export const GET: APIRoute = async () => {
   const robotsTxt = `# Allow all bots
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
 # Disallow admin and API routes
 Disallow: /api/
@@ -11,13 +12,7 @@ Disallow: /admin/
 Disallow: /_astro/
 Disallow: /editor
 
-# Crawl delay to be polite
-Crawl-delay: 1
-
-# Sitemap location
-Sitemap: https://ruleword.com/sitemap.xml
-
-# Additional rules for specific bots
+# Specific bots
 User-agent: Googlebot
 Allow: /
 
@@ -26,12 +21,18 @@ Allow: /
 
 User-agent: Slurp
 Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Sitemap
+Sitemap: https://ruleword.com/sitemap.xml
 `
 
   return new Response(robotsTxt, {
     headers: {
       'Content-Type': 'text/plain',
-      'Cache-Control': 'public, max-age=86400', // Cache for 24 hours
+      'Cache-Control': 'public, max-age=86400',
     },
   })
 }

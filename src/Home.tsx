@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
-import { getHomepageH1, getSeoH1 } from './utils/seo'
 
 // Home page - v2.0 with 27+ games
 type Settings = {
