@@ -581,3 +581,365 @@ export function getGameGuide(slug: string): GameGuideContent | undefined {
 export function getAllGuideSlugs(): string[] {
   return Object.keys(gameGuides)
 }
+
+// Tier 1 SEO Games - Added for low-competition keyword targeting
+
+// Chimp Test Guide
+gameGuides['chimp-test'] = {
+  slug: 'chimp-test',
+  title: 'Chimp Test Guide: Can You Beat a Chimpanzee at Memory?',
+  description: 'Learn strategies to improve your spatial memory and beat the chimp test. Discover why chimpanzees excel at this task and how humans can train their working memory.',
+  keywords: ['chimp test', 'chimpanzee memory test', 'beat a chimp', 'memory test', 'spatial memory', 'working memory', 'cognitive test', 'ape memory'],
+  introduction: `The Chimp Test is based on a famous 2007 study by Kyoto University researchers who discovered that young chimpanzees can outperform humans in certain memory tasks. This guide explains the science behind the test and provides strategies to improve your performance. Can you beat a chimpanzee?`,
+  sections: [
+    {
+      title: 'Understanding the Chimp Test',
+      content: `In the original study, chimpanzees were shown numbers from 1-9 randomly placed on a screen. When the numbers disappeared, they had to touch the positions in order. Amazingly, chimps completed this task faster and more accurately than humans!
+
+The test reveals fascinating insights about working memory - the cognitive system that temporarily holds information. While humans have superior language and reasoning, chimps may have retained a faster, more primal memory system.`,
+      tips: [
+        'Numbers appear briefly, then transform into white squares',
+        'You must click/tap the squares in numerical order (1, 2, 3...)',
+        'The challenge increases as you advance through levels',
+        'Most humans struggle beyond 5-6 numbers - chimps can do 9!'
+      ]
+    },
+    {
+      title: 'Memory Strategies That Work',
+      content: `Spatial memory can be improved with practice. The key is developing a systematic approach rather than trying to memorize each number individually. Your brain needs to create a "map" of the number positions.
+
+Many successful players use chunking - grouping numbers into patterns. For example, seeing 1-2-3 as a diagonal line rather than three separate numbers.`,
+      tips: [
+        'Use chunking: Group 2-3 numbers into patterns (lines, triangles)',
+        'Look for spatial relationships: "1 is above 3", "5 is in the corner"',
+        'Don\'t just memorize positions - create a mental path from 1 to N',
+        'Stay calm under time pressure - anxiety reduces working memory'
+      ]
+    },
+    {
+      title: 'The Science Behind Chimp Memory',
+      content: `The Ayuma chimpanzees at Kyoto University's Primate Research Institute showed an "eidetic" (photographic) memory ability. They could remember complex patterns after just 200 milliseconds of exposure.
+
+This ability is thought to be an evolutionary adaptation - chimps in the wild need to quickly assess their environment for threats and food sources. Humans may have traded this raw memory speed for language and abstract reasoning abilities.`,
+      tips: [
+        'Young chimps perform better than older chimps (like humans)',
+        'Chimps trained from youth showed the best performance',
+        'The skill is partially genetic but also learned through practice',
+        'Human children sometimes perform better than adults!'
+      ]
+    },
+    {
+      title: 'Training Your Working Memory',
+      content: `Working memory capacity is largely genetic, but you can improve your efficiency. Think of it like RAM in a computer - you can't add more chips, but you can optimize how programs use it.
+
+Regular practice with memory games, combined with good sleep and reduced stress, can significantly improve your test performance over time.`,
+      tips: [
+        'Practice daily - even 10 minutes helps strengthen neural pathways',
+        'Get adequate sleep - memory consolidation happens during rest',
+        'Reduce stress before testing - cortisol impairs working memory',
+        'Try other memory exercises: n-back, digit span, card matching'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Can humans actually beat chimpanzees at this test?',
+      answer: 'Yes, but it\'s rare. Most untrained humans struggle with 5-6 numbers, while trained chimps can handle 9. However, some memory champions can match or exceed chimp performance with extensive practice. The key is developing efficient encoding strategies.'
+    },
+    {
+      question: 'What is a good score on the chimp test?',
+      answer: 'Reaching level 5-6 (remembering 5-6 numbers) is average for humans. Reaching level 7-8 is very good. Level 9 is exceptional and comparable to chimp performance. Don\'t be discouraged if you struggle - this test is genuinely difficult!'
+    },
+    {
+      question: 'Why are chimpanzees better at this than humans?',
+      answer: 'Researchers believe chimps retain an ancient memory system that humans partially lost when we evolved language abilities. Chimps may also have superior visual-spatial memory because they rely more on visual processing than verbal thinking.'
+    },
+    {
+      question: 'Does this test measure intelligence?',
+      answer: 'No single test measures overall intelligence. The chimp test specifically measures visual-spatial working memory, which is just one cognitive ability. Humans excel at many cognitive tasks that chimps cannot do, such as language and abstract reasoning.'
+    },
+    {
+      question: 'Can I improve my chimp test score?',
+      answer: 'Yes! With practice, most people can improve by 1-2 levels. Focus on developing chunking strategies, practice regularly, and ensure you\'re well-rested when testing. The brain is plastic - consistent training will strengthen your working memory.'
+    }
+  ]
+}
+
+// Stroop Test Guide
+gameGuides['stroop-test'] = {
+  slug: 'stroop-test',
+  title: 'Stroop Test Guide: Master the Psychology Test',
+  description: 'Learn about the Stroop effect and improve your cognitive control. Discover why this famous psychology experiment is harder than it looks and what your score reveals about your brain.',
+  keywords: ['stroop test', 'stroop effect', 'color word test', 'cognitive test', 'psychology test', 'brain test', 'reaction test', 'cognitive control'],
+  introduction: `The Stroop Test is one of psychology's most famous experiments, first published by J.R. Stroop in 1935. It demonstrates a phenomenon called "interference" - when your brain's automatic processes conflict with controlled processes. This guide explains the science and helps you improve your performance.`,
+  sections: [
+    {
+      title: 'How the Stroop Test Works',
+      content: `You'll see color words (RED, BLUE, GREEN, YELLOW) displayed in various ink colors. Your task: determine if the ink color matches the word's meaning. The challenge comes when they don't match - for example, "RED" written in blue ink.
+
+When the word says one thing but the color shows another, your brain experiences interference. The automatic process of reading conflicts with the controlled process of color naming.`,
+      tips: [
+        'MATCH: The ink color matches the word meaning (RED in red ink)',
+        'NO MATCH: The ink color differs from the word (RED in blue ink)',
+        'Your brain automatically reads the word - this causes interference',
+        'Speed AND accuracy both matter for a good score'
+      ]
+    },
+    {
+      title: 'The Science of the Stroop Effect',
+      content: `Reading has become automatic for literate adults - you can't help but read words you see. This automaticity happens in a different brain pathway than color naming. When these pathways conflict, your brain must work harder to suppress the automatic response.
+
+The anterior cingulate cortex (ACC) is the brain region responsible for resolving this conflict. It detects when responses compete and helps you choose the correct one.`,
+      tips: [
+        'Reading is processed faster than color naming',
+        'The interference effect is automatic and unavoidable',
+        'Brain regions: ACC detects conflict, prefrontal cortex resolves it',
+        'This is why the test measures "cognitive control" not just speed'
+      ]
+    },
+    {
+      title: 'Strategies to Improve Your Score',
+      content: `While you can't eliminate the Stroop effect entirely, you can improve your performance through specific strategies. The key is training your brain to prioritize color processing over word reading.
+
+Focus strategies work better than speed strategies. Trying to go faster often increases errors - your accuracy rate matters as much as reaction time.`,
+      tips: [
+        'Focus on the LETTERS\' COLOR, not the word meaning',
+        'Try looking at just the first letter\'s color as a visual anchor',
+        'Stay calm - anxiety increases interference effects',
+        'Practice regularly - you can improve with training'
+      ]
+    },
+    {
+      title: 'What Your Score Means',
+      content: `Your Stroop Test performance reveals information about your cognitive control and processing speed. However, it's not a measure of overall intelligence - it specifically tests executive function and selective attention.
+
+Various factors affect your score: age, time of day, caffeine, sleep, and even mood. Don't read too much into a single test - look at trends over time.`,
+      tips: [
+        'Fast and accurate = strong cognitive control',
+        'Slow but accurate = careful processing (not bad!)',
+        'Fast but inaccurate = impulsivity (try to slow down)',
+        'Slow and inaccurate = consider: fatigue, distraction, or practice needed'
+      ]
+    },
+    {
+      title: 'Clinical Applications',
+      content: `The Stroop Test is widely used in clinical psychology and neuroscience. It helps diagnose and monitor conditions that affect executive function, including ADHD, depression, and cognitive decline.
+
+In research, it's used to study attention, cognitive control, and how different brain regions communicate. It remains one of the most replicated findings in psychology.`,
+      tips: [
+        'Used clinically for: ADHD, depression, dementia screening',
+        'Can detect subtle cognitive changes before symptoms appear',
+        'Helps monitor treatment effectiveness over time',
+        'Not diagnostic alone - always combined with other assessments'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Why is the Stroop test so hard?',
+      answer: 'The difficulty comes from "cognitive interference" - your brain\'s automatic reading process conflicts with the controlled color-naming process. Reading has become so automatic for adults that you can\'t turn it off, even when it hurts performance. This is not a flaw but a feature of how our brains optimize for common tasks.'
+    },
+    {
+      question: 'What is a good Stroop test score?',
+      answer: 'A typical response time is 500-1000ms for congruent trials (match) and 800-1500ms for incongruent trials (no match). The "interference effect" (the difference) is usually 200-400ms. Lower times with high accuracy (95%+) indicate strong cognitive control.'
+    },
+    {
+      question: 'Can I improve my Stroop test performance?',
+      answer: 'Yes! Regular practice can reduce your interference effect by 10-20%. Strategies that help: focusing on individual letters rather than the whole word, practicing mindfulness (which improves attentional control), and getting adequate sleep before testing.'
+    },
+    {
+      question: 'Does the Stroop effect happen in other languages?',
+      answer: 'Yes! The Stroop effect has been demonstrated in virtually every language tested, including non-alphabetic scripts like Chinese and Arabic. This suggests it\'s a fundamental property of how brains process language and color, not specific to English.'
+    },
+    {
+      question: 'Why do children perform differently on the Stroop test?',
+      answer: 'Children show larger interference effects because their reading is less automatic and their cognitive control is still developing. Interestingly, before they learn to read, children may perform BETTER on some versions because they don\'t experience the reading interference!'
+    }
+  ]
+}
+
+// Aim Trainer Guide
+gameGuides['aim-trainer'] = {
+  slug: 'aim-trainer',
+  title: 'Aim Trainer Guide: Improve Your Mouse Accuracy for FPS Games',
+  description: 'Master aim training with proven techniques used by pro FPS players. Learn drills, settings optimization, and practice routines to dramatically improve your mouse accuracy.',
+  keywords: ['aim trainer', 'aim training', 'fps aim', 'mouse accuracy', 'click accuracy', 'aim practice', 'fps training', 'mouse aim', 'target practice'],
+  introduction: `Aim training has become essential for competitive FPS players. Whether you play Valorant, CS2, Overwatch, or any shooter, raw aim mechanics can be improved through deliberate practice. This guide covers the fundamentals of aim training and provides structured routines to improve your accuracy.`,
+  sections: [
+    {
+      title: 'Types of Aim Explained',
+      content: `Aim is not a single skill - it's a combination of several abilities: tracking (following moving targets), flicking (quick movements to stationary targets), micro-adjustments (small corrections), and click timing (knowing when to shoot).
+
+Different FPS games emphasize different aim types. Valorant and CS2 prioritize micro-adjustments and click timing, while Overwatch and Apex Legends require more tracking.`,
+      tips: [
+        'Flicking: Quick movements to snap onto targets (CS2, Valorant)',
+        'Tracking: Following moving targets smoothly (Overwatch, Apex)',
+        'Micro-adjustments: Small corrections after initial flick',
+        'Click timing: Knowing exactly when to shoot for accuracy'
+      ]
+    },
+    {
+      title: 'Mouse Settings Optimization',
+      content: `Your mouse settings dramatically affect aim. The most important setting is sensitivity (often measured in eDPI = DPI × in-game sensitivity). Lower sensitivity generally provides better precision but requires more mouse movement.
+
+Most pro FPS players use 200-400 eDPI for tactical shooters and 400-800 for arena shooters. Find what works for you, then stick with it - consistency is key.`,
+      tips: [
+        'Lower sensitivity = more precision, larger mouse movements',
+        'Higher sensitivity = faster turns, less precision',
+        'Pro range: 200-400 eDPI (tactical), 400-800 (arena)',
+        'Disable mouse acceleration in Windows and games'
+      ]
+    },
+    {
+      title: 'Effective Practice Routines',
+      content: `Deliberate practice means focusing on specific skills with clear goals. Just playing games won't improve aim efficiently - you need structured training. Aim for 15-30 minutes daily rather than occasional long sessions.
+
+Start with warm-up exercises, then focus on your weakest area. Track your scores to measure progress. Improvement takes weeks, not days.`,
+      tips: [
+        'Warm up 5-10 min before serious practice',
+        'Focus on one skill per session (flicking OR tracking)',
+        'Track scores daily - improvement is gradual',
+        '15-30 min daily beats 2 hours once a week'
+      ]
+    },
+    {
+      title: 'Common Mistakes to Avoid',
+      content: `Many players practice aim incorrectly and wonder why they don't improve. The most common mistake is tensing up - good aim requires a relaxed hand and arm. Another error is chasing high scores instead of consistent technique.
+
+Avoid "death gripping" your mouse. Use your arm for large movements and wrist for fine adjustments. Keep your grip consistent.`,
+      tips: [
+        'Don\'t tense up - relaxed aim is precise aim',
+        'Use arm for large movements, wrist for micro-adjustments',
+        'Don\'t reset crosshair after every shot - practice recovery',
+        'Avoid practicing when tired or frustrated'
+      ]
+    },
+    {
+      title: 'Hardware Considerations',
+      content: `While skill matters most, good hardware helps. A gaming mouse with a quality sensor, a large mousepad, and a consistent surface all contribute to aim. You don't need expensive gear, but avoid equipment that holds you back.
+
+Monitor refresh rate (144Hz+) helps you see targets earlier. Mouse polling rate (500Hz+) ensures smooth input. These matter more at higher skill levels.`,
+      tips: [
+        'Gaming mouse with 1:1 tracking sensor',
+        'Large mousepad (at least 40cm wide recommended)',
+        'Consistent surface - avoid reflective or textured pads',
+        '144Hz+ monitor helps with target acquisition'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'How long does it take to see aim improvement?',
+      answer: 'Most players notice improvement after 2-4 weeks of consistent daily practice (15-30 min). Significant improvement takes 2-3 months. Pro-level precision takes years. Track your scores weekly - daily fluctuations are normal, so look at weekly averages.'
+    },
+    {
+      question: 'Should I use a high or low mouse sensitivity?',
+      answer: 'For most players, lower sensitivity (200-400 eDPI for tactical shooters) provides better precision. However, the "best" sensitivity is the one you can use consistently. Pick one, practice with it for at least 2 weeks, then decide if you need to adjust.'
+    },
+    {
+      question: 'Do aim trainers translate to actual games?',
+      answer: 'Yes, but with caveats. Aim trainers build raw mouse control, which transfers to games. However, game-specific factors like movement, abilities, and map knowledge also matter. Use aim trainers as one part of your improvement plan, not your only practice.'
+    },
+    {
+      question: 'What\'s the difference between wrist and arm aiming?',
+      answer: 'Wrist aiming uses small wrist movements for fine control - good for low sensitivity micro-adjustments. Arm aiming uses the whole arm for large movements - necessary for low sensitivity 180° turns. Most pros use a hybrid: arm for big flicks, wrist for micro-corrections.'
+    },
+    {
+      question: 'How do I stop my aim from shaking?',
+      answer: 'Aim shake usually comes from tension, high sensitivity, or fatigue. Try: 1) Lowering your sensitivity 10-20%, 2) Consciously relaxing your grip, 3) Using your arm more and wrist less for larger movements, 4) Taking breaks when tired. Shake decreases with practice as your muscles adapt.'
+    }
+  ]
+}
+
+// Nonogram Guide
+gameGuides['nonogram'] = {
+  slug: 'nonogram',
+  title: 'Nonogram Guide: Master the Art of Picture Puzzles',
+  description: 'Learn nonogram (picross) solving techniques from basic line logic to advanced patterns. Discover strategies to solve any picture puzzle efficiently and avoid common mistakes.',
+  keywords: ['nonogram', 'picross', 'picture puzzle', 'paint by numbers', 'griddler', 'japanese puzzle', 'logic puzzle', 'pixel puzzle', 'how to solve nonogram'],
+  introduction: `Nonograms (also called Picross, Paint by Numbers, or Griddlers) are picture logic puzzles where you fill in cells to reveal a hidden image. Invented in Japan in the 1980s, they combine logical deduction with the satisfaction of creating pixel art. This guide teaches you the techniques to solve any nonogram.`,
+  sections: [
+    {
+      title: 'Understanding the Numbers',
+      content: `Each row and column has number clues that tell you which cells to fill. The numbers indicate consecutive groups of filled cells, separated by at least one empty cell. For example, "3 2" means a group of 3, a gap, then a group of 2.
+
+The key insight: you don't need to guess. Every nonogram can be solved through pure logic by systematically applying deduction rules.`,
+      tips: [
+        'Numbers = consecutive filled cells in that row/column',
+        'Multiple numbers = gaps between groups',
+        'Order matters: "2 3" is different from "3 2"',
+        'A "5" clue in a 5-cell row = all cells filled!'
+      ]
+    },
+    {
+      title: 'Basic Technique: Line Logic',
+      content: `Start by finding rows/columns where the clues force certain cells to be filled. The simplest case: if a clue equals the row length, fill everything. More generally, you can fill cells that must be filled in ALL possible arrangements.
+
+For example, in a 10-cell row with clue "7", the middle 4 cells must be filled no matter where the 7-block is placed.`,
+      tips: [
+        'If clue = row length, fill the entire row',
+        'Use "overlap logic": cells that are filled in every arrangement',
+        'Mark definitely empty cells with X or dots',
+        'Process the largest clues first - they\'re most constrained'
+      ]
+    },
+    {
+      title: 'The Overlap Method',
+      content: `The overlap method is your primary solving tool. For a clue N in a row of length L, imagine placing the block at the leftmost position, then at the rightmost position. Any cells that are filled in BOTH positions must be filled in the solution.
+
+Example: In a 10-cell row with clue "7", leftmost fills 1-7, rightmost fills 4-10. Cells 4-7 overlap, so they must be filled.`,
+      tips: [
+        'Leftmost placement: block starts at position 1',
+        'Rightmost placement: block ends at position L',
+        'Overlapping cells = definite fills',
+        'Formula: Overlap = clue - (row_length - clue)'
+      ]
+    },
+    {
+      title: 'Advanced: Multi-Clue Rows',
+      content: `When a row has multiple clues (e.g., "3 2 1"), apply the same logic but consider each block's minimum space requirements. The blocks must be separated by at least one empty cell.
+
+The minimum space needed for clues C1, C2, C3... = C1 + C2 + C3 + ... + (number of gaps). If this equals the row length, you know the exact arrangement.`,
+      tips: [
+        'Minimum space = sum of clues + number of gaps',
+        'If min space = row length, exact placement is determined',
+        'Work on one block at a time, using X marks as boundaries',
+        'Completed blocks help constrain remaining blocks'
+      ]
+    },
+    {
+      title: 'Common Mistakes and How to Avoid Them',
+      content: `The biggest mistake is guessing when stuck. If you can't logically determine a cell, look at other rows and columns for more information. The puzzle will eventually provide the clues you need.
+
+Another error is not marking empty cells. X marks are as important as filled cells - they help you see patterns and eliminate possibilities.`,
+      tips: [
+        'Never guess - if stuck, look at crossing rows/columns',
+        'Always mark empty cells with X or dots',
+        'Update all affected rows after each fill',
+        'Double-check your work - one error cascades'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What\'s the difference between nonogram and picross?',
+      answer: 'They\'re the same puzzle! Nonogram is the original name, Picross is Nintendo\'s trademarked name for their version. Other names include: Paint by Numbers, Griddlers, Hanjie, and Tsunamii. All follow the same rules.'
+    },
+    {
+      question: 'Are nonograms always solvable without guessing?',
+      answer: 'Well-designed nonograms (like those in newspapers and apps) are always solvable through logic alone. However, some computer-generated puzzles may require guessing. If you\'re consistently stuck, try a different source for puzzles.'
+    },
+    {
+      question: 'What makes a nonogram "hard"?',
+      answer: 'Difficulty depends on: 1) Grid size (larger = harder), 2) Number of clues per row (fewer clues = harder), 3) Whether colors are used (adds complexity). The hardest puzzles have minimal clues that require looking at many row/column intersections.'
+    },
+    {
+      question: 'Is there a time limit for solving nonograms?',
+      answer: 'No! Take your time. Unlike action games, nonograms reward careful thinking over speed. Many players find them relaxing precisely because there\'s no pressure. Speed comes naturally with practice.'
+    },
+    {
+      question: 'Do the revealed pictures mean anything?',
+      answer: 'In most puzzles, yes! The filled cells create a pixel art image - often a simple object, animal, or scene. However, some "abstract" nonograms create patterns rather than recognizable images. The image is a reward for solving, not a clue.'
+    }
+  ]
+}
