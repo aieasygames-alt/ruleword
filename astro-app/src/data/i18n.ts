@@ -149,7 +149,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Gehirntraining', feature4Desc: 'Verbessern Sie Logik, Wortschatz, Gedächtnis und Reflexe.',
       feature5Title: 'Mehrsprachige Unterstützung', feature5Desc: 'Verfügbar in 8 Sprachen.',
       feature6Title: 'Ständiges Wachstum', feature6Desc: 'Regelmäßig neue Spiele.',
-      aboutDesc: 'RuleWord ist Ihre ultimative Anlaufstelle für kostenlose Online-Puzzlespiele. Mit über 103+ Spielen in 7 Kategorien bieten wir für jeden etwas - von klassischen Worträtseln wie Wordle bis zu Logikspielen wie Sudoku, von nostalgischen Arcade-Hits wie Tetris bis zu strategischen Herausforderungen wie Schach. Alle Spiele sind 100% kostenlos, erfordern keine Downloads und funktionieren auf jedem Gerät. Jetzt spielen - keine Registrierung erforderlich!',
+      aboutDesc: 'RuleWord ist Ihre ultimative Anlaufstelle für kostenlose Online-Puzzlespiele. Mit über 111+ Spielen in 7 Kategorien bieten wir für jeden etwas - von klassischen Worträtseln wie Wordle bis zu Logikspielen wie Sudoku, von nostalgischen Arcade-Hits wie Tetris bis zu strategischen Herausforderungen wie Schach. Alle Spiele sind 100% kostenlos, erfordern keine Downloads und funktionieren auf jedem Gerät. Jetzt spielen - keine Registrierung erforderlich!',
     },
     game: { loading: 'Laden', error: 'Fehler', backToHome: 'Zurück zur Startseite', howToPlay: 'Spielanleitung', tips: 'Tipps', viewGuide: 'Spielanleitung Anzeigen', about: 'Über', objectives: 'Ziele', controls: 'Steuerung', mechanics: 'Spielmechanik', features: 'Funktionen', faq: 'Häufig Gestellte Fragen', source: 'Quelle' },
     feedback: {
@@ -175,7 +175,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Entrenamiento Mental', feature4Desc: 'Mejora tu lógica, vocabulario, memoria y reflejos.',
       feature5Title: 'Soporte Multilingüe', feature5Desc: 'Disponible en 8 idiomas.',
       feature6Title: 'Siempre Creciendo', feature6Desc: 'Nuevos juegos añadidos regularmente.',
-      aboutDesc: 'RuleWord es tu destino definitivo para juegos de puzzle en línea gratuitos. Con más de 103+ juegos en 7 categorías, ofrecemos algo para todos - desde rompecabezas de palabras clásicos como Wordle hasta juegos de lógica como Sudoku, desde éxitos arcade nostálgicos como Tetris hasta desafíos estratégicos como Ajedrez. Todos los juegos son 100% gratuitos, no requieren descarga y funcionan en cualquier dispositivo. ¡Juega ahora - sin registro requerido!',
+      aboutDesc: 'RuleWord es tu destino definitivo para juegos de puzzle en línea gratuitos. Con más de 111+ juegos en 7 categorías, ofrecemos algo para todos - desde rompecabezas de palabras clásicos como Wordle hasta juegos de lógica como Sudoku, desde éxitos arcade nostálgicos como Tetris hasta desafíos estratégicos como Ajedrez. Todos los juegos son 100% gratuitos, no requieren descarga y funcionan en cualquier dispositivo. ¡Juega ahora - sin registro requerido!',
     },
     game: { loading: 'Cargando', error: 'Error', backToHome: 'Volver al Inicio', howToPlay: 'Cómo Jugar', tips: 'Consejos', viewGuide: 'Ver Guía del Juego', about: 'Acerca de', objectives: 'Objetivos', controls: 'Controles', mechanics: 'Mecánicas del Juego', features: 'Características', faq: 'Preguntas Frecuentes', source: 'Fuente' },
     feedback: {
@@ -201,7 +201,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Тренировка Мозга', feature4Desc: 'Улучшайте логику, словарный запас, память и рефлексы.',
       feature5Title: 'Многоязычная Поддержка', feature5Desc: 'Доступно на 8 языках.',
       feature6Title: 'Постоянное Развитие', feature6Desc: 'Новые игры добавляются регулярно.',
-      aboutDesc: 'RuleWord — ваш главный центр бесплатных онлайн-головоломок. С более чем 103+ играми в 7 категориях мы предлагаем что-то для каждого - от классических словесных головоломок как Wordle до логических игр как Судоку, от ностальгических аркад как Тетрис до стратегических вызовов как Шахматы. Все игры полностью бесплатны, не требуют загрузки и работают на любом устройстве. Играйте сейчас - регистрация не требуется!',
+      aboutDesc: 'RuleWord — ваш главный центр бесплатных онлайн-головоломок. С более чем 111+ играми в 7 категориях мы предлагаем что-то для каждого - от классических словесных головоломок как Wordle до логических игр как Судоку, от ностальгических аркад как Тетрис до стратегических вызовов как Шахматы. Все игры полностью бесплатны, не требуют загрузки и работают на любом устройстве. Играйте сейчас - регистрация не требуется!',
     },
     game: { loading: 'Загрузка', error: 'Ошибка', backToHome: 'Вернуться на главную', howToPlay: 'Как Играть', tips: 'Советы', viewGuide: 'Смотреть Руководство', about: 'О Игре', objectives: 'Цели', controls: 'Управление', mechanics: 'Механика Игры', features: 'Особенности', faq: 'Часто Задаваемые Вопросы', source: 'Источник' },
     feedback: {
@@ -253,7 +253,7 @@ export const i18n: Record<Language, {
       feature4Title: '益智健腦', feature4Desc: '透過數獨、猜詞等益智遊戲鍛鍊邏輯思維、詞彙量和記憶力。',
       feature5Title: '多語言支援', feature5Desc: '支援英語、中文、日語等8種語言。',
       feature6Title: '持續更新', feature6Desc: '定期添加新遊戲,每週都有新挑戰等你來體驗。',
-      aboutDesc: 'RuleWord 是您免費線上益智遊戲的終極目的地。我們提供超過 103+ 款遊戲，涵蓋 7 大類別 - 從經典文字謎題如 Wordle 到腦力訓練邏輯遊戲如數獨，從懷舊街機遊戲如俄羅斯方塊到策略對戰如象棋。所有遊戲完全免費，無需下載，支援任何裝置。無論您想提升詞彙量、鍛鍊思維還是純粹娛樂，立即開始遊戲 - 無需註冊！',
+      aboutDesc: 'RuleWord 是您免費線上益智遊戲的終極目的地。我們提供超過 111+ 款遊戲，涵蓋 7 大類別 - 從經典文字謎題如 Wordle 到腦力訓練邏輯遊戲如數獨，從懷舊街機遊戲如俄羅斯方塊到策略對戰如象棋。所有遊戲完全免費，無需下載，支援任何裝置。無論您想提升詞彙量、鍛鍊思維還是純粹娛樂，立即開始遊戲 - 無需註冊！',
     },
     game: { loading: '載入中', error: '錯誤', backToHome: '返回首頁', howToPlay: '遊戲說明', tips: '技巧提示', viewGuide: '查看遊戲指南', about: '關於', objectives: '目標', controls: '操作方式', mechanics: '遊戲機制', features: '特色功能', faq: '常見問題', source: '來源' },
     feedback: {
@@ -279,7 +279,7 @@ export const i18n: Record<Language, {
       feature4Title: '益智健脑', feature4Desc: '通过数独、猜词等益智游戏锻炼逻辑思维、词汇量和记忆力。',
       feature5Title: '多语言支持', feature5Desc: '支持英语、中文、日语等8种语言。',
       feature6Title: '持续更新', feature6Desc: '定期添加新游戏,每周都有新挑战等你来体验。',
-      aboutDesc: 'RuleWord 是您免费在线益智游戏的终极目的地。我们提供超过 103+ 款游戏，涵盖 7 大类别 - 从经典文字谜题如 Wordle 到脑力训练逻辑游戏如数独，从怀旧街机游戏如俄罗斯方块到策略对战如象棋。所有游戏完全免费，无需下载，支持任何设备。无论您想提升词汇量、锻炼思维还是纯粹娱乐，立即开始游戏 - 无需注册！',
+      aboutDesc: 'RuleWord 是您免费在线益智游戏的终极目的地。我们提供超过 111+ 款游戏，涵盖 7 大类别 - 从经典文字谜题如 Wordle 到脑力训练逻辑游戏如数独，从怀旧街机游戏如俄罗斯方块到策略对战如象棋。所有游戏完全免费，无需下载，支持任何设备。无论您想提升词汇量、锻炼思维还是纯粹娱乐，立即开始游戏 - 无需注册！',
     },
     game: { loading: '加载中', error: '错误', backToHome: '返回首页', howToPlay: '游戏说明', tips: '技巧提示', viewGuide: '查看游戏指南', about: '关于', objectives: '目标', controls: '操作方式', mechanics: '游戏机制', features: '特色功能', faq: '常见问题', source: '来源' },
     feedback: {
