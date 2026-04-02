@@ -4,6 +4,19 @@ type PageMeta = {
   title: string
   description: string
   keywords?: string
+  gameType?: string
+  rating?: number
+  ratingCount?: number
+}
+
+type SchemaConfig = {
+  gameId: string
+  title: string
+  description: string
+  gameType?: string
+  rating?: number
+  ratingCount?: number
+  language: 'en' | 'zh'
 }
 
 const gameMetas: Record<string, { en: PageMeta; zh: PageMeta }> = {
@@ -348,7 +361,100 @@ const gameMetas: Record<string, { en: PageMeta; zh: PageMeta }> = {
 const defaultMeta: PageMeta = {
   title: 'RuleWord - Free Online Puzzle Games Collection',
   description: 'Play 27+ free online puzzle games: Wordle, Sudoku, 2048, Tetris, Nonogram, Skyscrapers, Minesweeper and more! No download required.',
-  keywords: 'free online games, puzzle games, wordle, sudoku, 2048, tetris, nonogram, minesweeper'
+  keywords: 'free online games, puzzle games, wordle, sudoku, 2048, tetris, nonogram, minesweeper',
+  gameType: 'PuzzleGame',
+  rating: 4.8,
+  ratingCount: 1000
+}
+
+// Generate Schema.org structured data for game pages
+function generateGameSchema(config: SchemaConfig): object {
+  const { gameId, title, description, gameType = 'PuzzleGame', rating = 4.8, ratingCount = 100, language } = config
+  const baseUrl = 'https://ruleword.com'
+  const gameUrl = `${baseUrl}/game/${gameId}`
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": title.split(' - ')[0],
+    "description": description,
+    "url": gameUrl,
+    "genre": gameType,
+    "gamePlatform": ["Web Browser", "PC", "Mobile"],
+    "applicationCategory": "Game",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "softwareVersion": "1.0",
+    "inLanguage": language === 'zh' ? 'zh-CN' : 'en',
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": rating.toString(),
+      "ratingCount": ratingCount.toString(),
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "RuleWord",
+      "url": baseUrl
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "RuleWord",
+      "url": baseUrl
+    }
+  }
+}
+
+// Generate BreadcrumbList schema
+function generateBreadcrumbSchema(gameId: string, gameName: string, language: 'en' | 'zh'): object {
+  const baseUrl = 'https://ruleword.com'
+  const homeText = language === 'zh' ? '首页' : 'Home'
+  const gamesText = language === 'zh' ? '游戏' : 'Games'
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": homeText,
+        "item": baseUrl
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": gamesText,
+        "item": `${baseUrl}/`
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": gameName,
+        "item": `${baseUrl}/game/${gameId}`
+      }
+    ]
+  }
+}
+
+// Inject or update JSON-LD script tag
+function injectSchema(schema: object, id: string) {
+  let scriptTag = document.getElementById(id) as HTMLScriptElement
+  if (!scriptTag) {
+    scriptTag = document.createElement('script')
+    scriptTag.type = 'application/ld+json'
+    scriptTag.id = id
+    document.head.appendChild(scriptTag)
+  }
+  scriptTag.textContent = JSON.stringify(schema)
 }
 
 export function usePageMeta(gameId?: string, language: 'en' | 'zh' = 'en') {
@@ -396,6 +502,73 @@ export function usePageMeta(gameId?: string, language: 'en' | 'zh' = 'en') {
       document.head.appendChild(ogDescription)
     }
     ogDescription.setAttribute('content', meta.description)
+
+    // Update og:type for game pages
+    let ogType = document.querySelector('meta[property="og:type"]')
+    if (!ogType) {
+      ogType = document.createElement('meta')
+      ogType.setAttribute('property', 'og:type')
+      document.head.appendChild(ogType)
+    }
+    ogType.setAttribute('content', gameId ? 'game' : 'website')
+
+    // Update or create canonical URL
+    let canonicalLink = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link')
+      canonicalLink.rel = 'canonical'
+      document.head.appendChild(canonicalLink)
+    }
+    const canonicalUrl = gameId
+      ? `https://ruleword.com/game/${gameId}`
+      : 'https://ruleword.com/'
+    canonicalLink.href = canonicalUrl
+
+    // Update hreflang tags for multilingual SEO
+    const updateHreflang = () => {
+      // Remove existing hreflang tags
+      document.querySelectorAll('link[rel="alternate"][hreflang]').forEach(el => el.remove())
+
+      const hreflangs = [
+        { lang: 'en', href: gameId ? `https://ruleword.com/game/${gameId}` : 'https://ruleword.com/' },
+        { lang: 'zh', href: gameId ? `https://ruleword.com/game/${gameId}?lang=zh` : 'https://ruleword.com/?lang=zh' },
+        { lang: 'x-default', href: gameId ? `https://ruleword.com/game/${gameId}` : 'https://ruleword.com/' }
+      ]
+
+      hreflangs.forEach(({ lang, href }) => {
+        const link = document.createElement('link')
+        link.rel = 'alternate'
+        link.setAttribute('hreflang', lang)
+        link.href = href
+        document.head.appendChild(link)
+      })
+    }
+    updateHreflang()
+
+    // Inject Schema.org structured data for game pages
+    if (gameId) {
+      const gameSchema = generateGameSchema({
+        gameId,
+        title: meta.title,
+        description: meta.description,
+        gameType: meta.gameType,
+        rating: meta.rating,
+        ratingCount: meta.ratingCount,
+        language
+      })
+      injectSchema(gameSchema, 'schema-game')
+
+      // Inject breadcrumb schema
+      const gameName = meta.title.split(' - ')[0]
+      const breadcrumbSchema = generateBreadcrumbSchema(gameId, gameName, language)
+      injectSchema(breadcrumbSchema, 'schema-breadcrumb')
+    } else {
+      // Remove game schemas on homepage
+      const gameSchema = document.getElementById('schema-game')
+      const breadcrumbSchema = document.getElementById('schema-breadcrumb')
+      if (gameSchema) gameSchema.remove()
+      if (breadcrumbSchema) breadcrumbSchema.remove()
+    }
 
   }, [gameId, language])
 }

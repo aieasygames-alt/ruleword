@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import GameGuide from './GameGuide'
 import Feedback from './Feedback'
+import { getHomepageH1, getSeoH1 } from './utils/seo'
 
 // Home page - v2.0 with 27+ games
 type Settings = {
@@ -118,8 +119,8 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
                 R
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight">RuleWord</h1>
-                <p className={`text-xs ${subtleTextClass} -mt-0.5`}>{games.length}+ {lang === 'zh' ? '免费游戏' : 'Free Games'}</p>
+                <h1 className="text-xl font-bold tracking-tight">{lang === 'zh' ? '免费在线游戏' : 'Free Online Games'}</h1>
+                <p className={`text-xs ${subtleTextClass} -mt-0.5`}>{games.length}+ {lang === 'zh' ? '款游戏，无需下载' : 'Games, No Download Required'}</p>
               </div>
             </div>
 
