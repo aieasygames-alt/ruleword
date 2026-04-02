@@ -118,7 +118,8 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
                 R
               </div>
               <div>
-                <h1 className="text-xl font-bold tracking-tight">RuleWord</h1>
+                <h1 className="text-xl font-bold tracking-tight">Free Games Hub</h1>
+
                 <p className={`text-xs ${subtleTextClass} -mt-0.5`}>{games.length}+ {lang === 'zh' ? '免费游戏' : 'Free Games'}</p>
               </div>
             </div>
@@ -345,10 +346,16 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm">
                 R
               </div>
-              <span className={`font-semibold ${subtleTextClass}`}>RuleWord</span>
+              <span className={`font-semibold ${subtleTextClass}`}>Free Games Hub</span>
+            </p>
+              © 2026 Free Games Hub · {games.length}+ {lang === 'zh' ? '款免费游戏' : 'Free Games'}
+            </p>
+          </div>
+        </div>
+      </footer>
             </div>
             <p className={`text-sm ${subtleTextClass}`}>
-              © 2026 RuleWord · {games.length}+ {lang === 'zh' ? '款免费游戏' : 'Free Games'}
+              © 2026 Free Games Hub · {games.length}+ {lang === 'zh' ? '款免费游戏' : 'Free Games'}
             </p>
           </div>
         </div>

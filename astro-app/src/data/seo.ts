@@ -397,7 +397,7 @@ export function generateKeywords(seo: GameSEO): string {
 
 // Homepage SEO - Optimized for high-value keywords (updated for Tier 1 games)
 export const homepageSEO = {
-  title: 'Play Wordle, Sudoku, 2048 Online Free - 100+ Puzzle Games | RuleWord',
+  title: 'Play Wordle, Sudoku, 2048 Online Free - 100+ Puzzle Games | Free Games Hub',
   description: 'Play free online games: Wordle, Sudoku, 2048, Tetris, Chimp Test, Stroop Test, Typing Test, Aim Trainer. 100+ puzzle, word, arcade & brain games. No download!',
   keywords: 'wordle online free, sudoku online, 2048 game, chimp test, stroop test, aim trainer, typing test, tetris online, chess online, minesweeper, snake game, nonogram, picross, brain test, memory test, reaction test, free online games, puzzle games, word games, arcade games, browser games, no download games, play games online free',
   longTailKeywords: [
@@ -419,37 +419,37 @@ export const homepageSEO = {
 // Category SEO
 export const categorySEO: Record<string, { title: string; description: string; keywords: string }> = {
   word: {
-    title: 'Free Word Games Online - Play Wordle, Spelling Bee & More | RuleWord',
+    title: 'Free Word Games Online - Play Wordle, Spelling Bee & More | Free Games Hub',
     description: 'Play free word games online: Wordle, Spelling Bee, Word Search, Boggle, Crosswordle and more! Test your vocabulary and word skills. No download required.',
     keywords: 'word games, wordle online, spelling bee, word search, boggle game, crossword puzzle, vocabulary games, free word games'
   },
   logic: {
-    title: 'Free Logic & Number Puzzle Games - Sudoku, 2048, Nonogram | RuleWord',
+    title: 'Free Logic & Number Puzzle Games - Sudoku, 2048, Nonogram | Free Games Hub',
     description: 'Play free logic puzzle games: Sudoku, 2048, Nonogram, Minesweeper, KenKen and more! Train your brain with number puzzles. No download required.',
     keywords: 'logic games, sudoku online, 2048 game, nonogram puzzle, minesweeper, number puzzles, brain training, free puzzle games'
   },
   strategy: {
-    title: 'Free Strategy Games Online - Chess, Mastermind, Gomoku | RuleWord',
+    title: 'Free Strategy Games Online - Chess, Mastermind, Gomoku | Free Games Hub',
     description: 'Play free strategy games: Chess, Mastermind, Gomoku, Reversi, Checkers and more! Test your strategic thinking. No download required.',
     keywords: 'strategy games, chess online, mastermind game, gomoku, reversi, board games, tactical games, free strategy games'
   },
   arcade: {
-    title: 'Free Arcade Games Online - Tetris, Snake, Pac-Man | RuleWord',
+    title: 'Free Arcade Games Online - Tetris, Snake, Pac-Man | Free Games Hub',
     description: 'Play free classic arcade games: Tetris, Snake, Pac-Man, Space Invaders, Pong and more! Retro gaming fun. No download required.',
     keywords: 'arcade games, tetris online, snake game, pacman, space invaders, classic games, retro games, free arcade games'
   },
   memory: {
-    title: 'Free Memory & Brain Training Games Online | RuleWord',
+    title: 'Free Memory & Brain Training Games Online | Free Games Hub',
     description: 'Play free memory games: Memory Match, Simon Says, Number Memory, Reaction Test and more! Train your brain and improve memory. No download.',
     keywords: 'memory games, brain training, memory test, reaction test, cognitive games, brain games, free memory games'
   },
   skill: {
-    title: 'Free Skill Games - Typing Test, Aim Trainer & More | RuleWord',
+    title: 'Free Skill Games - Typing Test, Aim Trainer & More | Free Games Hub',
     description: 'Play free skill games: Typing Test, Aim Trainer, Reaction Time, Color Match and more! Test and improve your skills. No download required.',
     keywords: 'skill games, typing test, aim trainer, reaction test, typing speed, mouse accuracy, free skill games'
   },
   puzzle: {
-    title: 'Free Puzzle Games Online - Mahjong, Match-3, Solitaire | RuleWord',
+    title: 'Free Puzzle Games Online - Mahjong, Match-3, Solitaire | Free Games Hub',
     description: 'Play free puzzle games: Mahjong Solitaire, Match-3, Solitaire, Jigsaw and more! Relaxing puzzle fun. No download required.',
     keywords: 'puzzle games, mahjong solitaire, match 3 game, solitaire, jigsaw puzzle, relaxing games, free puzzle games'
   }

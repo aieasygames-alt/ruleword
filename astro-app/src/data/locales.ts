@@ -3,7 +3,7 @@ export type Language = 'en' | 'zh'
 
 export const translations = {
   en: {
-    title: 'RuleWord',
+    title: 'Free Games Hub',
     howToPlay: 'How to Play',
     statistics: 'Statistics',
     hardMode: 'Hard Mode',
@@ -52,7 +52,7 @@ export const translations = {
     useIME: 'Use keyboard to type letters',
   },
   zh: {
-    title: 'RuleWord',
+    title: 'Free Games Hub',
     howToPlay: '游戏说明',
     statistics: '统计数据',
     hardMode: '困难模式',

@@ -310,7 +310,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
                   <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
                     R
                   </div>
-                  <span className="font-semibold hidden sm:inline">RuleWord</span>
+                  <span className="font-semibold hidden sm:inline">Free Games Hub</span>
                 </a>
               </div>
               <h1 className="text-lg font-bold truncate max-w-[200px] sm:max-w-none">

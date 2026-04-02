@@ -39,8 +39,8 @@ const defaultF = defaultT.feedback
 
 // Get SEO config for this category
 const seoConfig = categorySEO[category.id]
-const seoTitle = seoConfig?.title || `${category.en} - Free Online Games | RuleWord`
-const seoDescription = seoConfig?.description || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at RuleWord. No download required.`
+const seoTitle = seoConfig?.title || `${category.en} - Free Online Games | Free Games Hub`
+const seoDescription = seoConfig?.description || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at Free Games Hub. No download required.`
 const seoKeywords = seoConfig?.keywords || `${category.en.toLowerCase()}, free online games`
 
 // Breadcrumb for structured data
@@ -70,7 +70,7 @@ const breadcrumbItems = [
               R
             </div>
             <div>
-              <span class="text-xl font-bold tracking-tight">RuleWord</span>
+              <span class="text-xl font-bold tracking-tight">Free Games Hub</span>
               <p class="text-xs text-slate-400 -mt-0.5"><span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span></p>
             </div>
           </a>
@@ -192,10 +192,10 @@ const breadcrumbItems = [
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm">
               R
             </div>
-            <span class="font-semibold text-slate-400">RuleWord</span>
+            <span class="font-semibold text-slate-400">Free Games Hub</span>
           </div>
           <p class="text-sm text-slate-400">
-            <span data-i18n="copyright">© 2026 RuleWord</span> · {games.length}+ <span data-i18n="freeGames">Free Games</span>
+            <span data-i18n="copyright">© 2026 Free Games Hub</span> · {games.length}+ <span data-i18n="freeGames">Free Games</span>
           </p>
         </div>
       </div>
@@ -345,7 +345,7 @@ const breadcrumbItems = [
         'backToHome': { en: 'Back to Home', 'zh-CN': '返回首页', 'zh-TW': '返回首頁', fr: 'Retour', de: 'Zurück', es: 'Volver', ru: 'На главную', ja: 'ホームに戻る' },
         'gamesCount': { en: 'games', 'zh-CN': '款游戏', 'zh-TW': '款遊戲', fr: 'jeux', de: 'Spiele', es: 'juegos', ru: 'игр', ja: 'ゲーム' },
         'freeGames': { en: 'Free Games', 'zh-CN': '免费游戏', 'zh-TW': '免費遊戲', fr: 'Jeux Gratuits', de: 'Kostenlose Spiele', es: 'Juegos Gratis', ru: 'Бесплатные Игры', ja: '無料ゲーム' },
-        'copyright': { en: '© 2026 RuleWord', 'zh-CN': '© 2026 RuleWord', 'zh-TW': '© 2026 RuleWord', fr: '© 2026 RuleWord', de: '© 2026 RuleWord', es: '© 2026 RuleWord', ru: '© 2026 RuleWord', ja: '© 2026 RuleWord' },
+        'copyright': { en: '© 2026 Free Games Hub', 'zh-CN': '© 2026 Free Games Hub', 'zh-TW': '© 2026 Free Games Hub', fr: '© 2026 Free Games Hub', de: '© 2026 Free Games Hub', es: '© 2026 Free Games Hub', ru: '© 2026 Free Games Hub', ja: '© 2026 Free Games Hub' },
         'aboutCategory': { en: 'About This Category', 'zh-CN': '关于此分类', 'zh-TW': '關於此分類', fr: 'À Propos', de: 'Über', es: 'Sobre', ru: 'О категории', ja: 'このカテゴリーについて' },
         'noGames': { en: 'No games in this category', 'zh-CN': '此分类暂无游戏', 'zh-TW': '此分類暫無遊戲', fr: 'Aucun jeu', de: 'Keine Spiele', es: 'Sin juegos', ru: 'Нет игр', ja: 'ゲームがありません' }
       }
@@ -434,7 +434,7 @@ const breadcrumbItems = [
             user_id: 'A73GlvN7cp09bDjon',
             template_params: {
               from_email: data.email || 'anonymous@ruleword.com',
-              from_name: 'RuleWord User',
+              from_name: 'Free Games Hub User',
               message: `Type: ${data.type}\nCategory: ${data.category}\n\n${data.message}`,
             }
           })

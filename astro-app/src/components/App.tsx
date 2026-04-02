@@ -415,8 +415,8 @@ export default function App() {
       empty: '⬜',
     }
     const lines = gameMode === 'daily'
-      ? [`RuleWord #${dayNumber} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
-      : [`RuleWord ${t.practiceMode} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
+      ? [`Free Games Hub #${dayNumber} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
+      : [`Free Games Hub ${t.practiceMode} ${won ? guesses.length : 'X'}/${MAX_GUESSES}`]
     guesses.forEach((guess) => {
       const states = evaluate(guess)
       lines.push(states.map((s) => emoji[s]).join(''))
@@ -722,7 +722,7 @@ export default function App() {
     return (
       <div className={`min-h-screen flex flex-col items-center justify-center py-4 px-4 ${bgClass} ${textClass}`}>
         <div className="max-w-md w-full text-center">
-          <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 RuleWord</h1>
+          <h1 className="text-4xl font-bold mb-2 tracking-wider">🎮 Free Games Hub</h1>
           <p className={`text-sm mb-6 ${settings.darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
             {settings.language === 'zh' ? '选择一个游戏开始' : 'Choose a game to play'}
           </p>

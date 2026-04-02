@@ -102,7 +102,7 @@ The key to Hard Mode is choosing starting words that give you flexibility. Words
       },
       {
         question: 'Can I play old Wordle puzzles?',
-        answer: 'Yes! On RuleWord, you can play unlimited Wordle puzzles in practice mode. This is perfect for improving your skills without waiting for the daily reset. We offer both the daily challenge matching the official Wordle and unlimited random puzzles.'
+        answer: 'Yes! On Free Games Hub, you can play unlimited Wordle puzzles in practice mode. This is perfect for improving your skills without waiting for the daily reset. We offer both the daily challenge matching the official Wordle and unlimited random puzzles.'
       },
       {
         question: 'What are the hardest Wordle words?',

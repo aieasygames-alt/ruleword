@@ -179,11 +179,11 @@ const breadcrumbItems = [
 // Optimized SEO title and description
 const seoTitle = gameSEO.titleTemplate
   .replace('{game}', gameNameEn)
-  .replace('{brand}', 'RuleWord')
+  .replace('{brand}', 'Free Games Hub')
 
 const seoDescription = gameSEO.descriptionTemplate
   .replace('{game}', gameNameEn)
-  .replace('{brand}', 'RuleWord')
+  .replace('{brand}', 'Free Games Hub')
 
 // Handle lang parameter for SEO
 const hasLangParam = Astro.url.searchParams.has('lang')
@@ -209,7 +209,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
     {
       "@type": "HowToStep",
       "name": "Open the Game",
-      "text": `Navigate to ${gameNameEn} on RuleWord and wait for the game to load.`,
+      "text": `Navigate to ${gameNameEn} on Free Games Hub and wait for the game to load.`,
       "url": canonicalUrl
     },
     ...(gameGuideEn.rules?.mechanics?.slice(0, 4).map((mechanic, i) => ({
@@ -250,7 +250,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
               <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
                 R
               </div>
-              <span class="font-semibold hidden sm:inline">RuleWord</span>
+              <span class="font-semibold hidden sm:inline">Free Games Hub</span>
             </a>
           </div>
 
@@ -742,7 +742,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
             user_id: 'A73GlvN7cp09bDjon',
             template_params: {
               from_email: data.email || 'anonymous@ruleword.com',
-              from_name: 'RuleWord User',
+              from_name: 'Free Games Hub User',
               message: `Type: ${data.type}\nGame: ${data.game}\n\n${data.message}`,
             }
           })

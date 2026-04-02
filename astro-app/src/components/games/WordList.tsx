@@ -93,13 +93,13 @@ export default function WordList({ language, darkMode, onClose }: Props) {
           {language === 'en' && (
             <div>
               <h3>5 Letter Words for Wordle Game</h3>
-              <p>Complete list of valid 5-letter English words used in RuleWord game. Practice these words to improve your Wordle skills.</p>
+              <p>Complete list of valid 5-letter English words used in Free Games Hub game. Practice these words to improve your Wordle skills.</p>
             </div>
           )}
           {language === 'zh' && (
             <div>
               <h3>四字成语大全</h3>
-              <p>RuleWord游戏使用的常用四字成语列表，包含500+成语，可用于成语接龙、成语学习等。</p>
+              <p>Free Games Hub游戏使用的常用四字成语列表，包含500+成语，可用于成语接龙、成语学习等。</p>
             </div>
           )}
         </div>
