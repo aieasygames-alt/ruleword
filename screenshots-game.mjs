@@ -13,7 +13,7 @@ async function takeScreenshots() {
   });
   const page = await context.newPage();
 
-  const outputDir = join(__dirname, 'public', 'icons');
+  const outputDir = join(__dirname, 'astro-app', 'public', 'icons');
 
   // 截图 1: 首页 - 初始状态
   console.log('Taking screenshot 1: Home page (initial)...');

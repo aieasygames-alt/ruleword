@@ -169,7 +169,7 @@ async function createPoster() {
   await page.setContent(html);
   await page.waitForTimeout(1000);
 
-  const outputDir = join(__dirname, 'public', 'icons');
+  const outputDir = join(__dirname, 'astro-app', 'public', 'icons');
   await page.screenshot({
     path: join(outputDir, 'poster-720x1080.png'),
     fullPage: false
