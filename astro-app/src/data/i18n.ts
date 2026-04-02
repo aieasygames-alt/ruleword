@@ -1,4 +1,4 @@
-// Multi-language support for RuleWord
+// Multi-language support for Free Games Hub
 export type Language = 'en' | 'fr' | 'de' | 'es' | 'ru' | 'ja' | 'zh-TW' | 'zh-CN'
 
 export const languages: { code: Language; name: string; nativeName: string }[] = [
@@ -13,6 +13,7 @@ export const languages: { code: Language; name: string; nativeName: string }[] =
 ]
 
 export const i18n: Record<Language, {
+  siteName: string
   nav: {
     home: string
     feedback: string
@@ -83,12 +84,13 @@ export const i18n: Record<Language, {
   }
 }> = {
   en: {
+    siteName: 'Free Games Hub',
     nav: { home: 'Home', feedback: 'Feedback', language: 'Language' },
     home: {
       title: 'Play Wordle, Sudoku, 2048 Online Free',
       subtitle: '100+ puzzle, word, arcade & strategy games. No download, play instantly in browser!',
       featured: 'Featured Games', allGames: 'All Games', gamesCount: 'games', freeGames: 'Free Games',
-      categories: 'Categories', copyright: '© 2026 RuleWord', aboutTitle: 'About RuleWord',
+      categories: 'Categories', copyright: '© 2026 Free Games Hub', aboutTitle: 'About Free Games Hub',
       gameGuides: 'Game Guides', viewAllGuides: 'View All Guides →',
       brainTests: 'Brain Tests & Cognitive Challenges', brainTestsDesc: 'Test your memory, reaction speed, and cognitive control with these popular brain challenges!',
       feature1Title: '100% Free & Unlimited', feature1Desc: 'Play all games without any cost or time limits. No registration required.',
@@ -97,7 +99,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Brain Training', feature4Desc: 'Improve your logic, vocabulary, memory and reflexes with our puzzles.',
       feature5Title: 'Multi-Language Support', feature5Desc: 'Available in 8 languages including English, Chinese, Japanese and more.',
       feature6Title: 'Always Growing', feature6Desc: 'New games added regularly. Fresh challenges await you every week.',
-      aboutDesc: 'RuleWord is your ultimate destination for free online puzzle games. With over 111 games across 7 categories, we offer something for everyone - from classic word puzzles like Wordle to brain-training logic games like Sudoku, from nostalgic arcade hits like Tetris to strategic challenges like Chess. All games are 100% free, require no downloads, and work on any device. Whether you want to improve your vocabulary, sharpen your mind, or just have fun, start playing now - no registration required!',
+      aboutDesc: 'Free Games Hub is your ultimate destination for free online puzzle games. With over 111 games across 7 categories, we offer something for everyone - from classic word puzzles like Wordle to brain-training logic games like Sudoku, from nostalgic arcade hits like Tetris to strategic challenges like Chess. All games are 100% free, require no downloads, and work on any device. Whether you want to improve your vocabulary, sharpen your mind, or just have fun, start playing now - no registration required!',
     },
     game: { loading: 'Loading', error: 'Error', backToHome: 'Back to Home', howToPlay: 'How to Play', tips: 'Tips', viewGuide: 'View Game Guide', about: 'About', objectives: 'Objectives', controls: 'Controls', mechanics: 'Game Mechanics', features: 'Features', faq: 'Frequently Asked Questions', source: 'Source' },
     feedback: {
@@ -107,15 +109,16 @@ export const i18n: Record<Language, {
       success: 'Thank you for your feedback!', fail: 'Failed to send feedback. Please try again.'
     },
     category: { aboutCategory: 'About This Category', noGames: 'No games in this category', gamesCount: 'games' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   fr: {
+    siteName: 'Jeux Gratuits',
     nav: { home: 'Accueil', feedback: 'Commentaires', language: 'Langue' },
     home: {
       title: 'Jouer à Wordle, Sudoku, 2048 Gratuit en Ligne',
       subtitle: '100+ jeux de puzzle, mots, arcade et stratégie. Sans téléchargement, jouez instantanément!',
       featured: 'Jeux en Vedette', allGames: 'Tous les Jeux', gamesCount: 'jeux', freeGames: 'Jeux Gratuits',
-      categories: 'Catégories', copyright: '© 2026 RuleWord', aboutTitle: 'À Propos de RuleWord',
+      categories: 'Catégories', copyright: '© 2026 Jeux Gratuits', aboutTitle: 'À Propos de Jeux Gratuits',
       gameGuides: 'Guides de Jeu', viewAllGuides: 'Voir Tous les Guides →',
       feature1Title: '100% Gratuit et Illimité', feature1Desc: 'Jouez à tous les jeux sans aucun coût ni limite de temps.',
       feature2Title: 'Jeu Instantané, Sans Téléchargement', feature2Desc: 'Tous les jeux fonctionnent directement dans votre navigateur.',
@@ -123,7 +126,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Entraînement Cérébral', feature4Desc: 'Améliorez votre logique, vocabulaire, mémoire et réflexes.',
       feature5Title: 'Support Multilingue', feature5Desc: 'Disponible en 8 langues.',
       feature6Title: 'Toujours en Croissance', feature6Desc: 'Nouveaux jeux ajoutés régulièrement.',
-      aboutDesc: 'RuleWord est votre destination ultime pour les jeux de puzzle en ligne gratuits. Avec plus de 103 jeux dans 7 catégories, nous offrons quelque chose pour tout le monde - des puzzles de mots classiques comme Wordle aux jeux de logique comme Sudoku, des succès arcade nostalgiques comme Tetris aux défis stratégiques comme les Échecs. Tous les jeux sont 100% gratuits, sans téléchargement et fonctionnent sur tous les appareils. Jouez maintenant - aucune inscription requise!',
+      aboutDesc: 'Juegos Gratis est votre destination ultime pour les jeux de puzzle en ligne gratuits. Avec plus de 103 jeux dans 7 catégories, nous offrons quelque chose pour tout le monde - des puzzles de mots classiques comme Wordle aux jeux de logique comme Sudoku, des succès arcade nostalgiques comme Tetris aux défis stratégiques comme les Échecs. Tous les jeux sont 100% gratuits, sans téléchargement et fonctionnent sur tous les appareils. Jouez maintenant - aucune inscription requise!',
     },
     game: { loading: 'Chargement', error: 'Erreur', backToHome: "Retour à l'accueil", howToPlay: 'Comment Jouer', tips: 'Conseils', viewGuide: 'Voir le Guide', about: 'À Propos', objectives: 'Objectifs', controls: 'Contrôles', mechanics: 'Mécaniques de Jeu', features: 'Fonctionnalités', faq: 'Questions Fréquentes', source: 'Source' },
     feedback: {
@@ -133,15 +136,16 @@ export const i18n: Record<Language, {
       success: 'Merci pour vos commentaires!', fail: 'Échec de l\'envoi. Veuillez réessayer.'
     },
     category: { aboutCategory: 'À Propos de Cette Catégorie', noGames: 'Aucun jeu dans cette catégorie', gamesCount: 'jeux' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   de: {
+    siteName: 'Kostenlose Spiele',
     nav: { home: 'Startseite', feedback: 'Feedback', language: 'Sprache' },
     home: {
       title: 'Wordle, Sudoku, 2048 Kostenlos Online Spielen',
       subtitle: '100+ Puzzle-, Wort-, Arcade- & Strategiespiele. Kein Download, sofort spielen!',
       featured: 'Empfohlene Spiele', allGames: 'Alle Spiele', gamesCount: 'Spiele', freeGames: 'Kostenlose Spiele',
-      categories: 'Kategorien', copyright: '© 2026 RuleWord', aboutTitle: 'Über RuleWord',
+      categories: 'Kategorien', copyright: '© 2026 Kostenlose Spiele', aboutTitle: 'Über Kostenlose Spiele',
       gameGuides: 'Spielanleitungen', viewAllGuides: 'Alle Anleitungen →',
       feature1Title: '100% Kostenlos & Unbegrenzt', feature1Desc: 'Spielen Sie alle Spiele ohne Kosten oder Zeitlimits.',
       feature2Title: 'Sofort Spielen, Kein Download', feature2Desc: 'Alle Spiele laufen direkt in Ihrem Browser.',
@@ -149,7 +153,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Gehirntraining', feature4Desc: 'Verbessern Sie Logik, Wortschatz, Gedächtnis und Reflexe.',
       feature5Title: 'Mehrsprachige Unterstützung', feature5Desc: 'Verfügbar in 8 Sprachen.',
       feature6Title: 'Ständiges Wachstum', feature6Desc: 'Regelmäßig neue Spiele.',
-      aboutDesc: 'RuleWord ist Ihre ultimative Anlaufstelle für kostenlose Online-Puzzlespiele. Mit über 111+ Spielen in 7 Kategorien bieten wir für jeden etwas - von klassischen Worträtseln wie Wordle bis zu Logikspielen wie Sudoku, von nostalgischen Arcade-Hits wie Tetris bis zu strategischen Herausforderungen wie Schach. Alle Spiele sind 100% kostenlos, erfordern keine Downloads und funktionieren auf jedem Gerät. Jetzt spielen - keine Registrierung erforderlich!',
+      aboutDesc: 'Kostenlose Spiele ist Ihre ultimative Anlaufstelle für kostenlose Online-Puzzlespiele. Mit über 111+ Spielen in 7 Kategorien bieten wir für jeden etwas - von klassischen Worträtseln wie Wordle bis zu Logikspielen wie Sudoku, von nostalgischen Arcade-Hits wie Tetris bis zu strategischen Herausforderungen wie Schach. Alle Spiele sind 100% kostenlos, erfordern keine Downloads und funktionieren auf jedem Gerät. Jetzt spielen - keine Registrierung erforderlich!',
     },
     game: { loading: 'Laden', error: 'Fehler', backToHome: 'Zurück zur Startseite', howToPlay: 'Spielanleitung', tips: 'Tipps', viewGuide: 'Spielanleitung Anzeigen', about: 'Über', objectives: 'Ziele', controls: 'Steuerung', mechanics: 'Spielmechanik', features: 'Funktionen', faq: 'Häufig Gestellte Fragen', source: 'Quelle' },
     feedback: {
@@ -159,15 +163,16 @@ export const i18n: Record<Language, {
       success: 'Vielen Dank für Ihr Feedback!', fail: 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut.'
     },
     category: { aboutCategory: 'Über Diese Kategorie', noGames: 'Keine Spiele in dieser Kategorie', gamesCount: 'Spiele' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   es: {
+    siteName: 'Juegos Gratis',
     nav: { home: 'Inicio', feedback: 'Comentarios', language: 'Idioma' },
     home: {
       title: 'Jugar Wordle, Sudoku, 2048 Gratis Online',
       subtitle: '100+ juegos de puzzle, palabras, arcade y estrategia. Sin descargas, juega al instante!',
       featured: 'Juegos Destacados', allGames: 'Todos los Juegos', gamesCount: 'juegos', freeGames: 'Juegos Gratis',
-      categories: 'Categorías', copyright: '© 2026 RuleWord', aboutTitle: 'Sobre RuleWord',
+      categories: 'Categorías', copyright: '© 2026 Juegos Gratis', aboutTitle: 'Sobre Juegos Gratis',
       gameGuides: 'Guías de Juego', viewAllGuides: 'Ver Todas las Guías →',
       feature1Title: '100% Gratis e Ilimitado', feature1Desc: 'Juega todos los juegos sin costo ni límites de tiempo.',
       feature2Title: 'Juego Instantáneo, Sin Descargas', feature2Desc: 'Todos los juegos funcionan directamente en tu navegador.',
@@ -175,7 +180,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Entrenamiento Mental', feature4Desc: 'Mejora tu lógica, vocabulario, memoria y reflejos.',
       feature5Title: 'Soporte Multilingüe', feature5Desc: 'Disponible en 8 idiomas.',
       feature6Title: 'Siempre Creciendo', feature6Desc: 'Nuevos juegos añadidos regularmente.',
-      aboutDesc: 'RuleWord es tu destino definitivo para juegos de puzzle en línea gratuitos. Con más de 111+ juegos en 7 categorías, ofrecemos algo para todos - desde rompecabezas de palabras clásicos como Wordle hasta juegos de lógica como Sudoku, desde éxitos arcade nostálgicos como Tetris hasta desafíos estratégicos como Ajedrez. Todos los juegos son 100% gratuitos, no requieren descarga y funcionan en cualquier dispositivo. ¡Juega ahora - sin registro requerido!',
+      aboutDesc: 'Juegos Gratis es tu destino definitivo para juegos de puzzle en línea gratuitos. Con más de 111+ juegos en 7 categorías, ofrecemos algo para todos - desde rompecabezas de palabras clásicos como Wordle hasta juegos de lógica como Sudoku, desde éxitos arcade nostálgicos como Tetris hasta desafíos estratégicos como Ajedrez. Todos los juegos son 100% gratuitos, no requieren descarga y funcionan en cualquier dispositivo. ¡Juega ahora - sin registro requerido!',
     },
     game: { loading: 'Cargando', error: 'Error', backToHome: 'Volver al Inicio', howToPlay: 'Cómo Jugar', tips: 'Consejos', viewGuide: 'Ver Guía del Juego', about: 'Acerca de', objectives: 'Objetivos', controls: 'Controles', mechanics: 'Mecánicas del Juego', features: 'Características', faq: 'Preguntas Frecuentes', source: 'Fuente' },
     feedback: {
@@ -185,15 +190,16 @@ export const i18n: Record<Language, {
       success: '¡Gracias por tus comentarios!', fail: 'Error al enviar. Por favor, inténtalo de nuevo.'
     },
     category: { aboutCategory: 'Sobre Esta Categoría', noGames: 'No hay juegos en esta categoría', gamesCount: 'juegos' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   ru: {
+    siteName: 'Бесплатные Игры',
     nav: { home: 'Главная', feedback: 'Обратная связь', language: 'Язык' },
     home: {
       title: 'Играть Wordle, Sudoku, 2048 Бесплатно Онлайн',
       subtitle: '100+ головоломок, словесных, аркадных и стратегических игр. Без загрузок, играйте мгновенно!',
       featured: 'Рекомендуемые Игры', allGames: 'Все Игры', gamesCount: 'игр', freeGames: 'Бесплатные Игры',
-      categories: 'Категории', copyright: '© 2026 RuleWord', aboutTitle: 'О RuleWord',
+      categories: 'Категории', copyright: '© 2026 Бесплатные Игры', aboutTitle: 'О Бесплатных Играх',
       gameGuides: 'Руководства', viewAllGuides: 'Все руководства →',
       feature1Title: '100% Бесплатно и Безлимитно', feature1Desc: 'Играйте во все игры бесплатно и без ограничений.',
       feature2Title: 'Мгновенная Игра, Без Загрузок', feature2Desc: 'Все игры работают прямо в браузере.',
@@ -201,7 +207,7 @@ export const i18n: Record<Language, {
       feature4Title: 'Тренировка Мозга', feature4Desc: 'Улучшайте логику, словарный запас, память и рефлексы.',
       feature5Title: 'Многоязычная Поддержка', feature5Desc: 'Доступно на 8 языках.',
       feature6Title: 'Постоянное Развитие', feature6Desc: 'Новые игры добавляются регулярно.',
-      aboutDesc: 'RuleWord — ваш главный центр бесплатных онлайн-головоломок. С более чем 111+ играми в 7 категориях мы предлагаем что-то для каждого - от классических словесных головоломок как Wordle до логических игр как Судоку, от ностальгических аркад как Тетрис до стратегических вызовов как Шахматы. Все игры полностью бесплатны, не требуют загрузки и работают на любом устройстве. Играйте сейчас - регистрация не требуется!',
+      aboutDesc: 'Бесплатные Игры — ваш главный центр бесплатных онлайн-головоломок. С более чем 111+ играми в 7 категориях мы предлагаем что-то для каждого - от классических словесных головоломок как Wordle до логических игр как Судоку, от ностальгических аркад как Тетрис до стратегических вызовов как Шахматы. Все игры полностью бесплатны, не требуют загрузки и работают на любом устройстве. Играйте сейчас - регистрация не требуется!',
     },
     game: { loading: 'Загрузка', error: 'Ошибка', backToHome: 'Вернуться на главную', howToPlay: 'Как Играть', tips: 'Советы', viewGuide: 'Смотреть Руководство', about: 'О Игре', objectives: 'Цели', controls: 'Управление', mechanics: 'Механика Игры', features: 'Особенности', faq: 'Часто Задаваемые Вопросы', source: 'Источник' },
     feedback: {
@@ -211,15 +217,16 @@ export const i18n: Record<Language, {
       success: 'Спасибо за ваш отзыв!', fail: 'Не удалось отправить. Попробуйте снова.'
     },
     category: { aboutCategory: 'Об Этой Категории', noGames: 'Нет игр в этой категории', gamesCount: 'игр' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   ja: {
+    siteName: '無料ゲーム',
     nav: { home: 'ホーム', feedback: 'フィードバック', language: '言語' },
     home: {
       title: 'Wordle, 数独, 2048 無料でオンラインプレイ',
       subtitle: '100以上のパズル、ワード、アーケード、ストラテジーゲーム。ダウンロード不要、すぐに遊べます！',
       featured: 'おすすめゲーム', allGames: 'すべてのゲーム', gamesCount: 'ゲーム', freeGames: '無料ゲーム',
-      categories: 'カテゴリー', copyright: '© 2026 RuleWord', aboutTitle: 'RuleWordについて',
+      categories: 'カテゴリー', copyright: '© 2026 無料ゲーム', aboutTitle: '無料ゲームについて',
       gameGuides: 'ゲームガイド', viewAllGuides: 'すべてのガイドを見る →',
       feature1Title: '100%無料で無制限', feature1Desc: 'すべてのゲームを無料で制限なくプレイ。',
       feature2Title: '今すぐプレイ、ダウンロード不要', feature2Desc: 'すべてのゲームはブラウザで直接動作。',
@@ -227,7 +234,7 @@ export const i18n: Record<Language, {
       feature4Title: '脳のトレーニング', feature4Desc: 'パズルで論理的思考、語彙力、記憶力、反射神経を向上。',
       feature5Title: '多言語対応', feature5Desc: '英語、中国語、日本語など8言語に対応。',
       feature6Title: '常に進化', feature6Desc: '定期的に新ゲームを追加。',
-      aboutDesc: 'RuleWordは無料オンラインパズルゲームの究極の目的地です。7つのカテゴリーで103以上のゲームを提供し、Wordleのような古典的なワードパズルから数独のようなロジックゲーム、テトリスのような懐かしいアーケードからチェスのような戦略的チャレンジまで、すべての人に何かを提供します。すべてのゲームは100%無料で、ダウンロード不要、どのデバイスでも動作します。今すぐプレイ - 登録不要！',
+      aboutDesc: '無料ゲームは無料オンラインパズルゲームの究極の目的地です。7つのカテゴリーで111以上のゲームを提供し、Wordleのような古典的なワードパズルから数独のようなロジックゲーム、テトリスのような懐かしいアーケードからチェスのような戦略的チャレンジまで、すべての人に何かを提供します。すべてのゲームは100%無料で、ダウンロード不要、どのデバイスでも動作します。今すぐプレイ - 登録不要！',
     },
     game: { loading: '読み込み中', error: 'エラー', backToHome: 'ホームに戻る', howToPlay: '遊び方', tips: 'ヒント', viewGuide: 'ゲームガイドを見る', about: '概要', objectives: '目標', controls: '操作方法', mechanics: 'ゲームメカニクス', features: '機能', faq: 'よくある質問', source: 'ソース' },
     feedback: {
@@ -237,15 +244,16 @@ export const i18n: Record<Language, {
       success: 'フィードバックありがとうございます！', fail: '送信に失敗しました。もう一度お試しください。'
     },
     category: { aboutCategory: 'このカテゴリーについて', noGames: 'このカテゴリーにゲームはありません', gamesCount: 'ゲーム' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   'zh-TW': {
+    siteName: '免費遊戲站',
     nav: { home: '首頁', feedback: '意見反饋', language: '語言' },
     home: {
       title: '免費玩 Wordle, 數獨, 2048 線上遊戲',
       subtitle: '100+ 益智、文字、街機和策略遊戲。無需下載，即開即玩！',
       featured: '精選遊戲', allGames: '所有遊戲', gamesCount: '個遊戲', freeGames: '免費遊戲',
-      categories: '遊戲分類', copyright: '© 2026 RuleWord', aboutTitle: '關於 RuleWord',
+      categories: '遊戲分類', copyright: '© 2026 免費遊戲站', aboutTitle: '關於免費遊戲站',
       gameGuides: '遊戲攻略', viewAllGuides: '查看所有攻略 →',
       feature1Title: '完全免費 無限暢玩', feature1Desc: '所有遊戲完全免費,無時間限制,無需註冊即可暢玩。',
       feature2Title: '即開即玩 無需下載', feature2Desc: '所有遊戲直接在瀏覽器中運行,無需安裝任何應用程式。',
@@ -253,7 +261,7 @@ export const i18n: Record<Language, {
       feature4Title: '益智健腦', feature4Desc: '透過數獨、猜詞等益智遊戲鍛鍊邏輯思維、詞彙量和記憶力。',
       feature5Title: '多語言支援', feature5Desc: '支援英語、中文、日語等8種語言。',
       feature6Title: '持續更新', feature6Desc: '定期添加新遊戲,每週都有新挑戰等你來體驗。',
-      aboutDesc: 'RuleWord 是您免費線上益智遊戲的終極目的地。我們提供超過 111+ 款遊戲，涵蓋 7 大類別 - 從經典文字謎題如 Wordle 到腦力訓練邏輯遊戲如數獨，從懷舊街機遊戲如俄羅斯方塊到策略對戰如象棋。所有遊戲完全免費，無需下載，支援任何裝置。無論您想提升詞彙量、鍛鍊思維還是純粹娛樂，立即開始遊戲 - 無需註冊！',
+      aboutDesc: '免費遊戲站是您免費線上益智遊戲的終極目的地。我們提供超過 111+ 款遊戲，涵蓋 7 大類別 - 從經典文字謎題如 Wordle 到腦力訓練邏輯遊戲如數獨，從懷舊街機遊戲如俄羅斯方塊到策略對戰如象棋。所有遊戲完全免費，無需下載，支援任何裝置。無論您想提升詞彙量、鍛鍊思維還是純粹娛樂，立即開始遊戲 - 無需註冊！',
     },
     game: { loading: '載入中', error: '錯誤', backToHome: '返回首頁', howToPlay: '遊戲說明', tips: '技巧提示', viewGuide: '查看遊戲指南', about: '關於', objectives: '目標', controls: '操作方式', mechanics: '遊戲機制', features: '特色功能', faq: '常見問題', source: '來源' },
     feedback: {
@@ -263,15 +271,16 @@ export const i18n: Record<Language, {
       success: '感謝您的意見反饋！', fail: '發送失敗，請重試。'
     },
     category: { aboutCategory: '關於此分類', noGames: '此分類暫無遊戲', gamesCount: '個遊戲' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
   'zh-CN': {
+    siteName: '免费游戏站',
     nav: { home: '首页', feedback: '意见反馈', language: '语言' },
     home: {
       title: '免费玩 Wordle, 数独, 2048 在线游戏',
       subtitle: '100+ 益智、文字、街机和策略游戏。无需下载，即开即玩！',
       featured: '精选游戏', allGames: '所有游戏', gamesCount: '款游戏', freeGames: '免费游戏',
-      categories: '游戏分类', copyright: '© 2026 RuleWord', aboutTitle: '关于 RuleWord',
+      categories: '游戏分类', copyright: '© 2026 免费游戏站', aboutTitle: '关于免费游戏站',
       gameGuides: '游戏攻略', viewAllGuides: '查看所有攻略 →',
       feature1Title: '完全免费 无限畅玩', feature1Desc: '所有游戏完全免费,无时间限制,无需注册即可畅玩。',
       feature2Title: '即开即玩 无需下载', feature2Desc: '所有游戏直接在浏览器中运行,无需安装任何应用程序。',
@@ -279,7 +288,7 @@ export const i18n: Record<Language, {
       feature4Title: '益智健脑', feature4Desc: '通过数独、猜词等益智游戏锻炼逻辑思维、词汇量和记忆力。',
       feature5Title: '多语言支持', feature5Desc: '支持英语、中文、日语等8种语言。',
       feature6Title: '持续更新', feature6Desc: '定期添加新游戏,每周都有新挑战等你来体验。',
-      aboutDesc: 'RuleWord 是您免费在线益智游戏的终极目的地。我们提供超过 111+ 款游戏，涵盖 7 大类别 - 从经典文字谜题如 Wordle 到脑力训练逻辑游戏如数独，从怀旧街机游戏如俄罗斯方块到策略对战如象棋。所有游戏完全免费，无需下载，支持任何设备。无论您想提升词汇量、锻炼思维还是纯粹娱乐，立即开始游戏 - 无需注册！',
+      aboutDesc: '免费游戏站是您免费在线益智游戏的终极目的地。我们提供超过 111+ 款游戏，涵盖 7 大类别 - 从经典文字谜题如 Wordle 到脑力训练逻辑游戏如数独，从怀旧街机游戏如俄罗斯方块到策略对战如象棋。所有游戏完全免费，无需下载，支持任何设备。无论您想提升词汇量、锻炼思维还是纯粹娱乐，立即开始游戏 - 无需注册！',
     },
     game: { loading: '加载中', error: '错误', backToHome: '返回首页', howToPlay: '游戏说明', tips: '技巧提示', viewGuide: '查看游戏指南', about: '关于', objectives: '目标', controls: '操作方式', mechanics: '游戏机制', features: '特色功能', faq: '常见问题', source: '来源' },
     feedback: {
@@ -289,7 +298,7 @@ export const i18n: Record<Language, {
       success: '感谢您的意见反馈！', fail: '发送失败，请重试。'
     },
     category: { aboutCategory: '关于此分类', noGames: '此分类暂无游戏', gamesCount: '款游戏' },
-    footer: { copyright: '© 2026 RuleWord' },
+    footer: { copyright: '© 2026 Free Games Hub' },
   },
 }
 
