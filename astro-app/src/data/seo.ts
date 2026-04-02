@@ -317,6 +317,14 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play Calcudoku online free! Fill grid with numbers satisfying math operations. Math-based logic puzzle. No download!',
     intent: 'play'
   },
+  bullpen: {
+    primaryKeyword: '佛系消消消',
+    secondaryKeywords: ['shikaku puzzle', '数方游戏', '逻辑消消乐', 'rectangle puzzle', '佛系游戏'],
+    longTailKeywords: ['佛系消消消攻略', '佛系消消消怎么玩', '佛系消消消在线玩', 'shikaku online free', '解压小游戏', '网页版消消乐', '逻辑谜题在线'],
+    titleTemplate: '佛系消消消 - 超解压逻辑消消乐在线玩 | {brand}',
+    descriptionTemplate: '佛系消消消在线免费玩！超解压的逻辑消消乐游戏，根据数字提示画出矩形区域。无需下载，打开即玩，每天玩几局，轻松又治愈！',
+    intent: 'play'
+  },
 
   // Puzzle Games
   'mahjong-solitaire': {
