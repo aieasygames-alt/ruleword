@@ -14,6 +14,18 @@ export const languages = {
 
 export const defaultLang = 'en'
 
+// https://github.com/parcel-bundler/lightningcss/issues/874
+const lightningcssFix = {
+  name: 'lightningcss-fix',
+  enforce: 'pre',
+  resolveId(id) {
+    if (id === '../pkg' || id === '../pkg?commonjs-external') {
+      return { id: 'lightningcss', external: true }
+    }
+    return null
+  }
+}
+
 export default defineConfig({
   site: 'https://ruleword.com',
   integrations: [react()],
@@ -29,9 +41,10 @@ export default defineConfig({
     inlineStylesheets: 'auto'
   },
   vite: {
+    plugins: [lightningcssFix],
     build: {
       rollupOptions: {
-        external: ['fsevents']
+        external: ['fsevents', 'lightningcss']
       }
     },
     ssr: {
