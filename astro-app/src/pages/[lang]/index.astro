@@ -1,0 +1,29 @@
+---
+// Language-specific homepage - Redirect to main site with language cookie
+import { languages } from '../../../astro.config.mjs'
+
+export function getStaticPaths() {
+  return Object.keys(languages).map(lang => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params
+const langName = languages[lang]
+const redirectUrl = `/?lang=${lang}`
+---
+
+<html>
+<head>
+  <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
+  <title>Redirecting to {langName}...</title>
+  <script define:vars={{ lang }}>
+    // Set language preference and redirect
+    document.cookie = "preferred-language=" + lang + ";path=/;max-age=31536000";
+    window.location.href = "/?lang=" + lang;
+  </script>
+</head>
+<body>
+  <p>Redirecting to {langName}...</p>
+</body>
+</html>
