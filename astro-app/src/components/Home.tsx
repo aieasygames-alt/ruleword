@@ -347,12 +347,6 @@ export default function Home({ settings, toggleLanguage, toggleTheme, toggleSoun
                 R
               </div>
               <span className={`font-semibold ${subtleTextClass}`}>Free Games Hub</span>
-            </p>
-              © 2026 Free Games Hub · {games.length}+ {lang === 'zh' ? '款免费游戏' : 'Free Games'}
-            </p>
-          </div>
-        </div>
-      </footer>
             </div>
             <p className={`text-sm ${subtleTextClass}`}>
               © 2026 Free Games Hub · {games.length}+ {lang === 'zh' ? '款免费游戏' : 'Free Games'}
