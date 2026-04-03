@@ -2,27 +2,38 @@ import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import Module from 'module'
+import { createRequire } from 'module'
 
-// Polyfill __dirname for ESM context (needed by lightningcss and other native modules)
+// Polyfill __dirname for ESM context (needed by lightningcss)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 globalThis.__dirname = __dirname
 
-// Intercept Module._load to handle missing native modules gracefully
-const originalLoad = Module._load
-Module._load = function(request, parent, isMain) {
-  // Handle missing @rollup/rollup-* native modules
-  if (request.startsWith('@rollup/rollup-')) {
+// Create a global require with error handling for missing native modules
+const nodeRequire = createRequire(import.meta.url)
+
+// Intercept require to handle missing @rollup/rollup-* modules
+globalThis.require = function patchedRequire(id) {
+  if (id && id.startsWith('@rollup/rollup-')) {
     try {
-      return originalLoad.apply(this, arguments)
-    } catch (e) {
+      return nodeRequire(id)
+    } catch {
       // Return empty object for missing native modules
       // Rollup will fall back to WASM implementation
-      return {}
+      return { default: {}, load: () => null }
     }
   }
-  return originalLoad.apply(this, arguments)
+  return nodeRequire(id)
+}
+
+// Copy over resolve and other properties
+Object.setPrototypeOf(globalThis.require, nodeRequire)
+for (const key of Object.keys(nodeRequire)) {
+  if (key !== 'require') {
+    try {
+      globalThis.require[key] = nodeRequire[key]
+    } catch {}
+  }
 }
 
 export const languages = {
