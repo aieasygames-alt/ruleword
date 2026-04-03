@@ -42,7 +42,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      external: ['lightningcss']
+      external: ['lightningcss', 'rollup', /^@rollup\//]
     }
   }
 })
