@@ -2,9 +2,6 @@
   "name": "ruleword-astro",
   "type": "module",
   "version": "0.0.1",
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.59.0"
-  },
   "scripts": {
     "dev": "astro dev",
     "dev:cms": "node cms-proxy.js & astro dev",

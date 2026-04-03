@@ -38,7 +38,7 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['fsevents', 'lightningcss']
+        external: ['fsevents', 'lightningcss', /^@rollup\/rollup-/]
       }
     },
     ssr: {
