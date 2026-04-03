@@ -1,5 +1,17 @@
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
+import { createRequire } from 'module'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+// Polyfill for CommonJS modules in ESM context
+const require = createRequire(import.meta.url)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
+// Make them globally available for lightningcss
+globalThis.require = require
+globalThis.__dirname = __dirname
 
 export const languages = {
   en: 'English',
