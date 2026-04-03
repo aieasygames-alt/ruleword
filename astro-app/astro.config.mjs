@@ -35,10 +35,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['lightningcss', '@tailwindcss/postcss']
-    },
-    optimizeDeps: {
-      exclude: ['lightningcss']
+      external: ['lightningcss']
     }
   }
 })
