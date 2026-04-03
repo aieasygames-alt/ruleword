@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "cd astro-app && pnpm dev",
-    "build": "rm -rf dist && cd astro-app && npm install && npm run build && cp -r dist ../dist",
+    "build": "rm -rf dist && cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
     "preview": "cd astro-app && pnpm preview",
     "deploy": "pnpm build && gh-pages -d dist"
   },
