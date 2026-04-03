@@ -47,11 +47,13 @@ interface LevelData {
   walls?: { row: number; col: number }[]
   maxMistakes: number
   chapter: number
+  algorithm?: string // Track which algorithm generated this level
 }
 
 interface SavedProgress {
   completedLevels: number[]
   stars: Record<number, number>
+  dailyCompleted?: string // Date string of last completed daily challenge
 }
 
 // ===== CONSTANTS =====
@@ -76,12 +78,59 @@ const DIR_SYMBOLS: Record<Direction, string> = {
   right: '▶',
 }
 
+const ALL_DIRS: Direction[] = ['up', 'down', 'left', 'right']
+
 // ===== SEEDED RANDOM =====
 function seededRandom(seed: number): () => number {
   let s = seed
   return () => {
     s = (s * 16807 + 12345) % 2147483647
     return (s & 0x7fffffff) / 0x7fffffff
+  }
+}
+
+// ===== HAPTICS (Vibration Feedback) =====
+class Haptics {
+  static light(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(10)
+    }
+  }
+
+  static medium(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(20)
+    }
+  }
+
+  static heavy(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(50)
+    }
+  }
+
+  static success(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([10, 50, 10])
+    }
+  }
+
+  static error(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([20, 30, 20, 30, 20])
+    }
+  }
+
+  static slide(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(15)
+    }
+  }
+
+  static pop(): void {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate([5, 10, 5])
+    }
   }
 }
 
@@ -109,41 +158,420 @@ class SoundManager {
     } catch {}
   }
 
-  slide() { this.play(800, 0.15, 'sine', 0.1) }
-  blocked() { this.play(200, 0.3, 'square', 0.1) }
-  pop() { this.play(600, 0.1, 'sine', 0.08) }
+  slide() { this.play(800, 0.15, 'sine', 0.1); Haptics.slide() }
+  blocked() { this.play(200, 0.3, 'square', 0.1); Haptics.error() }
+  pop() { this.play(600, 0.1, 'sine', 0.08); Haptics.pop() }
   win() {
+    Haptics.success()
     [523, 659, 784, 1047].forEach((f, i) => {
       setTimeout(() => this.play(f, 0.3, 'sine', 0.12), i * 120)
     })
   }
   fail() {
+    Haptics.error()
     [400, 350, 300, 200].forEach((f, i) => {
       setTimeout(() => this.play(f, 0.3, 'square', 0.08), i * 150)
     })
   }
-  undo() { this.play(500, 0.1, 'triangle', 0.08) }
-  hint() { this.play(1000, 0.15, 'sine', 0.06) }
+  undo() { this.play(500, 0.1, 'triangle', 0.08); Haptics.light() }
+  hint() { this.play(1000, 0.15, 'sine', 0.06); Haptics.light() }
+  click() { this.play(400, 0.05, 'sine', 0.05); Haptics.light() }
+  revive() {
+    Haptics.success()
+    [600, 800, 1000].forEach((f, i) => {
+      setTimeout(() => this.play(f, 0.2, 'sine', 0.1), i * 100)
+    })
+  }
 }
 
-// ===== LEVEL DATA =====
-const ALL_DIRS: Direction[] = ['up', 'down', 'left', 'right']
+// ===== LEVEL GENERATION ALGORITHMS =====
 
+// Algorithm types
+type AlgoType = 'basic' | 'aztec' | 'snake' | 'spaghetti' | 'loopy' | 'country'
+
+interface PositionedArrow {
+  row: number
+  col: number
+  directions: Direction[]
+}
+
+// 1. Basic Algorithm - Simple straight lines (horizontal/vertical)
+function basicAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+
+  for (let i = 0; i < count; i++) {
+    let placed = false
+    for (let attempt = 0; attempt < 50; attempt++) {
+      const horizontal = rand() < 0.5
+      const start = Math.floor(rand() * gridSize)
+      const lineSize = Math.min(4, Math.floor(rand() * 3) + 2)
+
+      // Find a starting position
+      for (let j = 0; j < lineSize && arrows.length < count; j++) {
+        const row = horizontal ? start : Math.floor(rand() * gridSize)
+        const col = horizontal ? Math.floor(rand() * gridSize) : start
+        const key = `${row},${col}`
+
+        if (!occupied.has(key)) {
+          const dir: Direction = horizontal ? 'right' : 'down'
+          arrows.push({ row, col, directions: [dir] })
+          occupied.add(key)
+          placed = true
+          break
+        }
+      }
+      if (placed) break
+    }
+  }
+
+  return arrows
+}
+
+// 2. Aztec Algorithm - Pyramid/step patterns
+function aztecAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+  const centerRow = Math.floor(gridSize / 2)
+  const centerCol = Math.floor(gridSize / 2)
+
+  // Create pyramid layers
+  let layer = 0
+  while (arrows.length < count && layer < Math.floor(gridSize / 2)) {
+    const startRow = centerRow - layer
+    const endRow = centerRow + layer
+    const startCol = centerCol - layer
+    const endCol = centerCol + layer
+
+    // Place arrows in this layer (perimeter)
+    const positions: [number, number][] = []
+    for (let r = startRow; r <= endRow; r++) {
+      for (let c = startCol; c <= endCol; c++) {
+        if (r === startRow || r === endRow || c === startCol || c === endCol) {
+          if (r >= 0 && r < gridSize && c >= 0 && c < gridSize) {
+            positions.push([r, c])
+          }
+        }
+      }
+    }
+
+    // Shuffle positions and place arrows
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1))
+      ;[positions[i], positions[j]] = [positions[j], positions[i]]
+    }
+
+    for (const [r, c] of positions) {
+      if (arrows.length >= count) break
+      const key = `${r},${c}`
+      if (!occupied.has(key)) {
+        // Direction points toward center or away from center
+        const dr = centerRow - r
+        const dc = centerCol - c
+        let dir: Direction
+        if (Math.abs(dr) > Math.abs(dc)) {
+          dir = dr > 0 ? 'down' : 'up'
+        } else {
+          dir = dc > 0 ? 'right' : 'left'
+        }
+        arrows.push({ row: r, col: c, directions: [dir] })
+        occupied.add(key)
+      }
+    }
+
+    layer++
+  }
+
+  return arrows.slice(0, count)
+}
+
+// 3. Snake Algorithm - S-shaped winding path
+function snakeAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+
+  let row = Math.floor(rand() * (gridSize - 2)) + 1
+  let col = 0
+  let direction: 'right' | 'left' = 'right'
+
+  for (let i = 0; i < count; i++) {
+    const key = `${row},${col}`
+    if (!occupied.has(key) && row >= 0 && row < gridSize && col >= 0 && col < gridSize) {
+      const dir: Direction = direction === 'right' ? 'right' : 'left'
+      arrows.push({ row, col, directions: [dir] })
+      occupied.add(key)
+
+      col += direction === 'right' ? 1 : -1
+
+      // Change row when hitting edge
+      if (col < 0 || col >= gridSize) {
+        col = Math.max(0, Math.min(gridSize - 1, col))
+        row = (row + 1) % gridSize
+        direction = direction === 'right' ? 'left' : 'right'
+      }
+    } else {
+      // Fallback: random placement
+      const r = Math.floor(rand() * gridSize)
+      const c = Math.floor(rand() * gridSize)
+      const key2 = `${r},${c}`
+      if (!occupied.has(key2)) {
+        const dir: Direction = rand() < 0.5 ? 'right' : 'down'
+        arrows.push({ row: r, col: c, directions: [dir] })
+        occupied.add(key2)
+      }
+    }
+  }
+
+  return arrows
+}
+
+// 4. Spaghetti Algorithm - Random crossing paths
+function spaghettiAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+
+  for (let i = 0; i < count; i++) {
+    let placed = false
+    for (let attempt = 0; attempt < 100 && !placed; attempt++) {
+      const row = Math.floor(rand() * gridSize)
+      const col = Math.floor(rand() * gridSize)
+      const key = `${row},${col}`
+
+      if (!occupied.has(key)) {
+        // Random direction with bias
+        const dirs: Direction[] = ['up', 'down', 'left', 'right']
+        const weights = [1, 1, 1, 1]
+
+        // Bias based on position (tend to point to edges)
+        if (row < gridSize / 3) weights[0]++ // more up
+        if (row > gridSize * 2 / 3) weights[1]++ // more down
+        if (col < gridSize / 3) weights[2]++ // more left
+        if (col > gridSize * 2 / 3) weights[3]++ // more right
+
+        const totalWeight = weights.reduce((a, b) => a + b, 0)
+        let random = rand() * totalWeight
+        let dir: Direction = 'up'
+
+        for (let d = 0; d < dirs.length; d++) {
+          random -= weights[d]
+          if (random <= 0) {
+            dir = dirs[d]
+            break
+          }
+        }
+
+        // 30% chance of multi-direction
+        const directions: Direction[] = [dir]
+        if (rand() < 0.3) {
+          const otherDirs = ALL_DIRS.filter(d => d !== dir)
+          const extra = otherDirs[Math.floor(rand() * otherDirs.length)]
+          directions.push(extra)
+        }
+
+        arrows.push({ row, col, directions })
+        occupied.add(key)
+        placed = true
+      }
+    }
+  }
+
+  return arrows
+}
+
+// 5. Loopy Algorithm - Circular patterns
+function loopyAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+  const centerRow = Math.floor(gridSize / 2)
+  const centerCol = Math.floor(gridSize / 2)
+
+  // Create concentric circles
+  for (let radius = 1; arrows.length < count && radius < Math.floor(gridSize / 2); radius++) {
+    const circumference = 2 * Math.PI * radius
+    const arrowsInCircle = Math.min(Math.floor(circumference / 1.5), count - arrows.length)
+
+    for (let i = 0; i < arrowsInCircle; i++) {
+      const angle = (i / arrowsInCircle) * Math.PI * 2
+      const row = Math.round(centerRow + Math.sin(angle) * radius)
+      const col = Math.round(centerCol + Math.cos(angle) * radius)
+
+      if (row >= 0 && row < gridSize && col >= 0 && col < gridSize) {
+        const key = `${row},${col}`
+        if (!occupied.has(key)) {
+          // Tangent direction (clockwise along circle)
+          const tanAngle = angle + Math.PI / 2
+          let dir: Direction
+          if (Math.abs(Math.sin(tanAngle)) > Math.abs(Math.cos(tanAngle))) {
+            dir = Math.sin(tanAngle) > 0 ? 'down' : 'up'
+          } else {
+            dir = Math.cos(tanAngle) > 0 ? 'right' : 'left'
+          }
+
+          // Add some randomness
+          if (rand() < 0.2) {
+            dir = ALL_DIRS[Math.floor(rand() * 4)]
+          }
+
+          arrows.push({ row, col, directions: [dir] })
+          occupied.add(key)
+        }
+      }
+    }
+  }
+
+  // Fill remaining with random
+  while (arrows.length < count) {
+    const row = Math.floor(rand() * gridSize)
+    const col = Math.floor(rand() * gridSize)
+    const key = `${row},${col}`
+    if (!occupied.has(key)) {
+      const dir = ALL_DIRS[Math.floor(rand() * 4)]
+      arrows.push({ row, col, directions: [dir] })
+      occupied.add(key)
+    }
+  }
+
+  return arrows.slice(0, count)
+}
+
+// 6. Country Algorithm - Natural irregular paths
+function countryAlgorithm(rand: () => number, gridSize: number, count: number): PositionedArrow[] {
+  const arrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+
+  // Create a few "roads"
+  const roadCount = Math.max(2, Math.floor(count / 5))
+  const roads: [number, number][][] = []
+
+  for (let r = 0; r < roadCount; r++) {
+    const road: [number, number][] = []
+    let row = Math.floor(rand() * gridSize)
+    let col = Math.floor(rand() * gridSize)
+    const length = 3 + Math.floor(rand() * 4)
+
+    for (let i = 0; i < length; i++) {
+      road.push([row, col])
+
+      // Random turn
+      const turn = rand()
+      if (turn < 0.4) row = Math.max(0, row - 1)
+      else if (turn < 0.8) row = Math.min(gridSize - 1, row + 1)
+      else if (turn < 0.9) col = Math.max(0, col - 1)
+      else col = Math.min(gridSize - 1, col + 1)
+    }
+
+    roads.push(road)
+  }
+
+  // Place arrows along roads
+  for (const road of roads) {
+    for (const [r, c] of road) {
+      if (arrows.length >= count) break
+      const key = `${r},${c}`
+      if (!occupied.has(key)) {
+        // Direction follows the road
+        let dir: Direction = 'right'
+        const idx = road.findIndex(([rr, cc]) => rr === r && cc === c)
+        if (idx < road.length - 1) {
+          const [nextR, nextC] = road[idx + 1]
+          const dr = nextR - r
+          const dc = nextC - c
+          if (dr < 0) dir = 'up'
+          else if (dr > 0) dir = 'down'
+          else if (dc < 0) dir = 'left'
+          else dir = 'right'
+        } else if (idx > 0) {
+          const [prevR, prevC] = road[idx - 1]
+          const dr = r - prevR
+          const dc = c - prevC
+          if (dr < 0) dir = 'up'
+          else if (dr > 0) dir = 'down'
+          else if (dc < 0) dir = 'left'
+          else dir = 'right'
+        }
+
+        arrows.push({ row: r, col: c, directions: [dir] })
+        occupied.add(key)
+      }
+    }
+  }
+
+  // Fill remaining with scattered arrows
+  while (arrows.length < count) {
+    const row = Math.floor(rand() * gridSize)
+    const col = Math.floor(rand() * gridSize)
+    const key = `${row},${col}`
+    if (!occupied.has(key)) {
+      const dir = ALL_DIRS[Math.floor(rand() * 4)]
+      arrows.push({ row, col, directions: [dir] })
+      occupied.add(key)
+    }
+  }
+
+  return arrows.slice(0, count)
+}
+
+// Algorithm composer - combines multiple algorithms
+function composeAlgorithms(rand: () => number, gridSize: number, count: number, algorithms: AlgoType[]): PositionedArrow[] {
+  if (algorithms.length === 0) {
+    return spaghettiAlgorithm(rand, gridSize, count)
+  }
+
+  const perAlgo = Math.ceil(count / algorithms.length)
+  const allArrows: PositionedArrow[] = []
+  const occupied = new Set<string>()
+
+  for (const algo of algorithms) {
+    const remaining = count - allArrows.length
+    if (remaining <= 0) break
+
+    const thisCount = Math.min(perAlgo, remaining)
+    let arrows: PositionedArrow[] = []
+
+    switch (algo) {
+      case 'basic': arrows = basicAlgorithm(rand, gridSize, thisCount); break
+      case 'aztec': arrows = aztecAlgorithm(rand, gridSize, thisCount); break
+      case 'snake': arrows = snakeAlgorithm(rand, gridSize, thisCount); break
+      case 'spaghetti': arrows = spaghettiAlgorithm(rand, gridSize, thisCount); break
+      case 'loopy': arrows = loopyAlgorithm(rand, gridSize, thisCount); break
+      case 'country': arrows = countryAlgorithm(rand, gridSize, thisCount); break
+    }
+
+    // Filter out already occupied positions
+    for (const arrow of arrows) {
+      if (allArrows.length >= count) break
+      const key = `${arrow.row},${arrow.col}`
+      if (!occupied.has(key)) {
+        allArrows.push(arrow)
+        occupied.add(key)
+      }
+    }
+  }
+
+  return allArrows
+}
+
+// ===== MAIN LEVEL GENERATOR =====
 function generateLevel(levelNum: number): LevelData {
   const rand = seededRandom(levelNum * 7919 + 31)
-  let chapter: number, gridSize: number, arrowCount: number, maxMistakes: number, hasMultiDir = false, hasNumBlock = false, hasWalls = false
+  let chapter: number, gridSize: number, arrowCount: number, maxMistakes: number
+  let hasMultiDir = false, hasNumBlock = false, hasWalls = false
+  let algorithms: AlgoType[] = []
 
+  // Chapter configuration
   if (levelNum <= 30) {
     chapter = 1
     gridSize = 4 + (levelNum > 15 ? 1 : 0)
     arrowCount = 3 + Math.floor(levelNum / 5)
     maxMistakes = 3
+    algorithms = ['basic', 'aztec']
   } else if (levelNum <= 70) {
     chapter = 2
     gridSize = 5 + (levelNum > 50 ? 1 : 0)
     arrowCount = 5 + Math.floor((levelNum - 30) / 8)
     maxMistakes = 3
     hasMultiDir = true
+    algorithms = ['snake', 'spaghetti']
   } else if (levelNum <= 120) {
     chapter = 3
     gridSize = 6 + (levelNum > 100 ? 1 : 0)
@@ -151,6 +579,7 @@ function generateLevel(levelNum: number): LevelData {
     maxMistakes = 3
     hasMultiDir = true
     hasWalls = true
+    algorithms = ['loopy', 'country']
   } else {
     chapter = 4
     gridSize = 7 + (levelNum > 160 ? 1 : 0)
@@ -159,14 +588,22 @@ function generateLevel(levelNum: number): LevelData {
     hasMultiDir = true
     hasNumBlock = true
     hasWalls = true
+    algorithms = ['basic', 'aztec', 'snake', 'spaghetti', 'loopy', 'country']
   }
 
-  // Try generating solvable level (reverse-insertion algorithm)
+  // Shuffle algorithms for variety
+  for (let i = algorithms.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1))
+    ;[algorithms[i], algorithms[j]] = [algorithms[j], algorithms[i]]
+  }
+  // Use 1-2 algorithms per level
+  const numAlgos = Math.min(2, algorithms.length)
+  algorithms = algorithms.slice(0, numAlgos)
+
+  // Try generating solvable level using reverse-insertion algorithm
   for (let attempt = 0; attempt < 50; attempt++) {
     const attemptRand = seededRandom(levelNum * 10000 + attempt * 137 + 7)
     const grid: (string | null)[][] = Array.from({ length: gridSize }, () => Array(gridSize).fill(null))
-    const arrows: LevelData['arrows'] = []
-    const insertOrder: { row: number; col: number; directions: Direction[] }[] = []
 
     // Place walls first
     const walls: Wall[] = []
@@ -196,59 +633,55 @@ function generateLevel(levelNum: number): LevelData {
       }
     }
 
-    // Reverse insertion: start from an empty grid, arrows exit in reverse order
-    for (let i = 0; i < arrowCount; i++) {
-      let placed = false
-      for (let try_ = 0; try_ < 100; try_++) {
-        // Choose an edge to enter from
-        const side = Math.floor(attemptRand() * 4)
-        const pos = Math.floor(attemptRand() * gridSize)
-        let enterRow: number, enterCol: number, enterDir: Direction
+    // Generate arrow positions using algorithms
+    const algoArrows = composeAlgorithms(attemptRand, gridSize, arrowCount, algorithms)
 
-        switch (side) {
-          case 0: enterRow = 0; enterCol = pos; enterDir = 'down'; break
-          case 1: enterRow = gridSize - 1; enterCol = pos; enterDir = 'up'; break
-          case 2: enterRow = pos; enterCol = 0; enterDir = 'right'; break
-          default: enterRow = pos; enterCol = gridSize - 1; enterDir = 'left'; break
-        }
+    // Reverse insertion: determine valid exit directions
+    const arrows: LevelData['arrows'] = []
+    const arrowPositions = new Set<string>()
 
-        // Move inward until finding empty cell
-        const [dr, dc] = DIR_DELTA[enterDir]
-        let r = enterRow, c = enterCol
-        let foundEmpty = false
+    for (const algoArrow of algoArrows) {
+      const key = `${algoArrow.row},${algoArrow.col}`
+      if (arrowPositions.has(key)) continue
+      if (grid[algoArrow.row][algoArrow.col]) continue
+
+      // Find valid exit direction
+      let validDirs: Direction[] = []
+      for (const dir of algoArrow.directions) {
+        const [dr, dc] = DIR_DELTA[dir]
+        let r = algoArrow.row + dr
+        let c = algoArrow.col + dc
+        let clear = true
+
         while (r >= 0 && r < gridSize && c >= 0 && c < gridSize) {
-          if (!grid[r][c]) { foundEmpty = true; break }
-          r += dr
-          c += dc
+          if (grid[r][c]) { clear = false; break }
+          if (arrowPositions.has(`${r},${c}`)) { clear = false; break }
+          r += dr; c += dc
         }
 
-        if (!foundEmpty) continue
-        if (grid[r][c]) continue
-
-        // Arrow direction is opposite of entry direction (it will exit the way it came in)
-        const arrowDir = enterDir
-        let directions: Direction[] = [arrowDir]
-        if (hasMultiDir && attemptRand() < 0.3) {
-          const extraDirs = ALL_DIRS.filter(d => d !== arrowDir)
-          const extra = extraDirs[Math.floor(attemptRand() * extraDirs.length)]
-          directions = [arrowDir, extra]
-        }
-
-        grid[r][c] = `arrow-${i}`
-        arrows.push({ row: r, col: c, directions })
-        insertOrder.push({ row: r, col: c, directions })
-        placed = true
-        break
+        if (clear) validDirs.push(dir)
       }
-      if (!placed) break
+
+      if (validDirs.length > 0) {
+        // Use first valid direction, or add multi-direction if enabled
+        let directions: Direction[]
+        if (hasMultiDir && validDirs.length > 1 && attemptRand() < 0.3) {
+          directions = [validDirs[0], validDirs[1]]
+        } else {
+          directions = [validDirs[0]]
+        }
+
+        grid[algoArrow.row][algoArrow.col] = `arrow-${arrows.length}`
+        arrows.push({ row: algoArrow.row, col: algoArrow.col, directions })
+        arrowPositions.add(key)
+      }
     }
 
     if (arrows.length < arrowCount) continue
 
     // Verify solvability by checking if reverse order works
     let solvable = true
-    const testGrid: Set<string> = new Set()
-    arrows.forEach(a => testGrid.add(`${a.row},${a.col}`))
+    const testGrid: Set<string> = new Set(arrowPositions)
     walls?.forEach(w => testGrid.add(`w${w.row},${w.col}`))
     numberBlocks?.forEach(b => testGrid.add(`b${b.row},${b.col}`))
 
@@ -286,6 +719,7 @@ function generateLevel(levelNum: number): LevelData {
       walls: walls.length > 0 ? walls : undefined,
       maxMistakes,
       chapter,
+      algorithm: algorithms[0],
     }
   }
 
@@ -301,6 +735,7 @@ function generateLevel(levelNum: number): LevelData {
     ],
     maxMistakes: 3,
     chapter: 1,
+    algorithm: 'basic',
   }
 }
 
@@ -312,6 +747,7 @@ const TUTORIAL_LEVELS: LevelData[] = [
       { row: 1, col: 1, directions: ['right'] },
       { row: 2, col: 2, directions: ['down'] },
     ],
+    algorithm: 'basic',
   },
   {
     id: 2, name: 'Clear the Way', nameZh: '扫清道路', gridSize: 4, chapter: 1, maxMistakes: 3,
@@ -320,6 +756,7 @@ const TUTORIAL_LEVELS: LevelData[] = [
       { row: 0, col: 2, directions: ['down'] },
       { row: 2, col: 3, directions: ['left'] },
     ],
+    algorithm: 'basic',
   },
   {
     id: 3, name: 'Think Ahead', nameZh: '三思而行', gridSize: 4, chapter: 1, maxMistakes: 3,
@@ -328,6 +765,7 @@ const TUTORIAL_LEVELS: LevelData[] = [
       { row: 1, col: 2, directions: ['down'] },
       { row: 2, col: 1, directions: ['up'] },
     ],
+    algorithm: 'snake',
   },
   {
     id: 4, name: 'Order Matters', nameZh: '顺序很重要', gridSize: 5, chapter: 1, maxMistakes: 3,
@@ -337,6 +775,7 @@ const TUTORIAL_LEVELS: LevelData[] = [
       { row: 2, col: 4, directions: ['left'] },
       { row: 3, col: 1, directions: ['up'] },
     ],
+    algorithm: 'country',
   },
   {
     id: 5, name: 'Getting Tricky', nameZh: '越来越难', gridSize: 5, chapter: 1, maxMistakes: 3,
@@ -347,12 +786,20 @@ const TUTORIAL_LEVELS: LevelData[] = [
       { row: 3, col: 2, directions: ['up'] },
       { row: 2, col: 4, directions: ['left'] },
     ],
+    algorithm: 'spaghetti',
   },
 ]
 
 function getLevel(levelNum: number): LevelData {
   if (levelNum <= TUTORIAL_LEVELS.length) return TUTORIAL_LEVELS[levelNum - 1]
   return generateLevel(levelNum)
+}
+
+// ===== DAILY CHALLENGE GENERATOR =====
+function getDailyChallengeLevel(): LevelData {
+  const today = new Date()
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
+  return generateLevel(seed)
 }
 
 // ===== SOLVER (for hints) =====
@@ -374,7 +821,6 @@ function findSolution(level: LevelData): number[] | null {
       let clear = true
       while (r >= 0 && r < level.gridSize && c >= 0 && c < level.gridSize) {
         if (occ.has(`${r},${c}`)) {
-          // Check if it's a number block that's been cleared
           if (nb.has(`${r},${c}`) && nb.get(`${r},${c}`) === 0) {
             // cleared block, pass through
           } else {
@@ -412,6 +858,7 @@ function findSolution(level: LevelData): number[] | null {
 export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const [screen, setScreen] = useState<'levels' | 'game'>('levels')
   const [currentLevel, setCurrentLevel] = useState(1)
+  const [isDailyChallenge, setIsDailyChallenge] = useState(false)
   const [progress, setProgress] = useState<SavedProgress>({ completedLevels: [], stars: {} })
   const [arrows, setArrows] = useState<Arrow[]>([])
   const [levelData, setLevelData] = useState<LevelData | null>(null)
@@ -422,6 +869,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const [history, setHistory] = useState<Arrow[][]>([])
   const [numberBlocks, setNumberBlocks] = useState<NumberBlock[]>([])
   const [selectedChapter, setSelectedChapter] = useState(1)
+  const [showReviveOption, setShowReviveOption] = useState(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
@@ -460,13 +908,14 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     cancelAnimationFrame(animRef.current)
     animatingArrows.current.clear()
 
-    const ld = getLevel(currentLevel)
+    const ld = isDailyChallenge ? getDailyChallengeLevel() : getLevel(currentLevel)
     setLevelData(ld)
     setMistakes(0)
     setMoves(0)
     setGameState('playing')
     setHintArrow(null)
     setHistory([])
+    setShowReviveOption(false)
 
     setArrows(ld.arrows.map((a, i) => ({
       id: i, row: a.row, col: a.col, directions: a.directions,
@@ -476,7 +925,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setNumberBlocks((ld.numberBlocks || []).map(b => ({
       row: b.row, col: b.col, hits: 0, maxHits: b.maxHits,
     })))
-  }, [currentLevel, screen])
+  }, [currentLevel, screen, isDailyChallenge])
 
   // Check if arrow can exit
   const canArrowExit = useCallback((arrow: Arrow): boolean => {
@@ -495,7 +944,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         const key = `${r},${c}`
         if (wallSet.has(key)) { clear = false; break }
         if (arrowSet.has(key)) { clear = false; break }
-        // Number blocks block unless fully hit
         const nb = nbMap.get(key)
         if (nb && nb.hits < nb.maxHits) { clear = false; break }
         r += dr; c += dc
@@ -512,6 +960,8 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
     const arrow = arrowsRef.current.find(a => a.id === arrowId)
     if (!arrow || arrow.isExiting) return
+
+    soundRef.current.click()
 
     if (canArrowExit(arrow)) {
       // Arrow exits
@@ -541,11 +991,9 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         if (progress < 1) {
           animRef.current = requestAnimationFrame(animate)
         } else {
-          // Remove arrow
           animatingArrows.current.delete(arrowId)
           setArrows(prev => {
             const remaining = prev.filter(a => a.id !== arrowId)
-            // Check win
             if (remaining.length === 0) {
               setTimeout(() => {
                 soundRef.current.win()
@@ -562,10 +1010,14 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       soundRef.current.blocked()
       setMistakes(prev => {
         const next = prev + 1
-        if (next >= (levelData?.maxMistakes || 3)) {
+        const maxMistakes = levelData?.maxMistakes || 3
+        if (next >= maxMistakes) {
+          setShowReviveOption(true)
           setTimeout(() => {
-            soundRef.current.fail()
-            setGameState('lost')
+            if (showReviveOption) {
+              soundRef.current.fail()
+              setGameState('lost')
+            }
           }, 300)
         }
         return next
@@ -593,7 +1045,15 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       }
       requestAnimationFrame(shakeAnim)
     }
-  }, [canArrowExit, levelData])
+  }, [canArrowExit, levelData, showReviveOption])
+
+  // Revive (continue after losing)
+  const handleRevive = useCallback(() => {
+    soundRef.current.revive()
+    setMistakes(0)
+    setShowReviveOption(false)
+    setGameState('playing')
+  }, [])
 
   // Undo
   const handleUndo = useCallback(() => {
@@ -630,13 +1090,14 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     cancelAnimationFrame(animRef.current)
     animatingArrows.current.clear()
 
-    const ld = getLevel(currentLevel)
+    const ld = isDailyChallenge ? getDailyChallengeLevel() : getLevel(currentLevel)
     setLevelData(ld)
     setMistakes(0)
     setMoves(0)
     setGameState('playing')
     setHintArrow(null)
     setHistory([])
+    setShowReviveOption(false)
 
     setArrows(ld.arrows.map((a, i) => ({
       id: i, row: a.row, col: a.col, directions: a.directions,
@@ -646,10 +1107,11 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setNumberBlocks((ld.numberBlocks || []).map(b => ({
       row: b.row, col: b.col, hits: 0, maxHits: b.maxHits,
     })))
-  }, [currentLevel])
+  }, [currentLevel, isDailyChallenge])
 
   // Next level
   const handleNextLevel = useCallback(() => {
+    setIsDailyChallenge(false)
     setCurrentLevel(prev => Math.min(prev + 1, 200))
   }, [])
 
@@ -657,14 +1119,23 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   useEffect(() => {
     if (gameState === 'won' && levelData) {
       const stars = mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1
-      const newCompleted = progress.completedLevels.includes(currentLevel)
+      const lvl = isDailyChallenge ? 0 : currentLevel
+      const newCompleted = progress.completedLevels.includes(lvl)
         ? progress.completedLevels
-        : [...progress.completedLevels, currentLevel]
+        : [...progress.completedLevels, lvl]
       const newStars = { ...progress.stars }
-      newStars[currentLevel] = Math.max(newStars[currentLevel] || 0, stars)
-      saveProgress({ completedLevels: newCompleted, stars: newStars })
+      newStars[lvl] = Math.max(newStars[lvl] || 0, stars)
+
+      const newProgress = { completedLevels: newCompleted, stars: newStars }
+
+      if (isDailyChallenge) {
+        const today = new Date().toDateString()
+        newProgress.dailyCompleted = today
+      }
+
+      saveProgress(newProgress)
     }
-  }, [gameState, currentLevel, mistakes, levelData, progress, saveProgress])
+  }, [gameState, currentLevel, mistakes, levelData, progress, saveProgress, isDailyChallenge])
 
   // Canvas rendering - MUST be unconditional
   useEffect(() => {
@@ -709,7 +1180,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     ;(levelData.walls || []).forEach(w => {
       ctx.fillStyle = dark ? '#334155' : '#94a3b8'
       ctx.fillRect(w.col * cellSize + 2, w.row * cellSize + 2, cellSize - 4, cellSize - 4)
-      // Brick pattern
       ctx.strokeStyle = dark ? '#475569' : '#64748b'
       ctx.lineWidth = 1
       const cx = w.col * cellSize, cy = w.row * cellSize
@@ -746,7 +1216,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       let alpha = 1
 
       if (arrow.isExiting) {
-        // Move towards primary direction and fade out
         const dir = arrow.directions[0]
         const [dr, dc] = DIR_DELTA[dir]
         x += dc * cellSize * arrow.exitProgress * 2
@@ -760,7 +1229,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         y += (Math.random() - 0.5) * 4
       }
 
-      // Highlight for hint
       const isHinted = hintArrow === arrow.id
 
       ctx.save()
@@ -770,26 +1238,22 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
       const r = cellSize * 0.38
 
-      // Glow for hint
       if (isHinted) {
         ctx.shadowColor = '#fbbf24'
         ctx.shadowBlur = 15
       }
 
-      // Arrow background circle
       const baseColor = DIR_COLORS[arrow.directions[0]]
       ctx.fillStyle = baseColor
       ctx.beginPath()
       ctx.arc(0, 0, r, 0, Math.PI * 2)
       ctx.fill()
 
-      // Inner highlight
       ctx.fillStyle = 'rgba(255,255,255,0.2)'
       ctx.beginPath()
       ctx.arc(-r * 0.15, -r * 0.15, r * 0.6, 0, Math.PI * 2)
       ctx.fill()
 
-      // Draw direction symbols
       ctx.fillStyle = 'white'
       ctx.font = `bold ${cellSize * 0.22}px sans-serif`
       ctx.textAlign = 'center'
@@ -799,7 +1263,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         ctx.font = `bold ${cellSize * 0.35}px sans-serif`
         ctx.fillText(DIR_SYMBOLS[arrow.directions[0]], 0, 0)
       } else {
-        // Multi-direction: show in a 2x2 grid
         const offset = cellSize * 0.12
         const positions: Record<Direction, [number, number]> = {
           up: [0, -offset],
@@ -813,7 +1276,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         })
       }
 
-      // Hint ring
       if (isHinted) {
         ctx.strokeStyle = '#fbbf24'
         ctx.lineWidth = 3
@@ -868,6 +1330,9 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
   // ===== LEVEL SELECT SCREEN RENDER =====
   const renderLevelSelect = () => {
+    const today = new Date().toDateString()
+    const isDailyCompleted = progress.dailyCompleted === today
+
     const chapters = [
       { id: 1, name: isZh ? '入门篇' : 'Beginner', range: '1-30', color: 'from-green-400 to-emerald-600', icon: '🌱' },
       { id: 2, name: isZh ? '进阶篇' : 'Intermediate', range: '31-70', color: 'from-blue-400 to-indigo-600', icon: '⚡' },
@@ -889,6 +1354,30 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
           </button>
           <h1 className="text-lg font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
           <div className="w-8" />
+        </div>
+
+        {/* Daily Challenge Banner */}
+        <div className="mx-3 mt-2 mb-2">
+          <button
+            onClick={() => { setIsDailyChallenge(true); setCurrentLevel(1); setScreen('game') }}
+            disabled={isDailyCompleted}
+            className={`w-full py-3 px-4 rounded-xl flex items-center justify-between shadow-lg transition-all ${
+              isDailyCompleted
+                ? 'bg-gradient-to-r from-gray-400 to-gray-500 text-white cursor-default'
+                : 'bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 text-white cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">⭐</span>
+              <div className="text-left">
+                <div className="font-bold">{isZh ? '每日挑战' : 'Daily Challenge'}</div>
+                <div className="text-xs opacity-80">
+                  {isDailyCompleted ? isZh ? '今日已完成' : 'Completed today' : new Date().toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+            {!isDailyCompleted && <span className="text-xl">→</span>}
+          </button>
         </div>
 
         {/* Chapter tabs */}
@@ -931,7 +1420,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
               return (
                 <button key={lvl} disabled={locked}
-                  onClick={() => { setCurrentLevel(lvl); setScreen('game') }}
+                  onClick={() => { setCurrentLevel(lvl); setIsDailyChallenge(false); setScreen('game') }}
                   className={`aspect-square rounded-xl flex flex-col items-center justify-center text-sm font-bold transition-all relative
                     ${locked ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
                     ${completed
@@ -970,7 +1459,8 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     }
 
     const chapterNames = [isZh ? '入门篇' : 'Beginner', isZh ? '进阶篇' : 'Intermediate', isZh ? '挑战篇' : 'Advanced', isZh ? '大师篇' : 'Master']
-    const chapterName = chapterNames[levelData.chapter - 1]
+    const chapterName = isDailyChallenge ? (isZh ? '每日挑战' : 'Daily Challenge') : chapterNames[levelData.chapter - 1]
+    const levelDisplay = isDailyChallenge ? '' : (isZh ? `第${currentLevel}关` : `Level ${currentLevel}`)
     const maxMistakes = levelData.maxMistakes
 
     return (
@@ -982,7 +1472,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
           </button>
           <div className="text-center">
             <h1 className="text-sm font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
-            <p className="text-xs opacity-60">{chapterName} - {isZh ? `第${currentLevel}关` : `Level ${currentLevel}`}</p>
+            <p className="text-xs opacity-60">{chapterName} {levelDisplay && `- ${levelDisplay}`}</p>
           </div>
           <div className="w-8" />
         </div>
@@ -1064,7 +1554,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
                 >
                   {isZh ? '关卡列表' : 'Levels'}
                 </button>
-                {currentLevel < 200 && (
+                {!isDailyChallenge && currentLevel < 200 && (
                   <button onClick={handleNextLevel}
                     className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 text-white"
                   >
@@ -1076,7 +1566,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
           </div>
         )}
 
-        {/* Lose Modal */}
+        {/* Lose Modal with Revive Option */}
         {gameState === 'lost' && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div className={`${cardBgClass} rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl`}>
@@ -1085,17 +1575,25 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
               <p className="text-sm opacity-60 mb-4">
                 {isZh ? `完成了 ${moves} 步` : `Made ${moves} moves`}
               </p>
-              <div className="flex gap-3">
-                <button onClick={() => setScreen('levels')}
-                  className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
+              <div className="flex flex-col gap-3">
+                <button onClick={handleRevive}
+                  className="w-full py-3 rounded-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 text-white flex items-center justify-center gap-2"
                 >
-                  {isZh ? '关卡列表' : 'Levels'}
+                  <span>💫</span>
+                  {isZh ? '继续游戏' : 'Continue'}
                 </button>
-                <button onClick={handleRestart}
-                  className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 text-white"
-                >
-                  {isZh ? '再试一次' : 'Retry'}
-                </button>
+                <div className="flex gap-3">
+                  <button onClick={() => setScreen('levels')}
+                    className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
+                  >
+                    {isZh ? '关卡列表' : 'Levels'}
+                  </button>
+                  <button onClick={handleRestart}
+                    className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 text-white"
+                  >
+                    {isZh ? '再试一次' : 'Retry'}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
