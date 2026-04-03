@@ -178,11 +178,11 @@ const gameGuidesEn: GameGuides = {
     ],
   },
   simonsays: {
-    name: 'Simon Says',
-    intro: 'Simon Says is the classic memory sequence game. Watch the color pattern and repeat it exactly. How long can you remember the growing sequence?',
-    howToPlay: 'Watch the sequence of colors light up. Then repeat the pattern by clicking the colors in the same order. Each round adds one more color to the sequence.',
+    name: 'Audio Memory',
+    intro: 'Audio Memory is the classic sound-based memory sequence game. Listen to the tone pattern and repeat it exactly. How long can you remember the growing sequence?',
+    howToPlay: 'Listen to the sequence of tones play. Then repeat the pattern by clicking the buttons in the same order. Each round adds one more tone to the sequence.',
     tips: [
-      'Say the colors out loud as you see them',
+      'Hum or sing the tones as you hear them',
       'Create mental associations for longer sequences',
       'Break long sequences into smaller chunks',
       'Stay calm and focused as speed increases',
@@ -794,7 +794,7 @@ const gameGuidesEn: GameGuides = {
     ],
   },
   reactiontime: {
-    name: 'Reaction Time',
+    name: 'Reaction Speed',
     intro: 'Test your pure reaction speed! Wait for the visual signal, then click as fast as possible. Track your best times and compete with friends!',
     howToPlay: 'Wait for the screen to change from red to green. Click immediately when you see green. Don\'t click early or you\'ll have to restart. Track your average reaction time!',
     tips: [
@@ -1391,14 +1391,14 @@ const gameGuidesZhCN: GameGuides = {
     ],
   },
   simonsays: {
-    name: '西蒙说',
-    intro: '西蒙说是经典节奏记忆游戏！跟随模式尽可能快地重复。速度逐渐增加！',
-    howToPlay: '观看颜色亮起的序列。按相同顺序点击按钮。每个新序列增加一个步骤。速度随时间增加。',
+    name: '声音记忆',
+    intro: '声音记忆是经典的声音记忆游戏！聆听音调序列并准确重复。你能记住多长的序列？',
+    howToPlay: '聆听音调播放的序列。然后按相同顺序点击按钮重复模式。每轮增加一个音调。',
     tips: [
-      '保持节奏和模式',
-      '专注于视觉提示',
-      '不要匆忙——准确比速度更重要',
-      '练习提高反应时间',
+      '跟着哼唱或唱出音调',
+      '为长序列创建心理联想',
+      '将长序列分解为小块',
+      '速度增加时保持冷静专注',
     ],
   },
   skyscrapers: {

@@ -228,15 +228,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
 
-  // Logic Puzzles - NICHE LOW COMPETITION (Tier 1 SEO for Japan/Germany)
-  nonogram: {
-    primaryKeyword: 'nonogram puzzle',
-    secondaryKeywords: ['picross', 'picture cross', 'paint by numbers', 'griddler'],
-    longTailKeywords: ['nonogram online free', 'play picross online', 'japanese picture puzzle', 'pixel art puzzle game', 'ノノグラム'],
-    titleTemplate: 'Nonogram Puzzle Online Free - Play Picross Game | {brand}',
-    descriptionTemplate: 'Play Nonogram (Picross) online free! Use number clues to reveal hidden pixel art. Japanese logic puzzle. No download required!',
-    intent: 'play'
-  },
+  // Note: nonogram SEO is defined earlier in the file with picross keyword
   slitherlink: {
     primaryKeyword: 'slitherlink puzzle',
     secondaryKeywords: ['slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu'],
@@ -696,15 +688,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
 
-  // More Arcade
-  'space-invaders': {
-    primaryKeyword: 'space invaders game',
-    secondaryKeywords: ['space invaders online', 'alien shooter', 'retro arcade'],
-    longTailKeywords: ['play space invaders free', 'classic arcade shooter', 'alien invasion game', 'retro space game'],
-    titleTemplate: 'Space Invaders Game Online Free - Classic Shooter | {brand}',
-    descriptionTemplate: 'Play Space Invaders online free! Shoot alien invaders. Classic 1978 arcade game!',
-    intent: 'play'
-  },
+  // Note: space-invaders SEO is defined earlier in the file
   asteroids: {
     primaryKeyword: 'asteroids game',
     secondaryKeywords: ['asteroids online', 'space shooter', 'vector game'],
@@ -873,14 +857,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play Kakurasu online free! Use cross sums to fill the grid. Japanese math puzzle!',
     intent: 'play'
   },
-  'sudoku-x': {
-    primaryKeyword: 'sudoku x',
-    secondaryKeywords: ['diagonal sudoku', 'sudoku variant'],
-    longTailKeywords: ['play sudoku x online free', 'extreme sudoku', 'diagonal constraint'],
-    titleTemplate: 'Sudoku X Online Free - Diagonal Sudoku | {brand}',
-    descriptionTemplate: 'Play Sudoku X online free! Diagonal lines must also contain 1-9. Advanced sudoku variant!',
-    intent: 'play'
-  },
+  // Note: sudoku-x SEO is defined earlier (line 836) with more keywords
   threes: {
     primaryKeyword: 'threes game',
     secondaryKeywords: ['threes online', 'number merge', 'sliding numbers'],

@@ -2,6 +2,17 @@ import type { APIRoute } from 'astro'
 import fs from 'fs'
 import path from 'path'
 
+// GET handler - explicitly return 405 Method Not Allowed
+export const GET: APIRoute = async () => {
+  return new Response(JSON.stringify({
+    success: false,
+    error: 'Method Not Allowed. Use POST to save game data.'
+  }), {
+    status: 405,
+    headers: { 'Content-Type': 'application/json' }
+  })
+}
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const game = await request.json()

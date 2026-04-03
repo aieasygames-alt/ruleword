@@ -1,18 +1,9 @@
 // 游戏配置数据
 import type { Language } from './i18n'
+import type { GameConfig, GameCategory } from '../types'
 
-export interface GameConfig {
-  slug: string
-  id: string
-  name: string
-  nameZh: string
-  icon: string
-  desc: string
-  descZh: string
-  category: 'word' | 'logic' | 'strategy' | 'arcade' | 'memory' | 'skill' | 'puzzle'
-  featured?: boolean
-  color: string
-}
+// Re-export GameConfig for use in other modules
+export type { GameConfig } from '../types'
 
 // 获取本地化的游戏名称
 export function getGameName(game: GameConfig, lang: Language): string {
@@ -28,6 +19,11 @@ export function getGameDesc(game: GameConfig, lang: Language): string {
     return game.descZh
   }
   return game.desc
+}
+
+// Get a game by its slug
+export function getGameBySlug(slug: string): GameConfig | undefined {
+  return games.find(game => game.slug === slug)
 }
 
 export const games: GameConfig[] = [
@@ -187,11 +183,6 @@ export const games: GameConfig[] = [
   // Arrow Puzzle
   { slug: 'arrow-puzzle', id: 'arrowpuzzle', name: 'Arrow Puzzle', nameZh: '箭头解谜', icon: '➡️', desc: 'Click arrows to slide them off the grid! Find the right order to clear all arrows. 200 levels with increasing difficulty.', descZh: '点击箭头让它们滑出网格！找到正确的顺序清除所有箭头。200关递进难度。', category: 'logic', featured: true, color: 'from-rose-400 to-pink-600' },
 ]
-
-// Get a game by its slug
-export function getGameBySlug(slug: string): GameConfig | undefined {
-  return games.find(game => game.slug === slug)
-}
 
 export const categories = [
   { id: 'all', name: 'All Games', nameZh: '全部游戏', icon: '🎮', desc: 'Browse all our free online games' },
