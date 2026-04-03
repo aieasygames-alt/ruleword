@@ -3,6 +3,7 @@ import react from '@astrojs/react'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { createRequire } from 'module'
+import path from 'path'
 
 // Polyfill for ESM context - needed by lightningcss and other native modules
 const __filename = fileURLToPath(import.meta.url)
@@ -41,13 +42,26 @@ export const languages = {
 
 export const defaultLang = 'en'
 
-// https://github.com/parcel-bundler/lightningcss/issues/874
-const lightningcssFix = {
-  name: 'lightningcss-fix',
+// Create a virtual module for empty Rollup native bindings
+const emptyNativeModule = 'export default {}'
+
+const rollupNativeFallback = {
+  name: 'rollup-native-fallback',
   enforce: 'pre',
   resolveId(id) {
+    // Redirect all @rollup/rollup-* imports to our virtual module
+    if (id.startsWith('@rollup/rollup-')) {
+      return { id: 'virtual:rollup-native-empty', external: false }
+    }
+    // Handle lightningcss ../pkg imports
     if (id === '../pkg' || id === '../pkg?commonjs-external') {
       return { id: 'lightningcss', external: true }
+    }
+    return null
+  },
+  load(id) {
+    if (id === 'virtual:rollup-native-empty') {
+      return emptyNativeModule
     }
     return null
   }
@@ -68,7 +82,7 @@ export default defineConfig({
     inlineStylesheets: 'auto'
   },
   vite: {
-    plugins: [lightningcssFix],
+    plugins: [rollupNativeFallback],
     build: {
       rollupOptions: {
         external: [
