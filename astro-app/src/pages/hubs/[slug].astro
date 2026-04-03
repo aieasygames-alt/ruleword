@@ -1,0 +1,294 @@
+---
+// Topic Hub Detail Page - SEO-optimized content aggregation
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getHubPage, getAllHubSlugs } from '../../data/hubPages'
+import { games } from '../../data/games'
+import { gameGuides } from '../../data/gameGuidesSEO'
+
+export function getStaticPaths() {
+  const slugs = getAllHubSlugs()
+  return slugs.map(slug => ({
+    params: { slug },
+  }))
+}
+
+const { slug } = Astro.params
+const hub = getHubPage(slug)
+
+if (!hub) {
+  return Astro.redirect('/404')
+}
+
+// Get featured games
+const featuredGames = hub.featuredGames
+  .map(gameId => games.find(g => g.id === gameId))
+  .filter(Boolean)
+
+// Get featured guides
+const featuredGuides = hub.featuredGuides
+  .map(guideSlug => gameGuides[guideSlug])
+  .filter(Boolean)
+
+const hubIcons: Record<string, string> = {
+  'word-games': '📝',
+  'number-puzzles': '🔢',
+  'japanese-logic': '🇯🇵',
+  'brain-training': '🧠',
+  'memory-games': '🎴',
+  'strategy-games': '♟️'
+}
+
+const hubColors: Record<string, string> = {
+  'word-games': 'from-blue-500 to-indigo-600',
+  'number-puzzles': 'from-green-500 to-emerald-600',
+  'japanese-logic': 'from-red-500 to-pink-600',
+  'brain-training': 'from-purple-500 to-violet-600',
+  'memory-games': 'from-amber-500 to-orange-600',
+  'strategy-games': 'from-cyan-500 to-teal-600'
+}
+
+// Schema for Hub page
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": hub.title,
+  "description": hub.description,
+  "url": `https://ruleword.com/hubs/${hub.slug}/`,
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": featuredGames.map((game, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": game?.name,
+      "url": `https://ruleword.com/games/${game?.id}/`
+    }))
+  }
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://ruleword.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Collections",
+      "item": "https://ruleword.com/hubs/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": hub.title.split(' - ')[0],
+      "item": `https://ruleword.com/hubs/${hub.slug}/`
+    }
+  ]
+}
+
+const faqSchema = hub.faq.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": hub.faq.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+} : null
+---
+
+<BaseLayout title={hub.title} description={hub.description} keywords={hub.keywords}>
+  <div class="min-h-screen bg-slate-950 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              R
+            </div>
+            <span class="font-semibold">Free Games Hub</span>
+          </a>
+          <nav class="flex items-center gap-4 text-sm">
+            <a href="/hubs/" class="text-slate-400 hover:text-white transition-colors">Collections</a>
+            <a href="/" class="text-slate-400 hover:text-white transition-colors">All Games</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    {faqSchema && <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />}
+
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 text-sm">
+        <ol class="flex items-center gap-2 text-slate-400">
+          <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
+          <li>/</li>
+          <li><a href="/hubs/" class="hover:text-white transition-colors">Collections</a></li>
+          <li>/</li>
+          <li class="text-white">{hub.title.split(' - ')[0]}</li>
+        </ol>
+      </nav>
+
+      <!-- Hero -->
+      <div class="flex items-start gap-4 mb-8">
+        <div class={`w-16 h-16 rounded-2xl bg-gradient-to-br ${hubColors[hub.slug]} flex items-center justify-center text-3xl shadow-lg flex-shrink-0`}>
+          {hubIcons[hub.slug]}
+        </div>
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-bold mb-3">
+            {hub.title.split(' - ')[0]}
+          </h1>
+          <p class="text-lg text-slate-300">
+            {hub.heroDescription}
+          </p>
+        </div>
+      </div>
+
+      <!-- Featured Games -->
+      <section class="mb-10">
+        <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+          <span>🎮</span>
+          Featured Games
+        </h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {featuredGames.map(game => (
+            <a
+              href={`/games/${game?.id}/`}
+              class="group bg-slate-900/50 border border-slate-800 rounded-xl p-4 hover:border-slate-600 transition-all text-center"
+            >
+              <div class="text-4xl mb-2">{game?.icon}</div>
+              <h3 class="font-medium group-hover:text-green-400 transition-colors text-sm">
+                {game?.name}
+              </h3>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Content Sections -->
+      <div class="prose prose-invert prose-slate max-w-none mb-10">
+        <section class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2 not-prose">
+            <span>📖</span>
+            What are {hub.title.split(' - ')[0].toLowerCase()}?
+          </h2>
+          <div class="text-slate-300 space-y-4" set:html={hub.content.whatIsSection.replace(/\n\n/g, '</p><p class="mb-4">').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')} />
+        </section>
+
+        <section class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2 not-prose">
+            <span>✨</span>
+            Benefits
+          </h2>
+          <div class="text-slate-300 space-y-4" set:html={hub.content.benefitsSection.replace(/\n\n/g, '</p><p class="mb-4">').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')} />
+        </section>
+
+        <section class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2 not-prose">
+            <span>🚀</span>
+            Getting Started
+          </h2>
+          <div class="text-slate-300 space-y-4" set:html={hub.content.gettingStarted.replace(/\n\n/g, '</p><p class="mb-4">').replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')} />
+        </section>
+      </div>
+
+      <!-- Featured Guides -->
+      {featuredGuides.length > 0 && (
+        <section class="mb-10">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span>📚</span>
+            Strategy Guides
+          </h2>
+          <div class="space-y-4">
+            {featuredGuides.map(guide => (
+              <a
+                href={`/guides/${guide.slug}/`}
+                class="group block bg-slate-900/50 border border-slate-800 rounded-xl p-5 hover:border-slate-600 transition-all"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 class="font-semibold group-hover:text-green-400 transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p class="text-sm text-slate-400 line-clamp-2">
+                      {guide.description}
+                    </p>
+                  </div>
+                  <svg class="w-5 h-5 text-slate-600 group-hover:text-green-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span>❓</span>
+          Frequently Asked Questions
+        </h2>
+        <div class="space-y-4">
+          {hub.faq.map((item, index) => (
+            <details class="group bg-slate-900/50 border border-slate-800 rounded-xl">
+              <summary class="flex items-center justify-between p-5 cursor-pointer font-medium">
+                <span>{item.question}</span>
+                <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </summary>
+              <div class="px-5 pb-5 text-slate-300">
+                {item.answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold mb-3">Ready to Play?</h2>
+        <p class="text-slate-300 mb-6">
+          Start playing {hub.title.split(' - ')[0].toLowerCase()} now - all games are free with no downloads required.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href={featuredGames[0] ? `/games/${featuredGames[0].id}/` : '/'}
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 font-medium transition-all"
+          >
+            <span>🎮</span>
+            Play Now
+          </a>
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-600 hover:border-slate-400 font-medium transition-all"
+          >
+            <span>📋</span>
+            Browse All Games
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 px-4">
+      <div class="max-w-4xl mx-auto text-center text-sm text-slate-400">
+        <p>© 2026 Free Games Hub · Free Online Games</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
