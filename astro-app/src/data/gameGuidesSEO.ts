@@ -1057,3 +1057,575 @@ gameGuides['bullpen'] = {
     }
   ]
 }
+
+// Killer Sudoku Guide - High-value SEO target
+gameGuides['killer-sudoku'] = {
+  slug: 'killer-sudoku',
+  title: 'Killer Sudoku Strategy Guide: Master Sum Sudoku Puzzles',
+  description: 'Complete guide to Killer Sudoku with cage strategies, sum combinations, and advanced techniques. Learn to solve any Killer Sudoku puzzle with our expert tips.',
+  keywords: ['killer sudoku', 'killer sudoku strategy', 'sum sudoku', 'cage sudoku', 'killer sudoku tips', 'how to play killer sudoku', 'killer sudoku rules'],
+  introduction: `Killer Sudoku combines the logic of classic Sudoku with arithmetic constraints. Each "cage" of cells must sum to a given total, adding a new layer of strategy. This guide will teach you the techniques to master this challenging puzzle variant.`,
+  sections: [
+    {
+      title: 'Understanding Killer Sudoku Rules',
+      content: `Killer Sudoku follows standard Sudoku rules (each row, column, and 3×3 box contains digits 1-9) with an added twist: the grid is divided into "cages" with sum targets. No digit can repeat within a cage, even if they're in different rows/columns.
+
+The challenge is using both Sudoku logic and arithmetic reasoning to fill the grid.`,
+      tips: [
+        'Standard Sudoku rules apply - rows, columns, and boxes have 1-9',
+        'Each cage shows a sum target in the corner',
+        'No repeating digits within a cage',
+        'Cages are outlined with dashed lines'
+      ]
+    },
+    {
+      title: 'Essential Sum Combinations',
+      content: `Memorizing common sum combinations is crucial for Killer Sudoku. Certain sums have limited possible digit combinations, which helps narrow down possibilities quickly.
+
+For example, a sum of 3 in 2 cells can only be 1+2. A sum of 4 in 2 cells can only be 1+3 (not 2+2 because no repeats). These "forced" combinations are your starting points.`,
+      tips: [
+        'Sum 3 in 2 cells = 1+2 (forced)',
+        'Sum 4 in 2 cells = 1+3 (forced)',
+        'Sum 17 in 2 cells = 8+9 (forced)',
+        'Sum 6 in 3 cells = 1+2+3 (forced)',
+        'Sum 24 in 3 cells = 7+8+9 (forced)'
+      ]
+    },
+    {
+      title: 'The 45 Rule',
+      content: `Each row, column, and 3×3 box in Sudoku must contain digits 1-9, which sum to 45 (1+2+3+4+5+6+7+8+9). This "45 Rule" is powerful for solving Killer Sudoku.
+
+If a cage spans multiple rows/columns, you can use the 45 Rule to deduce the value of cells that complete a row or box.`,
+      tips: [
+        'Sum of 1-9 = 45 for any complete row/column/box',
+        'Use this to find cells that complete a region',
+        'If all but one cage in a row are known, calculate the unknown',
+        'Combine with cage sums for powerful deductions'
+      ]
+    },
+    {
+      title: 'Starting Strategies',
+      content: `Begin with cages that have the fewest possible combinations. Look for:
+- 2-cell cages with extreme sums (very low or very high)
+- Cages completely contained within one row, column, or box
+- Cages with unique combinations
+
+These give you the most information with the least ambiguity.`,
+      tips: [
+        'Start with 2-cell cages - fewer possibilities',
+        'Look for cages entirely in one row/box',
+        'Identify "forced" combinations first',
+        'Use pencil marks to track possibilities'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Is Killer Sudoku harder than regular Sudoku?',
+      answer: 'Killer Sudoku is generally considered harder because it requires both Sudoku logic AND arithmetic reasoning. However, the cage constraints can actually make some deductions easier - you have more information to work with. With practice, many players prefer Killer Sudoku for its added depth.'
+    },
+    {
+      question: 'Do I need to be good at math for Killer Sudoku?',
+      answer: 'Basic arithmetic (addition) is needed, but you don\'t need advanced math. Memorizing common sum combinations helps, and most puzzles only require mental math with small numbers. The logic skills are more important than calculation ability.'
+    },
+    {
+      question: 'What\'s the best way to start a Killer Sudoku?',
+      answer: 'Look for 2-cell cages with extreme sums (like 3, 4, 16, 17) - these have only one possible combination. Also find cages completely contained in one row, column, or box, as these are easier to reason about. Start with the most constrained areas.'
+    }
+  ]
+}
+
+// Kakuro Guide - Japanese math puzzle
+gameGuides['kakuro'] = {
+  slug: 'kakuro',
+  title: 'Kakuro Puzzle Guide: Master Japanese Cross-Sum Puzzles',
+  description: 'Learn Kakuro puzzle strategies from basic techniques to advanced solving methods. Complete guide with number combinations, tips, and common patterns.',
+  keywords: ['kakuro', 'kakuro puzzle', 'kakuro strategy', 'cross sum puzzle', 'kakuro tips', 'how to solve kakuro', 'japanese math puzzle'],
+  introduction: `Kakuro is a Japanese number puzzle that combines elements of crosswords and Sudoku. Fill in blank cells with digits 1-9 so that each "run" of cells sums to the clue number. No digit can repeat within a run. It\'s like a mathematical crossword!`,
+  sections: [
+    {
+      title: 'Kakuro Basic Rules',
+      content: `Kakuro grids have "clue cells" with numbers, and blank cells to fill. Each clue represents the sum of the consecutive blank cells to its right (across) or below (down). No digit 1-9 can repeat within a single run.
+
+The goal is to fill all blank cells so every run sums to its clue.`,
+      tips: [
+        'Clues show the sum needed for that run',
+        'Each run uses unique digits 1-9',
+        'Runs go across (right) or down',
+        'Blank cells may belong to two runs (across AND down)'
+      ]
+    },
+    {
+      title: 'Essential Number Combinations',
+      content: `Like Killer Sudoku, memorizing combinations is key. Certain sums have unique or limited combinations:
+
+Sum 3 in 2 cells = 1+2 only
+Sum 4 in 2 cells = 1+3 only
+Sum 16 in 2 cells = 7+9 only (8+8 not allowed)
+Sum 17 in 2 cells = 8+9 only
+
+These "forced" combinations are your entry points.`,
+      tips: [
+        'Sum 6 in 3 cells = 1+2+3 (unique)',
+        'Sum 7 in 3 cells = 1+2+4 (unique)',
+        'Sum 24 in 3 cells = 7+8+9 (unique)',
+        'Learn these patterns to solve faster'
+      ]
+    },
+    {
+      title: 'Cross-Reference Technique',
+      content: `The most powerful Kakuro technique is cross-referencing: when a cell belongs to both an "across" run and a "down" run, you can narrow possibilities by considering both clues.
+
+If the across clue allows digits {1,2,3} and the down clue allows {2,3,4}, the cell must be 2 or 3.`,
+      tips: [
+        'Find cells where two runs intersect',
+        'List possible digits for each run separately',
+        'The intersection gives valid options',
+        'Eliminate options using other constraints'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Is Kakuro harder than Sudoku?',
+      answer: 'Kakuro requires more arithmetic than Sudoku, but many find it more rewarding. The logic is similar - elimination and deduction. If you enjoy the number-crunching aspect of puzzles, Kakuro might actually be easier for you than Sudoku.'
+    },
+    {
+      question: 'Do I need to memorize all number combinations?',
+      answer: 'No! While memorizing helps with speed, you can always work out combinations logically. Start by learning the "unique" combinations (like sum 3 in 2 cells must be 1+2), and the rest will come with practice.'
+    }
+  ]
+}
+
+// Slitherlink Guide - Logic loop puzzle
+gameGuides['slitherlink'] = {
+  slug: 'slitherlink',
+  title: 'Slitherlink Puzzle Guide: How to Solve Loop Logic Puzzles',
+  description: 'Master Slitherlink puzzles with our comprehensive guide. Learn the rules, basic patterns, and advanced techniques to draw the perfect loop.',
+  keywords: ['slitherlink', 'slitherlink puzzle', 'loop puzzle', 'fences puzzle', 'slitherlink tips', 'how to play slitherlink', 'logic puzzle'],
+  introduction: `Slitherlink is a Japanese logic puzzle where you draw a single continuous loop through a grid of dots. The numbers indicate how many of that cell\'s four sides are part of the loop. It\'s deceptively simple but deeply satisfying!`,
+  sections: [
+    {
+      title: 'Slitherlink Rules',
+      content: `The grid consists of dots with numbers in some cells. Draw a single loop that goes dot-to-dot horizontally or vertically. The loop cannot cross itself or branch.
+
+Each number (0-3) tells you how many sides of that cell are part of the loop. Cells without numbers could have 0, 1, 2, 3, or 4 sides used.`,
+      tips: [
+        'Draw ONE continuous loop',
+        'Loop connects dots horizontally/vertically',
+        'Numbers 0-3 show how many edges to draw',
+        'Empty cells can have any number of edges'
+      ]
+    },
+    {
+      title: 'Basic Patterns',
+      content: `Certain number patterns have forced solutions:
+
+- A "3" in a corner: Two edges must be drawn (the corner edges)
+- Adjacent "3"s: The line between them must be used
+- A "0": All four edges are NOT part of the loop
+- "3" and "0" adjacent: The edge between them cannot be used
+
+Learning these patterns speeds up solving dramatically.`,
+      tips: [
+        '"3" in corner = draw the two corner edges',
+        'Two "3"s adjacent = connect them',
+        '"0" means no edges around that cell',
+        '"3" next to "0" = edge between them is X'
+      ]
+    },
+    {
+      title: 'Advanced Techniques',
+      content: `When basics aren\'t enough, use these advanced strategies:
+
+- Look for cells where the loop MUST pass (bottlenecks)
+- Use the "no crossing" rule to eliminate options
+- Count remaining edges needed for numbers
+- Check if partial loops can connect without crossing
+
+The key is always maintaining a single, continuous loop.`,
+      tips: [
+        'Partial loops must eventually connect',
+        'Avoid creating separate loop segments',
+        'Count edges carefully near completion',
+        'X marks where loop CANNOT go'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'How do I start a Slitherlink puzzle?',
+      answer: 'Start with "3"s (especially in corners), "0"s, and adjacent number patterns. These give you definite lines or X marks. Then expand outward using the constraint that the loop must be continuous and non-crossing.'
+    },
+    {
+      question: 'What makes Slitherlink puzzles hard?',
+      answer: 'Larger grids, fewer clues, and avoiding the temptation to guess. Hard puzzles require looking ahead and considering multiple constraints simultaneously. The "no crossing" rule is your most powerful tool.'
+    }
+  ]
+}
+
+// Typing Test Guide
+gameGuides['typing-test'] = {
+  slug: 'typing-test',
+  title: 'Typing Test Guide: How to Improve Your WPM and Accuracy',
+  description: 'Complete guide to improving typing speed and accuracy. Learn proper technique, finger placement, and practice strategies to reach 60+ WPM.',
+  keywords: ['typing test', 'wpm test', 'typing speed', 'typing practice', 'how to type faster', 'improve typing', 'keyboard skills'],
+  introduction: `Whether you\'re a student, professional, or casual computer user, typing faster saves time and reduces fatigue. This guide covers everything from proper hand position to advanced speed techniques.`,
+  sections: [
+    {
+      title: 'Proper Hand Position',
+      content: `Place your fingers on the "home row" - ASDF for left hand, JKL; for right hand. Your thumbs rest on the spacebar. This position minimizes finger travel and is the foundation of fast typing.
+
+Return to home position after every keystroke. This muscle memory is essential for touch typing.`,
+      tips: [
+        'Left hand: ASDF (pinky to index)',
+        'Right hand: JKL; (index to pinky)',
+        'Thumbs on spacebar',
+        'Always return to home position'
+      ]
+    },
+    {
+      title: 'Touch Typing Fundamentals',
+      content: `Touch typing means typing without looking at the keyboard. Each finger has designated keys it reaches:
+
+- Index fingers: F, G, H, J (and many others)
+- Middle fingers: D, K
+- Ring fingers: S, L
+- Pinkies: A, ; and all outer keys
+
+Practice until your fingers "know" where each key is.`,
+      tips: [
+        'Cover your hands while practicing',
+        'Each finger has a "zone" of keys',
+        'Index fingers do the most work',
+        'Pinky handles shift, enter, and edge keys'
+      ]
+    },
+    {
+      title: 'Speed vs Accuracy Balance',
+      content: `Many beginners focus on speed at the expense of accuracy. This is a mistake! Errors cost time to fix and develop bad habits.
+
+Target 95%+ accuracy first, then gradually increase speed. It\'s easier to speed up accurate typing than to fix sloppy habits later.`,
+      tips: [
+        'Aim for 95%+ accuracy before speed',
+        'Errors take longer to fix than typing correctly',
+        'Slow down if accuracy drops below 90%',
+        'Good habits now = faster later'
+      ]
+    },
+    {
+      title: 'Practice Strategies',
+      content: `Effective practice is deliberate and consistent:
+
+- 15-30 minutes daily is better than 2 hours once a week
+- Start with common words, progress to sentences
+- Focus on problem keys (often Q, Z, X, punctuation)
+- Track your WPM and accuracy to measure progress
+
+Consistency is more important than intensity.`,
+      tips: [
+        'Practice daily, even just 15 minutes',
+        'Focus on weak keys individually',
+        'Use typing tests to track progress',
+        'Don\'t look at the keyboard!'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is a good typing speed?',
+      answer: 'Average typing speed is around 40 WPM. 60+ WPM is considered good for most jobs. 80+ WPM is professional level. 100+ WPM is exceptional. Remember: accuracy matters more than raw speed!'
+    },
+    {
+      question: 'How long does it take to learn touch typing?',
+      answer: 'Basic touch typing (40+ WPM without looking) takes 2-4 weeks of daily practice. Reaching 60+ WPM typically takes 2-3 months. Improving beyond that is a longer journey of refinement.'
+    },
+    {
+      question: 'Should I use all ten fingers?',
+      answer: 'Yes! While some people type fast with fewer fingers, proper ten-finger typing is more efficient and causes less strain. Your pinkies and ring fingers have important keys to reach.'
+    }
+  ]
+}
+
+// Reaction Time Test Guide
+gameGuides['reaction-test'] = {
+  slug: 'reaction-test',
+  title: 'Reaction Time Test Guide: How to Improve Your Reflexes',
+  description: 'Learn about reaction time testing and how to improve your reflexes. Understand what affects reaction speed and train effectively.',
+  keywords: ['reaction time test', 'reaction test', 'reflex test', 'improve reaction time', 'reaction speed', 'human reaction time', 'click speed'],
+  introduction: `Reaction time is how quickly you respond to a stimulus. It\'s crucial for gaming, driving, and many sports. This guide explains what affects reaction time and how to improve yours.`,
+  sections: [
+    {
+      title: 'Understanding Reaction Time',
+      content: `Average human reaction time to visual stimuli is about 250ms. Professional gamers often achieve 150-200ms. Factors affecting reaction time include:
+
+- Age (peaks in early 20s, slowly declines)
+- Fatigue and sleep quality
+- Stimulants like caffeine
+- Practice and training
+
+The good news: anyone can improve with practice!`,
+      tips: [
+        'Average: 250ms, Good: <200ms, Excellent: <150ms',
+        'Visual reactions are slower than audio',
+        'Younger people typically react faster',
+        'Practice improves neural pathways'
+      ]
+    },
+    {
+      title: 'Factors That Affect Reaction Time',
+      content: `Many factors influence your reaction speed:
+
+Physical: Sleep, hydration, overall health, age
+Mental: Focus, anticipation, distraction level
+Environmental: Screen refresh rate, input lag, lighting
+
+For testing, use consistent conditions to track progress accurately.`,
+      tips: [
+        'Get enough sleep before testing',
+        'Stay hydrated',
+        'Minimize distractions',
+        'Use consistent hardware/settings'
+      ]
+    },
+    {
+      title: 'How to Improve Your Reaction Time',
+      content: `Improvement comes from a combination of general health and specific training:
+
+1. Physical exercise improves overall neural function
+2. Sleep well - fatigue adds 50+ ms to reaction time
+3. Practice specific reaction tests regularly
+4. Stay mentally sharp with puzzles and games
+5. Consider caffeine (in moderation) for temporary boost`,
+      tips: [
+        'Exercise regularly for better neural function',
+        'Aim for 7-8 hours of sleep',
+        'Practice daily for 5-10 minutes',
+        'Caffeine can help (but builds tolerance)'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is a good reaction time?',
+      answer: 'Average reaction time is 250-300ms. Under 200ms is good. Under 150ms is excellent and approaches human limits. Under 100ms is suspicious (possibly pre-clicking or hardware advantages).'
+    },
+    {
+      question: 'Can I improve my reaction time significantly?',
+      answer: 'Most people can improve by 20-40ms with consistent practice. However, there are biological limits. The biggest gains come from eliminating negative factors (fatigue, distraction) rather than training.'
+    },
+    {
+      question: 'Why is my reaction time inconsistent?',
+      answer: 'Reaction time varies naturally due to focus, fatigue, time of day, and random neural variation. It\'s normal to have 50-100ms difference between your best and worst attempts in a session.'
+    }
+  ]
+}
+
+// Number Memory Test Guide
+gameGuides['number-memory'] = {
+  slug: 'number-memory',
+  title: 'Number Memory Test Guide: How to Remember Longer Numbers',
+  description: 'Learn techniques to improve your digit memory and remember longer number sequences. Memory techniques used by memory champions explained.',
+  keywords: ['number memory test', 'digit memory', 'digit span', 'memory test', 'how to remember numbers', 'memory techniques', 'improve memory'],
+  introduction: `The average person can remember 7±2 digits in sequence. With techniques, you can dramatically improve. This guide teaches memory methods used by world record holders.`,
+  sections: [
+    {
+      title: 'Understanding Digit Memory',
+      content: `Digit span (how many numbers you can remember) is a classic measure of working memory. Most people handle 5-9 digits naturally.
+
+Phone numbers are 10 digits because that was considered the practical limit. However, with chunking and other techniques, people can remember 50+ digits.`,
+      tips: [
+        'Average digit span: 7±2 digits',
+        'Phone numbers: 10 digits (near average limit)',
+        'Memory champions: 100+ digits',
+        'Working memory is trainable'
+      ]
+    },
+    {
+      title: 'Chunking Technique',
+      content: `Chunking is grouping digits into meaningful units. Instead of remembering 9 individual digits, remember 3 groups of 3:
+
+847293615 becomes 847-293-615
+
+This works because you\'re now remembering 3 "chunks" instead of 9 individual items.`,
+      tips: [
+        'Group 2-4 digits per chunk',
+        'Phone format (XXX-XXX-XXXX) is familiar',
+        'Look for patterns (123, 999, 2468)',
+        'Practice recognizing chunks quickly'
+      ]
+    },
+    {
+      title: 'Major System (Advanced)',
+      content: `The Major System converts digits to consonants, then to words:
+
+0=S, 1=T/D, 2=N, 3=M, 4=R, 5=L, 6=J/SH, 7=K/G, 8=F/V, 9=P/B
+
+Example: 14 = TR = "TiRe" or "ToweR"
+
+This lets you remember numbers as vivid images/stories.`,
+      tips: [
+        'Learn the digit-consonant mapping',
+        'Create vivid, memorable images',
+        'Link images into a story',
+        'Practice until conversion is automatic'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is a good score on a number memory test?',
+      answer: 'Remembering 7-9 digits is average. 10-12 is good. 13+ is excellent. Memory champions can do 80+ digits, but they use advanced techniques like the Major System.'
+    },
+    {
+      question: 'Why can I remember phone numbers but not random digits?',
+      answer: 'Phone numbers have structure (area code, prefix) that aids chunking. Random digits lack patterns, making them harder. Also, we\'ve practiced phone numbers our whole lives.'
+    },
+    {
+      question: 'Does number memory decline with age?',
+      answer: 'Working memory does decline slightly with age, but it\'s one of the more trainable cognitive abilities. Regular practice can maintain or even improve digit memory well into older age.'
+    }
+  ]
+}
+
+// Mastermind Guide
+gameGuides['mastermind'] = {
+  slug: 'mastermind',
+  title: 'Mastermind Game Guide: Strategy and Code-Breaking Techniques',
+  description: 'Master the classic code-breaking game with optimal strategies. Learn the best algorithms and techniques to solve any Mastermind puzzle.',
+  keywords: ['mastermind game', 'mastermind strategy', 'code breaking game', 'mastermind tips', 'how to play mastermind', 'mastermind algorithm', 'bulls and cows'],
+  introduction: `Mastermind is a classic code-breaking game where you deduce a hidden color sequence using feedback clues. With proper strategy, you can solve any code in 5 guesses or fewer.`,
+  sections: [
+    {
+      title: 'Mastermind Rules',
+      content: `The code maker creates a secret sequence of 4 colors (from 6 possible colors). You guess the sequence, and receive feedback:
+
+- Black peg: Correct color in correct position
+- White peg: Correct color in wrong position
+
+Use this feedback to deduce the secret code within the allowed guesses.`,
+      tips: [
+        '4 positions, 6 colors typically',
+        'Black = right color, right spot',
+        'White = right color, wrong spot',
+        'No feedback for wrong colors'
+      ]
+    },
+    {
+      title: 'Knuth\'s Five-Guess Algorithm',
+      content: `Computer scientist Donald Knuth developed an algorithm that solves any Mastermind code in 5 guesses or fewer:
+
+1. Start with a specific pattern (like AABB)
+2. After each guess, eliminate all possibilities inconsistent with feedback
+3. Choose the guess that eliminates the most remaining possibilities
+
+This minimax approach guarantees quick solutions.`,
+      tips: [
+        'Start with AABB or 1122 pattern',
+        'Eliminate inconsistent possibilities',
+        'Choose guesses that maximize information',
+        'Guaranteed solution in ≤5 guesses'
+      ]
+    },
+    {
+      title: 'Practical Strategy for Humans',
+      content: `For humans, Knuth\'s algorithm is complex. Use this simpler approach:
+
+1. First guess: Test 4 different colors (ABCD)
+2. Use feedback to identify which colors are present
+3. Determine positions of confirmed colors
+4. Fill remaining slots with untested colors
+
+This is more intuitive while still effective.`,
+      tips: [
+        'Test multiple colors in first guess',
+        'Identify which colors exist first',
+        'Then figure out positions',
+        'Systematic beats random guessing'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What\'s the best first guess in Mastermind?',
+      answer: 'AABB (two pairs of colors) is statistically strong because it tests 2 colors and gives information about duplicates. ABCD (four different colors) is also good for identifying which colors are present.'
+    },
+    {
+      question: 'Can Mastermind always be solved?',
+      answer: 'With 4 positions and 6 colors, any code can be solved in 5 guesses using optimal play. With more colors or positions, it may take more guesses, but systematic play will always succeed.'
+    },
+    {
+      question: 'Is Mastermind good for your brain?',
+      answer: 'Yes! Mastermind exercises logical deduction, pattern recognition, and working memory. It\'s an excellent brain training game that improves with practice.'
+    }
+  ]
+}
+
+// Connections Game Guide
+gameGuides['connections'] = {
+  slug: 'connections',
+  title: 'Connections Game Guide: How to Find Word Groups',
+  description: 'Master the Connections word puzzle with strategies for finding categories and avoiding traps. Learn techniques to solve any Connections puzzle.',
+  keywords: ['connections game', 'connections puzzle', 'word grouping game', 'connections strategy', 'how to play connections', 'word categories', 'nyt connections'],
+  introduction: `Connections challenges you to group 16 words into 4 categories of 4. It sounds simple, but tricky words can belong to multiple categories. This guide teaches strategies to find the correct groups.`,
+  sections: [
+    {
+      title: 'Connections Rules',
+      content: `You\'re given 16 words. Your task is to find 4 groups of 4 words that share a common theme or category. Categories range from obvious (colors, animals) to tricky (wordplay, hidden meanings).
+
+Incorrect guesses cost lives. After 4 mistakes, the game reveals the answers.`,
+      tips: [
+        'Find 4 groups of 4 related words',
+        'Categories vary in difficulty',
+        '4 mistakes allowed before game over',
+        'Some words could fit multiple categories'
+      ]
+    },
+    {
+      title: 'Starting Strategy',
+      content: `Begin by scanning all 16 words for obvious connections:
+
+- Look for proper nouns, numbers, or special categories
+- Identify words that only have one obvious meaning
+- Group words by theme (sports, food, music, etc.)
+- Note words that seem out of place or unusual
+
+Find the easiest group first to eliminate words.`,
+      tips: [
+        'Scan for obvious categories first',
+        'Look for proper nouns and specific terms',
+        'Start with your strongest hypothesis',
+        'Eliminate the easy groups first'
+      ]
+    },
+    {
+      title: 'Avoiding Traps',
+      content: `Connections deliberately includes trap words that could belong to multiple categories. The key is:
+
+- If a group seems too obvious, it might be a trap
+- Consider secondary meanings of words
+- Check if your group leaves impossible combinations for remaining words
+- Yellow/Easiest category first, then progress to Purple/Hardest`,
+      tips: [
+        'Traps are intentional - be careful',
+        'Consider multiple word meanings',
+        'Check if remaining words can form valid groups',
+        'Difficulty levels: Yellow < Green < Blue < Purple'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What makes Connections hard?',
+      answer: 'The difficulty comes from ambiguous words that could fit multiple categories, and "trap" categories that seem right but aren\'t. The Purple (hardest) category often involves wordplay or obscure knowledge.'
+    },
+    {
+      question: 'Should I guess quickly or think carefully?',
+      answer: 'Think carefully! You only have 4 mistakes. It\'s better to spend time considering all possibilities than to waste guesses on obvious traps. Patience beats speed in Connections.'
+    },
+    {
+      question: 'What if I\'m completely stuck?',
+      answer: 'Try shuffling the word positions - sometimes seeing words in different arrangements reveals patterns. Also, say the words out loud or write down potential categories to spark new associations.'
+    }
+  ]
+}
