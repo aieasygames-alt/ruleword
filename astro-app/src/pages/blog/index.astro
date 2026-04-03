@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { blogPosts, getAllBlogPostSlugs, getBlogPost, getRecentBlogPosts } from '../../data/blogPosts'
+
+const allPostSlugs = getAllBlogPostSlugs()
+const recentPosts = getRecentBlogPosts(10)
+
+// Group posts by category
+const categories = {
+  'best-of': allPostSlugs.filter(s => blogPosts[s].category === 'best-of').map(s => blogPosts[s]),
+  'comparisons': allPostSlugs.filter(s => blogPosts[s].category === 'comparisons').map(s => blogPosts[s]),
+  'guides': allPostSlugs.filter(s => blogPosts[s].category === 'guides').map(s => blogPosts[s]),
+  'educational': allPostSlugs.filter(s => blogPosts[s].category === 'educational').map(s => blogPosts[s])
+}
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' }
+]
+---
+
+<BaseLayout
+  title="Puzzle Game Blog - Tips, Strategies & Guides | Free Games Hub"
+  description="Read our latest articles about puzzle games, brain training, and gaming strategies. Expert tips for Wordle, Sudoku, 2048 and more."
+  keywords="game blog, puzzle game tips, brain training articles, wordle news, sudoku strategies, gaming guides"
+  canonicalPath="/blog/"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="min-h-screen bg-slate-950 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              R
+            </div>
+            <span class="font-semibold">Free Games Hub</span>
+          </a>
+
+          <a href="/" class="text-sm text-slate-400 hover:text-white transition-colors">
+            ← Back to Games
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <!-- Hero -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
+          Puzzle Game Blog
+        </h1>
+        <p class="text-lg text-slate-300 max-w-2xl mx-auto">
+          Expert tips, strategies, and insights for puzzle game enthusiasts.
+          Learn how to improve your skills and discover new games to love.
+        </p>
+      </div>
+
+      <!-- Featured Posts -->
+      <section class="mb-12">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+          <span class="text-2xl">⭐</span>
+          Featured Articles
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {recentPosts.slice(0, 2).map(post => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class="group bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 rounded-xl p-6 hover:border-green-500/50 transition-all hover:-translate-y-1"
+            >
+              <div class="flex items-center gap-2 mb-3">
+                <span class="px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-400">
+                  {post.category}
+                </span>
+                <span class="text-xs text-slate-400">{post.readTime}</span>
+              </div>
+              <h3 class="text-lg font-semibold group-hover:text-green-400 transition-colors mb-2">
+                {post.title}
+              </h3>
+              <p class="text-sm text-slate-400 line-clamp-3 mb-4">
+                {post.description}
+              </p>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span>{post.author}</span>
+                <span>·</span>
+                <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- All Posts by Category -->
+      {Object.entries(categories).map(([category, posts]) => (
+        posts.length > 0 && (
+          <section class="mb-10">
+            <h2 class="text-lg font-bold mb-4 flex items-center gap-2 text-slate-300">
+              {category === 'best-of' && <span>🏆</span>}
+              {category === 'comparisons' && <span>⚖️</span>}
+              {category === 'guides' && <span>📚</span>}
+              {category === 'educational' && <span>🎓</span>}
+              {category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')}
+            </h2>
+            <div class="space-y-4">
+              {posts.map(post => (
+                <a
+                  href={`/blog/${post.slug}/`}
+                  class="group block bg-slate-900/50 border border-slate-800 rounded-xl p-5 hover:border-slate-600 transition-all"
+                >
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1 min-w-0">
+                      <h3 class="font-semibold group-hover:text-green-400 transition-colors mb-1">
+                        {post.title}
+                      </h3>
+                      <p class="text-sm text-slate-400 line-clamp-2 mb-2">
+                        {post.description}
+                      </p>
+                      <div class="flex items-center gap-3 text-xs text-slate-500">
+                        <span>{post.readTime}</span>
+                        <span>·</span>
+                        <span>{new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+                      </div>
+                    </div>
+                    <svg class="w-5 h-5 text-slate-600 group-hover:text-green-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      ))}
+
+      <!-- Newsletter CTA -->
+      <section class="mt-12 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold mb-3">Love Puzzle Games?</h2>
+        <p class="text-slate-300 mb-6">
+          Bookmark this page and check back regularly for new articles,
+          strategies, and game recommendations.
+        </p>
+        <a
+          href="/guides/"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 font-medium transition-all"
+        >
+          <span>📚</span>
+          Browse Game Guides
+        </a>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 px-4">
+      <div class="max-w-4xl mx-auto text-center text-sm text-slate-400">
+        <p>© 2026 Free Games Hub · Free Online Games</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>

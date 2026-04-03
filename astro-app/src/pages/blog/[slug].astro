@@ -1,0 +1,321 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { blogPosts, getBlogPost, getAllBlogPostSlugs, getRecentBlogPosts } from '../../data/blogPosts'
+
+export function getStaticPaths() {
+  const slugs = getAllBlogPostSlugs()
+  return slugs.map(slug => ({
+    params: { slug },
+    props: { slug }
+  }))
+}
+
+const { slug } = Astro.props
+const post = getBlogPost(slug)
+
+if (!post) {
+  return Astro.redirect('/404')
+}
+
+// Get recent posts for related articles
+const relatedPosts = getRecentBlogPosts(4).filter(p => p.slug !== slug).slice(0, 3)
+
+// Breadcrumb
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Blog', url: '/blog/' },
+  { name: post.title, url: `/blog/${slug}/` }
+]
+
+// Article Schema
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": post.title,
+  "description": post.description,
+  "keywords": post.keywords.join(', '),
+  "author": {
+    "@type": "Organization",
+    "name": post.author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Free Games Hub",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ruleword.com/icons/icon-192.png"
+    }
+  },
+  "datePublished": post.date,
+  "dateModified": post.date
+}
+
+// FAQ Schema
+const faqSchema = post.faq.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": post.faq.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+} : null
+---
+
+<BaseLayout
+  title={`${post.title} | Free Games Hub Blog`}
+  description={post.description}
+  keywords={post.keywords.join(', ')}
+  canonicalPath={`/blog/${slug}/`}
+  breadcrumbItems={breadcrumbItems}
+>
+  <!-- Article Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  {faqSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  )}
+
+  <div class="min-h-screen bg-slate-950 text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">
+              R
+            </div>
+            <span class="font-semibold">Free Games Hub</span>
+          </a>
+
+          <a href="/blog/" class="text-sm text-slate-400 hover:text-white transition-colors">
+            ← All Articles
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm text-slate-400 mb-6">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
+        <span>/</span>
+        <span class="text-white truncate max-w-[200px]">{post.title.split(':')[0]}</span>
+      </nav>
+
+      <!-- Article -->
+      <article>
+        <!-- Header -->
+        <header class="mb-8">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="px-3 py-1 text-sm rounded-full bg-green-500/20 text-green-400 font-medium">
+              {post.category}
+            </span>
+            <span class="text-sm text-slate-400">{post.readTime}</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl font-bold mb-4 leading-tight">
+            {post.title}
+          </h1>
+
+          <p class="text-lg text-slate-300 leading-relaxed mb-6">
+            {post.description}
+          </p>
+
+          <div class="flex items-center gap-4 text-sm text-slate-400 pb-6 border-b border-slate-800">
+            <span>By {post.author}</span>
+            <span>·</span>
+            <time datetime={post.date}>
+              {new Date(post.date).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </time>
+          </div>
+        </header>
+
+        <!-- Introduction -->
+        <section class="prose prose-invert max-w-none mb-8">
+          <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
+            <p class="text-slate-200 leading-relaxed whitespace-pre-line text-lg">
+              {post.introduction}
+            </p>
+          </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <nav class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-8">
+          <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+            <span class="text-xl">📋</span>
+            Table of Contents
+          </h2>
+          <ol class="space-y-2">
+            {post.sections.map((section, index) => (
+              <li>
+                <a
+                  href={`#section-${index + 1}`}
+                  class="text-slate-300 hover:text-green-400 transition-colors flex items-center gap-2"
+                >
+                  <span class="text-slate-500 w-6">{index + 1}.</span>
+                  {section.title}
+                </a>
+              </li>
+            ))}
+            {post.faq.length > 0 && (
+              <li>
+                <a
+                  href="#faq"
+                  class="text-slate-300 hover:text-green-400 transition-colors flex items-center gap-2"
+                >
+                  <span class="text-slate-500 w-6">?</span>
+                  Frequently Asked Questions
+                </a>
+              </li>
+            )}
+          </ol>
+        </nav>
+
+        <!-- Content Sections -->
+        {post.sections.map((section, index) => (
+          <section
+            id={`section-${index + 1}`}
+            class="mb-8 scroll-mt-20"
+          >
+            <h2 class="text-2xl font-bold mb-4 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-sm font-bold">
+                {index + 1}
+              </span>
+              {section.title}
+            </h2>
+
+            <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-4">
+              <p class="text-slate-300 leading-relaxed whitespace-pre-line">
+                {section.content}
+              </p>
+            </div>
+
+            {section.items && section.items.length > 0 && (
+              <div class="bg-gradient-to-r from-green-900/10 to-emerald-900/10 border border-slate-800 rounded-xl p-6">
+                <ul class="space-y-3">
+                  {section.items.map((item, itemIndex) => (
+                    <li class="flex items-start gap-3 text-slate-300">
+                      <span class="text-green-400 mt-1 font-bold">{itemIndex + 1}.</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </section>
+        ))}
+
+        <!-- Conclusion -->
+        <section class="mb-8 bg-slate-900/50 border border-slate-700 rounded-xl p-6">
+          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+            <span>📝</span>
+            Conclusion
+          </h2>
+          <p class="text-slate-300 leading-relaxed whitespace-pre-line">
+            {post.conclusion}
+          </p>
+        </section>
+
+        <!-- FAQ Section -->
+        {post.faq.length > 0 && (
+          <section id="faq" class="mb-8 scroll-mt-20">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span class="text-2xl">❓</span>
+              Frequently Asked Questions
+            </h2>
+
+            <div class="space-y-4">
+              {post.faq.map((item, index) => (
+                <details
+                  class="group bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden"
+                  open={index === 0}
+                >
+                  <summary class="flex items-center justify-between p-5 cursor-pointer hover:bg-slate-800/50 transition-colors">
+                    <span class="font-medium text-lg pr-4">{item.question}</span>
+                    <svg class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <div class="px-5 pb-5 text-slate-300 leading-relaxed">
+                    {item.answer}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mb-8">
+          {post.keywords.slice(0, 6).map(keyword => (
+            <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800 text-slate-300">
+              {keyword}
+            </span>
+          ))}
+        </div>
+      </article>
+
+      <!-- Related Articles -->
+      <section class="mt-12 pt-8 border-t border-slate-800">
+        <h2 class="text-xl font-bold mb-4">Related Articles</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {relatedPosts.map(relatedPost => (
+            <a
+              href={`/blog/${relatedPost.slug}/`}
+              class="group p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-slate-600 transition-all"
+            >
+              <div class="text-xs text-green-400 mb-2">{relatedPost.category}</div>
+              <h3 class="font-semibold group-hover:text-green-400 transition-colors text-sm leading-snug">
+                {relatedPost.title.split(':')[0]}
+              </h3>
+              <p class="text-xs text-slate-400 mt-2">
+                {relatedPost.readTime}
+              </p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="mt-12 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold mb-3">Ready to Play?</h2>
+        <p class="text-slate-300 mb-6">
+          Put these tips into practice! Play free puzzle games online.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 font-medium transition-all"
+          >
+            <span>🎮</span>
+            Play Games Free
+          </a>
+          <a
+            href="/guides/"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-600 hover:border-slate-400 font-medium transition-all"
+          >
+            <span>📚</span>
+            Browse Guides
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800 py-6 px-4">
+      <div class="max-w-4xl mx-auto text-center text-sm text-slate-400">
+        <p>© 2026 Free Games Hub · Free Online Games</p>
+      </div>
+    </footer>
+  </div>
+</BaseLayout>
