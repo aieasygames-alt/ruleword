@@ -1353,7 +1353,13 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         {/* Daily Challenge Banner */}
         <div className="mx-3 mt-2 mb-2">
           <button
-            onClick={() => { setIsDailyChallenge(true); setCurrentLevel(1); setScreen('game') }}
+            onClick={() => {
+              // Set all states in correct order to ensure proper daily challenge loading
+              setCurrentLevel(1)
+              setIsDailyChallenge(true)
+              // Use setTimeout to ensure state updates are processed before screen change
+              setTimeout(() => setScreen('game'), 0)
+            }}
             disabled={isDailyCompleted}
             className={`w-full py-3 px-4 rounded-xl flex items-center justify-between shadow-lg transition-all ${
               isDailyCompleted
@@ -1405,7 +1411,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
         {/* Level grid */}
         <div className="flex-1 overflow-y-auto px-3 pb-4">
-          <div className="grid grid-cols-6 gap-2">
+          <div className="grid grid-cols-5 sm:grid-cols-6 gap-2">
             {Array.from({ length: endLevel - startLevel + 1 }, (_, i) => {
               const lvl = startLevel + i
               const completed = progress.completedLevels.includes(lvl)
@@ -1496,13 +1502,13 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
 
         {/* Game Canvas */}
         <div className="flex-1 flex items-center justify-center p-4">
-          <div className="w-full max-w-[500px]">
+          <div className="w-full max-w-[500px] aspect-square">
             <canvas
               ref={canvasRef}
               onClick={handleCanvasClick}
               onTouchStart={handleCanvasClick}
-              style={{ touchAction: 'none' }}
-              className={`w-full rounded-xl shadow-lg cursor-pointer border ${borderClass}`}
+              style={{ touchAction: 'none', width: '100%', height: '100%' }}
+              className={`rounded-xl shadow-lg cursor-pointer border ${borderClass}`}
             />
           </div>
         </div>
