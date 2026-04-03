@@ -421,8 +421,8 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const [hintArrow, setHintArrow] = useState<number | null>(null)
   const [history, setHistory] = useState<Arrow[][]>([])
   const [numberBlocks, setNumberBlocks] = useState<NumberBlock[]>([])
-
   const [selectedChapter, setSelectedChapter] = useState(1)
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
   const soundRef = useRef(new SoundManager())
@@ -430,16 +430,16 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const numberBlocksRef = useRef(numberBlocks)
   const gameStateRef = useRef(gameState)
   const animatingArrows = useRef<Set<number>>(new Set())
-  const restartKey = useRef(0)
 
   const isZh = settings.language === 'zh'
 
+  // Keep refs in sync - ALL hooks must be called unconditionally
   useEffect(() => { arrowsRef.current = arrows }, [arrows])
   useEffect(() => { numberBlocksRef.current = numberBlocks }, [numberBlocks])
   useEffect(() => { gameStateRef.current = gameState }, [gameState])
   useEffect(() => { soundRef.current.setEnabled(settings.soundEnabled) }, [settings.soundEnabled])
 
-  // Load progress
+  // Load progress - runs once on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem('arrow-puzzle-progress')
@@ -452,98 +452,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     try { localStorage.setItem('arrow-puzzle-progress', JSON.stringify(p)) } catch {}
   }, [])
 
-  // ===== LEVEL SELECT SCREEN =====
-  if (screen === 'levels') {
-    const chapters = [
-      { id: 1, name: isZh ? '入门篇' : 'Beginner', range: '1-30', color: 'from-green-400 to-emerald-600', icon: '🌱' },
-      { id: 2, name: isZh ? '进阶篇' : 'Intermediate', range: '31-70', color: 'from-blue-400 to-indigo-600', icon: '⚡' },
-      { id: 3, name: isZh ? '挑战篇' : 'Advanced', range: '71-120', color: 'from-purple-400 to-pink-600', icon: '🔥' },
-      { id: 4, name: isZh ? '大师篇' : 'Master', range: '121-200', color: 'from-amber-400 to-red-600', icon: '👑' },
-    ]
-
-    const chapter = chapters.find(c => c.id === selectedChapter)!
-    const startLevel = selectedChapter === 1 ? 1 : selectedChapter === 2 ? 31 : selectedChapter === 3 ? 71 : 121
-    const endLevel = selectedChapter === 1 ? 30 : selectedChapter === 2 ? 70 : selectedChapter === 3 ? 120 : 200
-    const maxUnlocked = progress.completedLevels.length > 0 ? Math.max(...progress.completedLevels) + 1 : 1
-
-    return (
-      <div className={`min-h-screen flex flex-col ${settings.darkMode ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-        {/* Header */}
-        <div className={`flex items-center justify-between border-b ${settings.darkMode ? 'border-gray-700' : 'border-gray-200'} px-4 py-3`}>
-          <button onClick={onBack} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-          </button>
-          <h1 className="text-lg font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
-          <div className="w-8" />
-        </div>
-
-        {/* Chapter tabs */}
-        <div className="flex gap-1 px-3 py-2 overflow-x-auto">
-          {chapters.map(ch => (
-            <button key={ch.id} onClick={() => setSelectedChapter(ch.id)}
-              className={`flex-shrink-0 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                selectedChapter === ch.id
-                  ? `bg-gradient-to-r ${ch.color} text-white shadow-lg`
-                  : settings.darkMode ? 'bg-slate-800 text-slate-300' : 'bg-white text-gray-600'
-              }`}
-            >
-              {ch.icon} {ch.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Chapter info */}
-        <div className={`mx-3 mb-2 p-3 rounded-xl bg-gradient-to-r ${chapter.color} text-white`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-2xl mr-2">{chapter.icon}</span>
-              <span className="font-bold">{chapter.name}</span>
-              <span className="text-sm opacity-80 ml-2">({chapter.range})</span>
-            </div>
-            <span className="text-sm opacity-80">
-              {progress.completedLevels.filter(l => l >= startLevel && l <= endLevel).length}/{endLevel - startLevel + 1}
-            </span>
-          </div>
-        </div>
-
-        {/* Level grid */}
-        <div className="flex-1 overflow-y-auto px-3 pb-4">
-          <div className="grid grid-cols-6 gap-2">
-            {Array.from({ length: endLevel - startLevel + 1 }, (_, i) => {
-              const lvl = startLevel + i
-              const completed = progress.completedLevels.includes(lvl)
-              const stars = progress.stars[lvl] || 0
-              const locked = lvl > maxUnlocked
-
-              return (
-                <button key={lvl} disabled={locked}
-                  onClick={() => { setCurrentLevel(lvl); setScreen('game') }}
-                  className={`aspect-square rounded-xl flex flex-col items-center justify-center text-sm font-bold transition-all relative
-                    ${locked ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
-                    ${completed
-                      ? `bg-gradient-to-br ${chapter.color} text-white shadow-lg`
-                      : settings.darkMode ? 'bg-slate-800 hover:bg-slate-700' : 'bg-white hover:bg-gray-50 shadow'
-                    }`}
-                >
-                  <span className="text-xs">{lvl}</span>
-                  {completed && (
-                    <div className="flex gap-0 mt-0.5">
-                      {[1, 2, 3].map(s => (
-                        <span key={s} className={`text-[8px] ${stars >= s ? 'text-yellow-300' : 'text-white/30'}`}>★</span>
-                      ))}
-                    </div>
-                  )}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // ===== GAME SCREEN =====
-  // Initialize level
+  // Initialize level when entering game screen - MUST be unconditional
   useEffect(() => {
     if (screen !== 'game') return
     if (currentLevel < 1) return
@@ -716,7 +625,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     }
   }, [gameState, levelData])
 
-  // Restart - directly reinitialize without changing screen
+  // Restart
   const handleRestart = useCallback(() => {
     cancelAnimationFrame(animRef.current)
     animatingArrows.current.clear()
@@ -744,7 +653,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setCurrentLevel(prev => Math.min(prev + 1, 200))
   }, [])
 
-  // Save on win
+  // Save on win - MUST be unconditional
   useEffect(() => {
     if (gameState === 'won' && levelData) {
       const stars = mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1
@@ -757,8 +666,9 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     }
   }, [gameState, currentLevel, mistakes, levelData, progress, saveProgress])
 
-  // Canvas rendering
+  // Canvas rendering - MUST be unconditional
   useEffect(() => {
+    if (screen !== 'game') return
     if (!levelData || !canvasRef.current) return
 
     const canvas = canvasRef.current
@@ -810,7 +720,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     numberBlocks.forEach(b => {
       const x = b.col * cellSize + cellSize / 2
       const y = b.row * cellSize + cellSize / 2
-      const r = cellSize * 0.35
 
       ctx.fillStyle = dark ? '#1e293b' : '#e2e8f0'
       ctx.beginPath()
@@ -916,7 +825,7 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       ctx.restore()
     })
 
-  }, [arrows, numberBlocks, levelData, settings.darkMode, hintArrow])
+  }, [screen, arrows, numberBlocks, levelData, settings.darkMode, hintArrow])
 
   // Touch/click handler for canvas
   const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
@@ -951,144 +860,250 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     }
   }, [levelData, handleArrowClick])
 
-  if (!levelData) return null
-
+  // ===== RENDER HELPERS =====
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
   const cardBgClass = settings.darkMode ? 'bg-slate-800' : 'bg-white'
   const borderClass = settings.darkMode ? 'border-gray-700' : 'border-gray-200'
 
-  const chapterNames = [isZh ? '入门篇' : 'Beginner', isZh ? '进阶篇' : 'Intermediate', isZh ? '挑战篇' : 'Advanced', isZh ? '大师篇' : 'Master']
-  const chapterName = chapterNames[levelData.chapter - 1]
-  const maxMistakes = levelData.maxMistakes
+  // ===== LEVEL SELECT SCREEN RENDER =====
+  const renderLevelSelect = () => {
+    const chapters = [
+      { id: 1, name: isZh ? '入门篇' : 'Beginner', range: '1-30', color: 'from-green-400 to-emerald-600', icon: '🌱' },
+      { id: 2, name: isZh ? '进阶篇' : 'Intermediate', range: '31-70', color: 'from-blue-400 to-indigo-600', icon: '⚡' },
+      { id: 3, name: isZh ? '挑战篇' : 'Advanced', range: '71-120', color: 'from-purple-400 to-pink-600', icon: '🔥' },
+      { id: 4, name: isZh ? '大师篇' : 'Master', range: '121-200', color: 'from-amber-400 to-red-600', icon: '👑' },
+    ]
 
-  return (
-    <div className={`min-h-screen flex flex-col ${bgClass} ${textClass}`}>
-      {/* Header */}
-      <div className={`flex items-center justify-between border-b ${borderClass} px-4 py-2`}>
-        <button onClick={() => setScreen('levels')} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-        </button>
-        <div className="text-center">
-          <h1 className="text-sm font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
-          <p className="text-xs opacity-60">{chapterName} - {isZh ? `第${currentLevel}关` : `Level ${currentLevel}`}</p>
+    const chapter = chapters.find(c => c.id === selectedChapter)!
+    const startLevel = selectedChapter === 1 ? 1 : selectedChapter === 2 ? 31 : selectedChapter === 3 ? 71 : 121
+    const endLevel = selectedChapter === 1 ? 30 : selectedChapter === 2 ? 70 : selectedChapter === 3 ? 120 : 200
+    const maxUnlocked = progress.completedLevels.length > 0 ? Math.max(...progress.completedLevels) + 1 : 1
+
+    return (
+      <div className={`min-h-screen flex flex-col ${bgClass} ${textClass}`}>
+        {/* Header */}
+        <div className={`flex items-center justify-between border-b ${borderClass} px-4 py-3`}>
+          <button onClick={onBack} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <h1 className="text-lg font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
+          <div className="w-8" />
         </div>
-        <div className="w-8" />
-      </div>
 
-      {/* HUD */}
-      <div className={`flex items-center justify-between px-4 py-2 ${cardBgClass} border-b ${borderClass}`}>
-        <div className="flex items-center gap-3">
-          {/* Mistakes */}
-          <div className="flex items-center gap-1">
-            <span className="text-xs opacity-60">{isZh ? '失误' : 'Err'}:</span>
-            {Array.from({ length: maxMistakes }, (_, i) => (
-              <span key={i} className={`text-sm ${i < mistakes ? 'text-red-500' : 'opacity-30'}`}>✕</span>
-            ))}
+        {/* Chapter tabs */}
+        <div className="flex gap-1 px-3 py-2 overflow-x-auto">
+          {chapters.map(ch => (
+            <button key={ch.id} onClick={() => setSelectedChapter(ch.id)}
+              className={`flex-shrink-0 px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                selectedChapter === ch.id
+                  ? `bg-gradient-to-r ${ch.color} text-white shadow-lg`
+                  : settings.darkMode ? 'bg-slate-800 text-slate-300' : 'bg-white text-gray-600'
+              }`}
+            >
+              {ch.icon} {ch.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Chapter info */}
+        <div className={`mx-3 mb-2 p-3 rounded-xl bg-gradient-to-r ${chapter.color} text-white`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-2xl mr-2">{chapter.icon}</span>
+              <span className="font-bold">{chapter.name}</span>
+              <span className="text-sm opacity-80 ml-2">({chapter.range})</span>
+            </div>
+            <span className="text-sm opacity-80">
+              {progress.completedLevels.filter(l => l >= startLevel && l <= endLevel).length}/{endLevel - startLevel + 1}
+            </span>
           </div>
-          {/* Moves */}
-          <div className="flex items-center gap-1">
-            <span className="text-xs opacity-60">{isZh ? '步数' : 'Moves'}:</span>
-            <span className="text-sm font-bold">{moves}</span>
+        </div>
+
+        {/* Level grid */}
+        <div className="flex-1 overflow-y-auto px-3 pb-4">
+          <div className="grid grid-cols-6 gap-2">
+            {Array.from({ length: endLevel - startLevel + 1 }, (_, i) => {
+              const lvl = startLevel + i
+              const completed = progress.completedLevels.includes(lvl)
+              const stars = progress.stars[lvl] || 0
+              const locked = lvl > maxUnlocked
+
+              return (
+                <button key={lvl} disabled={locked}
+                  onClick={() => { setCurrentLevel(lvl); setScreen('game') }}
+                  className={`aspect-square rounded-xl flex flex-col items-center justify-center text-sm font-bold transition-all relative
+                    ${locked ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer active:scale-95'}
+                    ${completed
+                      ? `bg-gradient-to-br ${chapter.color} text-white shadow-lg`
+                      : settings.darkMode ? 'bg-slate-800 hover:bg-slate-700' : 'bg-white hover:bg-gray-50 shadow'
+                    }`}
+                >
+                  <span className="text-xs">{lvl}</span>
+                  {completed && (
+                    <div className="flex gap-0 mt-0.5">
+                      {[1, 2, 3].map(s => (
+                        <span key={s} className={`text-[8px] ${stars >= s ? 'text-yellow-300' : 'text-white/30'}`}>★</span>
+                      ))}
+                    </div>
+                  )}
+                </button>
+              )
+            })}
           </div>
         </div>
+      </div>
+    )
+  }
 
-        {/* Arrows remaining */}
-        <div className="text-xs opacity-60">
-          {isZh ? '剩余' : 'Left'}: <span className="font-bold">{arrows.filter(a => !a.isExiting).length}</span>
+  // ===== GAME SCREEN RENDER =====
+  const renderGame = () => {
+    if (!levelData) {
+      return (
+        <div className={`min-h-screen flex items-center justify-center ${bgClass} ${textClass}`}>
+          <div className="text-center">
+            <div className="animate-spin w-8 h-8 border-2 border-current border-t-transparent rounded-full mx-auto mb-2" />
+            <p className="text-sm opacity-60">{isZh ? '加载中...' : 'Loading...'}</p>
+          </div>
         </div>
-      </div>
+      )
+    }
 
-      {/* Game Canvas */}
-      <div className="flex-1 flex items-center justify-center p-4">
-        <div className="w-full max-w-[500px]">
-          <canvas
-            ref={canvasRef}
-            onClick={handleCanvasClick}
-            onTouchStart={handleCanvasClick}
-            style={{ touchAction: 'none' }}
-            className={`w-full rounded-xl shadow-lg cursor-pointer border ${borderClass}`}
-          />
+    const chapterNames = [isZh ? '入门篇' : 'Beginner', isZh ? '进阶篇' : 'Intermediate', isZh ? '挑战篇' : 'Advanced', isZh ? '大师篇' : 'Master']
+    const chapterName = chapterNames[levelData.chapter - 1]
+    const maxMistakes = levelData.maxMistakes
+
+    return (
+      <div className={`min-h-screen flex flex-col ${bgClass} ${textClass}`}>
+        {/* Header */}
+        <div className={`flex items-center justify-between border-b ${borderClass} px-4 py-2`}>
+          <button onClick={() => setScreen('levels')} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
+          <div className="text-center">
+            <h1 className="text-sm font-bold">{isZh ? '箭头解谜' : 'Arrow Puzzle'}</h1>
+            <p className="text-xs opacity-60">{chapterName} - {isZh ? `第${currentLevel}关` : `Level ${currentLevel}`}</p>
+          </div>
+          <div className="w-8" />
         </div>
-      </div>
 
-      {/* Controls */}
-      <div className={`px-4 pb-4 flex items-center justify-center gap-3`}>
-        <button onClick={handleUndo}
-          disabled={history.length === 0 || gameState !== 'playing'}
-          className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} disabled:opacity-30 active:scale-95 transition-all`}
-        >
-          ↩ {isZh ? '撤销' : 'Undo'}
-        </button>
-        <button onClick={handleHint}
-          disabled={gameState !== 'playing'}
-          className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} disabled:opacity-30 active:scale-95 transition-all`}
-        >
-          💡 {isZh ? '提示' : 'Hint'}
-        </button>
-        <button onClick={handleRestart}
-          className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} active:scale-95 transition-all`}
-        >
-          🔄 {isZh ? '重试' : 'Retry'}
-        </button>
-      </div>
-
-      {/* Win Modal */}
-      {gameState === 'won' && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={e => { if (e.target === e.currentTarget) setGameState('playing') }}>
-          <div className={`${cardBgClass} rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl`}>
-            <div className="text-5xl mb-3">🎉</div>
-            <h2 className="text-2xl font-bold mb-2">{isZh ? '恭喜通关！' : 'Level Complete!'}</h2>
-            <div className="flex justify-center gap-1 mb-3">
-              {[1, 2, 3].map(s => (
-                <span key={s} className={`text-2xl ${mistakes === 0 ? 'text-yellow-400' : (s <= (mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1) ? 'text-yellow-400' : 'opacity-20')}`}>★</span>
+        {/* HUD */}
+        <div className={`flex items-center justify-between px-4 py-2 ${cardBgClass} border-b ${borderClass}`}>
+          <div className="flex items-center gap-3">
+            {/* Mistakes */}
+            <div className="flex items-center gap-1">
+              <span className="text-xs opacity-60">{isZh ? '失误' : 'Err'}:</span>
+              {Array.from({ length: maxMistakes }, (_, i) => (
+                <span key={i} className={`text-sm ${i < mistakes ? 'text-red-500' : 'opacity-30'}`}>✕</span>
               ))}
             </div>
-            <p className="text-sm opacity-60 mb-4">
-              {isZh ? `${moves} 步 · ${mistakes} 次失误` : `${moves} moves · ${mistakes} mistakes`}
-            </p>
-            <div className="flex gap-3">
-              <button onClick={() => setScreen('levels')}
-                className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
-              >
-                {isZh ? '关卡列表' : 'Levels'}
-              </button>
-              {currentLevel < 200 && (
-                <button onClick={handleNextLevel}
-                  className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 text-white"
-                >
-                  {isZh ? '下一关 →' : 'Next →'}
-                </button>
-              )}
+            {/* Moves */}
+            <div className="flex items-center gap-1">
+              <span className="text-xs opacity-60">{isZh ? '步数' : 'Moves'}:</span>
+              <span className="text-sm font-bold">{moves}</span>
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Lose Modal */}
-      {gameState === 'lost' && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className={`${cardBgClass} rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl`}>
-            <div className="text-5xl mb-3">😔</div>
-            <h2 className="text-2xl font-bold mb-2">{isZh ? '失误过多！' : 'Too Many Mistakes!'}</h2>
-            <p className="text-sm opacity-60 mb-4">
-              {isZh ? `完成了 ${moves} 步` : `Made ${moves} moves`}
-            </p>
-            <div className="flex gap-3">
-              <button onClick={() => setScreen('levels')}
-                className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
-              >
-                {isZh ? '关卡列表' : 'Levels'}
-              </button>
-              <button onClick={handleRestart}
-                className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 text-white"
-              >
-                {isZh ? '再试一次' : 'Retry'}
-              </button>
-            </div>
+          {/* Arrows remaining */}
+          <div className="text-xs opacity-60">
+            {isZh ? '剩余' : 'Left'}: <span className="font-bold">{arrows.filter(a => !a.isExiting).length}</span>
           </div>
         </div>
-      )}
-    </div>
-  )
+
+        {/* Game Canvas */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="w-full max-w-[500px]">
+            <canvas
+              ref={canvasRef}
+              onClick={handleCanvasClick}
+              onTouchStart={handleCanvasClick}
+              style={{ touchAction: 'none' }}
+              className={`w-full rounded-xl shadow-lg cursor-pointer border ${borderClass}`}
+            />
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div className={`px-4 pb-4 flex items-center justify-center gap-3`}>
+          <button onClick={handleUndo}
+            disabled={history.length === 0 || gameState !== 'playing'}
+            className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} disabled:opacity-30 active:scale-95 transition-all`}
+          >
+            ↩ {isZh ? '撤销' : 'Undo'}
+          </button>
+          <button onClick={handleHint}
+            disabled={gameState !== 'playing'}
+            className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} disabled:opacity-30 active:scale-95 transition-all`}
+          >
+            💡 {isZh ? '提示' : 'Hint'}
+          </button>
+          <button onClick={handleRestart}
+            className={`px-4 py-2 rounded-xl text-sm font-medium ${cardBgClass} border ${borderClass} active:scale-95 transition-all`}
+          >
+            🔄 {isZh ? '重试' : 'Retry'}
+          </button>
+        </div>
+
+        {/* Win Modal */}
+        {gameState === 'won' && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={e => { if (e.target === e.currentTarget) setGameState('playing') }}>
+            <div className={`${cardBgClass} rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl`}>
+              <div className="text-5xl mb-3">🎉</div>
+              <h2 className="text-2xl font-bold mb-2">{isZh ? '恭喜通关！' : 'Level Complete!'}</h2>
+              <div className="flex justify-center gap-1 mb-3">
+                {[1, 2, 3].map(s => (
+                  <span key={s} className={`text-2xl ${mistakes === 0 ? 'text-yellow-400' : (s <= (mistakes === 0 ? 3 : mistakes === 1 ? 2 : 1) ? 'text-yellow-400' : 'opacity-20')}`}>★</span>
+                ))}
+              </div>
+              <p className="text-sm opacity-60 mb-4">
+                {isZh ? `${moves} 步 · ${mistakes} 次失误` : `${moves} moves · ${mistakes} mistakes`}
+              </p>
+              <div className="flex gap-3">
+                <button onClick={() => setScreen('levels')}
+                  className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
+                >
+                  {isZh ? '关卡列表' : 'Levels'}
+                </button>
+                {currentLevel < 200 && (
+                  <button onClick={handleNextLevel}
+                    className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-green-400 to-emerald-600 text-white"
+                  >
+                    {isZh ? '下一关 →' : 'Next →'}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Lose Modal */}
+        {gameState === 'lost' && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className={`${cardBgClass} rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl`}>
+              <div className="text-5xl mb-3">😔</div>
+              <h2 className="text-2xl font-bold mb-2">{isZh ? '失误过多！' : 'Too Many Mistakes!'}</h2>
+              <p className="text-sm opacity-60 mb-4">
+                {isZh ? `完成了 ${moves} 步` : `Made ${moves} moves`}
+              </p>
+              <div className="flex gap-3">
+                <button onClick={() => setScreen('levels')}
+                  className={`flex-1 py-3 rounded-xl font-bold ${cardBgClass} border ${borderClass}`}
+                >
+                  {isZh ? '关卡列表' : 'Levels'}
+                </button>
+                <button onClick={handleRestart}
+                  className="flex-1 py-3 rounded-xl font-bold bg-gradient-to-r from-blue-400 to-indigo-600 text-white"
+                >
+                  {isZh ? '再试一次' : 'Retry'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // Main render - use conditional rendering AFTER all hooks are called
+  return screen === 'levels' ? renderLevelSelect() : renderGame()
 }
