@@ -869,7 +869,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
   const [history, setHistory] = useState<Arrow[][]>([])
   const [numberBlocks, setNumberBlocks] = useState<NumberBlock[]>([])
   const [selectedChapter, setSelectedChapter] = useState(1)
-  const [showReviveOption, setShowReviveOption] = useState(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animRef = useRef<number>(0)
@@ -915,7 +914,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setGameState('playing')
     setHintArrow(null)
     setHistory([])
-    setShowReviveOption(false)
 
     setArrows(ld.arrows.map((a, i) => ({
       id: i, row: a.row, col: a.col, directions: a.directions,
@@ -1012,12 +1010,10 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
         const next = prev + 1
         const maxMistakes = levelData?.maxMistakes || 3
         if (next >= maxMistakes) {
-          setShowReviveOption(true)
+          // Use a flag to track if we should show lose state
           setTimeout(() => {
-            if (showReviveOption) {
-              soundRef.current.fail()
-              setGameState('lost')
-            }
+            soundRef.current.fail()
+            setGameState('lost')
           }, 300)
         }
         return next
@@ -1045,13 +1041,12 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       }
       requestAnimationFrame(shakeAnim)
     }
-  }, [canArrowExit, levelData, showReviveOption])
+  }, [canArrowExit, levelData])
 
   // Revive (continue after losing)
   const handleRevive = useCallback(() => {
     soundRef.current.revive()
     setMistakes(0)
-    setShowReviveOption(false)
     setGameState('playing')
   }, [])
 
@@ -1097,7 +1092,6 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
     setGameState('playing')
     setHintArrow(null)
     setHistory([])
-    setShowReviveOption(false)
 
     setArrows(ld.arrows.map((a, i) => ({
       id: i, row: a.row, col: a.col, directions: a.directions,
