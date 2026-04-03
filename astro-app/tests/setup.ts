@@ -1,5 +1,10 @@
 import '@testing-library/jest-dom'
-import { vi } from 'vitest'
+import { vi, afterEach } from 'vitest'
+
+// Cleanup after each test
+afterEach(() => {
+  vi.clearAllMocks()
+})
 
 // Mock localStorage
 const localStorageMock = {
