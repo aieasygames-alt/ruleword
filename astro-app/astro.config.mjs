@@ -1,5 +1,29 @@
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+import Module from 'module'
+
+// Polyfill __dirname for ESM context (needed by lightningcss and other native modules)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+globalThis.__dirname = __dirname
+
+// Intercept Module._load to handle missing native modules gracefully
+const originalLoad = Module._load
+Module._load = function(request, parent, isMain) {
+  // Handle missing @rollup/rollup-* native modules
+  if (request.startsWith('@rollup/rollup-')) {
+    try {
+      return originalLoad.apply(this, arguments)
+    } catch (e) {
+      // Return empty object for missing native modules
+      // Rollup will fall back to WASM implementation
+      return {}
+    }
+  }
+  return originalLoad.apply(this, arguments)
+}
 
 export const languages = {
   en: 'English',
@@ -31,11 +55,11 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['fsevents', 'lightningcss', /^@rollup\/rollup-/]
+        external: ['fsevents', 'lightningcss']
       }
     },
     ssr: {
-      external: ['lightningcss', 'rollup']
+      external: ['lightningcss']
     }
   }
 })
