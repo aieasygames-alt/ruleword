@@ -19,6 +19,13 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "lightningcss"
+    ]
+  },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
     "@emailjs/browser": "^4.4.1",
