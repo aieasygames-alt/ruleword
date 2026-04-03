@@ -1,14 +1,5 @@
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
-import { fileURLToPath } from 'url'
-import { dirname } from 'path'
-
-// Polyfill __dirname for ESM context (needed by some dependencies)
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-// Only expose __dirname globally, NOT require (to avoid Rollup native module issues)
-globalThis.__dirname = __dirname
 
 export const languages = {
   en: 'English',
@@ -53,7 +44,12 @@ export default defineConfig({
     plugins: [lightningcssFix],
     build: {
       rollupOptions: {
-        external: ['fsevents', 'lightningcss']
+        external: [
+          'fsevents',
+          'lightningcss',
+          // Rollup native modules - these may not exist on all platforms
+          /^@rollup\/rollup-/
+        ]
       }
     },
     ssr: {
