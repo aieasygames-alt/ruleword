@@ -3,7 +3,6 @@ import react from '@astrojs/react'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
 import { createRequire } from 'module'
-import path from 'path'
 
 // Polyfill for ESM context - needed by lightningcss and other native modules
 const __filename = fileURLToPath(import.meta.url)
@@ -42,26 +41,17 @@ export const languages = {
 
 export const defaultLang = 'en'
 
-// Create a virtual module for empty Rollup native bindings
-const emptyNativeModule = 'export default {}'
+// Empty module for Rollup native fallback
+const emptyNativeModule = 'export default {}; export const sync = undefined;'
 
+// Vite plugin to handle Rollup native modules
 const rollupNativeFallback = {
   name: 'rollup-native-fallback',
   enforce: 'pre',
   resolveId(id) {
-    // Redirect all @rollup/rollup-* imports to our virtual module
-    if (id.startsWith('@rollup/rollup-')) {
-      return { id: 'virtual:rollup-native-empty', external: false }
-    }
     // Handle lightningcss ../pkg imports
     if (id === '../pkg' || id === '../pkg?commonjs-external') {
       return { id: 'lightningcss', external: true }
-    }
-    return null
-  },
-  load(id) {
-    if (id === 'virtual:rollup-native-empty') {
-      return emptyNativeModule
     }
     return null
   }
@@ -83,6 +73,16 @@ export default defineConfig({
   },
   vite: {
     plugins: [rollupNativeFallback],
+    resolve: {
+      alias: {
+        // Redirect all @rollup/rollup-* imports to empty module
+        '@rollup/rollup-linux-x64-gnu': 'data:text/javascript,' + encodeURIComponent(emptyNativeModule),
+        '@rollup/rollup-linux-x64-musl': 'data:text/javascript,' + encodeURIComponent(emptyNativeModule),
+        '@rollup/rollup-darwin-x64': 'data:text/javascript,' + encodeURIComponent(emptyNativeModule),
+        '@rollup/rollup-darwin-arm64': 'data:text/javascript,' + encodeURIComponent(emptyNativeModule),
+        '@rollup/rollup-win32-x64-msvc': 'data:text/javascript,' + encodeURIComponent(emptyNativeModule),
+      }
+    },
     build: {
       rollupOptions: {
         external: [
@@ -92,7 +92,8 @@ export default defineConfig({
       }
     },
     ssr: {
-      external: ['lightningcss']
+      external: ['lightningcss'],
+      noExternal: ['@rollup/rollup-linux-x64-gnu', '@rollup/rollup-linux-x64-musl']
     }
   }
 })
