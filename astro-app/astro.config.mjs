@@ -31,7 +31,13 @@ export default defineConfig({
   vite: {
     build: {
       rollupOptions: {
-        external: ['fsevents']
+        external: (id) => {
+          // Externalize macOS-only fsevents
+          if (id === 'fsevents') return true
+          // Externalize lightningcss native bindings (../pkg references)
+          if (id.includes('../pkg') || id === '../pkg?commonjs-external') return true
+          return false
+        }
       }
     }
   }
