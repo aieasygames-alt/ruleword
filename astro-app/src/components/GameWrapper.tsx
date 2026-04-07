@@ -65,7 +65,7 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   'dotsandboxes': () => import('./games/DotsAndBoxes'),
   'wordlist': () => import('./games/WordList'),
   'reactiontest': () => import('./games/ReactionTest'),
-  'simongame': () => import('./games/SimonGame'),
+
   'anagrams': () => import('./games/Anagrams'),
   'nim': () => import('./games/Nim'),
   'boggle': () => import('./games/Boggle'),
@@ -111,7 +111,7 @@ const gameComponents: Record<string, () => Promise<{ default: ComponentType<any>
   // New games
   'texttwist': () => import('./games/TextTwist'),
   'strooptest': () => import('./games/StroopTest'),
-  'reactiontime': () => import('./games/ReactionTime'),
+
   'huarongpass': () => import('./games/HuarongPass'),
   'hidato': () => import('./games/Hidato'),
   'minesweeperflags': () => import('./games/MinesweeperFlags'),
