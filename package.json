@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "cd astro-app && pnpm dev",
     "build": "rm -rf dist && cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
+    "build:ci": "npm install -g pnpm && rm -rf dist && cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
     "preview": "cd astro-app && pnpm preview",
     "deploy": "pnpm build && gh-pages -d dist"
   },
