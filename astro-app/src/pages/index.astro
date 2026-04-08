@@ -22,6 +22,10 @@ const games = gamesCollection.map(entry => ({
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
 const categoryList = categories.filter(c => c.id !== 'all')
 
+// Quick Play - 6 universally popular games
+const quickPlaySlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man']
+const quickPlayGames = quickPlaySlugs.map(slug => games.find(g => g.slug === slug)).filter(Boolean)
+
 // Get all language codes for dropdown
 const allLanguages = languages
 const categoryI18nData = categoryI18n
@@ -101,8 +105,8 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
         <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-blue-500"></div>
       </div>
 
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 text-center">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight text-gray-900 dark:text-white" data-i18n="title">
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 text-center">
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 tracking-tight text-gray-900 dark:text-white" data-i18n="title">
           Free Online Puzzle Games
         </h1>
         <p class="text-lg sm:text-xl max-w-2xl mx-auto text-gray-600 dark:text-slate-400 mb-8" data-i18n="subtitle">
@@ -116,44 +120,24 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
-      <!-- Categories Section -->
-      <section class="mt-8 mb-12">
-        <div class="flex items-center gap-3 mb-6">
-          <span class="text-2xl">📂</span>
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="categories">Categories</h2>
+      <!-- Quick Play Section -->
+      <section class="mt-8 mb-10">
+        <div class="flex items-center gap-3 mb-2">
+          <span class="text-2xl">🚀</span>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="quickPlay">Quick Play</h2>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          {categoryList.map(cat => (
-            <a
-              href={`/category/${cat.id}/`}
-              class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-600"
-              data-category-id={cat.id}
-            >
-              <div class="text-3xl mb-2">{cat.icon}</div>
-              <h4 class="font-medium text-gray-900 dark:text-white text-sm category-name">{cat.name}</h4>
-              <p class="text-xs text-gray-500 dark:text-slate-500 mt-1">{games.filter(g => g.category === cat.id).length} <span data-i18n="gamesCount">games</span></p>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <!-- Featured Section -->
-      <section class="mt-8 mb-12">
-        <div class="flex items-center gap-3 mb-6">
-          <span class="text-2xl">⭐</span>
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="featured">Featured Games</h2>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {featuredGames.map(game => (
+        <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="quickPlayDesc">Jump right into our most popular games</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+          {quickPlayGames.map(game => (
             <a
               href={`/games/${game.slug}/`}
-              class={`group relative overflow-hidden rounded-2xl aspect-[2/1] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
+              class={`group relative overflow-hidden rounded-2xl aspect-[4/3] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
               data-game-slug={game.slug}
             >
               <div class="relative z-10 h-full flex flex-col justify-between">
-                <div class="text-2xl lg:text-3xl">{game.icon}</div>
+                <div class="text-3xl lg:text-4xl">{game.icon}</div>
                 <div>
-                  <h3 class="font-bold text-white text-base mb-0.5 game-name">{game.name}</h3>
+                  <h3 class="font-bold text-white text-sm sm:text-base mb-0.5 game-name">{game.name}</h3>
                   <p class="text-white/80 text-xs line-clamp-1 game-desc">{game.desc}</p>
                 </div>
               </div>
@@ -162,9 +146,52 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
         </div>
       </section>
 
-      <!-- Brain Tests Section (SEO Focus: Chimp Test, Stroop Test, Aim Trainer) -->
-      <section class="mt-8 mb-12">
-        <div class="flex items-center justify-between mb-6">
+      <!-- Browse by Category -->
+      <section class="mb-10">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="text-2xl">📂</span>
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="browseByCategory">Browse by Category</h2>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+          {categoryList.map(cat => {
+            const catGames = games.filter(g => g.category === cat.id)
+            const previewGames = catGames.slice(0, 3)
+            return (
+              <a
+                href={`/category/${cat.id}/`}
+                class="group relative overflow-hidden rounded-xl p-4 transition-all duration-300 hover:scale-[1.01] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-600"
+                data-category-id={cat.id}
+              >
+                <div class="flex items-center gap-3 mb-3">
+                  <span class="text-2xl">{cat.icon}</span>
+                  <div>
+                    <h4 class="font-semibold text-gray-900 dark:text-white text-sm category-name">{cat.name}</h4>
+                    <p class="text-xs text-gray-500 dark:text-slate-500">{catGames.length} <span data-i18n="gamesCount">games</span></p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  {previewGames.map(pg => (
+                    <span
+                      class={`w-9 h-9 rounded-lg bg-gradient-to-br ${pg.color} flex items-center justify-center text-base shadow`}
+                    >
+                      {pg.icon}
+                    </span>
+                  ))}
+                  {catGames.length > 3 && (
+                    <span class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-slate-800 flex items-center justify-center text-xs text-gray-500 dark:text-slate-500 font-medium">
+                      +{catGames.length - 3}
+                    </span>
+                  )}
+                </div>
+              </a>
+            )
+          })}
+        </div>
+      </section>
+
+      <!-- Brain Tests Section -->
+      <section class="mb-10">
+        <div class="flex items-center justify-between mb-5">
           <div class="flex items-center gap-3">
             <span class="text-2xl">🧠</span>
             <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="brainTests">Brain Tests & Cognitive Challenges</h2>
@@ -172,11 +199,7 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
         </div>
         <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="brainTestsDesc">Test your memory, reaction speed, and cognitive control with these popular brain challenges!</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Chimp Test */}
-          <a
-            href="/games/chimp-test/"
-            class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-amber-500 to-yellow-600"
-          >
+          <a href="/games/chimp-test/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-amber-500 to-yellow-600">
             <div class="relative z-10">
               <div class="text-4xl mb-3">🐒</div>
               <h3 class="font-bold text-white text-lg mb-1">Chimp Test</h3>
@@ -187,11 +210,7 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
               </div>
             </div>
           </a>
-          {/* Stroop Test */}
-          <a
-            href="/games/stroop-test/"
-            class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-fuchsia-500 to-pink-600"
-          >
+          <a href="/games/stroop-test/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-fuchsia-500 to-pink-600">
             <div class="relative z-10">
               <div class="text-4xl mb-3">🎨</div>
               <h3 class="font-bold text-white text-lg mb-1">Stroop Test</h3>
@@ -202,11 +221,7 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
               </div>
             </div>
           </a>
-          {/* Aim Trainer */}
-          <a
-            href="/games/aim-trainer/"
-            class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-red-500 to-orange-600"
-          >
+          <a href="/games/aim-trainer/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-red-500 to-orange-600">
             <div class="relative z-10">
               <div class="text-4xl mb-3">🎯</div>
               <h3 class="font-bold text-white text-lg mb-1">Aim Trainer</h3>
@@ -220,95 +235,59 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
         </div>
       </section>
 
-      <!-- Game Guides Section -->
-      <section class="mt-8 mb-12">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center gap-3">
-            <span class="text-2xl">📖</span>
-            <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="gameGuides">Game Guides</h2>
-          </div>
-          <a href="/guides/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium" data-i18n="viewAllGuides">View All Guides →</a>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.values(gameGuides).map(guide => {
-            const game = games.find(g => g.slug === guide.slug)
-            return (
-              <a
-                href={`/guides/${guide.slug}/`}
-                class="group block rounded-xl p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700"
-              >
-                <div class="flex items-start gap-3">
-                  <span class="text-2xl shrink-0">{game?.icon || '🎮'}</span>
-                  <div class="min-w-0">
-                    <h3 class="font-semibold text-gray-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 line-clamp-2">
-                      {guide.title}
-                    </h3>
-                    <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 line-clamp-2">
-                      {guide.description}
-                    </p>
-                    <div class="flex flex-wrap gap-1 mt-2">
-                      {guide.keywords.slice(0, 3).map(kw => (
-                        <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-                          {kw}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </a>
-            )
-          })}
-        </div>
-      </section>
-
       <!-- Favorites & Recently Played (client-side) -->
-      <section id="personalized-games" class="mt-8 mb-12">
-        <!-- Favorites Section -->
+      <section id="personalized-games" class="mb-10">
         <div id="favorites-section" class="hidden">
           <div class="flex items-center justify-between gap-3 mb-4">
             <div class="flex items-center gap-3">
               <span class="text-2xl">❤️</span>
               <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="favorites">Favorite Games</h2>
             </div>
-            <button id="clear-favorites-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-              Clear All
-            </button>
+            <button id="clear-favorites-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">Clear All</button>
           </div>
-          <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            <!-- Favorites will be injected here -->
-          </div>
+          <div id="favorites-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
         </div>
-
-        <!-- Recently Played Section -->
         <div id="recent-section" class="hidden mt-8">
           <div class="flex items-center justify-between gap-3 mb-4">
             <div class="flex items-center gap-3">
               <span class="text-2xl">🕐</span>
               <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="recentlyPlayed">Recently Played</h2>
             </div>
-            <button id="clear-recent-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">
-              Clear All
-            </button>
+            <button id="clear-recent-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">Clear All</button>
           </div>
-          <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-            <!-- Recent games will be injected here -->
-          </div>
+          <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
         </div>
       </section>
 
-      <!-- All Games -->
-      <section>
-        <div class="flex items-center gap-3 mb-6">
+      <!-- All Games with Tab Filtering -->
+      <section class="mb-10">
+        <div class="flex items-center gap-3 mb-5">
           <span class="text-2xl">🎮</span>
           <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="allGames">All Games</h2>
           <span class="text-sm text-gray-600 dark:text-slate-400">{games.length} <span data-i18n="gamesCount">games</span></span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Category Tabs -->
+        <div class="flex gap-2 overflow-x-auto pb-3 mb-4 scrollbar-thin" id="all-games-tabs">
+          <button data-filter="all" class="all-games-tab active px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-green-600 text-white" data-i18n="allGames">All Games</button>
+          {categoryList.map(cat => (
+            <button
+              data-filter={cat.id}
+              class="all-games-tab px-3 py-1.5 rounded-lg text-sm font-medium whitespace-nowrap transition-all bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-700"
+              data-category-id={cat.id}
+            >
+              <span class="mr-1">{cat.icon}</span>
+              <span class="category-name">{cat.name}</span>
+            </button>
+          ))}
+        </div>
+        <!-- Games Grid -->
+        <div id="all-games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {games.map(game => (
             <a
               href={`/games/${game.slug}/`}
-              class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800"
+              class="game-card-all group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800"
               data-game-slug={game.slug}
+              data-game-category={game.category}
             >
               <div class="flex items-start gap-4">
                 <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
@@ -324,13 +303,46 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
               </div>
               {game.featured && (
                 <div class="absolute top-3 right-3">
-                  <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-amber-400 to-orange-500 text-white">
-                    ⭐
-                  </span>
+                  <span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-amber-400 to-orange-500 text-white">⭐</span>
                 </div>
               )}
             </a>
           ))}
+        </div>
+      </section>
+
+      <!-- Game Guides Section (top 3 only) -->
+      <section class="mb-10">
+        <div class="flex items-center justify-between mb-5">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📖</span>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="gameGuides">Game Guides</h2>
+          </div>
+          <a href="/guides/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline font-medium" data-i18n="viewAllGuides">View All Guides →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {Object.values(gameGuides).slice(0, 3).map(guide => {
+            const game = games.find(g => g.slug === guide.slug)
+            return (
+              <a
+                href={`/guides/${guide.slug}/`}
+                class="group block rounded-xl p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-emerald-300 dark:hover:border-emerald-700"
+              >
+                <div class="flex items-start gap-3">
+                  <span class="text-2xl shrink-0">{game?.icon || '🎮'}</span>
+                  <div class="min-w-0">
+                    <h3 class="font-semibold text-gray-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 line-clamp-2">{guide.title}</h3>
+                    <p class="text-xs text-gray-500 dark:text-slate-400 mt-1 line-clamp-2">{guide.description}</p>
+                    <div class="flex flex-wrap gap-1 mt-2">
+                      {guide.keywords.slice(0, 3).map(kw => (
+                        <span class="inline-block text-[10px] px-1.5 py-0.5 rounded bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">{kw}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </a>
+            )
+          })}
         </div>
       </section>
 
@@ -738,6 +750,25 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
 
     // Initialize theme button
     updateThemeButton()
+
+    // === All Games Tab Filtering ===
+    const allGamesTabs = document.querySelectorAll('.all-games-tab')
+    const allGamesCards = document.querySelectorAll('.game-card-all')
+
+    allGamesTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const filter = tab.dataset.filter
+        allGamesTabs.forEach(t => {
+          t.classList.remove('bg-green-600', 'text-white')
+          t.classList.add('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300')
+        })
+        tab.classList.remove('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-slate-300')
+        tab.classList.add('bg-green-600', 'text-white')
+        allGamesCards.forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.gameCategory === filter) ? '' : 'none'
+        })
+      })
+    })
 
     // Feedback modal
     document.getElementById('feedback-btn')?.addEventListener('click', () => {

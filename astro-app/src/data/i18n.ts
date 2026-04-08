@@ -29,6 +29,9 @@ export const i18n: Record<Language, {
     categories: string
     copyright: string
     aboutTitle: string
+    quickPlay: string
+    quickPlayDesc: string
+    browseByCategory: string
     feature1Title: string
     feature1Desc: string
     feature2Title: string
@@ -90,7 +93,7 @@ export const i18n: Record<Language, {
       title: 'Play Wordle, Sudoku, 2048 Online Free',
       subtitle: '100+ puzzle, word, arcade & strategy games. No download, play instantly in browser!',
       featured: 'Featured Games', allGames: 'All Games', gamesCount: 'games', freeGames: 'Free Games',
-      categories: 'Categories', copyright: '© 2026 Free Games Hub', aboutTitle: 'About Free Games Hub',
+      categories: 'Categories', copyright: '© 2026 Free Games Hub', aboutTitle: 'About Free Games Hub', quickPlay: 'Quick Play', quickPlayDesc: 'Jump right into our most popular games', browseByCategory: 'Browse by Category',
       gameGuides: 'Game Guides', viewAllGuides: 'View All Guides →',
       brainTests: 'Brain Tests & Cognitive Challenges', brainTestsDesc: 'Test your memory, reaction speed, and cognitive control with these popular brain challenges!',
       feature1Title: '100% Free & Unlimited', feature1Desc: 'Play all games without any cost or time limits. No registration required.',
@@ -118,7 +121,7 @@ export const i18n: Record<Language, {
       title: 'Jouer à Wordle, Sudoku, 2048 Gratuit en Ligne',
       subtitle: '100+ jeux de puzzle, mots, arcade et stratégie. Sans téléchargement, jouez instantanément!',
       featured: 'Jeux en Vedette', allGames: 'Tous les Jeux', gamesCount: 'jeux', freeGames: 'Jeux Gratuits',
-      categories: 'Catégories', copyright: '© 2026 Jeux Gratuits', aboutTitle: 'À Propos de Jeux Gratuits',
+      categories: 'Catégories', copyright: '© 2026 Jeux Gratuits', aboutTitle: 'À Propos de Jeux Gratuits', quickPlay: 'Jeu Rapide', quickPlayDesc: 'Plongez dans nos jeux les plus populaires', browseByCategory: 'Parcourir par Catégorie',
       gameGuides: 'Guides de Jeu', viewAllGuides: 'Voir Tous les Guides →',
       feature1Title: '100% Gratuit et Illimité', feature1Desc: 'Jouez à tous les jeux sans aucun coût ni limite de temps.',
       feature2Title: 'Jeu Instantané, Sans Téléchargement', feature2Desc: 'Tous les jeux fonctionnent directement dans votre navigateur.',
@@ -145,7 +148,7 @@ export const i18n: Record<Language, {
       title: 'Wordle, Sudoku, 2048 Kostenlos Online Spielen',
       subtitle: '100+ Puzzle-, Wort-, Arcade- & Strategiespiele. Kein Download, sofort spielen!',
       featured: 'Empfohlene Spiele', allGames: 'Alle Spiele', gamesCount: 'Spiele', freeGames: 'Kostenlose Spiele',
-      categories: 'Kategorien', copyright: '© 2026 Kostenlose Spiele', aboutTitle: 'Über Kostenlose Spiele',
+      categories: 'Kategorien', copyright: '© 2026 Kostenlose Spiele', aboutTitle: 'Über Kostenlose Spiele', quickPlay: 'Schnelles Spiel', quickPlayDesc: 'Starten Sie direkt mit den beliebtesten Spielen', browseByCategory: 'Nach Kategorie',
       gameGuides: 'Spielanleitungen', viewAllGuides: 'Alle Anleitungen →',
       feature1Title: '100% Kostenlos & Unbegrenzt', feature1Desc: 'Spielen Sie alle Spiele ohne Kosten oder Zeitlimits.',
       feature2Title: 'Sofort Spielen, Kein Download', feature2Desc: 'Alle Spiele laufen direkt in Ihrem Browser.',
@@ -172,7 +175,7 @@ export const i18n: Record<Language, {
       title: 'Jugar Wordle, Sudoku, 2048 Gratis Online',
       subtitle: '100+ juegos de puzzle, palabras, arcade y estrategia. Sin descargas, juega al instante!',
       featured: 'Juegos Destacados', allGames: 'Todos los Juegos', gamesCount: 'juegos', freeGames: 'Juegos Gratis',
-      categories: 'Categorías', copyright: '© 2026 Juegos Gratis', aboutTitle: 'Sobre Juegos Gratis',
+      categories: 'Categorías', copyright: '© 2026 Juegos Gratis', aboutTitle: 'Sobre Juegos Gratis', quickPlay: 'Juego Rápido', quickPlayDesc: 'Salta a los juegos más populares', browseByCategory: 'Explorar por Categoría',
       gameGuides: 'Guías de Juego', viewAllGuides: 'Ver Todas las Guías →',
       feature1Title: '100% Gratis e Ilimitado', feature1Desc: 'Juega todos los juegos sin costo ni límites de tiempo.',
       feature2Title: 'Juego Instantáneo, Sin Descargas', feature2Desc: 'Todos los juegos funcionan directamente en tu navegador.',
@@ -199,7 +202,7 @@ export const i18n: Record<Language, {
       title: 'Играть Wordle, Sudoku, 2048 Бесплатно Онлайн',
       subtitle: '100+ головоломок, словесных, аркадных и стратегических игр. Без загрузок, играйте мгновенно!',
       featured: 'Рекомендуемые Игры', allGames: 'Все Игры', gamesCount: 'игр', freeGames: 'Бесплатные Игры',
-      categories: 'Категории', copyright: '© 2026 Бесплатные Игры', aboutTitle: 'О Бесплатных Играх',
+      categories: 'Категории', copyright: '© 2026 Бесплатные Игры', aboutTitle: 'О Бесплатных Играх', quickPlay: 'Быстрый Старт', quickPlayDesc: 'Прыгайте прямо в самые популярные игры', browseByCategory: 'Обзор по Категориям',
       gameGuides: 'Руководства', viewAllGuides: 'Все руководства →',
       feature1Title: '100% Бесплатно и Безлимитно', feature1Desc: 'Играйте во все игры бесплатно и без ограничений.',
       feature2Title: 'Мгновенная Игра, Без Загрузок', feature2Desc: 'Все игры работают прямо в браузере.',
@@ -226,7 +229,7 @@ export const i18n: Record<Language, {
       title: 'Wordle, 数独, 2048 無料でオンラインプレイ',
       subtitle: '100以上のパズル、ワード、アーケード、ストラテジーゲーム。ダウンロード不要、すぐに遊べます！',
       featured: 'おすすめゲーム', allGames: 'すべてのゲーム', gamesCount: 'ゲーム', freeGames: '無料ゲーム',
-      categories: 'カテゴリー', copyright: '© 2026 無料ゲーム', aboutTitle: '無料ゲームについて',
+      categories: 'カテゴリー', copyright: '© 2026 無料ゲーム', aboutTitle: '無料ゲームについて', quickPlay: 'クイックプレイ', quickPlayDesc: '人気ゲームをすぐプレイ', browseByCategory: 'カテゴリーで探す',
       gameGuides: 'ゲームガイド', viewAllGuides: 'すべてのガイドを見る →',
       feature1Title: '100%無料で無制限', feature1Desc: 'すべてのゲームを無料で制限なくプレイ。',
       feature2Title: '今すぐプレイ、ダウンロード不要', feature2Desc: 'すべてのゲームはブラウザで直接動作。',
@@ -253,7 +256,7 @@ export const i18n: Record<Language, {
       title: '免費玩 Wordle, 數獨, 2048 線上遊戲',
       subtitle: '100+ 益智、文字、街機和策略遊戲。無需下載，即開即玩！',
       featured: '精選遊戲', allGames: '所有遊戲', gamesCount: '個遊戲', freeGames: '免費遊戲',
-      categories: '遊戲分類', copyright: '© 2026 免費遊戲站', aboutTitle: '關於免費遊戲站',
+      categories: '遊戲分類', copyright: '© 2026 免費遊戲站', aboutTitle: '關於免費遊戲站', quickPlay: '快速遊戲', quickPlayDesc: '立即體驗最受歡迎的遊戲', browseByCategory: '按分類瀏覽',
       gameGuides: '遊戲攻略', viewAllGuides: '查看所有攻略 →',
       feature1Title: '完全免費 無限暢玩', feature1Desc: '所有遊戲完全免費,無時間限制,無需註冊即可暢玩。',
       feature2Title: '即開即玩 無需下載', feature2Desc: '所有遊戲直接在瀏覽器中運行,無需安裝任何應用程式。',
@@ -280,7 +283,7 @@ export const i18n: Record<Language, {
       title: '免费玩 Wordle, 数独, 2048 在线游戏',
       subtitle: '100+ 益智、文字、街机和策略游戏。无需下载，即开即玩！',
       featured: '精选游戏', allGames: '所有游戏', gamesCount: '款游戏', freeGames: '免费游戏',
-      categories: '游戏分类', copyright: '© 2026 免费游戏站', aboutTitle: '关于免费游戏站',
+      categories: '游戏分类', copyright: '© 2026 免费游戏站', aboutTitle: '关于免费游戏站', quickPlay: '快速游玩', quickPlayDesc: '立即体验最受欢迎的游戏', browseByCategory: '按分类浏览',
       gameGuides: '游戏攻略', viewAllGuides: '查看所有攻略 →',
       feature1Title: '完全免费 无限畅玩', feature1Desc: '所有游戏完全免费,无时间限制,无需注册即可畅玩。',
       feature2Title: '即开即玩 无需下载', feature2Desc: '所有游戏直接在浏览器中运行,无需安装任何应用程序。',
@@ -310,6 +313,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'Strategy', desc: 'Strategy and board games to challenge your mind' },
     arcade: { name: 'Arcade', desc: 'Classic arcade games for nostalgic fun' },
     memory: { name: 'Memory & Reflex', desc: 'Memory and reflex training games' },
+    skill: { name: 'Skill Games', desc: 'Test and improve your skills' },
+    puzzle: { name: 'Puzzle', desc: 'Relaxing puzzle and matching games' },
   },
   fr: {
     word: { name: 'Jeux de Mots', desc: 'Puzzles de mots et jeux de vocabulaire' },
@@ -317,6 +322,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'Stratégie', desc: 'Jeux de stratégie et de plateau' },
     arcade: { name: 'Arcade', desc: 'Jeux arcade classiques pour la nostalgie' },
     memory: { name: 'Mémoire & Réflexes', desc: "Jeux d'entraînement de mémoire et réflexes" },
+    skill: { name: "Jeux d'Adresse", desc: "Testez et améliorez vos compétences" },
+    puzzle: { name: 'Puzzle', desc: 'Jeux de puzzle et association relaxants' },
   },
   de: {
     word: { name: 'Wortspiele', desc: 'Worträtsel und Vokabelspiele' },
@@ -324,6 +331,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'Strategie', desc: 'Strategie- und Brettspiele' },
     arcade: { name: 'Arcade', desc: 'Klassische Arcade-Spiele für Nostalgie' },
     memory: { name: 'Gedächtnis & Reflexe', desc: 'Gedächtnis- und Reflextraining' },
+    skill: { name: 'Geschicklichkeit', desc: 'Testen und verbessern Sie Ihre Fähigkeiten' },
+    puzzle: { name: 'Puzzle', desc: 'Entspannende Puzzle- und Zuordnungsspiele' },
   },
   es: {
     word: { name: 'Juegos de Palabras', desc: 'Puzzles de palabras y juegos de vocabulario' },
@@ -331,6 +340,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'Estrategia', desc: 'Juegos de estrategia y tablero' },
     arcade: { name: 'Arcade', desc: 'Juegos arcade clásicos para diversión nostálgica' },
     memory: { name: 'Memoria & Reflejos', desc: 'Juegos de entrenamiento de memoria y reflejos' },
+    skill: { name: 'Habilidad', desc: 'Prueba y mejora tus habilidades' },
+    puzzle: { name: 'Puzzle', desc: 'Juegos de puzzle y combinación relajantes' },
   },
   ru: {
     word: { name: 'Словесные Игры', desc: 'Словесные головоломки и игры на словарный запас' },
@@ -338,6 +349,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'Стратегия', desc: 'Стратегические и настольные игры' },
     arcade: { name: 'Аркада', desc: 'Классические аркадные игры для ностальгии' },
     memory: { name: 'Память & Рефлексы', desc: 'Игры для тренировки памяти и рефлексов' },
+    skill: { name: 'Навыки', desc: 'Проверьте и улучшите свои способности' },
+    puzzle: { name: 'Головоломки', desc: 'Расслабляющие пазлы и игры на совпадение' },
   },
   ja: {
     word: { name: 'ワードゲーム', desc: '語彙力を鍛える言葉パズル' },
@@ -345,6 +358,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: 'ストラテジー', desc: '戦略ボードゲーム' },
     arcade: { name: 'アーケード', desc: '懐かしいクラシックアーケードゲーム' },
     memory: { name: '記憶 & 反射神経', desc: '記憶力と反射神経トレーニング' },
+    skill: { name: 'スキル', desc: 'スキルをテスト・向上' },
+    puzzle: { name: 'パズル', desc: 'リラックスできるパズルゲーム' },
   },
   'zh-TW': {
     word: { name: '文字遊戲', desc: '文字謎題和詞彙遊戲' },
@@ -352,6 +367,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: '策略對戰', desc: '策略和棋盤遊戲' },
     arcade: { name: '經典街機', desc: '經典街機遊戲' },
     memory: { name: '記憶反應', desc: '記憶和反應訓練遊戲' },
+    skill: { name: '技能挑戰', desc: '測試和提升你的能力' },
+    puzzle: { name: '拼圖消除', desc: '輕鬆的拼圖和配對遊戲' },
   },
   'zh-CN': {
     word: { name: '文字游戏', desc: '文字谜题和词汇游戏' },
@@ -359,6 +376,8 @@ export const categoryI18n: Record<Language, Record<string, { name: string; desc:
     strategy: { name: '策略对战', desc: '策略和棋盘游戏' },
     arcade: { name: '经典街机', desc: '经典街机游戏' },
     memory: { name: '记忆反应', desc: '记忆和反应训练游戏' },
+    skill: { name: '技能挑战', desc: '测试和提升你的能力' },
+    puzzle: { name: '拼图消除', desc: '轻松的拼图和配对游戏' },
   },
 }
 
