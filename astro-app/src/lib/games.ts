@@ -106,20 +106,43 @@ function localToGameData(data: any): GameData {
 
 /**
  * 从 Sanity 转换为 GameData
+ * 兼容两种数据格式：
+ * 1. 简单字段: { title: "Wordle", description: "..." }
+ * 2. 多语言对象: { title: { en: "Wordle", zh_CN: "猜词" }, description: { ... } }
  */
 function sanityToGameData(data: any): GameData {
-  // 处理 tips 字段 - 支持字符串和数组两种格式
-  const parseTips = (tips: string | string[] | undefined): string[] => {
+  // 从字段中提取字符串值，兼容简单字符串和多语言对象
+  const str = (field: any, locale: string = 'en'): string => {
+    if (!field) return ''
+    if (typeof field === 'string') return field
+    if (typeof field === 'object' && !Array.isArray(field)) {
+      return field[locale] || field['en'] || ''
+    }
+    return ''
+  }
+
+  // 处理 tips 字段
+  const parseTips = (tips: any): string[] => {
     if (!tips) return []
     if (Array.isArray(tips)) return tips.filter(Boolean)
     if (typeof tips === 'string') return tips.split('\n').filter(Boolean)
+    if (typeof tips === 'object') {
+      // 多语言对象: { en: [...], zh_CN: [...] }
+      const arr = tips['en'] || Object.values(tips)[0] || []
+      return Array.isArray(arr) ? arr.filter(Boolean) : []
+    }
     return []
   }
 
   // 处理 FAQ 字段
-  const parseFaq = (faq: any[] | undefined): GameFAQ[] => {
-    if (!faq || !Array.isArray(faq)) return []
-    return faq.map(item => ({
+  const parseFaq = (faq: any): GameFAQ[] => {
+    if (!faq) return []
+    let items = faq
+    if (typeof faq === 'object' && !Array.isArray(faq)) {
+      items = faq['en'] || Object.values(faq)[0] || []
+    }
+    if (!Array.isArray(items)) return []
+    return items.map((item: any) => ({
       question: item.question || '',
       answer: item.answer || '',
     }))
@@ -129,9 +152,9 @@ function sanityToGameData(data: any): GameData {
   const parseRules = (rules: any): GameRules => {
     if (!rules) return {}
     return {
-      controls: rules.controls || '',
-      mechanics: rules.mechanics || [],
-      features: rules.features || [],
+      controls: str(rules.controls),
+      mechanics: parseTips(rules.mechanics),
+      features: parseTips(rules.features),
     }
   }
 
@@ -144,28 +167,22 @@ function sanityToGameData(data: any): GameData {
     category: data.category,
     featured: data.isFeatured || false,
     color: data.colorGradient || 'from-gray-600 to-gray-800',
-    name: data.title || '',
-    nameZh: data.titleZh || data.title || '',
-    desc: data.description || '',
-    descZh: data.descriptionZh || data.description || '',
-    // 新增详细描述字段
-    description: data.description || '',
-    descriptionZh: data.descriptionZh || data.description || '',
-    objectives: data.objectives || '',
-    objectivesZh: data.objectivesZh || data.objectives || '',
-    howToPlay: data.howToPlay,
-    howToPlayZh: data.howToPlayZh || data.howToPlay,
-    // 结构化规则
+    name: str(data.title, 'en'),
+    nameZh: str(data.title, 'zh_CN') || str(data.title, 'zh_TW') || str(data.title, 'en'),
+    desc: str(data.description, 'en'),
+    descZh: str(data.description, 'zh_CN') || str(data.description, 'zh_TW') || str(data.description, 'en'),
+    description: str(data.description, 'en'),
+    descriptionZh: str(data.description, 'zh_CN') || str(data.description, 'zh_TW') || str(data.description, 'en'),
+    objectives: str(data.objectives, 'en'),
+    objectivesZh: str(data.objectives, 'zh_CN') || str(data.objectives, 'en'),
+    howToPlay: str(data.howToPlay, 'en') || undefined,
+    howToPlayZh: str(data.howToPlay, 'zh_CN') || str(data.howToPlay, 'en') || undefined,
     rules: parseRules(data.rules),
-    rulesZh: {
-      controls: data.rules?.controlsZh || data.rules?.controls || '',
-      mechanics: data.rules?.mechanicsZh || data.rules?.mechanics || [],
-      features: data.rules?.featuresZh || data.rules?.features || [],
-    },
+    rulesZh: {}, // TODO: 多语言规则支持
     tips: parseTips(data.tips),
-    tipsZh: parseTips(data.tipsZh).length > 0 ? parseTips(data.tipsZh) : parseTips(data.tips),
+    tipsZh: [], // TODO: 多语言 tips 支持
     faq: parseFaq(data.faq),
-    faqZh: parseFaq(data.faqZh).length > 0 ? parseFaq(data.faqZh) : parseFaq(data.faq),
+    faqZh: [], // TODO: 多语言 FAQ 支持
     // 第三方游戏特有字段
     isExternal,
     gameUrl: data.gameUrl || '',
@@ -219,8 +236,8 @@ export async function getAllGames(): Promise<GameData[]> {
       const localSlugs = new Set(localGames.map(g => g.slug))
       const uniqueCmsGames = cmsGames.filter(g => !localSlugs.has(g.slug))
       return [...localGames, ...uniqueCmsGames]
-    } catch (error) {
-      console.warn('Sanity fetch failed, falling back to local data:', error)
+    } catch (error: any) {
+      console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
     }
   }
 
@@ -253,8 +270,8 @@ export async function getGameBySlug(slug: string): Promise<GameData | null> {
       const { getGameBySlug: getSanityGame } = await import('./sanity')
       const game = await getSanityGame(slug)
       return game ? sanityToGameData(game) : null
-    } catch (error) {
-      console.warn('Sanity fetch failed, falling back to local data:', error)
+    } catch (error: any) {
+      console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
     }
   }
 
@@ -285,8 +302,8 @@ export async function getGamesByCategory(category: string): Promise<GameData[]> 
       const { getGamesByCategory: getSanityGamesByCategory } = await import('./sanity')
       const games = await getSanityGamesByCategory(category)
       return games.map(sanityToGameData)
-    } catch (error) {
-      console.warn('Sanity fetch failed, falling back to local data:', error)
+    } catch (error: any) {
+      console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
     }
   }
 
@@ -324,8 +341,8 @@ export async function getAllGameSlugs(): Promise<string[]> {
       const sanitySlugs = await getSanitySlugs()
       // 合并并去重
       return [...new Set([...localSlugs, ...sanitySlugs])]
-    } catch (error) {
-      console.warn('Sanity fetch failed, falling back to local data:', error)
+    } catch (error: any) {
+      console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
     }
   }
 
@@ -362,8 +379,8 @@ export async function getCategories(): Promise<string[]> {
     try {
       const { getCategories: getSanityCategories } = await import('./sanity')
       return await getSanityCategories()
-    } catch (error) {
-      console.warn('Sanity fetch failed, falling back to local data:', error)
+    } catch (error: any) {
+      console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
     }
   }
 

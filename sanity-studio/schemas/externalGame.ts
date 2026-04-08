@@ -1,17 +1,25 @@
 import { defineType, defineField } from 'sanity'
+import { seoFields } from './shared/seo'
+import {
+  localizedStringField,
+  localizedTextField,
+  localizedStringArrayField,
+  localizedFaqField,
+} from './shared/localization'
 
 export const externalGame = defineType({
   name: 'externalGame',
   title: 'External Game (第三方游戏)',
   type: 'document',
   fields: [
+    // === 基础标识 ===
     defineField({
       name: 'gameId',
       title: 'Game ID',
       type: 'string',
       description: '游戏唯一标识 (如 2048, tetris)',
       validation: (Rule) => Rule.required().regex(/^[a-z0-9-]+$/, {
-        name: '小写字母、数字和连字符'
+        name: '小写字母、数字和连字符',
       }),
     }),
     defineField({
@@ -25,19 +33,14 @@ export const externalGame = defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
-      name: 'title',
-      title: 'Title (English)',
-      type: 'string',
-      description: '游戏英文名称',
-      validation: (Rule) => Rule.required(),
+
+    // === 多语言名称 ===
+    localizedStringField('title', 'Title', {
+      description: '游戏名称 (所有语言)',
+      required: true,
     }),
-    defineField({
-      name: 'titleZh',
-      title: 'Title (Chinese)',
-      type: 'string',
-      description: '游戏中文名称',
-    }),
+
+    // === iframe 配置 ===
     defineField({
       name: 'gameUrl',
       title: 'Game URL',
@@ -68,6 +71,8 @@ export const externalGame = defineType({
       description: '允许全屏',
       initialValue: true,
     }),
+
+    // === 视觉属性 ===
     defineField({
       name: 'icon',
       title: 'Icon',
@@ -81,13 +86,13 @@ export const externalGame = defineType({
       description: '游戏分类',
       options: {
         list: [
-          { title: 'Word', value: 'word' },
-          { title: 'Logic', value: 'logic' },
-          { title: 'Strategy', value: 'strategy' },
-          { title: 'Arcade', value: 'arcade' },
-          { title: 'Memory', value: 'memory' },
-          { title: 'Skill', value: 'skill' },
-          { title: 'Puzzle', value: 'puzzle' },
+          { title: 'Word 文字', value: 'word' },
+          { title: 'Logic 逻辑', value: 'logic' },
+          { title: 'Strategy 策略', value: 'strategy' },
+          { title: 'Arcade 街机', value: 'arcade' },
+          { title: 'Memory 记忆', value: 'memory' },
+          { title: 'Skill 技巧', value: 'skill' },
+          { title: 'Puzzle 益智', value: 'puzzle' },
         ],
         layout: 'radio',
       },
@@ -97,7 +102,7 @@ export const externalGame = defineType({
       name: 'colorGradient',
       title: 'Color Gradient',
       type: 'string',
-      description: 'Tailwind 渐变类名 (如 from-orange-500 to-red-600)',
+      description: 'Tailwind 渐变类名',
     }),
     defineField({
       name: 'isFeatured',
@@ -106,52 +111,22 @@ export const externalGame = defineType({
       description: '是否在首页推荐',
       initialValue: false,
     }),
-    // 基本描述
-    defineField({
-      name: 'description',
-      title: 'Description (English)',
-      type: 'text',
-      description: '游戏英文介绍',
+
+    // === 多语言内容 ===
+    localizedTextField('description', 'Description', {
       rows: 5,
+      description: '游戏介绍',
     }),
-    defineField({
-      name: 'descriptionZh',
-      title: 'Description (Chinese)',
-      type: 'text',
-      description: '游戏中文介绍',
-      rows: 5,
-    }),
-    // 游戏目标
-    defineField({
-      name: 'objectives',
-      title: 'Objectives (English)',
-      type: 'text',
-      description: '游戏目标 (英文)',
+    localizedTextField('objectives', 'Objectives', {
       rows: 3,
+      description: '游戏目标',
     }),
-    defineField({
-      name: 'objectivesZh',
-      title: 'Objectives (Chinese)',
-      type: 'text',
-      description: '游戏目标 (中文)',
-      rows: 3,
-    }),
-    // 如何玩
-    defineField({
-      name: 'howToPlay',
-      title: 'How to Play (English)',
-      type: 'text',
-      description: '英文游戏规则说明',
+    localizedTextField('howToPlay', 'How to Play', {
       rows: 5,
+      description: '游戏规则说明',
     }),
-    defineField({
-      name: 'howToPlayZh',
-      title: 'How to Play (Chinese)',
-      type: 'text',
-      description: '中文游戏规则说明',
-      rows: 5,
-    }),
-    // 游戏规则（结构化）
+
+    // === 结构化规则 ===
     defineField({
       name: 'rules',
       title: 'Game Rules',
@@ -162,81 +137,30 @@ export const externalGame = defineType({
         collapsed: true,
       },
       fields: [
-        defineField({
-          name: 'controls',
-          title: 'Controls (English)',
-          type: 'text',
-          description: '控制说明 (英文)',
+        localizedTextField('controls', 'Controls', {
           rows: 3,
+          description: '控制说明',
         }),
-        defineField({
-          name: 'controlsZh',
-          title: 'Controls (Chinese)',
-          type: 'text',
-          description: '控制说明 (中文)',
-          rows: 3,
+        localizedStringArrayField('mechanics', 'Game Mechanics', {
+          description: '游戏机制列表',
         }),
-        defineField({
-          name: 'mechanics',
-          title: 'Game Mechanics (English)',
-          type: 'array',
-          of: [{ type: 'string' }],
-          description: '游戏机制列表 (英文)',
-        }),
-        defineField({
-          name: 'mechanicsZh',
-          title: 'Game Mechanics (Chinese)',
-          type: 'array',
-          of: [{ type: 'string' }],
-          description: '游戏机制列表 (中文)',
-        }),
-        defineField({
-          name: 'features',
-          title: 'Features (English)',
-          type: 'array',
-          of: [{ type: 'string' }],
-          description: '游戏特性列表 (英文)',
-        }),
-        defineField({
-          name: 'featuresZh',
-          title: 'Features (Chinese)',
-          type: 'array',
-          of: [{ type: 'string' }],
-          description: '游戏特性列表 (中文)',
+        localizedStringArrayField('features', 'Features', {
+          description: '游戏特性列表',
         }),
       ],
     }),
-    // 游戏技巧
-    defineField({
-      name: 'tips',
-      title: 'Tips (English)',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: '英文游戏技巧列表',
+
+    // === 技巧 ===
+    localizedStringArrayField('tips', 'Tips', {
+      description: '游戏技巧列表',
     }),
-    defineField({
-      name: 'tipsZh',
-      title: 'Tips (Chinese)',
-      type: 'array',
-      of: [{ type: 'string' }],
-      description: '中文游戏技巧列表',
+
+    // === FAQ ===
+    localizedFaqField('faq', 'FAQ', {
+      description: '常见问题',
     }),
-    // FAQ
-    defineField({
-      name: 'faq',
-      title: 'FAQ (English)',
-      type: 'array',
-      of: [{ type: 'faqItem' }],
-      description: '英文常见问题',
-    }),
-    defineField({
-      name: 'faqZh',
-      title: 'FAQ (Chinese)',
-      type: 'array',
-      of: [{ type: 'faqItem' }],
-      description: '中文常见问题',
-    }),
-    // 来源信息
+
+    // === 来源信息 ===
     defineField({
       name: 'sourceName',
       title: 'Source Name',
@@ -249,15 +173,33 @@ export const externalGame = defineType({
       type: 'url',
       description: '游戏来源链接',
     }),
+
+    // === 媒体 ===
     defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
       description: '游戏封面图',
-      options: {
-        hotspot: true,
-      },
+      options: { hotspot: true },
     }),
+    defineField({
+      name: 'screenshots',
+      title: 'Screenshots',
+      type: 'array',
+      description: '游戏截图 (最多 5 张)',
+      of: [{ type: 'image' }],
+      validation: (Rule) => Rule.max(5),
+    }),
+    defineField({
+      name: 'ogImage',
+      title: 'OG Image',
+      type: 'image',
+      description: '社交分享图 (留空则使用封面图)',
+      options: { hotspot: true },
+    }),
+
+    // === SEO ===
+    seoFields(),
   ],
   preview: {
     select: {
@@ -265,12 +207,12 @@ export const externalGame = defineType({
       subtitle: 'category',
       media: 'coverImage',
     },
-    prepare(selection) {
+    prepare(selection: any) {
       const { title, subtitle, media } = selection
       return {
-        title: `${title} [外部]`,
+        title: `${title?.en || title} [外部]`,
         subtitle: subtitle?.toUpperCase(),
-        media: media,
+        media,
       }
     },
   },
