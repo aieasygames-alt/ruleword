@@ -6,6 +6,7 @@ import { getAllGames, getAllGameSlugs, getGameBySlug, type GameData as CMSGameDa
 import { categories } from '../../data/games'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
 import { getGameSEO, generateKeywords } from '../../data/seo'
+import { getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
 
 // 在 getStaticPaths 中获取所有游戏
 export async function getStaticPaths() {
@@ -454,6 +455,18 @@ const howToSchema = gameGuideEn.howToPlay ? {
             )}
           </div>
 
+          <!-- Full Strategy Guide Link -->
+          {getGameGuide(gameSlug) && (
+            <div class="mt-8 p-6 bg-gradient-to-r from-green-900/20 to-emerald-900/20 border border-green-800/30 rounded-xl">
+              <h3 class="text-lg font-semibold mb-2">Strategy Guide</h3>
+              <p class="text-slate-400 text-sm mb-4">Want to master {gameNameEn}? Read our comprehensive strategy guide with expert tips and techniques.</p>
+              <a href={`/guides/${gameSlug}/`} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-green-600 hover:bg-green-500 text-sm font-medium transition-colors">
+                Read Full Guide
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </a>
+            </div>
+          )}
+
           <!-- Related Games -->
           <div class="mt-12 pt-8 border-t border-slate-800">
             <h3 class="text-lg font-semibold mb-4" data-i18n="allGames">{t.home.allGames}</h3>
@@ -473,6 +486,26 @@ const howToSchema = gameGuideEn.howToPlay ? {
                 </a>
               )})}
             </div>
+          </div>
+
+          <!-- Share & Embed -->
+          <div class="mt-8 pt-8 border-t border-slate-800">
+            <h3 class="text-lg font-semibold mb-4">Share this Game</h3>
+            <div class="flex flex-wrap gap-3 mb-4">
+              <button onclick="navigator.clipboard.writeText(window.location.href);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Link',2000)" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm transition-colors">Copy Link</button>
+              <a href={`https://twitter.com/intent/tweet?text=Play%20${gameNameEn}%20online%20free!&url=https://ruleword.com/games/${gameSlug}/`} target="_blank" rel="noopener" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm transition-colors">Share on X</a>
+              <a href={`https://www.reddit.com/submit?url=https://ruleword.com/games/${gameSlug}/&title=Play%20${gameNameEn}%20Online%20Free`} target="_blank" rel="noopener" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm transition-colors">Share on Reddit</a>
+            </div>
+            <details class="bg-slate-800/50 rounded-xl overflow-hidden">
+              <summary class="p-4 cursor-pointer hover:bg-slate-800/70 transition-colors text-sm font-medium">Embed this Game on Your Site</summary>
+              <div class="p-4 pt-0">
+                <p class="text-slate-400 text-sm mb-3">Copy the code below to embed this game on your website or blog:</p>
+                <div class="relative">
+                  <pre class="bg-slate-900 p-3 rounded-lg text-xs text-green-400 overflow-x-auto"><code>&lt;iframe src="https://ruleword.com/embed/{gameSlug}/" width="600" height="400" frameborder="0" style="border-radius:12px"&gt;&lt;/iframe&gt;</code></pre>
+                  <button onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',2000)" class="absolute top-2 right-2 px-3 py-1 rounded bg-slate-700 hover:bg-slate-600 text-xs transition-colors">Copy</button>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </section>

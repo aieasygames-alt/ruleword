@@ -1,0 +1,51 @@
+---
+// Lightweight embed page for external sites
+// No header/footer, just the game component
+import GameWrapper from '../../components/GameWrapper'
+import { getCollection } from 'astro:content'
+import { getAllGameSlugs } from '../../lib/games'
+
+export async function getStaticPaths() {
+  const slugs = await getAllGameSlugs()
+  const gamesCollection = await getCollection('games')
+  return gamesCollection.map(entry => ({
+    params: { slug: entry.data.slug },
+    props: { game: entry.data }
+  }))
+}
+
+const { slug } = Astro.params
+const { game } = Astro.props
+
+const gameId = game.id || game.en?.id || slug
+const gameName = game.name || game.en?.name || slug
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href={`https://ruleword.com/games/${slug}/`} />
+  <title>{gameName} - Free Games Hub</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+    #game-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    #embed-brand { position: fixed; bottom: 8px; right: 12px; font-family: system-ui; font-size: 12px; color: rgba(255,255,255,0.3); text-decoration: none; z-index: 999; }
+    #embed-brand:hover { color: rgba(255,255,255,0.6); }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="game-container">
+    <GameWrapper client:load gameId={gameId} gameName={gameName} />
+  </div>
+  <a id="embed-brand" href={`https://ruleword.com/games/${slug}/`} target="_blank" rel="noopener">
+    Free Games Hub
+  </a>
+</body>
+</html>

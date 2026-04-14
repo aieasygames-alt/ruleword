@@ -21,6 +21,17 @@ if (!guide) {
 // Get related game
 const relatedGame = games.find(g => g.slug === slug)
 
+// Get related games from same category
+const relatedCategoryGames = relatedGame
+  ? games.filter(g => g.category === relatedGame.category && g.slug !== slug).slice(0, 6)
+  : []
+
+// Get related guides from same category games
+const relatedGuideSlugs = relatedCategoryGames
+  .map(g => g.slug)
+  .filter(s => getAllGuideSlugs().includes(s) && getGameGuide(s))
+  .slice(0, 4)
+
 // Breadcrumb for structured data
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
@@ -272,14 +283,30 @@ const articleSchema = {
         )}
       </article>
 
+      <!-- Related Games from Same Category -->
+      {relatedCategoryGames.length > 0 && (
+        <section class="mt-12 pt-8 border-t border-slate-800">
+          <h2 class="text-xl font-bold mb-4">More {relatedGame?.category === 'word' ? 'Word' : relatedGame?.category === 'logic' ? 'Logic' : relatedGame?.category === 'strategy' ? 'Strategy' : relatedGame?.category === 'arcade' ? 'Arcade' : relatedGame?.category === 'memory' ? 'Memory' : relatedGame?.category === 'skill' ? 'Skill' : 'Puzzle'} Games</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {relatedCategoryGames.map(game => (
+              <a
+                href={`/games/${game.slug}/`}
+                class="group p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-green-700/50 transition-all text-center"
+              >
+                <div class="text-3xl mb-2">{game.icon}</div>
+                <h3 class="font-medium text-sm group-hover:text-green-400 transition-colors">{game.name}</h3>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
       <!-- Related Guides -->
-      <section class="mt-12 pt-8 border-t border-slate-800">
-        <h2 class="text-xl font-bold mb-4">Related Guides</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {getAllGuideSlugs()
-            .filter(s => s !== slug)
-            .slice(0, 4)
-            .map(relatedSlug => {
+      {relatedGuideSlugs.length > 0 && (
+        <section class="mt-12 pt-8 border-t border-slate-800">
+          <h2 class="text-xl font-bold mb-4">Related Guides</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {relatedGuideSlugs.map(relatedSlug => {
               const relatedGuide = getGameGuide(relatedSlug)
               if (!relatedGuide) return null
               return (
@@ -296,8 +323,9 @@ const articleSchema = {
                 </a>
               )
             })}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
     </main>
 
     <!-- Footer -->

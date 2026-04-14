@@ -913,6 +913,46 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     titleTemplate: 'Arrow Puzzle Game Online Free - Direction Logic | {brand}',
     descriptionTemplate: 'Play Arrow Puzzle online free! Slide arrows to solve the grid. Logic puzzle!',
     intent: 'play'
+  },
+  binary: {
+    primaryKeyword: 'binary puzzle game',
+    secondaryKeywords: ['binary puzzle online', '0 1 puzzle', 'takuzu'],
+    longTailKeywords: ['play binary puzzle free', '0 and 1 game', 'binary grid puzzle', 'logic 01 game'],
+    titleTemplate: 'Binary Puzzle Game Online Free - 0 1 Logic Game | {brand}',
+    descriptionTemplate: 'Play Binary Puzzle online free! Fill grid with 0s and 1s following simple rules. Logic puzzle game, no download!',
+    intent: 'play'
+  },
+  frogger: {
+    primaryKeyword: 'frogger game',
+    secondaryKeywords: ['frogger online', 'frog crossing game', 'retro arcade'],
+    longTailKeywords: ['play frogger online free', 'classic frogger game', 'frog crossing road', 'retro arcade game'],
+    titleTemplate: 'Frogger Game Online Free - Classic Arcade | {brand}',
+    descriptionTemplate: 'Play Frogger online free! Help the frog cross busy roads and rivers. Classic 80s arcade game!',
+    intent: 'play'
+  },
+  'among-us': {
+    primaryKeyword: 'among us game',
+    secondaryKeywords: ['among us online', 'impostor game', 'social deduction'],
+    longTailKeywords: ['play among us online free', 'impostor browser game', 'crewmate game', 'space social game'],
+    titleTemplate: 'Among Us Game Online Free - Space Impostor | {brand}',
+    descriptionTemplate: 'Play Among Us online free! Control your crewmate, complete tasks, and find the impostor!',
+    intent: 'play'
+  },
+  'reaction-time': {
+    primaryKeyword: 'reaction time test',
+    secondaryKeywords: ['reaction speed test', 'reflex test online', 'click speed'],
+    longTailKeywords: ['reaction time test free', 'test reaction speed online', 'fast click test', 'human reaction time test'],
+    titleTemplate: 'Reaction Time Test Online Free - Speed Test | {brand}',
+    descriptionTemplate: 'Test your reaction time online free! Measure your reflex speed in milliseconds. Free, no download!',
+    intent: 'play'
+  },
+  sokoban: {
+    primaryKeyword: 'sokoban game',
+    secondaryKeywords: ['sokoban online', 'warehouse puzzle', 'push box game'],
+    longTailKeywords: ['play sokoban online free', 'box pushing puzzle', 'warehouse keeper game', 'logic push game'],
+    titleTemplate: 'Sokoban Game Online Free - Warehouse Puzzle | {brand}',
+    descriptionTemplate: 'Play Sokoban online free! Push boxes onto target spots. Classic warehouse logic puzzle!',
+    intent: 'play'
   }
 }
 
