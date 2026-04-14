@@ -10,17 +10,19 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params
 const langName = languages[lang]
-const redirectUrl = `/?lang=${lang}`
 ---
 
 <html>
 <head>
-  <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href="https://ruleword.com/" />
+  <meta http-equiv="refresh" content="0;url=/" />
   <title>Redirecting to {langName}...</title>
   <script define:vars={{ lang }}>
     // Set language preference and redirect
     document.cookie = "preferred-language=" + lang + ";path=/;max-age=31536000";
-    window.location.href = "/?lang=" + lang;
+    localStorage.setItem("ruleword-lang", lang);
+    window.location.href = "/";
   </script>
 </head>
 <body>

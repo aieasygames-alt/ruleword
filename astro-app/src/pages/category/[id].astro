@@ -25,13 +25,6 @@ const { category } = Astro.props
 const categoryGames = games.filter(g => g.category === category.id)
 const allLanguages = languages
 
-// Build hreflang URLs for this category
-const categoryHreflangUrls = languages.map(l => ({
-  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
-  url: `https://ruleword.com/category/${category.id}/?lang=${l.code}`
-}))
-categoryHreflangUrls.unshift({ lang: 'x-default', url: `https://ruleword.com/category/${category.id}/` })
-
 // Default language for server render (client will update based on localStorage)
 const defaultLang: Language = 'en'
 const defaultT = i18n[defaultLang]
@@ -56,7 +49,6 @@ const breadcrumbItems = [
   keywords={seoKeywords}
   canonicalPath={`/category/${category.id}/`}
   breadcrumbItems={breadcrumbItems}
-  hreflangUrls={categoryHreflangUrls}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
@@ -280,12 +272,16 @@ const breadcrumbItems = [
       return 'en'
     }
 
-    // Set language
+    // Set language (update content without changing URL to avoid duplicate pages)
     function setLang(lang) {
       localStorage.setItem('ruleword-lang', lang)
-      const url = new URL(window.location.href)
-      url.searchParams.set('lang', lang)
-      window.location.href = url.toString()
+      applyTranslations(lang)
+      // Update language button text
+      const langObj = languageList.find(l => l.code === lang)
+      const langText = document.getElementById('current-lang')
+      if (langText && langObj) langText.textContent = langObj.nativeName
+      // Close dropdown
+      document.getElementById('lang-dropdown')?.classList.add('hidden')
     }
     window.setLang = setLang
 
@@ -389,15 +385,13 @@ const breadcrumbItems = [
     const currentLang = getLang()
     applyTranslations(currentLang)
 
-    // Update game links with language parameter
+    // Update game links (clean URLs without ?lang= parameter)
     function updateGameLinks(lang) {
       document.querySelectorAll('[data-game-slug]').forEach(el => {
         if (el.tagName === 'A') {
           const slug = el.getAttribute('data-game-slug')
-          const game = gameData.find(g => g.slug === slug)
-          if (game) {
-            const baseUrl = `/games/${game.slug}`
-            el.href = lang === 'en' ? baseUrl : `${baseUrl}?lang=${lang}`
+          if (slug) {
+            el.href = `/games/${slug}/`
           }
         }
       })

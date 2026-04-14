@@ -30,12 +30,6 @@ const quickPlayGames = quickPlaySlugs.map(slug => games.find(g => g.slug === slu
 const allLanguages = languages
 const categoryI18nData = categoryI18n
 
-// Build hreflang URLs for homepage
-const homepageHreflangUrls = languages.map(l => ({
-  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
-  url: `https://ruleword.com/?lang=${l.code}`
-}))
-homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' })
 ---
 
 <BaseLayout
@@ -43,7 +37,6 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
   description={homepageSEO.description}
   keywords={homepageSEO.keywords}
   isHomePage={true}
-  hreflangUrls={homepageHreflangUrls}
 >
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->
@@ -622,12 +615,17 @@ homepageHreflangUrls.unshift({ lang: 'x-default', url: 'https://ruleword.com/' }
       return 'en'
     }
 
-    // Set language
+    // Set language (update content without changing URL to avoid duplicate pages)
     function setLang(lang) {
       localStorage.setItem('ruleword-lang', lang)
-      const url = new URL(window.location.href)
-      url.searchParams.set('lang', lang)
-      window.location.href = url.toString()
+      applyTranslations(lang)
+      renderPersonalizedSections(lang)
+      // Update language button text
+      const langObj = languageList.find(l => l.code === lang)
+      const langText = document.getElementById('current-lang')
+      if (langText && langObj) langText.textContent = langObj.nativeName
+      // Close dropdown
+      document.getElementById('lang-dropdown')?.classList.add('hidden')
     }
     window.setLang = setLang
 

@@ -190,15 +190,6 @@ const hasLangParam = Astro.url.searchParams.has('lang')
 const currentLangParam = Astro.url.searchParams.get('lang')
 const canonicalUrl = `https://ruleword.com/games/${game.slug}/`
 
-// Build hreflang URLs for all languages
-const hreflangUrls = languages.map(l => ({
-  lang: l.code === 'zh-CN' ? 'zh-Hans' : l.code === 'zh-TW' ? 'zh-Hant' : l.code,
-  url: `https://ruleword.com/games/${game.slug}/?lang=${l.code}`
-}))
-
-// Add x-default for language detection
-hreflangUrls.unshift({ lang: 'x-default', url: canonicalUrl })
-
 // Generate HowTo Schema for games with howToPlay content
 const howToSchema = gameGuideEn.howToPlay ? {
   "@context": "https://schema.org",
@@ -234,7 +225,6 @@ const howToSchema = gameGuideEn.howToPlay ? {
   canonicalPath={`/games/${game.slug}/`}
   gameType={gameType}
   breadcrumbItems={breadcrumbItems}
-  hreflangUrls={hreflangUrls}
   howToSchema={howToSchema}
 >
   <!-- Prefetch homepage for faster navigation -->
@@ -644,7 +634,6 @@ const howToSchema = gameGuideEn.howToPlay ? {
         const href = a.getAttribute('href');
         if (href) {
           const url = new URL(href, window.location.origin);
-          url.searchParams.set('lang', lang);
           a.setAttribute('href', url.pathname + url.search);
         }
       });
@@ -693,12 +682,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
         if (newLang) {
           localStorage.setItem('ruleword-lang', newLang);
 
-          // Update URL without reload
-          const url = new URL(window.location.href);
-          url.searchParams.set('lang', newLang);
-          window.history.pushState({}, '', url.toString());
-
-          // Update content dynamically
+          // Update content dynamically (no URL change to avoid duplicate pages)
           updateGuideContent(newLang);
 
           // Update current lang button text

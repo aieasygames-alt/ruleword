@@ -27,12 +27,15 @@ const redirectUrl = `/games/${slug}/?lang=${lang}`
 
 <html>
 <head>
-  <meta http-equiv="refresh" content="0;url={redirectUrl}" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="canonical" href={`https://ruleword.com/games/${slug}/`} />
+  <meta http-equiv="refresh" content={`0;url=/games/${slug}/`} />
   <title>{game.name} - Redirecting...</title>
   <script define:vars={{ lang, slug }}>
     // Set language preference and redirect to game
     document.cookie = "preferred-language=" + lang + ";path=/;max-age=31536000";
-    window.location.href = "/games/" + slug + "/?lang=" + lang;
+    localStorage.setItem("ruleword-lang", lang);
+    window.location.href = "/games/" + slug + "/";
   </script>
 </head>
 <body>

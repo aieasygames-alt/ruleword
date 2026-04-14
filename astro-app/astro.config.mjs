@@ -25,6 +25,7 @@ export default defineConfig({
   site: 'https://ruleword.com',
   integrations: [react()],
   output: 'static',
+  trailingSlash: 'always',
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN'],

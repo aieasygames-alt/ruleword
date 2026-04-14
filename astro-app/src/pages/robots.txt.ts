@@ -12,6 +12,16 @@ Disallow: /admin/
 Disallow: /_astro/
 Disallow: /editor
 
+# Disallow language redirect stubs (client-side i18n only)
+Disallow: /fr/
+Disallow: /de/
+Disallow: /es/
+Disallow: /ru/
+Disallow: /ja/
+Disallow: /zh-TW/
+Disallow: /zh-CN/
+Disallow: /en/
+
 # Specific bots
 User-agent: Googlebot
 Allow: /
