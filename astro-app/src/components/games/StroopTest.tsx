@@ -131,7 +131,7 @@ export default function StroopTest() {
               </div>
               <div className="text-center">
                 <div className={`text-3xl mb-1`} style={{ color: '#EF4444' }}>BLUE</div>
-                <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>Color: {isCorrect ? '✓' : '✗'}</div>
+                <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>Color: ✗</div>
               </div>
             </div>
           </div>
