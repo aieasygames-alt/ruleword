@@ -741,18 +741,13 @@ const howToSchema = gameGuideEn.howToPlay ? {
       }
 
       try {
-        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        const response = await fetch('/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            service_id: 'service_2v1599e',
-            template_id: 'template_9ee29rl',
-            user_id: 'A73GlvN7cp09bDjon',
-            template_params: {
-              from_email: data.email || 'anonymous@ruleword.com',
-              from_name: 'Free Games Hub User',
-              message: `Type: ${data.type}\nGame: ${data.game}\n\n${data.message}`,
-            }
+            type: data.type,
+            message: `Game: ${data.game}\n\n${data.message}`,
+            email: data.email,
           })
         })
 

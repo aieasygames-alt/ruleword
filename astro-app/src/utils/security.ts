@@ -87,7 +87,7 @@ export function getCSPHeaders(): Record<string, string> {
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https: blob:",
       "font-src 'self' data:",
-      "connect-src 'self' https://www.google-analytics.com https://api.emailjs.com https://static.cloudflareinsights.com",
+      "connect-src 'self' https://www.google-analytics.com https://static.cloudflareinsights.com",
       "frame-src 'self' https:",
       "object-src 'none'",
       "base-uri 'self'",

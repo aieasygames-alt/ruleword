@@ -108,19 +108,6 @@ export interface GameStats {
 }
 
 // ====================
-// Achievement Types
-// ====================
-
-export interface Achievement {
-  id: string
-  name: string
-  description: string
-  icon: string
-  unlockedAt?: number
-  condition: (stats: GameStats) => boolean
-}
-
-// ====================
 // Category Types
 // ====================
 

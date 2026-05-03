@@ -1,12 +1,4 @@
 import React, { useState } from 'react'
-import emailjs from '@emailjs/browser'
-
-// EmailJS 配置
-const EMAILJS_CONFIG = {
-  serviceId: 'service_2v1599e',
-  templateId: 'template_9ee29rl',
-  publicKey: 'A73GlvN7cp09bDjon',
-}
 
 type FeedbackType = 'bug' | 'feature' | 'game' | 'other'
 
@@ -85,12 +77,21 @@ const Feedback: React.FC<FeedbackProps> = ({ language, inline = false }) => {
         }) + ' UTC',
       }
 
-      await emailjs.send(
-        EMAILJS_CONFIG.serviceId,
-        EMAILJS_CONFIG.templateId,
-        templateParams,
-        EMAILJS_CONFIG.publicKey
-      )
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: FEEDBACK_TYPES.find(t => t.value === formData.type)?.[language === 'zh' ? 'label' : 'labelEn'],
+          message: formData.message,
+          email: formData.email,
+          from_name: formData.email || 'Anonymous',
+        }),
+      })
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || 'Failed to send')
+      }
 
       setIsSuccess(true)
     } catch (err) {
