@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { gameGuides, getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
-import { games } from '../../data/games'
+import { getAllGames } from '../../lib/games'
 
 export function getStaticPaths() {
   const slugs = getAllGuideSlugs()
@@ -17,6 +17,8 @@ const guide = getGameGuide(slug)
 if (!guide) {
   return Astro.redirect('/404')
 }
+
+const games = await getAllGames()
 
 // Get related game
 const relatedGame = games.find(g => g.slug === slug)

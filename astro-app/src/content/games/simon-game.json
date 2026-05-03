@@ -1,0 +1,82 @@
+{
+  "id": "simongame",
+  "slug": "simon-game",
+  "icon": "🔴",
+  "category": "arcade",
+  "color": "from-green-500 to-teal-600",
+  "featured": true,
+  "en": {
+    "name": "Simon Game",
+    "desc": "Watch and repeat the color sequence! Each round adds one more color to memorize.",
+    "description": "Simon Game is a classic electronic memory game. The game displays a sequence of colors and sounds, and you must repeat the sequence in the exact same order. Each round adds one more step to the sequence, testing how far your memory can stretch. The game gets progressively harder as the sequence grows longer.",
+    "objectives": "Watch the color sequence carefully. Repeat the sequence in the exact order. Progress through as many rounds as possible. Challenge your memory limit.",
+    "howToPlay": "Press Start to begin. Watch the colored buttons light up in sequence. When it's your turn, click the buttons in the same order. Each round adds one more color to remember. The game ends when you make a mistake.",
+    "rules": {
+      "controls": "Click or tap the colored buttons to repeat the sequence. The four buttons are Red, Blue, Green, and Yellow.",
+      "mechanics": [
+        "The game shows a sequence of colored button flashes",
+        "You must repeat the exact sequence by clicking buttons",
+        "Each round adds one color to the sequence",
+        "A wrong button press ends the game",
+        "Your score equals the longest sequence you correctly repeated"
+      ]
+    },
+    "tips": [
+      "Say the colors out loud as they flash to help remember",
+      "Try to establish a rhythm when repeating the sequence",
+      "Focus on the most recent addition to the sequence",
+      "Use sound cues as well as visual ones"
+    ],
+    "faq": [
+      {
+        "question": "How long can the sequence get?",
+        "answer": "Theoretically unlimited! The sequence keeps growing until you make a mistake. Most people can remember 7-9 steps."
+      },
+      {
+        "question": "Can I use sound to help remember?",
+        "answer": "Yes! Each color has a unique tone. Using both visual and audio memory can help you go further."
+      },
+      {
+        "question": "What's a good score?",
+        "answer": "Reaching 7-9 rounds is average. Getting past 12 is impressive. The world record is over 20 rounds!"
+      }
+    ]
+  },
+  "zh": {
+    "name": "西蒙记忆",
+    "desc": "观看并重复颜色序列！每轮增加一个颜色需要记忆。",
+    "description": "西蒙记忆是一款经典电子记忆游戏。游戏显示一系列颜色和声音序列，你必须按照完全相同的顺序重复。每轮增加一个步骤，测试你的记忆极限。随着序列变长，游戏难度逐渐增加。",
+    "objectives": "仔细观看颜色序列。按完全相同的顺序重复序列。尽可能通过更多轮次。挑战你的记忆极限。",
+    "howToPlay": "按开始按钮开始游戏。观看彩色按钮按序列亮起。轮到你时，按相同顺序点击按钮。每轮增加一个颜色需要记住。出错时游戏结束。",
+    "rules": {
+      "controls": "点击或触摸彩色按钮来重复序列。四个按钮分别是红、蓝、绿和黄。",
+      "mechanics": [
+        "游戏显示一系列彩色按钮闪烁",
+        "你必须通过点击按钮重复完全相同的序列",
+        "每轮向序列中添加一个颜色",
+        "按错按钮则游戏结束",
+        "你的分数等于正确重复的最长序列长度"
+      ]
+    },
+    "tips": [
+      "颜色闪烁时大声说出颜色名称帮助记忆",
+      "重复序列时尽量建立节奏",
+      "重点关注序列中最新添加的部分",
+      "同时利用声音提示和视觉提示"
+    ],
+    "faq": [
+      {
+        "question": "序列可以有多长？",
+        "answer": "理论上无限！序列会一直增长直到你出错。大多数人能记住7-9步。"
+      },
+      {
+        "question": "可以利用声音帮助记忆吗？",
+        "answer": "可以！每种颜色都有独特的音调。同时利用视觉和听觉记忆可以帮助你走得更远。"
+      },
+      {
+        "question": "多少分算好成绩？",
+        "answer": "达到7-9轮是平均水平。超过12轮就很出色了。世界纪录超过20轮！"
+      }
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { games } from '../../data/games'
+import { getAllGames } from '../../lib/games'
 import { languages, categoryI18n, categoryDescriptions, i18n, type Language } from '../../data/i18n'
 import { categorySEO } from '../../data/seo'
 
@@ -22,8 +22,16 @@ export function getStaticPaths() {
 }
 
 const { category } = Astro.props
-const categoryGames = games.filter(g => g.category === category.id)
+const allGames = await getAllGames()
+const categoryGames = allGames.filter(g => g.category === category.id)
 const allLanguages = languages
+
+// 精简客户端数据 — 仅含显示所需字段
+const gamesForClient = allGames.map(g => ({
+  slug: g.slug, id: g.id, name: g.name, nameZh: g.nameZh,
+  icon: g.icon, desc: g.desc, descZh: g.descZh,
+  category: g.category, color: g.color, featured: g.featured || false,
+}))
 
 // Default language for server render (client will update based on localStorage)
 const defaultLang: Language = 'en'
@@ -63,7 +71,7 @@ const breadcrumbItems = [
             </div>
             <div>
               <span class="text-xl font-bold tracking-tight">Free Games Hub</span>
-              <p class="text-xs text-slate-400 -mt-0.5"><span data-i18n="gamesCount">{games.length}</span>+ <span data-i18n="freeGames">Free Games</span></p>
+              <p class="text-xs text-slate-400 -mt-0.5"><span data-i18n="gamesCount">{allGames.length}</span>+ <span data-i18n="freeGames">Free Games</span></p>
             </div>
           </a>
 
@@ -187,7 +195,7 @@ const breadcrumbItems = [
             <span class="font-semibold text-slate-400">Free Games Hub</span>
           </div>
           <p class="text-sm text-slate-400">
-            <span data-i18n="copyright">© 2026 Free Games Hub</span> · {games.length}+ <span data-i18n="freeGames">Free Games</span>
+            <span data-i18n="copyright">© 2026 Free Games Hub</span> · {allGames.length}+ <span data-i18n="freeGames">Free Games</span>
           </p>
         </div>
       </div>
@@ -235,7 +243,7 @@ const breadcrumbItems = [
     </div>
   </div>
 
-  <script define:vars={{ allLanguages, categoryI18n, categoryDescriptions, games, category, feedbackText: defaultF }}>
+  <script define:vars={{ allLanguages, categoryI18n, categoryDescriptions, games: gamesForClient, category, feedbackText: defaultF }}>
     // Language list and i18n data passed from server
     const languageList = allLanguages
     const catI18n = categoryI18n

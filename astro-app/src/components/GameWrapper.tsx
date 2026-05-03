@@ -6,7 +6,7 @@ import ShareModal from './ShareModal'
 type Settings = {
   darkMode: boolean
   soundEnabled: boolean
-  language: 'en' | 'zh'
+  language: string
 }
 
 type ShareData = {
@@ -25,128 +25,32 @@ type GameWrapperProps = {
   gameSlug: string
 }
 
-// 动态导入所有游戏组件 - 文件名匹配实际存在的文件
-const gameComponents: Record<string, () => Promise<{ default: ComponentType<any> }>> = {
-  'sudoku': () => import('./games/Sudoku'),
-  'game2048': () => import('./games/Game2048'),
-  'mastermind': () => import('./games/Mastermind'),
-  'minesweeper': () => import('./games/Minesweeper'),
-  'tetris': () => import('./games/Tetris'),
-  'snake': () => import('./games/Snake'),
-  'crosswordle': () => import('./games/Crosswordle'),
-  'wordsearch': () => import('./games/WordSearch'),
-  'hangman': () => import('./games/Hangman'),
-  'memory': () => import('./games/Memory'),
-  'tictactoe': () => import('./games/TicTacToe'),
-  'connectfour': () => import('./games/ConnectFour'),
-  'whackamole': () => import('./games/WhackAMole'),
-  'simonsays': () => import('./games/SimonSays'),
-  'numbermemory': () => import('./games/NumberMemory'),
-  'patternmemory': () => import('./games/PatternMemory'),
-  'fifteenpuzzle': () => import('./games/FifteenPuzzle'),
-  'lightsout': () => import('./games/LightsOut'),
-  'brickbreaker': () => import('./games/BrickBreaker'),
-  'bullpen': () => import('./games/Bullpen'),
-  'nonogram': () => import('./games/Nonogram'),
-  'kakuro': () => import('./games/Kakuro'),
-  'hitori': () => import('./games/Hitori'),
-  'skyscrapers': () => import('./games/Skyscrapers'),
-  'kenken': () => import('./games/KenKen'),
-  'threes': () => import('./games/Threes'),
-  'suguru': () => import('./games/Suguru'),
-  'hashiwokakero': () => import('./games/Hashiwokakero'),
-  'slitherlink': () => import('./games/Slitherlink'),
-  'binary': () => import('./games/Binary'),
-  'nurikabe': () => import('./games/Nurikabe'),
-  'starbattle': () => import('./games/StarBattle'),
-  'reversi': () => import('./games/Reversi'),
-  'gomoku': () => import('./games/Gomoku'),
-  'checkers': () => import('./games/Checkers'),
-  'dotsandboxes': () => import('./games/DotsAndBoxes'),
-  'wordlist': () => import('./games/WordList'),
-  'reactiontest': () => import('./games/ReactionTest'),
+// 动态导入所有游戏组件 — 使用 import.meta.glob 自动发现
+const gameModules = import.meta.glob<{ default: ComponentType<any> }>('./games/*.tsx')
 
-  'anagrams': () => import('./games/Anagrams'),
-  'nim': () => import('./games/Nim'),
-  'boggle': () => import('./games/Boggle'),
-  'heyawake': () => import('./games/Heyawake'),
-  'masyu': () => import('./games/Masyu'),
-  'fillomino': () => import('./games/Fillomino'),
-  'pong': () => import('./games/Pong'),
-  'frogger': () => import('./games/Frogger'),
-  'yajilin': () => import('./games/Yajilin'),
-  'castlewall': () => import('./games/CastleWall'),
-  'shakashaka': () => import('./games/Shakashaka'),
-  'aqre': () => import('./games/Aqre'),
-  'tapa': () => import('./games/Tapa'),
-  'spaceinvaders': () => import('./games/SpaceInvaders'),
-  'asteroids': () => import('./games/Asteroids'),
-  'pacman': () => import('./games/PacMan'),
-  'breakoutgame': () => import('./games/BreakoutGame'),
-  'chess': () => import('./games/Chess'),
-  'chinesechess': () => import('./games/ChineseChess'),
-  'sudokux': () => import('./games/SudokuX'),
-  'killersudoku': () => import('./games/KillerSudoku'),
-  'battleship': () => import('./games/Battleship'),
-  'wordle': () => import('./games/Wordle'),
-  'spellingbee': () => import('./games/SpellingBee'),
-  'connections': () => import('./games/Connections'),
-  // New games - Skill & Puzzle categories
-  'mahjongsolitaire': () => import('./games/MahjongSolitaire'),
-  'sokoban': () => import('./games/Sokoban'),
-  'typingtest': () => import('./games/TypingTest'),
-  'aimtrainer': () => import('./games/AimTrainer'),
-  'chimptest': () => import('./games/ChimpTest'),
-  'matchthree': () => import('./games/MatchThree'),
-  'bubbleshooter': () => import('./games/BubbleShooter'),
-  'speedmath': () => import('./games/SpeedMath'),
-  'jigsaw': () => import('./games/Jigsaw'),
-  'colormatch': () => import('./games/ColorMatch'),
-  // More new games
-  'solitaire': () => import('./games/Solitaire'),
-  'crossword': () => import('./games/Crossword'),
-  'memorymatrix': () => import('./games/MemoryMatrix'),
-  'pegsolitaire': () => import('./games/PegSolitaire'),
-  'wordscramble': () => import('./games/WordScramble'),
-  // New games
-  'texttwist': () => import('./games/TextTwist'),
-  'strooptest': () => import('./games/StroopTest'),
+// 非游戏文件（工具组件），需排除
+const NON_GAME_FILES = new Set(['Calendar', 'Feedback', 'GameGuide'])
 
-  'huarongpass': () => import('./games/HuarongPass'),
-  'hidato': () => import('./games/Hidato'),
-  'minesweeperflags': () => import('./games/MinesweeperFlags'),
-  'solitairetripeaks': () => import('./games/SolitaireTriPeaks'),
-  'tangram': () => import('./games/Tangram'),
-  'shisensho': () => import('./games/ShisenSho'),
-  'mahjongtitans': () => import('./games/MahjongTitans'),
-  'kakurasu': () => import('./games/Kakurasu'),
-  'memorygrid': () => import('./games/MemoryGrid'),
-  'blockpuzzle': () => import('./games/BlockPuzzle'),
-  'calcudoku': () => import('./games/Calcudoku'),
-  'centipede': () => import('./games/Centipede'),
-  'jewelquest': () => import('./games/JewelQuest'),
-  '2048cupcakes': () => import('./games/Two048Cupcakes'),
-  // External/iframe games
-  'amongus': () => import('./games/AmongUs'),
-  // New popular games
-  'stack': () => import('./games/Stack'),
-  'triviaquiz': () => import('./games/TriviaQuiz'),
-  'doodlejump': () => import('./games/DoodleJump'),
-  'flappybird': () => import('./games/FlappyBird'),
-  'watersort': () => import('./games/WaterSort'),
-  'flowfree': () => import('./games/FlowFree'),
-  'fruitninja': () => import('./games/FruitNinja'),
-  'geometrydash': () => import('./games/GeometryDash'),
-  'cuttherope': () => import('./games/CutTheRope'),
-  'templerun': () => import('./games/TempleRun'),
-  'wordscapes': () => import('./games/Wordscapes'),
-  // Complex games
-  'agario': () => import('./games/AgarIo'),
-  'paperio': () => import('./games/PaperIo'),
-  'towerdefense': () => import('./games/TowerDefense'),
-  'angrybirds': () => import('./games/AngryBirds'),
-  'rubikscube': () => import('./games/RubiksCube'),
-  'arrowpuzzle': () => import('./games/ArrowPuzzle'),
+// 特殊 gameId 映射（文件名小写化不等于 gameId 的例外）
+const GAME_ID_OVERRIDES: Record<string, string> = {
+  'Two048Cupcakes': '2048cupcakes',
+}
+
+// 自动构建 gameId → 动态加载器映射
+const gameComponents: Record<string, () => Promise<{ default: ComponentType<any> }>> = {}
+
+for (const [path, loader] of Object.entries(gameModules)) {
+  const match = path.match(/\.\/games\/(.+)\.tsx$/)
+  if (!match) continue
+  const fileName = match[1]
+
+  // 跳过非游戏组件
+  if (NON_GAME_FILES.has(fileName)) continue
+
+  // gameId: 使用覆盖映射或直接小写化文件名
+  const gameId = GAME_ID_OVERRIDES[fileName] || fileName.toLowerCase()
+
+  gameComponents[gameId] = loader
 }
 
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {
@@ -258,7 +162,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   }
 
   const handleBack = () => {
-    window.location.href = '/'
+    window.history.back()
   }
 
   const toggleLanguage = () => {

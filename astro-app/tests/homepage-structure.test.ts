@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { games, categories } from '../src/data/games'
+import { games } from '../src/data/games'
+import { categories } from '../src/data/categories'
 import { i18n, categoryI18n, type Language } from '../src/data/i18n'
 
 const allLanguages: Language[] = ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN']

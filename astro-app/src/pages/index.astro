@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
-import { categories } from '../data/games'
+import { categories } from '../data/categories'
 import { languages, i18n, categoryI18n, type Language } from '../data/i18n'
 import { homepageSEO } from '../data/seo'
 import { gameGuides } from '../data/gameGuidesSEO'
@@ -17,6 +17,20 @@ const games = gamesCollection.map(entry => ({
   nameZh: entry.data.zh?.name || entry.data.en.name,
   desc: entry.data.en.desc,
   descZh: entry.data.zh?.desc || entry.data.en.desc
+}))
+
+// 精简的客户端数据 — 仅含显示所需字段，不含完整 en/zh 内容
+const gamesForClient = games.map(g => ({
+  slug: g.slug,
+  id: g.id,
+  name: g.name,
+  nameZh: g.nameZh,
+  icon: g.icon,
+  desc: g.desc,
+  descZh: g.descZh,
+  category: g.category,
+  color: g.color,
+  featured: g.featured || false,
 }))
 
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
@@ -107,7 +121,7 @@ const categoryI18nData = categoryI18n
         </p>
 
         <!-- Search Bar -->
-        <GameSearch games={games} />
+        <GameSearch games={gamesForClient} />
       </div>
     </div>
 
@@ -489,7 +503,10 @@ const categoryI18nData = categoryI18n
   </div>
 
 
-  <script define:vars={{ i18n, allLanguages, games, categoryI18nData }}>
+  <script define:vars={{ i18n, allLanguages, games: gamesForClient, categoryI18nData }}>
+    // 暴露 games 数据给子组件（GameSearch）
+    window.__ruleword_games = games;
+
     // All i18n data
     const translations = i18n
     const languageList = allLanguages

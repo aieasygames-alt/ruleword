@@ -1,7 +1,9 @@
 ---
 // Home.astro - Astro 原生首页组件，无需 React
-import { games, categories } from '../data/games'
+import { getAllGames } from '../lib/games'
+import { categories } from '../data/categories'
 
+const games = await getAllGames()
 const language = 'en' // 默认语言
 ---
 

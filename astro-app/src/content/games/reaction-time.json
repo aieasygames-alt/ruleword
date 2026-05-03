@@ -1,0 +1,79 @@
+{
+  "id": "reactiontime",
+  "slug": "reaction-time",
+  "icon": "⚡",
+  "category": "skill",
+  "color": "from-lime-500 to-green-600",
+  "en": {
+    "name": "Reaction Speed",
+    "desc": "Measure your precise reaction speed! Wait for the green signal, then click as fast as possible.",
+    "description": "Reaction Speed is a precision timing test that measures how quickly you can respond to a visual stimulus. Wait for the screen to change from red to green, then click as fast as possible. Your reaction time is measured in milliseconds, giving you an accurate assessment of your reflexes. Track your average and best times across multiple attempts.",
+    "objectives": "React as quickly as possible when the green signal appears. Measure your reaction time in milliseconds. Track your average and best times. Compare your results with average human reaction times.",
+    "howToPlay": "Click to start the test. Wait for the red screen to turn green. Click as fast as you can when it turns green. Your reaction time will be displayed in milliseconds. Try multiple times to get your average.",
+    "rules": {
+      "controls": "Click or tap the screen when the signal turns green. Wait patiently during the red phase.",
+      "mechanics": [
+        "The signal changes from red to green after a random delay",
+        "Clicking too early (during red) resets the test",
+        "Your time is measured from the green signal to your click",
+        "Results are shown in milliseconds"
+      ]
+    },
+    "tips": [
+      "Stay focused and keep your finger ready on the mouse",
+      "Don't try to anticipate the green signal - wait for it",
+      "Do multiple attempts for a more accurate average",
+      "Average human reaction time is about 250ms"
+    ],
+    "faq": [
+      {
+        "question": "What is a good reaction time?",
+        "answer": "The average human reaction time is about 250ms. Below 200ms is considered fast, and below 150ms is exceptional."
+      },
+      {
+        "question": "Why did my test reset?",
+        "answer": "You clicked before the screen turned green. This counts as a false start and the test resets."
+      },
+      {
+        "question": "Can I improve my reaction time?",
+        "answer": "Yes! Regular practice, good sleep, and staying hydrated can help improve your reaction speed."
+      }
+    ]
+  },
+  "zh": {
+    "name": "反应速度",
+    "desc": "精确测量你的反应速度！等待绿色信号出现，然后尽快点击。",
+    "description": "反应速度是一款精确计时测试，测量你对视觉刺激的反应速度。等待屏幕从红色变为绿色，然后尽快点击。你的反应时间以毫秒为单位测量，准确评估你的反射能力。跟踪你的平均和最佳时间。",
+    "objectives": "在绿色信号出现时尽快反应。以毫秒为单位测量反应时间。跟踪你的平均和最佳时间。将结果与人类平均反应时间比较。",
+    "howToPlay": "点击开始测试。等待红色屏幕变为绿色。变绿后尽快点击。你的反应时间将以毫秒显示。多次尝试获取平均值。",
+    "rules": {
+      "controls": "当信号变绿时点击或触摸屏幕。在红色阶段耐心等待。",
+      "mechanics": [
+        "信号在随机延迟后从红色变为绿色",
+        "过早点击（红色阶段）会重置测试",
+        "时间从绿色信号到点击时测量",
+        "结果以毫秒显示"
+      ]
+    },
+    "tips": [
+      "保持专注，手指放在鼠标上准备好",
+      "不要试图预判绿色信号 - 等待它出现",
+      "多次尝试获得更准确的平均值",
+      "人类平均反应时间约为250毫秒"
+    ],
+    "faq": [
+      {
+        "question": "什么是好的反应时间？",
+        "answer": "人类平均反应时间约为250毫秒。低于200毫秒被认为是快速，低于150毫秒则非常出色。"
+      },
+      {
+        "question": "为什么测试重置了？",
+        "answer": "你在屏幕变绿之前点击了。这被视为抢跑，测试会重置。"
+      },
+      {
+        "question": "可以改善反应时间吗？",
+        "answer": "可以！定期练习、充足睡眠和保持水分有助于提高反应速度。"
+      }
+    ]
+  }
+}

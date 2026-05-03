@@ -2,7 +2,7 @@
 // Game Variant Page - Programmatic SEO for long-tail keywords
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import { getAllVariants, getVariant } from '../../../data/gameVariants'
-import { games } from '../../../data/games'
+import { getAllGames } from '../../../lib/games'
 import { t as i18n, lang } from '../../../data/i18n'
 
 export function getStaticPaths() {
@@ -14,6 +14,7 @@ export function getStaticPaths() {
 
 const { id, variant: variantName } = Astro.params
 const variant = getVariant(id, variantName)
+const games = await getAllGames()
 const game = games.find(g => g.id === id)
 
 if (!variant || !game) {

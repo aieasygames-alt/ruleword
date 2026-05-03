@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { games, categories, getGameBySlug } from '../src/data/games'
+import { games, getGameBySlug } from '../src/data/games'
+import { categories } from '../src/data/categories'
 
 describe('Games Data', () => {
   it('should have games defined', () => {

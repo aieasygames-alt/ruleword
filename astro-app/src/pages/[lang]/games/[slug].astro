@@ -1,9 +1,10 @@
 ---
 // Language-specific game page - Redirect to main game with language parameter
 import { languages } from '../../../../astro.config.mjs'
-import { games } from '../../../data/games'
+import { getAllGames } from '../../../lib/games'
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const games = await getAllGames()
   const paths = []
   for (const lang of Object.keys(languages)) {
     for (const game of games) {
@@ -16,7 +17,8 @@ export function getStaticPaths() {
 }
 
 const { lang, slug } = Astro.params
-const game = games.find(g => g.id === slug)
+const allGames = await getAllGames()
+const game = allGames.find(g => g.id === slug)
 
 if (!game) {
   return Astro.redirect('/404')

@@ -2,7 +2,7 @@
 // Topic Hub Detail Page - SEO-optimized content aggregation
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getHubPage, getAllHubSlugs } from '../../data/hubPages'
-import { games } from '../../data/games'
+import { getAllGames } from '../../lib/games'
 import { gameGuides } from '../../data/gameGuidesSEO'
 
 export function getStaticPaths() {
@@ -18,6 +18,8 @@ const hub = getHubPage(slug)
 if (!hub) {
   return Astro.redirect('/404')
 }
+
+const games = await getAllGames()
 
 // Get featured games
 const featuredGames = hub.featuredGames

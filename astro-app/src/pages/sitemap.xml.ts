@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
-import { categories } from '../data/games'
+import { categories } from '../data/categories'
 import { gameGuides } from '../data/gameGuidesSEO'
 
 // Featured games get higher priority

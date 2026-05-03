@@ -21,6 +21,7 @@ interface Props {
 
 const { games } = Astro.props;
 
+// 不再序列化 games 到独立 script — 由父页面提供全局变量
 const categories = ['all', ...new Set(games.map(g => g.category))];
 ---
 
@@ -76,8 +77,9 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
   </div>
 </div>
 
-<script define:vars={{ games }}>
-  const gamesData = games;
+<script>
+  // 从父页面全局变量读取 games 数据（避免重复序列化）
+  const gamesData = window.__ruleword_games || [];
   let currentCategory = 'all';
   let searchQuery = '';
 

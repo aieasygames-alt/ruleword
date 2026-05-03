@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { games, getGameBySlug, categories } from '../src/data/games'
+import { games, getGameBySlug } from '../src/data/games'
+import { categories } from '../src/data/categories'
 import GameWrapper from '../src/components/GameWrapper'
 
 import { createElement } from 'react'

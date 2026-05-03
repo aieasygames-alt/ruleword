@@ -12,29 +12,17 @@
 
 import { getCollection } from 'astro:content'
 import type { LocalizedGame } from '../types/contentful'
+import type { GameRules, GameFAQ } from '../types'
+
+// Re-export types for backward compatibility
+export type { GameRules, GameFAQ }
 
 // 检查可用的数据源
 const USE_SANITY = !!import.meta.env.SANITY_PROJECT_ID
 const USE_CONTENTFUL = !!import.meta.env.CONTENTFUL_SPACE_ID
 
-console.log('Data source:', USE_SANITY ? 'Sanity' : USE_CONTENTFUL ? 'Contentful' : 'Local')
-
-/**
- * 游戏规则结构
- */
-export interface GameRules {
-  controls?: string
-  mechanics?: string[]
-  features?: string[]
-}
-
-/**
- * 游戏FAQ结构
- */
-export interface GameFAQ {
-  question: string
-  answer: string
-}
+// Data source detection
+const _dataSource = USE_SANITY ? 'Sanity' : USE_CONTENTFUL ? 'Contentful' : 'Local'
 
 /**
  * 游戏数据结构 (兼容现有格式)
@@ -398,6 +386,38 @@ export async function getCategories(): Promise<string[]> {
   const gamesCollection = await getCollection('games')
   const categories = new Set(gamesCollection.map((entry) => entry.data.category))
   return Array.from(categories)
+}
+
+/**
+ * 根据 id 获取单个游戏
+ */
+export async function getGameById(id: string): Promise<GameData | null> {
+  const allGames = await getAllGames()
+  return allGames.find(g => g.id === id) || null
+}
+
+/**
+ * 根据 id 列表获取多个游戏
+ */
+export async function getGamesByIds(ids: string[]): Promise<GameData[]> {
+  const allGames = await getAllGames()
+  return ids.map(id => allGames.find(g => g.id === id)).filter(Boolean) as GameData[]
+}
+
+/**
+ * 根据 slug 列表获取多个游戏
+ */
+export async function getGamesBySlugs(slugs: string[]): Promise<GameData[]> {
+  const allGames = await getAllGames()
+  return slugs.map(slug => allGames.find(g => g.slug === slug)).filter(Boolean) as GameData[]
+}
+
+/**
+ * 获取游戏总数
+ */
+export async function getGameCount(): Promise<number> {
+  const allGames = await getAllGames()
+  return allGames.length
 }
 
 /**

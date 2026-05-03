@@ -3,10 +3,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import GameWrapper from '../../components/GameWrapper'
 import { getCollection, type CollectionEntry } from 'astro:content'
 import { getAllGames, getAllGameSlugs, getGameBySlug, type GameData as CMSGameData } from '../../lib/games'
-import { categories } from '../../data/games'
+import { categories } from '../../data/categories'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
 import { getGameSEO, generateKeywords } from '../../data/seo'
 import { getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
+import type { GameRules, GameFAQ } from '../../types'
 
 // 在 getStaticPaths 中获取所有游戏
 export async function getStaticPaths() {
@@ -39,17 +40,6 @@ export async function getStaticPaths() {
 }
 
 // 兼容本地 JSON 格式
-interface GameRules {
-  controls?: string
-  mechanics?: string[]
-  features?: string[]
-}
-
-interface GameFAQ {
-  question: string
-  answer: string
-}
-
 interface LocalGameData {
   id: string
   slug: string
@@ -95,7 +85,7 @@ const t = i18n[lang]
 // Helper to get game field (兼容 CMS 和本地格式)
 const getGameField = (field: 'name' | 'desc' | 'description' | 'objectives' | 'howToPlay' | 'tips' | 'rules' | 'faq', preferLang: 'en' | 'zh' = 'en'): string | string[] | GameRules | GameFAQ[] => {
   // 统一使用 GameData 格式 (games.ts 已经合并了本地和 CMS 数据)
-  const g = game as any
+  const g = game as CMSGameData
 
   if (field === 'name') return preferLang === 'zh' ? (g.nameZh || g.name) : g.name
   if (field === 'desc') return preferLang === 'zh' ? (g.descZh || g.desc) : g.desc

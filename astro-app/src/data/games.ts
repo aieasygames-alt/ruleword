@@ -184,13 +184,5 @@ export const games: GameConfig[] = [
   { slug: 'arrow-puzzle', id: 'arrowpuzzle', name: 'Arrow Puzzle', nameZh: '箭头解谜', icon: '➡️', desc: 'Click arrows to slide them off the grid! Find the right order to clear all arrows. 200 levels with increasing difficulty.', descZh: '点击箭头让它们滑出网格！找到正确的顺序清除所有箭头。200关递进难度。', category: 'logic', featured: true, color: 'from-rose-400 to-pink-600' },
 ]
 
-export const categories = [
-  { id: 'all', name: 'All Games', nameZh: '全部游戏', icon: '🎮', desc: 'Browse all our free online games' },
-  { id: 'word', name: 'Word Games', nameZh: '文字游戏', icon: '🔤', desc: 'Word puzzles and vocabulary games' },
-  { id: 'logic', name: 'Logic & Numbers', nameZh: '数字逻辑', icon: '🧩', desc: 'Brain training logic puzzles' },
-  { id: 'strategy', name: 'Strategy', nameZh: '策略对战', icon: '♟️', desc: 'Strategy and board games' },
-  { id: 'arcade', name: 'Arcade', nameZh: '经典街机', icon: '👾', desc: 'Classic arcade games' },
-  { id: 'memory', name: 'Memory & Reflex', nameZh: '记忆反应', icon: '🧠', desc: 'Memory and reflex training' },
-  { id: 'skill', name: 'Skill Games', nameZh: '技能挑战', icon: '🎯', desc: 'Test and improve your skills' },
-  { id: 'puzzle', name: 'Puzzle', nameZh: '拼图消除', icon: '🧩', desc: 'Relaxing puzzle and matching games' },
-]
+// Categories have been moved to data/categories.ts
+export { categories } from './categories'
