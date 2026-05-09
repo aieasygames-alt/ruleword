@@ -2,6 +2,9 @@ import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { categories } from '../data/categories'
 import { gameGuides } from '../data/gameGuidesSEO'
+import { hubPages } from '../data/hubPages'
+import { blogPosts } from '../data/blogPosts'
+import { difficultyVariants } from '../data/gameVariants'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -16,6 +19,15 @@ export const GET: APIRoute = async () => {
 
   // 攻略页面
   const guideSlugs = Object.keys(gameGuides)
+
+  // Hub pages
+  const hubSlugs = Object.keys(hubPages)
+
+  // Blog posts
+  const blogSlugs = Object.keys(blogPosts)
+
+  // Game variants
+  const variants = difficultyVariants
 
   const baseUrl = 'https://ruleword.com'
   const lastmod = new Date().toISOString().split('T')[0]
@@ -55,6 +67,14 @@ ${gameSlugs.map(slug => {
   </url>`
 }).join('\n')}
 
+  <!-- Game Variant Pages (${variants.length} variants) -->
+${variants.map(v => `  <url>
+    <loc>${baseUrl}/games/${v.gameId}/${v.variant}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`).join('\n')}
+
   <!-- Game Guides Index -->
   <url>
     <loc>${baseUrl}/guides/</loc>
@@ -73,6 +93,38 @@ ${guideSlugs.map(slug => {
     <priority>${priority}</priority>
   </url>`
 }).join('\n')}
+
+  <!-- Hub Pages Index -->
+  <url>
+    <loc>${baseUrl}/hubs/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Hub Pages (${hubSlugs.length} hubs) -->
+${hubSlugs.map(slug => `  <url>
+    <loc>${baseUrl}/hubs/${slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`).join('\n')}
+
+  <!-- Blog Index -->
+  <url>
+    <loc>${baseUrl}/blog/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog Posts (${blogSlugs.length} posts) -->
+${blogSlugs.map(slug => `  <url>
+    <loc>${baseUrl}/blog/${slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>`).join('\n')}
 
 </urlset>`
 
