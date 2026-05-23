@@ -81,8 +81,8 @@ const howToSchema = storyHowToPlay ? {
       </div>
     </nav>
 
-    <!-- Game Area -->
-    <main class="flex-1">
+    <!-- Game Area - fixed viewport height -->
+    <main class="h-[calc(100vh-3.5rem)] relative">
       <AIStoryGame
         client:load
         template={JSON.stringify(story)}

@@ -170,30 +170,34 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   if (state.phase === 'idle') {
     return (
       <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700">
+        <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700 shrink-0">
           <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors">
             ← Back
           </button>
           <h1 className="text-sm font-medium text-white truncate mx-4">{template.en.name}</h1>
           <div className="w-12" />
         </div>
-        <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-6">
-          <div className="text-6xl">{template.icon}</div>
-          <h2 className="text-2xl font-bold text-white">{template.en.name}</h2>
-          <p className="text-slate-400 text-sm max-w-md leading-relaxed">{template.en.desc}</p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            {template.storySkeleton.characters.map(char => (
-              <span key={char.id} className="px-3 py-1 bg-slate-700/60 rounded-full text-xs text-slate-300">
-                {char.name} — {char.personality.split(',')[0]}
-              </span>
-            ))}
+        <div className="flex-1 flex items-center justify-center p-6">
+          <div className="max-w-2xl w-full text-center space-y-6">
+            <div className="text-6xl">{template.icon}</div>
+            <h2 className="text-3xl font-bold text-white">{template.en.name}</h2>
+            <p className="text-slate-400 text-base max-w-lg mx-auto leading-relaxed">{template.en.desc}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
+              {template.storySkeleton.characters.map(char => (
+                <div key={char.id} className="bg-slate-800/60 rounded-xl p-3 text-center border border-slate-700/50">
+                  <div className="text-lg font-semibold text-white">{char.name}</div>
+                  <div className="text-xs text-pink-400 mt-0.5">{char.relationship}</div>
+                  <div className="text-xs text-slate-400 mt-1 line-clamp-2">{char.personality.split(',')[0]}</div>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handleStart}
+              className="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-medium transition-colors text-lg shadow-lg shadow-pink-500/20"
+            >
+              Start Story
+            </button>
           </div>
-          <button
-            onClick={handleStart}
-            className="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-medium transition-colors text-lg"
-          >
-            Start Story
-          </button>
         </div>
       </div>
     )
@@ -228,7 +232,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   return (
     <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800 relative">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700 shrink-0">
+      <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700 shrink-0 max-w-3xl mx-auto w-full">
         <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors">
           ← Back
         </button>
@@ -240,24 +244,32 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
       {/* Stats */}
       {template.uiConfig.showStats && (
-        <StatsBar stats={template.uiConfig.stats} metadata={state.metadata} />
+        <div className="max-w-3xl mx-auto w-full">
+          <StatsBar stats={template.uiConfig.stats} metadata={state.metadata} />
+        </div>
       )}
 
       {/* Story content */}
-      <StoryRenderer history={state.history} isLatest={state.phase === 'playing'} />
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-3xl mx-auto w-full">
+          <StoryRenderer history={state.history} isLatest={state.phase === 'playing'} />
+        </div>
+      </div>
 
       {/* Choices */}
       {(state.phase === 'playing' || state.phase === 'intro') && (
-        <ChoicePanel
-          choices={state.choices}
-          disabled={state.phase !== 'playing' && state.phase !== 'intro'}
-          onSelect={handleChoice}
-        />
+        <div className="max-w-3xl mx-auto w-full shrink-0">
+          <ChoicePanel
+            choices={state.choices}
+            disabled={state.phase !== 'playing' && state.phase !== 'intro'}
+            onSelect={handleChoice}
+          />
+        </div>
       )}
 
       {/* Loading state */}
       {state.phase === 'loading' && (
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 max-w-3xl mx-auto w-full shrink-0">
           <div className="flex items-center gap-2 px-4 py-3 bg-slate-700/40 rounded-xl">
             <div className="flex gap-1">
               <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />

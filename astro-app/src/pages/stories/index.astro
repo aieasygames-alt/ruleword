@@ -56,8 +56,8 @@ const breadcrumbItems = [
     </section>
 
     <!-- Story Cards Grid -->
-    <section class="max-w-6xl mx-auto px-4 py-12">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <section class="max-w-5xl mx-auto px-4 py-12">
+      <div class={`grid gap-6 ${storyData.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}>
         {storyData.map(story => (
           <a
             href={`/stories/${story.slug}/`}

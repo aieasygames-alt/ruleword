@@ -25,7 +25,7 @@ export default function StoryRenderer({ history, isLatest }: StoryRendererProps)
   }, [history.length])
 
   return (
-    <div ref={containerRef} className="flex-1 overflow-y-auto px-4 py-6 space-y-4 scroll-smooth">
+    <div ref={containerRef} className="px-4 py-6 space-y-4">
       {history.map((entry, index) => {
         const isLatestEntry = isLatest && index === history.length - 1
         const isDialogue = !!entry.speaker
