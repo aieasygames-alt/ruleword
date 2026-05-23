@@ -7,6 +7,7 @@ yarn.lock
 
 # Build output
 dist/
+.astro/
 
 # Editor
 .vscode/
@@ -29,4 +30,14 @@ npm-debug.log*
 # Test results
 test-results/
 playwright-report/
-astro-app/coverage/
+coverage/
+
+# Claude Code
+.claude/
+
+# Sanity Studio
+sanity-studio/node_modules/
+sanity-studio/dist/
+
+# Wrangler
+.wrangler/
