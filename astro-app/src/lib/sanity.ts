@@ -23,7 +23,7 @@ export function urlFor(source: any) {
 }
 
 // 支持的语言
-export const LOCALES = ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh_CN', 'zh_TW'] as const
+export const LOCALES = ['en', 'zh_CN'] as const
 export type Locale = typeof LOCALES[number]
 
 // 通用游戏字段投影 (不做多语言投影，保留原始结构)

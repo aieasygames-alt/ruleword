@@ -62,7 +62,7 @@ export interface GameSEO {
 // i18n Types
 // ====================
 
-export type Language = 'en' | 'fr' | 'de' | 'es' | 'ru' | 'ja' | 'zh-CN' | 'zh-TW'
+export type Language = 'en' | 'zh-CN'
 
 export interface LanguageInfo {
   code: Language

@@ -108,7 +108,7 @@ const hasGames = games.length > 0;
       const slug = el.closest('.game-card')?.getAttribute('data-game-slug');
       const game = window.__GAMES_DATA__?.find((g: any) => g.slug === slug);
       if (game) {
-        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name;
+        el.textContent = lang === 'zh-CN' ? game.nameZh : game.name;
       }
     });
 

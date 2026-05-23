@@ -21,7 +21,7 @@ test.describe('Internationalization (i18n)', () => {
   })
 
   test('should handle various language codes', async ({ page }) => {
-    const langCodes = ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-CN', 'zh-TW']
+    const langCodes = ['en', 'zh-CN']
 
     for (const lang of langCodes) {
       await page.goto(`/?lang=${lang}`)

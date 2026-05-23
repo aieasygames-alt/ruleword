@@ -72,7 +72,7 @@ export function validateScore(score: number): boolean {
  * 验证语言代码
  */
 export function validateLanguage(lang: string): boolean {
-  const validLangs = ['en', 'zh-CN', 'zh-TW', 'fr', 'de', 'es', 'ru', 'ja']
+  const validLangs = ['en', 'zh-CN']
   return validLangs.includes(lang)
 }
 

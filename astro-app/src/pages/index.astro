@@ -393,7 +393,7 @@ const categoryI18nData = categoryI18n
             <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🌐</div>
               <h4 class="font-bold text-gray-900 dark:text-white mb-2" data-i18n="feature5Title">Multi-Language Support</h4>
-              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature5Desc">Available in 8 languages including English, Chinese, Japanese and more.</p>
+              <p class="text-sm text-gray-600 dark:text-slate-400" data-i18n="feature5Desc">Available in English and Simplified Chinese.</p>
             </div>
             <div class="bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 rounded-xl p-5 text-center">
               <div class="text-3xl mb-3">🆕</div>
@@ -542,8 +542,8 @@ const categoryI18nData = categoryI18n
     }
 
     function createGameCard(game, lang) {
-      const name = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name
-      const desc = lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc
+      const name = lang === 'zh-CN' ? game.nameZh : game.name
+      const desc = lang === 'zh-CN' ? game.descZh : game.desc
       return `
         <a href="/games/${game.slug}/" class="group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 hover:scale-[1.02] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-gray-300 dark:hover:border-slate-600" data-game-slug="${game.slug}">
           <div class="${game.color} w-12 h-12 mx-auto rounded-xl flex items-center justify-center shadow-lg mb-2">
@@ -630,13 +630,7 @@ const categoryI18nData = categoryI18n
       const browserLang = navigator.language || navigator.userLanguage
       if (browserLang) {
         if (browserLang.startsWith('zh-CN') || browserLang === 'zh-Hans') return 'zh-CN'
-        if (browserLang.startsWith('zh-TW') || browserLang === 'zh-Hant' || browserLang.startsWith('zh-HK')) return 'zh-TW'
         if (browserLang.startsWith('zh')) return 'zh-CN'
-        if (browserLang.startsWith('fr')) return 'fr'
-        if (browserLang.startsWith('de')) return 'de'
-        if (browserLang.startsWith('es')) return 'es'
-        if (browserLang.startsWith('ru')) return 'ru'
-        if (browserLang.startsWith('ja')) return 'ja'
       }
 
       return 'en'
@@ -658,7 +652,7 @@ const categoryI18nData = categoryI18n
 
     // Get game name by language
     function getGameNameByLang(game, lang) {
-      if (lang === 'zh-CN' || lang === 'zh-TW') {
+      if (lang === 'zh-CN') {
         return game.nameZh
       }
       return game.name
@@ -666,7 +660,7 @@ const categoryI18nData = categoryI18n
 
     // Get game desc by language
     function getGameDescByLang(game, lang) {
-      if (lang === 'zh-CN' || lang === 'zh-TW') {
+      if (lang === 'zh-CN') {
         return game.descZh
       }
       return game.desc

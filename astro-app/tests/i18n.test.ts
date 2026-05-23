@@ -4,9 +4,9 @@ import { i18n, languages, getI18n, type Language } from '../src/data/i18n'
 describe('i18n', () => {
   it('should have all languages defined', () => {
     expect(languages).toBeDefined()
-    expect(languages.length).toBe(8)
+    expect(languages.length).toBe(2)
 
-    const expectedLangs = ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN']
+    const expectedLangs = ['en', 'zh-CN']
     expectedLangs.forEach(lang => {
       expect(languages.some(l => l.code === lang)).toBe(true)
     })

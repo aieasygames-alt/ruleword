@@ -1629,11 +1629,6 @@ export function getGameGuide(gameId: string, lang: Language = 'en'): GameGuideCo
   if (lang === 'zh-CN') {
     return gameGuidesZhCN[gameId] || gameGuidesEn[gameId]
   }
-  if (lang === 'zh-TW') {
-    // Use Simplified Chinese as base for Traditional (they share the same content mostly)
-    return gameGuidesZhCN[gameId] || gameGuidesEn[gameId]
-  }
-  // For all other languages, return English
   return gameGuidesEn[gameId]
 }
 

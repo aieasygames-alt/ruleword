@@ -23,12 +23,6 @@ export function toAppLocale(locale: string): string {
   const localeMap: Record<string, string> = {
     'en-US': 'en',
     'zh-CN': 'zh',
-    'zh-TW': 'zh-TW',
-    fr: 'fr',
-    de: 'de',
-    es: 'es',
-    ru: 'ru',
-    ja: 'ja',
   }
   return localeMap[locale] || locale
 }
@@ -40,12 +34,6 @@ export function toContentfulLocale(locale: string): string {
   const localeMap: Record<string, string> = {
     en: 'en-US',
     zh: 'zh-CN',
-    'zh-TW': 'zh-TW',
-    fr: 'fr',
-    de: 'de',
-    es: 'es',
-    ru: 'ru',
-    ja: 'ja',
   }
   return localeMap[locale] || locale
 }

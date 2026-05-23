@@ -30,7 +30,7 @@ const API_TOKEN = process.env.SANITY_API_TOKEN!
 const API_BASE = `https://${PROJECT_ID}.api.sanity.io/v2024-01-01/data/mutate/${DATASET}`
 
 // 语言映射
-const LOCALES = ['en', 'zh', 'zh-TW', 'fr', 'de', 'es', 'ru', 'ja']
+const LOCALES = ['en', 'zh']
 
 // 游戏 JSON 数据结构
 interface GameLocaleData {

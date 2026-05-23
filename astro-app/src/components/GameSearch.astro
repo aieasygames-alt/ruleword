@@ -248,7 +248,7 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       const slug = el.closest('a')?.getAttribute('href')?.split('/')[2];
       const game = gamesData.find(g => g.slug === slug);
       if (game) {
-        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.nameZh : game.name;
+        el.textContent = lang === 'zh-CN' ? game.nameZh : game.name;
       }
     });
 
@@ -256,12 +256,12 @@ const categories = ['all', ...new Set(games.map(g => g.category))];
       const slug = el.closest('a')?.getAttribute('href')?.split('/')[2];
       const game = gamesData.find(g => g.slug === slug);
       if (game) {
-        el.textContent = lang === 'zh-CN' || lang === 'zh-TW' ? game.descZh : game.desc;
+        el.textContent = lang === 'zh-CN' ? game.descZh : game.desc;
       }
     });
 
     // Update placeholder
-    searchInput.placeholder = lang === 'zh-CN' || lang === 'zh-TW' ? '搜索游戏...' : 'Search games...';
+    searchInput.placeholder = lang === 'zh-CN' ? '搜索游戏...' : 'Search games...';
   }
 
   // Expose function globally

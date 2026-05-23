@@ -27,12 +27,6 @@ const ENVIRONMENT = process.env.CONTENTFUL_ENVIRONMENT || 'master'
 const LOCALE_MAP: Record<string, string> = {
   en: 'en-US',
   zh: 'zh-CN',
-  'zh-TW': 'zh-TW',
-  fr: 'fr',
-  de: 'de',
-  es: 'es',
-  ru: 'ru',
-  ja: 'ja',
 }
 
 // 支持的语言列表

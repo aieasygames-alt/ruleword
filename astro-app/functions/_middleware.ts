@@ -3,7 +3,7 @@
 // /:lang/ → / (language homepage)
 // /:lang/games/:slug/ → /games/:slug/ (language game page)
 
-const VALID_LANGS = new Set(['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN'])
+const VALID_LANGS = new Set(['en', 'zh-CN'])
 
 export const onRequest: PagesFunction = async (context) => {
   const url = new URL(context.request.url)

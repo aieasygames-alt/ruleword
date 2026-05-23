@@ -7,7 +7,7 @@ export type { GameConfig } from '../types'
 
 // 获取本地化的游戏名称
 export function getGameName(game: GameConfig, lang: Language): string {
-  if (lang === 'zh-CN' || lang === 'zh-TW') {
+  if (lang === 'zh-CN') {
     return game.nameZh
   }
   return game.name
@@ -15,7 +15,7 @@ export function getGameName(game: GameConfig, lang: Language): string {
 
 // 获取本地化的游戏描述
 export function getGameDesc(game: GameConfig, lang: Language): string {
-  if (lang === 'zh-CN' || lang === 'zh-TW') {
+  if (lang === 'zh-CN') {
     return game.descZh
   }
   return game.desc

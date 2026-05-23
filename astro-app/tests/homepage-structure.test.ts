@@ -3,7 +3,7 @@ import { games } from '../src/data/games'
 import { categories } from '../src/data/categories'
 import { i18n, categoryI18n, type Language } from '../src/data/i18n'
 
-const allLanguages: Language[] = ['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN']
+const allLanguages: Language[] = ['en', 'zh-CN']
 
 describe('Homepage Quick Play', () => {
   const quickPlaySlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man']
@@ -98,7 +98,7 @@ describe('Category i18n completeness', () => {
       requiredCategoryIds.forEach((catId, i) => {
         const name = categoryI18n[lang][catId].name
         // At least some categories should have different names in other languages
-        if (['zh-CN', 'zh-TW', 'ja', 'ru'].includes(lang)) {
+        if (lang === 'zh-CN') {
           expect(name).not.toBe(enNames[i])
         }
       })
