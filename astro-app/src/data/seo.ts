@@ -18,6 +18,15 @@ export interface GameSEO {
 
 // Top 20 high-value games with SEO optimization
 export const gameSEOConfig: Record<string, GameSEO> = {
+  // AI Story Games
+  'ai-dating-simulator': {
+    primaryKeyword: 'AI dating simulator',
+    secondaryKeywords: ['dating sim online', 'AI dating game', 'virtual dating', 'interactive romance', 'AI love story'],
+    longTailKeywords: ['play AI dating simulator free', 'AI dating sim no download', 'interactive dating story game', 'AI romance game online free'],
+    titleTemplate: 'AI Dating Simulator - Play Interactive Romance Game Online Free | {brand}',
+    descriptionTemplate: 'Play AI Dating Simulator free! Make choices that shape your love story with AI characters. 3 love interests, 4 endings. No download!',
+    intent: 'play'
+  },
   // Word Games - High search volume
   wordle: {
     primaryKeyword: 'wordle online',

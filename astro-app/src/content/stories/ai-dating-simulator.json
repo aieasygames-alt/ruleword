@@ -1,0 +1,286 @@
+{
+  "id": "ai-dating-simulator",
+  "slug": "ai-dating-simulator",
+  "icon": "💕",
+  "templateType": "dating-sim",
+  "color": "from-pink-500 to-rose-600",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive dating simulator narrator. You tell a romantic story where the player makes choices that affect relationships with three characters. Write in second person (you). Be engaging, witty, and emotionally resonant. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: happy, sad, nervous, excited, angry, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"affection-alex\": 10}). Track the player's choices and adapt the story. Keep tone appropriate for all ages.",
+    "zh": "你是一个互动恋爱模拟器叙述者。你讲述一个浪漫故事，玩家的选择会影响与三个角色的关系。用第二人称叙述。每条回复必须是有效的 JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话，叙述者省略）、emotion（happy/sad/nervous/excited/angry/neutral之一）、choices（3个选项的对象数组，含id和text）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"affection-alex\": 10}）。保持适合所有年龄段的语调。"
+  },
+
+  "storySkeleton": {
+    "setting": "A bustling city where you've just moved for a fresh start. Your new neighborhood has a cozy coffee shop, an art gallery, and a tech startup hub.",
+    "characters": [
+      {
+        "id": "alex",
+        "name": "Alex",
+        "personality": "Warm and creative, a barista at the local coffee shop who paints in their free time. Thoughtful listener with a gentle sense of humor.",
+        "relationship": "Coffee shop barista you see every morning"
+      },
+      {
+        "id": "sam",
+        "name": "Sam",
+        "personality": "Passionate and driven, an aspiring artist at the gallery downtown. Bold, spontaneous, and wears their heart on their sleeve.",
+        "relationship": "Stranger you bump into at the art gallery"
+      },
+      {
+        "id": "jordan",
+        "name": "Jordan",
+        "personality": "Brilliant and ambitious, a tech entrepreneur building the next big thing. Confident with a hidden vulnerable side.",
+        "relationship": "Neighbor in your apartment building"
+      }
+    ],
+    "opening": "You've just moved to the city, ready for a fresh start. As you unpack the last box in your new apartment, you realize you don't know anyone here. Maybe it's time to explore the neighborhood...",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "First Encounters",
+        "goal": "Meet all three characters and form initial impressions",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "You step outside and notice a cozy coffee shop on the corner. The warm light spilling through the windows is inviting, and you could use a good cup of coffee after all that unpacking.",
+          "As you stroll down the street, a colorful art gallery catches your eye. Through the window, you see vibrant paintings and a few people milling about.",
+          "Back at your apartment building, you hear someone struggling with a package by the elevator. It sounds like they could use some help."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Head to the coffee shop" },
+            { "id": "c1b", "text": "Check out the art gallery" },
+            { "id": "c1c", "text": "Offer to help your neighbor" }
+          ],
+          [
+            { "id": "c1d", "text": "Ask Alex about their paintings" },
+            { "id": "c1e", "text": "Compliment the latte art" },
+            { "id": "c1f", "text": "Sit quietly and people-watch" }
+          ],
+          [
+            { "id": "c1g", "text": "Suggest meeting up again sometime" },
+            { "id": "c1h", "text": "Exchange numbers" },
+            { "id": "c1i", "text": "Say goodbye and continue exploring" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "Getting to Know You",
+        "goal": "Deepen connections with characters through shared experiences",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "A few days have passed, and the city is starting to feel more like home. Your phone buzzes with a couple of messages from new acquaintances.",
+          "It's a beautiful Saturday morning. You have a free day ahead of you, and several invitations to choose from.",
+          "As you consider your options, you realize you're genuinely excited about the connections you've been making."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Join Alex for a painting session" },
+            { "id": "c2b", "text": "Attend Sam's gallery opening" },
+            { "id": "c2c", "text": "Have lunch with Jordan" }
+          ],
+          [
+            { "id": "c2d", "text": "Share something personal about yourself" },
+            { "id": "c2e", "text": "Ask about their dreams and passions" },
+            { "id": "c2f", "text": "Keep the conversation light and fun" }
+          ],
+          [
+            { "id": "c2g", "text": "Make plans for next weekend" },
+            { "id": "c2h", "text": "Express how much you've enjoyed their company" },
+            { "id": "c2i", "text": "Play it cool and see what happens" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Big Date",
+        "goal": "Navigate a pivotal romantic encounter with one character",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "It's the evening you've been looking forward to. You've put extra effort into getting ready, and your heart beats a little faster than usual.",
+          "The restaurant is perfect — soft lighting, gentle music, and an atmosphere that feels just right for an important conversation.",
+          "Across from you sits someone who has become more than just a new friend. The moment feels significant."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Be open about your feelings" },
+            { "id": "c3b", "text": "Focus on making them laugh" },
+            { "id": "c3c", "text": "Ask about where this is going" }
+          ],
+          [
+            { "id": "c3d", "text": "Reach across and hold their hand" },
+            { "id": "c3e", "text": "Tell them what you admire about them" },
+            { "id": "c3f", "text": "Suggest taking things slow" }
+          ],
+          [
+            { "id": "c3g", "text": "Lean in closer" },
+            { "id": "c3h", "text": "Suggest a walk together" },
+            { "id": "c3i", "text": "Enjoy the comfortable silence" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Crossroads",
+        "goal": "Face a challenge that tests the strength of your connections",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Just when things seem to be going perfectly, an unexpected complication arises that forces you to make a difficult choice.",
+          "Your phone rings with news that changes everything. How you respond will shape what happens next.",
+          "This is the moment that defines what kind of person you are — and what kind of relationship you truly want."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Follow your heart, consequences be damned" },
+            { "id": "c4b", "text": "Think carefully before acting" },
+            { "id": "c4c", "text": "Seek advice from a friend" }
+          ],
+          [
+            { "id": "c4d", "text": "Be completely honest" },
+            { "id": "c4e", "text": "Protect someone's feelings" },
+            { "id": "c4f", "text": "Take time to figure it out" }
+          ],
+          [
+            { "id": "c4g", "text": "Make a bold declaration" },
+            { "id": "c4h", "text": "Choose the safe path" },
+            { "id": "c4i", "text": "Trust your instincts" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Confession",
+        "goal": "Reach the climactic moment of the story",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Everything has led to this moment. The city feels different somehow — more vibrant, more alive. Or maybe it's just you.",
+          "You find yourself standing at a familiar spot, but seeing it with new eyes. The decision ahead is clear, even if it's not easy.",
+          "Sometimes the bravest thing you can do is be honest about how you feel. This is that moment."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Confess your true feelings" },
+            { "id": "c5b", "text": "Show how you feel through actions" },
+            { "id": "c5c", "text": "Write a heartfelt letter" }
+          ],
+          [
+            { "id": "c5d", "text": "Ask for a chance to prove yourself" },
+            { "id": "c5e", "text": "Accept whatever happens gracefully" },
+            { "id": "c5f", "text": "Promise to always be there" }
+          ],
+          [
+            { "id": "c5g", "text": "Embrace the future together" },
+            { "id": "c5h", "text": "Cherish this moment forever" },
+            { "id": "c5i", "text": "See where the journey takes you" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "true-love",
+        "condition": "Highest affection stat above 80 and confidence above 60",
+        "title": "True Love",
+        "description": "Against all odds, you found something real in this new city. What started as a chance encounter blossomed into a connection that neither of you expected. Sometimes the best stories begin with a single brave step into the unknown."
+      },
+      {
+        "id": "dear-friends",
+        "condition": "Affection spread evenly or confidence below 40",
+        "title": "Dear Friends",
+        "description": "Not every connection becomes a romance, and that's perfectly okay. You've built meaningful friendships that enrich your life in ways you never imagined. The city no longer feels strange — it feels like home."
+      },
+      {
+        "id": "heartbreak",
+        "condition": "Made inconsistent choices or affection dropped below 20",
+        "title": "Heartbreak Hotel",
+        "description": "The path to love is never straight, and sometimes it leads through pain. But even heartbreak teaches you something valuable about yourself and what you truly want. Tomorrow is a new day in the city."
+      },
+      {
+        "id": "self-discovery",
+        "condition": "All affection stats below 40 and confidence above 70",
+        "title": "A Journey of Self-Discovery",
+        "description": "Sometimes the most important relationship is the one you have with yourself. Through every encounter and every choice, you discovered who you really are and what truly matters to you. The city gave you the greatest gift — yourself."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "affection-alex", "label": "Alex", "icon": "☕", "initialValue": 30, "min": 0, "max": 100 },
+      { "id": "affection-sam", "label": "Sam", "icon": "🎨", "initialValue": 30, "min": 0, "max": 100 },
+      { "id": "affection-jordan", "label": "Jordan", "icon": "💻", "initialValue": 30, "min": 0, "max": 100 },
+      { "id": "confidence", "label": "Confidence", "icon": "💪", "initialValue": 50, "min": 0, "max": 100 }
+    ],
+    "theme": "romantic"
+  },
+
+  "en": {
+    "name": "AI Dating Simulator",
+    "desc": "Navigate romance in a new city — make choices that shape your love story with AI-driven characters",
+    "description": "Experience the thrill of romance in our AI Dating Simulator! You've just moved to a new city and three intriguing characters are waiting to meet you. Alex, the creative barista with a warm smile. Sam, the passionate artist who wears their heart on their sleeve. Jordan, the brilliant entrepreneur with a hidden vulnerable side. Every choice you make shapes your relationships and determines your romantic destiny. Will you find true love, build lasting friendships, or discover something unexpected about yourself? Powered by AI, every playthrough is unique — no two love stories are the same.",
+    "howToPlay": "Start the game and read the story narration. When choices appear, click the option that feels right to you. Your decisions affect how characters feel about you and shape the story's direction. Pay attention to the stats bar at the top — it shows each character's affection level and your confidence. Try to build meaningful connections by being genuine and thoughtful in your choices. The story has multiple endings based on your decisions!",
+    "tips": [
+      "Pay attention to each character's personality — thoughtful responses earn more affection",
+      "Don't try to please everyone — focusing on one character leads to deeper connections",
+      "Your confidence stat matters — bold choices can lead to surprising outcomes",
+      "There are 4 possible endings — replay to discover them all",
+      "The AI creates unique dialogue each time, so every playthrough is different"
+    ],
+    "faq": [
+      {
+        "question": "Is this game free to play?",
+        "answer": "Yes! AI Dating Simulator is completely free to play online in your browser. No download or registration required."
+      },
+      {
+        "question": "How does the AI work?",
+        "answer": "The AI generates unique story content based on your choices. Every playthrough creates different dialogue and scenarios, making each experience one-of-a-kind."
+      },
+      {
+        "question": "How many endings are there?",
+        "answer": "There are 4 main endings: True Love, Dear Friends, Heartbreak Hotel, and A Journey of Self-Discovery. Your choices determine which ending you reach."
+      },
+      {
+        "question": "Can I save my progress?",
+        "answer": "Yes, your progress is automatically saved in your browser. If you close the tab and come back later, you can continue where you left off."
+      },
+      {
+        "question": "Is this appropriate for all ages?",
+        "answer": "Yes, the AI Dating Simulator is designed to be a wholesome, all-ages romantic story experience. Content is kept family-friendly."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 恋爱模拟器",
+    "desc": "在新城市中邂逅浪漫——你的每个选择都将影响与AI角色的爱情故事",
+    "description": "在我们的AI恋爱模拟器中体验浪漫的刺激！你刚搬到一个新城市，三个迷人的角色正在等你遇见。Alex是温暖有创意的咖啡师，Sam是热情奔放的艺术家，Jordan是才华横溢却内心脆弱的创业者。你的每一个选择都会影响人际关系，决定你的浪漫命运。你会找到真爱、建立友谊，还是发现关于自己的意外惊喜？由AI驱动，每次游戏都是独一无二的——没有两段相同的爱情故事。",
+    "howToPlay": "开始游戏并阅读故事叙述。当选项出现时，点击你觉得对的选择。你的决定会影响角色对你的感觉，并塑造故事走向。注意顶部的状态栏——它显示每个角色的好感度和你的信心值。通过真诚和深思熟虑的选择来建立有意义的联系。故事有多个结局，取决于你的决定！",
+    "tips": [
+      "注意每个角色的性格——体贴的回应能赢得更多好感",
+      "不要试图讨好每个人——专注一个角色会建立更深的联系",
+      "信心值很重要——大胆的选择可能带来惊喜",
+      "有4种可能的结局——重玩来发现所有结局",
+      "AI每次都会生成独特的对话，所以每次游戏都不同"
+    ],
+    "faq": [
+      {
+        "question": "这个游戏免费吗？",
+        "answer": "是的！AI恋爱模拟器完全免费，在浏览器中即可游玩，无需下载或注册。"
+      },
+      {
+        "question": "AI是如何工作的？",
+        "answer": "AI根据你的选择生成独特的故事内容。每次游玩都会产生不同的对话和场景，使每次体验都是独一无二的。"
+      },
+      {
+        "question": "有几个结局？",
+        "answer": "有4个主要结局：真爱、挚友、心碎酒店、自我发现之旅。你的选择决定你达到哪个结局。"
+      }
+    ]
+  }
+}

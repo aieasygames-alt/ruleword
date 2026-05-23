@@ -2,6 +2,7 @@
 // Replaces 888 static redirect pages with a single edge function
 // /:lang/ → / (language homepage)
 // /:lang/games/:slug/ → /games/:slug/ (language game page)
+// /:lang/stories/:slug/ → /stories/:slug/ (language story page)
 
 const VALID_LANGS = new Set(['en', 'zh-CN'])
 
@@ -28,6 +29,18 @@ export const onRequest: PagesFunction = async (context) => {
   if (pathParts.length >= 3 && pathParts[1] === 'games') {
     const slug = pathParts[2]
     const redirectUrl = new URL(`/games/${slug}/`, url.origin)
+    const response = Response.redirect(redirectUrl.toString(), 302)
+    response.headers.append(
+      'Set-Cookie',
+      `preferred-language=${lang}; Path=/; Max-Age=31536000; SameSite=Lax`
+    )
+    return response
+  }
+
+  // /:lang/stories/:slug/ → redirect to story page
+  if (pathParts.length >= 3 && pathParts[1] === 'stories') {
+    const slug = pathParts[2]
+    const redirectUrl = new URL(`/stories/${slug}/`, url.origin)
     const response = Response.redirect(redirectUrl.toString(), 302)
     response.headers.append(
       'Set-Cookie',

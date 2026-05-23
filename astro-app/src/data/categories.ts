@@ -18,6 +18,7 @@ export const categories: Category[] = [
   { id: 'memory', name: 'Memory & Reflex', nameZh: '记忆反应', icon: '🧠', desc: 'Memory and reflex training' },
   { id: 'skill', name: 'Skill Games', nameZh: '技能挑战', icon: '🎯', desc: 'Test and improve your skills' },
   { id: 'puzzle', name: 'Puzzle', nameZh: '拼图消除', icon: '🧩', desc: 'Relaxing puzzle and matching games' },
+  { id: 'story', name: 'AI Stories', nameZh: 'AI互动故事', icon: '📖', desc: 'AI-powered interactive story games' },
 ]
 
 export const gameCategories = categories.filter(c => c.id !== 'all')

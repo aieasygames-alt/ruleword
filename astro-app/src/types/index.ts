@@ -153,3 +153,137 @@ export type DeepPartial<T> = {
 }
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Pick<Partial<T>, K>
+
+// ====================
+// AI Story Types
+// ====================
+
+export type TemplateType =
+  | 'dating-sim' | 'startup-sim' | 'detective'
+  | 'horror' | 'personality-quiz' | 'survival'
+  | 'negotiation' | 'open-adventure'
+
+export type StoryTheme = 'dark' | 'light' | 'romantic' | 'horror' | 'business'
+
+export interface StoryStat {
+  id: string
+  label: string
+  icon: string
+  initialValue: number
+  min?: number
+  max?: number
+}
+
+export interface StoryCharacter {
+  id: string
+  name: string
+  personality: string
+  relationship?: string
+}
+
+export interface StoryChapter {
+  id: string
+  title?: string
+  goal: string
+  minTurns: number
+  maxTurns: number
+  fallbackTexts: string[]
+  fallbackChoices: Array<Array<{ id: string; text: string }>>
+}
+
+export interface StoryEnding {
+  id: string
+  condition: string
+  title: string
+  description: string
+}
+
+export interface StorySkeleton {
+  setting: string
+  characters: StoryCharacter[]
+  opening: string
+  chapters: StoryChapter[]
+  endings: StoryEnding[]
+  maxTotalTurns: number
+}
+
+export interface StoryUIConfig {
+  showStats: boolean
+  stats: StoryStat[]
+  theme: StoryTheme
+}
+
+export interface StoryTemplate {
+  id: string
+  slug: string
+  icon: string
+  templateType: TemplateType
+  color: string
+  aiModel: string
+  systemPrompt: { en: string; zh?: string }
+  storySkeleton: StorySkeleton
+  uiConfig: StoryUIConfig
+  en: {
+    name: string
+    desc: string
+    description: string
+    howToPlay: string
+    tips?: string[]
+    faq?: Array<{ question: string; answer: string }>
+  }
+  zh?: {
+    name: string
+    desc: string
+    description?: string
+    howToPlay?: string
+    tips?: string[]
+    faq?: Array<{ question: string; answer: string }>
+  }
+}
+
+export type StoryPhase = 'idle' | 'intro' | 'playing' | 'loading' | 'ended' | 'error'
+
+export interface StoryHistoryEntry {
+  speaker?: string
+  text: string
+  emotion?: string
+}
+
+export interface StoryState {
+  phase: StoryPhase
+  currentChapterId: string
+  currentChapterIndex: number
+  turnNumber: number
+  history: StoryHistoryEntry[]
+  choices: Array<{ id: string; text: string }>
+  metadata: Record<string, number>
+  ending?: { title: string; description: string; shareText: string }
+  error?: string
+}
+
+export interface StoryNode {
+  nodeText: string
+  speaker?: string
+  emotion?: string
+  choices: Array<{ id: string; text: string }>
+  isChapterEnd: boolean
+  nextChapter?: string
+  metadataUpdate?: Record<string, number>
+}
+
+export interface StoryEndingResult {
+  endingId: string
+  title: string
+  description: string
+  summary: string
+  shareText: string
+}
+
+export type StoryAction =
+  | { type: 'START'; template: StoryTemplate }
+  | { type: 'MAKE_CHOICE'; choiceId: string }
+  | { type: 'RECEIVE_NODE'; node: StoryNode }
+  | { type: 'REACH_ENDING'; ending: StoryEndingResult }
+  | { type: 'ERROR'; error: string }
+  | { type: 'RESTORE'; savedState: StoryState }
+  | { type: 'RESET' }

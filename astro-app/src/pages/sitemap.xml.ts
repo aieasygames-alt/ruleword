@@ -126,6 +126,20 @@ ${blogSlugs.map(slug => `  <url>
     <priority>0.6</priority>
   </url>`).join('\n')}
 
+  <!-- AI Story Pages -->
+  <url>
+    <loc>${baseUrl}/stories/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+${(await getCollection('stories')).map(entry => `  <url>
+    <loc>${baseUrl}/stories/${entry.data.slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`).join('\n')}
+
 </urlset>`
 
   return new Response(sitemap, {

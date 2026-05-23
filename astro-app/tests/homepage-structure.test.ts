@@ -35,19 +35,22 @@ describe('Homepage Quick Play', () => {
 describe('Homepage Category Browsing', () => {
   const categoryList = categories.filter(c => c.id !== 'all')
 
-  it('should have exactly 7 categories (excluding "all")', () => {
-    expect(categoryList).toHaveLength(7)
+  it('should have exactly 7 game categories (excluding "all" and "story")', () => {
+    const gameCategories = categoryList.filter(c => c.id !== 'story')
+    expect(gameCategories).toHaveLength(7)
   })
 
-  it('each category should have at least one game', () => {
-    categoryList.forEach(cat => {
+  it('each game category should have at least one game', () => {
+    const gameCategories = categoryList.filter(c => c.id !== 'story')
+    gameCategories.forEach(cat => {
       const count = games.filter(g => g.category === cat.id).length
       expect(count, `Category "${cat.id}" has no games`).toBeGreaterThanOrEqual(1)
     })
   })
 
-  it('each category should have at least 3 games for preview display', () => {
-    categoryList.forEach(cat => {
+  it('each game category should have at least 3 games for preview display', () => {
+    const gameCategories = categoryList.filter(c => c.id !== 'story')
+    gameCategories.forEach(cat => {
       const count = games.filter(g => g.category === cat.id).length
       expect(count, `Category "${cat.id}" has fewer than 3 games for preview`).toBeGreaterThanOrEqual(3)
     })
