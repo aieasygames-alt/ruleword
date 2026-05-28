@@ -22,6 +22,7 @@ export interface BlogPost {
     question: string
     answer: string
   }[]
+  relatedGames?: string[]  // game slugs to link to
 }
 
 export const blogPosts: Record<string, BlogPost> = {
@@ -110,13 +111,14 @@ Start with 2-3 games that target skills you want to improve, and build from ther
         question: 'What age is best to start brain training?',
         answer: 'Brain training can benefit all ages. Children develop cognitive skills, adults maintain sharpness, and seniors may slow age-related decline. The key is choosing age-appropriate challenges.'
       }
-    ]
+    ],
+    relatedGames: ['memory-grid', 'chimp-test', 'aim-trainer', 'reaction-time', 'sudoku', 'wordle']
   },
 
   'wordle-vs-connections-vs-spelling-bee': {
     slug: 'wordle-vs-connections-vs-spelling-bee',
     title: 'Wordle vs Connections vs Spelling Bee: Which Word Game is Best?',
-    description: 'Compare the top 3 word puzzle games of 2026. We analyze difficulty, daily engagement, brain benefits, and fun factor to help you choose your perfect word game.',
+    description: 'Wordle vs Connections vs Spelling Bee — which is best? We compared difficulty, daily engagement, brain benefits and fun factor. Plus: play all three free online!',
     keywords: ['wordle vs connections', 'word puzzle games', 'spelling bee game', 'best word games', 'connections nyt', 'wordle alternatives', 'daily word puzzle'],
     author: 'Free Games Hub Team',
     date: '2026-04-02',
@@ -205,7 +207,8 @@ The good news? You don't have to choose just one. Playing all three creates a we
         question: 'Are there free alternatives to NYT games?',
         answer: 'Yes! Free Games Hub offers free versions of Wordle, Connections-style games, and many other word puzzles. You can play unlimited without a subscription.'
       }
-    ]
+    ],
+    relatedGames: ['wordle', 'connections', 'spelling-bee', 'crossword', 'boggle']
   },
 
   'japanese-logic-puzzles-guide': {
@@ -295,7 +298,8 @@ Start with Sudoku or Nonograms if you're new to the genre, then explore the rich
         question: 'Where can I play Japanese puzzles for free?',
         answer: 'Free Games Hub offers many Japanese logic puzzles including Sudoku, Nonograms, Slitherlink, Kakuro, and more. All are free to play with no registration required.'
       }
-    ]
+    ],
+    relatedGames: ['sudoku', 'nonogram', 'slitherlink', 'shakashaka', 'tapa', 'star-battle', 'hitori', 'nurikabe']
   },
 
   'how-to-win-at-sudoku-every-time': {
@@ -391,7 +395,8 @@ Start practicing these techniques on Free Games Hub, where you can play Sudoku f
         question: 'What makes a Sudoku "invalid" or "unsolvable"?',
         answer: 'A valid Sudoku has exactly one solution. Invalid puzzles either have no solution (contradictory clues) or multiple solutions (insufficient clues). Well-designed puzzles from reputable sources are always valid.'
       }
-    ]
+    ],
+    relatedGames: ['sudoku', 'killer-sudoku', 'nonogram', 'kakuro']
   },
 
   '2048-strategy-guide': {
@@ -491,7 +496,8 @@ Start practicing these techniques today on Free Games Hub. Your first 2048 might
         question: 'Why do I keep losing even when following the strategy?',
         answer: 'Common mistakes include: moving up too often, letting the snake pattern break, and panic-moving when stuck. Focus on maintaining your corner tile and snake pattern above all else.'
       }
-    ]
+    ],
+    relatedGames: ['2048', '2048-cupcakes', 'threes', 'sudoku']
   }
 }
 

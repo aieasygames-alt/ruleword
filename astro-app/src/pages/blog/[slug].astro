@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { blogPosts, getBlogPost, getAllBlogPostSlugs, getRecentBlogPosts } from '../../data/blogPosts'
+import { getCollection } from 'astro:content'
 
 export function getStaticPaths() {
   const slugs = getAllBlogPostSlugs()
@@ -19,6 +20,16 @@ if (!post) {
 
 // Get recent posts for related articles
 const relatedPosts = getRecentBlogPosts(4).filter(p => p.slug !== slug).slice(0, 3)
+
+// Get related games for CTA section
+const gamesCollection = await getCollection('games')
+const allGames = gamesCollection.map(entry => ({
+  slug: entry.data.slug,
+  name: entry.data.en.name,
+  icon: entry.data.icon,
+  color: entry.data.color,
+}))
+const relatedGames = (post.relatedGames || []).map(slug => allGames.find(g => g.slug === slug)).filter(Boolean)
 
 // Breadcrumb
 const breadcrumbItems = [
@@ -292,6 +303,19 @@ const faqSchema = post.faq.length > 0 ? {
         <p class="text-slate-300 mb-6">
           Put these tips into practice! Play free puzzle games online.
         </p>
+        {relatedGames.length > 0 && (
+          <div class="flex flex-wrap justify-center gap-3 mb-6">
+            {relatedGames.map(game => (
+              <a
+                href={`/games/${game!.slug}/`}
+                class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-emerald-500 hover:bg-slate-800 transition-all"
+              >
+                <span class={`w-8 h-8 rounded-lg bg-gradient-to-br ${game!.color} flex items-center justify-center text-base shadow`}>{game!.icon}</span>
+                <span class="text-sm font-medium">{game!.name}</span>
+              </a>
+            ))}
+          </div>
+        )}
         <div class="flex flex-wrap justify-center gap-3">
           <a
             href="/"

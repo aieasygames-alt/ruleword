@@ -4551,3 +4551,531 @@ The "Horse and Chariot" combination is one of the deadliest attacking forces. Th
     }
   ]
 }
+
+// Tapa Puzzle Guide - Turkish logic puzzle, high-priority SEO target
+gameGuides['tapa'] = {
+  slug: 'tapa',
+  title: 'Tapa Puzzle Strategy: How to Solve Every Level (Beginner to Expert)',
+  description: 'Master Tapa puzzles with proven strategies: clue number decoding, wall connectivity, and 2x2 avoidance. Step-by-step guide from first steps to advanced deduction.',
+  keywords: ['tapa puzzle', 'tapa rules', 'how to play tapa', 'tapa strategy', 'tapa tips', 'shade cells puzzle', 'turkish logic puzzle'],
+  introduction: `Tapa is a shading puzzle invented by Turkish puzzle designer Serkan Yurekli. The rules are elegantly simple yet produce puzzles of remarkable depth and variety. Your goal is to shade certain cells to form a single continuous wall while respecting the clue numbers and avoiding any 2x2 block of shaded cells.
+
+Tapa has become a staple of the World Puzzle Championship and is beloved by logic puzzle enthusiasts worldwide. Unlike many shading puzzles, Tapa clues convey rich information through their numerical values, making each clue a miniature logic puzzle in itself. This guide walks you through every technique from reading your first clue to solving championship-grade grids.`,
+  sections: [
+    {
+      title: 'Understanding Tapa Rules',
+      content: `A Tapa puzzle is played on a rectangular grid. Some cells contain clue numbers, and your task is to shade some of the empty cells according to three rules. Every clue cell tells you about the pattern of shaded cells in its eight orthogonal and diagonal neighbors.
+
+The three rules of Tapa are: **(1)** The shaded cells must form a single orthogonally connected wall (every shaded cell must be reachable from every other shaded cell by moving up, down, left, or right through shaded cells). **(2)** No 2x2 area of cells may be completely shaded. **(3)** Clue cells are never shaded. Each clue number describes the length of a contiguous block of shaded cells in the eight surrounding cells, and multiple numbers in a clue mean those blocks must be separated by at least one unshaded cell.
+
+For example, a clue of "3" means there is one block of 3 consecutive shaded cells around that clue. A clue of "1 2" means there is a block of 1 and a separate block of 2, with at least one unshaded cell between them. A clue of "1 1 1" means three isolated single shaded cells around the clue, each separated from the others.`,
+      tips: [
+        'The shaded wall must be one connected group, linked orthogonally (not diagonally)',
+        'No 2x2 square of shaded cells is ever allowed',
+        'Clue numbers describe contiguous shaded blocks in the 8 surrounding cells',
+        'Multiple numbers in one clue mean separate blocks with gaps between them'
+      ]
+    },
+    {
+      title: 'Starting Strategies',
+      content: `The best place to start a Tapa puzzle is with the most informative clues. A clue of "0" is extremely powerful: it means none of the eight surrounding cells are shaded, so you can immediately mark all of them as unshaded. This creates constraints that propagate through the grid.
+
+Clues with a single large number are also strong starting points. A clue of "8" means all eight surrounding cells are shaded. A clue of "7" means seven of eight neighbors are shaded, and the only unshaded one must be chosen to avoid breaking the 2x2 rule. Edge and corner clue cells have fewer neighbors, which makes them more constrained. A "5" in a corner only has three neighbors, which is impossible, so large clues near edges give you immediate deductions.
+
+Look for clues where the total of the numbers equals or nearly equals the number of available neighbors. A clue of "3 3" has a total of 6 shaded cells in separate blocks, which requires careful analysis of how two groups of 3 can fit around the clue without touching.`,
+      tips: [
+        'Start with 0 clues: mark all 8 surrounding cells as definitely unshaded',
+        'Large single-number clues (7, 8) force most neighbors to be shaded',
+        'Edge and corner clues have fewer neighbors, making them more constrained',
+        'Clues whose numbers sum close to the neighbor count force most cells to be shaded'
+      ]
+    },
+    {
+      title: 'Advanced Techniques',
+      content: `Once you have exhausted the obvious deductions, several advanced techniques help you make progress. **Connectivity analysis** is crucial: if a group of shaded cells would become isolated without a specific connecting cell, that cell must be shaded. Always keep the "single connected wall" rule in mind as you work.
+
+**Counting around clues** means tracking how many shaded cells each clue requires and how many are already confirmed. If a clue needs exactly as many shaded cells as remain undecided around it, all undecided cells must be shaded. Conversely, if a clue already has all its required shaded cells, every remaining undecided neighbor must be unshaded.
+
+**Pattern recognition** plays a major role in expert Tapa solving. Certain clue configurations always produce the same local patterns. For instance, a "1 1" clue on an edge always forces a specific arrangement. Learning these recurring patterns speeds up your solving dramatically. The "Tapa the WALL" pattern, where long straight walls form along grid edges, is one of the most common high-level configurations.`,
+      tips: [
+        'Use connectivity analysis: isolated shaded groups need a connecting cell shaded',
+        'Count remaining cells around each clue to force all remaining neighbors',
+        'Learn common clue patterns that always produce the same local arrangement',
+        'Track the global wall: if shading or unshading a cell would disconnect the wall, you have your answer'
+      ]
+    },
+    {
+      title: 'Common Mistakes to Avoid',
+      content: `The most frequent mistake in Tapa is creating isolated groups of shaded cells. Players often shade a cell that satisfies a local clue but disconnects the wall from another shaded region. Before committing to a shading decision, trace whether the resulting wall remains fully connected.
+
+The second most common error is accidentally creating a 2x2 block of shaded cells. This often happens when two orthogonal shaded runs meet at a corner. Always check all four cells of every potential 2x2 square before finalizing a move. The 2x2 rule is unforgiving and can invalidate an otherwise correct solve.
+
+A subtler mistake involves misreading clue numbers. "1 2" is different from "3": the first requires two separate blocks with a gap, while the second requires one continuous block of 3. Misinterpreting a clue propagates errors throughout the grid. Always double-check your reading of multi-number clues before proceeding.`,
+      tips: [
+        'Always verify connectivity after shading: trace the wall end-to-end',
+        'Check for 2x2 blocks whenever two shaded runs meet at a corner',
+        'Re-read multi-number clues carefully: "1 2" is not the same as "3"',
+        'Work systematically around the grid rather than jumping between disconnected areas'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is Tapa?',
+      answer: 'Tapa is a logic puzzle invented by Turkish designer Serkan Yurekli. You shade cells on a grid to form a single connected wall, guided by clue numbers that describe the pattern of shaded cells around them. The wall must be orthogonally connected and cannot contain any 2x2 block of shaded cells. Tapa puzzles range from easy 10x10 grids to championship-level challenges.'
+    },
+    {
+      question: 'How do clue numbers work in Tapa?',
+      answer: 'Each clue describes the shaded cells in its eight surrounding neighbors. A single number like "3" means one block of 3 consecutive shaded cells. Multiple numbers like "1 2" mean separate blocks of 1 and 2 shaded cells, each separated by at least one unshaded cell. The order of the blocks around the clue does not matter, but the sizes must be exact.'
+    },
+    {
+    question: 'Is Tapa hard to learn?',
+    answer: 'Tapa is easy to learn but challenging to master. The rules can be understood in under two minutes, and small grids (8x8) with gentle clues are accessible to complete beginners. As grids grow larger and clues become more ambiguous, the puzzle demands increasingly sophisticated deduction. Most players can solve intermediate puzzles within a few days of practice.'
+    },
+    {
+    question: 'What puzzles are similar to Tapa?',
+    answer: 'Tapa shares elements with several shading puzzles: Nurikabe (also requires a connected wall and no 2x2 blocks), Heyawake (room-based shading), and Kuromasu (number clues about visible cells). If you enjoy any of these, Tapa is a natural next step. Tapa is unique in how its multi-number clues encode rich local information, making it feel more varied than most shading puzzles.'
+    }
+  ]
+}
+
+// Shakashaka Puzzle Guide - Triangle placement puzzle by Nikoli
+gameGuides['shakashaka'] = {
+  slug: 'shakashaka',
+  title: 'Shakashaka Strategy Guide: Master the Triangle Puzzle in 7 Days',
+  description: 'Learn Shakashaka from the ground up: triangle placement rules, clue reading, rectangle deduction, and advanced parity techniques. Solve any Nikoli puzzle with confidence.',
+  keywords: ['shakashaka puzzle', 'shakashaka rules', 'how to play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle'],
+  introduction: `Shakashaka is a placement puzzle published by Nikoli, the legendary Japanese puzzle company. The objective is to place triangles in the four corners of empty cells so that every remaining white area forms a rectangle (or square). Some cells contain numbers that indicate how many surrounding cells contain triangles.
+
+Shakashaka stands out among Nikoli puzzles because it combines spatial geometry with logical deduction. The requirement that all white areas be rectangular creates a surprising depth of constraint that unfolds beautifully as you solve. This guide takes you from understanding the rules to mastering advanced techniques in just seven days of focused practice.`,
+  sections: [
+    {
+      title: 'Understanding Shakashaka Rules',
+      content: `Shakashaka is played on a rectangular grid. Some cells are black (walls) and cannot contain triangles. The remaining white cells are where the puzzle takes place. In each white cell, you may place a triangle in one of its four corners, or leave it empty.
+
+A triangle occupies exactly half of a cell, filling a right triangle from one corner. The four possible orientations point to the top-left, top-right, bottom-left, or bottom-right corner. When you place a triangle, the other half of that cell becomes part of the white (unshaded) space.
+
+The goal is to place triangles so that every connected region of white space (the halves of cells not occupied by triangles, plus any fully empty cells) forms a perfect rectangle or square. Black cells and triangles act as boundaries between these rectangular white regions. Numbered clue cells (which are always black) tell you exactly how many of their four orthogonal neighbors contain a triangle.`,
+      tips: [
+        'Each white cell can have a triangle in one of 4 corners or be left completely empty',
+        'Triangles split a cell into a shaded half and a white half',
+        'All white areas must form rectangles or squares when the puzzle is complete',
+        'Number clues in black cells count how many adjacent orthogonal cells contain triangles'
+      ]
+    },
+    {
+      title: 'Reading Clue Numbers',
+      content: `Clue numbers appear in black cells and tell you how many of the four orthogonal neighbors (up, down, left, right) contain triangles. A clue of 0 means none of the four neighbors has a triangle, so all adjacent cells are either empty or black. A clue of 4 means all four neighbors contain triangles.
+
+Intermediate clues require more thought. A clue of 1 means exactly one of the four neighbors has a triangle, but you do not know which one without additional information. However, if three of the four neighbors are already known to be empty (perhaps because they are forced by other constraints), then the fourth must contain the triangle.
+
+Clue of 2 is particularly common and often the most informative when combined with spatial analysis. If two neighbors of a "2" clue are already known to contain triangles, the other two must be empty. Conversely, if two neighbors are known to be empty, the remaining two must contain triangles. Corner and edge clue cells have fewer than four neighbors, which makes their clues even more constraining.`,
+      tips: [
+        'Clue 0: no adjacent triangles; Clue 4: all adjacent cells have triangles',
+        'Use elimination: if N-1 neighbors of a clue-N are determined, the last is forced',
+        'Edge and corner clues have fewer neighbors, making them easier to resolve',
+        'A clue of 2 with two neighbors already resolved forces the remaining pair'
+      ]
+    },
+    {
+      title: 'Solving Techniques',
+      content: `Begin by finding clue cells that immediately force their neighbors. A clue of 0 next to the grid edge means all its neighbors are empty. A clue of 4 forces triangles in all four neighbors. Process all of these forced placements first, as they create the foundation for further deduction.
+
+Next, look for **rectangularity constraints**. If a white region is forming near a black cell or the grid edge, analyze what shape it needs to become rectangular. A white area that is 3 cells tall and 2 cells wide must remain exactly that shape: any additional white cell appended to the wrong side would break the rectangle rule.
+
+**Edge analysis** is another powerful technique. Along the grid border, white cells are already bounded on one side. If a white cell on the edge cannot form a rectangle without a triangle in an adjacent cell, that triangle placement is forced. Work the edges of the grid early, as they provide the tightest constraints.`,
+      tips: [
+        'Process all fully determined clues (0 and 4) before doing anything else',
+        'Analyze forming white regions: what shape must they become to be rectangular?',
+        'Grid edges provide natural boundaries that force triangle placements',
+        'Work from the most constrained areas (edges, corners, dense clue regions) outward'
+      ]
+    },
+    {
+      title: 'Advanced Patterns',
+      content: `The **rectangle deduction method** is the most powerful advanced technique. When you identify a partially formed white region, calculate what rectangle dimensions would complete it. If only one rectangle shape is possible, every cell in that rectangle is determined. If two shapes are possible, look at the boundary cells they share: those cells must be white regardless of which shape is correct.
+
+**Parity analysis** applies to larger grids. Consider the total area of white space in a region and the possible rectangle dimensions that could fill it. A region with an odd-numbered total area cannot be filled by 2-cell-wide rectangles, which constrains the possible orientations of triangles around its boundary.
+
+Finally, **global connectivity checking** ensures you have not created isolated white cells or L-shaped regions. Periodically scan the grid for white cells that do not belong to any rectangular region. These indicate that a triangle placement nearby is incorrect or that additional triangles are needed to complete the rectangle.`,
+      tips: [
+        'Identify partially formed rectangles and calculate their only possible dimensions',
+        'Shared cells between two possible rectangle shapes must be white regardless',
+        'Parity analysis rules out impossible rectangle configurations in odd-area regions',
+        'Scan periodically for isolated or non-rectangular white cells that signal an error'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is Shakashaka?',
+      answer: 'Shakashaka is a logic puzzle by Nikoli where you place triangles in the corners of grid cells so that every remaining white area forms a rectangle or square. Black cells contain numbers that indicate how many adjacent cells have triangles. The puzzle requires spatial reasoning and geometric deduction.'
+    },
+    {
+      question: 'How do triangles form rectangles in Shakashaka?',
+      answer: 'Each triangle occupies half a cell. The other half remains white. When triangles are placed correctly, the white halves of cells combine with fully empty cells to form rectangular regions. Think of triangles as walls that carve rectangular rooms out of the grid. The key is ensuring every white "room" is a perfect rectangle.'
+    },
+    {
+      question: 'What are the best tips for Shakashaka beginners?',
+      answer: 'Start by processing all 0 and 4 clues, which force their neighbors immediately. Then focus on the grid edges, where natural boundaries make deductions easier. Always think about what rectangular shape a forming white region needs to become. Practice on small grids (6x6) before moving to larger ones. Most importantly, learn to visualize the rectangular rooms that the triangles are creating.'
+    },
+    {
+      question: 'How is Shakashaka different from other Nikoli puzzles?',
+      answer: 'Shakashaka is unique in its geometric constraint: the requirement that all white areas be rectangular. Unlike Sudoku or Kakuro which are number-based, or Nurikabe which only requires connectivity, Shakashaka demands spatial visualization. The triangle placement mechanic is distinctive and has no direct equivalent in other popular logic puzzles.'
+    }
+  ]
+}
+
+// Memory Grid Guide - Science-backed memory training
+gameGuides['memory-grid'] = {
+  slug: 'memory-grid',
+  title: 'Memory Grid Training: How to Remember 10+ Sequences (Science-Backed)',
+  description: 'Improve your grid memory with proven techniques: chunking, visualization, and spaced practice. Science-backed methods to expand your working memory from 5 to 10+ items.',
+  keywords: ['memory grid game', 'grid memory', 'pattern memory', 'visual memory training', 'number memory', 'working memory'],
+  introduction: `Memory Grid is a sequence recall game that tests and trains your working memory. Numbers or symbols appear briefly on a grid, and you must remember their positions in the correct order. As the sequence grows longer, the challenge increases exponentially.
+
+Research in cognitive psychology has established that the average person can hold roughly 5 to 9 items in working memory at once (known as Miller\'s Law). However, with specific training techniques, many people can expand this capacity significantly. This guide combines the science of memory with practical training strategies to help you remember sequences of 10 or more items.`,
+  sections: [
+    {
+      title: 'How Memory Grid Works',
+      content: `Memory Grid presents you with a grid of cells. A sequence of cells lights up one at a time, each displaying a number or symbol. After the full sequence is shown, you must recall which cells were highlighted and in what order. Early levels show 3-4 cells in sequence, while advanced levels may present 10 or more.
+
+The game tests multiple aspects of memory simultaneously. **Spatial memory** remembers where on the grid each cell was located. **Sequential memory** remembers the order in which cells appeared. **Working memory** holds all of this information at once while you formulate your response. These three systems work together, and training all three produces the best results.
+
+Each correct answer increases the sequence length by one. A single mistake usually resets the sequence or ends the round. This progressive difficulty curve ensures you are always training at the edge of your ability, which is precisely where the most improvement happens.`,
+      tips: [
+        'Focus equally on position (where) and order (when) for each cell in the sequence',
+        'The game naturally adapts to challenge your current maximum capacity',
+        'Train at your edge: sequences that feel just barely possible build the most skill',
+        'Short daily sessions (5-10 minutes) are more effective than occasional long sessions'
+      ]
+    },
+    {
+      title: 'The Science Behind Working Memory',
+      content: `Working memory is the brain\'s temporary storage system, holding information active for immediate use. George Miller\'s famous 1956 paper "The Magical Number Seven, Plus or Minus Two" established that most people can hold about 7 items in working memory. More recent research suggests the true number may be closer to 4-5 chunks of information.
+
+Crucially, working memory capacity is not fixed. Studies by Susanne Jaeggi and others have shown that targeted training can improve working memory performance, though the degree of transfer to general intelligence remains debated. What is clear is that practice with memory tasks like Memory Grid makes you significantly better at those specific tasks, and many users report improved focus and recall in daily life.
+
+The key insight from neuroscience is that working memory relies on the prefrontal cortex, and like any brain region, it responds to exercise. Regular training strengthens the neural pathways involved in maintaining and manipulating information, which is why consistent practice produces the best results.`,
+      tips: [
+        'Average working memory holds 4-7 items without training',
+        'Working memory is trainable: consistent practice increases your capacity',
+        'The prefrontal cortex responds to exercise, strengthening with regular use',
+        'Chunking allows you to effectively hold more by grouping items into larger units'
+      ]
+    },
+    {
+      title: 'Proven Memory Techniques',
+      content: `**Chunking** is the single most effective technique for extending your memory span. Instead of remembering individual cells, group them into meaningful patterns. A sequence of 9 cells becomes 3 groups of 3, which is within most people\'s working memory capacity. On a grid, look for geometric shapes: L-shapes, diagonals, squares, and crosses are all natural chunks.
+
+**Rhythm and timing** provide another powerful anchor. As cells appear in sequence, tap your finger or nod your head in rhythm. The temporal pattern creates an additional memory trace that is independent of spatial location. Many memory champions use rhythmic encoding to remember sequences of 20+ items.
+
+**Visualization** means creating vivid mental images for each cell position. Instead of remembering "row 3, column 4," imagine a familiar object at that location on the grid. The more vivid and unusual the image, the easier it is to recall. This technique leverages the brain\'s superior ability to remember images compared to abstract positions.
+
+**Association** links the sequence to something you already know well, like a phone number, address, or song melody. If cells appear in a pattern that matches a familiar shape (a letter, a number, a common path), recognizing that pattern collapses many individual items into one remembered unit.`,
+      tips: [
+        'Chunk cells into groups of 2-3 and remember groups instead of individual positions',
+        'Use rhythm: tap or count along as cells appear to create a temporal anchor',
+        'Visualize vivid images at each cell location to exploit visual memory strength',
+        'Look for familiar shapes in the sequence: letters, numbers, or common paths'
+      ]
+    },
+    {
+      title: 'Your 7-Day Training Schedule',
+      content: `**Day 1-2: Baseline and Chunking.** Play Memory Grid for 10 minutes, twice a day. Record your maximum sequence length. Focus on consciously grouping cells into pairs or triples. Do not worry about speed; focus entirely on accuracy.
+
+**Day 3-4: Visualization Practice.** Before each round, mentally label the grid cells with familiar objects (e.g., pets, foods, family members). When a cell lights up, picture that object vividly. This feels slow at first but dramatically improves retention once you build the habit.
+
+**Day 5-6: Rhythm Integration.** Add rhythmic counting to your visualization practice. Count "one, two, three..." as each cell appears, syncing the spatial and temporal information. This dual-encoding strategy is how memory athletes achieve their extraordinary recall.
+
+**Day 7 and beyond: Combined Practice.** Use all three techniques simultaneously. By now, chunking should feel natural, visualization should be semi-automatic, and rhythm should be second nature. Continue with 10-15 minutes of daily practice. Most players see a 30-50% improvement in sequence length within the first two weeks.`,
+      tips: [
+        'Days 1-2: Focus on chunking cells into groups and establishing your baseline',
+        'Days 3-4: Build visualization habits by assigning vivid images to grid positions',
+        'Days 5-6: Add rhythmic counting to create temporal anchors alongside spatial ones',
+        'Day 7+: Combine all techniques; expect 30-50% improvement within two weeks'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'How many numbers can the average person remember?',
+      answer: 'The average person can hold approximately 5 to 9 items in working memory, according to Miller\'s Law. More recent research suggests 4-5 "chunks" of information is typical. However, with training techniques like chunking and visualization, most people can extend this to 10-12 items within a few weeks of practice.'
+    },
+    {
+      question: 'How can I improve my memory grid score?',
+      answer: 'Three proven techniques: (1) Chunking - group cells into patterns of 2-3 instead of remembering individual positions. (2) Visualization - associate vivid images with grid locations. (3) Rhythm - count or tap along with the sequence to create a temporal memory trace. Practice daily for 10 minutes and combine all three techniques for the best results.'
+    },
+    {
+      question: 'Does memory training actually help your brain?',
+      answer: 'Yes. Research shows that working memory training strengthens neural pathways in the prefrontal cortex. Regular practice with memory tasks improves focus, attention control, and the ability to juggle multiple pieces of information. While the transfer to general intelligence is debated, users consistently report improved concentration and recall in daily activities.'
+    },
+    {
+      question: 'What is the highest possible score in Memory Grid?',
+      answer: 'There is no fixed upper limit. The game progressively increases the sequence length until you make an error. Most untrained players reach 5-7 before failing. Trained players regularly achieve 10-15. Memory athletes using advanced techniques can recall sequences of 20+ items, though this requires extensive practice with mnemonic systems.'
+    }
+  ]
+}
+
+// Flow Free Strategy Guide
+gameGuides['flow-free'] = {
+  slug: 'flow-free',
+  title: 'Flow Free Strategy: Solve Any Puzzle with These Proven Techniques',
+  description: 'Master Flow Free with bottleneck analysis, edge routing, and color isolation strategies. Solve every grid from beginner 5x5 to expert 9x9 with systematic techniques.',
+  keywords: ['flow free strategy', 'flow free tips', 'connect dots puzzle', 'pipe puzzle', 'flow puzzle'],
+  introduction: `Flow Free is a deceptively simple connection puzzle. Pairs of colored dots are scattered across a grid, and your job is to connect each pair with a pipe that fills every cell on the board. No pipes can cross, and every cell must be filled. The rules take seconds to learn but the puzzles can be fiendishly difficult.
+
+This guide covers the systematic strategies that make any Flow Free puzzle solvable through pure logic. Whether you are working through the 5x5 beginner packs or stuck on a 9x9 expert board, these techniques will help you find the solution without guessing.`,
+  sections: [
+    {
+      title: 'Understanding Flow Free Rules',
+      content: `Flow Free is played on a square grid. Colored dots appear in pairs: two red dots, two blue dots, two green dots, and so on. Your task is to draw a path connecting each pair of same-colored dots. The path moves orthogonally (up, down, left, right) from cell to cell.
+
+Three constraints govern every puzzle. **(1)** Paths cannot cross each other. A cell can only belong to one color\'s path. **(2)** Every cell on the grid must be filled by some path. There can be no empty cells when the puzzle is complete. **(3)** Each path must connect exactly two dots of the same color in a single continuous line.
+
+The combination of these three constraints is what makes Flow Free challenging. Connecting the dots is usually easy, but filling every cell without any path crossing another requires careful planning. The "fill every cell" rule is the key constraint that transforms a trivial connection problem into a genuine puzzle.`,
+      tips: [
+        'Every cell must be filled: no empty spaces in the completed puzzle',
+        'Paths cannot cross or share cells: each cell belongs to exactly one color',
+        'Each path connects exactly two dots of the same color',
+        'The "fill every cell" constraint is what makes the puzzle challenging'
+      ]
+    },
+    {
+      title: 'Essential Starting Strategies',
+      content: `Always start with the **shortest paths**. Identify color pairs that are adjacent or only a few cells apart and connect them first. These short connections are almost always forced (there is only one reasonable path), so you can fill them in confidently without worrying about blocking other colors.
+
+Next, identify **bottlenecks**: narrow corridors between walls of dots. If the only way for a color to reach its partner is through a specific corridor, that path is forced. Draw it immediately. Bottlenecks are the most powerful deduction in Flow Free because they resolve large sections of the board at once.
+
+**Corner and edge routing** is another essential early strategy. Dots near the edge of the grid have fewer possible paths. A dot in a corner has only two possible directions for its path. A dot along an edge has three. These constrained starting points often force a specific path direction, especially when other colors block the alternatives.`,
+      tips: [
+        'Connect adjacent or near-adjacent color pairs first - their paths are usually forced',
+        'Identify bottlenecks: narrow corridors between dots that force a path through them',
+        'Start with corner and edge dots, which have the fewest possible paths',
+        'Fill in forced paths immediately to reduce the search space for remaining colors'
+      ]
+    },
+    {
+      title: 'Advanced Path Planning',
+      content: `**Color isolation** is the core advanced technique. When you draw a path for one color, it creates a barrier that other colors cannot cross. Use this deliberately: route one color\'s path to create a "wall" that forces nearby colors into their only possible route. Thinking about colors as walls as well as connections is the key to solving harder puzzles.
+
+**Corner routing** means guiding paths along the edges and corners of the grid to keep the interior open for other colors. A path that hugs the boundary uses the minimum number of interior cells, leaving more room for other paths to navigate. Whenever possible, route paths along the perimeter.
+
+**Dead-end elimination** means checking whether a proposed path would leave any cells unreachable. If a path creates a pocket of empty cells that no remaining color can reach (because all paths to the pocket are blocked), that path is invalid. Before committing to a route, trace the remaining empty space and confirm every cell is still accessible to some color.`,
+      tips: [
+        'Use one color\'s path as a wall to force nearby colors into their correct route',
+        'Route paths along grid edges to keep the interior open for other connections',
+        'Before committing to a path, check that no empty cells become unreachable',
+        'Think of each path as both a connection and a barrier for other colors'
+      ]
+    },
+    {
+      title: 'Handling Hard Puzzles',
+      content: `On large grids (8x8, 9x9) with many colors, you will encounter situations where no single path is obviously forced. In these cases, use **constraint propagation**: tentatively assign a path to one color and see what it forces for the others. If a contradiction appears (a color cannot reach its partner), the tentative path was wrong.
+
+The **look-ahead method** is systematic constraint propagation. Choose the most constrained color (the one with the fewest possible paths) and mentally trace each option. When an option leads to a contradiction, eliminate it. This process of elimination often reduces multiple colors to a single valid configuration.
+
+When you are truly stuck, **restart with a different initial path**. Sometimes the first few paths you draw create an impossible situation for later colors, even if those initial paths seem correct. Starting over with a different strategy for the first one or two colors often reveals the solution quickly.`,
+      tips: [
+        'Use constraint propagation: tentatively assign paths and check for contradictions',
+        'Start with the most constrained color (fewest possible paths) when nothing is forced',
+        'If stuck, try restarting with different initial paths rather than guessing further',
+        'On large grids, work from the edges inward to maintain maximum interior flexibility'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What are the rules of Flow Free?',
+      answer: 'Flow Free requires you to connect pairs of same-colored dots with continuous paths. Paths cannot cross each other, and every cell on the grid must be filled by some path. Each color has exactly two dots that must be connected. Paths move orthogonally (up, down, left, right) between adjacent cells.'
+    },
+    {
+      question: 'What is the best starting strategy for Flow Free?',
+      answer: 'Start with the shortest connections: find color pairs that are adjacent or very close together and connect them first. Then look for bottleneck corridors between dots that force a specific path. Finally, work with dots near edges and corners, which have fewer possible routes. These three starting strategies resolve 60-70% of cells on most puzzles.'
+    },
+    {
+      question: 'How do I solve hard Flow Free puzzles?',
+      answer: 'Hard puzzles require constraint propagation and edge routing. Route paths along the perimeter first to keep the interior flexible. Use each completed path as a wall that constrains other colors. When nothing is obviously forced, mentally test the most constrained color\'s options and eliminate those that create contradictions. If you remain stuck, restart with a different initial path assignment.'
+    },
+    {
+      question: 'Does every Flow Free puzzle have a unique solution?',
+      answer: 'Official Flow Free puzzles are designed to have exactly one solution. However, the game does accept any valid solution that satisfies all three rules (paths connect matching dots, no crossings, every cell filled). If you find yourself with multiple possible paths for a color, use the constraint of filling every cell to determine which one is correct.'
+    }
+  ]
+}
+
+// Star Battle Puzzle Guide
+gameGuides['star-battle'] = {
+  slug: 'star-battle',
+  title: 'Star Battle Strategy: Solve Any Grid with Pure Logic',
+  keywords: ['star battle puzzle', 'star battle rules', 'how to play star battle', 'two stars puzzle', 'place stars logic'],
+  description: 'Learn Star Battle from scratch: two stars per row, column, and region with no adjacent placements. Cross-hatching, counting, and combined constraint techniques explained.',
+  introduction: `Star Battle (also known as Two Not Touch) is a placement puzzle where you must position stars in a grid so that every row, every column, and every outlined region contains exactly two stars. No two stars may touch, not even diagonally. The rules are simple enough to explain in one sentence, but the puzzles range from gentle to extremely challenging.
+
+Star Battle is one of the most popular puzzles at the World Puzzle Championship and appears regularly in Nikoli publications. This guide covers the complete solving toolkit, from basic cross-hatching to advanced combined-constraint analysis, enabling you to solve any Star Battle puzzle through pure deduction.`,
+  sections: [
+    {
+      title: 'Understanding Star Battle Rules',
+      content: `A Star Battle puzzle consists of a grid divided into outlined regions (like a jigsaw puzzle). Your goal is to place exactly two stars in every row, every column, and every region. The critical adjacency rule states that no two stars may touch each other, not even diagonally. This means every star must have an empty ring of 8 cells around it (fewer at edges and corners).
+
+The adjacency rule is the defining constraint of Star Battle and is responsible for most of the puzzle\'s depth. A star placed in the center of the grid eliminates 9 cells (itself plus its 8 neighbors) from further star placement. This aggressive elimination means that each star you place provides enormous information about where other stars can and cannot go.
+
+A standard Star Battle grid is 10x10 with 10 irregular regions, though variations exist. Some puzzles use a 1-star variant (one star per row/column/region) which is gentler. The 2-star variant described here is the standard and most commonly encountered version.`,
+      tips: [
+        'Place exactly 2 stars in every row, every column, and every outlined region',
+        'No two stars may touch, even diagonally: each star needs a clear buffer zone',
+        'A center star eliminates 9 cells from placement (itself + 8 neighbors)',
+        'The grid size is typically 10x10 with 10 irregular regions'
+      ]
+    },
+    {
+      title: 'Basic Solving Techniques',
+      content: `**Cross-hatching** is your primary tool. Pick a region and check which of its cells can still legally contain a star, given the stars already placed in its row, column, and adjacent cells. When a cell is eliminated by a star in the same row, same column, or an adjacent position, it cannot contain a star. Regions with few remaining legal cells are your best targets.
+
+**Adjacency elimination** works by placing an "X" in every cell that is adjacent to a placed star. This visual clearing makes the remaining options obvious. Many solvers mark eliminated cells with dots or X marks. Get into the habit of immediately marking all cells eliminated by each new star placement.
+
+**Region analysis** focuses on regions that have very few cells available for stars. A region with only two or three remaining legal cells forces star placements immediately. Small regions (those with only 4-6 cells total) are especially constrained because the two stars must not be adjacent within the region, which limits their relative positions severely.`,
+      tips: [
+        'Cross-hatch each region: eliminate cells blocked by existing row, column, or adjacency constraints',
+        'Immediately mark all cells adjacent to each placed star with an X',
+        'Target the smallest regions first - they have the fewest legal star positions',
+        'A region with exactly 2 remaining legal cells forces both to contain stars'
+      ]
+    },
+    {
+      title: 'Advanced Deduction Techniques',
+      content: `**Forced placements** occur when the combined constraints of rows, columns, and regions leave exactly two legal cells for a star. When a row has 8 cells eliminated and only 2 remain, both must contain stars. The same logic applies to columns and regions. Track the "star count" for each row, column, and region to identify which ones are nearly complete.
+
+**Counting stars** is a powerful technique. Each row, column, and region needs exactly 2 stars. If a row already has 2 stars, every remaining cell in that row is eliminated. If a row has 1 star and only 3 legal cells remain, one of those 3 must contain the second star. This constraint propagates to the regions and columns that overlap those cells, often forcing placements elsewhere.
+
+**Combined constraint analysis** looks at the intersection of two or more constraints. If a region needs 2 stars and they must go into a specific set of cells, check which rows and columns those cells belong to. If both cells are in the same column, that column\'s star requirement is immediately satisfied by this region alone, eliminating all other cells in that column.`,
+      tips: [
+        'Track star counts: rows/columns/regions with 2 stars are fully resolved',
+        'A row with 1 star and 2 remaining legal cells forces both cells to contain a star',
+        'Combine region and row constraints: if a region\'s only options lie in one row, that row is satisfied',
+        'Look for cells that belong to two nearly-complete constraints for the strongest deductions'
+      ]
+    },
+    {
+      title: 'Expert Tips and Strategies',
+      content: `**Thinking ahead** means considering the implications of a star placement before committing. If you place a star in a particular cell, what does it force? Does it eliminate the last possible cell for a star in some region? If so, that placement is invalid. Expert solvers mentally test 2-3 placements ahead, quickly rejecting options that lead to contradictions.
+
+**Region interaction** is the key to the hardest puzzles. When two regions overlap heavily in the same rows and columns, their star placements are interdependent. Solving one region often directly resolves cells in the overlapping region. Map these interactions early by noting which regions share rows and columns.
+
+**Symmetry exploitation** can help in puzzles with symmetrical region layouts. If the regions have rotational or reflective symmetry, the solution often (though not always) shares that symmetry. This is not a guarantee, but it provides a useful starting hypothesis that you can test and adjust. Even when the solution is not perfectly symmetrical, the symmetrical structure of the grid constrains the possible solutions.`,
+      tips: [
+        'Test star placements mentally: if a placement makes another region unsolvable, it is wrong',
+        'Map region interactions: overlapping regions in the same rows/columns are interdependent',
+        'Symmetrical grid layouts often produce near-symmetrical solutions',
+        'When stuck, focus on the most constrained region or the row/column with fewest legal cells'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is Star Battle?',
+      answer: 'Star Battle is a logic puzzle where you place exactly 2 stars in every row, column, and outlined region of a grid. No two stars may touch each other, not even diagonally. The puzzle is solved entirely through logical deduction. Star Battle is also known as Two Not Touch and is a popular event at the World Puzzle Championship.'
+    },
+    {
+      question: 'How many stars go in each region?',
+      answer: 'In the standard 2-star variant, exactly 2 stars must be placed in every row, every column, and every outlined region. Some variations use 1 star per region for easier puzzles, or 3 stars for extreme difficulty. The 2-star version on a 10x10 grid is the most common format.'
+    },
+    {
+      question: 'What does "no adjacency" mean in Star Battle?',
+      answer: 'No two stars may be in cells that share an edge or a corner. This means each star must have an empty ring of up to 8 cells around it. Stars cannot be placed in horizontally, vertically, or diagonally adjacent cells. This single rule is what gives Star Battle its distinctive character and makes the puzzle so constrained.'
+    },
+    {
+      question: 'What are the best tips for solving Star Battle?',
+      answer: 'Start with the smallest regions and those near grid edges, as they have the fewest legal star positions. Immediately mark all cells eliminated by each placed star (adjacent cells plus same row and column). Track star counts for each row, column, and region. When a row has exactly 2 remaining legal cells, both must contain stars. Combine row, column, and region constraints for the strongest deductions.'
+    }
+  ]
+}
+
+// Binary / Takuzu Puzzle Guide
+gameGuides['binary'] = {
+  slug: 'binary',
+  title: 'Binary Puzzle (Takuzu) Strategy: Solve Any Grid with Logic',
+  description: 'Master Binary Puzzle (Takuzu/Binairo) with proven techniques: triple avoidance, forced placements, parity counting, and chain analysis. Solve any grid without guessing.',
+  keywords: ['binary puzzle', 'takuzu', 'binairo', 'binary puzzle rules', '0 1 puzzle', 'how to play takuzu'],
+  introduction: `Binary Puzzle, also known as Takuzu, Binairo, or Binoxxo, is a logic puzzle played on a square grid where every cell must be filled with either a 0 or a 1. Despite its minimal rule set, Binary Puzzle produces satisfying challenges that range from easy warm-ups to brain-bending expert grids.
+
+The puzzle was popularized under the Takuzu name by Belgian publisher Peter Frank and has since appeared in newspapers and puzzle apps worldwide under various names. This guide covers every solving technique from the basic rules to advanced chain analysis, enabling you to solve any Binary Puzzle through pure logic.`,
+  sections: [
+    {
+      title: 'Understanding the Rules',
+      content: `Binary Puzzle is played on an even-sized grid, typically 6x6, 8x8, 10x10, or 14x14. Every cell must contain either a 0 or a 1. Three core rules govern the puzzle:
+
+**(1) No three in a row.** You may never have three consecutive 0s or three consecutive 1s in any row or column. This means that if you see two identical digits side by side (like "1 1"), the cells on both sides must contain the opposite digit (0). Similarly, if you see a pattern like "1 _ 1" with a gap, the gap must be filled with 0 to prevent three 1s from forming.
+
+**(2) Equal numbers per row and column.** Every row and every column must contain an equal number of 0s and 1s. In a 6x6 grid, each row and column has exactly three 0s and three 1s. In a 10x10 grid, five of each. This counting constraint is extremely powerful and is the primary tool for solving harder puzzles.
+
+**(3) Unique rows and columns.** No two rows may be identical, and no two columns may be identical. This rule is used less frequently than the first two but becomes essential for resolving the most ambiguous situations in larger grids.`,
+      tips: [
+        'No three consecutive identical digits in any row or column',
+        'Every row and column must have equal 0s and 1s (half each)',
+        'No two rows and no two columns can be identical',
+        'Grid sizes are always even: 6x6, 8x8, 10x10, or 14x14'
+      ]
+    },
+    {
+      title: 'Basic Techniques',
+      content: `**Triple avoidance** is your most frequently used technique. Whenever you see two identical digits adjacent (like "0 0"), place the opposite digit on both sides. When you see a pattern with a gap (like "0 _ 0"), fill the gap with the opposite digit. These are forced moves that should be your first scan every time you look at the grid.
+
+**Forced placements from counting** are the next most common deduction. If a row in a 6x6 grid already has three 0s, every remaining empty cell in that row must be 1. Similarly, if a row has three 1s, all remaining cells are 0. Always count the digits in each row and column. Rows that are nearly full (with only 1-2 empty cells) are the easiest to resolve.
+
+**Row and column completion** combines the two rules above. When a row has only two empty cells and already has two 0s, both empty cells must be 1. But check whether both would create a "1 1 1" triple somewhere. If one option creates a triple, it is eliminated, and the other cell is forced. This combination of counting and triple avoidance resolves the majority of cells on any puzzle.`,
+      tips: [
+        'Two same digits side by side force the opposite digit on both sides',
+        'A gap between two same digits (0 _ 0) forces the opposite digit in the gap',
+        'Count 0s and 1s in each row/column: if one count is maxed, the rest are forced',
+        'Combine counting with triple avoidance for the most powerful basic deductions'
+      ]
+    },
+    {
+      title: 'Intermediate Strategies',
+      content: `**Uniqueness deduction** uses the rule that no two rows or columns can be identical. If an empty row or column would become identical to another completed row regardless of which digit you place, then neither option is valid. More practically, if filling a cell one way would make its row identical to another row, that option is eliminated.
+
+**Parity analysis** extends the counting technique. In a 10x10 grid, each row needs five 0s and five 1s. If a row currently has four 0s and three 1s with three cells remaining, it needs exactly one more 0 and two more 1s. This 1:2 ratio constrains how those digits can be distributed among the remaining cells, especially when combined with triple avoidance on adjacent cells.
+
+**Pair elimination** focuses on rows where only two cells remain empty. There are only four possible assignments (0-0, 0-1, 1-0, 1-1). Triple avoidance often eliminates two of these immediately, and the uniqueness rule may eliminate the remaining ambiguity. Rows with two empty cells are extremely constrained and should be analyzed whenever they appear.`,
+      tips: [
+        'Use uniqueness: if a placement would duplicate another row or column, eliminate it',
+        'Track remaining counts needed per row/column to constrain possible placements',
+        'Rows with exactly two empty cells can often be fully resolved through elimination',
+        'Combine parity analysis (how many 0s vs 1s remain) with triple avoidance'
+      ]
+    },
+    {
+      title: 'Advanced Solving Methods',
+      content: `**Contradiction method** is the tool of last resort for the hardest puzzles. When no direct deduction is available, tentatively place a digit in a cell and trace the logical consequences through the grid. If a contradiction appears (a triple is formed, a count is exceeded, or rows become identical), the original placement was wrong, and the opposite digit must be correct.
+
+**Chain analysis** extends the contradiction method by tracing a chain of forced placements. Placing a 1 in cell A forces a 0 in cell B, which forces a 1 in cell C, and so on. If this chain eventually forces two contradictory placements in the same cell, the initial assumption is proven false. Expert solvers can trace chains of 5-10 forced placements to resolve stubborn ambiguities.
+
+The key to efficient advanced solving is choosing the right cell to test. Pick a cell that is most constrained (in a nearly-complete row or column) and for which the consequences cascade quickly. A cell in a row with only two empty spaces will produce faster results than one in a row with five empty spaces. Practice recognizing which cells have the most far-reaching implications.`,
+      tips: [
+        'Use contradiction: tentatively place a digit and trace consequences to find impossibilities',
+        'Trace chains of forced placements: if a chain leads to a contradiction, the starting digit was wrong',
+        'Test cells in nearly-complete rows or columns for the fastest contradiction detection',
+        'Most puzzles can be solved without contradiction if you apply basic and intermediate techniques thoroughly'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is Binary Puzzle?',
+      answer: 'Binary Puzzle (also called Takuzu, Binairo, or Binoxxo) is a logic puzzle played on an even-sized grid. You fill every cell with either 0 or 1 following three rules: no three consecutive identical digits, equal 0s and 1s in every row and column, and no duplicate rows or columns. The puzzle requires pure logic and never needs guessing.'
+    },
+    {
+      question: 'Is Binary Puzzle the same as Takuzu?',
+      answer: 'Yes. Binary Puzzle, Takuzu, Binairo, Binoxxo, and Tic-Tac-Logic are all names for the same puzzle type. The rules are identical regardless of the name. Takuzu was popularized by Belgian publisher Peter Frank. Different apps and newspapers use different names, but the solving strategies are exactly the same.'
+    },
+    {
+      question: 'How do I start solving a Binary Puzzle?',
+      answer: 'Start by scanning for two identical digits side by side (0 0 or 1 1) and filling the opposite digit on both sides. Then look for patterns with a gap (0 _ 0 or 1 _ 1) and fill the gap. Next, count 0s and 1s in each row and column: if a row already has its maximum of one digit, all remaining cells are forced. These three scans resolve most of the grid on easy-to-medium puzzles.'
+    },
+    {
+      question: 'What are common mistakes in Binary Puzzle?',
+      answer: 'The most common mistakes are: (1) Creating three consecutive identical digits by not checking both sides before placing a digit. (2) Miscounting the 0s and 1s in a row or column. (3) Creating duplicate rows or columns by not checking for uniqueness. (4) Guessing instead of finding the logical deduction. Always double-check your placement against all three rules before committing.'
+    }
+  ]
+}

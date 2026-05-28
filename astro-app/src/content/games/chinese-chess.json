@@ -7,7 +7,7 @@
   "color": "from-red-600 to-amber-700",
   "en": {
     "name": "Chinese Chess",
-    "desc": "Ancient Chinese strategy game Xiangqi",
+    "desc": "Play Xiangqi (Chinese Chess) vs AI! Master ancient strategy with General, Cannon, and Elephant pieces.",
     "description": "Chinese Chess (Xiangqi) is one of the world's oldest and most popular strategy board games, with over 2,000 years of history! Command your army across the River, using unique pieces with distinct movement patterns. The General stays protected in the palace while Chariots, Cannons, Horses, and Soldiers battle for position. Rich in tactical depth yet elegant in design, Xiangqi offers endless strategic challenges.",
     "objectives": "Checkmate the opponent's General (King) by placing it under attack with no legal escape. Control the battlefield, cross the River with your Soldiers, and use each piece's unique abilities to outmaneuver your opponent.",
     "howToPlay": "Click a piece to select it, then click a valid square to move. Pieces include General, Advisors, Elephants, Horses, Chariots, Cannons, and Soldiers.",

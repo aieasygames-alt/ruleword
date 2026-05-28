@@ -112,13 +112,13 @@ The most famous number puzzle, Sudoku, became a global phenomenon in the 2000s a
 
   'japanese-logic': {
     slug: 'japanese-logic',
-    title: 'Japanese Logic Puzzles - Nonogram, Slitherlink, Nurikabe',
-    description: 'Discover authentic Japanese logic puzzles: Nonogram (Picross), Slitherlink, Nurikabe, Hitori, Masyu, and more. Pure logic, no guessing required.',
+    title: 'Japanese Logic Puzzles - Nonogram, Slitherlink, Shakashaka, Tapa',
+    description: 'Discover authentic Japanese logic puzzles: Nonogram (Picross), Slitherlink, Shakashaka, Tapa, Star Battle, and more. Pure logic, no guessing required.',
     heroDescription: 'Experience the elegant world of Japanese logic puzzles. Created by puzzle masters at Nikoli and other Japanese publishers, these games feature simple rules but deep complexity.',
-    keywords: ['japanese logic puzzles', 'nonogram online', 'picross puzzle', 'slitherlink', 'nurikabe', 'hitori', 'japanese puzzles', 'logic grid puzzles'],
+    keywords: ['japanese logic puzzles', 'nonogram online', 'picross puzzle', 'slitherlink', 'nurikabe', 'hitori', 'shakashaka', 'tapa puzzle', 'japanese puzzles', 'logic grid puzzles', 'star battle', 'binary puzzle'],
     categoryIds: ['logic'],
-    featuredGames: ['nonogram', 'slitherlink', 'nurikabe', 'hitori', 'masyu', 'kakuro', 'sudoku', 'fillomino'],
-    featuredGuides: ['nonogram', 'slitherlink', 'kakuro'],
+    featuredGames: ['shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'nurikabe', 'hitori', 'binary'],
+    featuredGuides: ['shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'binary'],
     content: {
       whatIsSection: `Japanese logic puzzles emerged from Japan's rich puzzle culture, pioneered by publishers like Nikoli. These puzzles share a common philosophy: simple rules that create elegant, challenging problems.
 

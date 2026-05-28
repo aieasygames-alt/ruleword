@@ -6,7 +6,7 @@
   "color": "from-pink-500 to-purple-600",
   "en": {
     "name": "Color Match",
-    "desc": "Test your color perception! Match colors quickly and accurately. A fun way to train your visual processing speed and color recognition.",
+    "desc": "Can you name the color, not read the word? The classic Stroop Effect brain challenge!",
     "description": "Color Match is a brain-training game based on the famous Stroop Effect! A color word appears on screen, but the word itself may be displayed in a different color. Your task is to identify the COLOR of the text, not the word itself. This creates a cognitive conflict that tests your brain's ability to process conflicting information. Simple to understand, challenging to master—perfect for training cognitive flexibility!",
     "objectives": "Click the button that matches the COLOR of the displayed word, not the word itself. React quickly and accurately to score points. Train your brain to overcome the automatic impulse to read the word!",
     "howToPlay": "A word appears in a certain color. Click the button that matches the COLOR you see, not the word. For example, if \"RED\" appears in blue text, click BLUE.",

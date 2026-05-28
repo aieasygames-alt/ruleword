@@ -7,7 +7,7 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Flow Free",
-    "desc": "Connect matching dots without crossing paths!",
+    "desc": "Connect matching colored dots with pipes. Fill every cell without crossing — plan your routes!",
     "description": "Flow Free is a beautiful puzzle game where you connect matching colored dots with continuous paths. The challenge? You must fill every cell on the board and paths cannot cross! Plan your routes carefully to solve each puzzle.",
     "objectives": "Connect all matching colored dot pairs with continuous paths. Fill every cell on the grid. Paths cannot overlap or cross each other!",
     "howToPlay": "Click and drag from a dot to create a path. Connect it to the matching colored dot. Fill all cells without crossing any paths. All dots must be paired!",

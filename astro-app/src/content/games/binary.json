@@ -6,7 +6,7 @@
   "color": "from-slate-500 to-gray-600",
   "en": {
     "name": "Binary",
-    "desc": "Fill the grid with 0s and 1s!",
+    "desc": "Fill the grid with 0s and 1s — no three in a row, equal per row/column. Also known as Takuzu!",
     "description": "Binary (also known as Takuzu) is a deceptively simple logic puzzle that tests your pattern recognition skills. Fill a grid with 0s and 1s following three elegant rules: no more than two identical digits can be adjacent, each row and column must contain equal numbers of 0s and 1s, and no two rows or columns can be identical. Simple to learn, challenging to master!",
     "objectives": "Complete the grid with 0s and 1s so that no three consecutive cells contain the same digit, each row and column has equal numbers of each digit, and all rows and columns are unique.",
     "howToPlay": "Click cells to fill with 0 or 1. Rules: 1) No more than two same digits adjacent, 2) Each row and column has equal 0s and 1s, 3) No two rows or columns are identical.",

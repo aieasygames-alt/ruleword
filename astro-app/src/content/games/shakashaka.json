@@ -6,7 +6,7 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Shakashaka",
-    "desc": "Place triangles in cells!",
+    "desc": "Place triangles in empty cells to form perfect rectangles. A unique Nikoli geometric puzzle!",
     "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. A beautiful blend of geometry and logic!",
     "objectives": "Place triangles so that all white (unshaded) areas form perfect rectangles, and satisfy all clue numbers.",
     "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",

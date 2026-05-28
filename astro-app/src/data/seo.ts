@@ -104,9 +104,9 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   nonogram: {
     primaryKeyword: 'nonogram puzzle',
-    secondaryKeywords: ['picross', 'picture puzzle', 'grid puzzle'],
+    secondaryKeywords: ['picross', 'picture puzzle', 'grid puzzle', 'paint by numbers'],
     longTailKeywords: ['play nonogram online free', 'picross puzzle game', 'picture cross puzzle', 'paint by numbers game'],
-    titleTemplate: 'Nonogram Puzzle Online Free - Play Picross Game | {brand}',
+    titleTemplate: 'Nonogram (Picross) Puzzle - Play Online Free | {brand}',
     descriptionTemplate: 'Play Nonogram online free! Use number clues to reveal hidden pixel art pictures. Picross-style logic puzzle, no download!',
     intent: 'play'
   },
@@ -296,10 +296,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   hitori: {
     primaryKeyword: 'hitori puzzle',
-    secondaryKeywords: ['hitori online', 'shade cells', 'japanese elimination'],
-    longTailKeywords: ['hitori puzzle online free', 'play hitori game', 'elimination puzzle', 'shade duplicate numbers'],
-    titleTemplate: 'Hitori Puzzle Online Free - Play Shade Cell Game | {brand}',
-    descriptionTemplate: 'Play Hitori online free! Shade cells so no row or column has duplicate numbers. Japanese logic puzzle. No download!',
+    secondaryKeywords: ['hitori online', 'shade cells', 'japanese elimination', 'nikoli puzzle'],
+    longTailKeywords: ['hitori puzzle online free', 'play hitori game', 'hitori rules', 'shade duplicate numbers'],
+    titleTemplate: 'Hitori Puzzle - Play Online Free (No Download) | {brand}',
+    descriptionTemplate: 'Play Hitori puzzle online free! Shade duplicate numbers so no row or column has repeats — and all unshaded cells must stay connected. Japanese Nikoli puzzle, 100+ levels!',
     intent: 'play'
   },
   bridges: {
@@ -532,18 +532,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   shakashaka: {
     primaryKeyword: 'shakashaka puzzle',
-    secondaryKeywords: ['shakashaka online', 'balance puzzle', 'triangle placement'],
-    longTailKeywords: ['play shakashaka online free', 'japanese balance puzzle', 'black triangles', 'equilibrium game'],
-    titleTemplate: 'Shakashaka Puzzle Online Free - Play Balance Game | {brand}',
-    descriptionTemplate: 'Play Shakashaka online free! Place triangles to balance each region. Japanese puzzle!',
+    secondaryKeywords: ['shakashaka online', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle'],
+    longTailKeywords: ['play shakashaka online free', 'shakashaka rules', 'japanese triangle puzzle', 'shakashaka how to play'],
+    titleTemplate: 'Shakashaka Puzzle Online Free - Place Triangles, Form Rectangles | {brand}',
+    descriptionTemplate: 'Play Shakashaka puzzle online free! Place triangles in cells to create perfect rectangles. A unique Nikoli logic puzzle with 100+ levels. No download required!',
     intent: 'play'
   },
   tapa: {
     primaryKeyword: 'tapa puzzle',
-    secondaryKeywords: ['tapa online', 'shade cells', 'turkish puzzle'],
-    longTailKeywords: ['play tapa online free', 'shade cell puzzle', 'turkish logic puzzle', 'paint by numbers'],
-    titleTemplate: 'Tapa Puzzle Online Free - Play Turkish Shade Game | {brand}',
-    descriptionTemplate: 'Play Tapa online free! Shade cells following number clues. Turkish logic puzzle!',
+    secondaryKeywords: ['tapa online', 'tapa games', 'shade cells puzzle'],
+    longTailKeywords: ['play tapa online free', 'tapa puzzle rules', 'tapa logic puzzle', 'how to play tapa'],
+    titleTemplate: 'Tapa Puzzle - Play Online Free (No Download) | {brand}',
+    descriptionTemplate: 'Play Tapa puzzle online free! Shade cells to form a continuous wall using number clues. 100+ puzzles from easy to expert. No download, play instantly in browser!',
     intent: 'play'
   },
 
@@ -648,10 +648,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   'color-match': {
     primaryKeyword: 'color match game',
-    secondaryKeywords: ['color matching', 'color test', 'hue matching'],
-    longTailKeywords: ['play color match free', 'match colors game', 'color perception test', 'hue puzzle'],
-    titleTemplate: 'Color Match Game Online Free - Color Perception | {brand}',
-    descriptionTemplate: 'Play Color Match online free! Match colors accurately. Test your color perception!',
+    secondaryKeywords: ['color matching', 'stroop effect', 'stroop test', 'color test'],
+    longTailKeywords: ['play color match free', 'stroop effect game', 'color perception test', 'color word challenge'],
+    titleTemplate: 'Color Match Game Online Free - Stroop Effect Challenge | {brand}',
+    descriptionTemplate: 'Play Color Match online free! Test your brain with the classic Stroop Effect challenge. Can you name the color, not read the word? Track your speed and accuracy!',
     intent: 'play'
   },
   'speed-math': {
@@ -673,11 +673,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
 
   // Classic Board Games
   'chinese-chess': {
-    primaryKeyword: 'chinese chess game',
-    secondaryKeywords: ['xiangqi', 'chinese chess online', 'elephant game'],
-    longTailKeywords: ['play chinese chess free', 'xiangqi online', 'chess variant game', 'asian chess'],
-    titleTemplate: 'Chinese Chess Game Online Free - Play Xiangqi | {brand}',
-    descriptionTemplate: 'Play Chinese Chess (Xiangqi) online free! Classic strategy board game vs AI!',
+    primaryKeyword: 'free chinese chess',
+    secondaryKeywords: ['xiangqi', 'chinese chess online', 'chinese chess game', 'play chinese chess free'],
+    longTailKeywords: ['play chinese chess online free', 'xiangqi vs ai', 'chinese chess rules', 'learn xiangqi'],
+    titleTemplate: 'Free Chinese Chess Online - Play Xiangqi vs AI | {brand}',
+    descriptionTemplate: 'Play Chinese Chess (Xiangqi) online free! Battle our smart AI opponent. Learn piece movements, opening strategies and checkmate patterns. No download required!',
     intent: 'play'
   },
   nim: {
@@ -780,10 +780,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   'flow-free': {
     primaryKeyword: 'flow free game',
-    secondaryKeywords: ['flow free online', 'pipe connect', 'flow puzzle'],
-    longTailKeywords: ['play flow free online', 'connect pipes game', 'color flow puzzle', 'link dots'],
-    titleTemplate: 'Flow Free Game Online Free - Connect Pipes | {brand}',
-    descriptionTemplate: 'Play Flow Free online free! Connect matching colors with pipes. Logic puzzle!',
+    secondaryKeywords: ['flow free online', 'connect dots', 'pipe puzzle', 'flow puzzle'],
+    longTailKeywords: ['play flow free online', 'connect matching dots', 'color flow puzzle', 'pipe connect game'],
+    titleTemplate: 'Flow Free Online - Connect Matching Dots Puzzle Game | {brand}',
+    descriptionTemplate: 'Play Flow Free online! Connect matching colored dots with pipes that fill every cell. Hundreds of puzzles from easy to expert. Free, no download!',
     intent: 'play'
   },
   'jewel-quest': {
@@ -924,11 +924,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   binary: {
-    primaryKeyword: 'binary puzzle game',
-    secondaryKeywords: ['binary puzzle online', '0 1 puzzle', 'takuzu'],
-    longTailKeywords: ['play binary puzzle free', '0 and 1 game', 'binary grid puzzle', 'logic 01 game'],
-    titleTemplate: 'Binary Puzzle Game Online Free - 0 1 Logic Game | {brand}',
-    descriptionTemplate: 'Play Binary Puzzle online free! Fill grid with 0s and 1s following simple rules. Logic puzzle game, no download!',
+    primaryKeyword: 'binary puzzle',
+    secondaryKeywords: ['binary puzzle online', 'takuzu', 'binairo', '0 1 puzzle'],
+    longTailKeywords: ['play binary puzzle free', 'takuzu rules', 'binairo online', '0 and 1 logic game'],
+    titleTemplate: 'Binary Puzzle (Takuzu) - Play Online Free | {brand}',
+    descriptionTemplate: 'Play Binary Puzzle (Takuzu/Binairo) online free! Fill the grid with 0s and 1s — no three in a row, equal counts per row/column. Pure logic, no math!',
     intent: 'play'
   },
   frogger: {

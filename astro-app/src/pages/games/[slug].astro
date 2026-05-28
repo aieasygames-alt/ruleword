@@ -7,6 +7,7 @@ import { categories } from '../../data/categories'
 import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
 import { getGameSEO, generateKeywords } from '../../data/seo'
 import { getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
+import { hubPages } from '../../data/hubPages'
 import type { GameRules, GameFAQ } from '../../types'
 
 // 在 getStaticPaths 中获取所有游戏
@@ -159,6 +160,11 @@ const externalGameData = isExternalGame ? (game as CMSGameData) : null
 
 // Feedback i18n data
 const f = t.feedback
+
+// Find which hubs this game belongs to
+const gameHubs = Object.values(hubPages).filter(hub =>
+  hub.featuredGames.includes(gameSlug)
+)
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -454,6 +460,25 @@ const howToSchema = gameGuideEn.howToPlay ? {
                 Read Full Guide
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
               </a>
+            </div>
+          )}
+
+          <!-- Part of Collection -->
+          {gameHubs.length > 0 && (
+            <div class="mt-6">
+              {gameHubs.map(hub => (
+                <a
+                  href={`/hubs/${hub.slug}/`}
+                  class="flex items-center gap-3 p-4 rounded-lg bg-slate-800/50 border border-slate-700/50 hover:border-emerald-700/50 hover:bg-slate-800 transition-colors group"
+                >
+                  <span class="text-lg">📚</span>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-xs text-slate-500">Part of Collection</p>
+                    <p class="text-sm font-medium text-slate-300 group-hover:text-emerald-400 transition-colors">{hub.title}</p>
+                  </div>
+                  <svg class="w-4 h-4 text-slate-600 group-hover:text-emerald-500 transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                </a>
+              ))}
             </div>
           )}
 
