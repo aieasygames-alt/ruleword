@@ -7,7 +7,7 @@
   "color": "from-orange-500 to-red-600",
   "en": {
     "name": "Boggle",
-    "desc": "Find words in a 4x4 letter grid",
+    "desc": "Find words in a 4x4 letter grid — race against time! Free online Boggle, no download required.",
     "description": "Boggle is the classic word search game that has challenged vocabulary skills since 1972! Shake up the letter cubes and race against time to find as many words as possible hidden in a 4×4 grid of letters. Connect adjacent letters (including diagonals) to form words of 3 or more letters. Longer words score more points, so scan strategically and think fast!",
     "objectives": "Find as many valid words as possible within the time limit by connecting adjacent letters. Longer words earn more points. Beat your high score by expanding your vocabulary and improving your pattern recognition.",
     "howToPlay": "Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.",

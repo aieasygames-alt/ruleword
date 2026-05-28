@@ -7,7 +7,7 @@
   "color": "from-fuchsia-500 to-pink-600",
   "en": {
     "name": "Mastermind",
-    "desc": "Crack the secret color code",
+    "desc": "Crack the secret color code in 8 attempts using logic! Classic code-breaking board game.",
     "description": "Mastermind is the classic code-breaking board game that has challenged logical thinkers since 1970! Your mission is to crack a secret code of colored pegs using deduction and strategic thinking. After each guess, feedback pegs reveal how close you are—black pegs mean correct color in correct position, white pegs mean correct color in wrong position. With only 8 attempts to find the solution, every guess counts in this battle of wits!",
     "objectives": "Deduce the secret 4-color code within 8 attempts using logical reasoning. Analyze the feedback from each guess to narrow down possibilities and crack the code before running out of tries.",
     "howToPlay": "Select 4 colors to make your guess. After submitting, you'll see feedback: green dots mean correct color in correct position, white dots mean correct color in wrong position. Use this feedback to deduce the secret code.",

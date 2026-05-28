@@ -6,7 +6,7 @@
   "color": "from-purple-500 to-indigo-600",
   "en": {
     "name": "Aqre",
-    "desc": "Shade cells with restrictions!",
+    "desc": "Shade cells while keeping white cells connected — no more than 3 shaded in a row. Japanese Nikoli puzzle!",
     "description": "Aqre is a shading puzzle that combines simple rules with deep strategic thinking. Your goal is to shade cells while respecting three key constraints: no run of more than three consecutive shaded cells in any row or column, all unshaded cells must be connected, and shaded cells cannot touch orthogonally. This elegant puzzle rewards careful planning and spatial reasoning.",
     "objectives": "Shade the correct cells to satisfy all constraints: limit consecutive shaded cells, maintain white cell connectivity, and prevent orthogonal adjacency of shaded cells.",
     "howToPlay": "Click cells to shade them black or mark them as white. No two black cells can touch diagonally. Each row and column can have at most 2 consecutive black cells.",

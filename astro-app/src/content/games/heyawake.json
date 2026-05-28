@@ -6,7 +6,7 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Heyawake",
-    "desc": "Shade cells in rectangular rooms!",
+    "desc": "Shade cells in rectangular rooms — number clues tell you how many! A Nikoli logic puzzle.",
     "description": "Heyawake is a shading puzzle played on a grid divided into rectangular rooms. Each room may contain a number indicating how many cells to shade. The rules: no two shaded cells can share an edge, no three consecutive shaded cells in any row or column, and all white cells must be connected. A beautifully balanced puzzle!",
     "objectives": "Shade the correct number of cells in each room while ensuring all white cells remain connected and no three consecutive shaded cells appear.",
     "howToPlay": "Click cells to cycle through: empty, black, or white. Each room must have exactly its target number of black cells. No three black cells can be consecutive, and all white cells must be connected.",

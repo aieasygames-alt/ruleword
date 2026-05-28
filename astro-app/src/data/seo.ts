@@ -53,11 +53,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   boggle: {
-    primaryKeyword: 'boggle game',
-    secondaryKeywords: ['boggle online', 'word search game', 'letter grid'],
-    longTailKeywords: ['play boggle online free', 'boggle word game', '4x4 word game', 'timed word puzzle'],
-    titleTemplate: 'Boggle Game Online Free - Play Word Grid Puzzle | {brand}',
-    descriptionTemplate: 'Play Boggle online free! Find as many words as possible in the 4x4 letter grid before time runs out. Classic word game, no download!',
+    primaryKeyword: 'boggle online free',
+    secondaryKeywords: ['boggle game', 'play boggle free', 'boggle word game', 'boggle no download'],
+    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', '4x4 word puzzle'],
+    titleTemplate: 'Boggle Online Free - Play Word Game (No Download) | {brand}',
+    descriptionTemplate: 'Play Boggle online free — no download required! Find words in a 4x4 letter grid, race against time. Classic word game, unlimited plays, play instantly!',
     intent: 'play'
   },
   crosswordle: {
@@ -129,11 +129,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   mastermind: {
-    primaryKeyword: 'mastermind game',
-    secondaryKeywords: ['mastermind online', 'code breaking game', 'guess the code'],
-    longTailKeywords: ['play mastermind online free', 'mastermind puzzle', 'color code game', 'logic deduction game'],
-    titleTemplate: 'Mastermind Game Online Free - Play Code Breaking Puzzle | {brand}',
-    descriptionTemplate: 'Play Mastermind online free! Crack the secret color code in 8 attempts. Classic code-breaking logic game. No download required!',
+    primaryKeyword: 'mastermind game online free',
+    secondaryKeywords: ['mastermind online', 'code breaking game', 'mastermind puzzle', 'play mastermind free'],
+    longTailKeywords: ['play mastermind online free', 'mastermind game rules', 'code breaking puzzle', 'logic deduction game'],
+    titleTemplate: 'Mastermind Game Online Free - Play Code Breaking | {brand}',
+    descriptionTemplate: 'Play Mastermind game online free! Crack the secret color code using logic and deduction. Classic board game, multiple difficulty levels. No download, play instantly!',
     intent: 'play'
   },
   gomoku: {
@@ -287,11 +287,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   skyscrapers: {
-    primaryKeyword: 'skyscrapers puzzle',
-    secondaryKeywords: ['skyscrapers online', 'building puzzle', 'visibility puzzle', 'wolkenkratzer'],
-    longTailKeywords: ['skyscrapers puzzle online', 'play skyscrapers free', '3d logic puzzle', 'building visibility game'],
-    titleTemplate: 'Skyscrapers Puzzle Online Free - Play Building Logic Game | {brand}',
-    descriptionTemplate: 'Play Skyscrapers online free! Place buildings so the visible count matches clues. 3D logic puzzle. No download required!',
+    primaryKeyword: 'skyscrapers game',
+    secondaryKeywords: ['skyscrapers puzzle online', 'building puzzle', 'visibility puzzle', 'wolkenkratzer'],
+    longTailKeywords: ['play skyscrapers game online free', 'skyscrapers puzzle game', '3d logic puzzle', 'building visibility game'],
+    titleTemplate: 'Skyscrapers Puzzle Game - Play Online Free | {brand}',
+    descriptionTemplate: 'Play Skyscrapers puzzle game online free! Place buildings of heights 1-N so the visible count matches clues. A Sudoku-style 3D logic puzzle. No download required!',
     intent: 'play'
   },
   hitori: {
@@ -299,7 +299,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     secondaryKeywords: ['hitori online', 'shade cells', 'japanese elimination', 'nikoli puzzle'],
     longTailKeywords: ['hitori puzzle online free', 'play hitori game', 'hitori rules', 'shade duplicate numbers'],
     titleTemplate: 'Hitori Puzzle - Play Online Free (No Download) | {brand}',
-    descriptionTemplate: 'Play Hitori puzzle online free! Shade duplicate numbers so no row or column has repeats — and all unshaded cells must stay connected. Japanese Nikoli puzzle, 100+ levels!',
+    descriptionTemplate: 'Play Hitori online free! Shade duplicate numbers so no row/column has repeats — unshaded cells must stay connected. Japanese Nikoli puzzle, 100+ levels!',
     intent: 'play'
   },
   bridges: {
@@ -323,7 +323,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     secondaryKeywords: ['shikaku puzzle', '数方游戏', '逻辑消消乐', 'rectangle puzzle', '佛系游戏'],
     longTailKeywords: ['佛系消消消攻略', '佛系消消消怎么玩', '佛系消消消在线玩', 'shikaku online free', '解压小游戏', '网页版消消乐', '逻辑谜题在线'],
     titleTemplate: '佛系消消消 - 超解压逻辑消消乐在线玩 | {brand}',
-    descriptionTemplate: '佛系消消消在线免费玩！超解压的逻辑消消乐游戏，根据数字提示画出矩形区域。无需下载，打开即玩，每天玩几局，轻松又治愈！',
+    descriptionTemplate: '佛系消消消在线免费玩！超解压的逻辑消消乐游戏，根据数字提示画出矩形区域。无需下载即可在线畅玩，轻松又治愈！',
     intent: 'play'
   },
 
@@ -508,18 +508,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   heyawake: {
     primaryKeyword: 'heyawake puzzle',
-    secondaryKeywords: ['heyawake online', 'room puzzle', 'paint cells'],
-    longTailKeywords: ['play heyawake online free', 'japanese room puzzle', 'rectangular regions', 'shade cells game'],
-    titleTemplate: 'Heyawake Puzzle Online Free - Play Room Logic Game | {brand}',
-    descriptionTemplate: 'Play Heyawake online free! Shade cells following room rules. Japanese logic puzzle!',
+    secondaryKeywords: ['heyawake online', 'japanese room puzzle', 'shade cells puzzle'],
+    longTailKeywords: ['play heyawake online free', 'heyawake rules', 'japanese room shading puzzle', 'how to play heyawake'],
+    titleTemplate: 'Heyawake Puzzle - Play Online Free (No Download) | {brand}',
+    descriptionTemplate: 'Play Heyawake online free! Shade cells in rooms using number clues. Japanese Nikoli logic puzzle — pure deduction, no guessing. No download required!',
     intent: 'play'
   },
   aqre: {
     primaryKeyword: 'aqre puzzle',
-    secondaryKeywords: ['aqre online', 'shade region', 'japanese puzzle'],
-    longTailKeywords: ['play aqre online free', 'region shading puzzle', 'connected cells game', 'logic shade puzzle'],
-    titleTemplate: 'Aqre Puzzle Online Free - Play Shade Region Game | {brand}',
-    descriptionTemplate: 'Play Aqre online free! Shade cells to form connected regions. Japanese logic puzzle!',
+    secondaryKeywords: ['aqre online', 'shade region puzzle', 'japanese shading puzzle'],
+    longTailKeywords: ['play aqre online free', 'aqre rules', 'japanese shade puzzle', 'how to play aqre'],
+    titleTemplate: 'Aqre Puzzle - Play Online Free (No Download) | {brand}',
+    descriptionTemplate: 'Play Aqre puzzle online free! Shade cells while keeping white cells connected — no more than 3 shaded in a row. A Japanese Nikoli logic puzzle. No download required!',
     intent: 'play'
   },
   'castle-wall': {
@@ -908,11 +908,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   'shisen-sho': {
-    primaryKeyword: 'shisen sho game',
-    secondaryKeywords: ['shisen sho online', 'mahjong connect', 'tile matching'],
-    longTailKeywords: ['play shisen sho free', 'japanese mahjong', 'connect tiles', 'sichuan mahjong'],
-    titleTemplate: 'Shisen Sho Game Online Free - Tile Connect | {brand}',
-    descriptionTemplate: 'Play Shisen Sho online free! Connect matching tiles. Japanese mahjong variant!',
+    primaryKeyword: 'shisen sho',
+    secondaryKeywords: ['shisen sho online free', 'shisen sho mahjong solitaire', 'mahjong connect', 'sichuan mahjong'],
+    longTailKeywords: ['play shisen sho free', 'shisen sho mahjong solitaire free', 'japanese mahjong connect', 'tile matching game'],
+    titleTemplate: 'Shisen Sho Mahjong Solitaire - Play Online Free | {brand}',
+    descriptionTemplate: 'Play Shisen Sho (Mahjong Solitaire) online free! Match identical tiles connected by a path with at most 2 turns. No download, play instantly in browser!',
     intent: 'play'
   },
   'arrow-puzzle': {

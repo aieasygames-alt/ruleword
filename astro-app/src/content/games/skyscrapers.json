@@ -6,7 +6,7 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Skyscrapers",
-    "desc": "Place buildings of varying heights!",
+    "desc": "Place buildings so the visible count matches clues — a Sudoku-style 3D logic puzzle!",
     "description": "Skyscrapers is a 3D logic puzzle where you place buildings of heights 1-N on an N×N grid. Clues outside the grid show how many buildings are visible from each direction. Taller buildings hide shorter ones behind them. A unique perspective on Sudoku-style logic!",
     "objectives": "Fill the grid with buildings 1-N so that each row and column contains each height exactly once, and visibility clues are satisfied.",
     "howToPlay": "Place buildings 1-N in each row and column (like Sudoku). Clues show how many buildings are visible when looking from that direction. Taller buildings hide shorter ones behind them.",

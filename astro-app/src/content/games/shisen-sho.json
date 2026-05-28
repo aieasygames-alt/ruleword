@@ -7,7 +7,7 @@
   "color": "from-emerald-500 to-teal-600",
   "en": {
     "name": "Shisen-Sho",
-    "desc": "Match identical mahjong tiles to clear them! Tiles can only be matched if there's a clear path between them. A relaxing yet challenging puzzle game!",
+    "desc": "Match mahjong tiles connected by a path with at most 2 turns! Shisen-Sho (Sichuan Mahjong) solitaire.",
     "description": "Shisen-Sho (also known as Sichuan Mahjong) is a tile-matching puzzle game using traditional mahjong tiles! Unlike other matching games, tiles don't need to be on the edges—they just need a clear connecting path with at most two turns. This creates strategic depth as you plan which pairs to remove first to unlock new matches. A perfect blend of relaxation and mental exercise!",
     "objectives": "Remove all tiles from the board by matching pairs of identical tiles. Tiles can only be matched if they can be connected by a path with no more than two turns (three line segments). Clear all tiles to win!",
     "howToPlay": "Click two matching tiles (same suit and value) to remove them. Tiles must be reachable without going through other tiles. Clear all tiles to win!",
