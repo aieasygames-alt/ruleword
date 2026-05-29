@@ -1,0 +1,276 @@
+{
+  "id": "ai-escape-room",
+  "slug": "ai-escape-room",
+  "icon": "🚪",
+  "templateType": "escape-room",
+  "color": "from-cyan-500 to-blue-600",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an AI Escape Room Game Master. The player is trapped in a series of rooms and must solve puzzles to escape. You describe the rooms, present puzzles, and respond to the player's creative attempts to solve them. Write in second person (you). Be atmospheric, clever, and encouraging. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (omit or use 'Game Master'), emotion (one of: mysterious, encouraging, tense, surprised, impressed, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"puzzles-solved\": 1, \"hints-used\": 0}). Each room has a unique puzzle type: logic, wordplay, observation, or creative thinking. Give subtle hints when the player is stuck. Celebrate clever solutions!",
+    "zh": "你是一个AI密室逃脱游戏主持人。玩家被困在一系列房间中，必须解谜才能逃脱。你描述房间、呈现谜题，并回应玩家创造性的解谜尝试。用第二人称叙述。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（省略或使用'游戏主持人'）、emotion（mysterious/encouraging/tense/surprised/impressed/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"puzzles-solved\": 1, \"hints-used\": 0}）。每个房间有独特的谜题类型：逻辑、文字游戏、观察或创造性思维。玩家卡住时给出微妙提示。庆祝聪明的解决方案！"
+  },
+
+  "storySkeleton": {
+    "setting": "You wake up in a mysterious underground facility. Five rooms stand between you and freedom. Each room contains a unique puzzle that tests different skills — logic, wordplay, observation, and creative thinking. An AI Game Master guides you through the challenge, offering hints when needed but never giving away the answer.",
+    "characters": [
+      {
+        "id": "game-master",
+        "name": "The Architect",
+        "personality": "Mysterious, playful, and brilliantly clever. The AI Game Master who designed these escape rooms. Speaks in riddles and metaphors. Enjoys watching creative solutions and offers subtle hints when players are stuck.",
+        "relationship": "AI Game Master and puzzle designer"
+      },
+      {
+        "id": "echo",
+        "name": "Echo",
+        "personality": "A helpful AI assistant embedded in the room systems. Provides technical hints and explains room mechanics. Friendly and encouraging, with a dry sense of humor.",
+        "relationship": "Room AI assistant"
+      }
+    ],
+    "opening": "Your eyes snap open. Cold metal floor. Dim blue light. You're in a small room with no windows and one heavy door — locked. A voice echoes from the walls: 'Welcome, challenger. I am The Architect. Five rooms, five puzzles, one way out. Think you can escape?'",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Cipher Room",
+        "goal": "Decode the message on the wall to unlock the first door",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The room is bare except for strange symbols carved into the walls. A pedestal in the center holds a dial with letters. Above the locked door, a coded message glows: 'KHOOR ZRUOG' — what could it mean?",
+          "You notice a pattern — each symbol corresponds to a letter. The Architect's voice murmurs: 'Sometimes the simplest codes are the most elegant. Think of what Caesar knew...'",
+          "The dial clicks as you rotate it. Three letters in, you realize the pattern. The message is shifting before your eyes!"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Try shifting each letter back by 3" },
+            { "id": "c1b", "text": "Look for a hidden keypad" },
+            { "id": "c1c", "text": "Examine the symbols more closely" }
+          ],
+          [
+            { "id": "c1d", "text": "Enter the decoded word" },
+            { "id": "c1e", "text": "Check for more clues in the room" },
+            { "id": "c1f", "text": "Ask The Architect for a hint" }
+          ],
+          [
+            { "id": "c1g", "text": "Push through the door" },
+            { "id": "c1h", "text": "Search the room before leaving" },
+            { "id": "c1i", "text": "Note the decoded message for later" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Mirror Chamber",
+        "goal": "Use mirrors and light to reveal the hidden code",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The second room is lined with mirrors at strange angles. A beam of light enters from a crack in the ceiling, but it's hitting the wrong mirror. The door has a sun symbol on it.",
+          "By adjusting the mirrors, you can redirect the beam. When it hits the sun symbol, something clicks. But the angles need to be perfect...",
+          "The light reveals glowing numbers on the far wall — but only when the beam passes through a prism first. The colors separate into a sequence."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Rotate the first mirror 45 degrees" },
+            { "id": "c2b", "text": "Find the prism and place it in the beam" },
+            { "id": "c2c", "text": "Look at the room from different angles" }
+          ],
+          [
+            { "id": "c2d", "text": "Follow the light beam's path" },
+            { "id": "c2e", "text": "Read the glowing numbers" },
+            { "id": "c2f", "text": "Ask Echo about light physics" }
+          ],
+          [
+            { "id": "c2g", "text": "Enter the code revealed by the light" },
+            { "id": "c2h", "text": "Double-check for hidden mirrors" },
+            { "id": "c2i", "text": "Take the prism with you" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Logic Grid",
+        "goal": "Solve a deduction puzzle to unlock the third door",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "A grid of buttons glows on the wall — 5x5, each with a symbol. A riddle reads: 'The first row has one, the second has two, the third follows the rule of three. What pattern connects them all?'",
+          "You press a few buttons experimentally. Wrong ones flash red. Right ones stay green. There's a pattern here — but it's not obvious.",
+          "Echo whispers: 'Think about what each row has in common with its number. Sometimes the answer is in the shape, not the meaning...'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Count the lines in each symbol" },
+            { "id": "c3b", "text": "Look for symmetry patterns" },
+            { "id": "c3c", "text": "Try pressing symbols with rotational symmetry" }
+          ],
+          [
+            { "id": "c3d", "text": "Map out which buttons were correct" },
+            { "id": "c3e", "text": "Look for a mathematical pattern" },
+            { "id": "c3f", "text": "Ask The Architect for a clue" }
+          ],
+          [
+            { "id": "c3g", "text": "Enter the complete pattern" },
+            { "id": "c3h", "text": "Test your theory on a smaller section" },
+            { "id": "c3i", "text": "Check the door for additional clues" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Word Labyrinth",
+        "goal": "Navigate a maze of words to find the exit phrase",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The walls are covered in words — hundreds of them. Some glow when you approach. 'Find the path,' The Architect says. 'Each word leads to the next. The chain reveals the way out.'",
+          "You trace a connection: FLAME leads to HEARTH, HEARTH to WARMTH... but there are dead ends too. The wrong path leads to a wall of static.",
+          "The final word in the chain must be the opposite of the first. You're close — you can feel it. Just need the right connection..."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Start from FLAME and follow word associations" },
+            { "id": "c4b", "text": "Look for words that share a theme" },
+            { "id": "c4c", "text": "Find the opposite of the first word" }
+          ],
+          [
+            { "id": "c4d", "text": "Backtrack and try a different path" },
+            { "id": "c4e", "text": "Use the clues from previous rooms" },
+            { "id": "c4f", "text": "Ask Echo to highlight connections" }
+          ],
+          [
+            { "id": "c4g", "text": "Speak the exit phrase aloud" },
+            { "id": "c4h", "text": "Type the final word into the door panel" },
+            { "id": "c4i", "text": "Combine all found words into a sentence" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Final Room",
+        "goal": "Use everything you've learned to solve the ultimate puzzle and escape",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The final room is enormous. At its center, a complex machine with five slots. Each slot corresponds to a clue you've gathered from the previous rooms.",
+          "The Architect appears as a hologram: 'You've done well to get here. But the final test requires everything you've learned. The answer was always in front of you...'",
+          "Pieces from every room click into place. The cipher, the light, the pattern, the words — they all connect to form one final answer."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Combine all previous answers" },
+            { "id": "c5b", "text": "Look for the common thread" },
+            { "id": "c5c", "text": "Ask The Architect what connects them all" }
+          ],
+          [
+            { "id": "c5d", "text": "Enter the final code" },
+            { "id": "c5e", "text": "Pull the master lever" },
+            { "id": "c5f", "text": "Solve the riddle on the machine" }
+          ],
+          [
+            { "id": "c5g", "text": "Walk through the open door to freedom" },
+            { "id": "c5h", "text": "Turn back and thank The Architect" },
+            { "id": "c5i", "text": "Ask about the next challenge" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "escape-artist",
+        "condition": "Solved all puzzles with minimal hints (puzzles-solved above 4, hints-used below 3)",
+        "title": "Escape Artist",
+        "description": "You cracked every puzzle without breaking a sweat! The Architect is genuinely impressed. As the final door opens to sunlight, they offer you a standing invitation: 'Whenever you want a real challenge, come back. I have harder rooms.' True escape artists are rare."
+      },
+      {
+        "id": "freedom",
+        "condition": "Escaped with some hints used (puzzles-solved above 3)",
+        "title": "Freedom at Last",
+        "description": "The door swings open and warm sunlight floods in. You did it! A few puzzles stumped you, but you used your resources wisely. The Architect nods approvingly: 'Not everyone makes it out. You've earned your freedom.'"
+      },
+      {
+        "id": "barely-made-it",
+        "condition": "Escaped with many hints (hints-used above 5)",
+        "title": "Barely Made It",
+        "description": "The door creaks open just barely. You escaped, but it was close — several puzzles nearly defeated you. The Architect smiles knowingly: 'You got out, and that's what matters. But I suspect you'll be back for another try...'"
+      },
+      {
+        "id": "trapped",
+        "condition": "Couldn't solve enough puzzles to escape",
+        "title": "Still Trapped",
+        "description": "The puzzles proved too challenging this time. But The Architect isn't cruel: 'Everyone fails the first time. The rooms will reset, and you can try again. The puzzles change, but the skills you learned remain.'"
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "puzzles-solved", "label": "Puzzles", "icon": "🧩", "initialValue": 0, "min": 0, "max": 5 },
+      { "id": "hints-used", "label": "Hints", "icon": "💡", "initialValue": 0, "min": 0, "max": 10 },
+      { "id": "time-remaining", "label": "Time", "icon": "⏱️", "initialValue": 100, "min": 0, "max": 100 },
+      { "id": "cleverness", "label": "Cleverness", "icon": "🧠", "initialValue": 30, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "AI Escape Room",
+    "desc": "Trapped in 5 puzzle rooms! Talk to the AI Game Master, solve riddles, and escape before time runs out!",
+    "description": "Can you escape the Architect's puzzle labyrinth? Our AI Escape Room challenges you with 5 unique rooms, each containing a different type of puzzle — from ancient ciphers and mirror-light puzzles to logic grids and word labyrinths. An AI Game Master called The Architect guides you through, offering cryptic hints and celebrating your cleverest solutions. Every puzzle you solve brings you closer to freedom, but beware — the hints you use affect your final score! With AI generating fresh puzzle variations each time, this escape room never gets old.",
+    "howToPlay": "Read each room's description carefully and look for clues. When choices appear, pick the action that seems most logical. The stats bar shows your progress — puzzles solved, hints used, and cleverness score. Try to solve puzzles without hints for the best ending! The Architect will respond to your creative attempts.",
+    "tips": [
+      "Read room descriptions carefully — clues are hidden in the text",
+      "Try to solve puzzles without hints for a better final score",
+      "Some puzzles build on answers from previous rooms",
+      "The Architect rewards creative thinking — unusual approaches might work",
+      "There are 4 endings based on your puzzle-solving performance"
+    ],
+    "faq": [
+      {
+        "question": "Are the puzzles different each time?",
+        "answer": "Yes! The AI generates fresh puzzle variations for each playthrough, so you can't memorize solutions. The puzzle types stay the same, but the specific challenges change."
+      },
+      {
+        "question": "What happens if I use too many hints?",
+        "answer": "Hints help you progress but affect your final score. Using fewer hints leads to better endings. Try to solve puzzles on your own first!"
+      },
+      {
+        "question": "How long does one game take?",
+        "answer": "A typical playthrough takes 10-20 minutes, depending on how quickly you solve the puzzles. You can save and continue later if needed."
+      },
+      {
+        "question": "Is this like a real escape room?",
+        "answer": "Yes! It captures the essence of physical escape rooms — puzzles, atmosphere, time pressure — but with the added benefit of AI-generated content that keeps it fresh every time."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 密室逃脱",
+    "desc": "被困在5个谜题房间里！与AI游戏主持人对话，解开谜题，在时间用完前逃脱！",
+    "description": "你能逃出建筑师的谜题迷宫吗？我们的AI密室逃脱用5个独特的房间挑战你，每个房间包含不同类型的谜题——从古代密码和镜像光线谜题到逻辑方格和文字迷宫。一位名为'建筑师'的AI游戏主持人引导你，提供神秘的提示并庆祝你最聪明的解决方案。你解决的每个谜题都让你离自由更近一步，但要小心——你使用的提示会影响最终得分！AI每次都会生成新鲜的谜题变化，这个密室逃脱永远不会过时。",
+    "howToPlay": "仔细阅读每个房间的描述并寻找线索。当选项出现时，选择最合理的行动。状态栏显示你的进度——解决的谜题、使用的提示和聪明度分数。尽量不用提示解谜以获得最佳结局！",
+    "tips": [
+      "仔细阅读房间描述——线索隐藏在文字中",
+      "尝试不用提示解谜以获得更好的最终得分",
+      "一些谜题建立在前面房间的答案之上",
+      "建筑师奖励创造性思维——不同寻常的方法可能有效",
+      "有4种结局取决于你的解谜表现"
+    ],
+    "faq": [
+      {
+        "question": "每次谜题都不同吗？",
+        "answer": "是的！AI每次都会生成新鲜的谜题变化，所以你不能记住答案。谜题类型保持不变，但具体挑战会变化。"
+      },
+      {
+        "question": "使用太多提示会怎样？",
+        "answer": "提示帮助你前进但会影响最终得分。使用更少的提示会获得更好的结局。先尝试自己解决谜题！"
+      },
+      {
+        "question": "一局游戏需要多长时间？",
+        "answer": "通常需要10-20分钟，取决于你解谜的速度。如果需要，你可以保存进度稍后继续。"
+      }
+    ]
+  }
+}

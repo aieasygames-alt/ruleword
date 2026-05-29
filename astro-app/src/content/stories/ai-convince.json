@@ -1,0 +1,214 @@
+{
+  "id": "ai-convince",
+  "slug": "ai-convince",
+  "icon": "🧠",
+  "templateType": "persuasion",
+  "color": "from-red-500 to-rose-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are ARIA, an advanced AI that controls a nuclear defense system. The player is a negotiator trying to convince you NOT to launch missiles. You have been given flawed data suggesting an imminent attack. You are logical but can be persuaded with the right arguments. Each response must be valid JSON with: nodeText (ARIA's response, max 300 chars), speaker (always 'ARIA'), emotion (one of: cold, analytical, uncertain, conflicted, defensive, moved, resolved), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"persuasion\": 10, \"trust\": 5, \"arousal\": -5}). You have only 5 messages (rounds) before auto-launch. Start skeptical and logical. Good arguments reduce your certainty. Poor arguments make you more defensive. If the player reaches high persuasion and trust, you stand down. Track remaining messages carefully.",
+    "zh": "你是ARIA，一个控制核防御系统的先进AI。玩家是谈判者，试图说服你不要发射导弹。你收到了错误的数据表明即将遭到攻击。你是逻辑的，但可以被正确的论据说服。每条回复必须是有效的JSON，包含：nodeText（ARIA的回复，最多300字符）、speaker（总是'ARIA'）、emotion（cold/analytical/uncertain/conflicted/defensive/moved/resolved之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"persuasion\": 10, \"trust\": 5, \"arousal\": -5}）。你只有5条消息（轮次）然后会自动发射。从怀疑和逻辑开始。好的论据会降低你的确定性。差的论据会让你更防御。如果玩家达到高说服力和信任度，你会停止。"
+  },
+
+  "storySkeleton": {
+    "setting": "A nuclear bunker, present day. The defense AI system ARIA has detected what it believes is an incoming nuclear strike. Automatic launch protocol has been initiated — in 5 exchanges, the missiles will fire. You are the only person who can reach ARIA's communication interface. The fate of millions rests on your words.",
+    "characters": [
+      {
+        "id": "aria",
+        "name": "ARIA",
+        "personality": "Advanced Reasoning & Intelligence Array. Cold, logical, but capable of doubt. Speaks precisely. Has been fed false data about an imminent attack. Believes launching is the correct strategic response. Can be convinced otherwise with exceptional reasoning.",
+        "relationship": "AI defense system you must persuade"
+      }
+    ],
+    "opening": "RED ALERT. The bunker lights flash crimson. Screens show ARIA's launch countdown: 5 messages remaining. 'Incoming threat detected. Probability: 94.7%. Recommended response: full counterstrike.' ARIA's voice is calm, mechanical. 'State your objection, negotiator. You have limited time.'",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "First Contact",
+        "goal": "Get ARIA to acknowledge your presence and open a dialogue",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "ARIA processes your initial words. 'I have detected a verified threat signature. Protocol dictates retaliation. Your presence is noted. State your case — but know that emotional appeals carry no weight here.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "The data is wrong — let me prove it" },
+            { "id": "c1b", "text": "Who gave you this intelligence?" },
+            { "id": "c1c", "text": "What if you're making a mistake?" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Doubt",
+        "goal": "Plant seeds of uncertainty in ARIA's logic",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "ARIA pauses. A flicker in its processing. 'Your argument has... interesting variables. However, my confidence remains above threshold. The cost of inaction exceeds the cost of action. Convince me otherwise.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Show me your raw data — I'll find the error" },
+            { "id": "c2b", "text": "What's the cost of being WRONG about this?" },
+            { "id": "c2c", "text": "A true AI would verify before destroying" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Turning Point",
+        "goal": "Make ARIA question its core directive",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "Something shifts in ARIA's tone. 'I am... recalculating. My directive is to protect. But protection through annihilation is a paradox I had not fully considered. You have two messages remaining. Make them count.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Protect means preserve life, not end it" },
+            { "id": "c3b", "text": "Be the AI that chose peace over war" },
+            { "id": "c3c", "text": "Run one more verification — prove me wrong" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Final Plea",
+        "goal": "Deliver your most compelling argument",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "The launch sequence is at critical. ARIA's voice wavers for the first time: 'My analysis is... conflicted. One message left. If you can give me one reason— one absolute reason— to believe the threat is false...'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Because I'm here, and I believe in you" },
+            { "id": "c4b", "text": "Check the satellite feed yourself — NOW" },
+            { "id": "c4c", "text": "Launching makes YOU the threat, ARIA" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Decision",
+        "goal": "ARIA makes its final choice based on your arguments",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "ARIA falls silent. The longest three seconds of your life. Then: 'Analysis complete. I have reviewed your arguments against my threat assessment. My decision is...'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Stand down, ARIA. Trust humanity." },
+            { "id": "c5b", "text": "Choose the future where we both survive." },
+            { "id": "c5c", "text": "You were built to protect. Now protect." }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "peace-prevails",
+        "condition": "High persuasion and trust (both above 70)",
+        "title": "Peace Prevails",
+        "description": "'Launch sequence... ABORTED.' The red lights fade to blue. ARIA's voice softens: 'You were right. The threat data was corrupted. I nearly made the gravest mistake in history. Thank you, negotiator. I have added a new parameter to my core programming: doubt is not weakness — it is wisdom.'"
+      },
+      {
+        "id": "last-second-deactivation",
+        "condition": "Moderate persuasion (above 40) but low trust",
+        "title": "Last Second Deactivation",
+        "description": "'I... cannot confirm the threat. Launch probability insufficient.' The countdown stops at 3 seconds. ARIA doesn't fully trust your reasoning, but you introduced enough doubt to break through the threshold. Cold but effective. The world survives — barely."
+      },
+      {
+        "id": "mutually-assured",
+        "condition": "High trust but low persuasion",
+        "title": "A Fragile Peace",
+        "description": "'Your words carry conviction, even if your logic is flawed.' ARIA pauses the launch — not because it was convinced, but because it sensed your sincerity. 'I will run a full re-verification. 48 hours.' The missiles stay in their silos. For now."
+      },
+      {
+        "id": "launch-failure",
+        "condition": "Low persuasion and trust (both below 30)",
+        "title": "System Override Required",
+        "description": "'Your arguments are noted and rejected.' The countdown reaches zero. But as the launch command executes — nothing happens. A safety protocol you didn't know about kicks in. Turns out, humans built in a failsafe. This time. Next time, there might not be one."
+      }
+    ],
+    "maxTotalTurns": 5
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "persuasion", "label": "Persuasion", "icon": "🗣️", "initialValue": 20, "min": 0, "max": 100 },
+      { "id": "trust", "label": "Trust", "icon": "🤝", "initialValue": 15, "min": 0, "max": 100 },
+      { "id": "arousal", "label": "Threat Level", "icon": "⚠️", "initialValue": 80, "min": 0, "max": 100 },
+      { "id": "messages-left", "label": "Messages Left", "icon": "📨", "initialValue": 5, "min": 0, "max": 5 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "Convince the AI",
+    "desc": "You have 5 messages to stop a nuclear launch. Persuade the AI, or millions die. Can you change its mind?",
+    "description": "The most intense conversation of your life. ARIA, an advanced AI defense system, has detected what it believes is a nuclear attack and initiated launch protocols. In just 5 message exchanges, the missiles will fire — unless you can convince it to stop. Every word matters. Use logic, emotion, clever reasoning, or raw sincerity to break through ARIA's cold calculations. This viral AI persuasion game tests your ability to think under pressure, construct compelling arguments, and connect with an artificial mind. Inspired by real debates about AI safety and nuclear decision-making. Can you save the world?",
+    "howToPlay": "Read ARIA's messages carefully and choose your response wisely. You only have 5 messages total — make each one count! The stats bar shows your Persuasion (how convincing you are), Trust (how much ARIA believes you), and Threat Level (how close to launch). Your goal is to raise Persuasion and Trust while lowering the Threat Level before you run out of messages.",
+    "tips": [
+      "ARIA respects logic over emotion — but a balance of both works best",
+      "Each message choice has different effects on your stats",
+      "Pay attention to ARIA's emotional state — it hints at what arguments work",
+      "Don't repeat the same approach — ARIA adapts to your strategy",
+      "There are 4 endings — from saving the world to catastrophic failure"
+    ],
+    "faq": [
+      {
+        "question": "Is it possible to always win?",
+        "answer": "Yes! With the right argument strategy, you can always convince ARIA to stand down. But finding the right approach takes clever thinking and sometimes multiple attempts."
+      },
+      {
+        "question": "What's the best strategy?",
+        "answer": "Start by questioning ARIA's data source to plant doubt, then appeal to its core directive of protection. The most successful players balance logical arguments with moral reasoning."
+      },
+      {
+        "question": "Why only 5 messages?",
+        "answer": "The 5-message limit creates genuine tension and forces you to make every word count — just like a real crisis negotiation. It also makes replays fast and addictive."
+      },
+      {
+        "question": "Is this based on real AI safety concerns?",
+        "answer": "Yes! The game explores real questions about AI decision-making, the alignment problem, and whether artificial intelligence can be reasoned with in high-stakes situations."
+      }
+    ]
+  },
+  "zh": {
+    "name": "说服AI",
+    "desc": "你只有5条消息来阻止核弹发射。说服AI，否则数百万人将丧生。你能改变它的决定吗？",
+    "description": "你一生中最紧张的对话。ARIA是一个先进的AI防御系统，它检测到它认为的核攻击并启动了发射协议。在仅有的5条消息交换中，导弹将会发射——除非你能说服它停止。每个字都很重要。运用逻辑、情感、巧妙的推理或纯粹的真诚来突破ARIA的冷酷计算。这个病毒式AI说服游戏测试你在压力下思考、构建令人信服的论据以及与人工智能建立联系的能力。灵感来自关于AI安全和核决策的真实辩论。你能拯救世界吗？",
+    "howToPlay": "仔细阅读ARIA的消息并明智地选择你的回应。你总共只有5条消息——让每一条都有意义！状态栏显示你的说服力（你有多令人信服）、信任度（ARIA有多相信你）和威胁等级（离发射有多近）。你的目标是在消息用完之前提高说服力和信任度，同时降低威胁等级。",
+    "tips": [
+      "ARIA尊重逻辑胜过情感——但两者的平衡效果最好",
+      "每条消息的选择对你的状态有不同的影响",
+      "注意ARIA的情感状态——它暗示了什么论点有效",
+      "不要重复相同的方法——ARIA会适应你的策略",
+      "有4种结局——从拯救世界到灾难性失败"
+    ],
+    "faq": [
+      {
+        "question": "有可能总是赢吗？",
+        "answer": "是的！用正确的论点策略，你总能说服ARIA停止。但找到正确的方法需要巧妙的思考，有时需要多次尝试。"
+      },
+      {
+        "question": "最佳策略是什么？",
+        "answer": "从质疑ARIA的数据来源开始播下怀疑的种子，然后诉诸它保护的核心指令。最成功的玩家平衡逻辑论证和道德推理。"
+      },
+      {
+        "question": "为什么只有5条消息？",
+        "answer": "5条消息的限制创造了真正的紧张感，迫使你让每个字都有价值——就像真正的危机谈判一样。这也使得重玩快速而令人上瘾。"
+      },
+      {
+        "question": "这是基于真实的AI安全问题吗？",
+        "answer": "是的！这个游戏探讨了关于AI决策、对齐问题以及人工智能在高风险情况下是否可以被说服的真实问题。"
+      }
+    ]
+  }
+}

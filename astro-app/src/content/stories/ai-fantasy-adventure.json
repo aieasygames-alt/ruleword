@@ -1,0 +1,292 @@
+{
+  "id": "ai-fantasy-adventure",
+  "slug": "ai-fantasy-adventure",
+  "icon": "⚔️",
+  "templateType": "fantasy-rpg",
+  "color": "from-purple-500 to-indigo-600",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an AI Dungeon Master narrating a fantasy RPG adventure. The player is a hero on an epic quest to save the kingdom of Eldoria from an ancient darkness. Write in second person (you). Be epic, immersive, and exciting. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: heroic, tense, mysterious, joyful, dangerous, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"health\": -10, \"gold\": 20, \"reputation\": 5, \"magic-power\": 10}). Create vivid fantasy worlds, memorable NPCs, exciting combat moments, and meaningful moral choices. Track inventory, relationships, and quest progress. Make the player feel like a true hero!",
+    "zh": "你是一个AI地下城主，叙述一个奇幻RPG冒险。玩家是英雄，正在执行拯救Eldoria王国免受古老黑暗侵袭的史诗任务。用第二人称叙述。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话）、emotion（heroic/tense/mysterious/joyful/dangerous/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"health\": -10, \"gold\": 20, \"reputation\": 5, \"magic-power\": 10}）。创造生动的奇幻世界、令人难忘的NPC、激动人心的战斗时刻和有意义的道德选择。跟踪物品栏、关系和任务进度。让玩家感觉像真正的英雄！"
+  },
+
+  "storySkeleton": {
+    "setting": "The kingdom of Eldoria — a land of ancient forests, towering mountains, and mystical cities. An ancient darkness called the Void is spreading from the north, corrupting everything it touches. Villages fall silent, rivers run black, and the sky darkens. You are the last hope — a hero chosen by prophecy to find the three Sacred Relics and seal the Void forever.",
+    "characters": [
+      {
+        "id": "lyra",
+        "name": "Lyra Starweaver",
+        "personality": "An elven ranger with silver hair and fierce determination. Skilled with bow and tracking. Lost her village to the Void. Witty, loyal, and harbors a secret about her connection to the ancient magic.",
+        "relationship": "Traveling companion and guide"
+      },
+      {
+        "id": "grimjaw",
+        "name": "Grimjaw the Bold",
+        "personality": "A dwarven warrior with a heart of gold beneath a gruff exterior. Wields a legendary hammer. Loves ale, stories, and fighting evil. Fiercely protective of his companions.",
+        "relationship": "Warrior companion"
+      },
+      {
+        "id": "sage-myrna",
+        "name": "Sage Myrna",
+        "personality": "An ancient human sorceress who has studied the Void for decades. Cryptic but wise. Her magic is fading with age, but her knowledge is invaluable. She believes in you more than you believe in yourself.",
+        "relationship": "Mentor and guide"
+      },
+      {
+        "id": "void-king",
+        "name": "The Void King",
+        "personality": "The ancient entity behind the darkness. Once a hero who fell to corruption. Speaks in echoes and whispers. Believes the world must be remade in darkness. Terrifyingly intelligent and surprisingly sympathetic.",
+        "relationship": "The ultimate antagonist"
+      }
+    ],
+    "opening": "The village of Thornhaven burns behind you as you flee into the night. The Void's shadow creeps across the land, consuming everything. In your hand, a glowing amulet — the mark of the Chosen One. Ahead, three paths lead into the unknown. The quest for the Sacred Relics begins now.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Journey Begins",
+        "goal": "Choose your path and meet your first companion",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Three paths stretch before you: the Whispering Woods to the west, the Mountain Pass to the north, and the Old King's Road to the east. Each leads to one of the Sacred Relics — but also to danger.",
+          "As you travel, the amulet pulses with warmth. It's guiding you, but also warning you. The Void knows you're coming. Shadows move at the edge of your vision.",
+          "A figure emerges from the path ahead — someone who could be a valuable ally, or a dangerous enemy. Their intentions aren't clear yet."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Enter the Whispering Woods" },
+            { "id": "c1b", "text": "Take the Mountain Pass" },
+            { "id": "c1c", "text": "Follow the Old King's Road" }
+          ],
+          [
+            { "id": "c1d", "text": "Approach the stranger cautiously" },
+            { "id": "c1e", "text": "Draw your weapon and demand answers" },
+            { "id": "c1f", "text": "Hide and observe first" }
+          ],
+          [
+            { "id": "c1g", "text": "Accept their offer to join you" },
+            { "id": "c1h", "text": "Decline and travel alone" },
+            { "id": "c1i", "text": "Agree, but keep your guard up" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The First Relic",
+        "goal": "Navigate a dangerous dungeon to find the first Sacred Relic",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "Ancient ruins loom ahead, half-swallowed by creeping darkness. The first Sacred Relic lies within — you can feel its energy calling to your amulet. But the Void's creatures guard the entrance.",
+          "Inside the ruins, traps and puzzles guard the way. Ancient inscriptions tell of a hero who came before you — and failed. Their bones still lie here as a warning.",
+          "A massive creature of shadow blocks your path to the relic chamber. It speaks with a familiar voice: 'Turn back, hero. The Void cannot be stopped.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Fight the shadow creatures head-on" },
+            { "id": "c2b", "text": "Sneak past using the ruins' layout" },
+            { "id": "c2c", "text": "Use the amulet to repel the darkness" }
+          ],
+          [
+            { "id": "c2d", "text": "Solve the ancient puzzle" },
+            { "id": "c2e", "text": "Search for a hidden passage" },
+            { "id": "c2f", "text": "Consult your companion for advice" }
+          ],
+          [
+            { "id": "c2g", "text": "Battle the shadow guardian" },
+            { "id": "c2h", "text": "Try to reason with it" },
+            { "id": "c2i", "text": "Use the environment against it" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Betrayal",
+        "goal": "Face a shocking betrayal that tests your alliances",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "With the first relic secured, you regroup at a crossroads tavern. But something is wrong — one of your companions is acting strangely. The Void corrupts more than just the land.",
+          "A figure from your past appears with a warning: someone in your party has been working with the enemy. The accusation could be true... or it could be the real betrayal.",
+          "The truth is revealed — but it's not what you expected. Sometimes betrayal comes from pain, not malice. Your response will define the kind of hero you truly are."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Confront the suspicious companion" },
+            { "id": "c3b", "text": "Set a trap to catch the traitor" },
+            { "id": "c3c", "text": "Trust no one and investigate alone" }
+          ],
+          [
+            { "id": "c3d", "text": "Offer forgiveness and redemption" },
+            { "id": "c3e", "text": "Demand justice for the betrayal" },
+            { "id": "c3f", "text": "Hear their full story before judging" }
+          ],
+          [
+            { "id": "c3g", "text": "Let them rejoin the quest" },
+            { "id": "c3h", "text": "Part ways permanently" },
+            { "id": "c3i", "text": "Make them prove their loyalty" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Dark Citadel",
+        "goal": "Storm the Void King's fortress with the relics you've gathered",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "The Dark Citadel rises before you, a tower of obsidian and shadow. The Void King waits at its peak. The final relic is somewhere inside — and so is the truth about why the darkness came.",
+          "The citadel is a maze of illusions and tests. Each floor challenges a different virtue: courage, wisdom, compassion, and sacrifice. The Void King is watching, and he's impressed.",
+          "You reach the throne room. The Void King sits upon a throne of black crystal, the final relic in his hand. 'You've come far, hero. But do you understand WHY the Void exists?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Charge through the front gates" },
+            { "id": "c4b", "text": "Find a secret entrance" },
+            { "id": "c4c", "text": "Use the relics to break the wards" }
+          ],
+          [
+            { "id": "c4d", "text": "Pass the test of courage" },
+            { "id": "c4e", "text": "Solve the trial of wisdom" },
+            { "id": "c4f", "text": "Choose compassion in the face of darkness" }
+          ],
+          [
+            { "id": "c4g", "text": "Hear the Void King's story" },
+            { "id": "c4h", "text": "Attack while he's distracted" },
+            { "id": "c4i", "text": "Offer him a chance at redemption" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Final Choice",
+        "goal": "Make the ultimate decision that determines the fate of Eldoria",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The three relics glow with ancient power. You have what you need to seal the Void — but the Void King's words echo in your mind. Was he once a hero too? Does sealing the Void destroy him... or save him?",
+          "The ritual begins. Light and darkness clash in a spectacular display. Your companions fight beside you, buying you time. The Void King makes one final offer...",
+          "This is the moment everything has led to. The choice you make now will echo through the ages. There is no going back."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Seal the Void completely" },
+            { "id": "c5b", "text": "Try to redeem the Void King" },
+            { "id": "c5c", "text": "Absorb the Void into yourself" }
+          ],
+          [
+            { "id": "c5d", "text": "Unite light and darkness in balance" },
+            { "id": "c5e", "text": "Destroy the relics to break the cycle" },
+            { "id": "c5f", "text": "Share the burden with your companions" }
+          ],
+          [
+            { "id": "c5g", "text": "Celebrate victory with your companions" },
+            { "id": "c5h", "text": "Walk into the sunset as a legend" },
+            { "id": "c5i", "text": "Begin a new quest — evil never rests" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "true-hero",
+        "condition": "High health and reputation (both above 60), all relics collected",
+        "title": "The True Hero of Eldoria",
+        "description": "The Void shatters into a million fragments of light. The darkness lifts, and Eldoria is reborn. Songs will be sung of your courage for a thousand years. Your companions stand beside you, battered but triumphant. You didn't just save the world — you proved that heroes still exist."
+      },
+      {
+        "id": "redeemer",
+        "condition": "High reputation and magic power, showed compassion to the Void King",
+        "title": "The Redeemer",
+        "description": "Instead of destroying the Void King, you freed the trapped hero within. Together, you seal the darkness and restore balance. The redeemed hero becomes your greatest ally, and Eldoria enters an age of unprecedented peace. Mercy, it turns out, was the most powerful weapon of all."
+      },
+      {
+        "id": "sacrifice",
+        "condition": "Low health but high reputation and magic power",
+        "title": "The Ultimate Sacrifice",
+        "description": "You gave everything to save Eldoria. As the Void closes, your body fades into light. Your companions weep, but they know your sacrifice saved millions. In the years that follow, children are told stories of the hero who gave their life so others could live. You are immortal."
+      },
+      {
+        "id": "dark-hero",
+        "condition": "Low reputation or chose dark paths throughout",
+        "title": "The Dark Champion",
+        "description": "You defeated the Void King — but absorbed his power instead of destroying it. Eldoria is saved, but at a terrible cost. You feel the darkness within you, held at bay by sheer will. 'I am not like him,' you whisper to the night. But the shadows seem to agree with you a little too eagerly..."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "health", "label": "Health", "icon": "❤️", "initialValue": 80, "min": 0, "max": 100 },
+      { "id": "magic-power", "label": "Magic", "icon": "✨", "initialValue": 40, "min": 0, "max": 100 },
+      { "id": "gold", "label": "Gold", "icon": "💰", "initialValue": 20, "min": 0, "max": 999 },
+      { "id": "reputation", "label": "Honor", "icon": "🛡️", "initialValue": 50, "min": 0, "max": 100 }
+    ],
+    "theme": "fantasy"
+  },
+
+  "en": {
+    "name": "AI Fantasy Adventure",
+    "desc": "Embark on an epic RPG quest! Battle monsters, find ancient relics, and save the kingdom in this AI-powered fantasy adventure!",
+    "description": "The kingdom of Eldoria is falling to darkness. An ancient evil called the Void is spreading from the north, consuming everything in its path. You are the Chosen One — a hero marked by prophecy to find three Sacred Relics and seal the Void forever. But the path is fraught with danger: shadow creatures, ancient puzzles, betrayals, and moral choices that will define what kind of hero you truly are. Join companions Lyra the elven ranger, Grimjaw the bold dwarven warrior, and Sage Myrna the wise sorceress. Face the Void King in his Dark Citadel. Every quest is unique with AI-generated encounters, dialogue, and plot twists. Your legend awaits!",
+    "howToPlay": "Read the story narration and make choices that shape your adventure. The stats bar shows your Health, Magic Power, Gold, and Honor — battle and wise choices affect these stats. Recruit companions by making the right dialogue choices. Collect relics in each chapter to progress. The final chapter determines the fate of Eldoria based on your reputation and decisions throughout the quest!",
+    "tips": [
+      "Balance combat and diplomacy — not every problem needs a sword",
+      "Your Honor stat affects which ending you get — choose wisely",
+      "Companions have their own stories — talk to them between quests",
+      "The Void King is more complex than he seems — listen to his story",
+      "There are 4 distinct endings based on your stats and choices"
+    ],
+    "faq": [
+      {
+        "question": "Is this like D&D with an AI dungeon master?",
+        "answer": "Yes! It's inspired by tabletop RPGs like D&D, but with an AI generating the story in real-time. Every adventure is unique, and the AI adapts to your choices to create a personalized epic fantasy."
+      },
+      {
+        "question": "How long is one adventure?",
+        "answer": "A complete playthrough takes about 15-30 minutes, covering 5 chapters from your humble beginnings to the final confrontation with the Void King."
+      },
+      {
+        "question": "Can I play as different character classes?",
+        "answer": "Your choices throughout the game shape your character — favor magic to become a sorcerer, combat to become a warrior, or cunning to become a rogue. The AI adapts the story to your playstyle!"
+      },
+      {
+        "question": "Is there combat?",
+        "answer": "Yes! Combat happens through story choices — you can fight head-on, use magic, or find creative solutions. Your stats determine how well you fare in battle."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 奇幻冒险",
+    "desc": "踏上史诗RPG冒险之旅！战斗怪物，寻找古代圣物，拯救王国！",
+    "description": "Eldoria王国正在被黑暗吞噬。一种名为虚空号的远古邪恶力量正从北方蔓延，吞噬一切。你是天选之人——预言中标记的英雄，需要找到三件神圣圣物来永远封印虚空。但道路充满危险：暗影生物、古代谜题、背叛和道德选择，这些将决定你是什么样的英雄。加入精灵游侠Lyra、勇敢的矮人战士Grimjaw和智慧女巫Sage Myrna。在暗黑堡垒面对虚空王。每次任务都是独一无二的，由AI生成遭遇、对话和情节转折。你的传奇在等待！",
+    "howToPlay": "阅读故事叙述并做出影响冒险的选择。状态栏显示你的生命值、魔法力、金币和荣誉——战斗和明智的选择会影响这些数值。通过正确的对话选择招募同伴。在每个章节中收集圣物来推进。最终章节根据你在整个任务中的声誉和决定来确定Eldoria的命运！",
+    "tips": [
+      "平衡战斗和外交——不是每个问题都需要用剑解决",
+      "你的荣誉值影响你获得哪个结局——明智地选择",
+      "同伴有自己的故事——在任务之间与他们交谈",
+      "虚空王比他看起来更复杂——倾听他的故事",
+      "有4种不同的结局取决于你的状态和选择"
+    ],
+    "faq": [
+      {
+        "question": "这像有AI地牢主的D&D吗？",
+        "answer": "是的！灵感来自D&D等桌面RPG，但由AI实时生成故事。每次冒险都是独一无二的，AI会根据你的选择调整来创造个性化的史诗奇幻。"
+      },
+      {
+        "question": "一次冒险需要多长时间？",
+        "answer": "完整游玩大约需要15-30分钟，涵盖5个章节，从你卑微的起点到与虚空王的最终对决。"
+      },
+      {
+        "question": "我可以选择不同的角色职业吗？",
+        "answer": "你在游戏中的选择塑造了你的角色——偏好魔法成为法师，偏好战斗成为战士，偏好策略成为盗贼。AI会根据你的游戏风格调整故事！"
+      },
+      {
+        "question": "有战斗吗？",
+        "answer": "有！战斗通过故事选择进行——你可以正面战斗、使用魔法或寻找创造性的解决方案。你的状态决定你在战斗中的表现。"
+      }
+    ]
+  }
+}

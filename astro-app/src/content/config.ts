@@ -60,7 +60,8 @@ const storiesCollection = defineCollection({
     templateType: z.enum([
       'dating-sim', 'startup-sim', 'detective',
       'horror', 'personality-quiz', 'survival',
-      'negotiation', 'open-adventure',
+      'negotiation', 'open-adventure', 'escape-room',
+      'persuasion', 'fantasy-rpg',
     ]),
     color: z.string(),
     aiModel: z.string().default('@cf/meta/llama-3.1-8b-instruct'),
@@ -110,7 +111,7 @@ const storiesCollection = defineCollection({
         min: z.number().optional(),
         max: z.number().optional(),
       })).default([]),
-      theme: z.enum(['dark', 'light', 'romantic', 'horror', 'business']).default('dark'),
+      theme: z.enum(['dark', 'light', 'romantic', 'horror', 'business', 'mystery', 'fantasy']).default('dark'),
     }),
 
     en: z.object({

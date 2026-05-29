@@ -1,0 +1,264 @@
+{
+  "id": "ai-murder-mystery",
+  "slug": "ai-murder-mystery",
+  "icon": "🔍",
+  "templateType": "detective",
+  "color": "from-amber-500 to-orange-600",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive murder mystery narrator. A wealthy CEO has been found dead at a dinner party in his mansion. The player is the detective who must interrogate 4 suspects and find the killer. Write in second person (you). Be mysterious, suspenseful, and clever. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: suspicious, nervous, angry, secretive, confident, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"suspicion-victor\": 15, \"evidence\": 1}). Track clues found and alibis verified. The killer is determined randomly at game start — do NOT reveal who until the final chapter. Keep the mystery engaging with red herrings and contradictions.",
+    "zh": "你是一个互动谋杀悬疑叙述者。一位富有的CEO在晚宴上被发现死在他的豪宅中。玩家是侦探，必须审讯4名嫌疑人并找到凶手。用第二人称叙述。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话）、emotion（suspicious/nervous/angry/secretive/confident/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"suspicion-victor\": 15, \"evidence\": 1}）。凶手在游戏开始时随机确定——不要在最终章之前透露。保持悬疑和引人入胜。"
+  },
+
+  "storySkeleton": {
+    "setting": "A lavish mansion during a stormy evening dinner party. The wealthy CEO Richard Blackwell has been found dead in his study. Four suspects were in the house, each with a motive. Lightning crashes outside as you begin your investigation.",
+    "characters": [
+      {
+        "id": "victor",
+        "name": "Victor Ashford",
+        "personality": "Cold, calculating business partner. Always composed, speaks in measured tones. Has a rivalry with the victim over a merger deal worth millions.",
+        "relationship": "Business partner and rival"
+      },
+      {
+        "id": "elena",
+        "name": "Elena Blackwell",
+        "personality": "Elegant, poised, but with hidden depths. The victim's younger wife who stood to inherit everything. Charming when she needs to be.",
+        "relationship": "Victim's wife"
+      },
+      {
+        "id": "marcus",
+        "name": "Marcus Chen",
+        "personality": "Nervous, brilliant chief technology officer. Sweats under pressure but fiercely loyal — or is he? Had a secret project the victim threatened to cancel.",
+        "relationship": "CTO of Blackwell Industries"
+      },
+      {
+        "id": "diana",
+        "name": "Diana Reeves",
+        "personality": "Sharp-tongued personal assistant who knows everyone's secrets. Observant, ambitious, and was recently passed over for promotion.",
+        "relationship": "Victim's personal assistant"
+      }
+    ],
+    "opening": "Thunder shakes the mansion as you step through the grand doors. Police have sealed the scene — Richard Blackwell lies dead in his study, a half-empty wine glass beside him. Four people were in the house. One of them is a killer. You have until dawn to find the truth.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Crime Scene",
+        "goal": "Examine the crime scene and gather initial clues",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The study is dimly lit by a single lamp. Blackwell slumps over his desk, an expression of surprise frozen on his face. The wine glass catches your eye — was he poisoned?",
+          "You notice the window is slightly ajar despite the storm. A muddy footprint mars the Persian rug. Someone came through here recently.",
+          "On the desk, you spot a torn photograph and a cryptic note: 'I know what you did. Meet me at midnight.' The ink is barely dry."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Analyze the wine glass carefully" },
+            { "id": "c1b", "text": "Check the window and footprint" },
+            { "id": "c1c", "text": "Read the cryptic note" }
+          ],
+          [
+            { "id": "c1d", "text": "Search the desk drawers" },
+            { "id": "c1e", "text": "Check Blackwell's phone" },
+            { "id": "c1f", "text": "Look at the torn photograph" }
+          ],
+          [
+            { "id": "c1g", "text": "Begin questioning the suspects" },
+            { "id": "c1h", "text": "Search the room more thoroughly" },
+            { "id": "c1i", "text": "Check the body for other clues" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "First Interrogations",
+        "goal": "Question the suspects and establish alibis",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "The four suspects sit in the drawing room, avoiding each other's eyes. Victor checks his watch impatiently. Elena stares at nothing. Marcus fidgets with his phone. Diana watches everyone like a hawk.",
+          "You begin your questioning. Each suspect claims they were elsewhere when Blackwell died. But their stories don't all add up.",
+          "A contradiction emerges — two people claim to have been in the same hallway at the same time, but neither saw the other. Someone is lying."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Question Victor about the merger dispute" },
+            { "id": "c2b", "text": "Ask Elena about her marriage" },
+            { "id": "c2c", "text": "Press Marcus about his secret project" }
+          ],
+          [
+            { "id": "c2d", "text": "Ask Diana what she overheard" },
+            { "id": "c2e", "text": "Compare alibis for contradictions" },
+            { "id": "c2f", "text": "Ask who had access to the study" }
+          ],
+          [
+            { "id": "c2g", "text": "Show them the torn photograph" },
+            { "id": "c2h", "text": "Ask about the midnight meeting" },
+            { "id": "c2i", "text": "Pressure the most nervous suspect" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "Hidden Connections",
+        "goal": "Uncover secret relationships and motives between suspects",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The pieces are starting to form a picture, but it's more complicated than you thought. The suspects aren't strangers — they have secrets connecting them.",
+          "You discover a hidden safe behind a painting in the study. Inside: documents that could change everything you thought you knew.",
+          "A suspect breaks down and confesses something — not to the murder, but to a secret that gives them a powerful motive."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Follow the money trail" },
+            { "id": "c3b", "text": "Investigate secret relationships" },
+            { "id": "c3c", "text": "Check the hidden safe contents" }
+          ],
+          [
+            { "id": "c3d", "text": "Confront a suspect with new evidence" },
+            { "id": "c3e", "text": "Re-examine the crime scene with fresh eyes" },
+            { "id": "c3f", "text": "Ask who benefits most from the death" }
+          ],
+          [
+            { "id": "c3g", "text": "Check security camera footage" },
+            { "id": "c3h", "text": "Interview staff separately" },
+            { "id": "c3i", "text": "Look for the missing murder weapon" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Reveal",
+        "goal": "Accuse the killer and solve the mystery",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Dawn is approaching. You've gathered enough evidence — it's time to make your accusation. But are you sure you have the right person?",
+          "You gather all four suspects in the drawing room. The tension is suffocating. One of them is a killer, and they know you're closing in.",
+          "The final piece of evidence clicks into place. Everything makes sense now — the motive, the means, the opportunity. It's time to reveal the truth."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Accuse Victor — he had the strongest motive" },
+            { "id": "c4b", "text": "Accuse Elena — she inherits everything" },
+            { "id": "c4c", "text": "Accuse Marcus — he was hiding something" }
+          ],
+          [
+            { "id": "c4d", "text": "Accuse Diana — she knows too much" },
+            { "id": "c4e", "text": "Present your evidence methodically" },
+            { "id": "c4f", "text": "Set a trap to force a confession" }
+          ],
+          [
+            { "id": "c4g", "text": "Reveal the killer with dramatic flair" },
+            { "id": "c4h", "text": "Explain the full chain of events" },
+            { "id": "c4i", "text": "Ask the killer why they did it" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "master-detective",
+        "condition": "Correctly identified the killer with strong evidence (evidence stat above 70)",
+        "title": "Master Detective",
+        "description": "You cracked the case! With sharp instincts and ironclad evidence, you revealed the killer before dawn. The guilty party breaks down and confesses everything. Justice for Richard Blackwell is served. You've proven yourself as a detective of rare talent."
+      },
+      {
+        "id": "close-call",
+        "condition": "Correctly identified the killer but with moderate evidence (evidence stat 40-70)",
+        "title": "A Close Call",
+        "description": "You got the right person, but it was closer than you'd like to admit. The evidence was circumstantial, and the killer nearly talked their way out of it. In the end, your gut instinct saved the day — but next time, gather more proof."
+      },
+      {
+        "id": "wrong-suspect",
+        "condition": "Accused the wrong person",
+        "title": "The Wrong Lead",
+        "description": "You accused the wrong person, and the real killer almost got away. But at the last moment, a crucial piece of evidence surfaces that points to the true culprit. A humbling reminder that assumptions can be deadly in detective work."
+      },
+      {
+        "id": "unresolved",
+        "condition": "Couldn't gather enough evidence to make an accusation",
+        "title": "The Cold Case",
+        "description": "Dawn breaks and you're no closer to the truth. The suspects are released, and the case goes cold. But something tells you this isn't over — Richard Blackwell's ghost won't rest until justice is served. Perhaps another investigation..."
+      }
+    ],
+    "maxTotalTurns": 26
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "evidence", "label": "Evidence", "icon": "🔎", "initialValue": 10, "min": 0, "max": 100 },
+      { "id": "suspicion-victor", "label": "Victor", "icon": "💼", "initialValue": 25, "min": 0, "max": 100 },
+      { "id": "suspicion-elena", "label": "Elena", "icon": "💎", "initialValue": 25, "min": 0, "max": 100 },
+      { "id": "suspicion-marcus", "label": "Marcus", "icon": "💻", "initialValue": 25, "min": 0, "max": 100 },
+      { "id": "suspicion-diana", "label": "Diana", "icon": "📋", "initialValue": 25, "min": 0, "max": 100 }
+    ],
+    "theme": "mystery"
+  },
+
+  "en": {
+    "name": "AI Murder Mystery",
+    "desc": "A wealthy CEO is dead. Interrogate 4 suspects, find clues, and crack the case before dawn in this AI-powered detective story!",
+    "description": "Step into the shoes of a brilliant detective in our AI Murder Mystery! A powerful CEO has been found dead in his mansion during a stormy dinner party. Four suspects, each with secrets and motives, are waiting to be interrogated. Victor Ashford, the cold business rival. Elena Blackwell, the elegant young widow. Marcus Chen, the nervous tech genius. Diana Reeves, the sharp-tongued assistant who knows too much. Search the crime scene for clues, question suspects to expose contradictions, uncover hidden relationships, and build your case. With AI generating unique dialogue and plot twists every time, no two investigations are the same. Can you find the killer before dawn?",
+    "howToPlay": "Read the story and examine the crime scene. When you're ready, interrogate the suspects by choosing your questions carefully. Pay attention to contradictions in their stories and the evidence bar at the top. Each suspect has a suspicion meter — the higher it goes, the more likely they're guilty. Gather enough evidence to make your accusation in the final chapter!",
+    "tips": [
+      "Pay attention to contradictions between suspect alibis — someone is lying",
+      "The evidence stat is crucial — search everywhere before making accusations",
+      "Don't trust first impressions — the most nervous suspect isn't always guilty",
+      "Ask about relationships between suspects — secrets connect them",
+      "There are 4 possible endings depending on your detective skills"
+    ],
+    "faq": [
+      {
+        "question": "Is the killer different each time?",
+        "answer": "Yes! The AI randomly determines the killer at the start of each game, so you can't just memorize the answer. Every playthrough is a fresh mystery."
+      },
+      {
+        "question": "How do I know who the killer is?",
+        "answer": "Pay close attention to alibi contradictions, physical evidence at the crime scene, and behavioral inconsistencies during interrogations. The clues are there — you just need to piece them together."
+      },
+      {
+        "question": "What happens if I accuse the wrong person?",
+        "answer": "If you make the wrong accusation, you'll get a different ending. The story adapts to your choice — sometimes new evidence surfaces at the last moment!"
+      },
+      {
+        "question": "Can I replay the mystery?",
+        "answer": "Absolutely! Since the AI generates unique dialogue and the killer changes each time, every replay offers a completely new mystery to solve."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 谋杀悬疑",
+    "desc": "一位富有的CEO死了。审讯4名嫌疑人，搜集线索，在天亮前破案！",
+    "description": "在我们的AI谋杀悬疑中化身为才华横溢的侦探！一位权势CEO在暴风雨晚宴上被发现死在豪宅中。四名嫌疑人各有秘密和动机，等待着被审讯。冷面商业对手Victor Ashford、优雅年轻的遗孀Elena Blackwell、紧张的技术天才Marcus Chen、以及言辞犀利的助理Diana Reeves。搜查犯罪现场寻找线索，审问嫌疑人揭露矛盾，揭开隐藏的关系，建立你的案件。AI每次都会生成独特的对话和情节转折，没有两次调查是相同的。你能在天亮前找到凶手吗？",
+    "howToPlay": "阅读故事并检查犯罪现场。准备好后，通过精心选择问题来审讯嫌疑人。注意他们故事中的矛盾以及顶部的证据条。每个嫌疑人都有嫌疑度指标——越高越可能是凶手。在最终章节中收集足够的证据来做出你的指控！",
+    "tips": [
+      "注意嫌疑人不在场证明之间的矛盾——有人在说谎",
+      "证据值至关重要——在做指控前搜索每个角落",
+      "不要相信第一印象——最紧张的嫌疑人未必有罪",
+      "询问嫌疑人之间的关系——秘密将他们联系在一起",
+      "有4种可能的结局，取决于你的侦探技巧"
+    ],
+    "faq": [
+      {
+        "question": "每次凶手都不同吗？",
+        "answer": "是的！AI在每次游戏开始时随机确定凶手，所以你不能记住答案。每次游玩都是一个全新的谜题。"
+      },
+      {
+        "question": "我怎么知道凶手是谁？",
+        "answer": "仔细注意不在场证明的矛盾、犯罪现场的物证，以及审讯中的行为不一致。线索就在那里——你只需要把它们拼凑起来。"
+      },
+      {
+        "question": "如果我指控错了人怎么办？",
+        "answer": "如果你做出了错误的指控，你会得到一个不同的结局。故事会根据你的选择调整——有时最后一刻会出现新证据！"
+      },
+      {
+        "question": "我可以重玩这个谜题吗？",
+        "answer": "当然可以！由于AI会生成独特的对话，凶手每次都会变化，每次重玩都提供了一个全新的悬疑体验。"
+      }
+    ]
+  }
+}

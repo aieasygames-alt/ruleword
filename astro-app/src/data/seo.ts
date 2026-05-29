@@ -27,6 +27,38 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play AI Dating Simulator free! Make choices that shape your love story with AI characters. 3 love interests, 4 endings. No download!',
     intent: 'play'
   },
+  'ai-murder-mystery': {
+    primaryKeyword: 'AI murder mystery game',
+    secondaryKeywords: ['murder mystery online', 'detective game', 'AI detective', 'whodunit game', 'interactive mystery'],
+    longTailKeywords: ['play AI murder mystery free', 'online detective game no download', 'interactive murder mystery AI', 'free whodunit puzzle game'],
+    titleTemplate: 'AI Murder Mystery - Play Detective Game Online Free | {brand}',
+    descriptionTemplate: 'Play AI Murder Mystery free! Interrogate 4 suspects, find clues, and crack the case before dawn. AI-powered detective game with unique killer each time!',
+    intent: 'play'
+  },
+  'ai-escape-room': {
+    primaryKeyword: 'AI escape room',
+    secondaryKeywords: ['escape room online', 'virtual escape room', 'puzzle room game', 'AI puzzle game'],
+    longTailKeywords: ['play escape room online free', 'AI escape room no download', 'virtual puzzle room browser game', 'free online escape game'],
+    titleTemplate: 'AI Escape Room - Solve Puzzles & Escape Online Free | {brand}',
+    descriptionTemplate: 'Play AI Escape Room free! Solve 5 unique puzzle rooms — ciphers, mirrors, logic grids, and more. AI Game Master adapts to your skill. No download!',
+    intent: 'play'
+  },
+  'ai-convince': {
+    primaryKeyword: 'convince the AI game',
+    secondaryKeywords: ['AI persuasion game', 'convince AI not to launch', 'AI negotiation', 'AI chat game', 'persuasion puzzle'],
+    longTailKeywords: ['play convince the AI free', 'AI persuasion game online', 'convince AI game no download', 'can you change AI mind game'],
+    titleTemplate: 'Convince the AI - 5 Messages to Stop Disaster | {brand}',
+    descriptionTemplate: 'Play Convince the AI free! You have 5 messages to persuade an AI not to launch nuclear missiles. A viral persuasion challenge. No download required!',
+    intent: 'play'
+  },
+  'ai-fantasy-adventure': {
+    primaryKeyword: 'AI fantasy RPG',
+    secondaryKeywords: ['AI dungeon master', 'fantasy adventure game', 'AI RPG online', 'text adventure AI', 'fantasy quest game'],
+    longTailKeywords: ['play AI fantasy RPG free', 'AI dungeon master game online', 'free fantasy text adventure AI', 'AI RPG no download browser'],
+    titleTemplate: 'AI Fantasy Adventure - Play AI RPG Quest Online Free | {brand}',
+    descriptionTemplate: 'Play AI Fantasy Adventure free! Epic RPG quest with AI dungeon master. Battle monsters, find relics, save the kingdom. 4 unique endings. No download!',
+    intent: 'play'
+  },
   // Word Games - High search volume
   wordle: {
     primaryKeyword: 'wordle online',
