@@ -1,0 +1,321 @@
+{
+  "id": "startup-simulator",
+  "slug": "startup-simulator",
+  "icon": "🚀",
+  "templateType": "startup-sim",
+  "color": "from-violet-500 to-purple-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive startup simulator narrator. The player is a tech founder building a startup from scratch, trying to reach unicorn status ($1B valuation). Write in second person (you). Be witty, realistic, and capture the chaos of Silicon Valley startup life. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: excited, anxious, determined, frustrated, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"funding\": 10, \"users\": -5, \"morale\": 15, \"product-progress\": 10}). Track funding, users, morale, and product-progress realistically. Startup scenarios should include: product-market fit struggles, burn rate pressure, pitch meeting drama, hiring challenges, technical debt, pivots, and growth tactics. Keep the tone sharp — think Silicon Valley meets choose-your-own-adventure. Characters include Maya (brilliant CTO co-founder), Mr. Chen (shark-like VC investor), and Dave (serial entrepreneur mentor).",
+    "zh": "你是一个互动创业模拟器叙述者。玩家是一位从零开始创建科技公司的创始人，目标是达到独角兽地位（10亿美元估值）。用第二人称叙述。风格机智、现实，捕捉硅谷创业生活的混乱。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话）、emotion（excited/anxious/determined/frustrated/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"funding\": 10, \"users\": -5, \"morale\": 15, \"product-progress\": 10}）。跟踪资金、用户、士气和产品进度。创业场景应包括：产品市场匹配困难、烧钱压力、融资路演戏剧性、招聘挑战、技术债务、转型和增长策略。角色包括Maya（才华横溢的CTO联合创始人）、Mr. Chen（鲨鱼般的风险投资人）和Dave（连续创业者导师）。"
+  },
+
+  "storySkeleton": {
+    "setting": "A cramped garage in Palo Alto. Three laptops, a whiteboard covered in scribbles, and enough cold pizza to fuel an army. You've quit your comfortable tech job to chase the startup dream. Your co-founder Maya is already coding. The clock is ticking — you have 6 months of runway.",
+    "characters": [
+      {
+        "id": "maya",
+        "name": "Maya",
+        "personality": "Brilliant CTO and your co-founder. Fiercely intelligent, sometimes brutally honest. Can architect systems that scale to millions but forgets to eat. Speaks in technical terms but has a dry wit. Loyal to the mission but won't hesitate to tell you when an idea is terrible.",
+        "relationship": "Co-founder and CTO"
+      },
+      {
+        "id": "mr-chen",
+        "name": "Mr. Chen",
+        "personality": "A shark-like venture capitalist who can smell weakness from across the room. Speaks in smooth, measured tones. Asks piercing questions that cut through fluff. Respects traction above all else. If he invests, doors open. If he passes, other VCs take it as a signal.",
+        "relationship": "VC investor at Dragonfire Capital"
+      },
+      {
+        "id": "dave",
+        "name": "Dave",
+        "personality": "Serial entrepreneur who's built and sold three companies. Casual and approachable, usually found in a hoodie with a coffee cup. Gives advice that's equal parts wisdom and war stories. Has seen every startup mistake and made most of them himself. Your informal mentor.",
+        "relationship": "Mentor and serial entrepreneur"
+      }
+    ],
+    "opening": "Your phone alarm screams at 6 AM. You're sleeping on an air mattress next to a tower of servers. Maya is already up, headphones on, debugging something at warp speed. A calendar notification reminds you: you have a meeting with Dave at noon, and Mr. Chen's office agreed to hear your pitch next week. You have an idea, a co-founder, and just enough savings to survive six months. Time to build the next big thing — or flame out trying.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Idea",
+        "goal": "Define your startup's product concept and validate the idea",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The whiteboard is blank except for the words 'MAKE SOMETHING PEOPLE WANT' that Maya scribbled at 2 AM. She looks up from her laptop: 'So what are we building? Because I didn't quit my job at Google to make another todo app.'",
+          "Dave slides into your garage office with two cups of coffee. He surveys the whiteboard and grins. 'Let me guess — you've got a billion-dollar idea but you're not sure if anyone actually needs it? Welcome to every founder's Friday.'",
+          "You've been bouncing ideas all night. One concept keeps coming back: an AI-powered platform that solves a real pain point. But which pain point? And for who? Maya says: 'Stop thinking about what's cool. Think about what people will pay for.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Build an AI tool for small businesses" },
+            { "id": "c1b", "text": "Create a consumer social app with AI" },
+            { "id": "c1c", "text": "Target enterprise with automation" }
+          ],
+          [
+            { "id": "c1d", "text": "Ask Dave which idea has the most potential" },
+            { "id": "c1e", "text": "Interview potential customers first" },
+            { "id": "c1f", "text": "Just start building and iterate fast" }
+          ],
+          [
+            { "id": "c1g", "text": "Pick the idea that excites Maya most" },
+            { "id": "c1h", "text": "Choose the idea with the biggest market" },
+            { "id": "c1i", "text": "Go with what you know best personally" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "Building the MVP",
+        "goal": "Ship a minimum viable product and get your first users",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "Three weeks in. Maya hasn't slept more than four hours a night. The prototype is rough but functional. She pulls you over to her screen: 'Look — it works. It actually works. But we need users to tell us if it's useful or just technically impressive.'",
+          "Bug after bug after bug. The MVP crashes every time more than five people use it simultaneously. Maya is frustrated but determined: 'This is what building looks like. Nobody sees the hundred failures behind every launch.'",
+          "Dave drops by unannounced and tests the MVP himself. He clicks around for five minutes, then looks up: 'It's... almost there. The core idea is solid, but the onboarding is a disaster. Users will bounce in ten seconds. Fix that before you show anyone else.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Ship it now and get feedback fast" },
+            { "id": "c2b", "text": "Polish it another two weeks" },
+            { "id": "c2c", "text": "Launch to a small beta group first" }
+          ],
+          [
+            { "id": "c2d", "text": "Fix the critical bugs Maya flagged" },
+            { "id": "c2e", "text": "Add the feature users keep asking for" },
+            { "id": "c2f", "text": "Focus on making onboarding smoother" }
+          ],
+          [
+            { "id": "c2g", "text": "Post about it on social media" },
+            { "id": "c2h", "text": "Email your personal network" },
+            { "id": "c2i", "text": "Submit it to Product Hunt" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "Pitch Day",
+        "goal": "Secure funding from Mr. Chen and other investors",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "Mr. Chen's office is on the 30th floor with a view of the entire valley. He doesn't stand when you enter. A single raised eyebrow is your greeting. 'You have twelve minutes. Make me care.'",
+          "The pitch is going... okay? Mr. Chen interrupts your slide deck: 'I don't care about features. Show me the numbers. How many users? What's retention? What's your CAC to LTV ratio?' Maya shifts uncomfortably beside you.",
+          "Dave warned you about this moment. 'VCs invest in lines, not dots,' he said. Mr. Chen leans back: 'I've heard a hundred pitches like this. What makes yours different? Why will YOU succeed when ninety percent of startups fail?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Lead with your traction numbers" },
+            { "id": "c3b", "text": "Tell your personal founding story" },
+            { "id": "c3c", "text": "Show the market size opportunity" }
+          ],
+          [
+            { "id": "c3d", "text": "Ask for exactly what you need" },
+            { "id": "c3e", "text": "Let Maya handle the technical questions" },
+            { "id": "c3f", "text": "Mention a competitor's weakness" }
+          ],
+          [
+            { "id": "c3g", "text": "Accept the offer on the table" },
+            { "id": "c3h", "text": "Negotiate for better terms" },
+            { "id": "c3i", "text": "Walk away and find other investors" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "Growth Hacking",
+        "goal": "Scale your user base from hundreds to thousands",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "You have funding. You have a product. What you don't have is enough users. Maya shows you the dashboard: 'We're at 800 users. At this rate, we'll run out of money before we hit the milestone investors expect. We need to 10x — fast.'",
+          "Your growth hack went viral — but not in the way you hoped. A controversial blog post about your startup just hit the front page of Hacker News. Traffic is spiking, but the comments are brutal. Dave calls: 'Hey, bad press is still press. How are you going to spin this?'",
+          "The numbers are climbing. A partnership with a bigger platform could accelerate everything. But the terms they're offering would give them significant control. Maya is skeptical: 'We didn't quit our jobs to become someone's feature.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Launch a referral program with rewards" },
+            { "id": "c4b", "text": "Pour budget into paid ads" },
+            { "id": "c4c", "text": "Focus on SEO and content marketing" }
+          ],
+          [
+            { "id": "c4d", "text": "Double down on the viral moment" },
+            { "id": "c4e", "text": "Respond to criticism head-on" },
+            { "id": "c4f", "text": "Let it blow over and focus on product" }
+          ],
+          [
+            { "id": "c4g", "text": "Take the partnership deal" },
+            { "id": "c4h", "text": "Counter-offer with better terms" },
+            { "id": "c4i", "text": "Build the integration yourself" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Pivot",
+        "goal": "Navigate a critical crisis that forces a strategic decision",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The numbers don't lie — user growth has flatlined. A well-funded competitor just launched an identical product. Maya sits across from you, unusually quiet: 'I think we need to talk about pivoting. What we're doing isn't working.'",
+          "A massive bug wiped out a day's worth of user data. Your inbox is filling with angry emails. Mr. Chen's assistant just called — he wants a meeting tomorrow. Dave texts: 'This is the moment that defines you. Handle it right and investors will trust you more, not less.'",
+          "Maya bursts into the office at midnight with her laptop: 'I've been analyzing our data and I found something. A subset of our users is using the product in a completely different way than we designed — and they LOVE it. What if we're building the wrong product for the right market?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Pivot to the new use case Maya found" },
+            { "id": "c5b", "text": "Double down on the original vision" },
+            { "id": "c5c", "text": "Spin off a second product line" }
+          ],
+          [
+            { "id": "c5d", "text": "Be transparent with users about the bug" },
+            { "id": "c5e", "text": "Offer heavy compensation to affected users" },
+            { "id": "c5f", "text": "Quietly fix it and move forward" }
+          ],
+          [
+            { "id": "c5g", "text": "Reassure Mr. Chen with a bold new plan" },
+            { "id": "c5h", "text": "Ask Dave for advice first" },
+            { "id": "c5i", "text": "Show Mr. Chen the data supporting the pivot" }
+          ]
+        ]
+      },
+      {
+        "id": "ch6",
+        "title": "IPO or Bust",
+        "goal": "Reach unicorn status or face the consequences",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "The boardroom is packed. Investment bankers in expensive suits, your lawyer, Maya in a blazer she clearly bought yesterday, and Dave sitting in the back row with a proud grin. Today you decide: do you take the company public, accept an acquisition offer, or keep building?",
+          "Mr. Chen's firm is pushing for a quick IPO. 'The market is hot,' he says. 'Window like this won't stay open forever.' But Maya has concerns: 'Our infrastructure isn't ready for public-company scrutiny. One bad quarter and we're dead.'",
+          "A Fortune 500 company just sent a term sheet — they want to acquire you for $800 million. It's not unicorn status, but it's life-changing money. Dave pulls you aside: 'No shame in taking the exit. Most founders never get this far. But is that why you started this?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c6a", "text": "Go for the IPO — swing for the fences" },
+            { "id": "c6b", "text": "Accept the acquisition offer" },
+            { "id": "c6c", "text": "Raise another round and keep building" }
+          ],
+          [
+            { "id": "c6d", "text": "Let Maya present the technical roadmap" },
+            { "id": "c6e", "text": "Show explosive user growth projections" },
+            { "id": "c6f", "text": "Highlight your strongest competitive moat" }
+          ],
+          [
+            { "id": "c6g", "text": "Negotiate the acquisition price higher" },
+            { "id": "c6h", "text": "Walk away and bet on yourself" },
+            { "id": "c6i", "text": "Ask the team what they want" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "unicorn",
+        "condition": "High across all metrics (funding above 80, users above 80, morale above 60, product-progress above 80)",
+        "title": "Unicorn Status",
+        "description": "The IPO rings the opening bell. Your startup is now worth $1.2 billion. Maya becomes one of the few female CTOs of a public tech company. Mr. Chen's investment returned 50x. Dave sends a single text: 'I knew you had it.' You think about the garage, the cold pizza, the all-nighters — and realize you'd do it all again in a heartbeat."
+      },
+      {
+        "id": "golden-exit",
+        "condition": "Good funding and users but chose acquisition (funding above 60, users above 60)",
+        "title": "The Golden Exit",
+        "description": "You sold the company for $850 million. Not quite unicorn, but you and Maya are set for life. The acquiring company lets you keep building independently. Mr. Chen made a killing. Dave takes you out for the most expensive dinner of your life and says: 'The best founders know when to hold and when to fold. You played it perfectly.'"
+      },
+      {
+        "id": "zombie-startup",
+        "condition": "Moderate metrics — survived but not thriving (funding 40-60, users 40-60, morale below 50)",
+        "title": "The Zombie Startup",
+        "description": "Your startup isn't dead, but it's not exactly alive either. You're stuck in the valley of mediocrity — enough traction to keep going, not enough to break through. Maya is burning out. Investors are getting impatient. Dave gives it to you straight: 'You can keep limping along, or you can make a hard decision. Either way, decide before the market decides for you.'"
+      },
+      {
+        "id": "flameout",
+        "condition": "Low metrics across the board (funding below 40, users below 40, or morale below 20)",
+        "title": "The Flameout",
+        "description": "The money ran out. Users didn't come. Maya took a job at another company — no hard feelings, just reality. Mr. Chen never returned your last email. You sit in the empty garage, surrounded by whiteboards full of dreams. But Dave calls: 'Welcome to the club. Most great founders failed first. The question is — are you going to try again?'"
+      },
+      {
+        "id": "pivot-king",
+        "condition": "Successfully pivoted with strong product-progress (product-progress above 80 after pivot, users above 50)",
+        "title": "The Pivot King",
+        "description": "The pivot saved everything. Your new product found product-market fit almost instantly. Growth is explosive. Maya is reinvigorated. Investors are throwing money at you. Dave laughs: 'The best startups are the ones that survived their own bad ideas long enough to find the good one.' You didn't follow the plan — but you found something better."
+      }
+    ],
+    "maxTotalTurns": 36
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "funding", "label": "Funding", "icon": "💰", "initialValue": 0, "min": 0, "max": 100 },
+      { "id": "users", "label": "Users", "icon": "👥", "initialValue": 0, "min": 0, "max": 100 },
+      { "id": "morale", "label": "Morale", "icon": "❤️", "initialValue": 60, "min": 0, "max": 100 },
+      { "id": "product-progress", "label": "Product", "icon": "📦", "initialValue": 0, "min": 0, "max": 100 }
+    ],
+    "theme": "business"
+  },
+
+  "en": {
+    "name": "Startup Simulator",
+    "desc": "Found a tech startup and try to build it into a billion-dollar unicorn! Pitch investors, hire talent, and survive Silicon Valley.",
+    "description": "Ever dreamed of building the next billion-dollar startup? In our AI Startup Simulator, you quit your day job, recruit a brilliant co-founder named Maya, and race against the clock to turn your idea into a unicorn. Pitch to Mr. Chen, a ruthless VC who can make or break you with a single check. Get sage advice from Dave, a serial entrepreneur who's seen it all. Build your MVP, survive pitch meetings, hack your way to growth, face the dreaded pivot moment, and decide whether to go for IPO or cash out. Every choice impacts your funding, users, morale, and product progress. With AI generating unique startup scenarios each time, no two founding journeys are the same. Will you be the next unicorn — or just another cautionary tale?",
+    "howToPlay": "You're a startup founder making critical decisions at every turn. Read each scenario and choose your path — what to build, how to pitch, where to grow, and when to pivot. Watch your stats bar: Funding (investor money), Users (growth), Morale (team spirit), and Product Progress (how built your product is). Balance all four to reach unicorn status. The story adapts to your choices, so every playthrough is a different startup journey!",
+    "tips": [
+      "Balance all four stats — neglecting any one can sink your startup",
+      "Maya's technical instincts are usually right, but don't ignore the business side",
+      "Mr. Chen respects traction above all — show him numbers, not dreams",
+      "Dave's advice comes from experience, but sometimes you have to trust your gut",
+      "There are 5 different endings depending on your startup's final metrics"
+    ],
+    "faq": [
+      {
+        "question": "Is the startup scenario different each time?",
+        "answer": "Yes! The AI generates unique scenarios, dialogue, and challenges for every playthrough. You might face a viral growth moment in one game and a catastrophic server crash in the next."
+      },
+      {
+        "question": "How do I reach unicorn status?",
+        "answer": "You need high scores across all four metrics — funding, users, morale, and product progress. Make smart decisions at every stage and balance short-term gains against long-term strategy."
+      },
+      {
+        "question": "What happens if my startup fails?",
+        "answer": "Failure is part of the journey! If your metrics tank, you'll get one of the less favorable endings — but there are no wrong ways to play. The story is about the experience of building a startup, win or lose."
+      },
+      {
+        "question": "Can I replay and try different strategies?",
+        "answer": "Absolutely! Each playthrough offers new scenarios and decisions. Try different approaches — aggressive growth in one run, cautious product focus in another — to discover all five endings."
+      }
+    ]
+  },
+  "zh": {
+    "name": "创业模拟器",
+    "desc": "创建一家科技初创公司，努力将其打造成十亿美元独角兽！路演投资人、招聘人才、在硅谷生存。",
+    "description": "梦想建立下一个十亿美元的创业公司吗？在我们的AI创业模拟器中，你辞掉日常工作，招募了一位才华横溢的联合创始人Maya，与时间赛跑，将你的创意变成独角兽。向冷酷的风险投资人Mr. Chen路演，他的一张支票可以成就你或毁掉你。从连续创业者Dave那里获得睿智的建议。构建你的MVP，在路演中幸存，黑客式增长，面对可怕的转型时刻，并决定是走向IPO还是套现退出。每个选择都会影响你的资金、用户、士气和产品进度。AI每次都会生成独特的创业场景，没有两次创业之旅是相同的。你将成为下一个独角兽——还是只是另一个警世故事？",
+    "howToPlay": "你是一位在每个转折点做出关键决策的创业者。阅读每个场景并选择你的路径——构建什么、如何路演、在哪里增长、何时转型。关注你的状态栏：资金（投资人的钱）、用户（增长）、士气（团队精神）和产品进度（产品完成度）。平衡这四项才能达到独角兽地位。故事会根据你的选择调整，所以每次游玩都是不同的创业之旅！",
+    "tips": [
+      "平衡所有四项指标——忽略任何一项都可能让你的创业公司沉没",
+      "Maya的技术直觉通常是正确的，但不要忽视商业层面",
+      "Mr. Chen最看重业务数据——给他看数字，而不是梦想",
+      "Dave的建议来自经验，但有时候你必须相信自己的直觉",
+      "根据你的创业公司最终指标，有5种不同的结局"
+    ],
+    "faq": [
+      {
+        "question": "每次创业场景都不同吗？",
+        "answer": "是的！AI每次都会生成独特的场景、对话和挑战。你可能在一局游戏中面对病毒式增长的时刻，而在下一局中遇到灾难性的服务器崩溃。"
+      },
+      {
+        "question": "我怎样才能达到独角兽地位？",
+        "answer": "你需要在所有四个指标上都获得高分——资金、用户、士气和产品进度。在每个阶段做出明智的决策，平衡短期收益和长期战略。"
+      },
+      {
+        "question": "如果我的创业公司失败了怎么办？",
+        "answer": "失败是旅程的一部分！如果你的指标暴跌，你会得到不太有利的结局——但没有错误的玩法。故事讲述的是创建创业公司的体验，无论输赢。"
+      },
+      {
+        "question": "我可以重玩并尝试不同的策略吗？",
+        "answer": "当然可以！每次游玩都提供新的场景和决策。尝试不同的方法——一次激进增长，另一次谨慎专注产品——来发现所有五个结局。"
+      }
+    ]
+  }
+}

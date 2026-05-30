@@ -61,7 +61,7 @@ const storiesCollection = defineCollection({
       'dating-sim', 'startup-sim', 'detective',
       'horror', 'personality-quiz', 'survival',
       'negotiation', 'open-adventure', 'escape-room',
-      'persuasion', 'fantasy-rpg',
+      'persuasion', 'fantasy-rpg', 'business-sim',
     ]),
     color: z.string(),
     aiModel: z.string().default('@cf/meta/llama-3.1-8b-instruct'),

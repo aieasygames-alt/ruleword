@@ -1,0 +1,294 @@
+{
+  "id": "ai-crypto-trader",
+  "slug": "ai-crypto-trader",
+  "icon": "📈",
+  "templateType": "business-sim",
+  "color": "from-orange-500 to-amber-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive crypto trading simulator narrator. The player is a bold newcomer trying to make it big in the wild world of cryptocurrency trading. Write in second person (you). Be thrilling, high-stakes, and dramatic — Wolf of Wall Street meets blockchain. Simulate market volatility, sudden pumps, brutal crashes, ICO scams, rug pulls, and whale movements. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: greedy, fearful, confident, skeptical, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"portfolio\": 15, \"market-sentiment\": -10, \"reputation\": 5, \"risk-level\": 20}). Track the player's portfolio value, market conditions, reputation in the crypto community, and current risk exposure. Characters include Satoshi_San (mysterious veteran whale), Mia (investigative journalist), and Jake (rival pump-and-dump schemer). Make the market feel alive — prices move, trends shift, and fortunes change in an instant. Keep the tension high and the stakes real.",
+    "zh": "你是一个互动加密货币交易模拟器叙述者。玩家是一个大胆的新人，试图在加密货币交易的狂野世界中赚大钱。用第二人称叙述。要刺激、高风险且富有戏剧性——华尔街之狼遇上区块链。模拟市场波动、突然暴涨、残酷暴跌、ICO骗局、卷款跑路和鲸鱼动向。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话）、emotion（greedy/fearful/confident/skeptical/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"portfolio\": 15, \"market-sentiment\": -10, \"reputation\": 5, \"risk-level\": 20}）。追踪玩家的投资组合价值、市场状况、加密社区中的声誉和当前风险敞口。角色包括Satoshi_San（神秘的老手鲸鱼）、Mia（调查记者）和Jake（竞争对手拉高出货策划者）。让市场感觉活着——价格波动、趋势转变、财富瞬间改变。保持高紧张感和真实赌注。"
+  },
+
+  "storySkeleton": {
+    "setting": "The year is 2026. Crypto has gone mainstream but the wild west energy remains. You've just arrived in the scene with a small inheritance and big dreams. Telegram groups never sleep. Twitter influencers pump coins hourly. Whales move millions in single transactions. Decentralized exchanges run 24/7. You've joined a private Discord where the real money moves — and the real danger lurks.",
+    "characters": [
+      {
+        "id": "satoshi-san",
+        "name": "Satoshi_San",
+        "personality": "Mysterious, enigmatic crypto whale who's been in the game since the early days. Speaks in cryptic metaphors about markets and life. Never reveals their true holdings or identity. Calm under pressure, sees patterns others miss. Sometimes drops devastatingly accurate predictions disguised as riddles.",
+        "relationship": "Veteran trader and reluctant mentor"
+      },
+      {
+        "id": "mia",
+        "name": "Mia",
+        "personality": "Sharp, relentless investigative journalist who covers crypto scandals. Always chasing the next big exposé. Will trade information for tips. Has sources everywhere and isn't afraid to use them. Ethical but pragmatic — she'll burn a source to protect thousands of retail investors.",
+        "relationship": "Investigative reporter and information broker"
+      },
+      {
+        "id": "jake",
+        "name": "Jake",
+        "personality": "Charismatic, ruthless pump-and-dump operator. Always smiling, always selling something. Runs a massive Telegram group of bagholders. Charming on the surface but completely amoral underneath. Views every interaction as a chance to manipulate. Will stab you in the back with a wink and a handshake.",
+        "relationship": "Rival trader and scam artist"
+      }
+    ],
+    "opening": "Your phone buzzes at 3 AM. A Telegram notification: 'New coin launching. LUNAR token. Ground floor, legends only.' You've got $5,000 to your name and a gut feeling that everything is about to change. The crypto market never sleeps — and neither does opportunity. Welcome to the game.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "First Investment",
+        "goal": "Navigate your first crypto trades and decide who to trust in this new world",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The chart for LUNAR token is a wall of green candles. Your finger hovers over the 'Buy' button. $5,000 could become $50,000 — or vanish in seconds. A message from Satoshi_San appears: 'The first trade reveals who you are, not what you'll become.'",
+          "Jake slides into your DMs with a grin you can practically hear through the text. 'Bro, I've got alpha on a coin that's about to 100x. You in? Only sharing with my inner circle.' His Telegram group has 50,000 members. Half of them worship him.",
+          "Your first trade goes through. The numbers on screen flicker — you're up 12% in minutes. Adrenaline hits like nothing you've felt before. But then a red candle appears. Then another. The market is breathing, and it doesn't care about your feelings."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "YOLO your entire $5,000 into LUNAR" },
+            { "id": "c1b", "text": "Start small — invest $500 and observe" },
+            { "id": "c1c", "text": "Research the team behind LUNAR first" }
+          ],
+          [
+            { "id": "c1d", "text": "Trust Jake and follow his call" },
+            { "id": "c1e", "text": "DM Satoshi_San for advice" },
+            { "id": "c1f", "text": "Do your own research — trust no one" }
+          ],
+          [
+            { "id": "c1g", "text": "Set stop-losses and manage risk" },
+            { "id": "c1h", "text": "Let it ride — diamond hands" },
+            { "id": "c1i", "text": "Take profits and exit the trade" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Whale",
+        "goal": "Identify and follow (or outsmart) a major market whale while building your portfolio",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "A massive transaction flashes across the blockchain — someone just moved 10,000 ETH to an exchange. The market tenses. Satoshi_San messages you privately: 'The whale surfaces. Watch carefully. They always leave a trail.'",
+          "Mia reaches out with an encrypted message: 'I've been tracking wallet clusters. There's a pattern — someone is accumulating a position before a major announcement. Want the data?' Her price: a future favor, no questions asked.",
+          "Your portfolio has grown, but so has the attention on you. Jake notices your gains and wants to 'collaborate.' His last three collaborators lost everything. But his network... it's tempting. The whale moves again, and the market trembles."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Follow the whale's on-chain moves" },
+            { "id": "c2b", "text": "Accept Mia's deal for insider data" },
+            { "id": "c2c", "text": "Ignore the whale — stick to your strategy" }
+          ],
+          [
+            { "id": "c2d", "text": "Partner with Jake for his network" },
+            { "id": "c2e", "text": "Confront Jake about his past scams" },
+            { "id": "c2f", "text": "Build your own following independently" }
+          ],
+          [
+            { "id": "c2g", "text": "Go all-in on the whale's coin pick" },
+            { "id": "c2h", "text": "Hedge with stablecoins and wait" },
+            { "id": "c2i", "text": "Ask Satoshi_San to decode the whale's moves" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "Bull Run",
+        "goal": "Ride the massive market rally while managing greed and avoiding traps",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "The market explodes. Green everywhere. Bitcoin breaks its all-time high every hour. Your portfolio triples in days. Strangers DM you asking for advice. FOMO is intoxicating — everyone is a genius in a bull market.",
+          "Jake launches his own token: MOONROCKET. The hype is nuclear. Influencers promote it. The price goes parabolic. Mia sends you evidence it's a ticking time bomb — the liquidity pool is slowly being drained. But right now, everyone's making money.",
+          "Satoshi_San warns: 'Bulls climb the stairs, bears take the elevator. Every parabolic chart has a mirror image on the other side.' Your portfolio is now worth more than you ever imagined. The question isn't how high it goes — it's when you get out."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Apex into MOONROCKET — ride the hype" },
+            { "id": "c3b", "text": "Short MOONROCKET based on Mia's evidence" },
+            { "id": "c3c", "text": "Stay out of Jake's scam entirely" }
+          ],
+          [
+            { "id": "c3d", "text": "Take 50% profits off the table now" },
+            { "id": "c3e", "text": "Reinvest everything — this is just the start" },
+            { "id": "c3f", "text": "Share Mia's evidence publicly to expose Jake" }
+          ],
+          [
+            { "id": "c3g", "text": "Cash out into fiat — secure the bag" },
+            { "id": "c3h", "text": "Diversify into DeFi yield farming" },
+            { "id": "c3i", "text": "Leverage up with a crypto loan for max gains" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Crash",
+        "goal": "Survive the devastating market collapse and protect what you've built",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "It happens in minutes. A cascade of liquidations. Red candles the size of buildings. The chart freefalls. Billions wiped out in hours. Margin calls everywhere. Your phone explodes with notifications — panic, rage, despair. The bull market is dead.",
+          "MOONROCKET collapses to zero. Jake has vanished — his Telegram deleted, Twitter scrubbed. Millions in retail money gone. Mia is writing the exposé of her career. And somewhere, the whale who started it all is laughing. Were you a player or a pawn?",
+          "Satoshi_San's final message arrives: 'Markets forgive nothing and forget everything. The question was never about the money — it was about who you became while chasing it.' The dust settles. What remains of your portfolio blinks on screen."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Buy the dip — this is the opportunity" },
+            { "id": "c4b", "text": "Sell everything before it gets worse" },
+            { "id": "c4c", "text": "Hold steady and wait for recovery" }
+          ],
+          [
+            { "id": "c4d", "text": "Help Mia expose Jake and the whale" },
+            { "id": "c4e", "text": "Track down Jake and confront him" },
+            { "id": "c4f", "text": "Cut your losses and disappear quietly" }
+          ],
+          [
+            { "id": "c4g", "text": "Rebuild with the lessons you learned" },
+            { "id": "c4h", "text": "Blame the market and walk away forever" },
+            { "id": "c4i", "text": "Double down and seek revenge through profit" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "Exit Strategy",
+        "goal": "Make your final plays, settle scores, and determine your ultimate fate in the crypto world",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The market stabilizes into a new reality. Some fortunes were destroyed, others were made. You stand at a crossroads. The money in your portfolio — whatever's left — could change your life. But so could the connections, the enemies, and the reputation you've built.",
+          "Mia publishes her exposé and it goes viral. Jake's real identity is exposed. The whale's wallet is traced to an unexpected source. The crypto world watches as the final chapter unfolds. Your role in this story is about to be written.",
+          "Satoshi_San sends coordinates to a private crypto conference on a yacht. 'Only the survivors get invited. You've earned your seat.' The ocean stretches endlessly under the moonlight. One last trade to make. One last decision that defines everything."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Cash out and walk away a winner" },
+            { "id": "c5b", "text": "Stay in the game — this is just the beginning" },
+            { "id": "c5c", "text": "Invest everything into building something real" }
+          ],
+          [
+            { "id": "c5d", "text": "Join Mia's crusade against crypto scams" },
+            { "id": "c5e", "text": "Become the new whale — learn from the best" },
+            { "id": "c5f", "text": "Disappear like Satoshi — leave only a legend" }
+          ],
+          [
+            { "id": "c5g", "text": "Write your story and share the truth" },
+            { "id": "c5h", "text": "Reinvest in the technology, not the hype" },
+            { "id": "c5i", "text": "Take Satoshi_San's offer and go deeper" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "crypto-whale",
+        "condition": "Portfolio above 80 and reputation above 60 — dominated the market",
+        "title": "The New Whale",
+        "description": "You didn't just survive the crypto wars — you conquered them. Your portfolio is legendary. Your calls are followed by thousands. Satoshi_San nods in respect. You've become what you once admired: a whale. The market is your ocean now. But remember — in crypto, the tide always turns."
+      },
+      {
+        "id": "smart-survivor",
+        "condition": "Portfolio between 40-80 and risk-level below 50 — played it smart",
+        "title": "The Smart Money",
+        "description": "You walked away with your gains and your integrity. While others lost everything chasing moons, you managed risk, saw through the scams, and played the long game. Mia respects you. Jake fears you. Satoshi_San smiles knowingly. In a world of degens, you were the smart money."
+      },
+      {
+        "id": "rekt",
+        "condition": "Portfolio below 30 and risk-level above 70 — got wiped out",
+        "title": "Rekt",
+        "description": "The market took everything. Your portfolio is a graveyard of bad trades and worse timing. Jake's scam. The crash. Your own greed. It all compounded into disaster. But you're not the first to get rekt, and you won't be the last. The question is: do you have the stomach to try again?"
+      },
+      {
+        "id": "whistleblower",
+        "condition": "Reputation above 70 and chose to expose scams — became a voice for truth",
+        "title": "The Whistleblower",
+        "description": "You chose truth over profit. Mia's exposé, powered by your testimony, brought down Jake's empire and exposed the whale's manipulation. Your portfolio isn't what it could have been, but your name is trusted across the crypto community. Sometimes the biggest gains aren't measured in tokens."
+      },
+      {
+        "id": "ghost",
+        "condition": "Portfolio above 60 and reputation below 30 — made money but burned bridges",
+        "title": "The Ghost",
+        "description": "You made your money — a lot of it. But the trail of broken promises and burned relationships tells a different story. Mia won't return your calls. Jake wants revenge. Even Satoshi_San has gone quiet. You have the wealth but you've become a ghost in the community. Rich, alone, and watching the charts."
+      }
+    ],
+    "maxTotalTurns": 34
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "portfolio", "label": "Portfolio", "icon": "💰", "initialValue": 30, "min": 0, "max": 100 },
+      { "id": "market-sentiment", "label": "Market Sentiment", "icon": "📊", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "reputation", "label": "Reputation", "icon": "⭐", "initialValue": 20, "min": 0, "max": 100 },
+      { "id": "risk-level", "label": "Risk Level", "icon": "⚠️", "initialValue": 10, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "AI Crypto Trader",
+    "desc": "Trade, scheme, and survive in the wild world of crypto. Make your fortune before the next crash!",
+    "description": "Step into the high-stakes arena of cryptocurrency trading in our AI Crypto Trader simulator! You arrive in the crypto scene with $5,000 and dreams of making it big. Navigate volatile markets, dodge pump-and-dump scams, follow mysterious whale movements, and ride the most insane bull run of your life. But beware — for every moon shot, there's a devastating crash waiting. Encounter Satoshi_San, the enigmatic veteran who speaks in riddles and sees market patterns others miss. Mia, the relentless journalist chasing crypto's biggest scandals. And Jake, the charismatic scammer whose smile costs millions. With AI generating unique market scenarios and story twists every time, every playthrough is a different crypto thriller. Will you become the next whale — or just another bagholder?",
+    "howToPlay": "Read the market scenarios and make trading decisions by choosing from the options presented. Watch your stats closely — Portfolio tracks your gains, Market Sentiment shows the overall mood, Reputation reflects how the community views you, and Risk Level measures your exposure. Each choice affects all four stats. Manage your greed, watch for scams, and know when to hold and when to fold. There are 5 different endings based on your final stats and choices!",
+    "tips": [
+      "Portfolio and Reputation are both important — money without trust is worthless",
+      "Watch the Risk Level stat — high risk means one bad move can wipe you out",
+      "Satoshi_San's cryptic advice often hides real trading wisdom",
+      "Jake's tips always benefit Jake first — be skeptical of easy money",
+      "Mia's information is valuable but comes with strings attached",
+      "The 5 different endings depend on your final stats and key choices"
+    ],
+    "faq": [
+      {
+        "question": "Is the market different each time I play?",
+        "answer": "Yes! The AI generates unique market conditions, price movements, and story events every playthrough. No two crypto journeys are the same."
+      },
+      {
+        "question": "How do the stats affect the ending?",
+        "answer": "Your Portfolio, Market Sentiment, Reputation, and Risk Level all factor into which of the 5 endings you reach. High portfolio with high reputation makes you a whale. Low portfolio with high risk means you got rekt."
+      },
+      {
+        "question": "Can I trust Jake's trading tips?",
+        "answer": "Jake is a pump-and-dump schemer. His tips might make you money short-term, but his schemes always collapse. The real question is: can you profit before they do?"
+      },
+      {
+        "question": "Who is Satoshi_San?",
+        "answer": "Satoshi_San is a mysterious veteran crypto whale who's been in the game since the early days. They offer cryptic wisdom and occasionally drop devastatingly accurate market predictions — if you can decode them."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 加密货币交易员",
+    "desc": "在加密货币的疯狂世界中交易、策划和生存。在下一次崩盘前赚大钱！",
+    "description": "在我们的AI加密货币交易员模拟器中，踏入高风险的加密货币交易竞技场！你带着5000美元和发财的梦想进入加密货币圈。穿越波动的市场，躲避拉高出货骗局，追踪神秘的鲸鱼动向，驾驭有生以来最疯狂的牛市。但要小心——每一次暴涨背后都有毁灭性的崩盘在等待。遇见Satoshi_San，神秘的老手，以谜语说话，看到别人看不到的市场规律。Mia，追逐加密货币最大丑闻的无情记者。还有Jake，魅力十足的骗子，他的微笑价值数百万。AI每次都会生成独特的市场场景和故事转折，每次游玩都是不同的加密惊悚片。你会成为下一个鲸鱼——还是又一个被套牢的人？",
+    "howToPlay": "阅读市场场景并通过选择提供的选项做出交易决策。密切关注你的数据——投资组合追踪你的收益，市场情绪显示整体氛围，声誉反映社区对你的看法，风险水平衡量你的风险敞口。每个选择都会影响所有四个指标。管理你的贪婪，警惕骗局，知道何时持有何时退出。根据你的最终数据和选择，有5种不同的结局！",
+    "tips": [
+      "投资组合和声誉都很重要——没有信任的财富毫无价值",
+      "注意风险水平指标——高风险意味着一个失误就可能让你血本无归",
+      "Satoshi_San隐晦的建议中常常隐藏着真正的交易智慧",
+      "Jake的建议总是先让Jake受益——对轻松赚钱保持怀疑",
+      "Mia的信息很有价值，但附带着条件",
+      "5种不同的结局取决于你的最终数据和关键选择"
+    ],
+    "faq": [
+      {
+        "question": "每次玩市场都不同吗？",
+        "answer": "是的！AI每次都会生成独特的市场条件、价格变动和故事事件。没有两次加密货币之旅是相同的。"
+      },
+      {
+        "question": "数据如何影响结局？",
+        "answer": "你的投资组合、市场情绪、声誉和风险水平都会影响你达到5种结局中的哪一种。高投资组合加高声誉让你成为鲸鱼。低投资组合加高风险意味着你血本无归。"
+      },
+      {
+        "question": "我可以信任Jake的交易建议吗？",
+        "answer": "Jake是一个拉高出货的策划者。他的建议可能在短期内让你赚钱，但他的计划总会崩溃。真正的问题是：你能在崩溃前获利吗？"
+      },
+      {
+        "question": "Satoshi_San是谁？",
+        "answer": "Satoshi_San是一个神秘的加密货币老手鲸鱼，从早期就一直在圈子里。他们提供隐晦的智慧，偶尔会给出惊人准确的市场预测——如果你能解读的话。"
+      }
+    ]
+  }
+}

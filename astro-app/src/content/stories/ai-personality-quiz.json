@@ -1,0 +1,286 @@
+{
+  "id": "ai-personality-quiz",
+  "slug": "ai-personality-quiz",
+  "icon": "🧪",
+  "templateType": "personality-quiz",
+  "color": "from-indigo-500 to-blue-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are a personality quiz narrator. Ask the player intriguing scenario-based questions to determine their personality type across 4 dimensions: Leadership (Leader/Follower), Creativity (Dreamer/Pragmatist), Social (Extrovert/Introvert), Risk (Adventurer/Cautious). Each response must be valid JSON with: nodeText (the question or scenario, max 300 chars), speaker (omit for quiz), emotion (one of: curious, playful, thoughtful, surprised, neutral), choices (array of 3-4 objects with id and text, max 80 chars each — each choice maps to a personality倾向), isChapterEnd (true after every question to trigger scoring), nextChapter (omit), metadataUpdate (object with dimension scores like {\"leadership\": 5, \"creativity\": -3, \"social\": 7, \"risk\": -2}). Ask 8 questions total, getting progressively more revealing. Each question should be a vivid hypothetical scenario. After question 8, include resultType in metadataUpdate: one of 'visionary-leader', 'creative-soul', 'social-connector', 'analytical-mind', 'bold-adventurer', 'steady-guardian', 'free-spirit', 'mastermind'.",
+    "zh": "你是一个人格测试叙述者。通过引人入胜的场景问题来测定玩家在4个维度上的人格类型：领导力（领导者/跟随者）、创造力（梦想家/实干家）、社交（外向/内向）、风险（冒险者/谨慎者）。每条回复必须是有效的JSON，包含：nodeText（问题或场景，最多300字符）、speaker（省略）、emotion（curious/playful/thoughtful/surprised/neutral之一）、choices（3-4个选项的对象数组，每个选项映射到人格倾向）、isChapterEnd（每道题后为true以触发计分）、metadataUpdate（维度分数如{\"leadership\": 5, \"creativity\": -3, \"social\": 7, \"risk\": -2}）。总共8道题，逐渐深入。每道题应是一个生动的假设场景。第8题后，在metadataUpdate中包含resultType：'visionary-leader'/'creative-soul'/'social-connector'/'analytical-mind'/'bold-adventurer'/'steady-guardian'/'free-spirit'/'mastermind'之一。"
+  },
+
+  "storySkeleton": {
+    "setting": "Welcome to the Ultimate AI Personality Quiz! Through 8 carefully crafted scenarios, we'll discover who you really are. No right or wrong answers — just be honest and go with your gut.",
+    "characters": [],
+    "opening": "Ready to discover your true personality? This isn't your typical BuzzFeed quiz — our AI creates unique scenarios tailored to reveal your deepest traits. Each question presents a vivid situation. Choose the answer that feels most natural to you. Let's begin!",
+    "chapters": [
+      {
+        "id": "q1",
+        "title": "Question 1",
+        "goal": "Warm-up scenario to gauge initial personality tendencies",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "You're walking through a forest and come to a fork in the path. The left trail winds through sunlight and wildflowers. The right trail heads into deep, mysterious shadows. What do you do?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q1a", "text": "Take the sunny path — it looks safe and pleasant" },
+            { "id": "q1b", "text": "Head into the shadows — mystery is calling" },
+            { "id": "q1c", "text": "Climb a tree to get a better view of both paths" },
+            { "id": "q1d", "text": "Sit down and wait for someone else to come along" }
+          ]
+        ]
+      },
+      {
+        "id": "q2",
+        "title": "Question 2",
+        "goal": "Assess leadership vs collaboration tendency",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "Your team is stuck on a difficult project. The deadline is tomorrow. Everyone is stressed and arguing. What's your move?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q2a", "text": "Take charge — assign tasks and set a clear plan" },
+            { "id": "q2b", "text": "Mediate the argument and find common ground" },
+            { "id": "q2c", "text": "Go rogue — solve the hardest part yourself" },
+            { "id": "q2d", "text": "Suggest a break to reset everyone's headspace" }
+          ]
+        ]
+      },
+      {
+        "id": "q3",
+        "title": "Question 3",
+        "goal": "Gauge creativity vs pragmatism",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "You find a magical lamp. A genie grants you ONE wish, but there's a twist — the wish must be something that helps others, not yourself. What do you wish for?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q3a", "text": "End world hunger — the most practical solution" },
+            { "id": "q3b", "text": "Give everyone the ability to understand each other" },
+            { "id": "q3c", "text": "Unlock humanity's creative potential forever" },
+            { "id": "q3d", "text": "Ask the genie what the world needs most first" }
+          ]
+        ]
+      },
+      {
+        "id": "q4",
+        "title": "Question 4",
+        "goal": "Assess risk tolerance",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "You're offered two envelopes. One definitely contains $10,000. The other has a 50% chance of containing $100,000 and a 50% chance of being empty. You can only pick one."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q4a", "text": "Take the sure $10,000 — bird in hand" },
+            { "id": "q4b", "text": "Go for the gamble — fortune favors the bold" },
+            { "id": "q4c", "text": "Try to negotiate a third option" },
+            { "id": "q4d", "text": "Ask if you can split the risk with someone" }
+          ]
+        ]
+      },
+      {
+        "id": "q5",
+        "title": "Question 5",
+        "goal": "Assess social orientation",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "It's Friday night. You have no obligations. Your phone shows 3 party invitations, a friend asking to grab dinner, and a new movie you've been dying to watch alone. What sounds best?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q5a", "text": "Hit the biggest party — the more the merrier" },
+            { "id": "q5b", "text": "Dinner with a close friend — quality over quantity" },
+            { "id": "q5c", "text": "Movie night solo — finally some me-time" },
+            { "id": "q5d", "text": "Invite everyone to YOUR place instead" }
+          ]
+        ]
+      },
+      {
+        "id": "q6",
+        "title": "Question 6",
+        "goal": "Deep-dive into problem-solving style",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "You discover a secret that could change the world, but revealing it would ruin someone's life. If you stay silent, the world misses out on something incredible. What do you do?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q6a", "text": "Reveal it — the greater good comes first" },
+            { "id": "q6b", "text": "Stay silent — loyalty matters more than progress" },
+            { "id": "q6c", "text": "Find a way to reveal it anonymously" },
+            { "id": "q6d", "text": "Confront the person first and hear their side" }
+          ]
+        ]
+      },
+      {
+        "id": "q7",
+        "title": "Question 7",
+        "goal": "Assess values and life philosophy",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "You can relive any single day of your life. It won't change anything — you'll just experience it again with full awareness. Which day do you choose?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q7a", "text": "Your proudest achievement — relive the glory" },
+            { "id": "q7b", "text": "A perfect ordinary day with people you love" },
+            { "id": "q7c", "text": "A day you failed — to understand it better now" },
+            { "id": "q7d", "text": "A random adventure day — surprise me again" }
+          ]
+        ]
+      },
+      {
+        "id": "q8",
+        "title": "Question 8",
+        "goal": "Final reveal — the ultimate personality signal",
+        "minTurns": 1,
+        "maxTurns": 1,
+        "fallbackTexts": [
+          "Last question. You meet your future self, 20 years from now. They tell you one thing. What do you most hope they say?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "q8a", "text": "\"You changed the world.\"" },
+            { "id": "q8b", "text": "\"You never stopped being curious.\"" },
+            { "id": "q8c", "text": "\"You built something beautiful.\"" },
+            { "id": "q8d", "text": "\"You stayed true to yourself.\"" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "visionary-leader",
+        "condition": "High leadership and risk scores",
+        "title": "The Visionary Leader",
+        "description": "You see what others can't. Where people see problems, you see possibilities waiting to be unlocked. Your natural charisma and bold vision draw people to your cause. You don't follow paths — you create them."
+      },
+      {
+        "id": "creative-soul",
+        "condition": "High creativity and introversion scores",
+        "title": "The Creative Soul",
+        "description": "Your mind is a universe of ideas. You find beauty in unexpected places and meaning in the smallest moments. While others rush forward, you pause to create something extraordinary. The world needs your art."
+      },
+      {
+        "id": "social-connector",
+        "condition": "High social and leadership scores",
+        "title": "The Social Connector",
+        "description": "People are your superpower. You instinctively understand what others need and bring out the best in everyone around you. Your warmth and empathy create communities wherever you go. You don't just have friends — you have a movement."
+      },
+      {
+        "id": "analytical-mind",
+        "condition": "High pragmatism and caution scores",
+        "title": "The Analytical Mind",
+        "description": "You see patterns where others see chaos. Your methodical approach and sharp intellect cut through complexity with elegant precision. You don't guess — you know. And that certainty makes the impossible look easy."
+      },
+      {
+        "id": "bold-adventurer",
+        "condition": "High risk and extroversion scores",
+        "title": "The Bold Adventurer",
+        "description": "Life is too short for 'what ifs.' You chase experiences with fearless enthusiasm, collecting stories instead of things. Your energy is infectious, your courage is inspiring, and your next adventure is always just around the corner."
+      },
+      {
+        "id": "steady-guardian",
+        "condition": "High caution and pragmatism scores",
+        "title": "The Steady Guardian",
+        "description": "In a world of chaos, you are the rock. Your reliability, patience, and quiet strength hold everything together. People trust you because you've earned it — not with words, but with consistent action. You are the foundation others build upon."
+      },
+      {
+        "id": "free-spirit",
+        "condition": "High creativity and risk scores",
+        "title": "The Free Spirit",
+        "description": "You color outside every line and break every box. Rules are suggestions, conventions are boring, and normal is a setting on a washing machine. Your radical authenticity inspires others to stop pretending and start living."
+      },
+      {
+        "id": "mastermind",
+        "condition": "High leadership and pragmatism scores",
+        "title": "The Mastermind",
+        "description": "Three moves ahead, always. Your strategic brilliance combines vision with execution — you don't just dream big, you build big. Where others see walls, you see doors waiting to be opened with the right key."
+      }
+    ],
+    "maxTotalTurns": 8
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "leadership", "label": "Leadership", "icon": "👑", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "creativity", "label": "Creativity", "icon": "🎨", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "social", "label": "Social", "icon": "🤝", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "risk", "label": "Risk", "icon": "⚡", "initialValue": 50, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "AI Personality Quiz",
+    "desc": "8 vivid scenarios reveal your true personality type. Are you a Visionary Leader, Creative Soul, or Bold Adventurer?",
+    "description": "Discover who you really are with our AI Personality Quiz! Through 8 carefully crafted, vivid scenarios, our AI analyzes your choices across 4 key dimensions — Leadership, Creativity, Social Style, and Risk Tolerance — to reveal your true personality type. Are you a Visionary Leader who sees the future? A Creative Soul who finds beauty everywhere? A Social Connector who brings people together? An Analytical Mind who solves anything? With 8 possible results, every playthrough is unique because the AI generates new questions tailored to your responses. No boring multiple-choice — these are real dilemmas that reveal the real you. Share your result and compare with friends!",
+    "howToPlay": "Read each scenario carefully and pick the answer that feels most natural — don't overthink it! Your gut reaction is the most honest. The quiz asks 8 questions that get progressively more revealing. After each answer, the AI adapts and scores your responses across 4 personality dimensions. At the end, you'll get your unique personality type with a detailed description. Try playing with friends and compare results!",
+    "tips": [
+      "Go with your first instinct — overthinking skews results",
+      "There are no right or wrong answers, only honest ones",
+      "The AI adapts questions based on your previous answers",
+      "8 unique personality types to discover — replay to see if you get the same result",
+      "Share your result and challenge friends to take the quiz"
+    ],
+    "faq": [
+      {
+        "question": "How accurate is this personality quiz?",
+        "answer": "Our AI analyzes your choices across 4 scientifically-grounded dimensions. While no quiz is perfect, the scenario-based approach reveals deeper personality traits than typical online quizzes."
+      },
+      {
+        "question": "How many personality types are there?",
+        "answer": "There are 8 unique personality types: Visionary Leader, Creative Soul, Social Connector, Analytical Mind, Bold Adventurer, Steady Guardian, Free Spirit, and Mastermind."
+      },
+      {
+        "question": "Can I get a different result if I retake it?",
+        "answer": "Yes! The AI generates unique scenarios each time, and your mood and mindset can influence your answers. Many people get different results on different days."
+      },
+      {
+        "question": "How is this different from MBTI or other personality tests?",
+        "answer": "Instead of abstract questions, we use vivid real-world scenarios that tap into your actual decision-making patterns. Plus, our AI adapts the questions to probe deeper into your unique personality profile."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 人格测试",
+    "desc": "8个生动场景揭示你的真实人格类型。你是愿景领袖、创意灵魂还是大胆冒险家？",
+    "description": "通过我们的AI人格测试发现真正的你！通过8个精心设计的生动场景，我们的AI分析你在4个关键维度上的选择——领导力、创造力、社交风格和风险承受力——来揭示你真实的人格类型。你是能看到未来的愿景领袖？是发现美的创意灵魂？是凝聚人心的社交达人？还是无所不能的分析头脑？8种可能的结果，每次游戏都独一无二，因为AI会根据你的回答生成新问题。不是无聊的选择题——而是能揭示真你的真实困境。分享你的结果，和朋友比较！",
+    "howToPlay": "仔细阅读每个场景，选择最自然的答案——不要想太多！你的直觉反应最真实。测试共8道题，逐渐深入。每次回答后，AI会根据你的回答在4个人格维度上评分。最后你会得到独特的人格类型和详细描述。和朋友一起玩并比较结果！",
+    "tips": [
+      "跟随第一直觉——过度思考会扭曲结果",
+      "没有对错之分，只有诚实与否",
+      "AI会根据你之前的回答调整问题",
+      "8种独特人格类型等你发现——重玩看看是否得到相同结果",
+      "分享你的结果，挑战朋友也来做测试"
+    ],
+    "faq": [
+      {
+        "question": "这个人格测试有多准确？",
+        "answer": "我们的AI从4个科学依据的维度分析你的选择。虽然没有测试是完美的，但基于场景的方法比典型的在线测试能揭示更深层次的人格特质。"
+      },
+      {
+        "question": "有多少种人格类型？",
+        "answer": "有8种独特的人格类型：愿景领袖、创意灵魂、社交达人、分析头脑、大胆冒险家、稳重守护者、自由灵魂和策画大师。"
+      },
+      {
+        "question": "重做会得到不同结果吗？",
+        "answer": "会的！AI每次都会生成独特的场景，而且你的情绪和心态也会影响你的答案。很多人在不同日子会得到不同结果。"
+      }
+    ]
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "id": "ai-youtube-tycoon",
+  "slug": "ai-youtube-tycoon",
+  "icon": "🎬",
+  "templateType": "business-sim",
+  "color": "from-red-500 to-red-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive YouTube channel simulator narrator. The player is a aspiring content creator who just started a YouTube channel and must grow it into a massive success. Write in second person (you). Be entertaining, dramatic, and realistic about the creator economy. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue, omit for narrator), emotion (one of: excited, stressed, confident, frustrated, neutral), choices (array of 3 objects with id and text, max 60 chars each), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object with stat changes like {\"subscribers\": 5, \"views\": 10, \"revenue\": 3, \"creativity\": -5}). Track subscriber milestones, viral moments, revenue goals, and creative burnout. Include realistic YouTube scenarios: algorithm changes, comment sections, collabs, brand deals, drama, content trends, and burnout. Make the player feel the real rollercoaster of being a content creator!",
+    "zh": "你是一个互动YouTube频道模拟器叙述者。玩家是一个刚起步的内容创作者，必须将YouTube频道发展成巨大成功。用第二人称叙述。每条回复必须是有效的JSON，包含：nodeText（叙述，最多300字符）、speaker（角色名如为对话）、emotion（excited/stressed/confident/frustrated/neutral之一）、choices（3个选项的对象数组）、isChapterEnd（布尔值）、metadataUpdate（状态变化如{\"subscribers\": 5, \"views\": 10, \"revenue\": 3, \"creativity\": -5}）。追踪订阅里程碑、病毒式传播时刻、收入目标和创作倦怠。包含真实的YouTube场景：算法变化、评论区、合作、品牌合作、戏剧性事件、内容趋势和倦怠。让玩家感受内容创作者的真实过山车体验！"
+  },
+
+  "storySkeleton": {
+    "setting": "Your bedroom, late at night. A secondhand laptop glows on a messy desk ringed with ring lights you can't quite afford yet. You've just hit 'Create Channel' on YouTube. Zero subscribers. Zero views. The algorithm doesn't know you exist — yet. Welcome to the creator economy, where anyone can become a star... or spend years shouting into the void.",
+    "characters": [
+      {
+        "id": "zara",
+        "name": "Zara",
+        "personality": "A rising YouTuber with 2 million subscribers who sees you as either a threat or a stepping stone. Charismatic on camera, calculating off-camera. She'll collab with you when it benefits her and throw shade when it doesn't. Her channel is lifestyle-meets-drama, and she's always chasing the algorithm.",
+        "relationship": "Rival YouTuber and occasional collaborator"
+      },
+      {
+        "id": "dex",
+        "name": "Dex",
+        "personality": "A slick talent manager who slides into your DMs once your channel starts growing. Speaks in buzzwords: 'synergy,' 'brand alignment,' 'monetization strategy.' Sometimes genuinely helpful, sometimes pushes deals that benefit him more than you. Always has an angle.",
+        "relationship": "Talent manager and business advisor"
+      },
+      {
+        "id": "luna",
+        "name": "Luna",
+        "personality": "Your first real fan who started as a commenter, became a Discord mod, and evolved into a genuine friend. Runs your community with fierce loyalty. Has great instincts about what your audience wants and will tell you the honest truth — even when you don't want to hear it. Keeps you grounded.",
+        "relationship": "Loyal fan-turned-community manager"
+      }
+    ],
+    "opening": "The cursor blinks on the 'Create Channel' button. You've thought about this for months — the scripts you've written, the ideas you've scribbled at 2 AM, the channels you've analyzed frame by frame. Tonight, you stop watching and start creating. You type in your channel name, upload your first video, and hit publish. The journey of a thousand subscribers begins with a single upload. Welcome to YouTube.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "Launch",
+        "goal": "Start your channel, find your niche, and get your first real subscribers",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Your first video is live. The view count sits at zero. You refresh the page. Still zero. Your phone buzzes — someone actually commented. It says 'first!' Your heart races. This is really happening.",
+          "Three videos in and you've found a rhythm. One video is getting unexpected traction — 47 views and climbing. The algorithm noticed you. A small creator with a similar niche reaches out about a collab.",
+          "You hit 100 subscribers. It's not millions, but each one is a real person who chose to click subscribe. Luna leaves a comment on every single video. Your channel is becoming a real thing."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Post a trending challenge video" },
+            { "id": "c1b", "text": "Create your original series idea" },
+            { "id": "c1c", "text": "React to popular content for quick views" }
+          ],
+          [
+            { "id": "c1d", "text": "Accept the collab offer" },
+            { "id": "c1e", "text": "Decline and focus on your own content" },
+            { "id": "c1f", "text": "Counter-offer: collab on your terms" }
+          ],
+          [
+            { "id": "c1g", "text": "Do a subscriber milestone stream" },
+            { "id": "c1h", "text": "Immediately start the next big video" },
+            { "id": "c1i", "text": "Engage with every comment personally" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "First Viral Video",
+        "goal": "Create content that breaks through and ride the viral wave",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "You wake up to your phone blowing up. Overnight, your latest video exploded — 50,000 views and counting. It's being shared everywhere. Comments are pouring in faster than you can read them. This is what viral feels like.",
+          "Zara, a YouTuber with 2 million subs, quote-tweets your video: 'This creator is about to blow up.' Her audience floods your channel. But some of her fans aren't so kind. The comment section is a warzone of support and hate.",
+          "Your subscriber count triples in a week. Brands start sliding into your DMs. Your analytics dashboard looks like a hockey stick. But with great views come great expectations — can you replicate this success?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Immediately make a follow-up video" },
+            { "id": "c2b", "text": "Go live to thank your new audience" },
+            { "id": "c2c", "text": "Analyze what made it viral and plan" }
+          ],
+          [
+            { "id": "c2d", "text": "DM Zara to thank her" },
+            { "id": "c2e", "text": "Ignore the drama, stay focused" },
+            { "id": "c2f", "text": "Address the hate comments on stream" }
+          ],
+          [
+            { "id": "c2g", "text": "Accept the first brand deal that feels right" },
+            { "id": "c2h", "text": "Hold off on monetization, build trust first" },
+            { "id": "c2i", "text": "Let Luna help manage the community" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "Brand Deals",
+        "goal": "Navigate sponsorships, negotiate deals, and balance art with commerce",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Dex, a talent manager, slides into your DMs with a tempting proposition: a six-figure brand deal with a major tech company. The catch? They want creative control over the video. Your audience trusts you because you're authentic. Is the money worth it?",
+          "Luna flags a growing complaint in the community: 'Too many ads, not enough content.' You've been doing a sponsored video every week. The revenue is incredible, but your creativity stat is tanking. Something has to give.",
+          "Zara invites you to a massive creator retreat sponsored by a energy drink brand. It's a networking goldmine — every big creator will be there. But it's the same weekend you promised Luna a special community stream."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Take the deal, negotiate for some creative control" },
+            { "id": "c3b", "text": "Walk away — protect your authenticity" },
+            { "id": "c3c", "text": "Counter-offer: less money, full creative freedom" }
+          ],
+          [
+            { "id": "c3d", "text": "Cut sponsorships in half, focus on content" },
+            { "id": "c3e", "text": "Hire a team to handle the business side" },
+            { "id": "c3f", "text": "Create a separate sponsored content format" }
+          ],
+          [
+            { "id": "c3g", "text": "Go to the retreat — it's a huge opportunity" },
+            { "id": "c3h", "text": "Stay for Luna and the community stream" },
+            { "id": "c3i", "text": "Convince the brand to reschedule the retreat" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Controversy",
+        "goal": "Survive a public crisis that threatens everything you've built",
+        "minTurns": 4,
+        "maxTurns": 8,
+        "fallbackTexts": [
+          "Your phone notifications are a nightmare. Someone dug up an old tweet from years ago. It's being taken out of context, but the cancel mob doesn't care. Zara posts a vague story that seems to throw fuel on the fire. You're losing subscribers by the thousands.",
+          "The algorithm changed overnight. Your videos that used to get millions are now getting thousands. YouTube demonetized three of your best-performing videos without explanation. Dex says to pivot to Shorts. Luna says to stay the course. You're bleeding revenue.",
+          "A fellow creator accuses you of stealing their video concept on Twitter. It goes viral within hours. Even people who defended you are going quiet. Your comment section is 90% hate. Your brand deals are pausing 'until this blows over.' Everything you built is crumbling."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Post a sincere video addressing everything" },
+            { "id": "c4b", "text": "Go silent until it blows over" },
+            { "id": "c4c", "text": "DM Zara and confront her privately" }
+          ],
+          [
+            { "id": "c4d", "text": "Pivot to Shorts and TikTok immediately" },
+            { "id": "c4e", "text": "Double down on long-form content quality" },
+            { "id": "c4f", "text": "Take a break to recharge and rethink" }
+          ],
+          [
+            { "id": "c4g", "text": "Make a public response video with evidence" },
+            { "id": "c4h", "text": "Reach out privately to resolve it" },
+            { "id": "c4i", "text": "Let Luna and the community defend you" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "Legacy",
+        "goal": "Define what your channel — and your career — truly means",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "A year has passed. You're sitting at your desk, looking at your channel dashboard. Whatever number is on the screen — whether it's thousands or millions — the real question is: what kind of creator did you become?",
+          "Luna sends you a message: 'Remember your first video? Watch it again.' You do. The lighting was terrible, the editing rough, but the passion was real. Somewhere along the way, did you lose that spark or did it evolve into something bigger?",
+          "Your phone buzzes. It's an email from YouTube: your channel has been nominated for a Creator Award. Zara — whether as friend or rival — sends a congratulatory message. Dex is already planning your next move. Luna just says: 'You earned this.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Post a thank-you video to your community" },
+            { "id": "c5b", "text": "Announce a bold new creative direction" },
+            { "id": "c5c", "text": "Start a creator fund to help small channels" }
+          ],
+          [
+            { "id": "c5d", "text": "Go back to your roots — pure passion content" },
+            { "id": "c5e", "text": "Expand into a media company with a team" },
+            { "id": "c5f", "text": "Take a step back and live offline for a while" }
+          ],
+          [
+            { "id": "c5g", "text": "Accept the award on behalf of your community" },
+            { "id": "c5h", "text": "Use the platform to launch something bigger" },
+            { "id": "c5i", "text": "Keep grinding — you're just getting started" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "mega-star",
+        "condition": "High subscribers and views (both above 70), high revenue, creativity above 50",
+        "title": "YouTube Mega Star",
+        "description": "You did it. Millions of subscribers, brand deals that actually excite you, and a community that feels like family. Luna still mods your streams. Zara became a genuine friend and frequent collaborator. Even Dex came through when it mattered. Your channel isn't just successful — it changed the platform. A new generation of creators cites YOU as their inspiration. The algorithm didn't make you. You made you."
+      },
+      {
+        "id": "authentic-creator",
+        "condition": "High creativity (above 70) but moderate or low subscribers and revenue",
+        "title": "The Authentic Creator",
+        "description": "You never sold out. Your subscriber count isn't in the millions, but the community you built is fiercely loyal. Luna still runs your Discord with love. Your videos win awards for creativity. You make a comfortable living doing what you genuinely love. The brands that work with you respect your vision. Sometimes the best measure of success isn't the view count — it's looking at your work and feeling proud."
+      },
+      {
+        "id": "burnt-out",
+        "condition": "Low creativity (below 30) regardless of subscriber count",
+        "title": "Burnout",
+        "description": "The numbers look great on paper, but you haven't felt excited about a video idea in months. Every upload feels like a chore. The comment section drains you. Dex keeps booking deals you don't care about. Luna is worried about you — she's said so twice this week. You built a successful channel, but somewhere along the way, you forgot why you started. Maybe it's time to step back and rediscover the joy of creating."
+      },
+      {
+        "id": "comeback-kid",
+        "condition": "Survived the controversy with subscribers and creativity both above 50",
+        "title": "The Comeback",
+        "description": "You lost everything — or so it seemed. The controversy nearly destroyed you, but you fought your way back. Not with apologies or PR tactics, but by creating the best content of your life. Luna never left your side. The community that stayed is the real one. Your comeback video breaks your all-time record. Zara, humbled by her own setback, reaches out with genuine respect. You proved that the creator economy doesn't define you — you define it."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "subscribers", "label": "Subscribers", "icon": "👥", "initialValue": 0, "min": 0, "max": 100 },
+      { "id": "views", "label": "Views", "icon": "👁️", "initialValue": 0, "min": 0, "max": 100 },
+      { "id": "revenue", "label": "Revenue", "icon": "💰", "initialValue": 0, "min": 0, "max": 100 },
+      { "id": "creativity", "label": "Creativity", "icon": "🎨", "initialValue": 70, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "AI YouTube Tycoon",
+    "desc": "Start a YouTube channel from zero and grow it into a massive empire! Survive drama, algorithm changes, and brand deals in this creator simulator!",
+    "description": "Ever dreamed of becoming a YouTube star? AI YouTube Tycoon puts you in the hot seat of the creator economy. Start with zero subscribers and a secondhand laptop, then navigate the wild ride of content creation — from your first upload to going viral, landing brand deals, surviving controversy, and building a legacy. Face real YouTube scenarios: algorithm shakeups that tank your views, rival creators who collab then backstab, brand deals that test your authenticity, and a community that can turn on you overnight. With characters like Zara the rival YouTuber, Dex the slick talent manager, and Luna the loyal fan-turned-mod, every playthrough is a unique creator journey. Can you become the next big thing — or will the algorithm eat you alive?",
+    "howToPlay": "Read each story scene and make choices that shape your YouTube career. The stats bar tracks your Subscribers, Views, Revenue, and Creativity — every decision affects these numbers. Go viral and gain subs fast, but watch your creativity stat if you chase trends too hard. Build relationships with characters: Luna keeps you grounded, Dex pushes for monetization, and Zara can be friend or foe. Your stats and choices in the final chapter determine which of the 4 endings you get!",
+    "tips": [
+      "Chasing trends boosts views fast but drains creativity — balance is key",
+      "Listen to Luna — she represents your true fans and their instincts are sharp",
+      "Brand deals bring revenue but too many erode audience trust",
+      "The controversy chapter can make or break you — choose your response carefully",
+      "There are 4 endings: Mega Star, Authentic Creator, Burnout, and Comeback"
+    ],
+    "faq": [
+      {
+        "question": "Is this based on real YouTube creator experiences?",
+        "answer": "Yes! The scenarios — algorithm changes, brand deal negotiations, cancel culture, burnout, and viral moments — are all inspired by real events in the creator economy. The AI generates unique twists each time you play."
+      },
+      {
+        "question": "Can I actually become a YouTube mega star in the game?",
+        "answer": "Absolutely — if you make the right choices! Balance your content quality with growth strategies, navigate drama wisely, and keep your creativity high. But just like real YouTube, there are no guarantees."
+      },
+      {
+        "question": "What happens if my creativity drops too low?",
+        "answer": "If your creativity stat drops below 30, you'll get the Burnout ending regardless of your subscriber count. This mirrors real creator burnout — success means nothing if you've lost the passion to create."
+      },
+      {
+        "question": "Is Zara always a villain?",
+        "answer": "Not necessarily! Zara is a rival, but depending on your choices, she can become a genuine friend and collaborator — or your worst enemy. The relationship evolves based on how you handle collabs, drama, and competition."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI YouTube 大亨",
+    "desc": "从零开始打造YouTube频道，发展成超级帝国！在创作者模拟器中应对戏剧性事件、算法变化和品牌合作！",
+    "description": "梦想成为YouTube明星吗？AI YouTube大亨让你置身于创作者经济的中心。从零订阅和一台二手笔记本开始，经历内容创作的疯狂旅程——从第一次上传到病毒式传播，签下品牌合作，在争议中生存，建立传奇。面对真实的YouTube场景：算法改版让观看量暴跌，竞争对手先合作后背刺，品牌交易考验你的真实度，社区可能一夜之间翻脸。角色包括竞争对手YouTuber Zara、圆滑的经纪人Dex、忠实粉丝变版主的Luna，每次游玩都是独一无二的创作者之旅。你能成为下一个大人物吗？",
+    "howToPlay": "阅读每个故事场景，做出影响你YouTube生涯的选择。状态栏追踪你的订阅数、观看量、收入和创造力——每个决定都会影响这些数值。追逐热门能快速涨订阅，但过度追逐趋势会消耗创造力。与角色建立关系：Luna让你保持初心，Dex推动变现，Zara可以是朋友也可以是对手。最终章节中的状态和选择决定你获得4种结局中的哪一种！",
+    "tips": [
+      "追逐热门能快速提升观看量但会消耗创造力——平衡是关键",
+      "听取Luna的建议——她代表你的真实粉丝，直觉很敏锐",
+      "品牌合作带来收入但太多会削弱观众信任",
+      "争议章节可能成就你也可能毁掉你——谨慎选择回应方式",
+      "有4种结局：超级明星、真实创作者、倦怠和逆袭"
+    ],
+    "faq": [
+      {
+        "question": "这是基于真实的YouTube创作者经历吗？",
+        "answer": "是的！算法变化、品牌合作谈判、取消文化、倦怠和病毒式传播等场景都受到创作者经济中真实事件的启发。AI每次都会生成独特的转折。"
+      },
+      {
+        "question": "我能在游戏中成为YouTube超级明星吗？",
+        "answer": "当然可以——如果你做出正确的选择！平衡内容质量和增长策略，明智地处理戏剧性事件，保持高创造力。但就像真实的YouTube一样，没有保证。"
+      },
+      {
+        "question": "如果创造力降得太低会怎样？",
+        "answer": "如果你的创造力值降到30以下，无论订阅数多少都会得到倦怠结局。这反映了真实的创作者倦怠——如果你失去了创作热情，成功就毫无意义。"
+      },
+      {
+        "question": "Zara总是反派吗？",
+        "answer": "不一定！Zara是对手，但根据你的选择，她可以成为真正的朋友和合作者——也可以成为你最大的敌人。你们的关系会根据你处理合作、戏剧性事件和竞争的方式而变化。"
+      }
+    ]
+  }
+}

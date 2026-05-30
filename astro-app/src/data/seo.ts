@@ -59,6 +59,46 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play AI Fantasy Adventure free! Epic RPG quest with AI dungeon master. Battle monsters, find relics, save the kingdom. 4 unique endings. No download!',
     intent: 'play'
   },
+  'ai-youtube-tycoon': {
+    primaryKeyword: 'YouTube simulator',
+    secondaryKeywords: ['YouTube tycoon game', 'content creator simulator', 'vlogger game', 'streamer simulator', 'YouTube channel game'],
+    longTailKeywords: ['play YouTube simulator free', 'content creator game online', 'YouTube tycoon no download', 'vlogger simulator browser game'],
+    titleTemplate: 'YouTube Tycoon - Build Your Channel Simulator Game | {brand}',
+    descriptionTemplate: 'Play YouTube Tycoon free! Start a channel, go viral, land brand deals, and build your creator empire. AI-powered content creator simulator with multiple endings!',
+    intent: 'play'
+  },
+  'startup-simulator': {
+    primaryKeyword: 'startup simulator',
+    secondaryKeywords: ['business simulator game', 'entrepreneur game', 'startup tycoon', 'Silicon Valley game', 'founder simulator'],
+    longTailKeywords: ['play startup simulator free', 'business tycoon game online', 'entrepreneur simulator no download', 'Silicon Valley startup game browser'],
+    titleTemplate: 'Startup Simulator - Build Your Tech Empire Game | {brand}',
+    descriptionTemplate: 'Play Startup Simulator free! Pitch investors, build your MVP, hire talent, and take your startup from garage to IPO. AI-powered business simulator with 4+ endings!',
+    intent: 'play'
+  },
+  'ai-zombie-survival': {
+    primaryKeyword: 'zombie survival game',
+    secondaryKeywords: ['zombie apocalypse game', 'survival horror online', 'zombie story game', 'AI zombie game', 'text adventure zombie'],
+    longTailKeywords: ['play zombie survival game free', 'zombie apocalypse simulator online', 'AI zombie horror story game', 'survival text adventure browser'],
+    titleTemplate: 'AI Zombie Survival - Post-Apocalypse Story Game | {brand}',
+    descriptionTemplate: 'Play AI Zombie Survival free! Lead survivors through the apocalypse. Scavenge, make tough choices, fight the undead. AI survival horror, 4 endings. No download!',
+    intent: 'play'
+  },
+  'ai-crypto-trader': {
+    primaryKeyword: 'crypto trading simulator',
+    secondaryKeywords: ['cryptocurrency game', 'Bitcoin simulator', 'crypto tycoon', 'trading game online', 'crypto trader game'],
+    longTailKeywords: ['play crypto trading simulator free', 'Bitcoin trading game online', 'cryptocurrency simulator no download', 'crypto tycoon browser game'],
+    titleTemplate: 'Crypto Trader Simulator - Bitcoin Trading Game | {brand}',
+    descriptionTemplate: 'Play Crypto Trader Simulator free! Trade Bitcoin, spot rug pulls, ride bull runs, and build your crypto empire. AI-powered trading game with 4+ endings. No download!',
+    intent: 'play'
+  },
+  'ai-personality-quiz': {
+    primaryKeyword: 'AI personality test',
+    secondaryKeywords: ['personality quiz online', 'AI personality quiz', 'personality test free', 'who am I quiz', 'personality type test'],
+    longTailKeywords: ['take AI personality test free', 'online personality quiz no download', 'AI personality quiz game', 'free personality test accurate'],
+    titleTemplate: 'AI Personality Quiz - Discover Your True Type Free | {brand}',
+    descriptionTemplate: 'Take our free AI Personality Quiz! 8 vivid scenarios reveal your true personality type across 4 dimensions. 8 unique results. AI-adapted questions. Share with friends!',
+    intent: 'play'
+  },
   // Word Games - High search volume
   wordle: {
     primaryKeyword: 'wordle online',
