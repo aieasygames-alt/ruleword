@@ -155,3 +155,11 @@ export function getTotalPlays(): string {
   }
   return `${(total / 1000).toFixed(0)}K+`
 }
+
+// Games that have generated thumbnails (from scripts/generate-images.ts)
+export const THUMBNAIL_GAMES = new Set([
+  'wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man',
+  'minesweeper', 'solitaire', 'crossword', 'spelling-bee',
+  'memory-grid', 'snake', 'flappy-bird', 'word-search', 'nonogram',
+  'killer-sudoku', 'connections', 'typing-test', 'mahjong', 'aim-trainer',
+])

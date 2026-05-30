@@ -8,7 +8,7 @@ import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { getRecentBlogPosts } from '../data/blogPosts'
 import { getSiteAverageRating } from '../data/gameRatings'
-import { getGamePopularity, getTotalPlays } from '../data/gamePopularity'
+import { getGamePopularity, getTotalPlays, THUMBNAIL_GAMES } from '../data/gamePopularity'
 import GameSearch from '../components/GameSearch.astro'
 import GameShowcase from '../components/GameShowcase.astro'
 
@@ -72,6 +72,7 @@ const siteRating = getSiteAverageRating()
   description={homepageSEO.description}
   keywords={homepageSEO.keywords}
   isHomePage={true}
+  ogImage="/og/home.png"
 >
   <!-- Homepage Schema with AggregateRating -->
   <script type="application/ld+json" set:html={JSON.stringify({
@@ -158,9 +159,22 @@ const siteRating = getSiteAverageRating()
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 tracking-tight text-gray-900 dark:text-white" data-i18n="title">
           Free Online Puzzle Games
         </h1>
-        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-gray-600 dark:text-slate-400 mb-8" data-i18n="subtitle">
+        <p class="text-lg sm:text-xl max-w-2xl mx-auto text-gray-600 dark:text-slate-400 mb-6" data-i18n="subtitle">
           Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
         </p>
+
+        <!-- Hero Game Mosaic -->
+        <div class="flex justify-center gap-3 mb-8">
+          {quickPlayGames.map((game, i) => (
+            <div
+              class={`hero-tile relative w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br ${game.color} flex items-center justify-center text-2xl sm:text-3xl lg:text-4xl shadow-lg cursor-default group`}
+              style={`animation-delay: ${i * 0.15}s`}
+            >
+              <span>{game.icon}</span>
+              <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 text-xs font-medium text-gray-500 dark:text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{game.name}</span>
+            </div>
+          ))}
+        </div>
 
         <!-- Search Bar -->
         <GameSearch games={gamesForClient} />
@@ -190,12 +204,14 @@ const siteRating = getSiteAverageRating()
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {quickPlayGames.map(game => {
             const popularity = getGamePopularity(game.slug)
+            const hasThumb = THUMBNAIL_GAMES.has(game.slug)
             return (
             <a
               href={`/games/${game.slug}/`}
               class={`group relative overflow-hidden rounded-2xl aspect-[4/3] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
               data-game-slug={game.slug}
             >
+              {hasThumb && <img src={`/thumbnails/${game.slug}.png`} alt={game.name} class="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-40 transition-opacity" loading="lazy" />}
               <div class="relative z-10 h-full flex flex-col justify-between">
                 <div class="flex items-start justify-between">
                   <div class="text-3xl lg:text-4xl">{game.icon}</div>
@@ -208,7 +224,6 @@ const siteRating = getSiteAverageRating()
               </div>
             </a>
           )})}
-          ))}
         </div>
       </section>
 
@@ -469,9 +484,13 @@ const siteRating = getSiteAverageRating()
               data-game-category={game.category}
             >
               <div class="flex items-start gap-4">
-                <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
-                  <span class="text-2xl">{game.icon}</span>
-                </div>
+                {THUMBNAIL_GAMES.has(game.slug) ? (
+                  <img src={`/thumbnails/${game.slug}.png`} alt={game.name} class="w-14 h-14 rounded-xl object-cover flex-shrink-0 shadow-lg transition-transform group-hover:scale-110" loading="lazy" width="56" height="56" />
+                ) : (
+                  <div class={`w-14 h-14 rounded-xl bg-gradient-to-br ${game.color} flex items-center justify-center flex-shrink-0 shadow-lg transition-transform group-hover:scale-110`}>
+                    <span class="text-2xl">{game.icon}</span>
+                  </div>
+                )}
                 <div class="flex-1 min-w-0">
                   <h3 class="font-bold text-lg mb-1 game-name text-gray-900 dark:text-white">{game.name}</h3>
                   <p class="text-sm text-gray-600 dark:text-slate-400 line-clamp-2 game-desc">{game.desc}</p>
@@ -1030,4 +1049,19 @@ const siteRating = getSiteAverageRating()
       }
     })
   </script>
+
+  <style>
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .hero-tile {
+      animation: heroFloat 3s ease-in-out infinite;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hero-tile:hover {
+      transform: scale(1.15) translateY(-4px) !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+  </style>
 </BaseLayout>

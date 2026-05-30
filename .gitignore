@@ -41,3 +41,7 @@ sanity-studio/dist/
 
 # Wrangler
 .wrangler/
+
+# Generated images
+astro-app/public/og/
+astro-app/public/thumbnails/

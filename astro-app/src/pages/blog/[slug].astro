@@ -81,6 +81,7 @@ const faqSchema = post.faq.length > 0 ? {
   description={post.description}
   keywords={post.keywords.join(', ')}
   canonicalPath={`/blog/${slug}/`}
+  ogImage={`/og/blog-${slug}.png`}
   breadcrumbItems={breadcrumbItems}
 >
   <!-- Article Schema -->

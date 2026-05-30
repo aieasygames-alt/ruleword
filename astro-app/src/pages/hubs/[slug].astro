@@ -106,7 +106,7 @@ const faqSchema = hub.faq.length > 0 ? {
 } : null
 ---
 
-<BaseLayout title={hub.title} description={hub.description} keywords={hub.keywords}>
+<BaseLayout title={hub.title} description={hub.description} keywords={hub.keywords} ogImage={`/og/hub-${slug}.png`}>
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">

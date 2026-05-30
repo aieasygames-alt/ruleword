@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "dev:cms": "node cms-proxy.js & astro dev",
-    "build": "astro build",
+    "prebuild": "npx tsx scripts/generate-images.ts",
+    "build": "npx tsx scripts/generate-images.ts && astro build",
     "preview": "astro preview",
     "cms:migrate": "npx tsx scripts/migrate-to-contentful.ts",
     "cms:migrate:sanity": "npx tsx scripts/migrate-to-sanity.ts",

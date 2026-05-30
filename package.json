@@ -8,5 +8,9 @@
     "build": "cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
     "build:ci": "cd astro-app && pnpm build && cp -r dist ../dist",
     "preview": "cd astro-app && pnpm preview"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "satori": "^0.26.0"
   }
 }
