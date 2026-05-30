@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import StatsDashboard from '../components/StatsDashboard'
+
+const seoTitle = 'Your Game Stats & Achievements - Free Games Hub'
+const seoDescription = 'Track your gaming progress, achievements, and high scores across all games. View your gamer level, total plays, and unlocked achievements.'
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Stats', url: '/stats/' },
+]
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="game stats, achievements, high scores, gamer level, progress tracker"
+  canonicalPath="/stats/"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">R</div>
+            <span class="font-semibold hidden sm:inline">Free Games Hub</span>
+          </a>
+          <h1 class="text-lg font-bold flex items-center gap-2"><span>📊</span> Your Stats</h1>
+          <a href="/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">← Games</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold mb-2">Your Gaming Dashboard</h2>
+        <p class="text-gray-600 dark:text-slate-400">Track your progress, achievements, and high scores across all games.</p>
+      </div>
+
+      <StatsDashboard client:load />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-4 px-4 text-center text-sm text-gray-500 dark:text-slate-500">
+      © 2026 Free Games Hub — <a href="/" class="text-emerald-600 dark:text-emerald-400 hover:underline">Play Free Online Games</a>
+    </footer>
+  </div>
+</BaseLayout>

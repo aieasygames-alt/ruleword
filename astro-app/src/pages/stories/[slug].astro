@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import AIStoryGame from '../../components/ai/AIStoryGame'
 import { getCollection } from 'astro:content'
 import { languages, type Language } from '../../data/i18n'
+import { getGameRating } from '../../data/gameRatings'
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories')
@@ -48,6 +49,8 @@ const howToSchema = storyHowToPlay ? {
     { "@type": "HowToStep", "text": "Make choices to shape the story and your relationships" },
   ],
 } : undefined
+
+const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
 ---
 
 <BaseLayout
@@ -58,6 +61,7 @@ const howToSchema = storyHowToPlay ? {
   gameType="Interactive Fiction"
   breadcrumbItems={breadcrumbItems}
   howToSchema={howToSchema}
+  aggregateRating={storyRating}
 >
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
     <!-- Navigation Bar -->

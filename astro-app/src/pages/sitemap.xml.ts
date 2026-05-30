@@ -140,6 +140,14 @@ ${(await getCollection('stories')).map(entry => `  <url>
     <priority>0.8</priority>
   </url>`).join('\n')}
 
+  <!-- Daily Challenge Page -->
+  <url>
+    <loc>${baseUrl}/daily/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>`
 
   return new Response(sitemap, {

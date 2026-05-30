@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+
+const seoTitle = 'Daily Puzzle Challenge - Play a New Game Every Day | Free Games Hub'
+const seoDescription = 'Play a new puzzle challenge every day! 7+ games with daily modes including Connect Four, Brick Breaker, 15 Puzzle, Lights Out and more. Free online, no download.'
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'Daily Challenge', url: '/daily/' },
+]
+
+const gamesCollection = await getCollection('games')
+const allGames = gamesCollection.map(entry => entry.data)
+
+const dailyGames = [
+  { slug: 'connect-four', dailyLabel: 'Daily AI Match', dailyDesc: 'Challenge our AI in a new daily board setup' },
+  { slug: 'brick-breaker', dailyLabel: 'Daily Brick Break', dailyDesc: 'Break today\'s special brick pattern' },
+  { slug: '15-puzzle', dailyLabel: 'Daily Slide', dailyDesc: 'Solve today\'s shuffled 15-puzzle' },
+  { slug: 'lights-out', dailyLabel: 'Daily Lights', dailyDesc: 'Turn off all lights in today\'s pattern' },
+  { slug: 'simon-says', dailyLabel: 'Daily Sequence', dailyDesc: 'Remember today\'s special sequence' },
+  { slug: 'tic-tac-toe', dailyLabel: 'Daily XO Match', dailyDesc: 'Beat the AI in today\'s daily challenge' },
+  { slug: 'whack-a-mole', dailyLabel: 'Daily Whack', dailyDesc: 'Whack today\'s special mole pattern' },
+]
+
+const dailyGameData = dailyGames.map(dg => {
+  const game = allGames.find(g => g.slug === dg.slug)
+  return {
+    ...dg,
+    name: game?.en?.name || dg.slug,
+    icon: game?.icon || '🎮',
+    color: game?.color || 'from-blue-500 to-purple-600',
+    desc: game?.en?.desc || '',
+  }
+})
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords="daily puzzle, daily challenge, daily game, new puzzle every day, connect four daily, brick breaker daily, free daily games"
+  canonicalPath="/daily/"
+  breadcrumbItems={breadcrumbItems}
+>
+  <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="flex items-center justify-between h-14">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">R</div>
+            <span class="font-semibold hidden sm:inline">Free Games Hub</span>
+          </a>
+          <h1 class="text-lg font-bold">🗓️ Daily Challenge</h1>
+          <a href="/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">← Home</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="relative overflow-hidden bg-gradient-to-b from-amber-50 to-orange-50 dark:from-slate-900 dark:to-slate-950 py-12 px-4">
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-amber-500"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-20 bg-orange-500"></div>
+      </div>
+      <div class="relative max-w-4xl mx-auto text-center">
+        <div class="text-5xl mb-4">📅</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-3">Daily Puzzle Challenge</h2>
+        <p class="text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto mb-4">
+          A fresh challenge every day! Play 7 different daily puzzles — each one resets at midnight with a brand new puzzle to solve.
+        </p>
+        <div class="flex flex-wrap justify-center gap-3 text-sm">
+          <span class="px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full font-medium">🔄 Resets Daily</span>
+          <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">🧠 7 Games</span>
+          <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full font-medium">🆓 Free Forever</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Daily Games Grid -->
+    <section class="max-w-5xl mx-auto px-4 py-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dailyGameData.map(game => (
+          <a
+            href={`/games/${game.slug}/?mode=daily`}
+            class="group block bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-500 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10 hover:scale-[1.02]"
+          >
+            <div class={`h-2 bg-gradient-to-r ${game.color}`} />
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-3xl">{game.icon}</span>
+                <div>
+                  <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">{game.dailyLabel}</h3>
+                  <span class="text-xs text-gray-500 dark:text-slate-500 uppercase tracking-wider">{game.name}</span>
+                </div>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">{game.dailyDesc}</p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs text-amber-600 dark:text-amber-400 font-medium">📅 New puzzle today</span>
+                <span class="inline-block px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-lg text-sm group-hover:bg-amber-200 dark:group-hover:bg-amber-900/50 transition-colors">
+                  Play Now →
+                </span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="bg-white dark:bg-slate-900/50 border-t border-gray-200 dark:border-slate-800 py-12 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-center mb-8">How Daily Challenges Work</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="text-3xl mb-3">🌅</div>
+            <h3 class="font-semibold mb-2">New Puzzle Every Day</h3>
+            <p class="text-sm text-gray-600 dark:text-slate-400">Each game generates a unique puzzle based on today's date. Everyone gets the same challenge!</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-3">🏆</div>
+            <h3 class="font-semibold mb-2">Track Your Score</h3>
+            <p class="text-sm text-gray-600 dark:text-slate-400">Complete the daily puzzle and track your score. Come back tomorrow for a fresh challenge.</p>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl mb-3">🔄</div>
+            <h3 class="font-semibold mb-2">Resets at Midnight</h3>
+            <p class="text-sm text-gray-600 dark:text-slate-400">Daily challenges reset every night at midnight. Don't miss today's puzzle!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="border-t border-gray-200 dark:border-slate-800 py-12 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-center mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="group bg-white dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-800">
+            <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+              What is the Daily Challenge?
+            </summary>
+            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">Daily Challenges are special puzzle variants that change every day. Each game generates a unique puzzle based on the current date, so everyone gets the same challenge. It's a great way to test your skills against a fresh puzzle each day!</p>
+          </details>
+          <details class="group bg-white dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-800">
+            <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+              When does the daily puzzle reset?
+            </summary>
+            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">Daily puzzles reset every night at midnight in your local timezone. After midnight, you'll get a brand new puzzle for each game. You can only play each day's puzzle once for a score.</p>
+          </details>
+          <details class="group bg-white dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-800">
+            <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+              Can I play old daily puzzles?
+            </summary>
+            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">Currently, only today's daily puzzle is available. Each day brings a new challenge — miss a day and there's a fresh one waiting! This encourages daily engagement and keeps things exciting.</p>
+          </details>
+          <details class="group bg-white dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-800">
+            <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+              Are daily challenges free?
+            </summary>
+            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">Absolutely! All daily challenges are completely free. No registration, no download, no payment required. Just click and play!</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-4 px-4 text-center text-sm text-gray-500 dark:text-slate-500">
+      © 2026 Free Games Hub — <a href="/" class="text-emerald-600 dark:text-emerald-400 hover:underline">Play Free Online Games</a>
+    </footer>
+  </div>
+</BaseLayout>

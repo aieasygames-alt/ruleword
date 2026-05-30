@@ -12,6 +12,7 @@ interface Props {
   breadcrumbItems?: Array<{name: string; url: string}>
   hreflangUrls?: Array<{lang: string; url: string}>
   howToSchema?: object
+  aggregateRating?: { ratingValue: number; reviewCount: number; bestRating: number }
 }
 
 const {
@@ -23,7 +24,8 @@ const {
   gameType,
   isHomePage = false,
   breadcrumbItems,
-  howToSchema
+  howToSchema,
+  aggregateRating
 } = Astro.props
 
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
@@ -127,7 +129,15 @@ const { hreflangUrls } = Astro.props
             "@type": "Offer",
             "price": "0",
             "priceCurrency": "USD"
-          }
+          },
+          ...(aggregateRating ? {
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": aggregateRating.ratingValue,
+              "reviewCount": aggregateRating.reviewCount,
+              "bestRating": aggregateRating.bestRating
+            }
+          } : {})
         })} />
         {/* Breadcrumb Schema for Game Pages */}
         {breadcrumbItems && breadcrumbItems.length > 0 && (

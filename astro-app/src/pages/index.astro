@@ -7,6 +7,8 @@ import { homepageSEO } from '../data/seo'
 import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { getRecentBlogPosts } from '../data/blogPosts'
+import { getSiteAverageRating } from '../data/gameRatings'
+import { getGamePopularity, getTotalPlays } from '../data/gamePopularity'
 import GameSearch from '../components/GameSearch.astro'
 import GameShowcase from '../components/GameShowcase.astro'
 
@@ -62,6 +64,7 @@ const storyGames = storiesCollection.map(entry => ({
   endings: entry.data.storySkeleton.endings,
 }))
 
+const siteRating = getSiteAverageRating()
 ---
 
 <BaseLayout
@@ -70,6 +73,27 @@ const storyGames = storiesCollection.map(entry => ({
   keywords={homepageSEO.keywords}
   isHomePage={true}
 >
+  <!-- Homepage Schema with AggregateRating -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Games Hub",
+    "description": homepageSEO.description,
+    "url": "https://ruleword.com",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": siteRating.ratingValue,
+      "reviewCount": siteRating.reviewCount,
+      "bestRating": siteRating.bestRating
+    }
+  })} />
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
@@ -140,6 +164,17 @@ const storyGames = storiesCollection.map(entry => ({
 
         <!-- Search Bar -->
         <GameSearch games={gamesForClient} />
+
+        <!-- Trust Bar -->
+        <div class="mt-6 flex flex-wrap justify-center items-center gap-4 sm:gap-6 text-sm text-gray-500 dark:text-slate-400">
+          <span class="flex items-center gap-1.5"><span class="text-lg">🎮</span> <strong class="text-gray-700 dark:text-slate-300">{games.length}+</strong> Free Games</span>
+          <span class="text-gray-300 dark:text-slate-700">|</span>
+          <span class="flex items-center gap-1.5"><span class="text-lg">🌍</span> <strong class="text-gray-700 dark:text-slate-300">{getTotalPlays()}</strong> Total Plays</span>
+          <span class="text-gray-300 dark:text-slate-700">|</span>
+          <span class="flex items-center gap-1.5"><span class="text-lg">⭐</span> <strong class="text-gray-700 dark:text-slate-300">{siteRating.ratingValue}</strong> Avg Rating</span>
+          <span class="text-gray-300 dark:text-slate-700">|</span>
+          <span class="flex items-center gap-1.5"><span class="text-lg">🆓</span> No Download</span>
+        </div>
       </div>
     </div>
 
@@ -153,20 +188,26 @@ const storyGames = storiesCollection.map(entry => ({
         </div>
         <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="quickPlayDesc">Jump right into our most popular games</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {quickPlayGames.map(game => (
+          {quickPlayGames.map(game => {
+            const popularity = getGamePopularity(game.slug)
+            return (
             <a
               href={`/games/${game.slug}/`}
               class={`group relative overflow-hidden rounded-2xl aspect-[4/3] p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br ${game.color}`}
               data-game-slug={game.slug}
             >
               <div class="relative z-10 h-full flex flex-col justify-between">
-                <div class="text-3xl lg:text-4xl">{game.icon}</div>
+                <div class="flex items-start justify-between">
+                  <div class="text-3xl lg:text-4xl">{game.icon}</div>
+                  <span class="text-[10px] font-medium text-white/70 bg-white/20 rounded-full px-1.5 py-0.5">{popularity.playCount}</span>
+                </div>
                 <div>
                   <h3 class="font-bold text-white text-sm sm:text-base mb-0.5 game-name">{game.name}</h3>
                   <p class="text-white/80 text-xs line-clamp-1 game-desc">{game.desc}</p>
                 </div>
               </div>
             </a>
+          )})}
           ))}
         </div>
       </section>
@@ -212,6 +253,33 @@ const storyGames = storiesCollection.map(entry => ({
           </div>
         </section>
       )}
+
+      <!-- Today's Challenge -->
+      <section class="mb-10">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📅</span>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white">Today's Challenge</h2>
+            <span class="text-xs px-2 py-0.5 bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-full font-medium">DAILY</span>
+          </div>
+          <a href="/daily/" class="text-sm text-amber-600 dark:text-amber-400 hover:underline font-medium">View All Daily Challenges →</a>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">A fresh puzzle every day — everyone gets the same challenge</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+          {[{ slug: 'connect-four', label: 'AI Match', icon: '🔴' }, { slug: 'brick-breaker', label: 'Brick Break', icon: '🧱' }, { slug: '15-puzzle', label: 'Slide', icon: '🔢' }, { slug: 'lights-out', label: 'Lights', icon: '💡' }, { slug: 'simon-says', label: 'Sequence', icon: '🎵' }, { slug: 'tic-tac-toe', label: 'XO Match', icon: '❌' }, { slug: 'whack-a-mole', label: 'Whack', icon: '🔨' }].map(dg => {
+            const game = games.find(g => g.slug === dg.slug)
+            return game ? (
+              <a
+                href={`/games/${dg.slug}/?mode=daily`}
+                class={`group flex flex-col items-center gap-2 p-4 rounded-xl transition-all duration-300 hover:scale-[1.03] hover:shadow-lg bg-white dark:bg-slate-900/80 border border-gray-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-500`}
+              >
+                <span class="text-2xl">{game.icon}</span>
+                <span class="text-xs font-semibold text-gray-900 dark:text-white text-center">{dg.label}</span>
+              </a>
+            ) : null
+          })}
+        </div>
+      </section>
 
       <!-- Browse by Category -->
       <section class="mb-10">
@@ -362,6 +430,11 @@ const storyGames = storiesCollection.map(entry => ({
             <button id="clear-recent-btn" class="text-sm text-gray-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors">Clear All</button>
           </div>
           <div id="recent-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"></div>
+        </div>
+        <div class="mt-6 text-center">
+          <a href="/stats/" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 hover:border-emerald-400 dark:hover:border-emerald-600 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-all">
+            <span>📊</span> View Full Stats & Achievements
+          </a>
         </div>
       </section>
 

@@ -8,6 +8,9 @@ import { i18n, categoryI18n, type Language, languages } from '../../data/i18n'
 import { getGameSEO, generateKeywords } from '../../data/seo'
 import { getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
 import { hubPages } from '../../data/hubPages'
+import { getGameRating } from '../../data/gameRatings'
+import { getGamePopularity } from '../../data/gamePopularity'
+import FavoriteButton from '../../components/FavoriteButton'
 import type { GameRules, GameFAQ } from '../../types'
 
 // 在 getStaticPaths 中获取所有游戏
@@ -213,6 +216,9 @@ const howToSchema = gameGuideEn.howToPlay ? {
     "name": "Web Browser"
   }
 } : undefined
+
+const gameRating = getGameRating(game.slug)
+const gamePopularity = getGamePopularity(game.slug)
 ---
 
 <BaseLayout
@@ -223,6 +229,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
   gameType={gameType}
   breadcrumbItems={breadcrumbItems}
   howToSchema={howToSchema}
+  aggregateRating={gameRating}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
@@ -246,9 +253,11 @@ const howToSchema = gameGuideEn.howToPlay ? {
             <span class="hidden sm:inline">Play {getGameName()} Online Free</span>
             <span class="sm:hidden">{gameIcon} {getGameName()}</span>
           </h1>
+          <span class="hidden sm:inline text-xs text-slate-500 ml-1 shrink-0">{gamePopularity.playCount} plays</span>
 
-          <!-- Right: Language and Feedback -->
+          <!-- Right: Favorite, Language and Feedback -->
           <div class="flex items-center gap-2">
+            <FavoriteButton client:load gameSlug={game.slug} size="sm" showLabel={false} />
             <div class="relative">
               <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
                 <span class="text-lg">🌐</span>
