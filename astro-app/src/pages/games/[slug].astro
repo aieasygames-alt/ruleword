@@ -253,11 +253,11 @@ const gamePopularity = getGamePopularity(game.slug)
             <span class="hidden sm:inline">Play {getGameName()} Online Free</span>
             <span class="sm:hidden">{gameIcon} {getGameName()}</span>
           </h1>
-          <span class="hidden sm:inline text-xs text-slate-500 ml-1 shrink-0">{gamePopularity.playCount} plays</span>
+          <span class="text-[11px] text-emerald-400/80 ml-2 shrink-0 hidden sm:inline">🔥 {gamePopularity.playCount}</span>
 
           <!-- Right: Favorite, Language and Feedback -->
           <div class="flex items-center gap-2">
-            <FavoriteButton client:load gameSlug={game.slug} size="sm" showLabel={false} />
+            <FavoriteButton client:load gameSlug={game.slug} size="md" showLabel={false} />
             <div class="relative">
               <button id="lang-btn" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
                 <span class="text-lg">🌐</span>

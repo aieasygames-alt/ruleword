@@ -282,6 +282,7 @@ export interface GamerLevel {
   titleZh: string;
   progress: number;
   nextTitle: string;
+  nextTitleZh: string;
 }
 
 const LEVEL_THRESHOLDS = [0, 1, 5, 15, 30, 50, 75, 100, 200, 500];
@@ -322,5 +323,6 @@ export function getGamerLevel(stats: GameStats): GamerLevel {
     titleZh: levelInfo.titleZh,
     progress: Math.min(progress, 100),
     nextTitle: nextInfo.title,
+    nextTitleZh: nextInfo.titleZh,
   };
 }

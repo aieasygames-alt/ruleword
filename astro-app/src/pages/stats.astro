@@ -1,13 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
 import StatsDashboard from '../components/StatsDashboard'
+import { languages, type Language } from '../data/i18n'
 
-const seoTitle = 'Your Game Stats & Achievements - Free Games Hub'
-const seoDescription = 'Track your gaming progress, achievements, and high scores across all games. View your gamer level, total plays, and unlocked achievements.'
+const urlLang = Astro.url.searchParams.get('lang') || 'en'
+const lang: Language = languages.some(l => l.code === urlLang) ? (urlLang as Language) : 'en'
+const isZh = lang === 'zh-CN'
+
+const seoTitle = isZh ? '你的游戏统计与成就 - Free Games Hub' : 'Your Game Stats & Achievements - Free Games Hub'
+const seoDescription = isZh
+  ? '追踪你在所有游戏中的进度、成就和最高分。查看你的玩家等级、总游玩次数和解锁的成就。'
+  : 'Track your gaming progress, achievements, and high scores across all games. View your gamer level, total plays, and unlocked achievements.'
 
 const breadcrumbItems = [
-  { name: 'Home', url: '/' },
-  { name: 'Stats', url: '/stats/' },
+  { name: isZh ? '首页' : 'Home', url: '/' },
+  { name: isZh ? '统计' : 'Stats', url: '/stats/' },
 ]
 ---
 
@@ -23,12 +30,15 @@ const breadcrumbItems = [
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="flex items-center justify-between h-14">
-          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <a href={`/?lang=${lang}`} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">R</div>
             <span class="font-semibold hidden sm:inline">Free Games Hub</span>
           </a>
-          <h1 class="text-lg font-bold flex items-center gap-2"><span>📊</span> Your Stats</h1>
-          <a href="/" class="text-sm text-emerald-600 dark:text-emerald-400 hover:underline">← Games</a>
+          <h1 class="text-lg font-bold flex items-center gap-2"><span>📊</span> {isZh ? '我的统计' : 'Your Stats'}</h1>
+          <div class="flex items-center gap-2">
+            <a href="/stats/" class={`text-sm px-2 py-1 rounded ${lang === 'en' ? 'bg-emerald-100 text-emerald-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>EN</a>
+            <a href="/stats/?lang=zh-CN" class={`text-sm px-2 py-1 rounded ${lang === 'zh-CN' ? 'bg-emerald-100 text-emerald-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>中文</a>
+          </div>
         </div>
       </div>
     </header>
@@ -36,16 +46,16 @@ const breadcrumbItems = [
     <!-- Content -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <div class="mb-8">
-        <h2 class="text-2xl font-bold mb-2">Your Gaming Dashboard</h2>
-        <p class="text-gray-600 dark:text-slate-400">Track your progress, achievements, and high scores across all games.</p>
+        <h2 class="text-2xl font-bold mb-2">{isZh ? '你的游戏面板' : 'Your Gaming Dashboard'}</h2>
+        <p class="text-gray-600 dark:text-slate-400">{isZh ? '追踪你在所有游戏中的进度、成就和最高分。' : 'Track your progress, achievements, and high scores across all games.'}</p>
       </div>
 
-      <StatsDashboard client:load />
+      <StatsDashboard client:load lang={lang} />
     </main>
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-4 px-4 text-center text-sm text-gray-500 dark:text-slate-500">
-      © 2026 Free Games Hub — <a href="/" class="text-emerald-600 dark:text-emerald-400 hover:underline">Play Free Online Games</a>
+      © 2026 Free Games Hub — <a href={`/?lang=${lang}`} class="text-emerald-600 dark:text-emerald-400 hover:underline">{isZh ? '免费在线游戏' : 'Play Free Online Games'}</a>
     </footer>
   </div>
 </BaseLayout>
