@@ -327,6 +327,21 @@ async function main() {
 
   // ── Generate hub OG images ──
   console.log('  Generating hub OG images...')
+
+  // Hubs index page OG
+  await renderAndSave(
+    ogGenericNode({ title: 'Game Collections', subtitle: 'Browse curated game categories — Word, Number, Logic, Brain Training & more', icon: '🗂️' }),
+    resolve(PUBLIC, 'og/hubs-index.png'), 1200, 630,
+  )
+  count++
+
+  // Stories index page OG
+  await renderAndSave(
+    ogGenericNode({ title: 'AI Story Games', subtitle: 'Interactive AI-powered stories — Romance, Mystery, Survival & more', icon: '📖' }),
+    resolve(PUBLIC, 'og/stories-index.png'), 1200, 630,
+  )
+  count++
+
   const hubContent = readFileSync(resolve(ROOT, 'src/data/hubPages.ts'), 'utf-8')
   const hubSlugRegex = /'([a-z][a-z0-9-]+)':\s*\{/g
   let hubMatch

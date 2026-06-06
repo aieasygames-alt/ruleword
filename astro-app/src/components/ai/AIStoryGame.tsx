@@ -11,7 +11,7 @@ interface AIStoryGameProps {
   template: string
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh-CN' }
   onBack: () => void
-  onShare?: (data: { result: string; score?: number }) => void
+  onShare?: (data: { result: string; score?: number; storyTitle?: string; storyDesc?: string; storySlug?: string }) => void
   gameId?: string
   gameSlug?: string
   gameName?: string
@@ -158,9 +158,12 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
     if (onShare && state.ending) {
       onShare({
         result: state.ending.shareText || state.ending.title,
+        storyTitle: state.ending.title,
+        storyDesc: state.ending.description,
+        storySlug: gameSlug,
       })
     }
-  }, [onShare, state.ending])
+  }, [onShare, state.ending, gameSlug])
 
   const handleTypingComplete = useCallback(() => {
     typingDoneRef.current = true

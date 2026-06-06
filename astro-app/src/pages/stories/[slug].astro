@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import AIStoryGame from '../../components/ai/AIStoryGame'
+import StoryGameWithShare from '../../components/ai/StoryGameWithShare'
 import { getCollection } from 'astro:content'
 import { languages, type Language } from '../../data/i18n'
 import { getGameRating } from '../../data/gameRatings'
@@ -88,11 +88,12 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
 
     <!-- Game Area - fixed viewport height -->
     <main class="h-[calc(100vh-3.5rem)] relative">
-      <AIStoryGame
+      <StoryGameWithShare
         client:load
         template={JSON.stringify(story)}
         gameName={storyName}
         gameSlug={story.slug}
+        gameEmoji={storyIcon}
       />
     </main>
 

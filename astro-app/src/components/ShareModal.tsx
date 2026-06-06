@@ -6,8 +6,12 @@ type ShareData = {
   score?: number
   time?: string
   attempts?: number
-  result?: string // 用于 Wordle 类的方块符号
-  level?: string // 关卡信息
+  result?: string // Wordle-style block symbols
+  level?: string
+  // Story-specific fields
+  storyTitle?: string   // ending title (e.g. "True Love")
+  storyDesc?: string     // ending description
+  storySlug?: string     // story URL slug for deep link
 }
 
 type Props = {
@@ -24,6 +28,21 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
 
   // 生成分享文本
   const generateShareText = () => {
+    // Story mode
+    if (shareData.storyTitle) {
+      let text = `${shareData.gameEmoji} ${shareData.gameName}\n`
+      text += `\n📖 Ending: ${shareData.storyTitle}\n`
+      if (shareData.storyDesc) {
+        text += `\n${shareData.storyDesc}\n`
+      }
+      const url = shareData.storySlug
+        ? `https://ruleword.com/stories/${shareData.storySlug}/`
+        : 'https://ruleword.com'
+      text += `\n🔗 Play at: ${url}`
+      return text
+    }
+
+    // Game mode
     const { gameName, gameEmoji, score, time, attempts, result, level } = shareData
 
     let text = `${gameEmoji} ${gameName}\n`
@@ -81,7 +100,10 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
 
   // 分享到 Facebook
   const handleFacebookShare = () => {
-    const url = encodeURIComponent('https://ruleword.com')
+    const pageUrl = shareData.storySlug
+      ? `https://ruleword.com/stories/${shareData.storySlug}/`
+      : 'https://ruleword.com'
+    const url = encodeURIComponent(pageUrl)
     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`
     window.open(shareUrl, '_blank', 'width=600,height=400')
   }
@@ -96,7 +118,10 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
   // 分享到 Reddit
   const handleRedditShare = () => {
     const text = encodeURIComponent(generateShareText())
-    const url = `https://reddit.com/submit?url=${encodeURIComponent('https://ruleword.com')}&title=${text}`
+    const pageUrl = shareData.storySlug
+      ? `https://ruleword.com/stories/${shareData.storySlug}/`
+      : 'https://ruleword.com'
+    const url = `https://reddit.com/submit?url=${encodeURIComponent(pageUrl)}&title=${text}`
     window.open(url, '_blank', 'width=600,height=400')
   }
 
@@ -106,7 +131,7 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
         {/* Header */}
         <div className={`flex items-center justify-between p-6 border-b ${darkMode ? 'border-slate-700' : 'border-gray-200'}`}>
           <h2 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-            📢 Share Your Score
+            {shareData.storyTitle ? '📖 Share Your Story' : '📢 Share Your Score'}
           </h2>
           <button
             onClick={onClose}
