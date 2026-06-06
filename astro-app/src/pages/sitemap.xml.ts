@@ -43,7 +43,7 @@ export const GET: APIRoute = async () => {
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>${baseUrl}/icons/og-image.png</image:loc>
+      <image:loc>${baseUrl}/og/home.png</image:loc>
       <image:title>Free Games Hub - Play 100+ Free Online Games</image:title>
     </image:image>
   </url>
@@ -146,6 +146,14 @@ ${(await getCollection('stories')).map(entry => `  <url>
     <lastmod>${lastmod}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <!-- Stats Page -->
+  <url>
+    <loc>${baseUrl}/stats/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>`

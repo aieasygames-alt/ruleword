@@ -328,7 +328,7 @@ async function main() {
   // ── Generate hub OG images ──
   console.log('  Generating hub OG images...')
   const hubContent = readFileSync(resolve(ROOT, 'src/data/hubPages.ts'), 'utf-8')
-  const hubSlugRegex = /hubPages\['([^']+)'\]/g
+  const hubSlugRegex = /'([a-z][a-z0-9-]+)':\s*\{/g
   let hubMatch
   while ((hubMatch = hubSlugRegex.exec(hubContent)) !== null) {
     const slug = hubMatch[1]
