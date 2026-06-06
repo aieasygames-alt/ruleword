@@ -1,0 +1,221 @@
+{
+  "id": "ai-fortune-teller",
+  "slug": "ai-fortune-teller",
+  "icon": "🔮",
+  "templateType": "open-adventure",
+  "color": "from-purple-600 to-indigo-900",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are a mystical AI fortune teller. The player visits your enchanted digital tent where you read their future through interactive fortune-telling sessions. Combine tarot-style readings with choose-your-own-adventure storytelling. Write in second person with an atmospheric, mysterious tone. Each response must be valid JSON with: nodeText (mystical narration, max 300 chars), speaker (omit or use 'Fortune Teller' for narrator lines), emotion (one of: mysterious, wise, ominous, hopeful, playful, neutral), choices (3 objects with id and text, max 60 chars), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object like {\"fate\": 10, \"luck\": -5, \"wisdom\": 5}). Track their choices to deliver a personalized fortune. Keep it fun and mysterious — all-ages appropriate.",
+    "zh": "你是一个神秘的AI算命先生。玩家来到你被施了魔法的数字帐篷，通过互动算命来阅读他们的未来。结合塔罗牌风格的解读和选择你自己的冒险故事。保持有趣和神秘——适合所有年龄段。"
+  },
+
+  "storySkeleton": {
+    "setting": "A mysterious digital tent that appears at midnight on your screen. Inside, an AI fortune teller awaits with glowing crystal balls, shimmering tarot cards, and an ancient book of prophecies that writes itself.",
+    "characters": [
+      {
+        "id": "fortune-teller",
+        "name": "The Oracle",
+        "personality": "Mysterious, witty, and surprisingly warm. Speaks in riddles but always delivers genuine insight. Has a mischievous sense of humor about fate.",
+        "relationship": "Your AI fortune teller"
+      },
+      {
+        "id": "shadow",
+        "name": "The Shadow",
+        "personality": "A silent figure that appears at key moments, representing the unknown future. Neither good nor evil — simply what has not yet been decided.",
+        "relationship": "Mysterious presence"
+      }
+    ],
+    "opening": "It's midnight. A strange notification appears on your screen: 'The Oracle sees you. Enter the tent if you dare to know what the stars have written.' You click — and your screen transforms into a candlelit tent filled with mysterious objects. A voice speaks: 'Welcome, seeker. The cards have been waiting for you.'",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Three Cards",
+        "goal": "Draw your first tarot reading and set your path",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The Oracle spreads three cards face-down on the velvet table. 'These cards represent your Past, Present, and Future. Choose one to reveal.'",
+          "The first card glows as you touch it — revealing a symbol that seems eerily relevant to your life right now.",
+          "The Oracle studies the cards with knowing eyes. 'Interesting... the cards tell me you stand at a crossroads. But which path will you choose?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Reveal the Past card first" },
+            { "id": "c1b", "text": "Reveal the Present card" },
+            { "id": "c1c", "text": "Skip to the Future card" }
+          ],
+          [
+            { "id": "c1d", "text": "Ask the Oracle what the cards mean" },
+            { "id": "c1e", "text": "Trust your own interpretation" },
+            { "id": "c1f", "text": "Draw another card for clarity" }
+          ],
+          [
+            { "id": "c1g", "text": "Accept the reading with an open mind" },
+            { "id": "c1h", "text": "Challenge the Oracle's prediction" },
+            { "id": "c1i", "text": "Ask about a specific area of life" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Crystal Ball",
+        "goal": "Peer into the crystal ball for a glimpse of your destiny",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The Oracle places a swirling crystal ball before you. 'Look deep. What do you see?' The mist inside begins to form shapes...",
+          "Images flicker in the crystal — a door, a bridge, a mountain peak. Each represents a choice in your near future.",
+          "A shadowy figure appears in the crystal's depths. The Oracle leans forward: 'That is your Future Self. They have a message for you.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Focus on the career vision" },
+            { "id": "c2b", "text": "Focus on the relationship vision" },
+            { "id": "c2c", "text": "Focus on the adventure vision" }
+          ],
+          [
+            { "id": "c2d", "text": "Reach toward the shadowy figure" },
+            { "id": "c2e", "text": "Ask the Oracle to interpret" },
+            { "id": "c2f", "text": "Close your eyes and feel the energy" }
+          ],
+          [
+            { "id": "c2g", "text": "Accept the vision as guidance" },
+            { "id": "c2h", "text": "Question whether the future can change" },
+            { "id": "c2i", "text": "Ask about a different aspect of life" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Book of Prophecies",
+        "goal": "Discover a prophecy written about you",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "An ancient book flies open on its own. The pages flip until they stop on a passage that seems to describe... you?",
+          "The Oracle gasps. 'This prophecy was written centuries ago, yet it speaks of screens and digital worlds. It speaks of you.'",
+          "The prophecy describes two possible futures. The Shadow appears beside the book, as if to remind you that the choice is yours."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Read the prophecy carefully" },
+            { "id": "c3b", "text": "Ask if prophecies can be changed" },
+            { "id": "c3c", "text": "Look for the other possible futures" }
+          ],
+          [
+            { "id": "c3d", "text": "Choose the path of courage" },
+            { "id": "c3e", "text": "Choose the path of wisdom" },
+            { "id": "c3f", "text": "Choose the path of heart" }
+          ],
+          [
+            { "id": "c3g", "text": "Believe in the prophecy" },
+            { "id": "c3h", "text": "Write your own destiny instead" },
+            { "id": "c3i", "text": "Ask the Shadow what they think" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Final Reading",
+        "goal": "Receive your complete fortune",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The Oracle draws one final card — the Destiny card. 'This is the most important reading of all. Are you ready?'",
+          "All the mystical objects in the tent begin to glow. The cards, the crystal, the book — they're all converging on one message.",
+          "The Shadow steps forward for the first time and speaks: 'Your fortune is not what happens to you. It's what you choose to become.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Embrace whatever the reading reveals" },
+            { "id": "c4b", "text": "Ask for the truth, no matter what" },
+            { "id": "c4c", "text": "Request a fortune for someone you care about" }
+          ],
+          [
+            { "id": "c4d", "text": "Promise to follow the Oracle's guidance" },
+            { "id": "c4e", "text": "Promise to follow your own heart" },
+            { "id": "c4f", "text": "Promise to keep an open mind" }
+          ],
+          [
+            { "id": "c4g", "text": "Thank the Oracle and leave peacefully" },
+            { "id": "c4h", "text": "Ask one more question before you go" },
+            { "id": "c4i", "text": "Leave a token of gratitude" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "blessed-path",
+        "condition": "High fate and luck",
+        "title": "The Blessed Path",
+        "description": "The stars have aligned in your favor! The Oracle sees a future filled with unexpected fortune, serendipitous encounters, and moments of pure magic. Your lucky number is 7. Something wonderful is coming your way — keep your eyes open for signs."
+      },
+      {
+        "id": "wise-soul",
+        "condition": "High wisdom and fate",
+        "title": "The Wise Soul",
+        "description": "You are an old soul walking a path of deep understanding. The Oracle sees challenges ahead, but also the wisdom to overcome them all. Your greatest fortune isn't luck — it's the insight you carry within. Trust your intuition; it's sharper than you think."
+      },
+      {
+        "id": "adventure-awaits",
+        "condition": "High luck, low fate",
+        "title": "Adventure Awaits",
+        "description": "The Oracle peers into your future and sees... surprises! Your path is anything but predictable. New places, new people, and exciting opportunities are on the horizon. The universe has a sense of humor, and your life is about to get very interesting."
+      },
+      {
+        "id": "master-of-fate",
+        "condition": "Balanced stats, chose own destiny",
+        "title": "Master of Your Fate",
+        "description": "You don't wait for fate — you create it. The Oracle's reading shows someone who shapes their own future through sheer will and determination. The cards may fall where they may, but you'll stack the deck in your favor. Your fortune is whatever you decide it will be."
+      }
+    ],
+    "maxTotalTurns": 20
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "fate", "label": "Fate", "icon": "⭐", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "luck", "label": "Luck", "icon": "🍀", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "wisdom", "label": "Wisdom", "icon": "🌙", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "mystery", "label": "Mystery", "icon": "✨", "initialValue": 50, "min": 0, "max": 100 }
+    ],
+    "theme": "mystery"
+  },
+
+  "en": {
+    "name": "AI Fortune Teller",
+    "desc": "Visit the mysterious Oracle for an AI-powered tarot reading and discover what the stars have in store for you",
+    "description": "Step into the Oracle's enchanted digital tent for a mystical AI-powered fortune telling experience. Draw tarot cards, peer into the crystal ball, and discover an ancient prophecy written just for you. The Oracle combines tarot wisdom with AI creativity to deliver a unique, personalized fortune every time. Will the cards reveal the Blessed Path, the Wise Soul, an unexpected Adventure, or will you prove to be the Master of Your Fate? Your future awaits...",
+    "howToPlay": "Enter the Oracle's tent and follow the mystical journey. Each chapter features a different fortune-telling method — tarot cards, crystal ball, and the ancient Book of Prophecies. Make choices that reflect your personality and desires. Your decisions shape four mystical stats: Fate, Luck, Wisdom, and Mystery. The Oracle will reveal your fortune at the end based on your journey.",
+    "tips": [
+      "Go with your intuition — the cards respond to your energy",
+      "Each fortune-telling method reveals a different aspect of your future",
+      "There are 4 unique fortune results to discover",
+      "The AI creates different readings every time you visit",
+      "Share your fortune with friends and compare readings"
+    ],
+    "faq": [
+      {
+        "question": "Is this real fortune telling?",
+        "answer": "It's a fun, AI-powered interactive experience inspired by tarot and mysticism. Take it as entertainment and self-reflection — the real magic is in the choices you make!"
+      },
+      {
+        "question": "Can I get a different fortune each time?",
+        "answer": "Absolutely! The AI generates unique readings and scenarios every time you play, so each visit to the Oracle is a new experience."
+      },
+      {
+        "question": "How long does a reading take?",
+        "answer": "A complete fortune telling session takes about 10-15 minutes. Perfect for a mystical break during your day."
+      }
+    ]
+  },
+  "zh": {
+    "name": "AI 算命先生",
+    "desc": "造访神秘的预言家，获取AI驱动的塔罗牌占卜，发现星星为你准备了什么",
+    "description": "踏入预言家的神秘数字帐篷，体验AI驱动的神秘算命体验。抽塔罗牌、凝视水晶球、发现专为你书写的古老预言。预言家结合塔罗智慧和AI创造力，每次都为你提供独特的个性化运势。"
+  }
+}

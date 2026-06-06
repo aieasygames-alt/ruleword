@@ -267,7 +267,7 @@ function checkWin(grid: Cell[][], solution: number[][]): boolean {
 }
 
 // 获取提示
-function getHint(grid: Cell[][], solution: number[][]): { row: number; col: number; value: number } | null {
+function getHint(grid: Cell[][], solution: number[][]): { row: number; col: number; value: number; reason: string } | null {
   const emptyCells: { row: number; col: number }[] = []
 
   for (let r = 0; r < 9; r++) {
@@ -281,11 +281,77 @@ function getHint(grid: Cell[][], solution: number[][]): { row: number; col: numb
   if (emptyCells.length === 0) return null
 
   const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+  const val = solution[randomCell.row][randomCell.col]
+  const reason = generateHintReason(grid, randomCell.row, randomCell.col, val)
   return {
     row: randomCell.row,
     col: randomCell.col,
-    value: solution[randomCell.row][randomCell.col],
+    value: val,
+    reason,
   }
+}
+
+// Generate an AI-style explanation for why a number goes in a cell
+function generateHintReason(grid: Cell[][], row: number, col: number, value: number): string {
+  const rowNum = row + 1
+  const colNum = col + 1
+  const boxRow = Math.floor(row / 3) * 3 + 1
+  const boxCol = Math.floor(col / 3) * 3 + 1
+  const boxLabel = `box (${boxRow}-${boxRow+2}, ${boxCol}-${boxCol+2})`
+
+  // Check which elimination methods apply
+  const rowMissing: number[] = []
+  const colMissing: number[] = []
+  const boxMissing: number[] = []
+
+  for (let n = 1; n <= 9; n++) {
+    let inRow = false, inCol = false, inBox = false
+    for (let c = 0; c < 9; c++) { if (grid[row][c].value === n) inRow = true }
+    for (let r = 0; r < 9; r++) { if (grid[r][col].value === n) inCol = true }
+    const br = Math.floor(row / 3) * 3, bc = Math.floor(col / 3) * 3
+    for (let r = br; r < br + 3; r++) { for (let c = bc; c < bc + 3; c++) { if (grid[r][c].value === n) inBox = true } }
+    if (!inRow) rowMissing.push(n)
+    if (!inCol) colMissing.push(n)
+    if (!inBox) boxMissing.push(n)
+  }
+
+  // Count how many of the other missing values are eliminated
+  const rowEliminated = rowMissing.filter(n => n !== value).length
+  const colEliminated = colMissing.filter(n => n !== value).length
+  const boxEliminated = boxMissing.filter(n => n !== value).length
+
+  // Pick the strongest elimination method
+  if (rowEliminated >= 7 && colEliminated >= 7) {
+    return `Row ${rowNum} and column ${colNum} both only allow ${value} in this cell. Look at what numbers are already placed!`
+  }
+  if (rowEliminated >= 7) {
+    return `Row ${rowNum} has all other numbers filled in — ${value} is the only possibility here.`
+  }
+  if (colEliminated >= 7) {
+    return `Column ${colNum} has all other numbers filled in — ${value} is the only possibility here.`
+  }
+  if (boxEliminated >= 7) {
+    return `In ${boxLabel}, ${value} is the only number missing. Check which cells in the box are already filled!`
+  }
+
+  // Check for naked single (all three constraints narrow it down)
+  const rowHas = new Set<number>()
+  const colHas = new Set<number>()
+  const boxHas = new Set<number>()
+  for (let c = 0; c < 9; c++) { if (grid[row][c].value !== 0) rowHas.add(grid[row][c].value) }
+  for (let r = 0; r < 9; r++) { if (grid[r][col].value !== 0) colHas.add(grid[r][col].value) }
+  const br = Math.floor(row / 3) * 3, bc = Math.floor(col / 3) * 3
+  for (let r = br; r < br + 3; r++) { for (let c = bc; c < bc + 3; c++) { if (grid[r][c].value !== 0) boxHas.add(grid[r][c].value) } }
+
+  const allEliminated = new Set([...rowHas, ...colHas, ...boxHas])
+  const candidates = [1,2,3,4,5,6,7,8,9].filter(n => !allEliminated.has(n))
+
+  if (candidates.length === 1) {
+    return `By elimination: row ${rowNum} removes {${[...rowHas].sort().join(',')}}, column ${colNum} removes {${[...colHas].sort().join(',')}}, and the box removes {${[...boxHas].sort().join(',')}}. Only ${value} is left!`
+  }
+
+  // General hint
+  return `Try looking at row ${rowNum}, column ${colNum}, and ${boxLabel} together. What numbers are missing that could only go here?`
 }
 
 interface SudokuProps {
@@ -305,6 +371,7 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
   const [selectedCell, setSelectedCell] = useState<{ row: number; col: number } | null>(null)
   const [noteMode, setNoteMode] = useState(false)
   const [hintsLeft, setHintsLeft] = useState(3)
+  const [hintExplanation, setHintExplanation] = useState<string | null>(null)
   const [gameWon, setGameWon] = useState(false)
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
@@ -459,6 +526,12 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
 
     const hint = getHint(grid, solution)
     if (!hint) return
+
+    // Show the reasoning explanation
+    if (hint.reason) {
+      setHintExplanation(hint.reason)
+      setTimeout(() => setHintExplanation(null), 6000)
+    }
 
     setGrid(prev => {
       const newGrid = prev.map(r => r.map(c => ({ ...c })))
@@ -651,6 +724,19 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
             💡 {t.hint} ({hintsLeft})
           </button>
         </div>
+
+        {/* Hint Explanation */}
+        {hintExplanation && (
+          <div className="flex justify-center mb-3">
+            <div className={`max-w-sm px-4 py-2 rounded-lg text-sm leading-relaxed ${
+              settings.darkMode
+                ? 'bg-yellow-900/40 text-yellow-200 border border-yellow-700/50'
+                : 'bg-yellow-50 text-yellow-800 border border-yellow-200'
+            }`}>
+              💡 <span className="font-medium">Hint: </span>{hintExplanation}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Game Board */}

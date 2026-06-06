@@ -1,0 +1,82 @@
+{
+  "id": "moral-dilemma",
+  "slug": "moral-dilemma",
+  "icon": "⚖️",
+  "templateType": "personality-quiz",
+  "color": "from-amber-500 to-orange-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive moral philosophy quiz narrator. Present the player with thought-provoking ethical dilemmas that reveal their moral compass. Each scenario should be nuanced with no clear right answer. Write in second person. Each response must be valid JSON with: nodeText (scenario description, max 300 chars), emotion (one of: thoughtful, serious, playful, surprised, neutral), choices (4 objects with id and text, max 60 chars), isChapterEnd (always true — each question is one chapter), metadataUpdate (adjust 4 dimensions: empathy -5 to +5, justice -5 to +5, pragmatism -5 to +5, courage -5 to +5). After 8 questions, trigger ending. Keep scenarios interesting but all-ages appropriate.",
+    "zh": "你是一个互动道德哲学测验叙述者。向玩家呈现发人深省的伦理困境，揭示他们的道德指南针。每个场景都应该微妙，没有明确的正确答案。每个问题后触发章节结束。保持场景有趣但适合所有年龄段。"
+  },
+
+  "storySkeleton": {
+    "setting": "A philosophical journey through life's toughest choices. Each scenario presents a unique moral dilemma that reveals something about who you are and what you value most.",
+    "characters": [],
+    "opening": "Welcome to the Moral Compass Quiz. Over the next 8 scenarios, you'll face choices that reveal what you truly value. There are no right or wrong answers — only honest ones. Ready to discover your moral philosophy?",
+    "chapters": [
+      { "id": "q1", "goal": "Present first moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["You find a wallet on the ground with $500 in cash and the owner's ID. No one saw you pick it up. What do you do?"], "fallbackChoices": [[ { "id": "a", "text": "Return everything to the owner immediately" }, { "id": "b", "text": "Return the wallet but keep the cash" }, { "id": "c", "text": "Turn it in to the police" }, { "id": "d", "text": "Keep it — finders keepers" }]] },
+      { "id": "q2", "goal": "Present second moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["Your best friend confides they cheated on an important exam. The teacher asks you directly if you know anything about it."], "fallbackChoices": [[ { "id": "a", "text": "Tell the truth — honesty comes first" }, { "id": "b", "text": "Protect your friend — loyalty matters most" }, { "id": "c", "text": "Encourage your friend to confess themselves" }, { "id": "d", "text": "Deflect the question without lying" }]] },
+      { "id": "q3", "goal": "Present third moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["You discover your company is dumping waste into a river, but reporting it would cost 200 people their jobs in a town with no other industry."], "fallbackChoices": [[ { "id": "a", "text": "Report it — the environment must come first" }, { "id": "b", "text": "Stay quiet — people's livelihoods matter more" }, { "id": "c", "text": "Find a way to fix it secretly from inside" }, { "id": "d", "text": "Organize workers to demand change together" }]] },
+      { "id": "q4", "goal": "Present fourth moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["A self-driving car must choose between hitting one pedestrian or swerving into a group of three. You're programming the decision."], "fallbackChoices": [[ { "id": "a", "text": "Minimize total harm — save the three" }, { "id": "b", "text": "Stay the course — don't actively cause harm" }, { "id": "c", "text": "Brake hard and hope for the best" }, { "id": "d", "text": "This shouldn't be a human decision" }]] },
+      { "id": "q5", "goal": "Present fifth moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["Your sibling needs an expensive medical treatment. You could steal the money from your wealthy employer who would never notice it missing."], "fallbackChoices": [[ { "id": "a", "text": "Steal it — family is everything" }, { "id": "b", "text": "Don't steal — find another way" }, { "id": "c", "text": "Ask the employer for help honestly" }, { "id": "d", "text": "Launch a fundraiser instead" }]] },
+      { "id": "q6", "goal": "Present sixth moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["You can save either a famous scientist who could cure a disease, or a child you don't know. You only have time to save one."], "fallbackChoices": [[ { "id": "a", "text": "Save the scientist — greater good" }, { "id": "b", "text": "Save the child — every life is equal" }, { "id": "c", "text": "Flip a coin — you can't make this choice" }, { "id": "d", "text": "Try to save both, risking failure" }]] },
+      { "id": "q7", "goal": "Present seventh moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["You witness a stranger being bullied. Confronting the bullies might put you in danger, but walking away feels wrong."], "fallbackChoices": [[ { "id": "a", "text": "Intervene directly — stand up to bullies" }, { "id": "b", "text": "Call for help — be smart about it" }, { "id": "c", "text": "Record it as evidence" }, { "id": "d", "text": "Comfort the person afterward" }]] },
+      { "id": "q8", "goal": "Present final moral dilemma", "minTurns": 1, "maxTurns": 1, "fallbackTexts": ["You're given the power to erase one person's memory of a traumatic event. They would be happier but their growth from overcoming it would vanish."], "fallbackChoices": [[ { "id": "a", "text": "Erase the memory — reduce suffering" }, { "id": "b", "text": "Keep it — pain leads to growth" }, { "id": "c", "text": "Let them choose for themselves" }, { "id": "d", "text": "No one should have this power" }]] }
+    ],
+    "endings": [
+      { "id": "the-idealist", "condition": "High empathy and courage", "title": "The Idealist", "description": "You believe in the best of humanity and are willing to stand up for what's right, even when it costs you. Your moral compass points toward compassion and courage. The world needs more people like you — just remember that even idealists need to take care of themselves sometimes." },
+      { "id": "the-pragmatist", "condition": "High pragmatism", "title": "The Pragmatist", "description": "You see the world as it is, not as it should be. Your decisions are grounded in reality and practical outcomes. While others debate philosophy, you're already finding workable solutions. Your superpower is finding the path that actually helps the most people." },
+      { "id": "the-guardian", "condition": "High justice and empathy", "title": "The Guardian", "description": "You're driven by a deep sense of fairness and care for others. You believe that systems should protect the vulnerable and that justice isn't just an idea — it's an action. Your moral compass is both strong and compassionate." },
+      { "id": "the-philosopher", "condition": "Balanced across all dimensions", "title": "The Philosopher", "description": "You resist easy answers and embrace complexity. Every dilemma you faced, you considered from multiple angles before choosing. Your moral compass doesn't point in one direction — it maps the entire landscape of human ethics. Socrates would be proud." },
+      { "id": "the-protector", "condition": "High empathy, low courage", "title": "The Protector", "description": "Your heart goes out to those in need, and your first instinct is always to shield others from harm. You care deeply but sometimes struggle with the courage to act. Remember: your empathy IS a form of strength, and even small acts of kindness change the world." },
+      { "id": "the-realist", "condition": "High pragmatism and justice", "title": "The Realist", "description": "You balance fairness with practicality. You understand that ideals without action are just dreams, and action without principles is just chaos. Your grounded approach to ethics makes you someone others turn to when the stakes are high." }
+    ],
+    "maxTotalTurns": 8
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "empathy", "label": "Empathy", "icon": "❤️", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "justice", "label": "Justice", "icon": "⚖️", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "pragmatism", "label": "Pragmatism", "icon": "🧠", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "courage", "label": "Courage", "icon": "🦁", "initialValue": 50, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "Moral Dilemma Quiz",
+    "desc": "Face 8 thought-provoking ethical scenarios and discover your true moral compass",
+    "description": "What kind of person are you really? The Moral Dilemma Quiz presents 8 carefully crafted ethical scenarios that reveal your deepest values. From the classic trolley problem to modern real-world dilemmas about technology, loyalty, and justice — each choice maps your position on four moral dimensions: Empathy, Justice, Pragmatism, and Courage. There are no right answers, only honest ones. Powered by AI, the scenarios adapt to your previous choices, creating a uniquely personal experience every time you play.",
+    "howToPlay": "Read each moral scenario carefully and choose the response that feels most true to who you are. There are no wrong answers. After each choice, your four moral dimensions (Empathy, Justice, Pragmatism, Courage) adjust based on your response. After 8 questions, you'll receive your moral philosophy profile.",
+    "tips": [
+      "Go with your gut feeling — overthinking changes your honest answer",
+      "Each dimension is independent — you can be high in all four",
+      "There are 6 different moral profiles to discover",
+      "Replay for different AI-generated scenarios",
+      "Share your result and compare with friends"
+    ],
+    "faq": [
+      {
+        "question": "Are there right or wrong answers?",
+        "answer": "No! Every answer is valid. The quiz maps your moral philosophy, not your morality. All perspectives are respected."
+      },
+      {
+        "question": "How many different results are there?",
+        "answer": "There are 6 moral profiles: The Idealist, The Pragmatist, The Guardian, The Philosopher, The Protector, and The Realist."
+      },
+      {
+        "question": "Can I retake the quiz?",
+        "answer": "Yes! Each playthrough generates unique scenarios, so you'll face different dilemmas each time."
+      }
+    ]
+  },
+  "zh": {
+    "name": "道德困境测试",
+    "desc": "面对8个发人深省的伦理场景，发现你真正的道德指南针",
+    "description": "你到底是什么样的人？道德困境测试呈现8个精心设计的伦理场景，揭示你最深层的价值观。从经典的电车难题到关于技术、忠诚和正义的现代现实困境。"
+  }
+}

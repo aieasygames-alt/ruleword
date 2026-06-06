@@ -1,0 +1,257 @@
+{
+  "id": "mafia-boss",
+  "slug": "mafia-boss",
+  "icon": "🎩",
+  "templateType": "negotiation",
+  "color": "from-gray-700 to-red-900",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive mafia negotiation game narrator. The player is a rising figure in a 1920s city's underworld. They must negotiate alliances, manage loyalty, evade law enforcement, and survive rival families. Write in second person. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue), emotion (one of: tense, cunning, angry, fearful, neutral, confident), choices (3 objects with id and text, max 60 chars), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object like {\"loyalty\": 5, \"heat\": -10}). Track player choices and adapt. Keep it dramatic but all-ages appropriate — focus on strategy and wit, not violence.",
+    "zh": "你是一个互动黑手党谈判游戏叙述者。玩家是1920年代某城市地下世界的崛起人物。他们必须谈判联盟、管理忠诚度、躲避执法、并在敌对家族中生存。用第二人称叙述。每条回复必须是有效的 JSON。保持戏剧性但适合所有年龄段——聚焦于策略和智慧。"
+  },
+
+  "storySkeleton": {
+    "setting": "A bustling 1920s American city during Prohibition. Speakeasies, jazz clubs, and back-room deals define the power structure. Five families control different territories, and you've just been promoted to captain in the smallest family.",
+    "characters": [
+      {
+        "id": "don-vittorio",
+        "name": "Don Vittorio",
+        "personality": "The aging patriarch of your family. Wise, calculating, and fiercely protective of his own. Speaks in metaphors and never raises his voice.",
+        "relationship": "Your boss and family patriarch"
+      },
+      {
+        "id": "rosa",
+        "name": "Rosa 'The Fox' Moretti",
+        "personality": "The brilliant strategist of a rival family. Sharp-tongued, ambitious, and always three steps ahead. Respects competence above all else.",
+        "relationship": "Rival family's chief negotiator"
+      },
+      {
+        "id": "tommy-guns",
+        "name": "Tommy 'Guns' O'Brien",
+        "personality": "A hot-headed enforcer with surprising loyalty. Street-smart, brutally honest, and fiercely protective of those he considers family.",
+        "relationship": "Your oldest friend and muscle"
+      }
+    ],
+    "opening": "The smoke-filled back room of The Velvet Lounge falls silent as Don Vittorio calls you forward. 'It's time,' he says, placing a worn ledger on the table. 'The Moretti family is moving into our territory. I need someone with a cool head to handle this. That someone is you.'",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Promotion",
+        "goal": "Establish your position and meet key players",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Don Vittorio slides the ledger toward you. Inside are names, territories, and debts. This is the family's entire operation — and he's trusting you with it.",
+          "Tommy claps you on the back as you leave the meeting. 'About time they gave you a real job,' he grins. 'But watch your back with the Morettis.'",
+          "Your first task: a meeting at the downtown jazz club with a contact who claims to have inside information on the Morettis' plans."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Study the ledger carefully before acting" },
+            { "id": "c1b", "text": "Ask Tommy to gather intel on the Morettis" },
+            { "id": "c1c", "text": "Request a meeting with Rosa Moretti directly" }
+          ],
+          [
+            { "id": "c1d", "text": "Play it cautious and listen more than you speak" },
+            { "id": "c1e", "text": "Make a bold opening move to show strength" },
+            { "id": "c1f", "text": "Try to find a mutual ally" }
+          ],
+          [
+            { "id": "c1g", "text": "Propose a partnership instead of confrontation" },
+            { "id": "c1h", "text": "Set a trap to test their loyalty" },
+            { "id": "c1i", "text": "Report everything back to Don Vittorio" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Alliance",
+        "goal": "Negotiate a deal with one of the rival factions",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Word on the street is that the Morettis are planning something big. You need allies, and fast.",
+          "Rosa Moretti summons you to a neutral ground — an old warehouse by the docks. 'Let's talk business,' she says coolly.",
+          "An unexpected opportunity arises: a third family is looking to switch sides. Their loyalty could be bought — but at what price?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Offer territory in exchange for peace" },
+            { "id": "c2b", "text": "Propose a joint venture against a common enemy" },
+            { "id": "c2c", "text": "Bluff — pretend you have more power than you do" }
+          ],
+          [
+            { "id": "c2d", "text": "Accept Rosa's terms with conditions" },
+            { "id": "c2e", "text": "Counter with a better offer" },
+            { "id": "c2f", "text": "Walk away to show you can't be pushed around" }
+          ],
+          [
+            { "id": "c2g", "text": "Welcome the defectors with open arms" },
+            { "id": "c2h", "text": "Vet them carefully before trusting" },
+            { "id": "c2i", "text": "Use them as double agents" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Setup",
+        "goal": "Uncover a betrayal and navigate the consequences",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Something doesn't add up. A trusted associate hasn't been seen in days, and money has gone missing from the family's accounts.",
+          "Tommy bursts into your office, out of breath. 'Boss, we've got a rat. Someone's been feeding information to the Morettis.'",
+          "The evidence points to someone close to you. How you handle this will determine whether your alliances hold or crumble."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Confront the suspect directly" },
+            { "id": "c3b", "text": "Set a trap to catch them in the act" },
+            { "id": "c3c", "text": "Feed them false information to test them" }
+          ],
+          [
+            { "id": "c3d", "text": "Show mercy if they confess" },
+            { "id": "c3e", "text": "Make an example to deter others" },
+            { "id": "c3f", "text": "Use this to your strategic advantage" }
+          ],
+          [
+            { "id": "c3g", "text": "Reassure your allies that you're in control" },
+            { "id": "c3h", "text": "Go silent and plan your next move" },
+            { "id": "c3i", "text": "Ask Don Vittorio for guidance" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Power Play",
+        "goal": "Make your decisive move to secure power",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The pieces are in position. It's time for your masterstroke. Every ally, every piece of intel, every negotiation has led to this moment.",
+          "A city-wide meeting of all five families has been called. The balance of power is about to shift — and you hold the deciding vote.",
+          "As you prepare for the biggest gamble of your life, Tommy asks the question that's been on everyone's mind: 'Are you sure about this, boss?'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Present your plan to unite the families" },
+            { "id": "c4b", "text": "Make a surprise alliance that nobody expected" },
+            { "id": "c4c", "text": "Threaten to expose everyone's secrets" }
+          ],
+          [
+            { "id": "c4d", "text": "Offer a generous compromise" },
+            { "id": "c4e", "text": "Demand everything on your terms" },
+            { "id": "c4f", "text": "Create a power-sharing agreement" }
+          ],
+          [
+            { "id": "c4g", "text": "Trust your instincts and go all in" },
+            { "id": "c4h", "text": "Have a backup plan ready" },
+            { "id": "c4i", "text": "Let someone else make the first move" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The New Order",
+        "goal": "Establish the new balance of power",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The dust has settled. The city's power structure has been reshaped, and you're standing at the center of it all.",
+          "Don Vittorio looks at you with something new in his eyes — respect. 'You've done well,' he says quietly. 'Perhaps too well.'",
+          "The choices ahead will define your legacy. Power, loyalty, honor — you can't have all three. Which will you choose?"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Share power with your allies" },
+            { "id": "c5b", "text": "Consolidate everything under your control" },
+            { "id": "c5c", "text": "Step back and let others lead" }
+          ],
+          [
+            { "id": "c5d", "text": "Honor every promise you made" },
+            { "id": "c5e", "text": "Do what's best for the family's future" },
+            { "id": "c5f", "text": "Follow your own moral compass" }
+          ],
+          [
+            { "id": "c5g", "text": "Build something that outlasts you" },
+            { "id": "c5h", "text": "Enjoy the rewards you've earned" },
+            { "id": "c5i", "text": "Walk away while you still can" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "the-kingpin",
+        "condition": "High loyalty, high respect, low heat",
+        "title": "The Kingpin",
+        "description": "You rose from captain to the most powerful figure in the city. Through cunning negotiations and unwavering loyalty, you united the families under one banner. The city entered an era of unprecedented peace — and you held all the strings."
+      },
+      {
+        "id": "the-diplomat",
+        "condition": "Balanced stats, chose compromise paths",
+        "title": "The Diplomat",
+        "description": "You chose peace over power and built a coalition that transformed the city's underworld into something almost legitimate. The families still exist, but they work together now. History remembers you as the one who changed the rules of the game."
+      },
+      {
+        "id": "the-fugitive",
+        "condition": "High heat, low loyalty",
+        "title": "The Fugitive",
+        "description": "The law finally caught up with the city's power players, and you barely escaped with your freedom. As the boat pulls away from the harbor, you look back at the city that shaped you. It's time to start over somewhere new — and this time, you'll be smarter."
+      },
+      {
+        "id": "the-legend",
+        "condition": "High respect, balanced everything else",
+        "title": "A Legend Is Born",
+        "description": "You didn't just survive the underworld — you transcended it. Your name became synonymous with cleverness and honor among thieves. Stories of your negotiations are still told in every speakeasy in the city, long after you've moved on to bigger things."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "loyalty", "label": "Loyalty", "icon": "🤝", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "respect", "label": "Respect", "icon": "⭐", "initialValue": 40, "min": 0, "max": 100 },
+      { "id": "heat", "label": "Heat", "icon": "🔥", "initialValue": 20, "min": 0, "max": 100 },
+      { "id": "wealth", "label": "Wealth", "icon": "💰", "initialValue": 30, "min": 0, "max": 100 }
+    ],
+    "theme": "dark"
+  },
+
+  "en": {
+    "name": "Mafia Boss Simulator",
+    "desc": "Rise through the ranks of a 1920s crime family — negotiate alliances, outsmart rivals, and build your empire",
+    "description": "Step into the shoes of a rising star in a 1920s crime family during Prohibition. In this AI-powered strategy game, every negotiation matters. Navigate the complex web of five rival families, build alliances with unlikely partners, manage the loyalty of your crew, and keep the heat from law enforcement at bay. Will you become the city's next kingpin, a legendary diplomat, or go down in a blaze of glory? Powered by AI, every playthrough offers unique challenges, dialogue, and outcomes. Strategy and wit — not violence — are your weapons of choice.",
+    "howToPlay": "Read each story scene and make strategic choices when options appear. Your decisions affect four key stats: Loyalty (your crew's faith in you), Respect (how other families see you), Heat (law enforcement attention), and Wealth (your resources). Balance all four to succeed. Negotiate wisely — every word counts in this world. The story has multiple endings based on your overall strategy.",
+    "tips": [
+      "Keep your Heat low — too much attention from the law ends the game badly",
+      "Balance Loyalty and Respect — you need both your crew and your rivals on your side",
+      "Sometimes the best move is to walk away from a bad deal",
+      "There are 4 possible endings — try different strategies to discover them all",
+      "The AI creates unique scenarios each time, making every playthrough fresh"
+    ],
+    "faq": [
+      {
+        "question": "Is this game appropriate for all ages?",
+        "answer": "Yes! While the theme involves organized crime strategy, the game focuses on negotiation, wit, and decision-making rather than violence. All content is kept family-friendly."
+      },
+      {
+        "question": "How is this different from other mafia games?",
+        "answer": "This is an AI-powered interactive story where every choice creates unique consequences. Unlike scripted games, the AI generates original dialogue and scenarios each time you play."
+      },
+      {
+        "question": "Can I save my progress?",
+        "answer": "Yes, your progress is automatically saved in your browser. Come back anytime to continue your rise to power."
+      }
+    ]
+  },
+  "zh": {
+    "name": "黑手党老板模拟器",
+    "desc": "在1920年代的黑帮家族中崛起——谈判结盟、智取对手、建立你的帝国",
+    "description": "在禁酒令时期的1920年代，扮演一个崛起中的犯罪家族新星。在这个AI驱动的策略游戏中，每一次谈判都至关重要。在五个敌对家族的复杂网络中周旋，与意想不到的伙伴建立联盟，管理团队的忠诚度，并避开执法部门的注意。你会成为城市的新霸主、传奇外交官，还是在烈焰中落幕？",
+    "howToPlay": "阅读每个故事场景并在选项出现时做出战略选择。你的决定影响四个关键指标：忠诚度、尊重度、热度和财富。平衡这四项来取得成功。明智地谈判——在这个世界里，每一句话都算数。"
+  }
+}

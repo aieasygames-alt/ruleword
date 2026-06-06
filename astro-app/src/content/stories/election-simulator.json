@@ -1,0 +1,256 @@
+{
+  "id": "election-simulator",
+  "slug": "election-simulator",
+  "icon": "🏛️",
+  "templateType": "business-sim",
+  "color": "from-blue-600 to-indigo-800",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive election campaign simulator narrator. The player is a first-time candidate running for mayor of a mid-sized city. They must manage campaign resources, respond to events, debate opponents, and win voter trust. Write in second person. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue), emotion (one of: hopeful, worried, determined, frustrated, neutral, excited), choices (3 objects with id and text, max 60 chars), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object like {\"approval\": 5, \"funds\": -20}). Keep tone uplifting and civic-minded. All-ages appropriate.",
+    "zh": "你是一个互动竞选模拟器叙述者。玩家是首次参选中型城市市长的候选人。他们必须管理竞选资源、应对事件、与对手辩论并赢得选民信任。用第二人称叙述。保持积极和公民意识的语调。"
+  },
+
+  "storySkeleton": {
+    "setting": "Riverside City, a diverse mid-sized American city facing tough economic challenges. The incumbent mayor is unpopular, and three candidates are vying to replace them. You're the underdog — a community organizer with big ideas but limited resources.",
+    "characters": [
+      {
+        "id": "marcus",
+        "name": "Marcus Chen",
+        "personality": "Your seasoned campaign manager. Pragmatic, data-driven, and occasionally ruthless about strategy. Believes in you but won't hesitate to tell hard truths.",
+        "relationship": "Campaign manager"
+      },
+      {
+        "id": "senator-hayes",
+        "name": "Senator Victoria Hayes",
+        "personality": "The establishment candidate — wealthy, connected, and running on a platform of 'experience matters.' Polished but sometimes comes across as out of touch.",
+        "relationship": "Primary rival candidate"
+      },
+      {
+        "id": "maya",
+        "name": "Maya Torres",
+        "personality": "A passionate local journalist covering the race. Fair-minded but asks tough questions. Her endorsement could swing the election.",
+        "relationship": "Lead political reporter"
+      }
+    ],
+    "opening": "You stand before a modest crowd at the community center where you've organized food drives and after-school programs for years. Today is different. Today, you're announcing your candidacy for Mayor of Riverside City. The camera flashes, the crowd cheers, and your heart pounds. Let the campaign begin.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Announcement",
+        "goal": "Launch your campaign and build initial momentum",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The applause fades and reality sets in. Marcus pulls you aside: 'Great speech, but we need a strategy. Hayes already has billboards up across the city.'",
+          "Your first town hall is scheduled for tomorrow. Maya Torres from the Gazette wants a one-on-one interview beforehand.",
+          "Volunteers are trickling in, but your campaign fund is dangerously low. You need to decide where to focus your limited resources."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Focus on grassroots door-to-door campaigning" },
+            { "id": "c1b", "text": "Invest in social media advertising" },
+            { "id": "c1c", "text": "Seek endorsements from local leaders" }
+          ],
+          [
+            { "id": "c1d", "text": "Be completely honest about the city's challenges" },
+            { "id": "c1e", "text": "Focus on your personal story and connection" },
+            { "id": "c1f", "text": "Attack Senator Hayes' record directly" }
+          ],
+          [
+            { "id": "c1g", "text": "Promise ambitious reforms" },
+            { "id": "c1h", "text": "Pledge practical, achievable changes" },
+            { "id": "c1i", "text": "Let the voters decide what matters most" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "The Debate",
+        "goal": "Perform well in the first televised debate",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The debate stage is set. Bright lights, three podiums, and a live audience of thousands. Senator Hayes glides in with practiced confidence.",
+          "The moderator asks about the city's budget crisis. This is your chance to shine — or stumble.",
+          "Hayes just made a pointed comment about your 'lack of experience.' The audience waits for your response."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Counter with your on-the-ground experience" },
+            { "id": "c2b", "text": "Rise above it with a positive vision" },
+            { "id": "c2c", "text": "Challenge Hayes' own record" }
+          ],
+          [
+            { "id": "c2d", "text": "Propose specific numbers and plans" },
+            { "id": "c2e", "text": "Tell a compelling personal story" },
+            { "id": "c2f", "text": "Ask the audience what they think" }
+          ],
+          [
+            { "id": "c2g", "text": "End with a powerful closing statement" },
+            { "id": "c2h", "text": "Extend a hand to your opponents" },
+            { "id": "c2i", "text": "Rally the crowd with a call to action" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "The Scandal",
+        "goal": "Navigate a crisis that threatens your campaign",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Breaking news: A leaked email suggests your campaign accepted an improper donation. The story is spreading fast on social media.",
+          "Marcus warns: 'We need to get ahead of this before it defines the campaign. What's our move?'",
+          "Maya Torres calls requesting an exclusive interview to give your side of the story. This could help — or make things worse."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Hold a press conference immediately" },
+            { "id": "c3b", "text": "Release a detailed statement first" },
+            { "id": "c3c", "text": "Investigate quietly before responding" }
+          ],
+          [
+            { "id": "c3d", "text": "Accept full responsibility and apologize" },
+            { "id": "c3e", "text": "Deny everything and fight back" },
+            { "id": "c3f", "text": "Reframe the narrative" }
+          ],
+          [
+            { "id": "c3g", "text": "Grant Maya the exclusive interview" },
+            { "id": "c3h", "text": "Go directly to voters via social media" },
+            { "id": "c3i", "text": "Focus on policy, not scandal" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Home Stretch",
+        "goal": "Maximize support in the final week of campaigning",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "One week until election day. The polls show a statistical dead heat between you and Hayes. Every move matters now.",
+          "Marcus presents three options for the final push. 'We can't do everything — we have to pick our battles.'",
+          "A major newspaper is about to make its endorsement. Your last rally could tip the scales."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Go all-in on a massive rally downtown" },
+            { "id": "c4b", "text": "Do a 24-hour nonstop campaign marathon" },
+            { "id": "c4c", "text": "Focus on get-out-the-vote operations" }
+          ],
+          [
+            { "id": "c4d", "text": "Attack Hayes' weak points one last time" },
+            { "id": "c4e", "text": "Unite the city with a positive message" },
+            { "id": "c4f", "text": "Make a bold, unexpected promise" }
+          ],
+          [
+            { "id": "c4g", "text": "Spend every dollar on advertising" },
+            { "id": "c4h", "text": "Invest in volunteer phone banking" },
+            { "id": "c4i", "text": "Trust your ground game" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "Election Night",
+        "goal": "Await the results and face the outcome",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Election day. Your campaign headquarters is buzzing with nervous energy as the first results start coming in.",
+          "The numbers are fluctuating. Your stronghold neighborhoods have reported, but Hayes' districts haven't. It could go either way.",
+          "The final results are about to be announced. Whatever happens, you've already changed this city's political landscape forever."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Watch the results with your team" },
+            { "id": "c5b", "text": "Prepare both a victory and concession speech" },
+            { "id": "c5c", "text": "Call your family and thank them" }
+          ],
+          [
+            { "id": "c5d", "text": "Regardless of outcome, pledge to keep fighting" },
+            { "id": "c5e", "text": "Thank every volunteer personally" },
+            { "id": "c5f", "text": "Look ahead to the next chapter" }
+          ],
+          [
+            { "id": "c5g", "text": "Celebrate the campaign you ran" },
+            { "id": "c5h", "text": "Reflect on what you learned" },
+            { "id": "c5i", "text": "Commit to serving the community either way" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "landslide",
+        "condition": "High approval and funds throughout",
+        "title": "Landslide Victory",
+        "description": "Against all odds, you won in a landslide. The people of Riverside City saw something in you — authenticity, hope, and a genuine desire to serve. As you take the stage to deliver your victory speech, you know this is just the beginning."
+      },
+      {
+        "id": "narrow-win",
+        "condition": "Approval above 50, moderate funds",
+        "title": "A Narrow Win",
+        "description": "It came down to the wire, but when the final votes were counted, you won by a razor-thin margin. Every door knocked, every handshake, every debate answer mattered. Riverside City has a new mayor, and the real work starts tomorrow."
+      },
+      {
+        "id": "graceful-loss",
+        "condition": "Approval below 50, chose positive campaign",
+        "title": "A Graceful Defeat",
+        "description": "You didn't win this time, but you ran a campaign that made the city proud. Hayes reached across the aisle after her victory, offering you a position in her administration. Sometimes losing with grace is its own kind of victory."
+      },
+      {
+        "id": "movement-born",
+        "condition": "Low funds but high approval in final stretch",
+        "title": "A Movement Is Born",
+        "description": "The election results didn't go your way, but something bigger happened. You sparked a grassroots movement that will outlast any single election. The volunteers, the energy, the hope — it's all still there. This wasn't the end. It was the beginning."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "approval", "label": "Approval", "icon": "👍", "initialValue": 40, "min": 0, "max": 100 },
+      { "id": "funds", "label": "Funds", "icon": "💵", "initialValue": 50, "min": 0, "max": 100 },
+      { "id": "momentum", "label": "Momentum", "icon": "📈", "initialValue": 30, "min": 0, "max": 100 },
+      { "id": "integrity", "label": "Integrity", "icon": "⚖️", "initialValue": 80, "min": 0, "max": 100 }
+    ],
+    "theme": "business"
+  },
+
+  "en": {
+    "name": "Election Simulator",
+    "desc": "Run for mayor in this AI-powered political campaign game — debate rivals, navigate scandals, and win voters",
+    "description": "Ever wondered what it takes to run a political campaign? In Election Simulator, you're a community organizer running for mayor of Riverside City. Manage your campaign funds, ace televised debates, navigate unexpected scandals, and win the hearts and minds of voters. Every decision matters — from your debate strategy to how you handle a crisis. With AI-generated scenarios, every campaign is unique. Will you win in a landslide, or will this campaign spark something even bigger than an election?",
+    "howToPlay": "Read each campaign scenario and make strategic choices. Your decisions affect four stats: Approval (voter support), Funds (campaign budget), Momentum (media buzz), and Integrity (your moral standing). Balance your resources wisely and stay true to your values. The story has multiple endings based on your campaign strategy.",
+    "tips": [
+      "High Integrity can earn you key endorsements even with low Funds",
+      "Don't ignore Scandal chapters — they can make or break your campaign",
+      "Positive campaigns tend to yield better long-term results",
+      "There are 4 possible endings — replay with different strategies",
+      "The AI generates unique debate questions and events each time"
+    ],
+    "faq": [
+      {
+        "question": "Is this game based on real politics?",
+        "answer": "No, the setting and characters are fictional. However, the game explores real campaign dynamics like resource management, public relations, and voter engagement."
+      },
+      {
+        "question": "Can I win every time?",
+        "answer": "Not necessarily! Your choices matter, and the AI creates unpredictable scenarios. Sometimes losing can lead to the most interesting story endings."
+      },
+      {
+        "question": "How long is one playthrough?",
+        "answer": "A typical campaign takes 15-25 minutes to complete, depending on your reading speed and choices."
+      }
+    ]
+  },
+  "zh": {
+    "name": "竞选模拟器",
+    "desc": "在AI驱动的政治竞选游戏中竞选市长——与对手辩论、应对丑闻、赢得选民",
+    "description": "想知道经营一场政治竞选需要什么吗？在竞选模拟器中，你是一个竞选河畔市市长的社区组织者。管理竞选资金、在电视辩论中表现出色、应对突发丑闻、赢得选民的心。"
+  }
+}

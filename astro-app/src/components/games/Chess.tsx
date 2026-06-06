@@ -42,6 +42,62 @@ export default function Chess({ settings }: Props) {
   const [isAiThinking, setIsAiThinking] = useState(false)
   const [moveHistory, setMoveHistory] = useState<string[]>([])
   const [inCheck, setInCheck] = useState(false)
+  const [aiComment, setAiComment] = useState<string | null>(null)
+
+  // AI personality comments based on move type
+  const getAiComment = useCallback((capturedPiece: Piece | null, putsCheck: boolean, moveScore: number): string => {
+    const isZh = settings.language === 'zh'
+    const personalities = {
+      easy: {
+        capture: isZh
+          ? ['哈，抓住了！', '吃了你的子~', '嘿嘿，这步不错吧？']
+          : ['Ha, got one!', 'Nice catch, right?', 'Hehe, that felt good!'],
+        check: isZh
+          ? ['将军！怕了吗？', '嘿，注意你的王！', '抓到你了！']
+          : ['Check! Scared yet?', 'Watch your King!', 'Got you now!'],
+        good: isZh
+          ? ['这步我很有信心！', '嗯，不错的一步', '我正在学习中~']
+          : ['I\'m pretty confident about this one!', 'Not bad, eh?', 'Still learning!'],
+        neutral: isZh
+          ? ['让我想想...', '嗯...', '下棋真有趣！']
+          : ['Let me think...', 'Hmm...', 'Chess is fun!'],
+      },
+      medium: {
+        capture: isZh
+          ? ['你的子被我看上了', '战略性地消灭目标', '棋盘上少了一个威胁']
+          : ['Your piece was in my way', 'Strategically eliminated', 'One less threat on the board'],
+        check: isZh
+          ? ['将军——你该紧张了', '王的位置不太安全啊', '精心布局的一步']
+          : ['Check — you should be nervous', 'Your King looks exposed', 'A calculated strike'],
+        good: isZh
+          ? ['这步棋深谋远虑', '计划进行中...', '格局正在形成']
+          : ['A move with foresight', 'The plan unfolds...', 'The pattern takes shape'],
+        neutral: isZh
+          ? ['有意思的局面...', '你在想什么？', '每一步都很重要']
+          : ['Interesting position...', 'What are you planning?', 'Every move counts'],
+      },
+      hard: {
+        capture: isZh
+          ? ['这个结果在预料之中', '你的防线正在瓦解', '无需多言']
+          : ['This was inevitable', 'Your defense crumbles', 'No comment necessary'],
+        check: isZh
+          ? ['将军。仔细看看棋盘', '你的选择越来越少了', '认输也是一种智慧']
+          : ['Check. Study the board carefully', 'Your options are narrowing', 'Knowing when to resign is wisdom'],
+        good: isZh
+          ? ['三步之后你就明白了', '大局已定', '这才是真正的棋艺']
+          : ['You\'ll understand in three moves', 'The outcome is certain', 'This is real chess'],
+        neutral: isZh
+          ? ['...', '继续吧', '你还有更好的选择吗？']
+          : ['...', 'Proceed', 'Did you have a better idea?'],
+      }
+    }
+
+    const pool = personalities[aiDifficulty]
+    if (putsCheck) return pool.check[Math.floor(Math.random() * pool.check.length)]
+    if (capturedPiece) return pool.capture[Math.floor(Math.random() * pool.capture.length)]
+    if (moveScore > 200) return pool.good[Math.floor(Math.random() * pool.good.length)]
+    return pool.neutral[Math.floor(Math.random() * pool.neutral.length)]
+  }, [settings.language, aiDifficulty])
 
   const isDark = settings.darkMode
   const isZh = settings.language === 'zh'
@@ -313,6 +369,11 @@ export default function Chess({ settings }: Props) {
         newBoard[bestMove.to.row][bestMove.to.col] = newBoard[bestMove.from.row][bestMove.from.col]
         newBoard[bestMove.from.row][bestMove.from.col] = null
 
+        const putsCheck = isInCheck('white', newBoard)
+        const comment = getAiComment(capturedPiece, putsCheck, bestScore)
+        setAiComment(comment)
+        setTimeout(() => setAiComment(null), 3000)
+
         setMoveHistory(prev => [...prev, `Black: ${bestMove.from.col},${bestMove.from.row} → ${bestMove.to.col},${bestMove.to.row}`])
         setBoard(newBoard)
         setTurn('white')
@@ -333,7 +394,7 @@ export default function Chess({ settings }: Props) {
 
       setIsAiThinking(false)
     }, 500)
-  }, [board, gameOver, turn, aiDifficulty, getLegalMoves, minimax, isInCheck, isCheckmate, isZh])
+  }, [board, gameOver, turn, aiDifficulty, getLegalMoves, minimax, isInCheck, isCheckmate, isZh, getAiComment])
   // Trigger AI move when it's AI's turn
   useEffect(() => {
     if (gameMode === 'ai' && turn === 'black' && !gameOver && !isAiThinking) {
@@ -431,6 +492,9 @@ export default function Chess({ settings }: Props) {
         )}
         {isAiThinking && (
           <span className="text-amber-500 font-medium animate-pulse">{isZh ? 'AI思考中...' : 'AI thinking...'}</span>
+        )}
+        {aiComment && !isAiThinking && (
+          <span className="text-purple-400 text-sm italic animate-pulse">💬 {aiComment}</span>
         )}
       </div>
       {/* Board */}

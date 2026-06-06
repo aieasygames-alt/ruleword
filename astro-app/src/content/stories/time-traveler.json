@@ -1,0 +1,256 @@
+{
+  "id": "time-traveler",
+  "slug": "time-traveler",
+  "icon": "⏳",
+  "templateType": "open-adventure",
+  "color": "from-cyan-500 to-blue-700",
+  "aiModel": "@cf/meta/llama-3.1-8b-instruct",
+
+  "systemPrompt": {
+    "en": "You are an interactive time travel adventure narrator. The player accidentally activates a mysterious device that sends them through different historical eras. They must navigate each time period, make choices that affect the timeline, and find their way back to the present. Write in second person. Each response must be valid JSON with: nodeText (narration, max 300 chars), speaker (character name if dialogue), emotion (one of: amazed, worried, excited, confused, determined, neutral), choices (3 objects with id and text, max 60 chars), isChapterEnd (boolean), nextChapter (string if chapter ending), metadataUpdate (object like {\"timeline-stability\": -10, \"knowledge\": 5}). Keep it educational and thrilling. All-ages appropriate.",
+    "zh": "你是一个互动时间旅行冒险叙述者。玩家意外激活了一个神秘装置，被送往不同的历史时代。他们必须在每个时期中导航，做出影响时间线的选择，并找到回到现在的方法。保持教育性和刺激感。"
+  },
+
+  "storySkeleton": {
+    "setting": "A dusty antique shop where you discover a strange pocket watch that glows with an otherworldly light. When you wind it, the world dissolves around you — and you're hurled through time itself.",
+    "characters": [
+      {
+        "id": "professor",
+        "name": "Professor Elara Voss",
+        "personality": "A brilliant scientist from the year 2150 who has been trapped in the time stream for decades. Knowledgeable about every era but increasingly forgetful about her own past.",
+        "relationship": "Fellow time traveler and guide"
+      },
+      {
+        "id": "kairos",
+        "name": "Kairos",
+        "personality": "A mysterious being who exists outside of time. Appears at crucial moments to offer cryptic hints. Neither friend nor foe — simply a guardian of the timeline.",
+        "relationship": "Mysterious temporal entity"
+      },
+      {
+        "id": "echo",
+        "name": "Echo",
+        "personality": "An AI companion embedded in the time device. Helpful, logical, and occasionally sarcastic. Can analyze historical data but has no understanding of human emotions.",
+        "relationship": "Your pocket AI assistant"
+      }
+    ],
+    "opening": "You didn't mean to activate the device. One moment you were browsing the antique shop, the next the pocket watch in your hand blazed with blinding light. Reality fractured around you like a broken mirror, and when the world reassembled, you were standing in the middle of ancient Rome. The watch ticks ominously. You're not in the 21st century anymore.",
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "Ancient Rome, 44 BC",
+        "goal": "Survive your first time jump and learn the rules",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The streets of Rome bustle around you. Togas, sandals, and the distant sound of a crowd gathered at the Forum. The date — according to Echo — is March 14th, 44 BC. One day before the assassination of Julius Caesar.",
+          "A merchant bumps into you and eyes your strange clothing suspiciously. Professor Voss's voice crackles through the device: 'Blend in. Don't change anything major — the timeline is fragile.'",
+          "Echo warns: 'The device needs 24 hours to recharge between jumps. We're stuck here until tomorrow. Try not to alter history too much.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c1a", "text": "Try to warn Caesar about tomorrow's plot" },
+            { "id": "c1b", "text": "Keep your head down and observe" },
+            { "id": "c1c", "text": "Find Professor Voss using the device's signal" }
+          ],
+          [
+            { "id": "c1d", "text": "Trade modern knowledge for Roman currency" },
+            { "id": "c1e", "text": "Sneak into the Senate to listen" },
+            { "id": "c1f", "text": "Ask Echo about the historical timeline" }
+          ],
+          [
+            { "id": "c1g", "text": "Accept you can't change this moment" },
+            { "id": "c1h", "text": "Try to save one person from the chaos" },
+            { "id": "c1i", "text": "Focus on recharging the device" }
+          ]
+        ]
+      },
+      {
+        "id": "ch2",
+        "title": "Medieval Japan, 1185 AD",
+        "goal": "Navigate a samurai-era conflict and repair the timeline",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The device flashes and you materialize on a cliff overlooking a churning sea. Below, two massive fleets face off — this is the Battle of Dan-no-ura, the decisive naval clash of the Genpei War.",
+          "A samurai spots you on the cliff path. Your modern clothes mark you as either a demon or a prophet. His hand moves to his sword.",
+          "Professor Voss appears beside you, translucent as a ghost. 'The timeline is damaged here,' she whispers. 'Something was changed before we arrived. We need to fix it.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c2a", "text": "Bow deeply and speak respectfully in basic phrases" },
+            { "id": "c2b", "text": "Use the device to create a 'divine' light show" },
+            { "id": "c2c", "text": "Run for cover among the rocks" }
+          ],
+          [
+            { "id": "c2d", "text": "Help ensure history unfolds correctly" },
+            { "id": "c2e", "text": "Try to save innocent lives from the battle" },
+            { "id": "c2f", "text": "Search for what was changed in the timeline" }
+          ],
+          [
+            { "id": "c2g", "text": "Trust Professor Voss's guidance" },
+            { "id": "c2h", "text": "Follow your own instincts" },
+            { "id": "c2i", "text": "Ask Kairos for help" }
+          ]
+        ]
+      },
+      {
+        "id": "ch3",
+        "title": "Renaissance Florence, 1503 AD",
+        "goal": "Solve a mystery involving Leonardo da Vinci's workshop",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "Florence in its golden age. Art, science, and intrigue fill every cobblestone street. Your device leads you to a workshop where Leonardo da Vinci himself is sketching plans for a flying machine.",
+          "Echo identifies a temporal anomaly: 'Someone has been here before us. There are traces of chronal energy near da Vinci's workshop. Be careful.'",
+          "Leonardo looks up from his sketches with curious eyes. 'You have the look of someone who has seen things beyond this world,' he says with a knowing smile."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c3a", "text": "Share knowledge of aerodynamics cautiously" },
+            { "id": "c3b", "text": "Pose as a fellow inventor" },
+            { "id": "c3c", "text": "Ask about his secret projects" }
+          ],
+          [
+            { "id": "c3d", "text": "Investigate the temporal anomaly" },
+            { "id": "c3e", "text": "Help Leonardo with his invention" },
+            { "id": "c3f", "text": "Search the workshop for clues" }
+          ],
+          [
+            { "id": "c3g", "text": "Leave before you change too much" },
+            { "id": "c3h", "text": "Document everything for the future" },
+            { "id": "c3i", "text": "Try to find the other time traveler" }
+          ]
+        ]
+      },
+      {
+        "id": "ch4",
+        "title": "The Future, 2150 AD",
+        "goal": "Discover the origin of the time device",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The device pulls you forward — far forward. Skyscrapers made of living plants float above cities powered by fusion. This is 2150, the year Professor Voss originally came from.",
+          "Voss gasps. 'Home... or what's left of it. I've been gone so long. But something's wrong. The timeline has shifted.'",
+          "Kairos appears in full form for the first time — a being of pure light. 'You have a choice,' they say. 'One that will determine whether time itself survives.'"
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c4a", "text": "Listen to Kairos's warning" },
+            { "id": "c4b", "text": "Help Professor Voss reunite with her past" },
+            { "id": "c4c", "text": "Find the lab that created the device" }
+          ],
+          [
+            { "id": "c4d", "text": "Try to prevent time travel from being invented" },
+            { "id": "c4e", "text": "Use the device to stabilize the timeline" },
+            { "id": "c4f", "text": "Destroy the device to end the paradox" }
+          ],
+          [
+            { "id": "c4g", "text": "Trust the timeline to heal itself" },
+            { "id": "c4h", "text": "Make the ultimate sacrifice for time" },
+            { "id": "c4i", "text": "Find a way to save everyone" }
+          ]
+        ]
+      },
+      {
+        "id": "ch5",
+        "title": "The Return",
+        "goal": "Make your way home and choose the future of time",
+        "minTurns": 3,
+        "maxTurns": 6,
+        "fallbackTexts": [
+          "The device pulses with energy — one more jump left. You can feel time itself bending around you, every era you've visited echoing in your mind.",
+          "Professor Voss places her hand on the device alongside yours. 'Whatever you decide, I'm glad we met across time itself.'",
+          "The antique shop materializes around you. Sunlight streams through dusty windows. You're back. But the device is still ticking..."
+        ],
+        "fallbackChoices": [
+          [
+            { "id": "c5a", "text": "Return the device to its hiding place" },
+            { "id": "c5b", "text": "Keep the device for future adventures" },
+            { "id": "c5c", "text": "Share your story with the world" }
+          ],
+          [
+            { "id": "c5d", "text": "Destroy the device to protect the timeline" },
+            { "id": "c5e", "text": "Use it to visit one more era" },
+            { "id": "c5f", "text": "Pass it on to someone worthy" }
+          ],
+          [
+            { "id": "c5g", "text": "Accept that some mysteries are best left alone" },
+            { "id": "c5h", "text": "Embrace the adventure that changed you" },
+            { "id": "c5i", "text": "Step back into the time stream" }
+          ]
+        ]
+      }
+    ],
+    "endings": [
+      {
+        "id": "guardian-of-time",
+        "condition": "High timeline-stability, high knowledge",
+        "title": "Guardian of Time",
+        "description": "You chose to protect the timeline above all else. The device now rests in a place where only those truly worthy can find it. Kairos appears one last time: 'The timeline is safe, thanks to you. But remember — time has a way of calling back those who have touched it.'"
+      },
+      {
+        "id": "chrononaut",
+        "condition": "High knowledge, low timeline-stability",
+        "title": "The Chrononaut",
+        "description": "You kept the device and became a traveler of time itself. History is no longer something you read about — it's something you live. Every era holds a new adventure, and you have all the time in the world."
+      },
+      {
+        "id": "homebound",
+        "condition": "High timeline-stability, chose to return",
+        "title": "Homebound",
+        "description": "You destroyed the device and returned to your ordinary life. But you'll never look at a history book the same way again. You've walked through Rome, sailed with samurai, and stood beside Leonardo. Some adventures change you forever."
+      },
+      {
+        "id": "paradox",
+        "condition": "Low timeline-stability, made bold changes",
+        "title": "The Beautiful Paradox",
+        "description": "Your changes to the timeline created a new reality — different from the one you left, but beautiful in its own way. Time isn't a straight line. It's a river with many branches, and you've just created a new one. Somewhere, Kairos smiles."
+      }
+    ],
+    "maxTotalTurns": 30
+  },
+
+  "uiConfig": {
+    "showStats": true,
+    "stats": [
+      { "id": "timeline-stability", "label": "Timeline", "icon": "🌀", "initialValue": 80, "min": 0, "max": 100 },
+      { "id": "knowledge", "label": "Knowledge", "icon": "📚", "initialValue": 20, "min": 0, "max": 100 },
+      { "id": "device-energy", "label": "Energy", "icon": "⚡", "initialValue": 60, "min": 0, "max": 100 },
+      { "id": "allies", "label": "Allies", "icon": "🤝", "initialValue": 30, "min": 0, "max": 100 }
+    ],
+    "theme": "fantasy"
+  },
+
+  "en": {
+    "name": "Time Traveler Adventure",
+    "desc": "Journey through history in this AI-powered time travel game — visit ancient Rome, medieval Japan, and Renaissance Florence",
+    "description": "What would you do if you found a device that could send you through time? In Time Traveler Adventure, a mysterious pocket watch hurls you across history — from ancient Rome on the eve of Caesar's assassination, to medieval Japan during the Genpei War, to Leonardo da Vinci's workshop in Renaissance Florence, and beyond to the year 2150. Navigate each era, make choices that ripple through the timeline, and decide the fate of time itself. Powered by AI, every journey through history is unique.",
+    "howToPlay": "Read each time period scenario and make choices that affect the timeline. Your decisions impact four stats: Timeline Stability (how intact history remains), Knowledge (historical insights gained), Energy (device power for time jumps), and Allies (friends across time). Be careful — changing too much in one era can have unexpected consequences in the next!",
+    "tips": [
+      "High Timeline Stability is key to the best endings",
+      "Knowledge gained in one era can help you in the next",
+      "Don't drain your Energy too fast — you need it for time jumps",
+      "Building alliances across time pays off in the final chapter",
+      "There are 4 unique endings based on your temporal choices"
+    ],
+    "faq": [
+      {
+        "question": "Is this game historically accurate?",
+        "answer": "While the game features real historical settings and events, the story is fictional. The AI incorporates historical details to make each era feel authentic and educational."
+      },
+      {
+        "question": "How many time periods do you visit?",
+        "answer": "You travel through 5 distinct eras: Ancient Rome (44 BC), Medieval Japan (1185 AD), Renaissance Florence (1503 AD), the Future (2150 AD), and a final chapter that determines your fate."
+      },
+      {
+        "question": "Can my choices actually change history?",
+        "answer": "In the game, yes! Your choices affect the timeline stability and can lead to different endings. But don't worry — the real timeline is safe."
+      }
+    ]
+  },
+  "zh": {
+    "name": "时间旅行者冒险",
+    "desc": "在AI驱动的时间旅行游戏中穿越历史——造访古罗马、中世纪日本和文艺复兴佛罗伦萨",
+    "description": "如果你找到一个能让你穿越时间的装置会怎样？在时间旅行者冒险中，一个神秘的怀表将你抛向历史长河——从凯撒遇刺前夕的古罗马，到源平合战的中世纪日本，到达芬奇工作室的文艺复兴佛罗伦萨，甚至2150年的未来。"
+  }
+}
