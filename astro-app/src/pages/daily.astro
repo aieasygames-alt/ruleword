@@ -63,14 +63,14 @@ const dailyGameData = dailyGames.map(dg => {
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="flex items-center justify-between h-14">
-          <a href={`/?lang=${lang}`} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-lg">R</div>
             <span class="font-semibold hidden sm:inline">Free Games Hub</span>
           </a>
           <h1 class="text-lg font-bold">🗓️ {isZh ? '每日挑战' : 'Daily Challenge'}</h1>
           <div class="flex items-center gap-2">
-            <a href="/daily/" class={`text-sm px-2 py-1 rounded ${lang === 'en' ? 'bg-amber-100 text-amber-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>EN</a>
-            <a href="/daily/?lang=zh-CN" class={`text-sm px-2 py-1 rounded ${lang === 'zh-CN' ? 'bg-amber-100 text-amber-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>中文</a>
+            <button data-lang-switch="en" class={`text-sm px-2 py-1 rounded ${lang === 'en' ? 'bg-amber-100 text-amber-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>EN</button>
+            <button data-lang-switch="zh-CN" class={`text-sm px-2 py-1 rounded ${lang === 'zh-CN' ? 'bg-amber-100 text-amber-700 font-semibold' : 'text-gray-500 hover:text-gray-700'}`}>中文</button>
           </div>
         </div>
       </div>
@@ -185,7 +185,19 @@ const dailyGameData = dailyGames.map(dg => {
 
     <!-- Footer -->
     <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 py-4 px-4 text-center text-sm text-gray-500 dark:text-slate-500">
-      © 2026 Free Games Hub — <a href={`/?lang=${lang}`} class="text-emerald-600 dark:text-emerald-400 hover:underline">{isZh ? '免费在线游戏' : 'Play Free Online Games'}</a>
+      © 2026 Free Games Hub — <a href="/" class="text-emerald-600 dark:text-emerald-400 hover:underline">{isZh ? '免费在线游戏' : 'Play Free Online Games'}</a>
     </footer>
   </div>
+
+  <script>
+    document.querySelectorAll('[data-lang-switch]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang-switch')
+        const url = new URL(window.location.href)
+        if (lang === 'en') url.searchParams.delete('lang')
+        else url.searchParams.set('lang', lang)
+        window.location.href = url.toString()
+      })
+    })
+  </script>
 </BaseLayout>

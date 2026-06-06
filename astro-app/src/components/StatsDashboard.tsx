@@ -40,7 +40,7 @@ export default function StatsDashboard({ lang = 'en' }: Props) {
           <div class="text-4xl mb-4">🎮</div>
           <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{isZh ? '开始游戏以追踪你的统计！' : 'Start Playing to Track Your Stats!'}</h2>
           <p class="text-gray-600 dark:text-slate-400 mb-4">{isZh ? '玩任何游戏，你的统计将在这里显示。' : 'Play any game and your stats will appear here.'}</p>
-          <a href={`/?lang=${lang}`} class="inline-block px-6 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-white font-medium transition-colors">
+          <a href="/" class="inline-block px-6 py-2 bg-emerald-500 hover:bg-emerald-600 rounded-xl text-white font-medium transition-colors">
             {isZh ? '浏览游戏 →' : 'Browse Games →'}
           </a>
         </div>
