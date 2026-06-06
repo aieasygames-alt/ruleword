@@ -89,9 +89,21 @@ function storyReducer(state: StoryState, action: StoryAction): StoryState {
 
 export default function AIStoryGame({ template: templateJson, settings: rawSettings, onBack, onShare, gameSlug }: AIStoryGameProps) {
   const settings = rawSettings || { darkMode: true, soundEnabled: true, language: 'en' as const }
-  const template: StoryTemplate = JSON.parse(templateJson)
+  let template: StoryTemplate
+  try {
+    template = JSON.parse(templateJson)
+  } catch {
+    return (
+      <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800 items-center justify-center p-6 text-center space-y-4">
+        <div className="text-4xl">😵</div>
+        <p className="text-slate-400 text-sm">Failed to load story template.</p>
+      </div>
+    )
+  }
   const [state, dispatch] = useReducer(storyReducer, null, () => buildInitialStoryState(template))
   const typingDoneRef = useRef(true)
+  const stateRef = useRef(state)
+  stateRef.current = state
 
   useEffect(() => {
     const saved = loadStoryState(template.id)
@@ -111,17 +123,18 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   }, [template])
 
   const handleChoice = useCallback(async (choiceId: string) => {
+    const currentState = stateRef.current
     dispatch({ type: 'MAKE_CHOICE', choiceId })
 
     const node: StoryNode | null = await fetchStoryNode({
       templateId: template.id,
-      currentChapter: state.currentChapterId,
-      turnInChapter: state.turnNumber,
+      currentChapter: currentState.currentChapterId,
+      turnInChapter: currentState.turnNumber,
       userChoice: choiceId,
       storyContext: {
-        chapterIndex: state.currentChapterIndex,
-        historyLength: state.history.length,
-        metadata: state.metadata,
+        chapterIndex: currentState.currentChapterIndex,
+        historyLength: currentState.history.length,
+        metadata: currentState.metadata,
       },
       language: settings.language === 'zh-CN' ? 'zh' : 'en',
     })
@@ -130,9 +143,10 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       dispatch({ type: 'RECEIVE_NODE', node })
 
       if (node.isChapterEnd && !node.nextChapter) {
+        const latestState = stateRef.current
         const ending: StoryEndingResult | null = await fetchStoryEnding({
           templateId: template.id,
-          storyContext: { metadata: state.metadata, history: state.history },
+          storyContext: { metadata: latestState.metadata, history: latestState.history },
           language: settings.language === 'zh-CN' ? 'zh' : 'en',
         })
         if (ending) {
@@ -140,14 +154,14 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
         }
       }
     } else {
-      const fallback = getFallbackNode(template, state.currentChapterId, state.turnNumber)
+      const fallback = getFallbackNode(template, currentState.currentChapterId, currentState.turnNumber)
       if (fallback) {
         dispatch({ type: 'RECEIVE_NODE', node: fallback })
       } else {
         dispatch({ type: 'ERROR', error: 'Failed to get story content. Please try again.' })
       }
     }
-  }, [template, state, settings.language])
+  }, [template, settings.language])
 
   const handleReplay = useCallback(() => {
     clearStoryState(template.id)

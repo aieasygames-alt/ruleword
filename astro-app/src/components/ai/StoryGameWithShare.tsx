@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import AIStoryGame from './AIStoryGame'
 import ShareModal from '../ShareModal'
 
@@ -11,6 +11,29 @@ interface StoryGameWithShareProps {
 
 export default function StoryGameWithShare({ template, gameName, gameSlug, gameEmoji }: StoryGameWithShareProps) {
   const [shareOpen, setShareOpen] = useState(false)
+  const [language, setLanguage] = useState<'en' | 'zh-CN'>('en')
+
+  // Read user language preference from URL or localStorage
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const lang = params.get('lang')
+    if (lang === 'zh' || lang === 'zh-CN') {
+      setLanguage('zh-CN')
+    } else if (lang === 'en') {
+      setLanguage('en')
+    } else {
+      try {
+        const saved = localStorage.getItem('ruleword_settings')
+        if (saved) {
+          const settings = JSON.parse(saved)
+          if (settings.language === 'zh' || settings.language === 'zh-CN') {
+            setLanguage('zh-CN')
+          }
+        }
+      } catch { /* use default */ }
+    }
+  }, [])
+
   const [shareData, setShareData] = useState<{
     gameName: string
     gameEmoji: string
@@ -34,7 +57,7 @@ export default function StoryGameWithShare({ template, gameName, gameSlug, gameE
   }, [gameName, gameEmoji])
 
   const handleBack = useCallback(() => {
-    window.postMessage({ type: 'navigate-back' }, '*')
+    window.postMessage({ type: 'navigate-back' }, window.location.origin)
   }, [])
 
   return (
@@ -45,7 +68,7 @@ export default function StoryGameWithShare({ template, gameName, gameSlug, gameE
         gameSlug={gameSlug}
         onShare={handleShare}
         onBack={handleBack}
-        settings={{ darkMode: true, soundEnabled: true, language: 'en' }}
+        settings={{ darkMode: true, soundEnabled: true, language }}
       />
       <ShareModal
         isOpen={shareOpen}

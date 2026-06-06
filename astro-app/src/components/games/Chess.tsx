@@ -449,6 +449,7 @@ export default function Chess({ settings }: Props) {
     setMoveHistory([])
     setIsAiThinking(false)
     setInCheck(false)
+    setAiComment(null)
   }, [])
   const isValidMoveTarget = (row: number, col: number) =>
     validMoves.some(m => m.row === row && m.col === col)

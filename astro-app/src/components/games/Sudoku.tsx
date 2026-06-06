@@ -422,6 +422,7 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
         setHintsLeft(3)
         setSelectedCell(null)
         setNoteMode(false)
+        setHintExplanation(null)
         return
       }
       puzzleData = generateDailyPuzzle(todayIndex, newDiff)
@@ -437,6 +438,7 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
     setHintsLeft(3)
     setSelectedCell(null)
     setNoteMode(false)
+    setHintExplanation(null)
 
     // 保存每日模式
     if (newMode === 'daily') {
@@ -544,30 +546,7 @@ const Sudoku: React.FC<SudokuProps> = ({ settings, onBack }) => {
 
     setHintsLeft(prev => prev - 1)
     setSelectedCell({ row: hint.row, col: hint.col })
-
-    // 检查是否完成
-    setTimeout(() => {
-      setGrid(currentGrid => {
-        if (checkWin(currentGrid, solution)) {
-          setGameWon(true)
-          setIsRunning(false)
-          // 更新统计
-          const newStats = { ...stats }
-          newStats.played++
-          newStats.won++
-          if (!newStats.bestTime[difficulty] || timer < newStats.bestTime[difficulty]!) {
-            newStats.bestTime[difficulty] = timer
-          }
-          setStats(newStats)
-          saveStats(newStats)
-          if (gameMode === 'daily') {
-            clearSave()
-          }
-        }
-        return currentGrid
-      })
-    }, 100)
-  }, [hintsLeft, gameWon, grid, solution, stats, difficulty, timer, gameMode])
+  }, [hintsLeft, gameWon, grid, solution])
 
   // 检查胜利
   useEffect(() => {

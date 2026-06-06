@@ -5,6 +5,7 @@ import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { blogPosts } from '../data/blogPosts'
 import { difficultyVariants } from '../data/gameVariants'
+import { storyVariants } from '../data/storyVariants'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -138,6 +139,12 @@ ${(await getCollection('stories')).map(entry => `  <url>
     <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>`).join('\n')}
+${storyVariants.map(v => `  <url>
+    <loc>${baseUrl}/stories/${v.storySlug}/${v.variant}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>`).join('\n')}
 
   <!-- Daily Challenge Page -->
