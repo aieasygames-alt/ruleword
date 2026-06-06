@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "cd astro-app && pnpm dev",
-    "build": "cd astro-app && pnpm install && pnpm build && cp -r dist ../dist",
-    "build:ci": "cd astro-app && pnpm build && cp -r dist ../dist",
+    "build": "cd astro-app && pnpm install && npx tsx scripts/generate-images.ts && pnpm build && cp -r dist ../dist",
+    "build:ci": "cd astro-app && npx tsx scripts/generate-images.ts && pnpm build && cp -r dist ../dist",
     "preview": "cd astro-app && pnpm preview"
   },
   "dependencies": {
