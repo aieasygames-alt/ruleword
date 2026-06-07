@@ -5079,3 +5079,358 @@ The key to efficient advanced solving is choosing the right cell to test. Pick a
     }
   ]
 }
+
+// Boggle Guide
+gameGuides['boggle'] = {
+  slug: 'boggle',
+  title: 'Boggle Strategy Guide: How to Find More Words and Score Higher',
+  description: 'Learn Boggle strategies to find more words in every grid. Systematic scanning, prefix/suffix patterns, scoring tips, and time management for 4x4 and 5x5 Boggle.',
+  keywords: ['boggle strategy', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle scoring', 'boggle rules', 'boggle guide', 'word search strategy'],
+  introduction: `Boggle looks deceptively simple — find words in a grid of 16 letters. But the gap between a casual player scoring 10 points and an expert scoring 50+ comes down to strategy and systematic scanning.
+
+This guide teaches you the techniques that competitive Boggle players use to find more words, score higher, and make the most of every second on the clock.`,
+  sections: [
+    {
+      title: 'Understanding Boggle Rules and Scoring',
+      content: `Boggle uses a 4x4 (classic) or 5x5 (Big Boggle) grid of letters. You connect adjacent letters (including diagonals) to form words of 3+ letters. Each letter cube can only be used once per word.
+
+Scoring rewards longer words heavily: 3-4 letters = 1 point, 5 letters = 2 points, 6 letters = 3 points, 7+ letters = 5 points.`,
+      tips: [
+        '7+ letter words are worth 5 points — focus on finding these first',
+        '4x4 grids: minimum 3-letter words; 5x5 grids: minimum 4-letter words',
+        'Each letter cube can only be used once per word, but same letters can appear multiple times on the board',
+        'Proper nouns, abbreviations, and foreign words are not valid'
+      ]
+    },
+    {
+      title: 'Systematic Scanning Techniques',
+      content: `Random scanning wastes time. Use a systematic approach:
+
+**Spiral scan**: Start from a corner and spiral inward, checking each letter as a potential word start.
+
+**Vowel-first scan**: Identify all vowels first and check what consonants surround them.
+
+**Prefix scan**: For each letter, check common prefixes: RE-, UN-, IN-, DIS-, PRE-, OVER-, OUT-, SUB-.
+
+**Suffix scan**: Look for letters that end common suffixes: -ING, -TION, -NESS, -MENT, -ABLE, -LY, -ER, -ED.`,
+      tips: [
+        'Always scan the board twice — your brain spots patterns better on the second pass',
+        'Start with the most vowel-rich areas of the grid',
+        'Check for S and D tiles — they create plurals and past tenses of words you already found',
+        'Look for common letter pairs: TH, CH, SH, QU, CK, NG, ST'
+      ]
+    },
+    {
+      title: 'High-Value Word Patterns',
+      content: `Train yourself to spot patterns that lead to high-scoring words:
+
+**-TION words**: Look for T-I-O-N sequences. STATION, NATION, MOTION each score 3-5 points.
+
+**Compound words**: Boggle allows compound words — SUNSHINE, PLAYGROUND, BASKETBALL.
+
+**Word families**: When you find a stem like PLAY, check for PLAYED, PLAYING, PLAYER, PLAYS — 4-6 extra points from one discovery.`,
+      tips: [
+        'Every S on the board can pluralize multiple words — never ignore S tiles',
+        'Find a word stem first, then check all its derivatives before moving on',
+        'Common endings -ED, -ER, -EST turn short words into longer ones worth more points',
+        'Look for Q near U — QU is the start of many high-scoring words'
+      ]
+    },
+    {
+      title: 'Time Management Strategy',
+      content: `In timed Boggle, efficiency wins:
+
+**First 30 seconds**: Quick scan for obvious long words (7+ letters). These are worth the most.
+
+**Middle portion**: Systematic prefix/suffix scanning. Build word families from stems you found.
+
+**Last 30 seconds**: Grab easy short words you missed. 3-4 letter words add up quickly.`,
+      tips: [
+        'Spend the first 10 seconds just scanning — do not start typing until you have 3-5 words identified',
+        'Group words by starting letter to avoid redundant scanning',
+        'If you find a long word, immediately check for shorter derivatives',
+        'Keep a mental count of how many words start with each letter to avoid missing clusters'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is the average Boggle score?',
+      answer: 'Casual 4x4 Boggle players score 15-25 points per round. Experienced players average 30-50. Tournament players can score 50-80+ consistently.'
+    },
+    {
+      question: 'How many words are in a typical Boggle grid?',
+      answer: 'A typical 4x4 Boggle grid contains 40-80 valid words. 5x5 Big Boggle grids contain 100-200+ words.'
+    },
+    {
+      question: 'What is Big Boggle?',
+      answer: 'Big Boggle uses a 5x5 grid (25 dice instead of 16) with a minimum word length of 4 letters. It was introduced in 1979 and produces longer, higher-scoring words than the classic 4x4 version.'
+    },
+    {
+      question: 'Can I play Boggle online free?',
+      answer: 'Yes! Play Boggle free in your browser on Free Games Hub — no download or sign-up required. Both 4x4 classic and 5x5 Big Boggle modes available with unlimited plays.'
+    }
+  ]
+}
+
+// Slitherlink Guide
+gameGuides['slitherlink-guide'] = {
+  slug: 'slitherlink-guide',
+  title: 'Slitherlink Guide: Rules, Patterns, and Solving Techniques',
+  description: 'Master Slitherlink with this complete guide. Learn the rules, essential patterns (0 cells, 3 corners, diagonal 3s), edge counting, and advanced loop-building techniques.',
+  keywords: ['slitherlink guide', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink patterns', 'slitherlink tips', 'loop puzzle guide', 'fences puzzle'],
+  introduction: `Slitherlink is one of the most elegant Japanese logic puzzles — draw a single continuous loop through a grid of dots, using number clues to determine which edges to include.
+
+This guide covers everything from basic rules to advanced solving techniques.`,
+  sections: [
+    {
+      title: 'Slitherlink Rules',
+      content: `The rules are simple:
+
+1. Draw a single continuous loop through the grid
+2. The loop passes along edges between dots (not through cells)
+3. Numbers indicate how many sides of that cell are part of the loop (0-3)
+4. Cells without numbers can have any number of loop sides
+5. The loop cannot cross itself or branch`,
+      tips: [
+        'Numbers range from 0 to 3 — a cell with 3 needs three of its four edges in the loop',
+        'Cells without numbers are unconstrained — they help the loop pass through',
+        'The loop is always a single closed curve, like a rubber band',
+        'Mark empty edges with X to track what you have eliminated'
+      ]
+    },
+    {
+      title: 'Essential Starting Patterns',
+      content: `These patterns give you free deductions:
+
+**0 cells**: All four edges are NOT in the loop. Mark them X immediately.
+
+**3 in a corner**: A 3 in a corner forces its three available edges to be loop edges.
+
+**3 on an edge**: A 3 on the grid edge forces its three non-edge sides to be loop edges.
+
+**Adjacent 3s**: Two horizontally adjacent 3s force specific edge patterns.`,
+      tips: [
+        'Always mark all edges around 0s first — this gives you the most free deductions',
+        'Corner 3s and edge 3s are the easiest starting points after 0s',
+        'Adjacent 3s create strong constraints — look for these early',
+        'A 3 diagonally touching another 3 forces the connecting edges between them'
+      ]
+    },
+    {
+      title: 'Edge Counting and Dead Ends',
+      content: `**Dead-end rule**: Every loop segment connects to exactly two other segments. If marking an edge would create a dead end, it cannot be a loop edge.
+
+**Dot constraint**: At each dot, either 0 or 2 loop edges meet — never 1 or 3+.
+
+**Even crossing rule**: The loop must enter and leave any enclosed region an even number of times.`,
+      tips: [
+        'After every mark, check for dead ends — this catches errors early',
+        'At each dot, count loop edges — if 2 already meet, all other edges at that dot are X',
+        'If a dot has 1 loop edge and 1 available edge, that edge must be included',
+        'Regions with odd entry counts always need one more loop edge'
+      ]
+    },
+    {
+      title: 'Advanced Techniques',
+      content: `**Self-crossing prevention**: If marking an edge would eventually force the loop to cross itself, that edge must be empty.
+
+**Region isolation**: If a partial loop segment would trap itself with no exit, the initial assumption was wrong.
+
+**Slither deduction**: Trace where the loop must go from known segments. Often the path is forced in one direction for several edges.`,
+      tips: [
+        'When stuck, try tracing the loop forward from known segments',
+        'Check if any partial loop segment is close to closing prematurely',
+        'Use process of elimination: if an edge leads to a contradiction, mark it X',
+        'Harder puzzles often require checking 2-3 steps ahead'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'How do I start a Slitherlink puzzle?',
+      answer: 'Start by marking all edges around 0 cells as X (not loop). Then look for 3s in corners and on grid edges — these give immediate loop segments.'
+    },
+    {
+      question: 'What size Slitherlink should beginners play?',
+      answer: 'Start with 5x5 grids. These teach all the basic patterns without overwhelming complexity. Move to 6x6 and 7x7 as you get comfortable.'
+    },
+    {
+      question: 'Can Slitherlink be solved without guessing?',
+      answer: 'Yes! Every well-designed Slitherlink puzzle has a unique solution findable through pure logic.'
+    },
+    {
+      question: 'Where can I play Slitherlink free online?',
+      answer: 'Play Slitherlink free in your browser on Free Games Hub — no download required. 100+ puzzles from beginner to expert difficulty.'
+    }
+  ]
+}
+
+// Heyawake Guide
+gameGuides['heyawake-guide'] = {
+  slug: 'heyawake-guide',
+  title: 'Heyawake Guide: Rules, Strategy, and Solving Techniques',
+  description: 'Complete Heyawake guide. Learn the room-shading rules, three-in-a-row constraint, white connectivity, and systematic solving techniques.',
+  keywords: ['heyawake guide', 'heyawake rules', 'how to solve heyawake', 'heyawake strategy', 'heyawake tips', 'japanese room puzzle', 'shade cells puzzle'],
+  introduction: `Heyawake is a beautifully balanced Japanese shading puzzle where you shade cells in a grid divided into rectangular rooms. Three simple rules create deep, satisfying logic.`,
+  sections: [
+    {
+      title: 'The Three Rules of Heyawake',
+      content: `1. **Numbered rooms**: A room with a number must contain exactly that many shaded cells
+2. **No three in a row**: Shaded cells cannot form a continuous line of 3+ horizontally or vertically
+3. **White connectivity**: All unshaded (white) cells must form one connected group`,
+      tips: [
+        'Rules apply globally — the three-in-a-row constraint spans across room boundaries',
+        'White connectivity means every white cell must be reachable from every other white cell',
+        'Rooms without numbers still affect the puzzle through the global constraints',
+        'A valid solution satisfies all three rules simultaneously'
+      ]
+    },
+    {
+      title: 'Beginner Strategy: Extreme Numbers',
+      content: `Start with rooms that have extreme numbers:
+
+**Room size = number**: Shade all cells in the room.
+**Number = 0**: Mark all cells white.
+**1x1 room with number 1**: Shade the single cell.`,
+      tips: [
+        'Process all 0 rooms first — they give free white cells and constrain neighbors',
+        'Full rooms (number = size) give free shaded cells and trigger three-in-a-row checks',
+        'Rooms spanning multiple rows/columns create the strongest early constraints',
+        'Mark forced white cells with a dot to track connectivity'
+      ]
+    },
+    {
+      title: 'The Three-in-a-Row Rule',
+      content: `This rule is your most powerful deduction tool:
+
+**Direct prevention**: Two shaded cells next to each other force the cells before and after to be white.
+
+**Gap analysis**: If two shaded cells have one cell between them, that middle cell must be white.
+
+**Cross-boundary**: This rule applies across room boundaries.`,
+      tips: [
+        'After every shade, check both directions for three-in-a-row violations',
+        'Mark forced white cells immediately — they propagate constraints to neighbors',
+        'Look for "almost three in a row" situations that force nearby cells white',
+        'This rule is often the key to breaking through stuck points'
+      ]
+    },
+    {
+      title: 'Connectivity Thinking',
+      content: `**Island detection**: If shading a cell would isolate a group of white cells, that cell must be white.
+
+**Corridor analysis**: Long narrow passages of white cells must stay connected.
+
+**Edge and corner cells**: Cells at grid edges have fewer white neighbors, making them more constrained.`,
+      tips: [
+        'Trace white cell connections mentally — if a shade would create an island, it is invalid',
+        'Long corridors of white cells are fragile — shade near them carefully',
+        'The connectivity rule often determines cells that number clues alone cannot',
+        'When stuck, check if any unshaded cell would break connectivity if shaded'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Is Heyawake hard to learn?',
+      answer: 'No — Heyawake has only three rules and beginners can start solving easy puzzles within minutes. Expert puzzles can take 30+ minutes even for experienced solvers.'
+    },
+    {
+      question: 'Do I ever need to guess in Heyawake?',
+      answer: 'Never in well-designed puzzles. Every cell can be determined through logic using the three rules.'
+    },
+    {
+      question: 'How is Heyawake different from Nurikabe?',
+      answer: 'Both involve shading cells, but Heyawake uses rectangular rooms with number clues and the three-in-a-row rule, while Nurikabe requires a continuous wall and numbered islands.'
+    },
+    {
+      question: 'Where can I play Heyawake free online?',
+      answer: 'Play Heyawake free in your browser on Free Games Hub — no download or sign-up required. 100+ puzzles from beginner to expert.'
+    }
+  ]
+}
+
+// Suguru Guide
+gameGuides['suguru-guide'] = {
+  slug: 'suguru-guide',
+  title: 'Suguru Guide: Rules, Strategy, and How to Solve Number Regions',
+  description: 'Complete Suguru puzzle guide. Learn how to fill number regions without adjacent duplicates, master diagonal elimination, and develop systematic solving strategies.',
+  keywords: ['suguru guide', 'suguru rules', 'how to solve suguru', 'suguru strategy', 'suguru tips', 'number region puzzle', 'japanese number puzzle'],
+  introduction: `Suguru is a number placement puzzle where you fill irregular regions with digits. Unlike Sudoku, Suguru uses regions of varying sizes — and diagonal adjacency matters.`,
+  sections: [
+    {
+      title: 'Suguru Rules',
+      content: `1. **Fill each region**: A region with N cells must contain the numbers 1 through N exactly once each
+2. **No adjacent duplicates**: No two adjacent cells (including diagonally adjacent) can contain the same number
+
+The diagonal constraint is what makes Suguru different from Sudoku.`,
+      tips: [
+        'A 1-cell region always contains 1 — find these first',
+        'A 2-cell region contains 1 and 2 — easy to fill once neighbors are known',
+        'Diagonal adjacency means each cell has up to 8 neighbors to check',
+        'Larger regions are more constrained and often easier to solve first'
+      ]
+    },
+    {
+      title: 'Getting Started: Small Regions First',
+      content: `Begin with the most constrained regions:
+
+**Size-1 regions**: Must be 1. Fill immediately.
+**Size-2 regions**: Must be {1, 2}. Check neighbors.
+**Regions near filled cells**: Use elimination to fill.`,
+      tips: [
+        'Scan the entire grid for size-1 regions first — they are free answers',
+        'Size-2 regions need only simple elimination between {1, 2}',
+        'Look for regions where most cells are already filled by neighbor constraints',
+        'Work from the most constrained areas outward'
+      ]
+    },
+    {
+      title: 'Diagonal Elimination',
+      content: `The diagonal constraint is what makes Suguru unique. When placing a number, check all 8 neighbors:
+
+**Corner cells**: Only 3 neighbors — least constrained
+**Edge cells**: 5 neighbors — moderately constrained
+**Center cells**: 8 neighbors — most constrained`,
+      tips: [
+        'Always check diagonals — forgetting them is the most common mistake',
+        'A cell with many filled neighbors has fewer candidates — focus on these',
+        'Mark pencil candidates in cells with 2-3 possible values',
+        'When a cell has only one candidate, fill it immediately and update neighbors'
+      ]
+    },
+    {
+      title: 'Advanced Techniques',
+      content: `**Candidate elimination**: Write all possible values for each empty cell. When a candidate appears in only one cell of a region, that cell must be that value.
+
+**Neighbor chaining**: A value placed in one cell eliminates it from all neighbors, which may force values in those neighbors.
+
+**Region interaction**: Two adjacent regions share constraints at their boundary.`,
+      tips: [
+        'Pencil marks are essential for medium and hard puzzles',
+        'Update all affected candidates after every placement',
+        'Look for chains of deductions that start from a single placement',
+        'If stuck, re-scan all regions for cells with only one candidate'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'How is Suguru different from Sudoku?',
+      answer: 'Suguru has irregular regions of varying sizes instead of uniform 3x3 boxes, and diagonal adjacency matters — cells touching diagonally cannot share the same number.'
+    },
+    {
+      question: 'Do I need to be good at math for Suguru?',
+      answer: 'No. Suguru uses numbers as labels, not for arithmetic. The puzzle is pure logic.'
+    },
+    {
+      question: 'Can Suguru be solved without guessing?',
+      answer: 'Yes. Well-designed Suguru puzzles can be solved entirely through logic. If stuck, check all 8 neighbors of each empty cell.'
+    },
+    {
+      question: 'Where can I play Suguru free online?',
+      answer: 'Play Suguru free in your browser on Free Games Hub — no download or sign-up required. Multiple grid sizes from easy to expert.'
+    }
+  ]
+}

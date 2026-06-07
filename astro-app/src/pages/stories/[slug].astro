@@ -7,14 +7,25 @@ import { getGameRating } from '../../data/gameRatings'
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories')
+  const allStoriesData = stories.map(entry => ({
+    slug: entry.data.slug,
+    name: entry.data.en.name,
+    desc: entry.data.en.desc,
+    icon: entry.data.icon,
+    color: entry.data.color,
+    templateType: entry.data.templateType,
+  }))
   return stories.map(entry => ({
     params: { slug: entry.data.slug },
-    props: { story: entry.data },
+    props: { story: entry.data, allStories: allStoriesData },
   }))
 }
 
-const { story } = Astro.props
+const { story, allStories } = Astro.props
 const lang: Language = 'en'
+
+// Get other stories for cross-linking
+const otherStories = allStories.filter((s: any) => s.slug !== story.slug).slice(0, 4)
 
 const storyName = story.en.name
 const storyDesc = story.en.desc
@@ -195,11 +206,27 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
 
     <!-- Related Stories -->
     <section class="bg-slate-900/30 border-t border-slate-800 py-8 px-4 sm:px-6">
-      <div class="max-w-4xl mx-auto text-center">
-        <h3 class="text-lg font-semibold mb-4">Explore More AI Stories</h3>
-        <a href="/stories/" class="inline-block px-6 py-2 bg-pink-500 hover:bg-pink-600 rounded-xl text-sm font-medium transition-colors">
-          View All AI Story Games →
-        </a>
+      <div class="max-w-4xl mx-auto">
+        <h3 class="text-lg font-semibold mb-4 text-center">Explore More AI Stories</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+          {otherStories.map((s: any) => (
+            <a href={`/stories/${s.slug}/`} class="group block bg-slate-800/60 rounded-xl overflow-hidden hover:bg-slate-700/60 transition-all border border-slate-700/50">
+              <div class={`h-1 bg-gradient-to-r ${s.color}`} />
+              <div class="p-3">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-xl">{s.icon}</span>
+                  <h4 class="font-semibold text-sm text-gray-100 group-hover:text-pink-400 transition-colors line-clamp-1">{s.name}</h4>
+                </div>
+                <p class="text-xs text-gray-400 line-clamp-2">{s.desc}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div class="text-center">
+          <a href="/stories/" class="inline-block px-6 py-2 bg-pink-500 hover:bg-pink-600 rounded-xl text-sm font-medium transition-colors">
+            View All AI Story Games →
+          </a>
+        </div>
       </div>
     </section>
 

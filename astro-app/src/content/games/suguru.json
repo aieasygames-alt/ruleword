@@ -6,8 +6,8 @@
   "color": "from-pink-500 to-rose-600",
   "en": {
     "name": "Suguru",
-    "desc": "Fill regions with unique adjacent numbers!",
-    "description": "Suguru is a number placement puzzle where you fill regions with digits. Each region's size determines which numbers to use (a 4-cell region needs 1-4). The key rule: no two adjacent cells (including diagonally!) can contain the same number. A fresh twist on number logic!",
+    "desc": "Fill regions with unique adjacent numbers! Free online Suguru puzzle — no download required.",
+    "description": "Suguru is a number placement puzzle where you fill regions with digits. Each region's size determines which numbers to use (a 4-cell region needs 1-4). The key rule: no two adjacent cells (including diagonally!) can contain the same number. Play Suguru free online — pure logic, no guessing, no download!",
     "objectives": "Fill each region with numbers 1 through its size, ensuring no adjacent cells (orthogonally or diagonally) share the same number.",
     "howToPlay": "Fill each region with numbers 1 through its size. Identical numbers cannot be adjacent (including diagonally). Use logic to deduce each cell's value.",
     "rules": {
@@ -48,6 +48,14 @@
       {
         "question": "What's the best starting strategy?",
         "answer": "Find single-cell regions first (they must be 1). Then look for cells surrounded by different numbers that force a specific value."
+      },
+      {
+        "question": "Can I solve Suguru without guessing?",
+        "answer": "Yes! Well-designed Suguru puzzles can be solved entirely through logic. If you feel stuck, check all 8 neighbors of each empty cell — there may be an elimination you missed."
+      },
+      {
+        "question": "Where can I play Suguru free online?",
+        "answer": "Play Suguru free in your browser on Free Games Hub — no download or sign-up required. Multiple grid sizes from easy to expert."
       }
     ]
   },

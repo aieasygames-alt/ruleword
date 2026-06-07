@@ -6,8 +6,8 @@
   "color": "from-indigo-500 to-blue-600",
   "en": {
     "name": "Slitherlink",
-    "desc": "Draw a single continuous loop through the grid! Use number clues to determine which edges of each cell are part of the loop. A satisfying logic puzzle.",
-    "description": "Slitherlink is the elegant loop-drawing puzzle that has captivated logic enthusiasts worldwide! Each cell contains a number 0-3 indicating how many of its edges are part of the loop. Your task: draw a single continuous loop that never crosses or branches. Using pure deduction, you'll discover which edges belong to the loop and which don't. Simple rules, deeply satisfying solutions!",
+    "desc": "Draw a single continuous loop through the grid! Free online Slitherlink, no download.",
+    "description": "Slitherlink is the elegant loop-drawing puzzle that has captivated logic enthusiasts worldwide! Each cell contains a number 0-3 indicating how many of its edges are part of the loop. Your task: draw a single continuous loop that never crosses or branches. Play Slitherlink free online — pure deduction, deeply satisfying solutions!",
     "objectives": "Draw a single continuous loop through the grid edges. The loop must pass through exactly the number of edges shown by each clue (0, 1, 2, or 3). The loop cannot cross itself or branch. Find the unique solution through logical deduction!",
     "howToPlay": "Click edges to include them in the loop. Numbers 0-3 indicate how many edges around that cell are used. Create one continuous loop with no crossings or branches.",
     "rules": {
@@ -35,7 +35,7 @@
     "faq": [
       {
         "question": "What does a 0 clue mean?",
-        "answer": "A cell with 0 means none of its four edges are part of the loop. Mark all four edges as 'not loop' immediately—this is crucial starting information!"
+        "answer": "A cell with 0 means none of its four edges are part of the loop. Mark all four edges as 'not loop' immediately — this is crucial starting information!"
       },
       {
         "question": "How do I handle a 3 in a corner?",
@@ -48,6 +48,14 @@
       {
         "question": "How do I know the loop is correct?",
         "answer": "The loop must be one continuous closed curve (like a rubber band). Every clue must be satisfied. There should be no loose ends, branches, or crossings. Following the loop should return you to where you started."
+      },
+      {
+        "question": "Can I solve Slitherlink without guessing?",
+        "answer": "Yes! Every well-designed Slitherlink puzzle can be solved through pure logic. Start with 0s and corner 3s, then use edge counting and dead-end detection to work through the grid."
+      },
+      {
+        "question": "Where can I play Slitherlink free online?",
+        "answer": "Play Slitherlink free in your browser on Free Games Hub — no download or sign-up required. 100+ puzzles from beginner to expert."
       }
     ]
   },

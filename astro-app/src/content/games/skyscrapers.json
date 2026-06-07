@@ -6,8 +6,8 @@
   "color": "from-cyan-500 to-blue-600",
   "en": {
     "name": "Skyscrapers",
-    "desc": "Place buildings so the visible count matches clues — a Sudoku-style 3D logic puzzle!",
-    "description": "Skyscrapers is a 3D logic puzzle where you place buildings of heights 1-N on an N×N grid. Clues outside the grid show how many buildings are visible from each direction. Taller buildings hide shorter ones behind them. A unique perspective on Sudoku-style logic!",
+    "desc": "Place buildings so the visible count matches clues — a Sudoku-style 3D logic puzzle! Free online, no download.",
+    "description": "Skyscrapers is a 3D logic puzzle where you place buildings of heights 1-N on an N×N grid. Clues outside the grid show how many buildings are visible from each direction. Taller buildings hide shorter ones behind them. Play Skyscrapers free online — Sudoku-style logic with a 3D twist!",
     "objectives": "Fill the grid with buildings 1-N so that each row and column contains each height exactly once, and visibility clues are satisfied.",
     "howToPlay": "Place buildings 1-N in each row and column (like Sudoku). Clues show how many buildings are visible when looking from that direction. Taller buildings hide shorter ones behind them.",
     "rules": {
@@ -35,7 +35,7 @@
     "faq": [
       {
         "question": "How does visibility work?",
-        "answer": "When looking from a direction, you count visible buildings. A taller building blocks view of shorter ones behind it. So if you see 5-3-7-2 from left to right, you'd see buildings 5, 7, and 2 (3 is hidden by 7)."
+        "answer": "When looking from a direction, you count visible buildings. A taller building blocks view of shorter ones behind it. So if you see 5-3-7-2 from left to right, you'd see buildings 5 and 7 (3 is hidden by 5, 2 is hidden by 7)."
       },
       {
         "question": "What's the common starting strategy?",
@@ -48,6 +48,14 @@
       {
         "question": "What's the best grid size for beginners?",
         "answer": "Start with 4×4 or 5×5 grids. They have fewer clues and are easier to solve while learning the visibility mechanics."
+      },
+      {
+        "question": "Can I solve Skyscrapers without guessing?",
+        "answer": "Yes! Every well-designed Skyscrapers puzzle can be solved through pure logic. Start with the most restrictive clues (1 and N), then use Sudoku-style elimination for the remaining cells."
+      },
+      {
+        "question": "Can I play Skyscrapers free online?",
+        "answer": "Yes! Play Skyscrapers free in your browser on Free Games Hub — no download or sign-up required. Grid sizes from 4×4 to 9×9."
       }
     ]
   },

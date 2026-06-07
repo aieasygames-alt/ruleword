@@ -7,8 +7,8 @@
   "color": "from-blue-500 to-indigo-600",
   "en": {
     "name": "Crosswordle",
-    "desc": "Swap letters to form valid words",
-    "description": "Crosswordle combines word puzzle creativity with strategic letter swapping! You're presented with a grid where each row should spell a valid word, but the letters are scrambled. Swap letters between columns to unscramble each row. With limited swaps and a ticking clock, this game tests both your vocabulary and spatial thinking. Can you unscramble all the words?",
+    "desc": "Swap letters between columns to form valid words. Free online Crosswordle — no download required!",
+    "description": "Crosswordle combines word puzzle creativity with strategic letter swapping! You're presented with a grid where each row should spell a valid word, but the letters are scrambled. Swap letters between columns to unscramble each row. With limited swaps and a ticking clock, this game tests both your vocabulary and spatial thinking. Play Crosswordle free online — no download required!",
     "objectives": "Swap letters between columns to make every row spell a valid word. Complete the puzzle using as few swaps as possible, or before time runs out. Challenge yourself to recognize word patterns quickly!",
     "howToPlay": "Click on a letter, then click another letter in a different column to swap them. Each row must form a valid word. Use hints wisely as swaps are limited.",
     "rules": {
@@ -49,6 +49,14 @@
       {
         "question": "What's the best strategy?",
         "answer": "Start by identifying likely word patterns—common prefixes (TH, CH, WH) and suffixes (ING, TION, LY). Then focus on the most constrained rows first."
+      },
+      {
+        "question": "How is Crosswordle different from Wordle?",
+        "answer": "Crosswordle is a grid-based word puzzle where you swap letters between columns to form valid words, while Wordle is a guessing game where you deduce a single hidden word. Crosswordle tests vocabulary breadth and spatial reasoning rather than deduction."
+      },
+      {
+        "question": "Can I play Crosswordle free online?",
+        "answer": "Yes! Play Crosswordle free in your browser — no download or sign-up required. Multiple difficulty levels available, from 3-letter to 6-letter words."
       }
     ]
   },

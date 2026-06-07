@@ -6,8 +6,8 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Shakashaka",
-    "desc": "Place triangles in empty cells to form perfect rectangles. A unique Nikoli geometric puzzle!",
-    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. A beautiful blend of geometry and logic!",
+    "desc": "Place triangles in empty cells to form perfect rectangles. Free online Shakashaka, no download.",
+    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. Play Shakashaka free online — a unique Nikoli logic puzzle!",
     "objectives": "Place triangles so that all white (unshaded) areas form perfect rectangles, and satisfy all clue numbers.",
     "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",
     "rules": {
@@ -42,11 +42,19 @@
       },
       {
         "question": "What do the clue numbers mean?",
-        "answer": "Black clue cells show how many triangles are orthogonally or diagonally adjacent to them. Use these to deduce where triangles must be placed."
+        "answer": "Black clue cells show how many triangles are orthogonally adjacent to them. Use these to deduce where triangles must be placed."
       },
       {
         "question": "Can I leave cells white?",
         "answer": "Yes! White cells are often necessary to complete rectangles. The challenge is knowing where to place triangles versus leaving cells white."
+      },
+      {
+        "question": "How do I know if a white area is a valid rectangle?",
+        "answer": "A valid rectangle has four straight sides and four right angles. If a white area has an L-shape, T-shape, or any irregular boundary, you need to place more triangles to clean it up."
+      },
+      {
+        "question": "Can I play Shakashaka free online?",
+        "answer": "Yes! Play Shakashaka free in your browser on Free Games Hub — no download or sign-up. 100+ levels from beginner to expert."
       }
     ]
   },

@@ -498,6 +498,441 @@ Start practicing these techniques today on Free Games Hub. Your first 2048 might
       }
     ],
     relatedGames: ['2048', '2048-cupcakes', 'threes', 'sudoku']
+  },
+
+  'best-number-puzzles-online': {
+    slug: 'best-number-puzzles-online',
+    title: '15 Best Number Puzzles to Play Online Free — No Download',
+    description: 'Discover the 15 best free number puzzles you can play in your browser. Sudoku, 2048, Kakuro, Suguru, Killer Sudoku, and more — no download required.',
+    keywords: ['number puzzles online', 'free number games', 'math puzzle games', 'sudoku alternatives', 'number logic puzzles', 'play number puzzles free', 'best number puzzles'],
+    author: 'Free Games Hub Team',
+    date: '2026-06-06',
+    readTime: '11 min read',
+    category: 'best-of',
+    introduction: `Number puzzles are among the most popular brain games worldwide. From the global phenomenon of Sudoku to lesser-known gems like Suguru and Calcudoku, these games train logical reasoning, pattern recognition, and mathematical thinking.
+
+We've tested dozens of number puzzles to bring you the 15 best you can play free online — no download, no sign-up, just open your browser and start solving.`,
+    sections: [
+      {
+        title: 'Classic Number Puzzles',
+        content: `These are the heavyweights — number puzzles played by millions:`,
+        items: [
+          'Sudoku — Fill a 9×9 grid so each row, column, and 3×3 box contains 1-9',
+          '2048 — Slide and merge tiles to reach 2048 and beyond',
+          'Killer Sudoku — Sudoku meets Kakuro: cage sums instead of given digits',
+          'Kakuro — Crossword-style math puzzle where cells sum to target numbers',
+          'Minesweeper — Use number clues to flag hidden mines'
+        ]
+      },
+      {
+        title: 'Japanese Logic Number Puzzles',
+        content: `Elegant puzzles from Japan's Nikoli magazine — simple rules, deep logic:`,
+        items: [
+          'Suguru — Fill regions with numbers so no adjacent cells match',
+          'Skyscrapers — Place buildings so visible counts match edge clues',
+          'Calcudoku — Arithmetic operations within cage regions',
+          'Futoshiki — Place numbers with greater-than / less-than constraints',
+          'Hidato — Connect consecutive numbers in a path'
+        ]
+      },
+      {
+        title: 'Strategy and Skill Puzzles',
+        content: `These number puzzles reward strategic thinking and planning:`,
+        items: [
+          'Mastermind — Crack a secret code using logic and deduction',
+          'Number Memory — Remember increasingly long digit sequences',
+          'Math Memory — Match pairs of equations with their answers',
+          '15 Puzzle — Slide numbered tiles into order',
+          'Simon Says — Repeat increasingly long color/number sequences'
+        ]
+      },
+      {
+        title: 'Tips for Getting Better at Number Puzzles',
+        content: `Regardless of which number puzzle you play, these principles help:
+
+1. **Start easy** — Learn the rules on simple puzzles before tackling harder ones
+2. **Use pencil marks** — Write candidates before committing to answers
+3. **Scan systematically** — Check rows, columns, and regions in order
+4. **Never guess** — Every number puzzle can be solved through pure logic
+5. **Practice daily** — 15 minutes a day beats occasional marathon sessions`
+      }
+    ],
+    conclusion: `Number puzzles offer a perfect blend of entertainment and cognitive training. Whether you prefer the meditative logic of Sudoku or the strategic challenge of 2048, there's a number puzzle for everyone.
+
+All 15 games listed above are available to play free on Free Games Hub — no download required. Start with your favorite and explore new types to challenge different cognitive skills.`,
+    faq: [
+      {
+        question: 'What is the hardest number puzzle?',
+        answer: 'Killer Sudoku expert and diabolical Sudoku are among the hardest popular number puzzles. Suguru and Skyscrapers can also reach extreme difficulty. The hardest is subjective — it depends on which deduction patterns you find most challenging.'
+      },
+      {
+        question: 'Do number puzzles improve math skills?',
+        answer: 'Yes, but indirectly. While most number puzzles (like Sudoku) require logic rather than arithmetic, puzzles like Kakuro, Calcudoku, and Killer Sudoku directly exercise mathematical thinking. All number puzzles improve pattern recognition and working memory.'
+      },
+      {
+        question: 'Can I play these number puzzles on my phone?',
+        answer: 'Yes! All puzzles on Free Games Hub work in mobile browsers. No app download needed — just open the site and play.'
+      }
+    ],
+    relatedGames: ['sudoku', 'killer-sudoku', '2048', 'kakuro', 'suguru', 'skyscrapers', 'calcudoku']
+  },
+
+  'how-to-solve-heyawake': {
+    slug: 'how-to-solve-heyawake',
+    title: 'How to Solve Heyawake — Complete Strategy Guide for Beginners',
+    description: 'Learn Heyawake rules, beginner strategies, and advanced techniques. This Japanese room-shading puzzle looks simple but rewards deep logical thinking. Free online puzzles included.',
+    keywords: ['heyawake rules', 'how to solve heyawake', 'heyawake strategy', 'heyawake tips', 'japanese room puzzle', 'shade cells puzzle', 'heyawake guide', 'heyawake tutorial'],
+    author: 'Free Games Hub Team',
+    date: '2026-06-06',
+    readTime: '9 min read',
+    category: 'guides',
+    introduction: `Heyawake (部屋わけ, "divided rooms") is a elegant Japanese logic puzzle where you shade cells in a grid divided into rectangular rooms. Numbers in rooms tell you exactly how many cells to shade, and a few simple rules create surprisingly deep logic.
+
+This guide covers everything from basic rules to advanced solving techniques, with examples you can practice on right away.`,
+    sections: [
+      {
+        title: 'Heyawake Rules',
+        content: `Heyawake has just three rules:
+
+1. **Numbered rooms**: A room with a number must contain exactly that many shaded cells
+2. **No three in a row**: Shaded cells cannot form a continuous line of 3 or more horizontally or vertically
+3. **White connectivity**: All unshaded (white) cells must be connected — you must be able to reach any white cell from any other white cell
+
+Rooms without numbers can contain any number of shaded cells (including zero).`
+      },
+      {
+        title: 'Beginner Strategy: Start with Numbers',
+        content: `The easiest entry points are rooms with extreme numbers:
+
+**Room size = number**: If a room has 4 cells and the number is 4, shade all cells.
+
+**Room number = 0**: Don't shade any cells in this room.
+
+**Room number = 1 in a 1×1 room**: Shade that single cell.
+
+**Look for forced cells**: In a 1×3 room with number 1, the center cell cannot be shaded (it would block white connectivity on both sides), so the shaded cell must be one of the ends.`
+      },
+      {
+        title: 'Intermediate: The Three-in-a-Row Rule',
+        content: `The "no three shaded in a row" rule is powerful:
+
+- If two cells in a row are shaded with a gap between them, the gap cell must also be unshaded (or you'd create three in a row).
+- If you see two shaded cells next to each other, the cells immediately before and after must be unshaded.
+- This creates "walls" of forced unshaded cells that propagate through the grid.
+
+Use this rule constantly — it eliminates candidates in almost every step.`
+      },
+      {
+        title: 'Advanced: Connectivity Thinking',
+        content: `The white connectivity rule is the most sophisticated constraint:
+
+**Island detection**: If shading a cell would isolate a group of white cells from the rest, that cell must be white.
+
+**Corridor thinking**: Long narrow passages of white cells must stay connected. If a room spans the passage, you can only shade cells that don't block the corridor.
+
+**Edge analysis**: Cells at grid edges and corners have fewer white neighbors, making them more likely to need shading without breaking connectivity.`
+      },
+      {
+        title: 'Practice Tips',
+        content: `To improve at Heyawake:
+
+1. Start with small 5×5 grids and work up to 10×10
+2. Always check for connectivity after every shade — catch mistakes early
+3. Use the three-in-a-row rule before checking room numbers
+4. Look for rooms that span multiple rows/columns — these create the strongest constraints
+5. Mark cells you know must be white with a dot to track connectivity
+
+Play Heyawake free online on Free Games Hub with 100+ puzzles from beginner to expert.`
+      }
+    ],
+    conclusion: `Heyawake rewards patience and systematic thinking. The three simple rules create rich logical interactions that make every puzzle satisfying to solve. Start with small grids, master the three-in-a-row rule, and gradually develop your connectivity intuition.
+
+Practice Heyawake free online — no download required. New puzzles available at every difficulty level.`,
+    faq: [
+      {
+        question: 'Is Heyawake hard to learn?',
+        answer: 'No! Heyawake has only three rules and beginners can start solving easy puzzles within minutes. The difficulty ramps up gradually — expert puzzles can take 30+ minutes even for experienced solvers.'
+      },
+      {
+        question: 'Do I need to guess in Heyawake?',
+        answer: 'Never. Well-designed Heyawake puzzles can be solved through pure logic. If you feel stuck, look for connectivity constraints or three-in-a-row violations you may have missed.'
+      },
+      {
+        question: 'How is Heyawake different from Nurikabe?',
+        answer: 'Both involve shading cells, but Heyawake uses rectangular rooms with number clues, while Nurikabe requires a continuous wall and numbered islands. Heyawake is generally considered easier to learn.'
+      }
+    ],
+    relatedGames: ['heyawake', 'aqre', 'nurikabe', 'hitori', 'tapa', 'shakashaka']
+  },
+
+  'slitherlink-tips-techniques': {
+    slug: 'slitherlink-tips-techniques',
+    title: 'Slitherlink Tips & Techniques — How to Solve Loop Puzzles',
+    description: 'Master Slitherlink with proven techniques. Learn corner logic, edge counting, and advanced deduction patterns for the popular Japanese loop puzzle. Free puzzles to practice.',
+    keywords: ['slitherlink tips', 'slitherlink techniques', 'how to solve slitherlink', 'slitherlink strategy', 'loop puzzle guide', 'slitherlink rules', 'fences puzzle tips'],
+    author: 'Free Games Hub Team',
+    date: '2026-06-06',
+    readTime: '10 min read',
+    category: 'guides',
+    introduction: `Slitherlink is one of the most satisfying Japanese logic puzzles — draw a single continuous loop through a grid of dots, using number clues to determine which edges to include. The "aha" moments when the loop snaps into place make it incredibly rewarding.
+
+This guide teaches you the techniques to solve Slitherlink puzzles efficiently, from basic patterns to advanced strategies.`,
+    sections: [
+      {
+        title: 'Slitherlink Rules',
+        content: `The rules are simple:
+
+1. Draw a single continuous loop through the grid
+2. The loop passes along the edges between dots (not through cells)
+3. Numbers indicate how many sides of that cell are part of the loop
+4. Cells without numbers can have any number of loop sides (0-4)
+5. The loop cannot cross itself or branch`
+      },
+      {
+        title: 'Essential Starting Patterns',
+        content: `These patterns appear in every puzzle and give you free moves:
+
+**3 in a corner**: A 3 in a corner cell means 3 of its 4 edges are in the loop. The only edge NOT in the loop is the one pointing inward diagonally — all three outer edges must be loop edges.
+
+**0 cells**: All four edges of a 0 cell are NOT in the loop. Mark them as empty immediately.
+
+**Adjacent 3s**: When two 3s are adjacent, the edges between them and the two outer edges of the pair are all loop edges.
+
+**3 on an edge**: A 3 on a grid edge forces its three non-edge sides to be loop edges.`
+      },
+      {
+        title: 'Edge Counting',
+        content: `Count loop edges entering and leaving regions:
+
+**Odd/even rule**: The loop must enter and leave any region an even number of times. If you count an odd number of loop edges entering a region, there must be one more.
+
+**Dead ends**: Every segment of the loop connects to exactly two other segments. If an edge would create a dead end (connecting to only one other segment with no possibility of a second), it cannot be a loop edge.
+
+**Cross-point analysis**: At each dot, either 0 or 2 loop edges meet (never 1 or 3+). This eliminates many possibilities at intersections.`
+      },
+      {
+        title: 'Advanced Techniques',
+        content: `For harder puzzles:
+
+**Slither deduction**: If marking an edge as part of the loop would force the loop to cross itself, that edge must be empty.
+
+**Region isolation**: If a partial loop segment would trap itself inside a region with no exit, the initial assumption is wrong.
+
+**Double-3 pattern**: Two 3s with a gap between them create strong constraints on the gap cell and surrounding edges.
+
+**Mounting**: When the loop runs along one side of a numbered cell, check if continuing in that direction satisfies the cell's count.`
+      },
+      {
+        title: 'Practice Strategy',
+        content: `Build your Slitherlink skills systematically:
+
+1. Start with 5×5 grids — learn the basic patterns
+2. Always mark 0s first, then look for 3s in corners and edges
+3. Use pencil marks for "confirmed empty" edges (X marks)
+4. Check for dead ends after every mark
+5. Move to 7×7, then 10×10 as you master each size
+
+Play Slitherlink free online on Free Games Hub — 100+ puzzles at every difficulty level, no download required.`
+      }
+    ],
+    conclusion: `Slitherlink combines visual thinking with logical deduction in a way that few other puzzles match. The techniques in this guide — from corner patterns to edge counting — form a complete toolkit for solving any Slitherlink puzzle.
+
+Start practicing with small grids and gradually work your way up. The moment the loop closes for the first time, you'll understand why Slitherlink has such devoted fans worldwide.`,
+    faq: [
+      {
+        question: 'How do I start a Slitherlink puzzle?',
+        answer: 'Always start by marking all edges around 0s as empty (not loop). Then look for 3s in corners and on grid edges. These give you immediate loop segments to work with.'
+      },
+      {
+        question: 'What size Slitherlink should beginners play?',
+        answer: 'Start with 5×5 grids (5 dots × 5 dots = 4 cells × 4 cells). These teach all the basic patterns without overwhelming complexity. Move to 6×6 and 7×7 as you get comfortable.'
+      },
+      {
+        question: 'Can Slitherlink have multiple solutions?',
+        answer: 'Well-designed Slitherlink puzzles have exactly one unique solution. If you think you see multiple valid loops, look more carefully — there is usually a constraint you missed.'
+      }
+    ],
+    relatedGames: ['slitherlink', 'masyu', 'yajilin', 'nurikabe', 'heyawake']
+  },
+
+  'boggle-strategy-guide': {
+    slug: 'boggle-strategy-guide',
+    title: 'Boggle Strategy Guide — How to Find More Words and Score Higher',
+    description: 'Improve your Boggle score with proven strategies. Learn scanning techniques, word patterns, and scoring tips to find more words in every Boggle grid. Free online Boggle.',
+    keywords: ['boggle strategy', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle scoring', 'boggle rules', 'boggle game guide', 'word search strategy'],
+    author: 'Free Games Hub Team',
+    date: '2026-06-06',
+    readTime: '8 min read',
+    category: 'guides',
+    introduction: `Boggle looks simple — find words in a grid of letters. But the gap between a beginner scoring 10 points and an expert scoring 50+ comes down to strategy and pattern recognition. This guide teaches you the techniques that competitive Boggle players use to dominate every grid.`,
+    sections: [
+      {
+        title: 'Scoring System',
+        content: `Understanding the scoring drives your strategy:
+
+- **3-4 letter words**: 1 point each
+- **5 letter words**: 2 points each
+- **6 letter words**: 3 points each
+- **7+ letter words**: 5 points each
+
+The scoring heavily rewards longer words. One 7-letter word (5 pts) is worth more than five 3-letter words (5 pts) but takes far less time to find.`
+      },
+      {
+        title: 'Scanning Techniques',
+        content: `Don't scan randomly — use a systematic approach:
+
+**Spiral scan**: Start from a corner and spiral inward, checking each letter as a starting point.
+
+**Vowel-first scan**: Identify all vowels first and check what consonants surround them. Most words need at least one vowel.
+
+**Prefix scan**: For each letter, check if it starts common prefixes: RE-, UN-, IN-, DIS-, PRE-, OVER-, OUT-.
+
+**Suffix scan**: Look for letters that end common suffixes: -ING, -TION, -NESS, -MENT, -ABLE, -LY.`
+      },
+      {
+        title: 'High-Value Word Patterns',
+        content: `Train yourself to spot these high-scoring patterns:
+
+**-TION words**: Look for T-I-O-N sequences. Words like STATION, NATION, MOTION score 5 points each.
+
+**Compound words**: Boggle allows compound words — look for combinations like PLAYGROUND, SUNSHINE.
+
+**Plural forms**: Every S on the board is a chance to pluralize a word you already found.
+
+**Common endings**: -ED, -ER, -EST, -LY turn short words into longer ones: PLAYED (2pts), PLAYING (3pts), PLAYER (2pts).
+
+**Hidden gems**: Less common but high-value: -OUGHT (THOUGHT, BROUGHT), -EIGHT (WEIGHT), -IQUE (UNIQUE).`
+      },
+      {
+        title: '4×4 vs 5×5 Boggle Strategy',
+        content: `The two grid sizes require different approaches:
+
+**4×4 Classic Boggle**:
+- Minimum word length: 3 letters
+- Focus on finding many 4-5 letter words
+- Scan speed matters more — race through the grid
+- Average game yields 40-80 words
+
+**5×5 Big Boggle**:
+- Minimum word length: 4 letters
+- More space means longer words are common
+- Take your time — 7+ letter words are the real score
+- Average game yields 100+ words`
+      },
+      {
+        title: 'Time Management',
+        content: `In timed Boggle, efficiency wins:
+
+**First 30 seconds**: Quick scan for obvious long words (7+ letters). These are worth the most points.
+
+**Next 60 seconds**: Systematic prefix/suffix scanning. Build word families from stems you find.
+
+**Last 30 seconds**: Grab easy short words you missed — 3-4 letter words add up quickly.
+
+**Key insight**: Don't spend too long hunting one word. If a path looks promising but you can't find the word, move on and come back later.`
+      }
+    ],
+    conclusion: `Boggle rewards both vocabulary depth and scanning speed. The strategies in this guide — systematic scanning, prefix/suffix awareness, and time management — will immediately improve your scores.
+
+Practice these techniques by playing Boggle free online. Each grid is randomly generated, so you'll encounter fresh challenges every game. The more you play, the faster your pattern recognition becomes.`,
+    faq: [
+      {
+        question: 'What is the average Boggle score?',
+        answer: 'In casual 4×4 Boggle, most players score 15-25 points per round. Experienced players average 30-50 points. Tournament players can score 50-80+ points consistently.'
+      },
+      {
+        question: 'Are proper nouns allowed in Boggle?',
+        answer: 'Standard Boggle rules exclude proper nouns (names, places), abbreviations, and foreign words. Only words found in a standard English dictionary are valid.'
+      },
+      {
+        question: 'What is Big Boggle?',
+        answer: 'Big Boggle uses a 5×5 grid (25 dice instead of 16) with a minimum word length of 4 letters. It was introduced in 1979 and produces longer, higher-scoring words than the classic 4×4 version.'
+      }
+    ],
+    relatedGames: ['boggle', 'wordle', 'connections', 'spelling-bee', 'word-search']
+  },
+
+  'what-are-ai-story-games': {
+    slug: 'what-are-ai-story-games',
+    title: 'What Are AI Story Games? How Interactive Fiction Went from Text to AI',
+    description: 'Discover AI story games — interactive fiction powered by AI where your choices shape the narrative. Learn how they work, why they are popular, and where to play free online.',
+    keywords: ['AI story games', 'interactive fiction', 'AI interactive stories', 'AI games online', 'text adventure AI', 'play AI story free', 'AI dating simulator', 'AI murder mystery'],
+    author: 'Free Games Hub Team',
+    date: '2026-06-06',
+    readTime: '9 min read',
+    category: 'educational',
+    introduction: `AI story games are a new generation of interactive fiction where artificial intelligence generates dynamic narratives in real time. Unlike traditional text adventures with fixed storylines, AI story games create unique experiences every time you play — your choices genuinely shape what happens next.
+
+From dating simulators to murder mysteries, zombie survival to fantasy quests, AI story games are redefining what it means to "play a story." Here's everything you need to know.`,
+    sections: [
+      {
+        title: 'What Are AI Story Games?',
+        content: `AI story games combine interactive fiction with large language models (LLMs) to create dynamically generated narratives. Instead of choosing from preset dialogue options, you type or select choices and the AI generates a unique response.
+
+Key characteristics:
+- **Dynamic narratives**: Every playthrough is different — the AI creates new dialogue, scenarios, and outcomes
+- **Meaningful choices**: Your decisions genuinely affect the story direction and ending
+- **Multiple endings**: Most AI story games offer 3-5+ distinct endings based on your path
+- **Character depth**: AI characters respond naturally to your choices, creating emotional investment`
+      },
+      {
+        title: 'Popular AI Story Game Genres',
+        content: `AI story games span many genres, each offering unique experiences:`,
+        items: [
+          'AI Dating Simulator — Navigate romantic relationships with AI characters, multiple love interests',
+          'AI Murder Mystery — Solve crimes by interrogating AI suspects and finding clues',
+          'AI Zombie Survival — Make life-or-death decisions in a post-apocalyptic world',
+          'AI Fantasy RPG — Embark on quests with an AI dungeon master',
+          'AI Escape Room — Solve puzzles with an AI game master that adapts to your skill',
+          'AI Startup Simulator — Build a tech company with AI-generated market scenarios',
+          'AI Crypto Trader — Navigate volatile markets with AI-driven economic events',
+          'Time Traveler — Explore different historical eras with AI-generated encounters'
+        ]
+      },
+      {
+        title: 'How AI Story Games Work',
+        content: `Behind the scenes, AI story games use several technologies:
+
+**Large Language Models**: The core AI generates narrative text, character dialogue, and story events based on your choices and the established story context.
+
+**Story Frameworks**: While the AI generates content dynamically, the game provides structure — character profiles, plot arcs, and narrative guardrails that keep the story coherent and engaging.
+
+**Memory Systems**: The AI tracks your previous choices and uses them to inform future events. If you were kind to a character early on, they may help you later.
+
+**Multiple Endings**: The game tracks key decision points and routes you toward different endings based on your accumulated choices.`
+      },
+      {
+        title: 'Why AI Story Games Are Different from Visual Novels',
+        content: `Traditional visual novels and text adventures have fixed scripts — the same choices always lead to the same outcomes. AI story games break this limitation:
+
+- **Replayability**: Every playthrough is genuinely different, not just "different dialogue for the same events"
+- **Emergent gameplay**: You can try unexpected approaches and the AI will respond naturally
+- **No walkthroughs needed**: Since stories are dynamic, there's no "correct" path to look up
+- **Personalization**: The AI adapts to your play style and preferences over time`
+      }
+    ],
+    conclusion: `AI story games represent the evolution of interactive fiction — from fixed text adventures to dynamic, AI-powered narratives that respond to every choice you make. Whether you want to solve a murder, survive a zombie apocalypse, or go on a virtual date, there's an AI story game for you.
+
+Play AI story games free online on Free Games Hub — no download required. New stories are added regularly.`,
+    faq: [
+      {
+        question: 'Are AI story games free to play?',
+        answer: 'Yes! You can play AI story games free online on Free Games Hub — no download or sign-up required. Each story offers a complete experience from beginning to end.'
+      },
+      {
+        question: 'Do I need to download anything to play?',
+        answer: 'No. AI story games run entirely in your browser. Just open the page and start playing — no app, extension, or download needed.'
+      },
+      {
+        question: 'Can I play AI story games on my phone?',
+        answer: 'Yes. AI story games work on any device with a web browser — phone, tablet, or desktop. The interface adapts to your screen size.'
+      },
+      {
+        question: 'Are AI story games appropriate for kids?',
+        answer: 'Most AI story games are designed for general audiences. Check each story description for content notes. Dating simulators and horror stories may be better suited for teens and older.'
+      }
+    ],
+    relatedGames: ['ai-dating-simulator', 'ai-murder-mystery', 'ai-zombie-survival', 'ai-escape-room', 'ai-fantasy-adventure']
   }
 }
 

@@ -126,18 +126,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   boggle: {
     primaryKeyword: 'boggle online free',
-    secondaryKeywords: ['boggle game', 'play boggle free', 'boggle word game', 'boggle no download'],
-    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', '4x4 word puzzle'],
-    titleTemplate: 'Boggle Online Free - Play Word Game (No Download) | {brand}',
-    descriptionTemplate: 'Play Boggle online free — no download required! Find words in a 4x4 letter grid, race against time. Classic word game, unlimited plays, play instantly!',
+    secondaryKeywords: ['boggle game', 'play boggle free', 'boggle word game', 'boggle no download', '4x4 boggle', '5x5 boggle'],
+    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', '4x4 word puzzle', 'boggle word finder', 'boggle rules and scoring', 'boggle strategy tips'],
+    titleTemplate: 'Play Boggle Online Free - Classic Word Game in Your Browser | {brand}',
+    descriptionTemplate: 'Play Boggle free in your browser — no download required! Find words in a 4x4 letter grid, race against time. Classic word search game with scoring, strategy tips, and unlimited plays.',
     intent: 'play'
   },
   crosswordle: {
     primaryKeyword: 'crosswordle',
-    secondaryKeywords: ['crossword puzzle', 'word crossword', 'letter game'],
-    longTailKeywords: ['crosswordle game online', 'play crosswordle free', 'word grid puzzle', 'crossword word game'],
-    titleTemplate: 'Crosswordle Online Free - Word Cross Puzzle Game | {brand}',
-    descriptionTemplate: 'Play Crosswordle online free! Swap letters to form valid words in this unique crossword puzzle. Brain training word game, no download!',
+    secondaryKeywords: ['crosswordle game', 'crossword wordle', 'word grid puzzle', 'letter swap game'],
+    longTailKeywords: ['play crosswordle online free', 'crosswordle game rules', 'word grid puzzle online', 'crosswordle strategy tips', 'how to play crosswordle'],
+    titleTemplate: 'Crosswordle Online Free - Play Word Cross Puzzle Game | {brand}',
+    descriptionTemplate: 'Play Crosswordle free in your browser! Swap letters to form valid words in this unique crossword-meets-Wordle puzzle. Brain training word game — no download required.',
     intent: 'play'
   },
   connections: {
@@ -160,10 +160,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   '2048': {
     primaryKeyword: '2048 game',
-    secondaryKeywords: ['2048 online', 'number puzzle', 'sliding puzzle'],
-    longTailKeywords: ['play 2048 online free', '2048 tile game', 'merge numbers game', '2048 puzzle online'],
+    secondaryKeywords: ['2048 online', 'number puzzle', 'sliding puzzle', '2048 strategy'],
+    longTailKeywords: ['play 2048 online free', '2048 tile game', 'merge numbers game', '2048 strategy guide', 'how to win 2048', '2048 tips and tricks'],
     titleTemplate: '2048 Game Online Free - Play Number Puzzle | {brand}',
-    descriptionTemplate: 'Play 2048 online free! Slide and merge tiles to reach 2048. Addictive number puzzle game. No download required, play in browser!',
+    descriptionTemplate: 'Play 2048 free in your browser! Slide and merge tiles to reach 2048. Addictive number puzzle game — no download, play instantly. Strategy guide included!',
     intent: 'play'
   },
   minesweeper: {
@@ -312,18 +312,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   // Note: nonogram SEO is defined earlier in the file with picross keyword
   slitherlink: {
     primaryKeyword: 'slitherlink puzzle',
-    secondaryKeywords: ['slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu'],
-    longTailKeywords: ['slitherlink online free', 'play slitherlink puzzle', 'logic loop game', 'スリザーリンク', 'single loop puzzle'],
+    secondaryKeywords: ['slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu', 'logic loop game'],
+    longTailKeywords: ['play slitherlink online free', 'slitherlink rules explained', 'how to solve slitherlink', 'slitherlink tips and strategy', 'single loop puzzle guide'],
     titleTemplate: 'Slitherlink Puzzle Online Free - Play Loop Logic Game | {brand}',
-    descriptionTemplate: 'Play Slitherlink online free! Draw a single loop through the grid using number clues. Japanese logic puzzle. No download!',
+    descriptionTemplate: 'Play Slitherlink free in your browser! Draw a single loop through the grid using number clues. Japanese logic puzzle — no download, 100+ levels. Play now!',
     intent: 'play'
   },
   suguru: {
-    primaryKeyword: 'suguru puzzle',
-    secondaryKeywords: ['suguru online', 'number regions', 'japanese number puzzle'],
-    longTailKeywords: ['suguru puzzle online free', 'play suguru game', 'number region puzzle', 'japanese logic puzzle'],
+    primaryKeyword: 'suguru game',
+    secondaryKeywords: ['suguru puzzle', 'suguru online', 'number regions', 'japanese number puzzle'],
+    longTailKeywords: ['play suguru online free', 'suguru puzzle rules', 'how to solve suguru', 'suguru strategy tips', 'number region puzzle game'],
     titleTemplate: 'Suguru Puzzle Online Free - Play Japanese Number Game | {brand}',
-    descriptionTemplate: 'Play Suguru online free! Fill regions with numbers so no adjacent cells match. Japanese logic puzzle. No download required!',
+    descriptionTemplate: 'Play Suguru free in your browser! Fill regions with numbers so no adjacent cells share the same value. Pure logic Japanese puzzle — no download, no guessing. Play now!',
     intent: 'play'
   },
   nurikabe: {
@@ -360,10 +360,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   skyscrapers: {
     primaryKeyword: 'skyscrapers game',
-    secondaryKeywords: ['skyscrapers puzzle online', 'building puzzle', 'visibility puzzle', 'wolkenkratzer'],
-    longTailKeywords: ['play skyscrapers game online free', 'skyscrapers puzzle game', '3d logic puzzle', 'building visibility game'],
+    secondaryKeywords: ['skyscrapers puzzle online', 'skyscrapers puzzle', 'building puzzle', 'visibility puzzle'],
+    longTailKeywords: ['play skyscrapers game online free', 'skyscrapers puzzle rules', 'how to solve skyscrapers', 'skyscrapers strategy tips', 'building visibility puzzle guide'],
     titleTemplate: 'Skyscrapers Puzzle Game - Play Online Free | {brand}',
-    descriptionTemplate: 'Play Skyscrapers puzzle game online free! Place buildings of heights 1-N so the visible count matches clues. A Sudoku-style 3D logic puzzle. No download required!',
+    descriptionTemplate: 'Play Skyscrapers puzzle free in your browser! Place buildings so the visible count from each side matches clues. Sudoku-style 3D logic puzzle — no download, play now!',
     intent: 'play'
   },
   hitori: {
@@ -579,19 +579,19 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   heyawake: {
-    primaryKeyword: 'heyawake puzzle',
-    secondaryKeywords: ['heyawake online', 'japanese room puzzle', 'shade cells puzzle'],
-    longTailKeywords: ['play heyawake online free', 'heyawake rules', 'japanese room shading puzzle', 'how to play heyawake'],
+    primaryKeyword: 'heyawake',
+    secondaryKeywords: ['heyawake puzzle', 'heyawake online', 'japanese room puzzle', 'shade cells puzzle'],
+    longTailKeywords: ['play heyawake online free', 'heyawake rules explained', 'how to solve heyawake', 'heyawake strategy tips', 'japanese room shading puzzle guide'],
     titleTemplate: 'Heyawake Puzzle - Play Online Free (No Download) | {brand}',
-    descriptionTemplate: 'Play Heyawake online free! Shade cells in rooms using number clues. Japanese Nikoli logic puzzle — pure deduction, no guessing. No download required!',
+    descriptionTemplate: 'Play Heyawake free in your browser! Shade cells in rooms using number clues — no 3-in-a-row, all whites connected. Japanese Nikoli logic puzzle, 100+ levels. Play now!',
     intent: 'play'
   },
   aqre: {
     primaryKeyword: 'aqre puzzle',
-    secondaryKeywords: ['aqre online', 'shade region puzzle', 'japanese shading puzzle'],
-    longTailKeywords: ['play aqre online free', 'aqre rules', 'japanese shade puzzle', 'how to play aqre'],
+    secondaryKeywords: ['aqre game', 'aqre online', 'shade region puzzle', 'japanese shading puzzle'],
+    longTailKeywords: ['play aqre online free', 'aqre rules explained', 'how to solve aqre', 'aqre strategy guide', 'japanese shade puzzle tips'],
     titleTemplate: 'Aqre Puzzle - Play Online Free (No Download) | {brand}',
-    descriptionTemplate: 'Play Aqre puzzle online free! Shade cells while keeping white cells connected — no more than 3 shaded in a row. A Japanese Nikoli logic puzzle. No download required!',
+    descriptionTemplate: 'Play Aqre puzzle free in your browser! Shade cells so each region has the right count — no 3 shaded in a row, all whites connected. Japanese Nikoli logic puzzle. Play now!',
     intent: 'play'
   },
   'castle-wall': {
@@ -603,11 +603,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   shakashaka: {
-    primaryKeyword: 'shakashaka puzzle',
-    secondaryKeywords: ['shakashaka online', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle'],
-    longTailKeywords: ['play shakashaka online free', 'shakashaka rules', 'japanese triangle puzzle', 'shakashaka how to play'],
+    primaryKeyword: 'shakashaka',
+    secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle'],
+    longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide'],
     titleTemplate: 'Shakashaka Puzzle Online Free - Place Triangles, Form Rectangles | {brand}',
-    descriptionTemplate: 'Play Shakashaka puzzle online free! Place triangles in cells to create perfect rectangles. A unique Nikoli logic puzzle with 100+ levels. No download required!',
+    descriptionTemplate: 'Play Shakashaka free in your browser! Place triangles in cells to form perfect rectangles. A unique Nikoli logic puzzle with 100+ levels — no download, play instantly!',
     intent: 'play'
   },
   tapa: {
