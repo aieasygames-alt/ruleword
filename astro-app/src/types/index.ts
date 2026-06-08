@@ -161,9 +161,10 @@ export type Optional<T, K extends keyof T> = Omit<T, K> & Pick<Partial<T>, K>
 export type TemplateType =
   | 'dating-sim' | 'startup-sim' | 'detective'
   | 'horror' | 'personality-quiz' | 'survival'
-  | 'negotiation' | 'open-adventure'
+  | 'negotiation' | 'open-adventure' | 'persuasion'
+  | 'escape-room' | 'business-sim' | 'fantasy-rpg'
 
-export type StoryTheme = 'dark' | 'light' | 'romantic' | 'horror' | 'business'
+export type StoryTheme = 'dark' | 'romantic' | 'horror' | 'business' | 'mystery' | 'fantasy'
 
 export interface StoryStat {
   id: string

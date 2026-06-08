@@ -97,8 +97,8 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
       </div>
     </nav>
 
-    <!-- Game Area - fixed viewport height -->
-    <main class="h-[calc(100vh-3.5rem)] relative">
+    <!-- Game Area - fixed viewport height (dvh for mobile browser compatibility) -->
+    <main class="h-[calc(100dvh-3.5rem)] relative">
       <StoryGameWithShare
         client:load
         template={JSON.stringify(story)}
@@ -241,7 +241,7 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
   // Back navigation for AIStoryGame component
   window.addEventListener('message', (e) => {
     if (e.data?.type === 'navigate-back') {
-      window.location.href = '/'
+      window.location.href = '/stories/'
     }
   })
 </script>

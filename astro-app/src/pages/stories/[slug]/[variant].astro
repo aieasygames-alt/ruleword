@@ -171,6 +171,15 @@ const otherVariants = getVariantsForStory(slug!).filter(v => v.variant !== varia
     <!-- JSON-LD Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
+    <script>
+      // Back navigation for AIStoryGame component
+      window.addEventListener('message', (e) => {
+        if (e.data?.type === 'navigate-back') {
+          window.location.href = '/stories/'
+        }
+      })
+    </script>
+
     <!-- Footer -->
     <footer class="bg-slate-900 border-t border-slate-800 py-4 px-4 text-center text-sm text-slate-500">
       © 2026 Free Games Hub — Play Free Online Games

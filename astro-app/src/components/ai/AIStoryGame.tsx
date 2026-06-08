@@ -1,7 +1,8 @@
-import { useReducer, useEffect, useCallback, useRef } from 'react'
+import { useReducer, useEffect, useCallback, useRef, useState, useMemo } from 'react'
 import type { StoryTemplate, StoryState, StoryAction, StoryNode, StoryEndingResult } from '../../types'
 import { fetchStoryNode, fetchStoryEnding } from '../../utils/aiClient'
 import { buildInitialStoryState, saveStoryState, loadStoryState, clearStoryState, getFallbackNode } from '../../utils/storyTemplates'
+import { getThemeConfig } from '../../utils/storyThemes'
 import StoryRenderer from './StoryRenderer'
 import ChoicePanel from './ChoicePanel'
 import StatsBar from './StatsBar'
@@ -15,6 +16,12 @@ interface AIStoryGameProps {
   gameId?: string
   gameSlug?: string
   gameName?: string
+}
+
+interface ChapterTransition {
+  title: string
+  goal: string
+  index: number
 }
 
 function storyReducer(state: StoryState, action: StoryAction): StoryState {
@@ -100,10 +107,25 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       </div>
     )
   }
+
+  const theme = getThemeConfig(template.uiConfig.theme)
   const [state, dispatch] = useReducer(storyReducer, null, () => buildInitialStoryState(template))
   const typingDoneRef = useRef(true)
   const stateRef = useRef(state)
   stateRef.current = state
+  const prevChapterIndexRef = useRef(state.currentChapterIndex)
+  const [chapterTransition, setChapterTransition] = useState<ChapterTransition | null>(null)
+  const chapterTimerRef = useRef<ReturnType<typeof setTimeout>>()
+
+  // Progress calculation
+  const totalChapters = template.storySkeleton.chapters.length
+  const currentChapter = template.storySkeleton.chapters[state.currentChapterIndex]
+  const turnInChapter = state.turnNumber
+  const maxTurnsInChapter = currentChapter?.maxTurns || 10
+  const chapterProgress = totalChapters > 1
+    ? (state.currentChapterIndex + Math.min(turnInChapter / maxTurnsInChapter, 1)) / totalChapters
+    : Math.min(turnInChapter / (template.storySkeleton.maxTotalTurns || 30), 1)
+  const progressPercent = Math.min(Math.round(chapterProgress * 100), 100)
 
   useEffect(() => {
     const saved = loadStoryState(template.id)
@@ -117,6 +139,24 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       saveStoryState(template.id, state)
     }
   }, [state, template.id])
+
+  // Detect chapter transitions
+  useEffect(() => {
+    if (state.currentChapterIndex > prevChapterIndexRef.current && state.currentChapterIndex < totalChapters) {
+      const chapter = template.storySkeleton.chapters[state.currentChapterIndex]
+      if (chapter) {
+        setChapterTransition({
+          title: chapter.title || `Chapter ${state.currentChapterIndex + 1}`,
+          goal: chapter.goal,
+          index: state.currentChapterIndex,
+        })
+        clearTimeout(chapterTimerRef.current)
+        chapterTimerRef.current = setTimeout(() => setChapterTransition(null), 2500)
+      }
+    }
+    prevChapterIndexRef.current = state.currentChapterIndex
+    return () => clearTimeout(chapterTimerRef.current)
+  }, [state.currentChapterIndex, totalChapters, template.storySkeleton.chapters])
 
   const handleStart = useCallback(() => {
     dispatch({ type: 'START', template })
@@ -183,11 +223,28 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
     typingDoneRef.current = true
   }, [])
 
+  // Keyboard shortcuts (1-4 for choices)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (state.phase !== 'playing' && state.phase !== 'intro') return
+      const num = parseInt(e.key)
+      if (num >= 1 && num <= state.choices.length) {
+        e.preventDefault()
+        handleChoice(state.choices[num - 1].id)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [state.phase, state.choices, handleChoice])
+
+  // Characters for color mapping (memoized)
+  const characters = useMemo(() => template.storySkeleton.characters, [template])
+
   // Idle screen — start button
   if (state.phase === 'idle') {
     return (
-      <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700 shrink-0">
+      <div className={`flex flex-col h-full ${theme.bgGradient}`}>
+        <div className={`flex items-center justify-between px-4 py-3 ${theme.headerBg} border-b ${theme.headerBorder} shrink-0`}>
           <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors">
             ← Back
           </button>
@@ -200,17 +257,17 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
             <h2 className="text-3xl font-bold text-white">{template.en.name}</h2>
             <p className="text-slate-400 text-base max-w-lg mx-auto leading-relaxed">{template.en.desc}</p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
-              {template.storySkeleton.characters.map(char => (
-                <div key={char.id} className="bg-slate-800/60 rounded-xl p-3 text-center border border-slate-700/50">
+              {characters.map(char => (
+                <div key={char.id} className={`${theme.cardBg} rounded-xl p-3 text-center border border-slate-700/50`}>
                   <div className="text-lg font-semibold text-white">{char.name}</div>
-                  <div className="text-xs text-pink-400 mt-0.5">{char.relationship}</div>
+                  {char.relationship && <div className={`text-xs ${theme.accent} mt-0.5`}>{char.relationship}</div>}
                   <div className="text-xs text-slate-400 mt-1 line-clamp-2">{char.personality.split(',')[0]}</div>
                 </div>
               ))}
             </div>
             <button
               onClick={handleStart}
-              className="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white rounded-xl font-medium transition-colors text-lg shadow-lg shadow-pink-500/20"
+              className={`px-8 py-3 ${theme.primaryButton} ${theme.primaryButtonHover} text-white rounded-xl font-medium transition-colors text-lg shadow-lg ${theme.primaryShadow}`}
             >
               Start Story
             </button>
@@ -223,8 +280,8 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   // Error state
   if (state.phase === 'error') {
     return (
-      <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700">
+      <div className={`flex flex-col h-full ${theme.bgGradient}`}>
+        <div className={`flex items-center justify-between px-4 py-3 ${theme.headerBg} border-b ${theme.headerBorder}`}>
           <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors">
             ← Back
           </button>
@@ -236,7 +293,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
           <p className="text-slate-400 text-sm">{state.error}</p>
           <button
             onClick={handleReplay}
-            className="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-sm transition-colors"
+            className={`px-6 py-2 ${theme.primaryButton} ${theme.primaryButtonHover} text-white rounded-xl text-sm transition-colors`}
           >
             Try Again
           </button>
@@ -247,29 +304,47 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
   // Main game UI
   return (
-    <div className="flex flex-col h-full bg-gradient-to-b from-slate-900 to-slate-800 relative">
+    <div className={`flex flex-col h-full ${theme.bgGradient} relative`}>
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 bg-slate-800/80 border-b border-slate-700 shrink-0 max-w-3xl mx-auto w-full">
+      <div className={`flex items-center justify-between px-4 py-3 ${theme.headerBg} border-b ${theme.headerBorder} shrink-0 max-w-3xl mx-auto w-full`}>
         <button onClick={onBack} className="text-slate-400 hover:text-white text-sm transition-colors">
           ← Back
         </button>
         <h1 className="text-sm font-medium text-white truncate mx-4">{template.en.name}</h1>
         <span className="text-xs text-slate-500">
-          Ch.{state.currentChapterIndex + 1}/{template.storySkeleton.chapters.length}
+          Ch.{state.currentChapterIndex + 1}/{totalChapters}
         </span>
       </div>
+
+      {/* Progress bar */}
+      {state.phase !== 'idle' && (
+        <div className="h-0.5 bg-slate-800 shrink-0 max-w-3xl mx-auto w-full">
+          <div
+            className={`h-full bg-gradient-to-r ${template.color} transition-all duration-700 ease-out`}
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+      )}
 
       {/* Stats */}
       {template.uiConfig.showStats && (
         <div className="max-w-3xl mx-auto w-full">
-          <StatsBar stats={template.uiConfig.stats} metadata={state.metadata} />
+          <StatsBar
+            stats={template.uiConfig.stats}
+            metadata={state.metadata}
+            theme={template.uiConfig.theme}
+          />
         </div>
       )}
 
       {/* Story content */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto w-full">
-          <StoryRenderer history={state.history} isLatest={state.phase === 'playing'} />
+          <StoryRenderer
+            history={state.history}
+            isLatest={state.phase === 'playing'}
+            characters={characters}
+          />
         </div>
       </div>
 
@@ -280,6 +355,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
             choices={state.choices}
             disabled={state.phase !== 'playing' && state.phase !== 'intro'}
             onSelect={handleChoice}
+            theme={template.uiConfig.theme}
           />
         </div>
       )}
@@ -287,13 +363,33 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       {/* Loading state */}
       {state.phase === 'loading' && (
         <div className="px-4 pb-4 max-w-3xl mx-auto w-full shrink-0">
-          <div className="flex items-center gap-2 px-4 py-3 bg-slate-700/40 rounded-xl">
+          <div className={`flex items-center gap-2 px-4 py-3 ${theme.cardBg} rounded-xl`}>
             <div className="flex gap-1">
-              <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-2 h-2 bg-pink-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              <span className={`w-2 h-2 ${theme.loadingDotColor} rounded-full animate-bounce`} style={{ animationDelay: '0ms' }} />
+              <span className={`w-2 h-2 ${theme.loadingDotColor} rounded-full animate-bounce`} style={{ animationDelay: '150ms' }} />
+              <span className={`w-2 h-2 ${theme.loadingDotColor} rounded-full animate-bounce`} style={{ animationDelay: '300ms' }} />
             </div>
-            <span className="text-sm text-slate-400">Thinking...</span>
+            <span className="text-sm text-slate-400">{theme.loadingText}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Chapter transition overlay */}
+      {chapterTransition && (
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center bg-black/60 backdrop-blur-sm p-6 animate-fade-in cursor-pointer"
+          onClick={() => {
+            clearTimeout(chapterTimerRef.current)
+            setChapterTransition(null)
+          }}
+        >
+          <div className="text-center space-y-3 animate-slide-up">
+            <div className={`text-sm font-medium ${theme.accent} uppercase tracking-wider`}>
+              Chapter {chapterTransition.index + 1}
+            </div>
+            <h2 className="text-2xl font-bold text-white">{chapterTransition.title}</h2>
+            <p className="text-slate-300 text-sm max-w-sm">{chapterTransition.goal}</p>
+            <div className={`h-0.5 w-16 mx-auto bg-gradient-to-r ${template.color} rounded-full`} />
           </div>
         </div>
       )}
@@ -308,6 +404,10 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
             summary: '',
             shareText: state.ending.shareText,
           }}
+          metadata={state.metadata}
+          stats={template.uiConfig.stats}
+          themeConfig={theme}
+          colorGradient={template.color}
           onShare={handleShare}
           onReplay={handleReplay}
         />

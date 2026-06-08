@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react'
-import type { StoryHistoryEntry } from '../../types'
+import { useEffect, useRef, useMemo } from 'react'
+import type { StoryHistoryEntry, StoryCharacter } from '../../types'
+import { buildSpeakerColorMap, getSpeakerColor } from '../../utils/storyThemes'
 import TypingEffect from './TypingEffect'
 
 interface StoryRendererProps {
   history: StoryHistoryEntry[]
   isLatest: boolean
+  characters: StoryCharacter[]
 }
 
 const emotionColors: Record<string, string> = {
@@ -16,9 +18,24 @@ const emotionColors: Record<string, string> = {
   neutral: 'text-slate-300',
 }
 
-export default function StoryRenderer({ history, isLatest }: StoryRendererProps) {
+const emotionEmoji: Record<string, string> = {
+  happy: '😊',
+  sad: '😢',
+  nervous: '😰',
+  excited: '🤩',
+  angry: '😤',
+  neutral: '😐',
+}
+
+export default function StoryRenderer({ history, isLatest, characters }: StoryRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const nextColorIndex = useRef(0)
+
+  const speakerColorMap = useMemo(() => {
+    nextColorIndex.current = characters.length
+    return buildSpeakerColorMap(characters)
+  }, [characters])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -30,20 +47,16 @@ export default function StoryRenderer({ history, isLatest }: StoryRendererProps)
         const isLatestEntry = isLatest && index === history.length - 1
         const isDialogue = !!entry.speaker
 
-        return (
-          <div key={index} className={`flex ${isDialogue ? 'justify-start' : 'justify-center'}`}>
-            {isDialogue ? (
-              <div className="max-w-[85%] bg-slate-700/60 rounded-2xl rounded-tl-sm px-4 py-3">
+        if (isDialogue && entry.speaker) {
+          const colors = getSpeakerColor(entry.speaker, speakerColorMap, nextColorIndex)
+          return (
+            <div key={index} className="flex justify-start">
+              <div className={`max-w-[85%] bg-slate-700/60 border-l-2 ${colors.border} rounded-2xl rounded-tl-sm px-4 py-3`}>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-semibold text-pink-300">{entry.speaker}</span>
+                  <span className={`text-sm font-semibold ${colors.text}`}>{entry.speaker}</span>
                   {entry.emotion && (
                     <span className={`text-xs ${emotionColors[entry.emotion] || 'text-slate-400'}`}>
-                      {entry.emotion === 'happy' && '😊'}
-                      {entry.emotion === 'sad' && '😢'}
-                      {entry.emotion === 'nervous' && '😰'}
-                      {entry.emotion === 'excited' && '🤩'}
-                      {entry.emotion === 'angry' && '😤'}
-                      {entry.emotion === 'neutral' && '😐'}
+                      {emotionEmoji[entry.emotion] || ''}
                     </span>
                   )}
                 </div>
@@ -53,15 +66,19 @@ export default function StoryRenderer({ history, isLatest }: StoryRendererProps)
                   <p className="text-slate-200 text-sm leading-relaxed">{entry.text}</p>
                 )}
               </div>
-            ) : (
-              <div className="max-w-[90%] text-center">
-                {isLatestEntry ? (
-                  <TypingEffect text={entry.text} speed={15} className="text-slate-300 text-sm leading-relaxed italic" />
-                ) : (
-                  <p className="text-slate-300 text-sm leading-relaxed italic">{entry.text}</p>
-                )}
-              </div>
-            )}
+            </div>
+          )
+        }
+
+        return (
+          <div key={index} className="flex justify-center">
+            <div className="max-w-[90%] text-center">
+              {isLatestEntry ? (
+                <TypingEffect text={entry.text} speed={15} className="text-slate-300 text-sm leading-relaxed italic" />
+              ) : (
+                <p className="text-slate-300 text-sm leading-relaxed italic">{entry.text}</p>
+              )}
+            </div>
           </div>
         )
       })}
