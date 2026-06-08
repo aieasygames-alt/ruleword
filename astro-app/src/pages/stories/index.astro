@@ -5,8 +5,33 @@ import { getCollection } from 'astro:content'
 const stories = await getCollection('stories')
 const storyData = stories.map(entry => entry.data)
 
-const seoTitle = 'AI Interactive Story Games - Play AI Story Games Online Free | Free Games Hub'
-const seoDescription = 'Play AI-powered interactive story games online for free. Choose your path in romantic dating sims, detective mysteries, survival horror, and more. No download required!'
+// Group stories by genre for better SEO structure
+const genreGroups = [
+  { label: 'Romance & Relationships', icon: '💕', types: ['dating-sim'] },
+  { label: 'Mystery & Detective', icon: '🔍', types: ['detective', 'persuasion'] },
+  { label: 'Survival & Horror', icon: '🧟', types: ['survival', 'horror'] },
+  { label: 'Fantasy & Adventure', icon: '⚔️', types: ['fantasy-rpg', 'open-adventure'] },
+  { label: 'Strategy & Simulation', icon: '💼', types: ['startup-sim', 'business-sim', 'negotiation', 'personality-quiz', 'escape-room'] },
+]
+const genreMap = new Map<string, typeof storyData>()
+storyData.forEach(s => {
+  const g = genreGroups.find(g => g.types.includes(s.templateType))
+  const key = g ? g.label : 'Strategy & Simulation'
+  if (!genreMap.has(key)) genreMap.set(key, [])
+  genreMap.get(key)!.push(s)
+})
+
+const seoTitle = 'AI Story Games - 15+ Free Interactive Fiction Games Online'
+const seoDescription = 'Play 15+ AI-powered interactive story games free. Romance, mystery, survival, fantasy & more. Every choice shapes a unique story. No download required!'
+
+const faqItems = [
+  { q: 'Are AI story games free to play?', a: 'Yes! All 15+ AI interactive story games are completely free to play in your browser. No download, registration, or payment required. Just click and start your adventure.' },
+  { q: 'How do AI story games work?', a: 'Our AI generates unique story content based on your choices in real time. Each story has defined characters, chapters, and multiple endings, but the specific dialogue, scenarios, and encounters are created by AI. This means every playthrough tells a different story.' },
+  { q: 'How many endings does each story have?', a: 'Each story has 4-5 distinct endings. Your choices throughout the game affect character relationships, story outcomes, and which ending you reach. Replay a story to discover all possible endings.' },
+  { q: 'Can I save my progress?', a: 'Yes, progress is automatically saved in your browser. Close the tab and come back later to continue from where you left off. You can also replay any story to explore different paths.' },
+  { q: 'How long does each story take?', a: 'Most stories take 15-25 minutes per playthrough across 4-5 chapters. With multiple endings to discover, total replay time is 1-2 hours per story.' },
+  { q: 'Are these appropriate for all ages?', a: 'Yes. All AI story games are designed as wholesome, family-friendly experiences. Content is kept appropriate for players of all ages.' },
+]
 
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
@@ -17,7 +42,7 @@ const breadcrumbItems = [
 <BaseLayout
   title={seoTitle}
   description={seoDescription}
-  keywords="AI story games, interactive fiction, AI dating simulator, AI horror story, detective game, play online free, browser game"
+  keywords="AI story games, interactive fiction, AI dating simulator, AI murder mystery, AI escape room, AI zombie survival, AI fantasy RPG, play online free, browser game"
   canonicalPath="/stories/"
   ogImage="/og/stories-index.png"
   breadcrumbItems={breadcrumbItems}
@@ -40,7 +65,16 @@ const breadcrumbItems = [
         }))
       }
     })} />
-  </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqItems.map(item => ({
+        "@type": "Question",
+        "name": item.q,
+        "acceptedAnswer": { "@type": "Answer", "text": item.a }
+      }))
+    })} />
+  </Fragment>
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Navigation -->
     <nav class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -67,49 +101,61 @@ const breadcrumbItems = [
           Every story is unique. Our AI creates personalized narratives based on your choices. No two playthroughs are the same.
         </p>
         <div class="flex flex-wrap justify-center gap-3 text-sm">
-          <span class="px-3 py-1 bg-pink-500/20 text-pink-300 rounded-full">💕 Romance</span>
-          <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full">🔍 Mystery</span>
-          <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-full">🧠 Persuasion</span>
-          <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full">🚪 Escape Room</span>
-          <span class="px-3 py-1 bg-amber-500/20 text-amber-300 rounded-full">⚔️ Fantasy RPG</span>
+          {genreGroups.map(g => (
+            <a href={`#${g.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`} class="px-3 py-1 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 rounded-full transition-colors border border-slate-700/50">
+              {g.icon} {g.label}
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- Story Cards Grid -->
-    <section class="max-w-5xl mx-auto px-4 py-12">
-      <div class={`grid gap-6 ${storyData.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'}`}>
-        {storyData.map(story => (
-          <a
-            href={`/stories/${story.slug}/`}
-            class="group block bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700/50 hover:border-pink-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/10"
-          >
-            <div class={`h-2 bg-gradient-to-r ${story.color}`} />
-            <div class="p-6 space-y-3">
-              <div class="flex items-center gap-3">
-                <span class="text-3xl">{story.icon}</span>
-                <div>
-                  <h3 class="font-bold text-white group-hover:text-pink-400 transition-colors">{story.en.name}</h3>
-                  <span class="text-xs text-slate-500 uppercase tracking-wider">{story.templateType}</span>
-                </div>
-              </div>
-              <p class="text-slate-400 text-sm leading-relaxed line-clamp-3">{story.en.desc}</p>
-              <div class="flex items-center gap-2 text-xs text-slate-500">
-                <span>{story.storySkeleton.characters.length} characters</span>
-                <span>•</span>
-                <span>{story.storySkeleton.chapters.length} chapters</span>
-                <span>•</span>
-                <span>{story.storySkeleton.endings.length}+ endings</span>
-              </div>
-              <div class="pt-2">
-                <span class="inline-block px-4 py-1.5 bg-pink-500/20 text-pink-300 rounded-lg text-sm group-hover:bg-pink-500/30 transition-colors">
-                  Play Now →
-                </span>
-              </div>
+    <!-- Stories by Genre -->
+    <section class="max-w-5xl mx-auto px-4 py-12 space-y-12">
+      {genreGroups.map(g => {
+        const groupStories = genreMap.get(g.label)
+        if (!groupStories || groupStories.length === 0) return null
+        return (
+          <div id={g.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}>
+            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
+              <span class="text-2xl">{g.icon}</span>
+              {g.label}
+            </h2>
+            <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              {groupStories.map(story => (
+                <a
+                  href={`/stories/${story.slug}/`}
+                  class="group block bg-slate-800/50 rounded-2xl overflow-hidden border border-slate-700/50 hover:border-pink-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-pink-500/10"
+                >
+                  <div class={`h-2 bg-gradient-to-r ${story.color}`} />
+                  <div class="p-6 space-y-3">
+                    <div class="flex items-center gap-3">
+                      <span class="text-3xl">{story.icon}</span>
+                      <div>
+                        <h3 class="font-bold text-white group-hover:text-pink-400 transition-colors">{story.en.name}</h3>
+                        <span class="text-xs text-slate-500 uppercase tracking-wider">{story.templateType.replace(/-/g, ' ')}</span>
+                      </div>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed line-clamp-3">{story.en.desc}</p>
+                    <div class="flex items-center gap-2 text-xs text-slate-500">
+                      <span>{story.storySkeleton.characters.length} characters</span>
+                      <span>•</span>
+                      <span>{story.storySkeleton.chapters.length} chapters</span>
+                      <span>•</span>
+                      <span>{story.storySkeleton.endings.length}+ endings</span>
+                    </div>
+                    <div class="pt-2">
+                      <span class="inline-block px-4 py-1.5 bg-pink-500/20 text-pink-300 rounded-lg text-sm group-hover:bg-pink-500/30 transition-colors">
+                        Play Now →
+                      </span>
+                    </div>
+                  </div>
+                </a>
+              ))}
             </div>
-          </a>
-        ))}
-      </div>
+          </div>
+        )
+      })}
     </section>
 
     <!-- What are AI Story Games -->
@@ -120,7 +166,7 @@ const breadcrumbItems = [
           <p>AI Story Games are a new kind of interactive entertainment where artificial intelligence generates unique story content in real-time. Unlike traditional games with scripted storylines, every playthrough creates a different narrative based on your choices.</p>
           <p>Each game features memorable characters, branching storylines, multiple endings, and stats that track your relationships and progress. Simply read the story, make choices that feel right to you, and see where the adventure takes you!</p>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           <div class="bg-slate-800/50 rounded-xl p-4">
             <div class="text-2xl mb-2">🎯</div>
             <h3 class="font-semibold text-white text-sm mb-1">Choice-Driven</h3>
@@ -136,6 +182,11 @@ const breadcrumbItems = [
             <h3 class="font-semibold text-white text-sm mb-1">No Download</h3>
             <p class="text-slate-400 text-xs">Play instantly in your browser</p>
           </div>
+          <div class="bg-slate-800/50 rounded-xl p-4">
+            <div class="text-2xl mb-2">💾</div>
+            <h3 class="font-semibold text-white text-sm mb-1">Auto-Save</h3>
+            <p class="text-slate-400 text-xs">Continue your story anytime</p>
+          </div>
         </div>
       </div>
     </section>
@@ -144,22 +195,35 @@ const breadcrumbItems = [
     <section class="border-t border-slate-800 py-12 px-4">
       <div class="max-w-4xl mx-auto space-y-4">
         <h2 class="text-2xl font-bold text-center mb-6">Frequently Asked Questions</h2>
-        <details class="group bg-slate-800/30 rounded-lg">
-          <summary class="px-4 py-3 cursor-pointer text-white font-medium hover:text-pink-400 transition-colors">Are AI story games free to play?</summary>
-          <p class="px-4 pb-3 text-slate-400 text-sm">Yes! All our AI interactive story games are completely free to play in your browser. No download, registration, or payment required.</p>
-        </details>
-        <details class="group bg-slate-800/30 rounded-lg">
-          <summary class="px-4 py-3 cursor-pointer text-white font-medium hover:text-pink-400 transition-colors">How does the AI work?</summary>
-          <p class="px-4 pb-3 text-slate-400 text-sm">Our AI generates unique story content based on your choices. It considers the characters, setting, your previous decisions, and relationship dynamics to create a personalized narrative experience every time.</p>
-        </details>
-        <details class="group bg-slate-800/30 rounded-lg">
-          <summary class="px-4 py-3 cursor-pointer text-white font-medium hover:text-pink-400 transition-colors">Can I save my progress?</summary>
-          <p class="px-4 pb-3 text-slate-400 text-sm">Yes, your progress is automatically saved in your browser. If you close the tab and come back later, you can continue your story from where you left off.</p>
-        </details>
-        <details class="group bg-slate-800/30 rounded-lg">
-          <summary class="px-4 py-3 cursor-pointer text-white font-medium hover:text-pink-400 transition-colors">Are these games appropriate for all ages?</summary>
-          <p class="px-4 pb-3 text-slate-400 text-sm">Yes. All our AI story games are designed to be wholesome, family-friendly experiences. Content is kept appropriate for players of all ages.</p>
-        </details>
+        {faqItems.map(item => (
+          <details class="group bg-slate-800/30 rounded-lg">
+            <summary class="px-4 py-3 cursor-pointer text-white font-medium hover:text-pink-400 transition-colors">{item.q}</summary>
+            <p class="px-4 pb-3 text-slate-400 text-sm">{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <!-- Cross-links to AI Hub & Games -->
+    <section class="bg-slate-900/30 border-t border-slate-800 py-8 px-4">
+      <div class="max-w-4xl mx-auto">
+        <h3 class="text-lg font-semibold mb-4 text-center">Explore More</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a href="/hubs/ai-games/" class="group block bg-gradient-to-br from-pink-900/20 to-rose-900/20 border border-pink-700/30 rounded-xl p-5 hover:border-pink-500/50 transition-all">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-2xl">🤖</span>
+              <h4 class="font-semibold group-hover:text-pink-400 transition-colors">AI Games Hub</h4>
+            </div>
+            <p class="text-sm text-slate-400">Deep dive into all AI games, guides, and strategy tips.</p>
+          </a>
+          <a href="/" class="group block bg-slate-800/60 border border-slate-700/50 rounded-xl p-5 hover:border-slate-600 transition-all">
+            <div class="flex items-center gap-3 mb-2">
+              <span class="text-2xl">🎮</span>
+              <h4 class="font-semibold group-hover:text-green-400 transition-colors">100+ Free Games</h4>
+            </div>
+            <p class="text-sm text-slate-400">Puzzle, strategy, word, and arcade games — all free, no download.</p>
+          </a>
+        </div>
       </div>
     </section>
 

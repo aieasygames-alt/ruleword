@@ -284,6 +284,59 @@ These games have been played for centuries, with Chess alone having over 1,500 y
         answer: 'Go has simpler rules but more possible board positions, making it computationally more complex. Both games offer lifetime depth - "easy to learn, hard to master."'
       }
     ]
+  },
+
+  'ai-games': {
+    slug: 'ai-games',
+    title: 'AI Games & Interactive Stories - Play Free Online (No Download)',
+    description: 'Play 15+ free AI interactive story games online. Dating simulators, murder mysteries, escape rooms, zombie survival, and more. AI-powered, unique every time — no download!',
+    heroDescription: 'Experience the next generation of gaming with AI-powered interactive stories. Every choice shapes a unique narrative — no two playthroughs are the same.',
+    keywords: ['AI games', 'AI story games', 'interactive fiction', 'AI dating simulator', 'AI murder mystery', 'AI escape room', 'text adventure AI', 'AI games free', 'interactive story game', 'AI roleplay game'],
+    categoryIds: [],
+    featuredGames: [],
+    featuredGuides: [],
+    content: {
+      whatIsSection: `AI story games are a new genre of interactive fiction where artificial intelligence generates unique dialogue, scenarios, and plot twists in real time. Unlike traditional games with scripted storylines, every playthrough creates a completely different experience.
+
+Each game features rich characters with distinct personalities, branching story paths, and multiple endings. Your choices genuinely matter — they affect character relationships, story outcomes, and which of several endings you reach.`,
+      benefitsSection: `AI interactive stories offer a unique entertainment experience:
+
+**Infinite Replayability**: The AI generates fresh content every time, so no two games are alike
+**Meaningful Choices**: Your decisions shape relationships, plot, and endings
+**Emotional Depth**: AI creates nuanced character interactions that feel genuine
+**Multiple Endings**: Each story has 4-5 distinct endings to discover
+**Quick Sessions**: Complete a story in 15-25 minutes, perfect for breaks
+**Zero Barriers**: Free, no download, no registration — play instantly`,
+      gettingStarted: `Best AI story games to start with:
+
+1. **AI Dating Simulator** — Navigate romance with 3 characters, 4 endings
+2. **AI Murder Mystery** — Interrogate suspects and crack the case
+3. **AI Escape Room** — Solve 5 puzzle rooms with an AI Game Master
+4. **AI Zombie Survival** — Lead survivors through the apocalypse
+5. **Convince the AI** — 5 messages to stop a nuclear launch`
+    },
+    faq: [
+      {
+        question: 'Are AI story games really free?',
+        answer: 'Yes! All 15+ AI story games are completely free to play in your browser. No downloads, no registration, no in-app purchases. Just click and start playing.'
+      },
+      {
+        question: 'How do AI story games work?',
+        answer: 'Our AI generates unique story content based on your choices. Each story has a defined structure with characters and chapters, but the specific dialogue, encounters, and scenarios are created by AI in real time. This means every playthrough is genuinely different.'
+      },
+      {
+        question: 'Can I save my progress in AI stories?',
+        answer: 'Yes, progress is automatically saved in your browser. If you close the tab and come back later, you can continue exactly where you left off. You can also replay any story to discover different endings.'
+      },
+      {
+        question: 'What types of AI stories are available?',
+        answer: 'We offer 15+ stories across multiple genres: romance (dating simulator), mystery (murder mystery, escape room), survival (zombie apocalypse), fantasy (RPG adventure), business (startup simulator, crypto trader), and more. New stories are added regularly.'
+      },
+      {
+        question: 'How long does one AI story take to play?',
+        answer: 'Most stories take 15-25 minutes per playthrough across 4-5 chapters. Each chapter has 3-6 turns depending on your choices. With 4-5 different endings per story, total replay time is 1-2 hours per game.'
+      }
+    ]
   }
 }
 

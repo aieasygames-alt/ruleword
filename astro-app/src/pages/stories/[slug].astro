@@ -31,6 +31,7 @@ const storyName = story.en.name
 const storyDesc = story.en.desc
 const storyDescription = story.en.description
 const storyHowToPlay = story.en.howToPlay
+const templateType = story.templateType
 const storyTips = story.en.tips || []
 const storyFaq = story.en.faq || []
 const storyIcon = story.icon
@@ -226,6 +227,78 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
           <a href="/stories/" class="inline-block px-6 py-2 bg-pink-500 hover:bg-pink-600 rounded-xl text-sm font-medium transition-colors">
             View All AI Story Games →
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross-links: Related Games & AI Hub -->
+    <section class="bg-slate-900/50 border-t border-slate-800 py-8 px-4 sm:px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-8">
+          <!-- Related Games -->
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold mb-4">You Might Also Like</h3>
+            <div class="grid grid-cols-2 gap-3">
+              {templateType === 'detective' && (
+                <>
+                  <a href="/games/crossword/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">🧩</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Crossword</h4>
+                  </a>
+                  <a href="/games/wordle/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">📗</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Wordle</h4>
+                  </a>
+                </>
+              )}
+              {templateType === 'survival' && (
+                <>
+                  <a href="/games/tower-defense/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">🏰</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Tower Defense</h4>
+                  </a>
+                  <a href="/games/minesweeper/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">💣</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Minesweeper</h4>
+                  </a>
+                </>
+              )}
+              {templateType === 'dating-sim' && (
+                <>
+                  <a href="/games/memory-match/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">🃏</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Memory Match</h4>
+                  </a>
+                  <a href="/games/connections/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">🔗</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Connections</h4>
+                  </a>
+                </>
+              )}
+              {!['detective', 'survival', 'dating-sim'].includes(templateType) && (
+                <>
+                  <a href="/games/2048/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">🔢</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">2048</h4>
+                  </a>
+                  <a href="/games/sudoku/" class="group block bg-slate-800/60 rounded-xl p-3 border border-slate-700/50 hover:border-slate-600 transition-all">
+                    <div class="text-xl mb-1">📊</div>
+                    <h4 class="text-sm font-medium group-hover:text-green-400 transition-colors">Sudoku</h4>
+                  </a>
+                </>
+              )}
+            </div>
+          </div>
+
+          <!-- AI Games Hub Link -->
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold mb-4">More AI Experiences</h3>
+            <a href="/hubs/ai-games/" class="group block bg-gradient-to-br from-pink-900/30 to-rose-900/30 border border-pink-700/30 rounded-xl p-5 hover:border-pink-500/50 transition-all">
+              <div class="text-3xl mb-2">🤖</div>
+              <h4 class="font-semibold group-hover:text-pink-400 transition-colors mb-1">AI Games Hub</h4>
+              <p class="text-sm text-slate-400">15+ AI-powered interactive stories — romance, mystery, survival, fantasy, and more. Every playthrough is unique!</p>
+            </a>
+          </div>
         </div>
       </div>
     </section>
