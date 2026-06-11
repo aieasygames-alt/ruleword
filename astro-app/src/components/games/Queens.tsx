@@ -326,6 +326,40 @@ export default function Queens({ settings, onBack }: QueensProps) {
     })
   }
 
+  // Auto-detect completion
+  useEffect(() => {
+    if (!isPlaying || isComplete || grid.length === 0 || regions.length === 0) return
+
+    let queenCount = 0
+    for (let r = 0; r < gridSize; r++)
+      for (let c = 0; c < gridSize; c++)
+        if (grid[r]?.[c] === 'queen') queenCount++
+
+    if (queenCount !== gridSize) return
+
+    // All queens placed — validate
+    const { rows, cols, regions: rCounts } = getQueenCounts()
+    for (const count of rows) if (count !== 1) return
+    for (const count of cols) if (count !== 1) return
+    const allRegions = new Set(regions.flat())
+    for (const rid of allRegions) if ((rCounts[rid] || 0) !== 1) return
+    if (hasTouchingQueens()) return
+
+    setIsComplete(true)
+    setStats(prev => {
+      const sizeKey = String(gridSize)
+      const best = prev.bestTime[sizeKey]
+      const next = {
+        ...prev,
+        completed: prev.completed + 1,
+        streak: prev.streak + 1,
+        bestTime: { ...prev.bestTime, [sizeKey]: best === null ? timer : Math.min(best, timer) },
+      }
+      saveStats(next)
+      return next
+    })
+  }, [grid, isPlaying, isComplete, gridSize, regions])
+
   const getQueenCounts = () => {
     const size = gridSize
     const rows: number[] = Array(size).fill(0)
