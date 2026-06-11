@@ -392,7 +392,106 @@ export const difficultyVariants: GameVariant[] = [
       'Create a story with the numbers',
       'Practice daily to improve'
     ]
-  }
+  },
+  // Queens variants - grid sizes for programmatic SEO
+  {
+    gameId: 'queens',
+    variant: '5x5',
+    variantType: 'size',
+    title: 'Queens Puzzle 5×5 - Easy Beginner Logic Game Online',
+    description: 'Play 5×5 Queens puzzles free online. The easiest grid size for learning Queens rules — one queen per row, column, and region. Perfect for beginners.',
+    keywords: ['queens puzzle 5x5', 'easy queens game', 'queens for beginners', 'small queens puzzle', 'queens game easy'],
+    h1: 'Queens 5×5 - Beginner',
+    tips: [
+      'Start with the smallest colored region',
+      'Mark all diagonal neighbors of placed queens with X',
+      'Look for rows with only one open cell'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '7x7',
+    variantType: 'size',
+    title: 'Queens Puzzle 7×7 - Easy Logic Puzzle Online Free',
+    description: 'Play 7×7 Queens puzzles free online. A comfortable step up from 5×5 with 7 regions to solve. Great for building your logic skills.',
+    keywords: ['queens puzzle 7x7', 'queens game 7x7', 'queens logic puzzle', 'play queens online free'],
+    h1: 'Queens 7×7 - Easy',
+    tips: [
+      'Focus on isolated regions first — they often force queen positions',
+      'Use X markers to track eliminated cells',
+      'Check for rows or columns that are almost complete'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '8x8',
+    variantType: 'size',
+    title: 'Queens Puzzle 8×8 - Classic Grid Logic Game Free',
+    description: 'Play 8×8 Queens puzzles free online. The classic grid size — 8 queens, 8 regions, one solution. The standard Queens experience loved by millions.',
+    keywords: ['queens puzzle 8x8', 'queens game classic', 'queens 8x8 online', 'classic queens puzzle', 'queens puzzle free'],
+    h1: 'Queens 8×8 - Classic',
+    tips: [
+      'The 8×8 grid is the sweet spot of challenge and solvability',
+      'Work regions from smallest to largest',
+      'When stuck, look for forced moves in almost-complete columns'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '9x9',
+    variantType: 'size',
+    title: 'Queens Puzzle 9×9 - Advanced Logic Puzzle Game',
+    description: 'Play 9×9 Queens puzzles free online. Advanced difficulty with 9 regions to master. Requires deeper deduction and strategic thinking.',
+    keywords: ['queens puzzle 9x9', 'advanced queens game', 'queens 9x9 online', 'queens puzzle hard', 'queens logic game'],
+    h1: 'Queens 9×9 - Advanced',
+    tips: [
+      'At 9×9, look for cascading deductions — one placement can trigger a chain',
+      'Watch for regions that span few rows or columns',
+      'Systematic elimination becomes essential at this size'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '10x10',
+    variantType: 'size',
+    title: 'Queens Puzzle 10×10 - Expert Grid Logic Game Free',
+    description: 'Play 10×10 Queens puzzles free online. Expert-level challenge with 10 queens to place across 10 colored regions. For experienced puzzle solvers.',
+    keywords: ['queens puzzle 10x10', 'expert queens game', 'queens 10x10 online', 'hard queens puzzle', 'queens expert'],
+    h1: 'Queens 10×10 - Expert',
+    tips: [
+      'Break the grid into sections and solve area by area',
+      'Pay close attention to regions that cross many row/column boundaries',
+      'Double-check diagonal constraints at every step'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '11x11',
+    variantType: 'size',
+    title: 'Queens Puzzle 11×11 - Ultimate Logic Challenge Free',
+    description: 'Play 11×11 Queens puzzles free online. An ultimate logic challenge — 11 queens across 11 intricate regions. Only for dedicated puzzle masters.',
+    keywords: ['queens puzzle 11x11', 'ultimate queens', 'queens 11x11 online', 'queens challenge', 'queens ultimate puzzle'],
+    h1: 'Queens 11×11 - Ultimate',
+    tips: [
+      'Patience is key — larger grids require more careful analysis',
+      'Look for regions that are constrained to specific rows or columns',
+      'Use the process of elimination systematically'
+    ]
+  },
+  {
+    gameId: 'queens',
+    variant: '12x12',
+    variantType: 'size',
+    title: 'Queens Puzzle 12×12 - Master Level Logic Puzzle',
+    description: 'Play 12×12 Queens puzzles free online. The ultimate master challenge — 12 queens, 12 regions, maximum difficulty. Prove your puzzle mastery!',
+    keywords: ['queens puzzle 12x12', 'master queens game', 'queens 12x12 online', 'queens puzzle master', 'hardest queens puzzle'],
+    h1: 'Queens 12×12 - Master',
+    tips: [
+      'Master-level puzzles require tracking many constraints simultaneously',
+      'Focus on forced placements first — cells with only one possibility',
+      'The daily challenge at 12×12 is the ultimate test of skill'
+    ]
+  },
 ]
 
 // Get variants for a specific game

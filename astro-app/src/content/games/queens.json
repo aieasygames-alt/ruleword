@@ -1,0 +1,120 @@
+{
+  "id": "queens",
+  "slug": "queens",
+  "icon": "👑",
+  "category": "logic",
+  "featured": true,
+  "color": "from-purple-500 to-indigo-600",
+  "en": {
+    "name": "Queens",
+    "desc": "Place queens on a colorful grid",
+    "description": "Queens is a logic puzzle where you place exactly one queen in each row, column, and colored region of a grid. The catch? Queens cannot touch each other — not even diagonally! Inspired by Star Battle and popularized by LinkedIn, this addictive puzzle tests your logical deduction skills with grid sizes from 5×5 (beginner) to 12×12 (master). Every puzzle has a unique solution that can be found through pure logic — no guessing required!",
+    "objectives": "Place exactly one queen in each row, each column, and each colored region. Queens must never touch each other, including diagonally. Use logical deduction to find the unique valid arrangement.",
+    "howToPlay": "Click cells to place queens. Each row, column, and colored region needs exactly 1 queen. Queens cannot touch diagonally. Use X markers to track impossible cells.",
+    "rules": {
+      "controls": "Click a cell to cycle: Empty → 👑 Queen → ✕ Marker → Empty. Right-click to cycle in reverse. Use markers to note cells where queens cannot go.",
+      "mechanics": [
+        "Each row must contain exactly 1 queen",
+        "Each column must contain exactly 1 queen",
+        "Each colored region must contain exactly 1 queen",
+        "Queens cannot touch horizontally, vertically, or diagonally",
+        "Every puzzle has exactly one valid solution"
+      ],
+      "features": [
+        "7 Grid Sizes — From 5×5 beginner to 12×12 master",
+        "Daily Challenge — A new puzzle every day for each grid size",
+        "Region Highlighting — Thick borders show colored regions clearly",
+        "Count Indicators — Row and column queen counts update in real time",
+        "Auto Stats — Track your best times and streaks per grid size"
+      ]
+    },
+    "tips": [
+      "Start with the smallest regions — they have the fewest valid queen positions",
+      "Place an X marker on every cell diagonally adjacent to a placed queen",
+      "If a row or column has only one available cell, the queen must go there",
+      "Work through constraints systematically rather than guessing"
+    ],
+    "faq": [
+      {
+        "question": "What is the Queens game?",
+        "answer": "Queens is a logic puzzle where you place exactly one queen in each row, column, and colored region of a grid. Queens cannot touch each other, even diagonally. It's similar to Star Battle but with exactly one piece per unit instead of two."
+      },
+      {
+        "question": "Is Queens free to play?",
+        "answer": "Yes! Queens is completely free to play online. No download, registration, or payment required. Just pick a grid size and start solving puzzles instantly."
+      },
+      {
+        "question": "What grid size should I start with?",
+        "answer": "Start with the 5×5 grid to learn the basic rules and strategies. Once comfortable, progress to 7×7 and 8×8. Larger grids (10×10, 11×11, 12×12) offer increasingly complex challenges for experienced players."
+      },
+      {
+        "question": "How is Queens different from Star Battle?",
+        "answer": "Queens uses exactly 1 piece per row/column/region, while Star Battle uses 2. This makes Queens more accessible for beginners while still offering deep challenges at larger grid sizes. The diagonal touching rule is the same in both."
+      },
+      {
+        "question": "Do I need to guess to solve puzzles?",
+        "answer": "No! Every Queens puzzle has a unique solution that can be found through pure logical deduction. If you're guessing, try looking for more constrained cells first — especially in small regions or nearly-complete rows."
+      },
+      {
+        "question": "Can I play Queens on mobile?",
+        "answer": "Yes! Queens is fully responsive and works on phones, tablets, and desktops. Touch controls make it easy to place queens and markers on any device."
+      }
+    ]
+  },
+  "zh": {
+    "name": "皇后棋",
+    "desc": "在彩色网格中放置皇后",
+    "description": "皇后棋是一款逻辑谜题，你需要在网格的每行、每列和每个彩色区域中各放置恰好一个皇后。关键规则：皇后之间不能互相接触，包括对角线方向！从5×5（入门）到12×12（大师），7种网格尺寸满足不同水平玩家。每个谜题都有唯一解，完全可以通过逻辑推理找到——无需猜测！",
+    "objectives": "在每行、每列和每个彩色区域中恰好放置一个皇后。皇后之间不能互相接触，包括对角线。用逻辑推理找到唯一的正确摆放方式。",
+    "howToPlay": "点击格子放置皇后。每行、每列和每个彩色区域各需要1个皇后。皇后不能对角线相邻。用✕标记不可能的位置。",
+    "rules": {
+      "controls": "点击格子循环切换：空 → 👑 皇后 → ✕ 标记 → 空。右键反向切换。用标记记录皇后不能放的位置。",
+      "mechanics": [
+        "每行必须恰好包含1个皇后",
+        "每列必须恰好包含1个皇后",
+        "每个彩色区域必须恰好包含1个皇后",
+        "皇后不能水平、垂直或对角线接触",
+        "每个谜题恰好有一个有效解决方案"
+      ],
+      "features": [
+        "7种网格尺寸 — 从5×5入门到12×12大师",
+        "每日挑战 — 每天每种尺寸都有新谜题",
+        "区域高亮 — 粗边框清晰显示彩色区域",
+        "计数指示器 — 实时显示每行每列的皇后数",
+        "自动统计 — 追踪每种尺寸的最佳时间和连胜"
+      ]
+    },
+    "tips": [
+      "从最小的区域开始——它们的有效位置最少",
+      "在已放置皇后的对角线相邻格子放置✕标记",
+      "如果某行或某列只有一个可用格子，皇后必须放那里",
+      "系统性地处理约束条件，而不是猜测"
+    ],
+    "faq": [
+      {
+        "question": "什么是皇后棋？",
+        "answer": "皇后棋是一款逻辑谜题，你需要在网格的每行、每列和每个彩色区域中各放置一个皇后。皇后之间不能互相接触，包括对角线。它类似星星大战，但每个单位只放1个棋子而不是2个。"
+      },
+      {
+        "question": "皇后棋免费吗？",
+        "answer": "是的！皇后棋完全免费在线游玩。无需下载、注册或付费。选择网格尺寸即可开始解谜。"
+      },
+      {
+        "question": "应该从什么尺寸开始？",
+        "answer": "建议从5×5网格开始学习基本规则和策略。熟练后可以尝试7×7和8×8。更大的网格（10×10、11×11、12×12）为有经验的玩家提供更复杂的挑战。"
+      },
+      {
+        "question": "皇后棋和星星大战有什么区别？",
+        "answer": "皇后棋每行/列/区域放1个棋子，星星大战放2个。这让皇后棋更适合新手入门，但大尺寸网格同样有深度挑战。两者的对角线接触规则相同。"
+      },
+      {
+        "question": "需要猜测才能解谜吗？",
+        "answer": "不需要！每个皇后棋谜题都有唯一解，可以通过纯逻辑推理找到。如果你在猜测，试着先找约束更多的格子——特别是小区域或几乎完成的行。"
+      },
+      {
+        "question": "手机上可以玩吗？",
+        "answer": "可以！皇后棋完全响应式，支持手机、平板和桌面设备。触摸控制让你在任何设备上都能轻松放置皇后和标记。"
+      }
+    ]
+  }
+}

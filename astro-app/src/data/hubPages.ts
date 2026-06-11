@@ -115,10 +115,10 @@ The most famous number puzzle, Sudoku, became a global phenomenon in the 2000s a
     title: 'Japanese Logic Puzzles - Nonogram, Slitherlink, Shakashaka, Tapa',
     description: 'Discover authentic Japanese logic puzzles: Nonogram (Picross), Slitherlink, Shakashaka, Tapa, Star Battle, and more. Pure logic, no guessing required.',
     heroDescription: 'Experience the elegant world of Japanese logic puzzles. Created by puzzle masters at Nikoli and other Japanese publishers, these games feature simple rules but deep complexity.',
-    keywords: ['japanese logic puzzles', 'nonogram online', 'picross puzzle', 'slitherlink', 'nurikabe', 'hitori', 'shakashaka', 'tapa puzzle', 'japanese puzzles', 'logic grid puzzles', 'star battle', 'binary puzzle'],
+    keywords: ['japanese logic puzzles', 'nonogram online', 'picross puzzle', 'slitherlink', 'nurikabe', 'hitori', 'shakashaka', 'tapa puzzle', 'japanese puzzles', 'logic grid puzzles', 'star battle', 'queens game', 'binary puzzle'],
     categoryIds: ['logic'],
-    featuredGames: ['shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'nurikabe', 'hitori', 'binary'],
-    featuredGuides: ['shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'binary'],
+    featuredGames: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'nurikabe', 'hitori'],
+    featuredGuides: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink'],
     content: {
       whatIsSection: `Japanese logic puzzles emerged from Japan's rich puzzle culture, pioneered by publishers like Nikoli. These puzzles share a common philosophy: simple rules that create elegant, challenging problems.
 
@@ -159,10 +159,10 @@ What makes Japanese puzzles special is that they never require guessing. Every w
     title: 'Brain Training Games - Memory, Focus, Reaction Time Tests',
     description: 'Train your brain with free cognitive tests and games: Memory tests, Reaction time, Chimp test, Stroop test, and more. Track your mental performance.',
     heroDescription: 'Measure and improve your cognitive abilities with our brain training games. Test your memory, reaction time, and attention while tracking your progress over time.',
-    keywords: ['brain training games', 'cognitive training', 'memory test', 'reaction time test', 'chimp test', 'stroop test', 'brain games free'],
-    categoryIds: ['memory', 'skill'],
-    featuredGames: ['chimp-test', 'stroop-test', 'reaction-time', 'number-memory', 'memory-grid', 'pattern-memory', 'typing-test', 'aim-trainer'],
-    featuredGuides: ['chimp-test', 'stroop-test', 'reaction-time-test', 'number-memory'],
+    keywords: ['brain training games', 'cognitive training', 'memory test', 'reaction time test', 'chimp test', 'stroop test', 'brain games free', 'queens game logic'],
+    categoryIds: ['memory', 'skill', 'logic'],
+    featuredGames: ['queens', 'chimp-test', 'stroop-test', 'reaction-time', 'number-memory', 'memory-grid', 'pattern-memory', 'typing-test'],
+    featuredGuides: ['queens', 'chimp-test', 'stroop-test', 'reaction-time-test', 'number-memory'],
     content: {
       whatIsSection: `Brain training games are designed to measure and improve specific cognitive abilities: memory, attention, processing speed, and executive function.
 

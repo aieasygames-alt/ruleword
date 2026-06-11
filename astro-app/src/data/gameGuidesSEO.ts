@@ -5434,3 +5434,114 @@ The diagonal constraint is what makes Suguru different from Sudoku.`,
     }
   ]
 }
+
+gameGuides['queens'] = {
+  slug: 'queens',
+  title: 'Queens Game Strategy: How to Solve Any Queens Puzzle',
+  description: 'Master the Queens puzzle game with proven strategies. Learn rules, basic techniques, and advanced deduction methods for all grid sizes from 5×5 to 12×12.',
+  keywords: ['queens game', 'queens puzzle', 'how to play queens', 'queens game rules', 'queens game tips', 'queens game online', 'queens logic puzzle', 'queens game strategy', 'queens game free', 'queens puzzle solver'],
+  introduction: `Queens is a logic puzzle where you place exactly one queen in each row, column, and colored region of a grid — with the constraint that queens cannot touch each other, even diagonally. Popularized by LinkedIn and inspired by Star Battle puzzles, Queens has become one of the most addictive logic games online.
+
+This guide covers everything from basic rules to advanced solving techniques. Whether you're tackling your first 5×5 grid or mastering the 12×12 challenge, these strategies will help you solve any Queens puzzle through pure logic — no guessing required.`,
+  sections: [
+    {
+      title: 'Understanding Queens Rules',
+      content: `The rules of Queens are simple but create deeply satisfying puzzles:
+
+1. **One queen per row**: Each horizontal row contains exactly one queen
+2. **One queen per column**: Each vertical column contains exactly one queen
+3. **One queen per colored region**: The grid is divided into colored areas, each containing exactly one queen
+4. **No diagonal touching**: Queens cannot be placed in cells that touch diagonally — there must be at least one empty cell between any two queens in all 8 directions
+
+These four constraints interact to create puzzles that range from straightforward (5×5) to fiendishly complex (12×12). Every puzzle has exactly one valid solution.`,
+      tips: [
+        'Think of it as N-Queens with regions — the region constraint adds a third dimension beyond rows and columns',
+        'The diagonal touching rule is stricter than chess — queens block their diagonal neighbors too',
+        'For an N×N grid, you always place exactly N queens'
+      ]
+    },
+    {
+      title: 'Basic Solving Techniques',
+      content: `Start every puzzle with these fundamental techniques:
+
+**Process of Elimination**: When you place a queen, immediately mark all cells in the same row, column, region, and diagonal neighbors as eliminated (X markers). This reveals which cells remain available.
+
+**Smallest Region First**: Look at the smallest colored regions — they have the fewest possible queen positions. If a region has only one cell that isn't blocked, that cell must contain a queen.
+
+**Forced Placements**: If a row or column has only one unblocked cell remaining, the queen must go there. Similarly, if a region has only one available cell, place the queen.
+
+**Cross-Referencing**: When two constraints point to the same cell, that cell is highly likely to contain a queen. For example, if a cell is the only option in both its row AND its region, it must be a queen.`,
+      tips: [
+        'Always mark eliminated cells with X — never rely on memory alone',
+        'After placing each queen, re-scan all constraints for new forced placements',
+        'Start with regions that span the fewest rows or columns'
+      ]
+    },
+    {
+      title: 'Advanced Deduction Strategies',
+      content: `For larger grids (9×9 and above), you'll need more sophisticated techniques:
+
+**Constraint Chaining**: When placing a queen in one region forces a specific placement in an adjacent region, which then forces another placement — follow the chain to its conclusion before committing.
+
+**Row/Column Blocking**: If placing a queen in a particular cell would eliminate all cells in another region's row or column, that placement is invalid even if it satisfies local constraints.
+
+**Region Isolation**: Some regions are contained within just 2-3 rows or columns. This heavily constrains where queens in adjacent rows can go.
+
+**Unique Cell Identification**: When all cells in a row are eliminated except one, that cell must contain the queen — even if you haven't checked all regions yet.`,
+      tips: [
+        'At 10×10 and above, work systematically through rows from top to bottom',
+        'If you reach a dead end, undo the last uncertain placement rather than guessing',
+        'Look for pairs of rows where available cells align — this often reveals forced placements'
+      ]
+    },
+    {
+      title: 'Grid Size Strategy Guide',
+      content: `Each grid size has its own character and optimal approach:
+
+**5×5 (Beginner)**: Perfect for learning. 5 regions, small grid, quick to solve. Focus on understanding the constraint interactions.
+
+**7×7 (Easy)**: Introduces more complex region shapes. Still solvable in 2-3 minutes for most players.
+
+**8×8 (Classic)**: The standard experience. Balanced difficulty that requires careful deduction but is very satisfying to complete.
+
+**9×9 (Advanced)**: Requires systematic thinking. The extra regions create more complex interdependencies.
+
+**10×10 (Expert)**: Demands advanced techniques like constraint chaining. Solving times of 10+ minutes are normal.
+
+**11×11 (Ultimate)**: For dedicated puzzle enthusiasts. Requires patience and methodical analysis.
+
+**12×12 (Master)**: The ultimate challenge. Expert players may take 15-30 minutes. Every deduction matters.`,
+      tips: [
+        'Master each size before moving up — the techniques build on each other',
+        'The daily challenge at each size is a great way to track your progress',
+        'At larger sizes, take breaks if stuck — fresh eyes often spot the key deduction'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'What is the Queens game?',
+      answer: 'Queens is a logic puzzle where you place exactly one queen in each row, column, and colored region of a grid. Queens cannot touch each other, even diagonally. It\'s similar to the N-Queens chess problem but with colored region constraints added.'
+    },
+    {
+      question: 'How is Queens different from Star Battle?',
+      answer: 'Queens uses exactly 1 piece per row, column, and region, while Star Battle uses 2. This makes Queens more accessible for beginners while still offering deep challenges at larger grid sizes. Both games share the diagonal touching restriction.'
+    },
+    {
+      question: 'Do I need to guess in Queens?',
+      answer: 'No! Every Queens puzzle has a unique solution that can be found through pure logical deduction. If you\'re stuck, look for more constrained cells rather than guessing — there\'s always a logical next step.'
+    },
+    {
+      question: 'What grid size should beginners start with?',
+      answer: 'Start with 5×5 to learn the basic rules and deduction techniques. Move to 7×7 and 8×8 as you build confidence. The 8×8 grid is considered the "classic" experience and is where most players spend their time.'
+    },
+    {
+      question: 'Is Queens free to play online?',
+      answer: 'Yes! Play Queens free in your browser on Free Games Hub. No download, registration, or payment required. Choose from 7 grid sizes (5×5 to 12×12) with unlimited puzzles and a daily challenge.'
+    },
+    {
+      question: 'Can I play Queens on my phone?',
+      answer: 'Yes, Queens is fully responsive and works great on mobile devices. Touch controls make it easy to place queens and X markers. The grid automatically adjusts to fit your screen size.'
+    }
+  ]
+}
