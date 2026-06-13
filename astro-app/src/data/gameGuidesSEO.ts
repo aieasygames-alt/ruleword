@@ -297,8 +297,8 @@ Swordfish extends this concept to three rows and three columns. These techniques
 
   '2048': {
     slug: '2048',
-    title: '2048 Strategy: How to Win in 7 Days (Proven Method)',
-    description: '🎯 97% Win Rate: Learn the corner technique that helped 50,000+ players beat 2048. Step-by-step guide with screenshots, from beginner to expert.',
+    title: 'How to Win at 2048 Every Time — Best Strategy, Tips & Tricks',
+    description: 'Master 2048 with the corner technique — 97% win rate strategy explained step by step. Best tips, tricks, and patterns to reach 2048, 4096 and beyond. Free guide.',
     keywords: ['2048 strategy', 'how to beat 2048', '2048 tips', '2048 tricks', '2048 game guide', '2048 high score', 'how to play 2048', '2048 winning strategy', 'best 2048 strategy', '2048 game algorithm'],
     introduction: `2048 is a deceptively simple yet addictive puzzle game created by Gabriele Cirulli in 2014. The goal is to slide numbered tiles to combine them, ultimately creating a tile with the number 2048. This guide reveals the strategies used by top players to consistently win and achieve scores over 100,000.
 

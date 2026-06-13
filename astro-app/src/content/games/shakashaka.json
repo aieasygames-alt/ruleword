@@ -6,8 +6,8 @@
   "color": "from-violet-500 to-purple-600",
   "en": {
     "name": "Shakashaka",
-    "desc": "Place triangles in empty cells to form perfect rectangles. Free online Shakashaka, no download.",
-    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. Play Shakashaka free online — a unique Nikoli logic puzzle!",
+    "desc": "Play Shakashaka free online — place triangles to form perfect rectangles. Nikoli logic puzzle, no download.",
+    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. Play Shakashaka free online — a unique Nikoli logic puzzle! No download, instant play, 100+ levels from easy to expert.",
     "objectives": "Place triangles so that all white (unshaded) areas form perfect rectangles, and satisfy all clue numbers.",
     "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",
     "rules": {
@@ -93,6 +93,22 @@
       {
         "question": "三角形如何工作？",
         "answer": "三角形对角填充格子的一半。放置时，它们减少白色空间，迫使其形成矩形而不是不规则形状。"
+      },
+      {
+        "question": "提示数字代表什么意思？",
+        "answer": "黑色提示格子显示其正交相邻（上下左右）的三角形数量。利用这些线索可以推断三角形应该放在哪里。"
+      },
+      {
+        "question": "可以把格子留白吗？",
+        "answer": "可以！白色格子往往是构成矩形所必需的。难点在于判断哪里放三角形、哪里留白。"
+      },
+      {
+        "question": "如何判断白色区域是否为有效矩形？",
+        "answer": "有效矩形有四条直边和四个直角。如果白色区域呈 L 形、T 形或其他不规则形状，就需要再放置三角形来修正。"
+      },
+      {
+        "question": "可以免费在线玩斜斜吗？",
+        "answer": "可以！在 Free Games Hub 上免费在线玩斜斜——无需下载或注册。100+ 关卡，从入门到专家级。"
       }
     ]
   }

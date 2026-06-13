@@ -604,10 +604,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   shakashaka: {
     primaryKeyword: 'shakashaka',
-    secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle'],
-    longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide'],
-    titleTemplate: 'Shakashaka - 100+ Triangle Logic Puzzles (Free, No Download)',
-    descriptionTemplate: 'Can you place triangles to form perfect rectangles? 100+ Nikoli logic puzzles from easy to expert. Unique Japanese brain teaser — start solving Shakashaka now!',
+    secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle', 'shaka shaka puzzle'],
+    longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide', 'shakashaka puzzle online no download'],
+    titleTemplate: 'Play Shakashaka Online Free - Triangle & Rectangle Logic Puzzle',
+    descriptionTemplate: 'Play Shakashaka free, no download! Place triangles to form perfect rectangles in this Nikoli logic puzzle. Rules, strategy tips & 100+ levels. Instant play in browser.',
     intent: 'play'
   },
   tapa: {
@@ -637,11 +637,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   'bubble-shooter': {
-    primaryKeyword: 'bubble shooter game',
-    secondaryKeywords: ['bubble shooter online', 'match bubbles', 'bubble pop'],
-    longTailKeywords: ['play bubble shooter free', 'shoot bubbles game', 'match 3 bubbles', 'pop bubble puzzle'],
-    titleTemplate: 'Bubble Shooter Game Online Free - Pop Bubbles | {brand}',
-    descriptionTemplate: 'Play Bubble Shooter online free! Match 3+ bubbles to pop them. Addictive puzzle arcade!',
+    primaryKeyword: 'bubble shooter',
+    secondaryKeywords: ['bubble shooter online', 'bubble shooter free', 'bubble shooter unblocked', 'bubble pop game'],
+    longTailKeywords: ['play bubble shooter free online', 'bubble shooter no download', 'bubble shooter unblocked online', 'free bubble shooter game', 'bubble popping game online'],
+    titleTemplate: 'Bubble Shooter - Free Online Game (No Download, Unblocked)',
+    descriptionTemplate: 'Play Bubble Shooter free online — no download, unblocked! Match 3+ bubbles to pop them in this classic arcade puzzle. Addictive, instant play in your browser.',
     intent: 'play'
   },
   'whack-a-mole': {
@@ -762,10 +762,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   'huarong-pass': {
     primaryKeyword: 'huarong pass puzzle',
-    secondaryKeywords: ['klotski', 'sliding block', 'chinese puzzle'],
-    longTailKeywords: ['play huarong pass free', 'klotski puzzle online', 'cao cao escape', 'sliding blocks'],
-    titleTemplate: 'Huarong Pass Puzzle Online Free - Sliding Block | {brand}',
-    descriptionTemplate: 'Play Huarong Pass online free! Slide blocks to help Cao Cao escape. Classic Chinese puzzle!',
+    secondaryKeywords: ['klotski', 'sliding block puzzle', 'chinese puzzle', 'huarong pass online', 'cao cao escape'],
+    longTailKeywords: ['play huarong pass free', 'klotski puzzle online', 'cao cao escape', 'sliding blocks puzzle online', 'huarong pass klotski free'],
+    titleTemplate: 'Huarong Pass (Klotski) - Free Chinese Sliding Block Puzzle Online',
+    descriptionTemplate: 'Play Huarong Pass free online — the legendary Chinese sliding block puzzle (Klotski)! Slide blocks to free Cao Cao. No download, classic brain teaser. Instant play!',
     intent: 'play'
   },
 
@@ -948,11 +948,11 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   '2048-cupcakes': {
-    primaryKeyword: '2048 cupcakes game',
-    secondaryKeywords: ['2048 cupcakes online', 'cupcake 2048', 'sweet merge'],
-    longTailKeywords: ['play 2048 cupcakes free', 'cupcake merging', 'candy 2048', 'dessert puzzle'],
-    titleTemplate: '2048 Cupcakes Game Online Free - Sweet Merge | {brand}',
-    descriptionTemplate: 'Play 2048 Cupcakes online free! Merge cupcakes to reach the mega cupcake!',
+    primaryKeyword: '2048 cupcakes',
+    secondaryKeywords: ['2048 cupcakes online', 'cupcake 2048', 'cupcake merge game', 'sweet merge game'],
+    longTailKeywords: ['play 2048 cupcakes free', 'cupcake 2048 online free', 'candy 2048 game', 'dessert puzzle online', '2048 cupcakes no download'],
+    titleTemplate: '2048 Cupcakes - Play Free Sweet Merge Game Online (No Download)',
+    descriptionTemplate: 'Play 2048 Cupcakes free online! Merge matching cupcakes to bake the ultimate mega cupcake. Sweet twist on 2048. No download — instant play in browser!',
     intent: 'play'
   },
   'simon-game': {
