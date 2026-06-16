@@ -573,6 +573,17 @@ const gameGuidesEn: GameGuides = {
       'Check that white areas don\'t form L-shapes',
     ],
   },
+  'police-escape': {
+    name: 'Police Escape',
+    intro: 'Police Escape is a turn-based chase puzzle. Draw a path from thief to exit while police pursue via shortest-path AI. 30 levels with keys, portals, ice, and toggle exits.',
+    howToPlay: 'Drag from the thief to the exit to draw your path. Press Go to commit — the thief and police then advance one cell per turn. Reach the exit before any police catches you.',
+    tips: [
+      'Keep paths short — every extra turn helps the police catch up',
+      'Police use BFS shortest path; predict their moves and route around them',
+      'Collect all keys before the exit will accept you',
+      'On toggle-exit levels, time your arrival for an open tick',
+    ],
+  },
   aqre: {
     name: 'Aqre',
     intro: 'Aqre is a shading puzzle where you blacken cells. No row or column can have more than 2 consecutive black cells!',

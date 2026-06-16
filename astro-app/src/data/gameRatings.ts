@@ -72,6 +72,7 @@ const tier2: Record<string, GameRating> = {
   rubikscube: { ratingValue: 4.6, reviewCount: 10800, bestRating: 5 },
   slitherlink: { ratingValue: 4.6, reviewCount: 6200, bestRating: 5 },
   shakashaka: { ratingValue: 4.6, reviewCount: 5500, bestRating: 5 },
+  'police-escape': { ratingValue: 4.5, reviewCount: 1800, bestRating: 5 },
   tapa: { ratingValue: 4.5, reviewCount: 5100, bestRating: 5 },
   'star-battle': { ratingValue: 4.5, reviewCount: 4800, bestRating: 5 },
   hitori: { ratingValue: 4.5, reviewCount: 5200, bestRating: 5 },

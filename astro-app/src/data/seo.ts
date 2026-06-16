@@ -610,6 +610,14 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play Shakashaka free, no download! Place triangles to form perfect rectangles in this Nikoli logic puzzle. Rules, strategy tips & 100+ levels. Instant play in browser.',
     intent: 'play'
   },
+  'police-escape': {
+    primaryKeyword: 'police escape game',
+    secondaryKeywords: ['police escape online', 'play police escape', 'thief escape game', 'cops and robbers game', 'escape the police game', 'chase puzzle game'],
+    longTailKeywords: ['play police escape online free', 'police escape puzzle game', 'how to play police escape', 'draw path escape game', 'outrun the police game online', 'police chase logic puzzle'],
+    titleTemplate: 'Police Escape Online Free - Play Chase Puzzle Game | {brand}',
+    descriptionTemplate: 'Play Police Escape free, no download! Draw a path to outrun the cops in this turn-based chase puzzle. 30 levels with keys, portals, ice, and toggle exits.',
+    intent: 'play'
+  },
   tapa: {
     primaryKeyword: 'tapa puzzle',
     secondaryKeywords: ['tapa online', 'tapa games', 'shade cells puzzle'],

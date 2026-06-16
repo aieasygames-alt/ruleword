@@ -5545,3 +5545,89 @@ These four constraints interact to create puzzles that range from straightforwar
     }
   ]
 }
+
+gameGuides['police-escape'] = {
+  slug: 'police-escape',
+  title: 'Police Escape Strategy Guide: Outrun the Cops in 30 Levels',
+  description: 'Master Police Escape: path-drawing strategy, police AI behavior, and how to use keys, portals, ice, and toggle exits. Solve every level with these pro tips.',
+  keywords: ['police escape game', 'how to play police escape', 'police escape strategy', 'thief escape puzzle', 'chase puzzle game', 'draw path escape'],
+  introduction: `Police Escape is a turn-based chase puzzle. You play a thief who must draw a continuous escape route from your start cell to the exit, while one or more police pursue via shortest-path AI. Press Go, and the thief and police advance one cell per turn simultaneously. Reach the exit before any police catches you.
+
+The game ships with 30 hand-crafted levels that introduce a new mechanic every five stages: keys you must collect, teleport portals, ice blocks that block cells until they melt, and exits that toggle open and closed on a schedule. This guide walks you through the rules, the police AI, and the strategies that turn a panicking thief into a clean getaway.`,
+  sections: [
+    {
+      title: 'Core Rules',
+      content: `Each turn, the thief moves one cell along the player-drawn path, then every police moves one cell along its shortest path toward the thief's new position. If a police lands on the thief's cell — or if they trade cells in the same turn — the thief is caught and you lose.
+
+The thief's path must be a continuous chain of orthogonally adjacent cells from start to exit, with no cell repeated. Walls block movement. The path must end on an exit cell. If the level has keys, the path must visit every required key cell before reaching the exit.`,
+      tips: [
+        'The thief moves first each turn, then the police respond',
+        'A swap (thief and police trade cells) counts as a capture',
+        'Paths cannot repeat cells or cross walls',
+        'On key levels, route through every required key before the exit'
+      ]
+    },
+    {
+      title: 'How Police AI Works',
+      content: `Each police computes the BFS shortest path to the thief's current cell on every turn, treating walls and unmelted ice as blocked. The police steps one square along that path. If the thief is unreachable (walled off), the police falls back to walking its patrol loop — stepping toward the next patrol point.
+
+Because the AI is deterministic and greedy, you can predict exactly where each police will be on any future turn. This predictability is the key to clean escapes: plan a path whose cells the police will never reach in time.`,
+      tips: [
+        'Police always take the shortest path — they never anticipate your moves',
+        'When unreachable, police drift toward their patrol point',
+        'Count turns: if police need N steps to reach a cell, avoid being there on or before turn N',
+        'Use walls to break the BFS — a long way around for you can be impossible for the police'
+      ]
+    },
+    {
+      title: 'Strategy: Keep Paths Short',
+      content: `The single most important rule: the shorter your path, the safer you are. Every extra turn gives the police another step to close in. When you draw a path, look first for the most direct route to the exit, then only detour if that route crosses a police's path.
+
+When a detour is unavoidable, prefer routes that take you AWAY from the police's BFS approach, not parallel to it. A police chasing you along a corridor will catch up exactly when the corridor ends — break away before that happens.`,
+      tips: [
+        'Default to the shortest path; detour only when forced',
+        'Detours that increase distance from the police are safer than parallel runs',
+        'Avoid long straight corridors — police gain ground every step',
+        'Re-draw freely before pressing Go; iteration is free'
+      ]
+    },
+    {
+      title: 'Mechanics: Keys, Portals, Ice, Toggle Exits',
+      content: `Keys (introduced level 6) must all be collected before the exit will accept you. Plan a route that passes through every key cell efficiently — usually a route that grazes each key on the way to the exit.
+
+Teleport portals (level 11) come in pairs. Stepping onto one end immediately relocates you to the other end. Portals are optional — only use them when they shorten your route. The path validator treats the teleport as a single step landing on the paired cell.
+
+Ice blocks (level 16) occupy cells and cannot be entered until they melt. Each ice cell has a melt threshold measured in thief-steps taken; once you have made that many moves, the ice becomes passable. Staggered melt schedules create timing puzzles where you must wait or take a longer route.
+
+Toggle exits (level 21) open and close on a parity schedule. The exit cell shows green when open, red when closed. Time your arrival for an open tick — arriving on a closed tick means no escape, even with the right path.`,
+      tips: [
+        'Keys: route through all of them — the exit rejects an incomplete keychain',
+        'Portals are optional shortcuts, not obligations',
+        'Ice melt is keyed to YOUR step count, not turns elapsed',
+        'On toggle levels, count steps so you arrive on an open tick'
+      ]
+    }
+  ],
+  faq: [
+    {
+      question: 'Is every level solvable?',
+      answer: 'Yes. All 30 levels were verified solvable by a backtracking solver before shipping — there is always at least one winning path.'
+    },
+    {
+      question: 'Why did I lose when our paths did not overlap?',
+      answer: 'If the thief and a police trade cells in the same turn (thief enters police\'s old cell while police enters thief\'s old cell), that counts as a capture.'
+    },
+    {
+      question: 'Does my progress save?',
+      answer: 'Yes — unlocked levels and best step counts are saved to your browser\'s localStorage. Clearing browser data resets progress.'
+    },
+    {
+      question: 'Can I play on mobile?',
+      answer: 'Yes. Police Escape uses pointer events, so drag-to-draw works with both mouse and touch. The grid resizes for small viewports.'
+    },
+    {
+      question: 'Is it really free?',
+      answer: 'Yes — play Police Escape free online at ruleword.com. No download, no signup, no ads.'
+    }
+  ]
+}

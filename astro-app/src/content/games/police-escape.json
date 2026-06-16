@@ -1,0 +1,117 @@
+{
+  "id": "policeescape",
+  "slug": "police-escape",
+  "icon": "🚔",
+  "category": "arcade",
+  "color": "from-blue-500 to-red-600",
+  "en": {
+    "name": "Police Escape",
+    "desc": "Play Police Escape free online — draw a path to outrun the cops. 30 levels with keys, portals, ice, and toggle exits.",
+    "description": "Police Escape is a turn-based chase puzzle. You play a thief who must draw a continuous escape route to the exit, while one or more police pursue via shortest-path AI. Plan your path, hit Go, and watch the chase play out — escape before they catch you! 30 hand-crafted levels introduce new mechanics every 5 stages: keys you must collect, teleport portals, ice blocks that block cells until they melt, and exits that toggle open and closed on a schedule. Play free online, no download.",
+    "objectives": "Draw a path from thief to exit that avoids the police. Collect all required keys. Arrive at the exit when it's open.",
+    "howToPlay": "Drag from the thief to the exit to draw your path. Press Go to commit. The thief and police advance one cell per turn; if a police catches you, you lose.",
+    "rules": {
+      "controls": "Drag from 🥷 to 🚪 with mouse or touch. Backtrack by dragging onto the previous cell. Press Go! to commit the path.",
+      "mechanics": [
+        "Thief and police move one cell per turn",
+        "Police use BFS shortest-path AI to chase you",
+        "Path cannot cross police cells or repeat cells",
+        "Collect all keys before exiting"
+      ],
+      "features": [
+        "30 hand-crafted levels",
+        "Keys (L6), portals (L11), ice (L16), exit toggle (L21)",
+        "Linear unlock progression",
+        "Best step count per level"
+      ]
+    },
+    "tips": [
+      "Plan a SHORT path — police catch up fast on long routes",
+      "Use walls to break line-of-sight between you and the police",
+      "Patrol points tell you where idle police drift — exploit them",
+      "On toggle levels, time your arrival for an open tick",
+      "Portals are optional — use them only when they shorten your route"
+    ],
+    "faq": [
+      {
+        "question": "How do police move?",
+        "answer": "Each police computes the BFS shortest path to your CURRENT cell and steps one square along it. If they can't reach you (walled off), they walk toward their patrol point."
+      },
+      {
+        "question": "Why did I lose when our paths didn't overlap?",
+        "answer": "If the thief and a police trade cells in the same turn (thief moves into police's old spot while police moves into thief's old spot), that counts as a capture."
+      },
+      {
+        "question": "Are the levels solvable?",
+        "answer": "Yes. Every one of the 30 levels was verified solvable by a backtracking solver before shipping — there is always at least one winning path."
+      },
+      {
+        "question": "Does my progress save?",
+        "answer": "Yes, progress (unlocked levels and best step counts) is saved to your browser's localStorage. Clearing browser data resets it."
+      },
+      {
+        "question": "Can I replay earlier levels?",
+        "answer": "Yes. The level-select screen shows every unlocked level with your best step count, so you can revisit and improve."
+      },
+      {
+        "question": "Is it free?",
+        "answer": "Yes — play Police Escape free online at ruleword.com. No download, no signup, no ads."
+      }
+    ]
+  },
+  "zh": {
+    "name": "警察与小偷",
+    "desc": "免费在线玩《警察与小偷》——划线规划逃跑路线，躲开警察追捕。30关，含钥匙、传送门、冰块、切换出口。",
+    "description": "《警察与小偷》是一款回合制追逐解谜游戏。你扮演小偷，需要划出一条连续的逃跑路线到达出口，而一个或多个警察会按最短路径追捕你。规划好路线，按下出发，观看追逐展开——在被抓住之前逃出去！30关手工设计的关卡，每5关引入一个新机制：必须收集的钥匙、传送管道、融化前阻挡通行的冰块、按时开关的切换出口。免费在线玩，无需下载。",
+    "objectives": "画出从起点到出口的逃跑路径，避开警察。收集所有必需的钥匙，在出口开放时到达。",
+    "howToPlay": "从🥷拖到🚪画出路径，按出发提交。小偷和警察每回合各走一格，被警察抓住则失败。",
+    "rules": {
+      "controls": "用鼠标或手指从🥷拖到🚪画路径。拖回上一格可撤销。按出发提交路径。",
+      "mechanics": [
+        "小偷和警察每回合各走一格",
+        "警察使用 BFS 最短路径 AI 追你",
+        "路径不能与警察相交，不能重复经过格子",
+        "到达出口前必须收集所有钥匙"
+      ],
+      "features": [
+        "30关手工设计",
+        "钥匙(L6)、传送门(L11)、冰块(L16)、出口切换(L21)",
+        "线性解锁进度",
+        "记录每关最佳步数"
+      ]
+    },
+    "tips": [
+      "规划短路径——长路线会被警察追上",
+      "用墙挡住你和警察之间的视线",
+      "巡逻点告诉你警察闲时会去哪里，加以利用",
+      "出口切换关卡，要在开放时刻到达",
+      "传送门是可选的——只在能缩短路径时使用"
+    ],
+    "faq": [
+      {
+        "question": "警察怎么移动？",
+        "answer": "每个警察计算到达你当前位置的 BFS 最短路径，并沿路径走一格。如果他们无法到达你（被墙挡住），会朝巡逻点走。"
+      },
+      {
+        "question": "为什么路径没重叠也算输？",
+        "answer": "如果小偷和警察在同一回合交换位置（小偷走到警察的旧位置，警察走到小偷的旧位置），也算被抓。"
+      },
+      {
+        "question": "关卡都是可解的吗？",
+        "answer": "是的。30关每一关都经过回溯求解器验证至少有一条合法解后才发布。"
+      },
+      {
+        "question": "进度会保存吗？",
+        "answer": "会。进度（已解锁关卡和最佳步数）保存在浏览器 localStorage 中。清除浏览器数据会重置。"
+      },
+      {
+        "question": "可以重玩之前的关卡吗？",
+        "answer": "可以。关卡选择界面显示每个已解锁关卡和你的最佳步数，可以随时回放挑战。"
+      },
+      {
+        "question": "免费吗？",
+        "answer": "免费——在 ruleword.com 免费在线玩《警察与小偷》。无需下载、无需注册、无广告。"
+      }
+    ]
+  }
+}

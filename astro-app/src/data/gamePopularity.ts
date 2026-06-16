@@ -120,6 +120,7 @@ const tier2: Record<string, GamePopularity> = {
   'wordle-vs': { playCount: '380K+', numericCount: 380000 },
   slitherlink: { playCount: '260K+', numericCount: 260000 },
   shakashaka: { playCount: '240K+', numericCount: 240000 },
+  'police-escape': { playCount: '85K+', numericCount: 85000 },
   tapa: { playCount: '210K+', numericCount: 210000 },
   'star-battle': { playCount: '220K+', numericCount: 220000 },
   hitori: { playCount: '250K+', numericCount: 250000 },
