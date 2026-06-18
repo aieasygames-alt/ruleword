@@ -1,0 +1,7 @@
+{
+  "name": "ruleword-static-deployment",
+  "private": true,
+  "scripts": {
+    "build": "node -e \"console.log('Static site is already built')\""
+  }
+}
