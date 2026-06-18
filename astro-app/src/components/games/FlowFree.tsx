@@ -1,4 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import {
+  canExtendFlowPath,
+  isFlowFreeComplete,
+  isFlowPathConnected,
+  type FlowDot as Dot,
+  type FlowLevel as Level,
+  type FlowPath as Path,
+  type FlowPosition as Position,
+} from '../../games/flow-free/logic'
 
 type Settings = {
   darkMode: boolean
@@ -11,26 +20,6 @@ type FlowFreeProps = {
   onBack: () => void
   updateScore?: (score: number) => void
   getHighScore?: () => number
-}
-
-interface Position {
-  x: number
-  y: number
-}
-
-interface Dot {
-  pos: Position
-  color: string
-}
-
-interface Path {
-  color: string
-  cells: Position[]
-}
-
-interface Level {
-  size: number
-  dots: Dot[]
 }
 
 const CELL_SIZE = 50
@@ -543,10 +532,6 @@ export default function FlowFree({
     return currentLevel.dots.find(d => d.pos.x === pos.x && d.pos.y === pos.y)
   }, [currentLevel])
 
-  const isAdjacent = (a: Position, b: Position): boolean => {
-    return (Math.abs(a.x - b.x) === 1 && a.y === b.y) || (Math.abs(a.y - b.y) === 1 && a.x === b.x)
-  }
-
   const getCellFromEvent = (e: React.MouseEvent | React.TouchEvent): Position | null => {
     const canvas = canvasRef.current
     if (!canvas) return null
@@ -606,7 +591,7 @@ export default function FlowFree({
     if (!cell) return
 
     const lastCell = currentPath.cells[currentPath.cells.length - 1]
-    if (!isAdjacent(lastCell, cell)) return
+    if (!canExtendFlowPath(currentPath, cell, paths, currentLevel.dots)) return
 
     // Check if cell is already in current path (backtracking)
     const existingIndex = currentPath.cells.findIndex(c => c.x === cell.x && c.y === cell.y)
@@ -616,15 +601,7 @@ export default function FlowFree({
       return
     }
 
-    // Check if cell is occupied by another path
-    const isOccupied = paths.some(p =>
-      p.cells.some(c => c.x === cell.x && c.y === cell.y)
-    )
-    if (isOccupied) return
-
-    // Check if cell has a dot of different color
     const dot = getDotAt(cell)
-    if (dot && dot.color !== currentPath.color) return
 
     // Add cell to path
     setCurrentPath(prev => prev ? { ...prev, cells: [...prev.cells, cell] } : null)
@@ -639,10 +616,7 @@ export default function FlowFree({
     if (!currentPath) return
 
     // Check if path connects two dots of same color
-    const firstDot = getDotAt(currentPath.cells[0])
-    const lastDot = getDotAt(currentPath.cells[currentPath.cells.length - 1])
-
-    if (firstDot && lastDot && firstDot.color === lastDot.color && currentPath.cells.length > 1) {
+    if (isFlowPathConnected(currentPath, currentLevel.dots)) {
       setPaths(prev => [...prev, currentPath])
     }
 
@@ -654,16 +628,7 @@ export default function FlowFree({
   useEffect(() => {
     if (paths.length === 0) return
 
-    // Check if all dots are connected
-    const connectedColors = new Set(paths.map(p => p.color))
-    const allColorsConnected = currentLevel.dots.every(d => connectedColors.has(d.color))
-
-    // Check if all cells are filled
-    const allCells = new Set<string>()
-    paths.forEach(p => p.cells.forEach(c => allCells.add(`${c.x},${c.y}`)))
-    const allCellsFilled = allCells.size === currentLevel.size * currentLevel.size
-
-    if (allColorsConnected && allCellsFilled && !levelComplete) {
+    if (isFlowFreeComplete(paths, currentLevel) && !levelComplete) {
       setLevelComplete(true)
       playSound('complete')
       const score = (level + 1) * 100
@@ -792,6 +757,7 @@ export default function FlowFree({
         <div className={`${cardBgClass} border ${borderClass} rounded-lg p-4 flex justify-center`}>
           <canvas
             ref={canvasRef}
+            data-testid="flow-free-board"
             width={canvasSize}
             height={canvasSize}
             className="cursor-pointer max-w-full"
@@ -807,9 +773,11 @@ export default function FlowFree({
         </div>
 
         <p className="mt-4 text-center text-sm opacity-60">{texts.hint}</p>
+        <span data-testid="flow-free-path-count" className="sr-only">{paths.length}</span>
 
         <div className="flex justify-center gap-4 mt-4">
           <button
+            data-testid="flow-free-reset"
             onClick={restartLevel}
             className={`px-4 py-2 rounded-lg ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
           >
@@ -818,7 +786,7 @@ export default function FlowFree({
         </div>
 
         {levelComplete && !gameComplete && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+          <div data-testid="flow-free-complete" className="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
             <div className={`${cardBgClass} border ${borderClass} rounded-xl p-8 text-center`}>
               <div className="text-5xl mb-4">🎉</div>
               <h2 className="text-2xl font-bold mb-4">{texts.complete}</h2>

@@ -1,4 +1,13 @@
 import { useState, useEffect, useCallback } from 'react'
+import {
+  canMoveFifteenTile,
+  createSolvedFifteenBoard,
+  getFifteenDailySeed,
+  isFifteenSolved,
+  moveFifteenTile,
+  shuffleFifteenBoard,
+  type FifteenBoard as Board,
+} from '../../games/fifteen-puzzle/logic'
 
 type Settings = {
   darkMode: boolean
@@ -11,138 +20,8 @@ type FifteenPuzzleProps = {
   onBack: () => void
 }
 
-type Board = (number | null)[][]
-
-const GRID_SIZE = 4
-const TOTAL_TILES = GRID_SIZE * GRID_SIZE
-
-const createSolvedBoard = (): Board => {
-  const board: Board = []
-  let num = 1
-  for (let row = 0; row < GRID_SIZE; row++) {
-    board[row] = []
-    for (let col = 0; col < GRID_SIZE; col++) {
-      board[row][col] = num === TOTAL_TILES ? null : num
-      num++
-    }
-  }
-  return board
-}
-
-const isSolvable = (tiles: (number | null)[]): boolean => {
-  let inversions = 0
-  const filtered = tiles.filter(t => t !== null) as number[]
-
-  for (let i = 0; i < filtered.length; i++) {
-    for (let j = i + 1; j < filtered.length; j++) {
-      if (filtered[i] > filtered[j]) {
-        inversions++
-      }
-    }
-  }
-
-  // For 4x4, puzzle is solvable if:
-  // - inversions is even and blank is on odd row from bottom
-  // - inversions is odd and blank is on even row from bottom
-  const blankIndex = tiles.indexOf(null)
-  const blankRowFromBottom = GRID_SIZE - Math.floor(blankIndex / GRID_SIZE)
-
-  if (blankRowFromBottom % 2 === 1) {
-    return inversions % 2 === 0
-  } else {
-    return inversions % 2 === 1
-  }
-}
-
-const shuffleBoard = (seed?: number): Board => {
-  const tiles: (number | null)[] = []
-  for (let i = 1; i < TOTAL_TILES; i++) {
-    tiles.push(i)
-  }
-  tiles.push(null)
-
-  // Fisher-Yates shuffle
-  const random = seed ? seededRandom(seed) : () => Math.random()
-  for (let i = tiles.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [tiles[i], tiles[j]] = [tiles[j], tiles[i]]
-  }
-
-  // If not solvable, make it solvable by swapping two adjacent tiles
-  if (!isSolvable(tiles)) {
-    const firstNonBlank = tiles.findIndex(t => t !== null)
-    const secondNonBlank = tiles.findIndex((t, i) => i > firstNonBlank && t !== null)
-    if (firstNonBlank !== -1 && secondNonBlank !== -1) {
-      [tiles[firstNonBlank], tiles[secondNonBlank]] = [tiles[secondNonBlank], tiles[firstNonBlank]]
-    }
-  }
-
-  const board: Board = []
-  for (let row = 0; row < GRID_SIZE; row++) {
-    board[row] = tiles.slice(row * GRID_SIZE, (row + 1) * GRID_SIZE)
-  }
-
-  return board
-}
-
-const seededRandom = (seed: number): () => number => {
-  let s = seed
-  return () => {
-    s = (s * 9301 + 49297) % 233280
-    return s / 233280
-  }
-}
-
-const getDailySeed = (): number => {
-  const today = new Date()
-  return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
-}
-
-const findEmptyCell = (board: Board): [number, number] => {
-  for (let row = 0; row < GRID_SIZE; row++) {
-    for (let col = 0; col < GRID_SIZE; col++) {
-      if (board[row][col] === null) {
-        return [row, col]
-      }
-    }
-  }
-  return [0, 0]
-}
-
-const isSolved = (board: Board): boolean => {
-  let expected = 1
-  for (let row = 0; row < GRID_SIZE; row++) {
-    for (let col = 0; col < GRID_SIZE; col++) {
-      if (row === GRID_SIZE - 1 && col === GRID_SIZE - 1) {
-        return board[row][col] === null
-      }
-      if (board[row][col] !== expected) {
-        return false
-      }
-      expected++
-    }
-  }
-  return true
-}
-
-const canMove = (board: Board, row: number, col: number): boolean => {
-  const [emptyRow, emptyCol] = findEmptyCell(board)
-  return (
-    (Math.abs(row - emptyRow) === 1 && col === emptyCol) ||
-    (Math.abs(col - emptyCol) === 1 && row === emptyRow)
-  )
-}
-
-const moveTile = (board: Board, row: number, col: number): Board => {
-  const [emptyRow, emptyCol] = findEmptyCell(board)
-  const newBoard = board.map(r => [...r])
-  newBoard[emptyRow][emptyCol] = newBoard[row][col]
-  newBoard[row][col] = null
-  return newBoard
-}
-
 export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) {
-  const [board, setBoard] = useState<Board>(createSolvedBoard)
+  const [board, setBoard] = useState<Board>(createSolvedFifteenBoard)
   const [moves, setMoves] = useState(0)
   const [time, setTime] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -166,7 +45,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
       setBestTime(time)
     }
 
-    const today = getDailySeed().toString()
+    const today = getFifteenDailySeed().toString()
     const lastPlayed = localStorage.getItem('fifteenpuzzle-daily-date')
     const dailyScore = localStorage.getItem('fifteenpuzzle-daily-score')
     if (dailyScore) setDailyBest(JSON.parse(dailyScore))
@@ -189,21 +68,23 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
     setTime(0)
     setIsWon(false)
 
-    const seed = mode === 'daily' ? getDailySeed() : undefined
-    const shuffled = shuffleBoard(seed)
+    const fixture = new URLSearchParams(window.location.search).get('fixture')
+    const seed = mode === 'daily' ? getFifteenDailySeed() : undefined
+    const shuffled = fixture === 'near-solved'
+      ? moveFifteenTile(createSolvedFifteenBoard(), 3, 2)!
+      : shuffleFifteenBoard(seed)
     setBoard(shuffled)
     setIsPlaying(true)
   }
 
   const handleTileClick = useCallback((row: number, col: number) => {
     if (!isPlaying || isWon) return
-    if (!canMove(board, row, col)) return
-
-    const newBoard = moveTile(board, row, col)
+    const newBoard = moveFifteenTile(board, row, col)
+    if (!newBoard) return
     setBoard(newBoard)
     setMoves(m => m + 1)
 
-    if (isSolved(newBoard)) {
+    if (isFifteenSolved(newBoard)) {
       setIsWon(true)
       setIsPlaying(false)
 
@@ -221,7 +102,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
           setDailyBest({ moves: finalMoves, time: finalTime })
           localStorage.setItem('fifteenpuzzle-daily-score', JSON.stringify({ moves: finalMoves, time: finalTime }))
         }
-        const today = getDailySeed().toString()
+        const today = getFifteenDailySeed().toString()
         localStorage.setItem('fifteenpuzzle-daily-date', today)
         setDailyPlayed(true)
       }
@@ -237,7 +118,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
   const goToMenu = () => {
     setGameMode('menu')
     setIsPlaying(false)
-    setBoard(createSolvedBoard())
+    setBoard(createSolvedFifteenBoard())
     setIsWon(false)
   }
 
@@ -276,6 +157,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
           {/* Game Modes */}
           <div className="space-y-4">
             <button
+              data-testid="fifteen-practice"
               onClick={() => startGame('practice')}
               className={`w-full py-4 rounded-xl font-bold ${cardBgClass} border ${borderClass} hover:bg-gray-700/20`}
             >
@@ -284,6 +166,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
             </button>
 
             <button
+              data-testid="fifteen-daily"
               onClick={() => startGame('daily')}
               disabled={dailyPlayed}
               className={`w-full py-4 rounded-xl font-bold ${dailyPlayed ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-700/20'} ${cardBgClass} border ${borderClass}`}
@@ -337,7 +220,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
         <div className="flex justify-between mb-4">
           <div className={`flex-1 ${cardBgClass} border ${borderClass} rounded-xl p-3 text-center mr-2`}>
             <p className="text-xs">{settings.language === 'zh' ? '步数' : 'Moves'}</p>
-            <p className="text-2xl font-bold">{moves}</p>
+            <p data-testid="fifteen-moves" className="text-2xl font-bold">{moves}</p>
           </div>
           <div className={`flex-1 ${cardBgClass} border ${borderClass} rounded-xl p-3 text-center ml-2`}>
             <p className="text-xs">{settings.language === 'zh' ? '时间' : 'Time'}</p>
@@ -346,16 +229,17 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
         </div>
 
         {/* Board */}
-        <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
+        <div data-testid="fifteen-board" className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
           <div className="grid grid-cols-4 gap-2 max-w-xs mx-auto">
             {board.map((row, rowIndex) =>
               row.map((tile, colIndex) => {
                 const isEmpty = tile === null
-                const canMoveThis = !isEmpty && canMove(board, rowIndex, colIndex)
+                const canMoveThis = !isEmpty && canMoveFifteenTile(board, rowIndex, colIndex)
 
                 return (
                   <button
                     key={`${rowIndex}-${colIndex}`}
+                    data-testid={`fifteen-tile-${tile ?? 'empty'}`}
                     onClick={() => handleTileClick(rowIndex, colIndex)}
                     disabled={isEmpty || isWon}
                     className={`aspect-square rounded-xl text-xl font-bold flex items-center justify-center
@@ -378,7 +262,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
 
         {/* Win Message */}
         {isWon && (
-          <div className="mt-4">
+          <div data-testid="fifteen-win" className="mt-4">
             <div className={`${cardBgClass} border ${borderClass} rounded-xl p-6 text-center`}>
               <h2 className="text-2xl font-bold mb-2">🎉 {settings.language === 'zh' ? '恭喜完成!' : 'Congratulations!'}</h2>
               <p className="mb-1">{settings.language === 'zh' ? '步数' : 'Moves'}: {moves}</p>

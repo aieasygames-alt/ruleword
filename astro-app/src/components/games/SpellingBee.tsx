@@ -106,7 +106,7 @@ export default function SpellingBee({ settings }: Props) {
       </p>
 
       {/* Input */}
-      <div className={`mb-4 text-2xl font-bold h-10 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+      <div data-testid="spelling-bee-input" className={`mb-4 text-2xl font-bold h-10 ${isDark ? 'text-white' : 'text-gray-900'}`}>
         {input || <span className="opacity-30">...</span>}
       </div>
 
@@ -116,6 +116,7 @@ export default function SpellingBee({ settings }: Props) {
       <div className="relative w-64 h-56 mb-4">
         {/* Center */}
         <button
+          data-testid="spelling-bee-center-letter"
           onClick={() => handleKeyPress(centerLetter)}
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-yellow-400 text-xl font-bold text-gray-900 hover:bg-yellow-300"
         >
@@ -129,6 +130,7 @@ export default function SpellingBee({ settings }: Props) {
           return (
             <button
               key={letter}
+              data-testid="spelling-bee-letter"
               onClick={() => handleKeyPress(letter)}
               className="absolute left-1/2 top-1/2 w-14 h-14 rounded-full bg-gray-200 text-xl font-bold text-gray-800 hover:bg-gray-300"
               style={{ transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))` }}

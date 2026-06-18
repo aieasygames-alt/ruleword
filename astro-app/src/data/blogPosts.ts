@@ -117,14 +117,14 @@ Start with 2-3 games that target skills you want to improve, and build from ther
 
   'wordle-vs-connections-vs-spelling-bee': {
     slug: 'wordle-vs-connections-vs-spelling-bee',
-    title: 'Wordle vs Connections vs Spelling Bee: Which Word Game is Best?',
-    description: 'Wordle vs Connections vs Spelling Bee — which is best? We compared difficulty, daily engagement, brain benefits and fun factor. Plus: play all three free online!',
+    title: 'Wordle vs Connections vs Spelling Bee',
+    description: 'Compare Wordle, Connections, and Spelling Bee by difficulty, play time, vocabulary skills, and daily appeal—then play all three word games free online.',
     keywords: ['wordle vs connections', 'word puzzle games', 'spelling bee game', 'best word games', 'connections nyt', 'wordle alternatives', 'daily word puzzle'],
     author: 'Free Games Hub Team',
     date: '2026-04-02',
     readTime: '10 min read',
     category: 'comparisons',
-    introduction: `Word puzzles have taken the world by storm, with Wordle, Connections, and Spelling Bee leading the charge. But which one is right for you? We've spent hundreds of hours playing all three to bring you this comprehensive comparison.
+    introduction: `Wordle vs Connections vs Spelling Bee is a choice between deduction, category spotting, and vocabulary depth. If you are comparing Wordle, Connections, and Spelling Bee, this guide shows which daily word game best fits your time and play style.
 
 Each game offers a unique challenge: Wordle tests deduction skills, Connections challenges categorical thinking, and Spelling Bee rewards vocabulary depth. Let's break down how they stack up.`,
     sections: [

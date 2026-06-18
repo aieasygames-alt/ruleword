@@ -53,6 +53,10 @@ for (const [path, loader] of Object.entries(gameModules)) {
   gameComponents[gameId] = loader
 }
 
+// Registry aliases that intentionally reuse an existing implementation.
+gameComponents.simongame = gameComponents.simonsays
+gameComponents.reactiontime = gameComponents.reactiontest
+
 export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperProps) {
   const [GameComponent, setGameComponent] = useState<ComponentType<any> | null>(null)
   const [settings, setSettings] = useState<Settings>({

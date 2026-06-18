@@ -1,27 +1,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-
-type Piece = {
-  type: 'K' | 'A' | 'E' | 'H' | 'R' | 'C' | 'P'
-  color: 'red' | 'black'
-}
+import {
+  CHINESE_CHESS_INITIAL_BOARD,
+  getChineseLegalMoves,
+  type ChineseChessPiece as Piece,
+} from '../../games/chinese-chess/logic'
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
 }
-
-// 正确的中国象棋初始布局（红方在下，黑方在上）
-const INITIAL_BOARD: (Piece | null)[][] = [
-  [{ type: 'R', color: 'black' }, { type: 'H', color: 'black' }, { type: 'E', color: 'black' }, { type: 'A', color: 'black' }, { type: 'K', color: 'black' }, { type: 'A', color: 'black' }, { type: 'E', color: 'black' }, { type: 'H', color: 'black' }, { type: 'R', color: 'black' }],
-  [null, null, null, null, null, null, null, null, null],
-  [null, { type: 'C', color: 'black' }, null, null, null, null, null, { type: 'C', color: 'black' }, null],
-  [{ type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }, null, { type: 'P', color: 'black' }],
-  [null, null, null, null, null, null, null, null, null],
-  [null, null, null, null, null, null, null, null, null],
-  [{ type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }, null, { type: 'P', color: 'red' }],
-  [null, { type: 'C', color: 'red' }, null, null, null, null, null, { type: 'C', color: 'red' }, null],
-  [null, null, null, null, null, null, null, null, null],
-  [{ type: 'R', color: 'red' }, { type: 'H', color: 'red' }, { type: 'E', color: 'red' }, { type: 'A', color: 'red' }, { type: 'K', color: 'red' }, { type: 'A', color: 'red' }, { type: 'E', color: 'red' }, { type: 'H', color: 'red' }, { type: 'R', color: 'red' }],
-]
 
 const PIECE_NAMES: Record<string, string> = {
   'K-red': '帥', 'A-red': '仕', 'E-red': '相', 'H-red': '馬', 'R-red': '車', 'C-red': '炮', 'P-red': '兵',
@@ -50,7 +36,7 @@ const POSITION_BONUS = {
 }
 
 export default function ChineseChess({ settings }: Props) {
-  const [board, setBoard] = useState<(Piece | null)[][]>(INITIAL_BOARD.map(row => [...row]))
+  const [board, setBoard] = useState<(Piece | null)[][]>(CHINESE_CHESS_INITIAL_BOARD.map(row => [...row]))
   const [selected, setSelected] = useState<{ row: number; col: number } | null>(null)
   const [turn, setTurn] = useState<'red' | 'black'>('red')
   const [validMoves, setValidMoves] = useState<{ row: number; col: number }[]>([])
@@ -238,17 +224,8 @@ export default function ChineseChess({ settings }: Props) {
 
   // 获取合法移动
   const getLegalMoves = useCallback((row: number, col: number, boardState: (Piece | null)[][]): { row: number; col: number }[] => {
-    const piece = boardState[row][col]
-    if (!piece) return []
-
-    const moves = getValidMoves(row, col, boardState)
-    return moves.filter(move => {
-      const newBoard = boardState.map(r => [...r])
-      newBoard[move.row][move.col] = newBoard[row][col]
-      newBoard[row][col] = null
-      return !isInCheck(piece.color, newBoard)
-    })
-  }, [getValidMoves, isInCheck])
+    return getChineseLegalMoves(boardState, row, col)
+  }, [])
 
   // 检查是否将死
   const isCheckmate = useCallback((color: 'red' | 'black', boardState: (Piece | null)[][]): boolean => {
@@ -526,7 +503,7 @@ export default function ChineseChess({ settings }: Props) {
   }, [board, selected, turn, validMoves, gameOver, isAiThinking, gameMode, getLegalMoves, isInCheck, isCheckmate, isZh])
 
   const resetGame = useCallback(() => {
-    setBoard(INITIAL_BOARD.map(row => [...row]))
+    setBoard(CHINESE_CHESS_INITIAL_BOARD.map(row => [...row]))
     setSelected(null)
     setValidMoves([])
     setTurn('red')
@@ -553,10 +530,13 @@ export default function ChineseChess({ settings }: Props) {
     return (
       <button
         key={`${row}-${col}`}
+        data-testid={`chinese-chess-cell-${row}-${col}`}
+        data-piece={piece ? `${piece.type}-${piece.color}` : 'empty'}
+        data-legal-target={isValidMove}
         onClick={() => handleClick(row, col)}
         disabled={isAiThinking}
         className={`
-          w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center
+          w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center
           relative transition-all duration-150
           ${isSelected ? 'z-10' : ''}
           ${isAiThinking ? 'cursor-wait' : ''}
@@ -590,7 +570,7 @@ export default function ChineseChess({ settings }: Props) {
         {piece && (
           <div
             className={`
-              w-9 h-9 sm:w-10 sm:h-10 rounded-full
+              w-8 h-8 sm:w-10 sm:h-10 rounded-full
               flex items-center justify-center
               font-bold text-lg sm:text-xl
               shadow-lg border-2
@@ -624,6 +604,7 @@ export default function ChineseChess({ settings }: Props) {
       {/* 游戏模式选择 */}
       <div className="mb-4 flex gap-2">
         <button
+          data-testid="chinese-chess-pvp"
           onClick={() => { setGameMode('pvp'); resetGame() }}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             gameMode === 'pvp'
@@ -634,6 +615,7 @@ export default function ChineseChess({ settings }: Props) {
           {isZh ? '双人对战' : 'PvP'}
         </button>
         <button
+          data-testid="chinese-chess-ai"
           onClick={() => { setGameMode('ai'); resetGame() }}
           className={`px-4 py-2 rounded-lg font-medium transition-colors ${
             gameMode === 'ai'
@@ -651,6 +633,7 @@ export default function ChineseChess({ settings }: Props) {
           {(['easy', 'medium', 'hard'] as const).map(diff => (
             <button
               key={diff}
+              data-testid={`chinese-chess-difficulty-${diff}`}
               onClick={() => { setAiDifficulty(diff); resetGame() }}
               className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
                 aiDifficulty === diff
@@ -666,7 +649,7 @@ export default function ChineseChess({ settings }: Props) {
 
       {/* 游戏状态 */}
       <div className={`mb-3 flex items-center gap-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-        <span className="font-medium">
+        <span data-testid="chinese-chess-turn" className="font-medium">
           {isZh ? '回合:' : 'Turn:'}{' '}
           <span className={turn === 'red' ? 'text-red-500' : 'text-emerald-600'}>
             {turn === 'red' ? (isZh ? '红方' : 'Red') : (isZh ? '黑方' : 'Black')}
@@ -689,31 +672,31 @@ export default function ChineseChess({ settings }: Props) {
         <div className="absolute -inset-2 rounded-lg shadow-2xl"
           style={{ background: 'linear-gradient(135deg, #8B4513 0%, #654321 50%, #8B4513 100%)' }}
         />
-        <div className="relative grid gap-0 rounded overflow-hidden"
+        <div data-testid="chinese-chess-board" className="relative grid gap-0 rounded overflow-hidden"
           style={{ gridTemplateColumns: 'repeat(9, 1fr)', boxShadow: 'inset 0 0 20px rgba(139, 69, 19, 0.3)' }}
         >
           {board.map((row, r) => row.map((_, c) => renderCell(r, c)))}
         </div>
-        <div className="absolute -left-6 top-0 bottom-0 flex flex-col justify-around text-xs text-amber-800/60">
+        <div className="absolute -left-6 top-0 bottom-0 hidden sm:flex flex-col justify-around text-xs text-amber-800/60">
           {[...Array(10)].map((_, i) => (
-            <span key={i} className="h-11 sm:h-12 flex items-center">{10 - i}</span>
+            <span key={i} className="h-12 flex items-center">{10 - i}</span>
           ))}
         </div>
-        <div className="absolute -right-6 top-0 bottom-0 flex flex-col justify-around text-xs text-amber-800/60">
+        <div className="absolute -right-6 top-0 bottom-0 hidden sm:flex flex-col justify-around text-xs text-amber-800/60">
           {[...Array(10)].map((_, i) => (
-            <span key={i} className="h-11 sm:h-12 flex items-center">{10 - i}</span>
+            <span key={i} className="h-12 flex items-center">{10 - i}</span>
           ))}
         </div>
         <div className="absolute -bottom-5 left-0 right-0 flex justify-around text-xs text-amber-800/60 px-5">
           {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'].map(label => (
-            <span key={label} className="w-11 sm:w-12 text-center">{label}</span>
+            <span key={label} className="w-10 sm:w-12 text-center">{label}</span>
           ))}
         </div>
       </div>
 
       {/* 控制按钮 */}
       <div className="mt-8 flex gap-4">
-        <button onClick={resetGame} className={`px-6 py-2 rounded-lg font-medium transition-colors ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-amber-600 hover:bg-amber-500 text-white'}`}>
+        <button data-testid="chinese-chess-reset" onClick={resetGame} className={`px-6 py-2 rounded-lg font-medium transition-colors ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-amber-600 hover:bg-amber-500 text-white'}`}>
           {isZh ? '重新开始' : 'New Game'}
         </button>
         <button onClick={() => setMoveHistory([])} className={`px-6 py-2 rounded-lg font-medium transition-colors ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}`}>
@@ -723,7 +706,7 @@ export default function ChineseChess({ settings }: Props) {
 
       {/* 移动历史 */}
       {moveHistory.length > 0 && (
-        <div className={`mt-4 w-full max-w-md ${isDark ? 'bg-slate-800' : 'bg-white'} rounded-lg p-4 shadow-lg`}>
+        <div data-testid="chinese-chess-history" data-count={moveHistory.length} className={`mt-4 w-full max-w-md ${isDark ? 'bg-slate-800' : 'bg-white'} rounded-lg p-4 shadow-lg`}>
           <h3 className={`font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             {isZh ? '移动记录' : 'Move History'}
           </h3>

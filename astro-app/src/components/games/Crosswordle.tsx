@@ -1,5 +1,13 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import GameGuide from './GameGuide'
+import {
+  evaluateCrosswordleGrid,
+  getCrosswordleDailyIndex,
+  swapCrosswordleCells,
+  type CrosswordleCell as Cell,
+  type CrosswordleCellState as CellState,
+  type CrosswordleWord as WordDef,
+} from '../../games/crosswordle/logic'
 
 // 简单的种子随机数生成器 (Mulberry32)
 // 简单的种子随机数生成器 (Mulberry32)
@@ -23,9 +31,6 @@ const MAX_SWAPS_BASE = 15 // 基础最大交换次数
 const STORAGE_KEY = 'crosswordle_save'
 const STATS_KEY = 'crosswordle_stats'
 const SETTINGS_KEY = 'crosswordle_settings'
-
-// 字母格子的状态
-type CellState = 'correct' | 'wrongPosition' | 'wrong' | 'empty'
 
 // 游戏模式
 type GameMode = 'daily' | 'practice' | 'unlimited'
@@ -67,25 +72,10 @@ function saveCrosswordleSettings(settings: CrosswordleSettings) {
     console.error('Failed to save settings:', e)
   }
 }
-interface Cell {
-  letter: string
-  state: CellState
-  row: number
-  col: number
-}
-
 // 历史记录（用于撤销）
 interface HistoryEntry {
   grid: Cell[][]
   swapsLeft: number
-}
-
-// 单词定义（交叉词）
-interface WordDef {
-  letters: string
-  direction: 'horizontal' | 'vertical'
-  startRow: number
-  startCol: number
 }
 
 // 扩展的3x3交叉词库
@@ -212,9 +202,7 @@ function getPuzzleForSize(size: GridSize): WordDef[][] {
 
 // 获取每日谜题索引
 function getDailyPuzzleIndex(): number {
-  const startDate = new Date('2024-01-01').getTime()
-  const now = new Date().setHours(0, 0, 0, 0)
-  return Math.floor((now - startDate) / 86400000) % CROSSWORD_PUZZLES_EN.length
+  return getCrosswordleDailyIndex(new Date(), CROSSWORD_PUZZLES_EN.length)
 }
 
 type Settings = {
@@ -356,75 +344,6 @@ function generateShuffledGrid(puzzle: WordDef[], size: GridSize): Cell[][] {
   return grid
 }
 
-// 检查网格是否正确
-function checkGrid(grid: Cell[][], puzzle: WordDef[], size: GridSize): { cells: CellState[][], isCorrect: boolean } {
-  const newStates: CellState[][] = Array(size).fill(null).map(() =>
-    Array(size).fill('empty' as CellState)
-  )
-
-  let allCorrect = true
-
-  puzzle.forEach(word => {
-    for (let i = 0; i < word.letters.length; i++) {
-      const row = word.direction === 'horizontal' ? word.startRow : word.startRow + i
-      const col = word.direction === 'horizontal' ? word.startCol + i : word.startCol
-
-      if (row < size && col < size) {
-        const currentLetter = grid[row][col].letter
-        const correctLetter = word.letters[i]
-
-        if (currentLetter === correctLetter) {
-          newStates[row][col] = 'correct'
-        } else {
-          allCorrect = false
-          // 检查该字母是否在单词中（黄色）
-          const isInWord = word.letters.includes(currentLetter)
-          newStates[row][col] = isInWord ? 'wrongPosition' : 'wrong'
-        }
-      }
-    }
-  })
-
-  // 对于交叉点，如果任一方向是correct则设为correct
-  for (let r = 0; r < size; r++) {
-    for (let c = 0; c < size; c++) {
-      // 检查这个位置是否被多个单词覆盖
-      const coveredBy = puzzle.filter(word => {
-        if (word.direction === 'horizontal') {
-          return r === word.startRow && c >= word.startCol && c < word.startCol + word.letters.length
-        } else {
-          return c === word.startCol && r >= word.startRow && r < word.startRow + word.letters.length
-        }
-      })
-
-      if (coveredBy.length > 1) {
-        // 交叉点，如果任一方向正确就是正确
-        const anyCorrect = coveredBy.some(word => {
-          const idx = word.direction === 'horizontal' ? c - word.startCol : r - word.startRow
-          return grid[r][c].letter === word.letters[idx]
-        })
-        if (anyCorrect) {
-          newStates[r][c] = 'correct'
-        }
-      }
-    }
-  }
-
-  // 重新计算是否全部正确（基于最终的 cell states）
-  allCorrect = true
-  puzzle.forEach(word => {
-    for (let i = 0; i < word.letters.length; i++) {
-      const row = word.direction === 'horizontal' ? word.startRow : word.startRow + i
-      const col = word.direction === 'horizontal' ? word.startCol + i : word.startCol
-      if (row < size && col < size && newStates[row][col] !== 'correct') {
-        allCorrect = false
-      }
-    }
-  })
-
-  return { cells: newStates, isCorrect: allCorrect }
-}
-
 // 音效
 function playSound(type: 'swap' | 'win', enabled: boolean) {
   if (!enabled) return
@@ -545,10 +464,11 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       }
 
       // 交换字母
-      const newGrid = grid.map(r => r.map(c => ({ ...c })))
-      const temp = newGrid[row][col].letter
-      newGrid[row][col].letter = newGrid[selectedCell.row][selectedCell.col].letter
-      newGrid[selectedCell.row][selectedCell.col].letter = temp
+      const newGrid = swapCrosswordleCells(
+        grid,
+        [selectedCell.row, selectedCell.col],
+        [row, col],
+      )
 
       setGrid(newGrid)
       setSelectedCell(null)
@@ -557,7 +477,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
       playSound('swap', settings.soundEnabled)
 
       // 检查是否完成
-      const result = checkGrid(newGrid, puzzle, gridSize)
+      const result = evaluateCrosswordleGrid(newGrid, puzzle, gridSize)
       setCellStates(result.cells)
 
       const newSwapsLeft = swapsLeft - 1
@@ -741,6 +661,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         {!gameOver && (
           <div className="flex justify-center mb-3">
             <button
+              data-testid="crosswordle-undo"
               onClick={handleUndo}
               disabled={history.length === 0}
               className={`px-4 py-2 rounded-lg font-medium text-sm flex items-center gap-2 ${
@@ -783,7 +704,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         </div>
 
         {/* Instructions */}
-        <div className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+        <div data-testid="crosswordle-swaps" className={`text-center text-xs ${settings.darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
           {gameMode === 'daily'
             ? `${settings.language === 'zh' ? '每日挑战' : 'Daily Challenge'} (${gridSize}×${gridSize})`
             : gameMode === 'unlimited'
@@ -820,6 +741,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
             row.map((cell, c) => (
               <button
                 key={`${r}-${c}`}
+                data-testid={`crosswordle-cell-${r}-${c}`}
                 onClick={() => cell.letter && handleCellClick(r, c)}
                 disabled={!cell.letter || gameOver}
                 className={`

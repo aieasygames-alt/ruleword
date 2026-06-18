@@ -1,4 +1,9 @@
 import { useState, useCallback, useEffect } from 'react'
+import {
+  generateMemoryPattern,
+  getMemoryMatrixGridSize,
+  isMemoryPatternMatch,
+} from '../../games/memory-matrix/logic'
 
 type Settings = {
   darkMode: boolean
@@ -23,6 +28,7 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
   const [score, setScore] = useState(0)
   const [bestLevel, setBestLevel] = useState(0)
   const [lives, setLives] = useState(3)
+  const [lastCorrect, setLastCorrect] = useState<boolean | null>(null)
 
   const t = (en: string, zh: string) => settings.language === 'zh' ? zh : en
 
@@ -30,12 +36,7 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
   const patternSize = Math.min(Math.floor(level * 1.5) + 2, Math.floor(totalCells * 0.6))
 
   const generatePattern = useCallback(() => {
-    const cells: number[] = []
-    while (cells.length < patternSize) {
-      const cell = Math.floor(Math.random() * totalCells)
-      if (!cells.includes(cell)) cells.push(cell)
-    }
-    setPattern(cells)
+    setPattern(generateMemoryPattern(totalCells, patternSize))
     setUserGuess([])
   }, [patternSize, totalCells])
 
@@ -56,14 +57,15 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
   }
 
   const checkAnswer = () => {
-    const correct = pattern.every(p => userGuess.includes(p)) && userGuess.length === pattern.length
+    const correct = isMemoryPatternMatch(pattern, userGuess)
+    setLastCorrect(correct)
 
     if (correct) {
       setScore(prev => prev + level * 10)
       setLevel(prev => {
         const newLevel = prev + 1
         if (newLevel > bestLevel) setBestLevel(newLevel)
-        if (newLevel % 3 === 0) setGridSize(Math.min(7, Math.floor(3 + newLevel / 3)))
+        if (newLevel % 3 === 0) setGridSize(getMemoryMatrixGridSize(newLevel))
         return newLevel
       })
       setPhase('result')
@@ -85,6 +87,7 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
       setScore(0)
       setLives(3)
     }
+    setLastCorrect(null)
     setPhase('ready')
   }
 
@@ -113,15 +116,15 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
         {/* Stats */}
         <div className="flex justify-between mb-6">
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-400">{score}</div>
+            <div data-testid="memory-matrix-score" className="text-2xl font-bold text-green-400">{score}</div>
             <div className="text-sm text-slate-400">{t('Score', '得分')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-400">Lv.{level}</div>
+            <div data-testid="memory-matrix-level" className="text-2xl font-bold text-blue-400">Lv.{level}</div>
             <div className="text-sm text-slate-400">{t('Level', '等级')}</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-red-400">{'❤️'.repeat(lives)}</div>
+            <div data-testid="memory-matrix-lives" className="text-2xl font-bold text-red-400">{'❤️'.repeat(lives)}</div>
             <div className="text-sm text-slate-400">{t('Lives', '生命')}</div>
           </div>
           <div className="text-center">
@@ -132,6 +135,7 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
 
         {/* Instructions */}
         <div className="text-center mb-4">
+          <span data-testid="memory-matrix-phase" className="sr-only">{phase}</span>
           {phase === 'showing' && (
             <p className="text-xl text-blue-400">{t('Memorize the pattern!', '记住图案！')}</p>
           )}
@@ -139,8 +143,10 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
             <p className="text-xl text-yellow-400">{t('Recreate the pattern', '重现图案')} ({userGuess.length}/{patternSize})</p>
           )}
           {phase === 'result' && (
-            lives > 0 ? (
+            lastCorrect ? (
               <p className="text-xl text-green-400">{t('Correct! Level up!', '正确！升级！')}</p>
+            ) : lives > 0 ? (
+              <p className="text-xl text-red-400">{t('Incorrect! Try the next pattern.', '错误！尝试下一个图案。')}</p>
             ) : (
               <p className="text-xl text-red-400">{t('Game Over!', '游戏结束！')}</p>
             )
@@ -161,6 +167,8 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
               return (
                 <button
                   key={index}
+                  data-testid={`memory-matrix-cell-${index}`}
+                  data-pattern={isPattern}
                   onClick={() => handleCellClick(index)}
                   disabled={phase !== 'guessing'}
                   className={`
@@ -181,6 +189,7 @@ export default function MemoryMatrix({ settings, onBack, toggleLanguage }: Props
         {/* Submit Button */}
         {phase === 'guessing' && userGuess.length === patternSize && (
           <button
+            data-testid="memory-matrix-submit"
             onClick={checkAnswer}
             className="w-full py-3 bg-green-600 hover:bg-green-500 rounded-xl font-bold"
           >

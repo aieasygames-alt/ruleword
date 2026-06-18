@@ -1,4 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
+import {
+  checkMemorySequenceInput,
+  generateMemorySequence,
+} from '../../games/memory-grid/logic'
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
@@ -14,6 +18,7 @@ export default function MemoryGrid({ settings }: Props) {
   const [highScore, setHighScore] = useState(0)
   const [lives, setLives] = useState(3)
   const [highlightedTile, setHighlightedTile] = useState<number | null>(null)
+  const userInputRef = useRef<number[]>([])
 
   const isDark = settings.darkMode
   const isZh = settings.language === 'zh'
@@ -25,19 +30,15 @@ export default function MemoryGrid({ settings }: Props) {
   }, [])
 
   // Generate a random sequence
-  const generateSequence = useCallback((len: number): number[] => {
-    const seq: number[] = []
-    for (let i = 0; i < len; i++) {
-      seq.push(Math.floor(Math.random() * 9))
-    }
-    return seq
-  }, [])
-
   // Start showing the sequence
-  const startRound = useCallback(() => {
-    const seq = generateSequence(level)
+  const startRound = useCallback((roundLevel = level) => {
+    const fixture = new URLSearchParams(window.location.search).get('sequence')
+    const seq = fixture
+      ? fixture.split(',').map(Number).slice(0, roundLevel)
+      : generateMemorySequence(roundLevel)
     setSequence(seq)
     setUserInput([])
+    userInputRef.current = []
     setGameState('showing')
 
     // Show sequence one tile at a time
@@ -56,20 +57,21 @@ export default function MemoryGrid({ settings }: Props) {
     }
 
     setTimeout(showNext, 500)
-  }, [level, generateSequence])
+  }, [level])
 
   // Handle tile click during input phase
   const handleTileClick = useCallback((num: number) => {
     if (gameState !== 'input') return
 
-    const newInput = [...userInput, num]
+    const newInput = [...userInputRef.current, num]
+    userInputRef.current = newInput
     setUserInput(newInput)
     setHighlightedTile(num)
     setTimeout(() => setHighlightedTile(null), 200)
 
     // Check if the input matches so far
-    const currentIndex = newInput.length - 1
-    if (newInput[currentIndex] !== sequence[currentIndex]) {
+    const result = checkMemorySequenceInput(sequence, newInput)
+    if (result === 'wrong') {
       // Wrong input
       setGameState('wrong')
       const newLives = lives - 1
@@ -86,6 +88,7 @@ export default function MemoryGrid({ settings }: Props) {
         } else {
           // Try again
           setUserInput([])
+          userInputRef.current = []
           setGameState('input')
         }
       }, 1500)
@@ -93,21 +96,23 @@ export default function MemoryGrid({ settings }: Props) {
     }
 
     // Check if sequence is complete
-    if (newInput.length === sequence.length) {
+    if (result === 'correct') {
       setGameState('correct')
 
       setTimeout(() => {
-        setLevel(l => l + 1)
-        startRound()
+        const nextLevel = level + 1
+        setLevel(nextLevel)
+        startRound(nextLevel)
       }, 1000)
     }
-  }, [gameState, userInput, sequence, lives, level, highScore, startRound])
+  }, [gameState, sequence, lives, level, highScore, startRound])
 
   // Start new game
   const startGame = useCallback(() => {
     setLevel(3)
     setLives(3)
     setUserInput([])
+    userInputRef.current = []
     setSequence([])
     setGameState('idle')
   }, [])
@@ -165,12 +170,15 @@ export default function MemoryGrid({ settings }: Props) {
               {isZh ? '记忆网格' : 'Memory Grid'}
             </h1>
             <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+              <span data-testid="memory-grid-state" className="sr-only">{gameState}</span>
+              <span data-testid="memory-grid-sequence" className="sr-only">{sequence.join(',')}</span>
+              <span data-testid="memory-grid-input" className="sr-only">{userInput.join(',')}</span>
               {getStatusMessage()}
             </p>
           </div>
           <div className="text-right">
             <div className={`text-2xl font-bold ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-              {isZh ? '等级' : 'Level'}: {level}
+              <span data-testid="memory-grid-level">{isZh ? '等级' : 'Level'}: {level}</span>
             </div>
             <div className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
               {isZh ? '最高' : 'Best'}: {highScore}
@@ -179,7 +187,7 @@ export default function MemoryGrid({ settings }: Props) {
         </div>
 
         {/* Lives display */}
-        <div className="flex justify-center gap-2 mb-4">
+        <div data-testid="memory-grid-lives" data-lives={lives} className="flex justify-center gap-2 mb-4">
           {[1, 2, 3].map(i => (
             <div
               key={i}
@@ -195,6 +203,7 @@ export default function MemoryGrid({ settings }: Props) {
           {[0, 1, 2, 3, 4, 5, 6, 7, 8].map(num => (
             <button
               key={num}
+              data-testid={`memory-grid-cell-${num}`}
               onClick={() => handleTileClick(num)}
               disabled={gameState !== 'input'}
               className={getTileClass(num)}
@@ -220,7 +229,8 @@ export default function MemoryGrid({ settings }: Props) {
         <div className="flex gap-2">
           {gameState === 'idle' && (
             <button
-              onClick={startRound}
+              data-testid="memory-grid-start"
+              onClick={() => startRound()}
               className="flex-1 py-3 rounded-xl font-semibold transition-all bg-green-600 hover:bg-green-500 text-white"
             >
               {isZh ? '开始游戏' : 'Start Game'}
@@ -238,7 +248,11 @@ export default function MemoryGrid({ settings }: Props) {
 
           {gameState === 'wrong' && lives > 0 && (
             <button
-              onClick={() => { setUserInput([]); setGameState('input') }}
+              onClick={() => {
+                userInputRef.current = []
+                setUserInput([])
+                setGameState('input')
+              }}
               className="flex-1 py-3 rounded-xl font-semibold transition-all bg-amber-600 hover:bg-amber-500 text-white"
             >
               {isZh ? '重试' : 'Try Again'}

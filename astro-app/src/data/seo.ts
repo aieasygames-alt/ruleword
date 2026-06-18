@@ -134,10 +134,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   crosswordle: {
     primaryKeyword: 'crosswordle',
-    secondaryKeywords: ['crosswordle game', 'crossword wordle', 'word grid puzzle', 'letter swap game'],
-    longTailKeywords: ['play crosswordle online free', 'crosswordle game rules', 'word grid puzzle online', 'crosswordle strategy tips', 'how to play crosswordle'],
-    titleTemplate: 'Crosswordle - Crossword Meets Wordle (Free Online Puzzle) | {brand}',
-    descriptionTemplate: 'Wordle + Crossword = Crosswordle! Swap letters to build valid words in both directions. Daily puzzles + unlimited mode. Brain-training word game — free, no download!',
+    secondaryKeywords: ['crosswordle scrambled', 'crossword meets wordle', 'crossword wordle', 'letter swap game'],
+    longTailKeywords: ['play crosswordle scrambled online free', 'crossword meets wordle game', 'crosswordle game rules', 'how to play crosswordle'],
+    titleTemplate: 'Crosswordle Scrambled - Crossword Meets Wordle | {brand}',
+    descriptionTemplate: 'Play Crosswordle Scrambled free online, where crossword meets Wordle. Swap letters to complete crossing words in daily or unlimited puzzles—no download.',
     intent: 'play'
   },
   connections: {
@@ -170,8 +170,8 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: '2048 game',
     secondaryKeywords: ['2048 online', 'number puzzle', 'sliding puzzle', '2048 strategy', 'how to win 2048'],
     longTailKeywords: ['play 2048 online free', '2048 tile game', 'merge numbers game', '2048 strategy guide', 'how to win 2048', '2048 tips and tricks', 'best 2048 strategy'],
-    titleTemplate: '2048 Game - Slide, Merge & Win! (Free + Strategy Guide) | {brand}',
-    descriptionTemplate: 'The original 2048 number puzzle! Slide tiles to merge them — reach 2048 to win. Includes built-in strategy guide with the corner technique. Free, no download!',
+    titleTemplate: '2048 Online - Play Free Number Merge Game | {brand}',
+    descriptionTemplate: 'Play 2048 online free. Slide and merge matching number tiles, build your score, and reach 2048. No download required—start a new game instantly.',
     intent: 'play'
   },
   minesweeper: {
@@ -614,8 +614,8 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'shakashaka',
     secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle', 'shaka shaka puzzle'],
     longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide', 'shakashaka puzzle online no download'],
-    titleTemplate: 'Play Shakashaka Online Free - Triangle & Rectangle Logic Puzzle | {brand}',
-    descriptionTemplate: 'Play Shakashaka free, no download! Place triangles to form perfect rectangles in this Nikoli logic puzzle. Rules, strategy tips & 100+ levels. Instant play in browser.',
+    titleTemplate: 'Shaka Shaka Puzzle Online - Play Free | {brand}',
+    descriptionTemplate: 'Play Shakashaka, also called Shaka Shaka Puzzle, free online. Place triangles so white spaces form rectangles. No download—start solving instantly.',
     intent: 'play'
   },
   'police-escape': {
@@ -959,8 +959,8 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'threes game',
     secondaryKeywords: ['threes online', 'number merge', 'sliding numbers'],
     longTailKeywords: ['play threes online free', 'merge numbers game', '2048 predecessor', 'slide and merge'],
-    titleTemplate: 'Threes Game Online Free - Number Merge | {brand}',
-    descriptionTemplate: 'Play Threes online free! Slide and merge numbers. The original 2048 predecessor!',
+    titleTemplate: 'Threes Online - Play the Original Merge Game | {brand}',
+    descriptionTemplate: 'Play Threes online free, the original number-merging puzzle before 2048. Combine 1 + 2, then match equal tiles. No download; play instantly.',
     intent: 'play'
   },
   '2048-cupcakes': {

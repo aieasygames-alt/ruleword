@@ -186,11 +186,13 @@ export default function Connections({ settings }: Props) {
       </div>
 
       {/* Grid */}
+      <span data-testid="connections-selected-count" className="sr-only">{selected.size}</span>
       {gameState === 'playing' && remainingWords.length > 0 && (
         <div className="grid grid-cols-4 gap-2 mb-4 w-full max-w-md">
           {remainingWords.map(word => (
             <button
               key={word}
+              data-testid="connections-word"
               onClick={() => toggleWord(word)}
               className={`p-3 rounded-lg font-medium text-sm transition-all ${
                 selected.has(word)

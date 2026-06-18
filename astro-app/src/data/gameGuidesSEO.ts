@@ -623,12 +623,10 @@ The most common mistake is playing without a plan. Every move should have a purp
 
   minesweeper: {
     slug: 'minesweeper',
-    title: 'Minesweeper Strategy: How to Win 85%+ Games (Logic Methods)',
-    description: '💣 Master Minesweeper with advanced patterns: 1-1, 1-2-1, corners. 85% win rate on Expert. Step-by-step deduction guide, minimize guessing to 15%.',
-    keywords: ['minesweeper tips', 'minesweeper strategy', 'how to play minesweeper', 'minesweeper tricks', 'minesweeper patterns', 'minesweeper for beginners', 'minesweeper expert', 'minesweeper world record', 'minesweeper logic', 'minesweeper solver'],
-    introduction: `Minesweeper is a logic puzzle where you must uncover all safe cells without hitting a mine. The numbers reveal how many adjacent cells contain mines. This guide teaches you the deduction techniques to solve puzzles efficiently and minimize guessing.
-
-Based on analysis of 10,000+ Expert games and pattern recognition studies, the strategies in this guide achieve an 85% win rate on Expert difficulty, reducing necessary guesses to the theoretical minimum of 15%. Most dedicated players can complete Intermediate games in under 2 minutes with practice.`,
+    title: 'Minesweeper Patterns & Safe First Click',
+    description: 'Learn Minesweeper patterns, safe first-click rules, and practical strategy. Use number clues, flags, and deduction to clear the board with less guessing.',
+    keywords: ['minesweeper patterns', 'safe first click', 'minesweeper strategy', 'how to play minesweeper', 'minesweeper tips', 'minesweeper for beginners', 'minesweeper logic', 'minesweeper solver'],
+    introduction: `Minesweeper strategy begins with a safe first click: the selected cell and its surrounding area contain no mines. From there, each number shows exactly how many mines touch that cell. Use those clues, flags, and recurring patterns to reveal safe squares while minimizing guesses.`,
     sections: [
       {
         title: 'Understanding the Numbers',
@@ -3583,10 +3581,10 @@ For difficult sections with subtle color variations (like sky or water), use sha
 // Sokoban Guide
 gameGuides['sokoban'] = {
   slug: 'sokoban',
-  title: 'Sokoban Strategy Guide: How to Solve Every Puzzle Level',
-  description: `Master Sokoban with backwards thinking, deadlock avoidance, and efficient pushing patterns. Learn to analyze levels and solve every box-pushing puzzle.`,
-  keywords: ['sokoban', 'sokoban strategy', 'box pushing puzzle', 'sokoban tips', 'how to play sokoban', 'sokoban walkthrough', 'warehouse puzzle', 'push puzzle'],
-  introduction: `Sokoban is a classic puzzle game where you push boxes onto goal positions in a warehouse. The rules are simple - you can only push, not pull, and only one box at a time - but the puzzles can be fiendishly difficult. This guide teaches the thinking strategies that transform frustrating levels into solvable challenges.`,
+  title: 'Sokoban Solutions: Push Boxes to Goals',
+  description: `Follow Sokoban solutions step by step. Learn how to push boxes to goals, avoid deadlocks, plan legal moves, and solve each free online level.`,
+  keywords: ['sokoban solutions', 'push boxes to goals', 'sokoban strategy', 'box pushing puzzle', 'sokoban tips', 'how to play sokoban', 'sokoban walkthrough', 'warehouse puzzle'],
+  introduction: `Sokoban solutions depend on planning legal pushes before moving a box. Your goal is to push boxes to goals without trapping them against walls or in corners. Because boxes can only be pushed, never pulled, each step must preserve a route for the player to get behind the next box. This guide explains the solution process step by step.`,
   sections: [
     {
       title: 'Thinking Backwards',
@@ -3745,10 +3743,10 @@ In timed modes, speed matters more than planning. Make matches as fast as possib
 // 15 Puzzle Guide
 gameGuides['15-puzzle'] = {
   slug: '15-puzzle',
-  title: '15 Puzzle Strategy Guide: How to Solve the Sliding Tile Puzzle',
-  description: `Learn proven strategies for solving the 15 sliding tile puzzle. Master row-by-row solving, tile positioning, corner techniques, and efficient move patterns.`,
-  keywords: ['15 puzzle', 'sliding puzzle', '15 puzzle strategy', 'sliding tile puzzle', 'how to solve 15 puzzle', '15 puzzle tips', 'slide puzzle', 'number puzzle'],
-  introduction: `The 15 puzzle is a classic sliding tile challenge where you arrange numbered tiles from 1 to 15 in order by sliding them into an empty space. It has fascinated puzzle enthusiasts since the 1880s and remains one of the most popular mechanical puzzles ever created. This guide teaches systematic solving methods that work for any scrambled configuration.`,
+  title: '15 Puzzle Solution Steps & Solvability',
+  description: `Learn 15 Puzzle solution steps, legal tile moves, and solvability rules. Use a row-by-row method to solve the sliding puzzle efficiently online.`,
+  keywords: ['15 puzzle solution steps', '15 puzzle solvability', 'legal tile moves', 'sliding puzzle', '15 puzzle strategy', 'how to solve 15 puzzle', 'slide puzzle', 'number puzzle'],
+  introduction: `These 15 Puzzle solution steps begin with two checks: only tiles directly above, below, left, or right of the empty space are legal moves, and the starting permutation must be solvable. Once those conditions are clear, arrange tiles 1 through 15 with a systematic row-by-row method that preserves completed sections.`,
   sections: [
     {
       title: 'Row-by-Row Solving Method',
@@ -4820,9 +4818,9 @@ The key insight from neuroscience is that working memory relies on the prefronta
 // Flow Free Strategy Guide
 gameGuides['flow-free'] = {
   slug: 'flow-free',
-  title: 'Flow Free Strategy: Solve Any Puzzle with These Proven Techniques',
-  description: 'Master Flow Free with bottleneck analysis, edge routing, and color isolation strategies. Solve every grid from beginner 5x5 to expert 9x9 with systematic techniques.',
-  keywords: ['flow free strategy', 'flow free tips', 'connect dots puzzle', 'pipe puzzle', 'flow puzzle'],
+  title: 'Flow Free Rules: Connect & Fill Every Cell',
+  description: 'Learn Flow Free rules and solutions: connect every matching color with orthogonal paths, prevent crossings, and fill the entire board with no empty cells.',
+  keywords: ['flow free rules', 'flow free solutions', 'connect all colors', 'fill the board', 'flow free strategy', 'connect dots puzzle', 'pipe puzzle'],
   introduction: `Flow Free is a deceptively simple connection puzzle. Pairs of colored dots are scattered across a grid, and your job is to connect each pair with a pipe that fills every cell on the board. No pipes can cross, and every cell must be filled. The rules take seconds to learn but the puzzles can be fiendishly difficult.
 
 This guide covers the systematic strategies that make any Flow Free puzzle solvable through pure logic. Whether you are working through the 5x5 beginner packs or stuck on a 9x9 expert board, these techniques will help you find the solution without guessing.`,

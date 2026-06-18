@@ -27,7 +27,7 @@ export default function SpeedMath({ settings, onBack, toggleLanguage }: Props) {
   const [isFinished, setIsFinished] = useState(false)
   const [num1, setNum1] = useState(0)
   const [num2, setNum2] = useState(0)
-  const [operator, setOperator] = useState<Operator('+')>('+')
+  const [operator, setOperator] = useState<Operator>('+')
   const [userAnswer, setUserAnswer] = useState('')
   const [correctCount, setCorrectCount] = useState(0)
   const [wrongCount, setWrongCount] = useState(0)

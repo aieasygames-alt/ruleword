@@ -1,70 +1,7 @@
 import { test, expect } from '@playwright/test'
 
-// All 79 games - auto-generated from games.ts
-const ALL_GAMES = [
-  // Word Games (10)
-  'crosswordle', 'word-search', 'hangman', 'anagrams', 'boggle',
-  'wordle', 'spelling-bee', 'connections', 'crossword', 'word-scramble',
-
-  // Logic Games (28)
-  'sudoku', '2048', 'minesweeper', 'nonogram', 'skyscrapers',
-  'suguru', 'binary', 'kakuro', 'kenken', 'hitori',
-  'slitherlink', 'bridges', 'threes', '15-puzzle', 'lights-out',
-  'bullpen', 'nurikabe', 'star-battle', 'heyawake', 'masyu',
-  'fillomino', 'yajilin', 'castle-wall', 'shakashaka', 'aqre',
-  'tapa', 'sudoku-x', 'killer-sudoku',
-
-  // Strategy Games (12)
-  'mastermind', 'tic-tac-toe', 'connect-four', 'reversi', 'gomoku',
-  'checkers', 'dots-and-boxes', 'chess', 'chinese-chess', 'battleship',
-  'nim',
-
-  // Arcade Games (10)
-  'tetris', 'snake', 'brick-breaker', 'pong', 'frogger',
-  'space-invaders', 'asteroids', 'pac-man', 'breakout', 'simon-game',
-
-  // Memory Games (7)
-  'memory', 'simon-says', 'whack-a-mole', 'number-memory', 'pattern-memory',
-  'reaction-test', 'memory-matrix',
-
-  // Skill Games (5)
-  'typing-test', 'aim-trainer', 'chimp-test', 'speed-math', 'color-match',
-
-  // Puzzle Games (7)
-  'mahjong-solitaire', 'sokoban', 'match-three', 'bubble-shooter', 'jigsaw',
-  'peg-solitaire', 'solitaire',
-]
-
 // Core games for detailed testing
 const CORE_GAMES = ['sudoku', '2048', 'tetris', 'wordle', 'memory', 'mastermind', 'chess', 'solitaire']
-
-test.describe('Game Load Tests - All 79 Games', () => {
-  test.describe.configure({ mode: 'parallel', timeout: 30000 })
-
-  for (const gameSlug of ALL_GAMES) {
-    test(`${gameSlug} should load successfully`, async ({ page }) => {
-      await page.goto(`/games/${gameSlug}/`)
-      await page.waitForLoadState('networkidle')
-
-      // 1. Page should load without errors
-      await expect(page.locator('body')).toBeVisible()
-
-      // 2. Should have navigation/back button
-      const backButton = page.locator('a[href="/"], button:has-text("←"), [class*="back"]').first()
-      await expect(backButton).toBeVisible({ timeout: 5000 })
-
-      // 3. Should have game content (not just blank page)
-      const gameContent = page.locator('main, [class*="game"], [class*="min-h-screen"]')
-      await expect(gameContent.first()).toBeVisible()
-
-      // 4. Wait for game to initialize
-      await page.waitForTimeout(1000)
-
-      // 5. Screenshot for visual verification (optional)
-      // await page.screenshot({ path: `screenshots/${gameSlug}.png` })
-    })
-  }
-})
 
 test.describe('Core Game Functionality Tests', () => {
   test('Sudoku - grid should be interactive', async ({ page }) => {

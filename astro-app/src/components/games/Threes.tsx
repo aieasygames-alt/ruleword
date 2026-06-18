@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import GameGuide from './GameGuide'
+import { canMoveThrees, moveThreesGrid, type ThreesDirection } from '../../games/threes/logic'
 
 type Difficulty = 'easy' | 'normal' | 'hard'
 
@@ -65,14 +66,6 @@ function getTileColor(value: number, darkMode: boolean): string {
   return 'bg-gray-800 text-white'
 }
 
-// 检查是否可以合并
-function canMerge(a: number, b: number): boolean {
-  if (a === 0 || b === 0) return false
-  if (a + b === 3) return true // 1 + 2 = 3
-  if (a >= 3 && a === b) return true // 相同数字合并
-  return false
-}
-
 export default function Threes({ settings, onBack }: { settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }; onBack: () => void }) {
   const [grid, setGrid] = useState<number[][]>([])
   const [score, setScore] = useState(0)
@@ -128,93 +121,14 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
     initializeGame()
   }, [])
 
-  const move = useCallback((direction: 'up' | 'down' | 'left' | 'right') => {
+  const move = useCallback((direction: ThreesDirection) => {
     if (gameOver) return
 
     setGrid(prev => {
-      const newGrid = prev.map(row => [...row])
-      let moved = false
-      let mergeScore = 0
+      const result = moveThreesGrid(prev, direction)
+      const newGrid = result.grid
 
-      const moveRow = (row: number[]): { row: number[]; score: number; moved: boolean } => {
-        const result: number[] = []
-        let score = 0
-        let rowMoved = false
-
-        // 移除空格
-        const filtered = row.filter(x => x !== 0)
-
-        for (let i = 0; i < filtered.length; i++) {
-          if (i + 1 < filtered.length && canMerge(filtered[i], filtered[i + 1])) {
-            const merged = filtered[i] + filtered[i + 1]
-            result.push(merged)
-            score += merged
-            i++
-            rowMoved = true
-          } else {
-            result.push(filtered[i])
-          }
-        }
-
-        // 填充空格
-        while (result.length < size) {
-          result.push(0)
-        }
-
-        if (JSON.stringify(row) !== JSON.stringify(result)) {
-          rowMoved = true
-        }
-
-        return { row: result, score, moved: rowMoved }
-      }
-
-      if (direction === 'left') {
-        for (let r = 0; r < size; r++) {
-          const { row, score, moved: rowMoved } = moveRow(newGrid[r])
-          if (rowMoved) {
-            newGrid[r] = row
-            moved = true
-            mergeScore += score
-          }
-        }
-      } else if (direction === 'right') {
-        for (let r = 0; r < size; r++) {
-          const { row, score, moved: rowMoved } = moveRow([...newGrid[r]].reverse())
-          const reversed = row.reverse()
-          if (rowMoved) {
-            newGrid[r] = reversed
-            moved = true
-            mergeScore += score
-          }
-        }
-      } else if (direction === 'up') {
-        for (let c = 0; c < size; c++) {
-          const col = newGrid.map(row => row[c])
-          const { row, score, moved: rowMoved } = moveRow(col)
-          if (rowMoved) {
-            for (let r = 0; r < size; r++) {
-              newGrid[r][c] = row[r]
-            }
-            moved = true
-            mergeScore += score
-          }
-        }
-      } else if (direction === 'down') {
-        for (let c = 0; c < size; c++) {
-          const col = [...newGrid.map(row => row[c])].reverse()
-          const { row, score, moved: rowMoved } = moveRow(col)
-          const reversed = row.reverse()
-          if (rowMoved) {
-            for (let r = 0; r < size; r++) {
-              newGrid[r][c] = reversed[r]
-            }
-            moved = true
-            mergeScore += score
-          }
-        }
-      }
-
-      if (moved) {
+      if (result.moved) {
         // 添加新瓦片
         const emptyCells: [number, number][] = []
         for (let r = 0; r < size; r++) {
@@ -230,7 +144,7 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
         }
 
         setScore(s => {
-          const newScore = s + mergeScore
+          const newScore = s + result.score
           if (newScore > stats.bestScore) {
             const newStats = { ...stats, bestScore: newScore }
             setStats(newStats)
@@ -240,16 +154,7 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
         })
 
         // 检查游戏是否结束
-        let canMove = false
-        for (let r = 0; r < size && !canMove; r++) {
-          for (let c = 0; c < size && !canMove; c++) {
-            if (newGrid[r][c] === 0) canMove = true
-            if (r < size - 1 && canMerge(newGrid[r][c], newGrid[r + 1][c])) canMove = true
-            if (c < size - 1 && canMerge(newGrid[r][c], newGrid[r][c + 1])) canMove = true
-          }
-        }
-
-        if (!canMove) {
+        if (!canMoveThrees(newGrid)) {
           setGameOver(true)
         }
       }
@@ -333,7 +238,7 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
           <div className="flex justify-center gap-4 mb-4">
             <div className={`${cardBgClass} rounded-lg p-3 text-center min-w-24`}>
               <div className="text-xs opacity-60">{t.score}</div>
-              <div className="text-2xl font-bold text-green-500">{score}</div>
+              <div data-testid="threes-score" className="text-2xl font-bold text-green-500">{score}</div>
             </div>
             <div className={`${cardBgClass} rounded-lg p-3 text-center min-w-24`}>
               <div className="text-xs opacity-60">{t.best}</div>
@@ -347,7 +252,7 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
 
           {/* Grid */}
           <div className="flex justify-center mb-4">
-            <div className={`grid gap-2 p-2 rounded-lg ${settings.darkMode ? 'bg-slate-700' : 'bg-gray-300'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
+            <div data-testid="threes-board" className={`grid gap-2 p-2 rounded-lg ${settings.darkMode ? 'bg-slate-700' : 'bg-gray-300'}`} style={{ gridTemplateColumns: `repeat(${size}, ${cellSize}px)` }}>
               {grid.map((row, r) =>
                 row.map((cell, c) => (
                   <div
@@ -364,17 +269,18 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
 
           {/* Controls */}
           <div className="flex justify-center gap-1 mb-4">
-            <button onClick={() => move('up')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>↑</button>
+            <button data-testid="threes-up" onClick={() => move('up')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>↑</button>
           </div>
           <div className="flex justify-center gap-1 mb-4">
-            <button onClick={() => move('left')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>←</button>
-            <button onClick={() => move('down')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>↓</button>
-            <button onClick={() => move('right')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>→</button>
+            <button data-testid="threes-left" onClick={() => move('left')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>←</button>
+            <button data-testid="threes-down" onClick={() => move('down')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>↓</button>
+            <button data-testid="threes-right" onClick={() => move('right')} className={`w-12 h-12 rounded-lg ${cardBgClass} border ${borderClass} text-xl`}>→</button>
           </div>
 
           {/* New Game */}
           <div className="flex justify-center">
             <button
+              data-testid="threes-new-game"
               onClick={initializeGame}
               className={`px-6 py-2 rounded-lg font-medium ${settings.darkMode ? 'bg-green-700 hover:bg-green-600' : 'bg-green-600 hover:bg-green-500'} text-white`}
             >

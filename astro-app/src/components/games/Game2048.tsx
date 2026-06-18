@@ -1,7 +1,12 @@
 import { useState, useCallback, useEffect } from 'react'
 import GameGuide from './GameGuide'
+import {
+  canMove2048,
+  hasWon2048,
+  move2048Grid,
+  type Direction2048,
+} from '../../games/game-2048/logic'
 
-type Direction = 'up' | 'down' | 'left' | 'right'
 type GameMode = 'daily' | 'practice'
 
 interface Stats {
@@ -74,77 +79,6 @@ function addRandomTile(grid: number[][], seed?: number): number[][] {
   return newGrid
 }
 
-// 旋转网格（用于简化移动逻辑）
-function rotateGrid(grid: number[][], times: number): number[][] {
-  let result = grid.map(row => [...row])
-  for (let t = 0; t < times; t++) {
-    const rotated = generateEmptyGrid()
-    for (let r = 0; r < GRID_SIZE; r++) {
-      for (let c = 0; c < GRID_SIZE; c++) {
-        rotated[c][GRID_SIZE - 1 - r] = result[r][c]
-      }
-    }
-    result = rotated
-  }
-  return result
-}
-
-// 向左滑动一行
-function slideRow(row: number[]): { row: number[]; score: number } {
-  const filtered = row.filter(x => x !== 0)
-  const merged: number[] = []
-  let score = 0
-
-  let i = 0
-  while (i < filtered.length) {
-    if (i + 1 < filtered.length && filtered[i] === filtered[i + 1]) {
-      const mergedValue = filtered[i] * 2
-      merged.push(mergedValue)
-      score += mergedValue
-      i += 2
-    } else {
-      merged.push(filtered[i])
-      i++
-    }
-  }
-
-  while (merged.length < GRID_SIZE) {
-    merged.push(0)
-  }
-
-  return { row: merged, score }
-}
-
-// 检查是否可以移动
-function canMove(grid: number[][]): boolean {
-  // 检查是否有空格
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (grid[r][c] === 0) return true
-    }
-  }
-
-  // 检查是否有相邻相同的数字
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (c + 1 < GRID_SIZE && grid[r][c] === grid[r][c + 1]) return true
-      if (r + 1 < GRID_SIZE && grid[r][c] === grid[r + 1][c]) return true
-    }
-  }
-
-  return false
-}
-
-// 检查是否达到2048
-function hasWon(grid: number[][]): boolean {
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (grid[r][c] >= 2048) return true
-    }
-  }
-  return false
-}
-
 interface Game2048Props {
   settings: {
     language: 'zh' | 'en'
@@ -202,35 +136,17 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
   }, [])
 
   // 移动逻辑
-  const move = useCallback((direction: Direction) => {
+  const move = useCallback((direction: Direction2048) => {
     if (gameOver || (won && !continueAfterWin)) return
 
-    // 旋转次数：左=0，上=3，右=2，下=1
-    const rotations: Record<Direction, number> = { left: 0, up: 3, right: 2, down: 1 }
-
-    const rotatedGrid = rotateGrid(grid, rotations[direction])
-    let totalScore = 0
-    let moved = false
-
-    const newGrid = rotatedGrid.map(row => {
-      const result = slideRow(row)
-      if (result.row.join(',') !== row.join(',')) {
-        moved = true
-      }
-      totalScore += result.score
-      return result.row
-    })
-
-    if (!moved) return
-
-    // 旋转回原位
-    let finalGrid = rotateGrid(newGrid, (4 - rotations[direction]) % 4)
+    const result = move2048Grid(grid, direction)
+    if (!result.moved) return
 
     // 添加新数字
-    finalGrid = addRandomTile(finalGrid)
+    const finalGrid = addRandomTile(result.grid)
 
     setGrid(finalGrid)
-    const newScore = score + totalScore
+    const newScore = score + result.score
     setScore(newScore)
 
     if (newScore > bestScore) {
@@ -241,7 +157,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     }
 
     // 检查胜利
-    if (!won && !continueAfterWin && hasWon(finalGrid)) {
+    if (!won && !continueAfterWin && hasWon2048(finalGrid)) {
       setWon(true)
       const newStats = { ...stats, played: stats.played + 1, won: stats.won + 1 }
       if (newScore > newStats.bestScore) newStats.bestScore = newScore
@@ -250,7 +166,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     }
 
     // 检查游戏结束
-    if (!canMove(finalGrid)) {
+    if (!canMove2048(finalGrid)) {
       setGameOver(true)
       if (!won) {
         const newStats = { ...stats, played: stats.played + 1 }
@@ -265,7 +181,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (gameOver || (won && !continueAfterWin)) return
 
-      const keyMap: Record<string, Direction> = {
+      const keyMap: Record<string, Direction2048> = {
         ArrowUp: 'up',
         ArrowDown: 'down',
         ArrowLeft: 'left',
@@ -502,13 +418,15 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
         <div className="flex justify-center gap-4 mb-3">
           <div className={`${cardBgClass} rounded-lg px-4 py-2 text-center min-w-[100px]`}>
             <div className="text-xs opacity-70">{t.score}</div>
-            <div className="text-xl font-bold">{score}</div>
+            <div data-testid="game2048-score" className="text-xl font-bold">{score}</div>
           </div>
           <div className={`${cardBgClass} rounded-lg px-4 py-2 text-center min-w-[100px]`}>
             <div className="text-xs opacity-70">{t.best}</div>
             <div className="text-xl font-bold">{bestScore}</div>
           </div>
           <button
+            data-testid="game2048-new-game"
+            aria-label={t.newGame}
             onClick={() => initializeGame()}
             className="px-4 py-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-lg font-medium"
           >
@@ -521,6 +439,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
 
       {/* Game Board */}
       <div
+        data-testid="game2048-board"
         className="rounded-xl p-3 border-2"
         style={{
           background: settings.darkMode

@@ -150,6 +150,7 @@ export default function Wordle({ settings, onShare, gameName = 'Wordle' }: Props
 
   return (
     <div className={`min-h-screen flex flex-col items-center justify-center p-4 ${isDark ? 'bg-slate-900' : 'bg-gray-100'}`}>
+      <span data-testid="wordle-current-guess" className="sr-only">{currentGuess}</span>
       {/* Header with Dictionary button */}
       <div className="flex items-center gap-4 mb-4">
         <h1 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>

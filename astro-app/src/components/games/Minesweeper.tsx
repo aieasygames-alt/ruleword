@@ -1,16 +1,13 @@
 import { useState, useCallback, useEffect } from 'react'
 import GameGuide from './GameGuide'
+import {
+  generateMinesweeperBoard,
+  revealMinesweeperCell,
+  type MinesweeperCell as Cell,
+} from '../../games/minesweeper/logic'
 
 type Difficulty = 'easy' | 'medium' | 'hard'
 type GameMode = 'daily' | 'practice'
-type CellState = 'hidden' | 'revealed' | 'flagged'
-
-interface Cell {
-  isMine: boolean
-  adjacentMines: number
-  state: CellState
-}
-
 interface Stats {
   played: number
   won: number
@@ -33,15 +30,6 @@ function getDailySeed(): number {
   return Math.floor((now - startDate) / 86400000)
 }
 
-// 伪随机数生成器
-function seededRandom(seed: number) {
-  let s = seed
-  return function() {
-    s = (s * 1103515245 + 12345) & 0x7fffffff
-    return s / 0x7fffffff
-  }
-}
-
 // 加载统计
 function loadStats(): Stats {
   try {
@@ -55,50 +43,6 @@ function loadStats(): Stats {
 // 保存统计
 function saveStats(stats: Stats) {
   localStorage.setItem(STATS_KEY, JSON.stringify(stats))
-}
-
-// 生成游戏板
-function generateBoard(rows: number, cols: number, mines: number, seed?: number): Cell[][] {
-  const board: Cell[][] = Array(rows).fill(null).map(() =>
-    Array(cols).fill(null).map(() => ({
-      isMine: false,
-      adjacentMines: 0,
-      state: 'hidden' as CellState,
-    }))
-  )
-
-  // 放置地雷
-  const rng = seed !== undefined ? seededRandom(seed) : Math.random
-  let placedMines = 0
-  while (placedMines < mines) {
-    const r = Math.floor((typeof rng === 'function' ? rng() : Math.random()) * rows)
-    const c = Math.floor((typeof rng === 'function' ? rng() : Math.random()) * cols)
-    if (!board[r][c].isMine) {
-      board[r][c].isMine = true
-      placedMines++
-    }
-  }
-
-  // 计算相邻地雷数
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (!board[r][c].isMine) {
-        let count = 0
-        for (let dr = -1; dr <= 1; dr++) {
-          for (let dc = -1; dc <= 1; dc++) {
-            const nr = r + dr
-            const nc = c + dc
-            if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].isMine) {
-              count++
-            }
-          }
-        }
-        board[r][c].adjacentMines = count
-      }
-    }
-  }
-
-  return board
 }
 
 interface MinesweeperProps {
@@ -122,6 +66,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
   const [stats, setStats] = useState<Stats>(loadStats)
   const [showGameGuide, setShowGameGuide] = useState(false)
   const [firstClick, setFirstClick] = useState(true)
+  const [boardSeed, setBoardSeed] = useState(1)
 
   const config = DIFFICULTY_CONFIG[difficulty]
 
@@ -148,10 +93,13 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     setDifficulty(newDiff)
 
     const newConfig = DIFFICULTY_CONFIG[newDiff]
-    const seed = newMode === 'daily' ? getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(newDiff) * 1000 : undefined
-    const newBoard = generateBoard(newConfig.rows, newConfig.cols, newConfig.mines, seed)
+    const seed = newMode === 'daily'
+      ? getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(newDiff) * 1000
+      : Math.floor(Math.random() * 0x7fffffff)
+    const newBoard = generateMinesweeperBoard(newConfig.rows, newConfig.cols, newConfig.mines, seed)
 
     setBoard(newBoard)
+    setBoardSeed(seed)
     setGameOver(false)
     setWon(false)
     setTimer(0)
@@ -173,56 +121,6 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     return () => clearInterval(interval)
   }, [isRunning, gameOver])
 
-  // 生成安全棋盘（第一次点击位置及周围无雷）
-  const generateSafeBoard = useCallback((safeRow: number, safeCol: number): Cell[][] => {
-    let attempts = 0
-    while (attempts < 200) {
-      const newBoard = generateBoard(config.rows, config.cols, config.mines)
-      // 确保点击位置及周围8格都无雷
-      let safe = true
-      for (let dr = -1; dr <= 1; dr++) {
-        for (let dc = -1; dc <= 1; dc++) {
-          const nr = safeRow + dr
-          const nc = safeCol + dc
-          if (nr >= 0 && nr < config.rows && nc >= 0 && nc < config.cols && newBoard[nr][nc].isMine) {
-            safe = false
-            break
-          }
-        }
-        if (!safe) break
-      }
-      if (safe) return newBoard
-      attempts++
-    }
-    // Fallback: force safety
-    const fallback = generateBoard(config.rows, config.cols, config.mines)
-    for (let dr = -1; dr <= 1; dr++) {
-      for (let dc = -1; dc <= 1; dc++) {
-        const nr = safeRow + dr
-        const nc = safeCol + dc
-        if (nr >= 0 && nr < config.rows && nc >= 0 && nc < config.cols && fallback[nr][nc].isMine) {
-          fallback[nr][nc].isMine = false
-        }
-      }
-    }
-    // Recalculate adjacent counts
-    for (let r = 0; r < config.rows; r++) {
-      for (let c = 0; c < config.cols; c++) {
-        if (!fallback[r][c].isMine) {
-          let count = 0
-          for (let dr2 = -1; dr2 <= 1; dr2++) {
-            for (let dc2 = -1; dc2 <= 1; dc2++) {
-              const nr2 = r + dr2, nc2 = c + dc2
-              if (nr2 >= 0 && nr2 < config.rows && nc2 >= 0 && nc2 < config.cols && fallback[nr2][nc2].isMine) count++
-            }
-          }
-          fallback[r][c].adjacentMines = count
-        }
-      }
-    }
-    return fallback
-  }, [config])
-
   // 揭开格子
   const revealCell = useCallback((r: number, c: number) => {
     if (gameOver || board[r][c].state !== 'hidden') return
@@ -230,55 +128,28 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     // 第一次点击时生成安全棋盘
     let currentBoard = board
     if (firstClick) {
-      currentBoard = generateSafeBoard(r, c)
-      setBoard(currentBoard)
+      currentBoard = generateMinesweeperBoard(
+        config.rows,
+        config.cols,
+        config.mines,
+        boardSeed,
+        [r, c],
+      )
       setFirstClick(false)
       setIsRunning(true)
     }
 
-    const boardToUse = currentBoard
-
-    setBoard(prev => {
-      const newBoard = (prev === board ? boardToUse : prev).map(row => row.map(cell => ({ ...cell })))
-
-      // 如果是地雷，游戏结束
-      if (newBoard[r][c].isMine) {
-        // 揭开所有地雷
-        newBoard.forEach(row => row.forEach(cell => {
-          if (cell.isMine) cell.state = 'revealed'
-        }))
+    const result = revealMinesweeperCell(currentBoard, r, c)
+    setBoard(result.board)
+    if (result.hitMine) {
         setGameOver(true)
         setWon(false)
         setIsRunning(false)
         const newStats = { ...stats, played: stats.played + 1 }
         setStats(newStats)
         saveStats(newStats)
-        return newBoard
-      }
-
-      // BFS 揭开相邻空格子
-      const queue: [number, number][] = [[r, c]]
-      while (queue.length > 0) {
-        const [cr, cc] = queue.shift()!
-        if (newBoard[cr][cc].state !== 'hidden') continue
-        newBoard[cr][cc].state = 'revealed'
-
-        if (newBoard[cr][cc].adjacentMines === 0) {
-          for (let dr = -1; dr <= 1; dr++) {
-            for (let dc = -1; dc <= 1; dc++) {
-              const nr = cr + dr
-              const nc = cc + dc
-              if (nr >= 0 && nr < config.rows && nc >= 0 && nc < config.cols && newBoard[nr][nc].state === 'hidden') {
-                queue.push([nr, nc])
-              }
-            }
-          }
-        }
-      }
-
-      return newBoard
-    })
-  }, [gameOver, board, firstClick, config, stats, generateSafeBoard])
+    }
+  }, [gameOver, board, firstClick, config, stats, boardSeed])
 
   // 切换旗帜
   const toggleFlag = useCallback((r: number, c: number, e: React.MouseEvent) => {
@@ -290,6 +161,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
       const cell = newBoard[r][c]
 
       if (cell.state === 'hidden') {
+        if (flagCount >= config.mines) return prev
         cell.state = 'flagged'
         setFlagCount(f => f + 1)
       } else if (cell.state === 'flagged') {
@@ -299,7 +171,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
 
       return newBoard
     })
-  }, [gameOver, board])
+  }, [gameOver, board, flagCount, config.mines])
 
   // 检查胜利
   useEffect(() => {
@@ -440,6 +312,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
           {(Object.keys(DIFFICULTY_CONFIG) as Difficulty[]).map(diff => (
             <button
               key={diff}
+              data-testid={`minesweeper-difficulty-${diff}`}
               onClick={() => initializeGame(gameMode, diff)}
               className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                 difficulty === diff
@@ -456,13 +329,14 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
         <div className="flex justify-center gap-6 mb-3 text-sm">
           <div className="flex items-center gap-1">
             <span>💣</span>
-            <span>{config.mines - flagCount}</span>
+            <span data-testid="minesweeper-mines-left">{config.mines - flagCount}</span>
           </div>
           <div className="flex items-center gap-1">
             <span>⏱️</span>
             <span>{formatTime(timer)}</span>
           </div>
           <button
+            data-testid="minesweeper-new-game"
             onClick={() => initializeGame()}
             className="px-3 py-1 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg text-sm font-medium"
           >
@@ -474,6 +348,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
       {/* Game Board */}
       <div className="flex-1 flex flex-col items-center justify-center overflow-auto">
         <div
+          data-testid="minesweeper-board"
           className="grid gap-0.5"
           style={{
             gridTemplateColumns: `repeat(${config.cols}, 1fr)`,
@@ -484,6 +359,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
             row.map((cell, c) => (
               <button
                 key={`${r}-${c}`}
+                data-testid={`minesweeper-cell-${r}-${c}`}
+                data-state={cell.state}
                 onClick={() => revealCell(r, c)}
                 onContextMenu={(e) => toggleFlag(r, c, e)}
                 disabled={gameOver && cell.state === 'revealed'}
@@ -504,7 +381,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
 
         {/* Game Over Message */}
         {gameOver && (
-          <div className={`mt-6 ${cardBgClass} rounded-xl p-4 text-center`}>
+          <div data-testid="minesweeper-result" className={`mt-6 ${cardBgClass} rounded-xl p-4 text-center`}>
             <div className="text-3xl mb-2">{won ? '🎉' : '💥'}</div>
             <div className={`font-bold mb-2 ${won ? 'text-green-500' : 'text-red-500'}`}>
               {won ? t.youWin : t.youLose}

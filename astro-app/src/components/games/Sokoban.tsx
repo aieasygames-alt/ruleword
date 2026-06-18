@@ -1,7 +1,11 @@
 import { useState, useCallback, useEffect } from 'react'
-
-type Cell = ' ' | '#' | '$' | '.' | '@' | '+' | '*'
-type Position = { row: number; col: number }
+import {
+  isSokobanWon,
+  moveSokoban,
+  parseSokobanLevel,
+  type SokobanCell as Cell,
+  type SokobanPosition as Position,
+} from '../../games/sokoban/logic'
 
 type Settings = {
   darkMode: boolean
@@ -61,48 +65,24 @@ const LEVELS: { [key: number]: string[] } = {
   ],
 }
 
-// 解析关卡
-const parseLevel = (levelData: string[]): { board: Cell[][], player: Position, boxes: Position[], targets: Position[] } => {
-  const board: Cell[][] = []
-  const boxes: Position[] = []
-  const targets: Position[] = []
-  let player: Position = { row: 0, col: 0 }
-
-  levelData.forEach((row, rowIndex) => {
-    const cells: Cell[] = []
-    row.split('').forEach((char, colIndex) => {
-      const cell = char as Cell
-      cells.push(cell)
-
-      if (cell === '@' || cell === '+') {
-        player = { row: rowIndex, col: colIndex }
-      }
-      if (cell === '$' || cell === '*') {
-        boxes.push({ row: rowIndex, col: colIndex })
-      }
-      if (cell === '.' || cell === '+' || cell === '*') {
-        targets.push({ row: rowIndex, col: colIndex })
-      }
-    })
-    board.push(cells)
-  })
-
-  return { board, player, boxes, targets }
-}
-
 export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
   const [currentLevel, setCurrentLevel] = useState(1)
   const [board, setBoard] = useState<Cell[][]>([])
   const [player, setPlayer] = useState<Position>({ row: 0, col: 0 })
   const [moves, setMoves] = useState(0)
   const [pushes, setPushes] = useState(0)
-  const [history, setHistory] = useState<{ board: Cell[][], player: Position }[]>([])
+  const [history, setHistory] = useState<{
+    board: Cell[][]
+    player: Position
+    moves: number
+    pushes: number
+  }[]>([])
   const [gameWon, setGameWon] = useState(false)
 
   // 初始化关卡
   const initLevel = useCallback((level: number) => {
     const levelData = LEVELS[level] || LEVELS[1]
-    const { board, player } = parseLevel(levelData)
+    const { board, player } = parseSokobanLevel(levelData)
     setBoard(board)
     setPlayer(player)
     setMoves(0)
@@ -115,66 +95,28 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
     initLevel(currentLevel)
   }, [currentLevel, initLevel])
 
-  // 检查是否获胜
-  const checkWin = useCallback((b: Cell[][]) => {
-    return b.every(row =>
-      row.every(cell => cell !== '.' && cell !== '$')
-    )
-  }, [])
-
   // 移动玩家
   const movePlayer = useCallback((dRow: number, dCol: number) => {
     if (gameWon) return
+    const result = moveSokoban({ board, player }, dRow, dCol)
+    if (!result.moved) return
 
-    const newRow = player.row + dRow
-    const newCol = player.col + dCol
-
-    // 检查边界
-    if (newRow < 0 || newRow >= board.length || newCol < 0 || newCol >= board[0].length) return
-
-    const targetCell = board[newRow][newCol]
-
-    // 墙壁阻挡
-    if (targetCell === '#') return
-
-    // 保存历史
-    const newHistory = [...history, { board: board.map(r => [...r]), player }]
-
-    const newBoard = board.map(r => [...r])
-
-    // 推箱子
-    if (targetCell === '$' || targetCell === '*') {
-      const boxNewRow = newRow + dRow
-      const boxNewCol = newCol + dCol
-
-      // 检查箱子能否被推动
-      if (boxNewRow < 0 || boxNewRow >= board.length || boxNewCol < 0 || boxNewCol >= board[0].length) return
-      const boxTarget = board[boxNewRow][boxNewCol]
-      if (boxTarget === '#' || boxTarget === '$' || boxTarget === '*') return
-
-      // 移动箱子
-      newBoard[boxNewRow][boxNewCol] = boxTarget === '.' ? '*' : '$'
-      newBoard[newRow][newCol] = targetCell === '*' ? '.' : ' '
-      setPushes(p => p + 1)
-    }
-
-    // 移动玩家
-    const currentCell = board[player.row][player.col]
-    newBoard[player.row][player.col] = currentCell === '+' ? '.' : ' '
-
-    const destCell = newBoard[newRow][newCol]
-    newBoard[newRow][newCol] = destCell === '.' ? '+' : '@'
-
-    setBoard(newBoard)
-    setPlayer({ row: newRow, col: newCol })
-    setMoves(m => m + 1)
-    setHistory(newHistory)
+    setHistory(prev => [...prev, {
+      board: board.map(row => [...row]),
+      player: { ...player },
+      moves,
+      pushes,
+    }])
+    setBoard(result.state.board)
+    setPlayer(result.state.player)
+    setMoves(moves + 1)
+    setPushes(pushes + (result.pushed ? 1 : 0))
 
     // 检查获胜
-    if (checkWin(newBoard)) {
+    if (isSokobanWon(result.state.board)) {
       setGameWon(true)
     }
-  }, [board, player, history, gameWon, checkWin, moves])
+  }, [board, player, gameWon, moves, pushes])
 
   // 撤销
   const undo = useCallback(() => {
@@ -183,7 +125,9 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
     setBoard(last.board)
     setPlayer(last.player)
     setHistory(history.slice(0, -1))
-    setMoves(m => Math.max(0, m - 1))
+    setMoves(last.moves)
+    setPushes(last.pushes)
+    setGameWon(false)
   }, [history])
 
   // 重置关卡
@@ -341,15 +285,16 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
       <div className="max-w-4xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div className="flex gap-4 text-sm">
-            <span className="text-slate-400">
+            <span data-testid="sokoban-moves" className="text-slate-400">
               {settings.language === 'zh' ? '步数' : 'Moves'}: {moves}
             </span>
-            <span className="text-slate-400">
+            <span data-testid="sokoban-pushes" className="text-slate-400">
               {settings.language === 'zh' ? '推动' : 'Pushes'}: {pushes}
             </span>
           </div>
           <div className="flex gap-2">
             <button
+              data-testid="sokoban-undo"
               onClick={undo}
               disabled={history.length === 0}
               className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 rounded text-sm transition-colors"
@@ -357,6 +302,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
               {settings.language === 'zh' ? '撤销' : 'Undo'}
             </button>
             <button
+              data-testid="sokoban-reset"
               onClick={resetLevel}
               className="px-3 py-1.5 bg-orange-600 hover:bg-orange-500 rounded text-sm transition-colors"
             >
@@ -391,7 +337,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
 
       {/* Game Board */}
       <div className="flex justify-center pb-8">
-        <div className="border-2 border-slate-600 rounded-lg overflow-hidden">
+        <div data-testid="sokoban-board" className="border-2 border-slate-600 rounded-lg overflow-hidden">
           {board.map((row, rowIndex) => (
             <div key={rowIndex} className="flex">
               {row.map((cell, colIndex) => renderCell(cell, rowIndex, colIndex))}
@@ -442,7 +388,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
 
       {/* Win Modal */}
       {gameWon && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+        <div data-testid="sokoban-win" className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="bg-slate-800 rounded-2xl p-8 text-center max-w-sm mx-4">
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-2xl font-bold mb-2">

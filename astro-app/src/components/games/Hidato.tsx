@@ -231,7 +231,7 @@ const isValidMove = (
 export default function Hidato({ settings, onBack }: HidatoProps) {
   const size = 5;
   const [puzzleData, setPuzzleData] = useState(() => generatePuzzle(size));
-  const [grid, setGrid] = useState<Cell[][]>([]);
+  const [grid, setGrid] = useState<Cell[][]>(() => puzzleData.grid.map(row => [...row]));
   const [currentNumber, setCurrentNumber] = useState(1);
   const [gameWon, setGameWon] = useState(false);
 
