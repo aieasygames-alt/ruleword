@@ -4,7 +4,6 @@ export const GET: APIRoute = async () => {
   const robotsTxt = `# Allow all bots
 User-agent: *
 Allow: /
-Crawl-delay: 1
 
 # Disallow admin and API routes
 Disallow: /api/
@@ -14,19 +13,6 @@ Disallow: /editor
 
 # Disallow embed pages (noindex, avoid crawl waste)
 Disallow: /embed/
-
-# Specific bots
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
 
 # Sitemap
 Sitemap: https://ruleword.com/sitemap.xml

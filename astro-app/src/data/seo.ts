@@ -129,14 +129,14 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     secondaryKeywords: ['boggle game', 'play boggle free', 'boggle word game', 'boggle no download', '4x4 boggle', '5x5 boggle'],
     longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', '4x4 word puzzle', 'boggle word finder', 'boggle rules and scoring', 'boggle strategy tips'],
     titleTemplate: 'Play Boggle Online Free - Classic Word Game in Your Browser | {brand}',
-    descriptionTemplate: 'Play Boggle free in your browser — no download required! Find words in a 4x4 letter grid, race against time. Classic word search game with scoring, strategy tips, and unlimited plays.',
+    descriptionTemplate: 'Play Boggle free in your browser—no download required. Find words in a 4x4 grid, race the clock, improve your score, and play unlimited rounds.',
     intent: 'play'
   },
   crosswordle: {
     primaryKeyword: 'crosswordle',
     secondaryKeywords: ['crosswordle game', 'crossword wordle', 'word grid puzzle', 'letter swap game'],
     longTailKeywords: ['play crosswordle online free', 'crosswordle game rules', 'word grid puzzle online', 'crosswordle strategy tips', 'how to play crosswordle'],
-    titleTemplate: 'Crosswordle - Crossword Meets Wordle (Free Online Puzzle)',
+    titleTemplate: 'Crosswordle - Crossword Meets Wordle (Free Online Puzzle) | {brand}',
     descriptionTemplate: 'Wordle + Crossword = Crosswordle! Swap letters to build valid words in both directions. Daily puzzles + unlimited mode. Brain-training word game — free, no download!',
     intent: 'play'
   },
@@ -158,11 +158,19 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     descriptionTemplate: 'Play Sudoku online free! Fill the 9x9 grid with numbers 1-9. Multiple difficulty levels from easy to expert. No download, play instantly!',
     intent: 'play'
   },
+  queens: {
+    primaryKeyword: 'queens puzzle',
+    secondaryKeywords: ['queens game', 'queens logic puzzle', 'queens online'],
+    longTailKeywords: ['play queens puzzle online free', 'queens game no download', 'one queen per row puzzle'],
+    titleTemplate: 'Queens Puzzle Online Free - Play the Logic Game | {brand}',
+    descriptionTemplate: 'Play Queens online free. Place one queen in every row, column, and colored region without touching diagonally. Fresh logic puzzles, no download required.',
+    intent: 'play'
+  },
   '2048': {
     primaryKeyword: '2048 game',
     secondaryKeywords: ['2048 online', 'number puzzle', 'sliding puzzle', '2048 strategy', 'how to win 2048'],
     longTailKeywords: ['play 2048 online free', '2048 tile game', 'merge numbers game', '2048 strategy guide', 'how to win 2048', '2048 tips and tricks', 'best 2048 strategy'],
-    titleTemplate: '2048 Game - Slide, Merge & Win! (Free + Strategy Guide)',
+    titleTemplate: '2048 Game - Slide, Merge & Win! (Free + Strategy Guide) | {brand}',
     descriptionTemplate: 'The original 2048 number puzzle! Slide tiles to merge them — reach 2048 to win. Includes built-in strategy guide with the corner technique. Free, no download!',
     intent: 'play'
   },
@@ -170,7 +178,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'minesweeper online',
     secondaryKeywords: ['minesweeper game', 'mine sweeper', 'classic puzzle', 'minesweeper free'],
     longTailKeywords: ['play minesweeper free', 'minesweeper classic game', 'avoid mines puzzle', 'windows minesweeper', 'minesweeper online free game'],
-    titleTemplate: 'Minesweeper - Classic Puzzle Game (Free, 3 Difficulty Levels)',
+    titleTemplate: 'Minesweeper - Classic Puzzle Game (Free, 3 Difficulty Levels) | {brand}',
     descriptionTemplate: 'The classic Minesweeper you remember! Right-click to flag mines, uncover safe squares. Easy, Medium & Hard modes. Free in browser — no download, start playing!',
     intent: 'play'
   },
@@ -338,7 +346,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'star battle puzzle',
     secondaryKeywords: ['star battle online', 'two stars puzzle', 'place stars game'],
     longTailKeywords: ['star battle puzzle online', 'play star battle free', 'logic star placement', 'region star puzzle'],
-    titleTemplate: 'Star Battle Puzzle - Place Stars Without Touching (Free)',
+    titleTemplate: 'Star Battle Puzzle - Place Stars Without Touching (Free) | {brand}',
     descriptionTemplate: 'Place stars so no two touch — even diagonally! Each row, column & region gets exactly 2. 50+ logic puzzles from easy to expert. Free, instant play!',
     intent: 'play'
   },
@@ -591,7 +599,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     secondaryKeywords: ['aqre game', 'aqre online', 'shade region puzzle', 'japanese shading puzzle'],
     longTailKeywords: ['play aqre online free', 'aqre rules explained', 'how to solve aqre', 'aqre strategy guide', 'japanese shade puzzle tips'],
     titleTemplate: 'Aqre Puzzle - Play Online Free (No Download) | {brand}',
-    descriptionTemplate: 'Play Aqre puzzle free in your browser! Shade cells so each region has the right count — no 3 shaded in a row, all whites connected. Japanese Nikoli logic puzzle. Play now!',
+    descriptionTemplate: 'Play Aqre free online. Shade each region correctly, avoid three shaded cells in a row, and keep all white cells connected. No download required.',
     intent: 'play'
   },
   'castle-wall': {
@@ -606,7 +614,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'shakashaka',
     secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle', 'shaka shaka puzzle'],
     longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide', 'shakashaka puzzle online no download'],
-    titleTemplate: 'Play Shakashaka Online Free - Triangle & Rectangle Logic Puzzle',
+    titleTemplate: 'Play Shakashaka Online Free - Triangle & Rectangle Logic Puzzle | {brand}',
     descriptionTemplate: 'Play Shakashaka free, no download! Place triangles to form perfect rectangles in this Nikoli logic puzzle. Rules, strategy tips & 100+ levels. Instant play in browser.',
     intent: 'play'
   },
@@ -622,7 +630,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'tapa puzzle',
     secondaryKeywords: ['tapa online', 'tapa games', 'shade cells puzzle'],
     longTailKeywords: ['play tapa online free', 'tapa puzzle rules', 'tapa logic puzzle', 'how to play tapa'],
-    titleTemplate: 'Tapa Puzzle - Shade Cells, Build Walls (100+ Free Puzzles)',
+    titleTemplate: 'Tapa Puzzle - Shade Cells, Build Walls (100+ Free Puzzles) | {brand}',
     descriptionTemplate: 'Shade cells to build a continuous wall using number clues — sounds easy? 100+ Tapa puzzles from beginner to expert. Free, instant play, no download!',
     intent: 'play'
   },
@@ -648,7 +656,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'bubble shooter',
     secondaryKeywords: ['bubble shooter online', 'bubble shooter free', 'bubble shooter unblocked', 'bubble pop game'],
     longTailKeywords: ['play bubble shooter free online', 'bubble shooter no download', 'bubble shooter unblocked online', 'free bubble shooter game', 'bubble popping game online'],
-    titleTemplate: 'Bubble Shooter - Free Online Game (No Download, Unblocked)',
+    titleTemplate: 'Bubble Shooter - Free Online Game (No Download, Unblocked) | {brand}',
     descriptionTemplate: 'Play Bubble Shooter free online — no download, unblocked! Match 3+ bubbles to pop them in this classic arcade puzzle. Addictive, instant play in your browser.',
     intent: 'play'
   },
@@ -696,7 +704,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'cut the rope game',
     secondaryKeywords: ['cut the rope online', 'om nom', 'rope cutting', 'cut the rope free'],
     longTailKeywords: ['play cut the rope free', 'cut rope puzzle', 'feed candy monster', 'physics rope game', 'cut the rope unblocked'],
-    titleTemplate: 'Cut the Rope - Feed Om Nom! Free Physics Puzzle Game',
+    titleTemplate: 'Cut the Rope - Feed Om Nom! Free Physics Puzzle Game | {brand}',
     descriptionTemplate: 'Swipe to cut ropes and swing candy into Om Nom\'s mouth! 25 physics puzzles with bubbles, air cushions & stars to collect. The classic game — free in browser!',
     intent: 'play'
   },
@@ -714,7 +722,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'memory grid game',
     secondaryKeywords: ['memory grid online', 'grid memory', 'pattern memory'],
     longTailKeywords: ['play memory grid free', 'remember grid pattern', 'visual memory game', 'grid recall'],
-    titleTemplate: 'Memory Grid - Remember & Recreate Patterns (Brain Training)',
+    titleTemplate: 'Memory Grid - Remember & Recreate Patterns (Brain Training) | {brand}',
     descriptionTemplate: 'See it. Remember it. Recreate it. Grid patterns grow larger as you level up. Tracks your visual memory score — can you beat level 10? Free brain training game!',
     intent: 'play'
   },
@@ -772,7 +780,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'huarong pass puzzle',
     secondaryKeywords: ['klotski', 'sliding block puzzle', 'chinese puzzle', 'huarong pass online', 'cao cao escape'],
     longTailKeywords: ['play huarong pass free', 'klotski puzzle online', 'cao cao escape', 'sliding blocks puzzle online', 'huarong pass klotski free'],
-    titleTemplate: 'Huarong Pass (Klotski) - Free Chinese Sliding Block Puzzle Online',
+    titleTemplate: 'Huarong Pass (Klotski) - Free Chinese Sliding Block Puzzle Online | {brand}',
     descriptionTemplate: 'Play Huarong Pass free online — the legendary Chinese sliding block puzzle (Klotski)! Slide blocks to free Cao Cao. No download, classic brain teaser. Instant play!',
     intent: 'play'
   },
@@ -862,7 +870,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'flow free game',
     secondaryKeywords: ['flow free online', 'connect dots', 'pipe puzzle', 'flow puzzle'],
     longTailKeywords: ['play flow free online', 'connect matching dots', 'color flow puzzle', 'pipe connect game'],
-    titleTemplate: 'Flow Free - Connect Colored Dots Puzzle (Free Online)',
+    titleTemplate: 'Flow Free - Connect Colored Dots Puzzle (Free Online) | {brand}',
     descriptionTemplate: 'Connect matching dots with pipes — but they can\'t cross! 200+ levels from warm-up to brain-buster. The #1 pipe connect puzzle. Free, no download, play now!',
     intent: 'play'
   },
@@ -959,7 +967,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: '2048 cupcakes',
     secondaryKeywords: ['2048 cupcakes online', 'cupcake 2048', 'cupcake merge game', 'sweet merge game'],
     longTailKeywords: ['play 2048 cupcakes free', 'cupcake 2048 online free', 'candy 2048 game', 'dessert puzzle online', '2048 cupcakes no download'],
-    titleTemplate: '2048 Cupcakes - Play Free Sweet Merge Game Online (No Download)',
+    titleTemplate: '2048 Cupcakes - Play Free Sweet Merge Game Online (No Download) | {brand}',
     descriptionTemplate: 'Play 2048 Cupcakes free online! Merge matching cupcakes to bake the ultimate mega cupcake. Sweet twist on 2048. No download — instant play in browser!',
     intent: 'play'
   },
@@ -975,7 +983,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'memory matrix game',
     secondaryKeywords: ['memory matrix online', 'pattern recall', 'grid memory'],
     longTailKeywords: ['play memory matrix free', 'remember pattern', 'grid recall', 'visual memory'],
-    titleTemplate: 'Memory Matrix - Flash & Recall Pattern Game (Free)',
+    titleTemplate: 'Memory Matrix - Flash & Recall Pattern Game (Free) | {brand}',
     descriptionTemplate: 'Tiles flash, then disappear — can you remember which ones? Levels get harder as your score climbs. Scientific brain training that\'s actually fun. Free, instant play!',
     intent: 'play'
   },

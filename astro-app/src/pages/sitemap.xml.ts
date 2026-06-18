@@ -4,8 +4,6 @@ import { categories } from '../data/categories'
 import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { blogPosts } from '../data/blogPosts'
-import { difficultyVariants } from '../data/gameVariants'
-import { storyVariants } from '../data/storyVariants'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -26,9 +24,6 @@ export const GET: APIRoute = async () => {
 
   // Blog posts
   const blogSlugs = Object.keys(blogPosts)
-
-  // Game variants
-  const variants = difficultyVariants
 
   const baseUrl = 'https://ruleword.com'
   const lastmod = new Date().toISOString().split('T')[0]
@@ -67,14 +62,6 @@ ${gameSlugs.map(slug => {
     <priority>${priority}</priority>
   </url>`
 }).join('\n')}
-
-  <!-- Game Variant Pages (${variants.length} variants) -->
-${variants.map(v => `  <url>
-    <loc>${baseUrl}/games/${v.gameId}/${v.variant}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>`).join('\n')}
 
   <!-- Game Guides Index -->
   <url>
@@ -140,13 +127,6 @@ ${(await getCollection('stories')).map(entry => `  <url>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>`).join('\n')}
-${storyVariants.map(v => `  <url>
-    <loc>${baseUrl}/stories/${v.storySlug}/${v.variant}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>`).join('\n')}
-
   <!-- Daily Challenge Page -->
   <url>
     <loc>${baseUrl}/daily/</loc>

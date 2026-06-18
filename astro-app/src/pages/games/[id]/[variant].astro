@@ -78,7 +78,13 @@ const howToSchema = {
 }
 ---
 
-<BaseLayout title={variant.title} description={variant.description} keywords={variant.keywords} canonicalPath={`/games/${game.id}/${variant.variant}/`}>
+<BaseLayout
+  title={variant.title}
+  description={variant.description}
+  keywords={variant.keywords}
+  canonicalPath={`/games/${game.id}/${variant.variant}/`}
+  robots="noindex, follow"
+>
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">

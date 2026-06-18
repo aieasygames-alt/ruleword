@@ -68,6 +68,7 @@ const otherVariants = getVariantsForStory(slug!).filter(v => v.variant !== varia
   canonicalPath={`/stories/${slug}/${variantName}/`}
   ogImage={`/og/story-${slug}.png`}
   breadcrumbItems={breadcrumbItems}
+  robots="noindex, follow"
 >
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
     <!-- Navigation Bar -->

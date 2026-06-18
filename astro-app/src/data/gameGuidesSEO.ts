@@ -5174,8 +5174,8 @@ Scoring rewards longer words heavily: 3-4 letters = 1 point, 5 letters = 2 point
 }
 
 // Slitherlink Guide
-gameGuides['slitherlink-guide'] = {
-  slug: 'slitherlink-guide',
+gameGuides['slitherlink'] = {
+  slug: 'slitherlink',
   title: 'Slitherlink Guide: Rules, Patterns, and Solving Techniques',
   description: 'Master Slitherlink with this complete guide. Learn the rules, essential patterns (0 cells, 3 corners, diagonal 3s), edge counting, and advanced loop-building techniques.',
   keywords: ['slitherlink guide', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink patterns', 'slitherlink tips', 'loop puzzle guide', 'fences puzzle'],
@@ -5267,8 +5267,8 @@ This guide covers everything from basic rules to advanced solving techniques.`,
 }
 
 // Heyawake Guide
-gameGuides['heyawake-guide'] = {
-  slug: 'heyawake-guide',
+gameGuides['heyawake'] = {
+  slug: 'heyawake',
   title: 'Heyawake Guide: Rules, Strategy, and Solving Techniques',
   description: 'Complete Heyawake guide. Learn the room-shading rules, three-in-a-row constraint, white connectivity, and systematic solving techniques.',
   keywords: ['heyawake guide', 'heyawake rules', 'how to solve heyawake', 'heyawake strategy', 'heyawake tips', 'japanese room puzzle', 'shade cells puzzle'],
@@ -5352,8 +5352,8 @@ gameGuides['heyawake-guide'] = {
 }
 
 // Suguru Guide
-gameGuides['suguru-guide'] = {
-  slug: 'suguru-guide',
+gameGuides['suguru'] = {
+  slug: 'suguru',
   title: 'Suguru Guide: Rules, Strategy, and How to Solve Number Regions',
   description: 'Complete Suguru puzzle guide. Learn how to fill number regions without adjacent duplicates, master diagonal elimination, and develop systematic solving strategies.',
   keywords: ['suguru guide', 'suguru rules', 'how to solve suguru', 'suguru strategy', 'suguru tips', 'number region puzzle', 'japanese number puzzle'],

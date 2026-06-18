@@ -13,6 +13,7 @@ interface Props {
   hreflangUrls?: Array<{lang: string; url: string}>
   howToSchema?: object
   aggregateRating?: { ratingValue: number; reviewCount: number; bestRating: number }
+  robots?: string
 }
 
 const {
@@ -25,7 +26,8 @@ const {
   isHomePage = false,
   breadcrumbItems,
   howToSchema,
-  aggregateRating
+  aggregateRating,
+  robots = 'index, follow'
 } = Astro.props
 
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
@@ -57,7 +59,7 @@ const { hreflangUrls } = Astro.props
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robots} />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#0f172a" />
