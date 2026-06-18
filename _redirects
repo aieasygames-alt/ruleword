@@ -1,0 +1,24 @@
+https://ruleword.pages.dev/* https://ruleword.com/:splat 301
+
+# Retired language URL structure
+/en/ / 301
+/en/* /:splat 301
+/fr/ / 301
+/fr/* /:splat 301
+/de/ / 301
+/de/* /:splat 301
+/es/ / 301
+/es/* /:splat 301
+/ru/ / 301
+/ru/* /:splat 301
+/ja/ / 301
+/ja/* /:splat 301
+/zh-TW/ / 301
+/zh-TW/* /:splat 301
+/zh-CN/ / 301
+/zh-CN/* /:splat 301
+
+# Retired duplicate guide slugs
+/guides/slitherlink-guide/ /guides/slitherlink/ 301
+/guides/heyawake-guide/ /guides/heyawake/ 301
+/guides/suguru-guide/ /guides/suguru/ 301
