@@ -3,8 +3,10 @@ import {
   CHINESE_CHESS_INITIAL_BOARD,
   areChineseKingsFacing,
   cloneChineseChessBoard,
+  getAllChineseLegalMoves,
   getChineseLegalMoves,
   getChinesePseudoMoves,
+  isChineseCheckmate,
   type ChineseChessBoard,
   type ChineseChessPiece,
 } from '../src/games/chinese-chess/logic'
@@ -70,5 +72,26 @@ describe('Chinese Chess rules', () => {
   it('returns legal moves from the initial position', () => {
     const board = cloneChineseChessBoard(CHINESE_CHESS_INITIAL_BOARD)
     expect(getChineseLegalMoves(board, 6, 0)).toContainEqual({ row: 5, col: 0 })
+  })
+
+  it('detects a king with no legal escape as checkmate', () => {
+    const board = emptyBoard()
+    board[0][4] = piece('K', 'black')
+    board[1][3] = piece('R', 'red')
+    board[1][5] = piece('R', 'red')
+    board[9][4] = piece('K', 'red')
+
+    expect(isChineseCheckmate(board, 'black')).toBe(true)
+    expect(isChineseCheckmate(cloneChineseChessBoard(CHINESE_CHESS_INITIAL_BOARD), 'black')).toBe(false)
+  })
+
+  it('enumerates only moves accepted by the legal move engine for AI selection', () => {
+    const board = cloneChineseChessBoard(CHINESE_CHESS_INITIAL_BOARD)
+    const moves = getAllChineseLegalMoves(board, 'black')
+
+    expect(moves.length).toBeGreaterThan(0)
+    for (const move of moves) {
+      expect(getChineseLegalMoves(board, move.from.row, move.from.col)).toContainEqual(move.to)
+    }
   })
 })

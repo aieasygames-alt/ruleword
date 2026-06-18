@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import {
   generateMinesweeperBoard,
+  getMinesweeperDailySeed,
   hasWonMinesweeper,
   revealMinesweeperCell,
+  toggleMinesweeperFlag,
 } from '../src/games/minesweeper/logic'
 
 describe('Minesweeper rules', () => {
@@ -46,5 +48,26 @@ describe('Minesweeper rules', () => {
       if (!cell.isMine) cell.state = 'revealed'
     })
     expect(hasWonMinesweeper(board)).toBe(true)
+  })
+
+  it('caps flags at the mine count and never flags revealed cells', () => {
+    const board = generateMinesweeperBoard(2, 2, 1, 3)
+    const first = toggleMinesweeperFlag(board, 0, 0, 1)
+    expect(first.changed).toBe(true)
+    expect(first.flagCount).toBe(1)
+
+    const capped = toggleMinesweeperFlag(first.board, 0, 1, 1)
+    expect(capped.changed).toBe(false)
+    expect(capped.flagCount).toBe(1)
+
+    const revealed = first.board.map(row => row.map(cell => ({ ...cell })))
+    revealed[1][0].state = 'revealed'
+    expect(toggleMinesweeperFlag(revealed, 1, 0, 1).changed).toBe(false)
+  })
+
+  it('uses stable daily seeds with separate difficulty offsets', () => {
+    const date = new Date('2026-06-18T12:00:00Z')
+    expect(getMinesweeperDailySeed(date, 0)).toBe(getMinesweeperDailySeed(date, 0))
+    expect(getMinesweeperDailySeed(date, 1)).not.toBe(getMinesweeperDailySeed(date, 0))
   })
 })

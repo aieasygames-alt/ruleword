@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import {
   CHINESE_CHESS_INITIAL_BOARD,
+  getAllChineseLegalMoves,
   getChineseLegalMoves,
   type ChineseChessPiece as Piece,
 } from '../../games/chinese-chess/logic'
@@ -297,18 +298,7 @@ export default function ChineseChess({ settings }: Props) {
       return isMaximizing ? -100000 : 100000
     }
 
-    const moves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
-    for (let r = 0; r < 10; r++) {
-      for (let c = 0; c < 9; c++) {
-        const piece = boardState[r][c]
-        if (piece && piece.color === currentColor) {
-          const legalMoves = getLegalMoves(r, c, boardState)
-          legalMoves.forEach(move => {
-            moves.push({ from: { row: r, col: c }, to: move })
-          })
-        }
-      }
-    }
+    const moves = getAllChineseLegalMoves(boardState, currentColor)
 
     if (moves.length === 0) {
       return isMaximizing ? -100000 : 100000
@@ -367,18 +357,7 @@ export default function ChineseChess({ settings }: Props) {
       let bestMove: { from: { row: number; col: number }; to: { row: number; col: number } } | null = null
       let bestScore = -Infinity
 
-      const moves: { from: { row: number; col: number }; to: { row: number; col: number } }[] = []
-      for (let r = 0; r < 10; r++) {
-        for (let c = 0; c < 9; c++) {
-          const piece = boardState[r][c]
-          if (piece && piece.color === 'black') {
-            const legalMoves = getLegalMoves(r, c, boardState)
-            legalMoves.forEach(move => {
-              moves.push({ from: { row: r, col: c }, to: move })
-            })
-          }
-        }
-      }
+      const moves = getAllChineseLegalMoves(boardState, 'black')
 
       // 随机打乱移动顺序增加变化性
       for (let i = moves.length - 1; i > 0; i--) {

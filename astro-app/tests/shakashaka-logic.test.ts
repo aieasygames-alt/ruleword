@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
+  SHAKASHAKA_PUZZLES,
   checkShakashakaGrid,
   createShakashakaGrid,
+  createShakashakaPuzzleGrid,
   cycleShakashakaTriangle,
   type ShakashakaCell,
 } from '../src/games/shakashaka/logic'
@@ -57,4 +59,13 @@ describe('Shakashaka rules', () => {
 
     expect(checkShakashakaGrid(grid)?.message).toMatch(/not a rectangle/)
   })
+
+  it.each(SHAKASHAKA_PUZZLES.map((puzzle, index) => [index + 1, puzzle] as const))(
+    'ships puzzle %i with a known solution accepted by the rule engine',
+    (_number, puzzle) => {
+      const grid = createShakashakaPuzzleGrid(puzzle, true)
+
+      expect(checkShakashakaGrid(grid)).toBeNull()
+    },
+  )
 })

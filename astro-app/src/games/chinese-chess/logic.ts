@@ -147,16 +147,25 @@ export function getChineseLegalMoves(
   })
 }
 
+export function getAllChineseLegalMoves(
+  board: ChineseChessBoard,
+  color: ChineseChessColor,
+): { from: ChineseChessPosition; to: ChineseChessPosition }[] {
+  const moves: { from: ChineseChessPosition; to: ChineseChessPosition }[] = []
+  for (let row = 0; row < 10; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (board[row][col]?.color !== color) continue
+      for (const to of getChineseLegalMoves(board, row, col)) {
+        moves.push({ from: { row, col }, to })
+      }
+    }
+  }
+  return moves
+}
+
 export function isChineseCheckmate(
   board: ChineseChessBoard,
   color: ChineseChessColor,
 ): boolean {
-  for (let row = 0; row < 10; row++) {
-    for (let col = 0; col < 9; col++) {
-      if (board[row][col]?.color === color && getChineseLegalMoves(board, row, col).length > 0) {
-        return false
-      }
-    }
-  }
-  return true
+  return getAllChineseLegalMoves(board, color).length === 0
 }

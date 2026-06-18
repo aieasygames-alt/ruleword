@@ -5,6 +5,15 @@ export type MinesweeperCell = {
   state: MinesweeperCellState
 }
 
+export function getMinesweeperDailySeed(
+  date = new Date(),
+  difficultyOffset = 0,
+): number {
+  const start = Date.UTC(2024, 0, 1)
+  const current = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  return Math.floor((current - start) / 86400000) + difficultyOffset * 1000
+}
+
 function seededRandom(seed: number): () => number {
   let state = seed || 1
   return () => {
@@ -105,4 +114,32 @@ export function revealMinesweeperCell(
 
 export function hasWonMinesweeper(board: MinesweeperCell[][]): boolean {
   return board.flat().every(cell => cell.isMine || cell.state === 'revealed')
+}
+
+export function toggleMinesweeperFlag(
+  board: MinesweeperCell[][],
+  row: number,
+  col: number,
+  mineCount: number,
+): {
+  board: MinesweeperCell[][]
+  flagCount: number
+  changed: boolean
+} {
+  const currentFlagCount = board.flat().filter(cell => cell.state === 'flagged').length
+  const selected = board[row]?.[col]
+  if (!selected || selected.state === 'revealed') {
+    return { board, flagCount: currentFlagCount, changed: false }
+  }
+  if (selected.state === 'hidden' && currentFlagCount >= mineCount) {
+    return { board, flagCount: currentFlagCount, changed: false }
+  }
+
+  const next = board.map(line => line.map(cell => ({ ...cell })))
+  next[row][col].state = selected.state === 'flagged' ? 'hidden' : 'flagged'
+  return {
+    board: next,
+    flagCount: currentFlagCount + (selected.state === 'flagged' ? -1 : 1),
+    changed: true,
+  }
 }

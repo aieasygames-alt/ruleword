@@ -13,6 +13,42 @@ export type ShakashakaCheckError = {
   cells: ShakashakaCoord[]
 }
 
+export type ShakashakaPuzzle = {
+  size: number
+  clues: [number, number, number][]
+  solution: ShakashakaCoord[]
+}
+
+export const SHAKASHAKA_PUZZLES: ShakashakaPuzzle[] = [
+  {
+    size: 5,
+    clues: [
+      [0, 1, 1], [0, 3, 1],
+      [2, 0, 1], [2, 4, 1],
+      [4, 1, 1], [4, 3, 1],
+    ],
+    solution: [[0, 2], [1, 0], [1, 2], [1, 4], [2, 2], [3, 1], [3, 3]],
+  },
+  {
+    size: 5,
+    clues: [
+      [0, 2, 2],
+      [1, 0, 1], [1, 4, 1],
+      [3, 0, 1], [3, 4, 1],
+      [4, 2, 2],
+    ],
+    solution: [[0, 1], [1, 2], [1, 3], [2, 0], [2, 1], [3, 2], [3, 3], [4, 1]],
+  },
+  {
+    size: 5,
+    clues: [
+      [0, 0, 2], [0, 2, 2], [0, 4, 2],
+      [4, 0, 2], [4, 2, 2], [4, 4, 2],
+    ],
+    solution: [[0, 1], [0, 3], [1, 0], [1, 4], [2, 1], [2, 2], [2, 3], [3, 0], [3, 4], [4, 1], [4, 3]],
+  },
+]
+
 const TRIANGLE_CYCLE: ShakashakaTriangle[] = ['TL', 'TR', 'BL', 'BR']
 
 export function cycleShakashakaTriangle(cell: ShakashakaCell): ShakashakaCell {
@@ -42,6 +78,19 @@ export function createShakashakaGrid(
     grid[row][col] = { isBlack: true, triangle: null, clue }
   })
 
+  return grid
+}
+
+export function createShakashakaPuzzleGrid(
+  puzzle: ShakashakaPuzzle,
+  solved = false,
+): ShakashakaCell[][] {
+  const grid = createShakashakaGrid(puzzle.size, puzzle.clues)
+  if (solved) {
+    puzzle.solution.forEach(([row, col]) => {
+      grid[row][col].triangle = 'TL'
+    })
+  }
   return grid
 }
 

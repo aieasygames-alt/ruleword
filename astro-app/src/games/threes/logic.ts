@@ -1,5 +1,11 @@
 export type ThreesDirection = 'up' | 'down' | 'left' | 'right'
 
+export function getThreesDailySeed(date = new Date()): number {
+  const start = Date.UTC(2024, 0, 1)
+  const current = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  return Math.floor((current - start) / 86400000)
+}
+
 export function canMergeThrees(first: number, second: number): boolean {
   if (first === 0 || second === 0) return false
   if (first + second === 3) return true
@@ -90,4 +96,25 @@ export function canMoveThrees(grid: number[][]): boolean {
   }
 
   return false
+}
+
+export function moveAndSpawnThreesTile(
+  grid: number[][],
+  direction: ThreesDirection,
+  nextTile: number,
+  random = Math.random,
+): { grid: number[][]; score: number; moved: boolean; spawned: boolean } {
+  const result = moveThreesGrid(grid, direction)
+  if (!result.moved) return { ...result, spawned: false }
+
+  const next = result.grid.map(row => [...row])
+  const emptyCells: [number, number][] = []
+  next.forEach((row, rowIndex) => row.forEach((value, colIndex) => {
+    if (value === 0) emptyCells.push([rowIndex, colIndex])
+  }))
+  if (emptyCells.length === 0) return { ...result, grid: next, spawned: false }
+
+  const [row, col] = emptyCells[Math.floor(random() * emptyCells.length)]
+  next[row][col] = nextTile
+  return { ...result, grid: next, spawned: true }
 }

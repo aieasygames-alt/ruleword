@@ -5,6 +5,14 @@ export type SokobanState = {
   player: SokobanPosition
 }
 
+export const SOKOBAN_LEVELS: Record<number, string[]> = {
+  1: ['######', '#    #', '# $  #', '# .@ #', '#    #', '######'],
+  2: ['########', '#      #', '# $ $  #', '# .@.  #', '#      #', '########'],
+  3: ['  #####', '###   #', '# $ # #', '# #.  #', '#   @ #', '#######'],
+  4: ['########', '#      #', '# $@$  #', '# ..   #', '#  $   #', '#  .   #', '########'],
+  5: ['  ######', '  #  . #', '  # $$ #', '### $  #', '#  .#. #', '# @    #', '########'],
+}
+
 export function parseSokobanLevel(level: string[]): SokobanState {
   let player: SokobanPosition = { row: 0, col: 0 }
   const board = level.map((line, row) =>
@@ -57,4 +65,46 @@ export function moveSokoban(
     moved: true,
     pushed,
   }
+}
+
+export function countSokobanBoxesAndGoals(level: string[]): {
+  boxes: number
+  goals: number
+  balanced: boolean
+} {
+  const cells = level.join('')
+  const boxes = [...cells].filter(cell => cell === '$' || cell === '*').length
+  const goals = [...cells].filter(cell => cell === '.' || cell === '+' || cell === '*').length
+  return { boxes, goals, balanced: boxes === goals }
+}
+
+export function solveSokobanLevel(
+  level: string[],
+  maxStates = 100_000,
+): string | null {
+  const directions = [
+    ['U', -1, 0],
+    ['D', 1, 0],
+    ['L', 0, -1],
+    ['R', 0, 1],
+  ] as const
+  const initial = parseSokobanLevel(level)
+  const queue: { state: SokobanState; path: string }[] = [{ state: initial, path: '' }]
+  const visited = new Set([initial.board.map(row => row.join('')).join('\n')])
+
+  for (let index = 0; index < queue.length && visited.size <= maxStates; index++) {
+    const current = queue[index]
+    if (isSokobanWon(current.state.board)) return current.path
+
+    for (const [move, rowDelta, colDelta] of directions) {
+      const result = moveSokoban(current.state, rowDelta, colDelta)
+      if (!result.moved) continue
+      const key = result.state.board.map(row => row.join('')).join('\n')
+      if (visited.has(key)) continue
+      visited.add(key)
+      queue.push({ state: result.state, path: current.path + move })
+    }
+  }
+
+  return null
 }

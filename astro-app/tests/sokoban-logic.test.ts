@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { isSokobanWon, moveSokoban, parseSokobanLevel } from '../src/games/sokoban/logic'
+import {
+  SOKOBAN_LEVELS,
+  countSokobanBoxesAndGoals,
+  isSokobanWon,
+  moveSokoban,
+  parseSokobanLevel,
+  solveSokobanLevel,
+} from '../src/games/sokoban/logic'
 
 describe('Sokoban rules', () => {
   it('blocks movement through walls', () => {
@@ -30,5 +37,19 @@ describe('Sokoban rules', () => {
     const result = moveSokoban(state, 0, 1)
 
     expect(result.state.board[1].join('')).toBe('#  +*#')
+  })
+
+  it('keeps box and goal counts balanced in every built-in level', () => {
+    for (const level of Object.values(SOKOBAN_LEVELS)) {
+      expect(countSokobanBoxesAndGoals(level)).toEqual(
+        expect.objectContaining({ balanced: true }),
+      )
+    }
+  })
+
+  it('finds a solution for every built-in level', () => {
+    for (const level of Object.values(SOKOBAN_LEVELS)) {
+      expect(solveSokobanLevel(level, 100_000)).not.toBeNull()
+    }
   })
 })

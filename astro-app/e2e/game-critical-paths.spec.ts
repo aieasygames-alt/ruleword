@@ -16,6 +16,23 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('shakashaka-error')).toBeVisible()
   })
 
+  test('Shakashaka resets, advances puzzles, and accepts a known solution', async ({ page }) => {
+    await page.goto('/games/shakashaka/?fixture=solved')
+    const placedTriangles = page.locator('[data-testid^="shakashaka-cell-"][data-triangle="TL"]')
+
+    await expect(placedTriangles).toHaveCount(7)
+    await page.getByTestId('shakashaka-reset').click()
+    await expect(placedTriangles).toHaveCount(0)
+
+    await page.getByTestId('shakashaka-next').click()
+    await expect(page.getByText('Puzzle 2 of 3')).toBeVisible()
+    await expect(page.locator('[data-testid^="shakashaka-cell-"][data-triangle="TL"]')).toHaveCount(0)
+
+    await page.goto('/games/shakashaka/?fixture=solved')
+    await page.getByTestId('shakashaka-check').click()
+    await expect(page.getByTestId('shakashaka-win')).toBeVisible()
+  })
+
   test('Threes responds to keyboard and screen controls, then resets', async ({ page }) => {
     await page.goto('/games/threes/')
     const board = page.getByTestId('threes-board')

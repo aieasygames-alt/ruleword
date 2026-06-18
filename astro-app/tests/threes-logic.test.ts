@@ -2,7 +2,9 @@ import { describe, expect, it } from 'vitest'
 import {
   canMergeThrees,
   canMoveThrees,
+  getThreesDailySeed,
   moveThreesGrid,
+  moveAndSpawnThreesTile,
   slideThreesRow,
 } from '../src/games/threes/logic'
 
@@ -61,5 +63,29 @@ describe('Threes rules', () => {
       [3, 6],
       [12, 0],
     ])).toBe(true)
+  })
+
+  it('keeps the daily seed stable within the same UTC day', () => {
+    expect(getThreesDailySeed(new Date('2026-06-18T01:00:00Z')))
+      .toBe(getThreesDailySeed(new Date('2026-06-18T23:00:00Z')))
+  })
+
+  it('spawns exactly one next tile after a valid move and none after an invalid move', () => {
+    const valid = moveAndSpawnThreesTile([
+      [1, 2],
+      [0, 0],
+    ], 'left', 3, () => 0)
+    expect(valid.grid.flat().filter(value => value !== 0)).toHaveLength(2)
+    expect(valid.spawned).toBe(true)
+
+    const invalid = moveAndSpawnThreesTile([
+      [3, 0],
+      [0, 0],
+    ], 'left', 2, () => 0)
+    expect(invalid.grid).toEqual([
+      [3, 0],
+      [0, 0],
+    ])
+    expect(invalid.spawned).toBe(false)
   })
 })

@@ -2,7 +2,9 @@ import { useState, useCallback, useEffect } from 'react'
 import GameGuide from './GameGuide'
 import {
   generateMinesweeperBoard,
+  getMinesweeperDailySeed,
   revealMinesweeperCell,
+  toggleMinesweeperFlag,
   type MinesweeperCell as Cell,
 } from '../../games/minesweeper/logic'
 
@@ -22,13 +24,6 @@ const DIFFICULTY_CONFIG = {
 
 const STORAGE_KEY = 'minesweeper_save'
 const STATS_KEY = 'minesweeper_stats'
-
-// 获取每日种子
-function getDailySeed(): number {
-  const startDate = new Date('2024-01-01').getTime()
-  const now = new Date().setHours(0, 0, 0, 0)
-  return Math.floor((now - startDate) / 86400000)
-}
 
 // 加载统计
 function loadStats(): Stats {
@@ -94,7 +89,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
 
     const newConfig = DIFFICULTY_CONFIG[newDiff]
     const seed = newMode === 'daily'
-      ? getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(newDiff) * 1000
+      ? getMinesweeperDailySeed(new Date(), Object.keys(DIFFICULTY_CONFIG).indexOf(newDiff))
       : Math.floor(Math.random() * 0x7fffffff)
     const newBoard = generateMinesweeperBoard(newConfig.rows, newConfig.cols, newConfig.mines, seed)
 
@@ -157,19 +152,9 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     if (gameOver || board[r][c].state === 'revealed') return
 
     setBoard(prev => {
-      const newBoard = prev.map(row => row.map(cell => ({ ...cell })))
-      const cell = newBoard[r][c]
-
-      if (cell.state === 'hidden') {
-        if (flagCount >= config.mines) return prev
-        cell.state = 'flagged'
-        setFlagCount(f => f + 1)
-      } else if (cell.state === 'flagged') {
-        cell.state = 'hidden'
-        setFlagCount(f => f - 1)
-      }
-
-      return newBoard
+      const result = toggleMinesweeperFlag(prev, r, c, config.mines)
+      if (result.changed) setFlagCount(result.flagCount)
+      return result.board
     })
   }, [gameOver, board, flagCount, config.mines])
 

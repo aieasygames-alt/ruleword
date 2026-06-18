@@ -1,9 +1,11 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import {
+  SHAKASHAKA_PUZZLES,
   checkShakashakaGrid,
-  createShakashakaGrid,
+  createShakashakaPuzzleGrid,
   cycleShakashakaTriangle,
   type ShakashakaCell as Cell,
+  type ShakashakaCheckError as CheckError,
   type ShakashakaTriangle as Triangle,
 } from '../../games/shakashaka/logic'
 
@@ -23,50 +25,16 @@ const TRIANGLE_PATH: Record<Triangle, string> = {
   BR: 'M50,0 L50,50 L0,50 Z',
 }
 
-// A puzzle is a list of clue placements: [row, col, digit].
-// Each puzzle below is hand-authored and was verified solvable using the same rule engine
-// implemented in checkGrid (see verifyPuzzles comment below). Solutions are unique for these
-// clue sets under the simplified "triangle cell = filled" model.
-type PuzzleDef = {
-  size: number
-  clues: [number, number, number][]
-}
-
-const PUZZLES: PuzzleDef[] = [
-  {
-    size: 5,
-    clues: [
-      [0, 1, 1], [0, 3, 1],
-      [2, 0, 1], [2, 4, 1],
-      [4, 1, 1], [4, 3, 1],
-    ],
-  },
-  {
-    size: 5,
-    clues: [
-      [0, 2, 2],
-      [1, 0, 1], [1, 4, 1],
-      [3, 0, 1], [3, 4, 1],
-      [4, 2, 2],
-    ],
-  },
-  {
-    size: 5,
-    clues: [
-      [0, 0, 2], [0, 2, 2], [0, 4, 2],
-      [4, 0, 2], [4, 2, 2], [4, 4, 2],
-    ],
-  },
-]
-
 // Note on rule model: a triangle cell is treated as "filled" for the rectangle and 2x2 rules.
 // The clue rule counts orthogonal neighbors containing a triangle. This is the simplified
 // Shakashaka model used by several casual implementations; it keeps the puzzle deterministic
 // and lets Check produce unambiguous feedback.
 
-const createInitialGrid = (puzzleIndex: number): Cell[][] => {
-  const { size, clues } = PUZZLES[puzzleIndex % PUZZLES.length]
-  return createShakashakaGrid(size, clues)
+const createInitialGrid = (puzzleIndex: number, solved = false): Cell[][] => {
+  return createShakashakaPuzzleGrid(
+    SHAKASHAKA_PUZZLES[puzzleIndex % SHAKASHAKA_PUZZLES.length],
+    solved,
+  )
 }
 
 export default function Shakashaka({ settings }: Props) {
@@ -77,6 +45,12 @@ export default function Shakashaka({ settings }: Props) {
 
   const isDark = settings.darkMode
   const zh = settings.language === 'zh'
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('fixture') === 'solved') {
+      setGrid(createInitialGrid(0, true))
+    }
+  }, [])
 
   const cycleTriangle = useCallback((row: number, col: number) => {
     setGrid(prev => {
@@ -96,7 +70,7 @@ export default function Shakashaka({ settings }: Props) {
   }
 
   const nextPuzzle = () => {
-    const nextIndex = (puzzleIndex + 1) % PUZZLES.length
+    const nextIndex = (puzzleIndex + 1) % SHAKASHAKA_PUZZLES.length
     setPuzzleIndex(nextIndex)
     setGrid(createInitialGrid(nextIndex))
     setSolved(false)
@@ -124,7 +98,7 @@ export default function Shakashaka({ settings }: Props) {
           {zh ? '放置三角形：黑格数字 = 正交邻居的三角形数，白色区域须为矩形' : 'Place triangles: black numbers count orthogonal triangle neighbors; white areas must be rectangles'}
         </p>
         <p className={`text-center text-xs mt-1 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
-          {zh ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
+          {zh ? `谜题 ${puzzleIndex + 1} / ${SHAKASHAKA_PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${SHAKASHAKA_PUZZLES.length}`}
         </p>
       </div>
 
@@ -188,11 +162,11 @@ export default function Shakashaka({ settings }: Props) {
       </div>
 
       {solved && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+        <div data-testid="shakashaka-win" className="fixed inset-0 flex items-center justify-center bg-black/50">
           <div className={`p-8 rounded-2xl ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
             <h2 className="text-2xl font-bold text-center text-green-500">🎉 {zh ? '正确！' : 'Correct!'}</h2>
             <p className={`mt-2 text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
-              {zh ? `谜题 ${puzzleIndex + 1} / ${PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${PUZZLES.length}`}
+              {zh ? `谜题 ${puzzleIndex + 1} / ${SHAKASHAKA_PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${SHAKASHAKA_PUZZLES.length}`}
             </p>
             <div className="mt-4 flex gap-2">
               <button onClick={() => setSolved(false)} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}>

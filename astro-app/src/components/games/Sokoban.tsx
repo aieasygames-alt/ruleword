@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import {
+  SOKOBAN_LEVELS,
   isSokobanWon,
   moveSokoban,
   parseSokobanLevel,
@@ -20,51 +21,6 @@ type Props = {
 }
 
 // 关卡数据 (# = 墙, $ = 箱子, . = 目标, @ = 玩家, + = 玩家在目标上, * = 箱子在目标上)
-const LEVELS: { [key: number]: string[] } = {
-  1: [
-    '######',
-    '#    #',
-    '# $  #',
-    '# .@ #',
-    '#    #',
-    '######',
-  ],
-  2: [
-    '########',
-    '#      #',
-    '# $ $  #',
-    '# .@.  #',
-    '#      #',
-    '########',
-  ],
-  3: [
-    '  #####',
-    '###   #',
-    '# $ # #',
-    '# #.  #',
-    '#  .@ #',
-    '#######',
-  ],
-  4: [
-    '########',
-    '#      #',
-    '# $@$  #',
-    '# ..   #',
-    '#  $   #',
-    '#  .   #',
-    '########',
-  ],
-  5: [
-    '  ######',
-    '  #    #',
-    '  # $$ #',
-    '### $  #',
-    '#  .#. #',
-    '# @    #',
-    '########',
-  ],
-}
-
 export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
   const [currentLevel, setCurrentLevel] = useState(1)
   const [board, setBoard] = useState<Cell[][]>([])
@@ -81,7 +37,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
 
   // 初始化关卡
   const initLevel = useCallback((level: number) => {
-    const levelData = LEVELS[level] || LEVELS[1]
+    const levelData = SOKOBAN_LEVELS[level] || SOKOBAN_LEVELS[1]
     const { board, player } = parseSokobanLevel(levelData)
     setBoard(board)
     setPlayer(player)
@@ -183,7 +139,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
 
   // 下一关
   const nextLevel = () => {
-    if (currentLevel < Object.keys(LEVELS).length) {
+    if (currentLevel < Object.keys(SOKOBAN_LEVELS).length) {
       setCurrentLevel(currentLevel + 1)
     }
   }
@@ -269,7 +225,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
           </div>
           <div className="flex items-center gap-4">
             <div className="text-sm text-slate-400">
-              {settings.language === 'zh' ? '关卡' : 'Level'}: {currentLevel}/{Object.keys(LEVELS).length}
+              {settings.language === 'zh' ? '关卡' : 'Level'}: {currentLevel}/{Object.keys(SOKOBAN_LEVELS).length}
             </div>
             <button
               onClick={toggleLanguage}
@@ -327,7 +283,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
           </span>
           <button
             onClick={nextLevel}
-            disabled={currentLevel === Object.keys(LEVELS).length}
+            disabled={currentLevel === Object.keys(SOKOBAN_LEVELS).length}
             className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 disabled:opacity-50 rounded text-sm transition-colors"
           >
             ▶
@@ -406,7 +362,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
               >
                 {settings.language === 'zh' ? '重玩' : 'Replay'}
               </button>
-              {currentLevel < Object.keys(LEVELS).length && (
+              {currentLevel < Object.keys(SOKOBAN_LEVELS).length && (
                 <button
                   onClick={nextLevel}
                   className="px-4 py-2 bg-green-600 hover:bg-green-500 rounded-lg font-medium transition-colors"

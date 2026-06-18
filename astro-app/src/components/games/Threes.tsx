@@ -1,6 +1,11 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
 import GameGuide from './GameGuide'
-import { canMoveThrees, moveThreesGrid, type ThreesDirection } from '../../games/threes/logic'
+import {
+  canMoveThrees,
+  getThreesDailySeed,
+  moveAndSpawnThreesTile,
+  type ThreesDirection,
+} from '../../games/threes/logic'
 
 type Difficulty = 'easy' | 'normal' | 'hard'
 
@@ -36,12 +41,6 @@ function seededRandom(seed: number) {
     s = (s * 1103515245 + 12345) & 0x7fffffff
     return s / 0x7fffffff
   }
-}
-
-function getDailySeed(): number {
-  const startDate = new Date('2024-01-01').getTime()
-  const now = new Date().setHours(0, 0, 0, 0)
-  return Math.floor((now - startDate) / 86400000)
 }
 
 // 获取下一个瓦片值
@@ -96,7 +95,7 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
   }
 
   const initializeGame = useCallback(() => {
-    const seed = gameMode === 'daily' ? getDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(difficulty) * 1000 : Date.now()
+    const seed = gameMode === 'daily' ? getThreesDailySeed() + Object.keys(DIFFICULTY_CONFIG).indexOf(difficulty) * 1000 : Date.now()
     rngRef.current = seededRandom(seed)
 
     const newGrid = Array(size).fill(null).map(() => Array(size).fill(0))
@@ -125,21 +124,11 @@ export default function Threes({ settings, onBack }: { settings: { darkMode: boo
     if (gameOver) return
 
     setGrid(prev => {
-      const result = moveThreesGrid(prev, direction)
+      const result = moveAndSpawnThreesTile(prev, direction, nextTile, rngRef.current)
       const newGrid = result.grid
 
       if (result.moved) {
-        // 添加新瓦片
-        const emptyCells: [number, number][] = []
-        for (let r = 0; r < size; r++) {
-          for (let c = 0; c < size; c++) {
-            if (newGrid[r][c] === 0) emptyCells.push([r, c])
-          }
-        }
-
-        if (emptyCells.length > 0) {
-          const [r, c] = emptyCells[Math.floor(rngRef.current() * emptyCells.length)]
-          newGrid[r][c] = nextTile
+        if (result.spawned) {
           setNextTile(getNextValue(rngRef.current))
         }
 
