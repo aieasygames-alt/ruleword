@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import GameGuide from './GameGuide'
 import {
   generateMinesweeperBoard,
@@ -62,6 +62,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
   const [showGameGuide, setShowGameGuide] = useState(false)
   const [firstClick, setFirstClick] = useState(true)
   const [boardSeed, setBoardSeed] = useState(1)
+  const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const suppressClick = useRef(false)
 
   const config = DIFFICULTY_CONFIG[difficulty]
 
@@ -88,7 +90,10 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     setDifficulty(newDiff)
 
     const newConfig = DIFFICULTY_CONFIG[newDiff]
-    const seed = newMode === 'daily'
+    const fixture = new URLSearchParams(window.location.search).get('fixture')
+    const seed = fixture === 'mine'
+      ? 1
+      : newMode === 'daily'
       ? getMinesweeperDailySeed(new Date(), Object.keys(DIFFICULTY_CONFIG).indexOf(newDiff))
       : Math.floor(Math.random() * 0x7fffffff)
     const newBoard = generateMinesweeperBoard(newConfig.rows, newConfig.cols, newConfig.mines, seed)
@@ -100,7 +105,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     setTimer(0)
     setIsRunning(false)
     setFlagCount(0)
-    setFirstClick(true)
+    setFirstClick(fixture !== 'mine')
   }, [gameMode, difficulty])
 
   useEffect(() => {
@@ -147,8 +152,8 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
   }, [gameOver, board, firstClick, config, stats, boardSeed])
 
   // 切换旗帜
-  const toggleFlag = useCallback((r: number, c: number, e: React.MouseEvent) => {
-    e.preventDefault()
+  const toggleFlag = useCallback((r: number, c: number, e?: { preventDefault(): void }) => {
+    e?.preventDefault()
     if (gameOver || board[r][c].state === 'revealed') return
 
     setBoard(prev => {
@@ -157,6 +162,20 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
       return result.board
     })
   }, [gameOver, board, flagCount, config.mines])
+
+  const startLongPress = useCallback((r: number, c: number) => {
+    suppressClick.current = false
+    if (longPressTimer.current) clearTimeout(longPressTimer.current)
+    longPressTimer.current = setTimeout(() => {
+      suppressClick.current = true
+      toggleFlag(r, c)
+    }, 500)
+  }, [toggleFlag])
+
+  const endLongPress = useCallback(() => {
+    if (longPressTimer.current) clearTimeout(longPressTimer.current)
+    longPressTimer.current = null
+  }, [])
 
   // 检查胜利
   useEffect(() => {
@@ -346,8 +365,19 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
                 key={`${r}-${c}`}
                 data-testid={`minesweeper-cell-${r}-${c}`}
                 data-state={cell.state}
-                onClick={() => revealCell(r, c)}
+                data-mine={cell.isMine}
+                onClick={() => {
+                  if (suppressClick.current) {
+                    suppressClick.current = false
+                    return
+                  }
+                  revealCell(r, c)
+                }}
                 onContextMenu={(e) => toggleFlag(r, c, e)}
+                onPointerDown={() => startLongPress(r, c)}
+                onPointerUp={endLongPress}
+                onPointerCancel={endLongPress}
+                onPointerLeave={endLongPress}
                 disabled={gameOver && cell.state === 'revealed'}
                 className={`${difficulty === 'hard' ? 'w-5 h-5 text-xs' : 'w-7 h-7 text-sm'} flex items-center justify-center font-bold transition-all border ${settings.darkMode ? 'border-slate-700' : 'border-gray-600'} ${cell.state === 'hidden' ? 'hover:scale-105 active:scale-95' : ''} rounded-sm`}
                 style={getCellStyle(cell, settings.darkMode)}

@@ -7,7 +7,7 @@
   "en": {
     "name": "Shakashaka",
     "desc": "Play Shakashaka free online — place triangles to form perfect rectangles. Nikoli logic puzzle, no download.",
-    "description": "Shakashaka is a unique geometric puzzle where you place triangles in empty cells to form rectangles. Each black clue cell shows how many triangles surround it. When solved correctly, all white areas form perfect rectangles. Play Shakashaka free online — a unique Nikoli logic puzzle! No download, instant play, 100+ levels from easy to expert.",
+    "description": "Play Shakashaka, also called Shaka Shaka Puzzle, free online. Place corner triangles around numbered black cells so every remaining white region forms a rectangle. This browser version needs no download and includes instantly playable logic puzzles.",
     "objectives": "Place triangles so that all white (unshaded) areas form perfect rectangles, and satisfy all clue numbers.",
     "howToPlay": "Click cells to place triangles in corners. Each white area must form a perfect rectangle. Black clue cells show how many adjacent triangles surround them.",
     "rules": {

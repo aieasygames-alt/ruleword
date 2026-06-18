@@ -6,7 +6,9 @@ import {
   getAllChineseLegalMoves,
   getChineseLegalMoves,
   getChinesePseudoMoves,
+  hasNoChineseLegalMoves,
   isChineseCheckmate,
+  isChineseKingInCheck,
   type ChineseChessBoard,
   type ChineseChessPiece,
 } from '../src/games/chinese-chess/logic'
@@ -83,6 +85,20 @@ describe('Chinese Chess rules', () => {
 
     expect(isChineseCheckmate(board, 'black')).toBe(true)
     expect(isChineseCheckmate(cloneChineseChessBoard(CHINESE_CHESS_INITIAL_BOARD), 'black')).toBe(false)
+  })
+
+  it('distinguishes checkmate from a position with no legal moves', () => {
+    const board = emptyBoard()
+    board[0][4] = piece('K', 'black')
+    board[1][0] = piece('R', 'red')
+    board[2][3] = piece('R', 'red')
+    board[2][5] = piece('R', 'red')
+    board[5][4] = piece('P', 'red')
+    board[9][4] = piece('K', 'red')
+
+    expect(isChineseKingInCheck(board, 'black')).toBe(false)
+    expect(hasNoChineseLegalMoves(board, 'black')).toBe(true)
+    expect(isChineseCheckmate(board, 'black')).toBe(false)
   })
 
   it('enumerates only moves accepted by the legal move engine for AI selection', () => {

@@ -118,7 +118,26 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     setGameMode(newMode)
     setSeedOffset(0)
 
+    const fixture = new URLSearchParams(window.location.search).get('fixture')
     const newGrid = generateEmptyGrid()
+    if (fixture === 'merge') {
+      newGrid[0] = [2, 2, 0, 0]
+      setGrid(newGrid)
+      setScore(0)
+      setGameOver(false)
+      setWon(false)
+      setContinueAfterWin(false)
+      return
+    }
+    if (fixture === 'won') {
+      newGrid[0] = [2048, 2, 0, 0]
+      setGrid(newGrid)
+      setScore(2048)
+      setGameOver(false)
+      setWon(true)
+      setContinueAfterWin(false)
+      return
+    }
     const seed = newMode === 'daily' ? getDailySeed() : undefined
     const gridWithFirst = addRandomTile(newGrid, seed)
     const gridWithSecond = addRandomTile(gridWithFirst, seed ? seed + 1 : undefined)
@@ -440,6 +459,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
       {/* Game Board */}
       <div
         data-testid="game2048-board"
+        data-grid={grid.flat().join(',')}
         className="rounded-xl p-3 border-2"
         style={{
           background: settings.darkMode
@@ -481,6 +501,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
           </div>
           {won && (
             <button
+              data-testid="game2048-continue"
               onClick={() => setContinueAfterWin(true)}
               className="px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-lg font-medium mr-2"
             >

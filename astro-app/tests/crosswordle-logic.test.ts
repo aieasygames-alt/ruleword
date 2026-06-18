@@ -39,6 +39,18 @@ describe('Crosswordle rules', () => {
     expect(result.isCorrect).toBe(false)
   })
 
+  it('classifies correct, wrong-position, and wrong letters', () => {
+    const grid = createCrosswordleGrid(puzzle, 3)
+    grid[0][1].letter = 'T'
+    grid[0][2].letter = 'X'
+
+    const result = evaluateCrosswordleGrid(grid, puzzle, 3)
+
+    expect(result.cells[0][0]).toBe('correct')
+    expect(result.cells[0][1]).toBe('wrongPosition')
+    expect(result.cells[0][2]).toBe('wrong')
+  })
+
   it('marks a complete answer as solved', () => {
     const grid = createCrosswordleGrid(puzzle, 3)
     expect(evaluateCrosswordleGrid(grid, puzzle, 3).isCorrect).toBe(true)

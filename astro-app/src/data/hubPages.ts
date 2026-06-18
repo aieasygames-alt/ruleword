@@ -10,6 +10,7 @@ export interface HubPage {
   categoryIds: string[] // Game categories to include
   featuredGames: string[] // Specific game slugs to feature
   featuredGuides: string[] // Guide slugs to feature
+  priorityLinks?: { href: string; label: string }[]
   content: {
     whatIsSection: string
     benefitsSection: string
@@ -75,6 +76,7 @@ Classic word games like Crossword and Hangman have been popular for over a centu
     categoryIds: ['logic'],
     featuredGames: ['sudoku', '2048', 'killer-sudoku', 'sudoku-x', 'kakuro', 'calcudoku', 'minesweeper', 'number-memory'],
     featuredGuides: ['sudoku', '2048', 'killer-sudoku', 'kakuro'],
+    priorityLinks: [{ href: '/games/threes/', label: 'Play Threes online' }],
     content: {
       whatIsSection: `Number puzzles use mathematics, logic, and pattern recognition to create engaging challenges. Unlike word games, they transcend language barriers and appeal to logical thinkers worldwide.
 
@@ -119,6 +121,7 @@ The most famous number puzzle, Sudoku, became a global phenomenon in the 2000s a
     categoryIds: ['logic'],
     featuredGames: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'nurikabe', 'hitori'],
     featuredGuides: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink'],
+    priorityLinks: [{ href: '/games/shakashaka/', label: 'Play Shaka Shaka Puzzle online' }],
     content: {
       whatIsSection: `Japanese logic puzzles emerged from Japan's rich puzzle culture, pioneered by publishers like Nikoli. These puzzles share a common philosophy: simple rules that create elegant, challenging problems.
 
@@ -251,6 +254,7 @@ Working memory - your brain's "scratchpad" - is particularly important for probl
     categoryIds: ['strategy'],
     featuredGames: ['chess', 'checkers', 'connect-four', 'tic-tac-toe', 'dots-and-boxes', 'gomoku', 'reversi', 'battleship'],
     featuredGuides: ['chess', 'connect-four', 'tic-tac-toe'],
+    priorityLinks: [{ href: '/guides/sokoban/', label: 'Sokoban solutions' }],
     content: {
       whatIsSection: `Strategy games require planning, tactical thinking, and anticipating your opponent's moves. They range from simple games like Tic Tac Toe to the profound complexity of Chess.
 

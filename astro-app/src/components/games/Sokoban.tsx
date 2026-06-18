@@ -307,6 +307,7 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
         <div className="grid grid-cols-3 gap-2">
           <div></div>
           <button
+            data-testid="sokoban-up"
             onClick={() => movePlayer(-1, 0)}
             className="p-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-2xl"
           >
@@ -314,18 +315,21 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
           </button>
           <div></div>
           <button
+            data-testid="sokoban-left"
             onClick={() => movePlayer(0, -1)}
             className="p-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-2xl"
           >
             ⬅️
           </button>
           <button
+            data-testid="sokoban-down"
             onClick={() => movePlayer(1, 0)}
             className="p-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-2xl"
           >
             ⬇️
           </button>
           <button
+            data-testid="sokoban-right"
             onClick={() => movePlayer(0, 1)}
             className="p-4 bg-slate-700 hover:bg-slate-600 rounded-lg text-2xl"
           >

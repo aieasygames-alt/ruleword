@@ -177,6 +177,7 @@ export default function Connections({ settings }: Props) {
         {solved.map((category, i) => (
           <div
             key={category.name}
+            data-testid="connections-solved-category"
             className={`${GROUP_COLORS[currentCategories.indexOf(category)]} p-3 rounded-lg text-white text-center`}
           >
             <div className="font-bold">{lang === 'zh' ? category.nameZh : category.name}</div>
@@ -223,6 +224,7 @@ export default function Connections({ settings }: Props) {
             {lang === 'zh' ? '取消选择' : 'Deselect'}
           </button>
           <button
+            data-testid="connections-submit"
             onClick={submit}
             disabled={selected.size !== 4}
             className={`px-6 py-2 rounded-lg font-medium ${

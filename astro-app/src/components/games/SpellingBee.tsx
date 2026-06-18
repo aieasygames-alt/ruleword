@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
@@ -40,6 +40,14 @@ export default function SpellingBee({ settings }: Props) {
   const centerLetter = puzzle.centerLetter
   const outerLetters = puzzle.outerLetters
   const allLetters = [centerLetter, ...outerLetters]
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('fixture') === 'able') {
+      setPuzzle({ centerLetter: 'A', outerLetters: ['B', 'L', 'E', 'C', 'D', 'F'] })
+      setInput('')
+      setFoundWords(new Set())
+    }
+  }, [])
 
   const newPuzzle = () => {
     setPuzzle(generatePuzzle())
@@ -110,7 +118,7 @@ export default function SpellingBee({ settings }: Props) {
         {input || <span className="opacity-30">...</span>}
       </div>
 
-      {message && <p className="mb-2 text-yellow-500 font-bold">{message}</p>}
+      {message && <p data-testid="spelling-bee-message" className="mb-2 text-yellow-500 font-bold">{message}</p>}
 
       {/* Hexagon keyboard */}
       <div className="relative w-64 h-56 mb-4">
@@ -157,7 +165,7 @@ export default function SpellingBee({ settings }: Props) {
       {/* Found words */}
       <div className="max-w-md">
         <h3 className={`font-bold mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          {lang === 'zh' ? '已找到' : 'Found'}: {foundWords.size}
+          {lang === 'zh' ? '已找到' : 'Found'}: <span data-testid="spelling-bee-found-count">{foundWords.size}</span>
         </h3>
         <div className="flex flex-wrap gap-2">
           {Array.from(foundWords).sort().map(word => (

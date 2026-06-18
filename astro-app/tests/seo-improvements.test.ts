@@ -2,8 +2,24 @@ import { describe, it, expect } from 'vitest'
 import { games } from '../src/data/games'
 import { gameGuides, getGameGuide, getAllGuideSlugs } from '../src/data/gameGuidesSEO'
 import { gameSEOConfig, categorySEO } from '../src/data/seo'
+import { hubPages } from '../src/data/hubPages'
 
 describe('SEO Improvements', () => {
+
+  it('provides precise internal-link anchors for priority games', () => {
+    expect(hubPages['number-puzzles'].priorityLinks).toContainEqual({
+      href: '/games/threes/',
+      label: 'Play Threes online',
+    })
+    expect(hubPages['japanese-logic'].priorityLinks).toContainEqual({
+      href: '/games/shakashaka/',
+      label: 'Play Shaka Shaka Puzzle online',
+    })
+    expect(hubPages['strategy-games'].priorityLinks).toContainEqual({
+      href: '/guides/sokoban/',
+      label: 'Sokoban solutions',
+    })
+  })
 
   describe('Game Guides Coverage', () => {
     const guideSlugs = getAllGuideSlugs()

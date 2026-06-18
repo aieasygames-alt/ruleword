@@ -163,9 +163,16 @@ export function getAllChineseLegalMoves(
   return moves
 }
 
-export function isChineseCheckmate(
+export function hasNoChineseLegalMoves(
   board: ChineseChessBoard,
   color: ChineseChessColor,
 ): boolean {
   return getAllChineseLegalMoves(board, color).length === 0
+}
+
+export function isChineseCheckmate(
+  board: ChineseChessBoard,
+  color: ChineseChessColor,
+): boolean {
+  return isChineseKingInCheck(board, color) && hasNoChineseLegalMoves(board, color)
 }

@@ -239,6 +239,7 @@ export default function MemoryGrid({ settings }: Props) {
 
           {(gameState === 'gameover' || gameState === 'wrong') && lives <= 0 && (
             <button
+              data-testid="memory-grid-play-again"
               onClick={startGame}
               className="flex-1 py-3 rounded-xl font-semibold transition-all bg-blue-600 hover:bg-blue-500 text-white"
             >

@@ -296,7 +296,11 @@ function updateStats(won: boolean, swapsLeft: number): Stats {
 }
 
 // 生成打乱的网格
-function generateShuffledGrid(puzzle: WordDef[], size: GridSize): Cell[][] {
+function generateShuffledGrid(
+  puzzle: WordDef[],
+  size: GridSize,
+  random: () => number = Math.random,
+): Cell[][] {
   const grid: Cell[][] = Array(size).fill(null).map(() =>
     Array(size).fill(null).map(() => ({ letter: '', state: 'empty' as CellState, row: 0, col: 0 }))
   )
@@ -332,7 +336,7 @@ function generateShuffledGrid(puzzle: WordDef[], size: GridSize): Cell[][] {
 
   // Fisher-Yates 洗牌
   for (let i = letters.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
+    const j = Math.floor(random() * (i + 1))
     ;[letters[i], letters[j]] = [letters[j], letters[i]]
   }
 
@@ -433,7 +437,12 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
 
     const selectedPuzzle = puzzleLibrary[puzzleIndex]
     setPuzzle(selectedPuzzle)
-    const newGrid = generateShuffledGrid(selectedPuzzle, actualSize)
+    const fixture = new URLSearchParams(window.location.search).get('fixture')
+    const newGrid = generateShuffledGrid(
+      selectedPuzzle,
+      actualSize,
+      fixture === 'unsolved' ? () => 0 : Math.random,
+    )
     setGrid(newGrid)
     setCellStates(Array(actualSize).fill(null).map(() => Array(actualSize).fill('empty')))
     setSwapsLeft(newConfig.maxSwaps)
@@ -595,7 +604,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
         const selectedPuzzle = puzzleLibrary[puzzleIndex]
         setPuzzle(selectedPuzzle)
         setGridSize(sizeNum || 3)
-        const newGrid = generateShuffledGrid(selectedPuzzle, sizeNum || 3)
+        const newGrid = generateShuffledGrid(selectedPuzzle, sizeNum || 3, rng)
         setGrid(newGrid)
         setSwapsLeft(GRID_CONFIGS[sizeNum || 3].maxSwaps)
         setCellStates(Array(GRID_CONFIGS[sizeNum || 3].size).fill(null).map(() => Array(GRID_CONFIGS[sizeNum || 3].size).fill('empty')))
@@ -659,7 +668,7 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
 
         {/* Undo Button */}
         {!gameOver && (
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center gap-2 mb-3">
             <button
               data-testid="crosswordle-undo"
               onClick={handleUndo}
@@ -674,6 +683,13 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
               </svg>
               {settings.language === 'zh' ? '撤销' : 'Undo'} {history.length > 0 && `(${history.length})`}
+            </button>
+            <button
+              data-testid="crosswordle-new-puzzle"
+              onClick={() => initializeGame(gameMode)}
+              className="px-4 py-2 rounded-lg font-medium text-sm bg-green-600 hover:bg-green-500 text-white"
+            >
+              {settings.language === 'zh' ? '新谜题' : 'New Puzzle'}
             </button>
           </div>
         )}
@@ -730,7 +746,11 @@ export default function Crosswordle({ settings, onBack }: CrosswordleProps) {
 
       {/* Game Board */}
       <div className="flex-1 flex flex-col items-center justify-center">
+        <span data-testid="crosswordle-challenge-seed" className="sr-only">
+          {challengeSeed ?? ''}
+        </span>
         <div
+          data-testid="crosswordle-board"
           className="grid gap-1.5"
           style={{
             gridTemplateColumns: `repeat(${gridSize}, 1fr)`,

@@ -52,7 +52,7 @@ test.describe('GSC priority game critical paths', () => {
   })
 
   test('Crosswordle swaps two cells and Undo restores the counter', async ({ page }) => {
-    await page.goto('/games/crosswordle/')
+    await page.goto('/games/crosswordle/?fixture=unsolved')
     const cells = page.locator('[data-testid^="crosswordle-cell-"]:not([disabled])')
     await expect(cells.first()).toBeVisible()
     const counter = page.getByTestId('crosswordle-swaps')
@@ -64,22 +64,38 @@ test.describe('GSC priority game critical paths', () => {
 
     await page.getByTestId('crosswordle-undo').click()
     expect(await counter.textContent()).toBe(before)
+
+    const boardBefore = await page.getByTestId('crosswordle-board').textContent()
+    await page.getByTestId('crosswordle-new-puzzle').click()
+    await expect(page.getByTestId('crosswordle-board')).toBeVisible()
+    expect(await page.getByTestId('crosswordle-board').textContent()).not.toBe('')
+    expect(boardBefore).not.toBeNull()
+  })
+
+  test('Crosswordle loads a playable challenge URL', async ({ page }) => {
+    await page.goto('/games/crosswordle/?challenge=crosswordle&seed=12345&size=3')
+    await expect(page.getByTestId('crosswordle-challenge-seed')).toHaveText('12345')
+    expect(await page.locator('[data-testid^="crosswordle-cell-"]:not([disabled])').count()).toBeGreaterThan(0)
   })
 
   test('2048 responds to keyboard and resets score', async ({ page }) => {
-    await page.goto('/games/2048/')
+    await page.goto('/games/2048/?fixture=merge')
     const board = page.getByTestId('game2048-board')
     await expect(board).toBeVisible()
-    const initial = await board.textContent()
-
-    for (const key of ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown']) {
-      await page.keyboard.press(key)
-      if ((await board.textContent()) !== initial) break
-    }
-    expect(await board.textContent()).not.toBe(initial)
+    await page.keyboard.press('ArrowLeft')
+    await expect(page.getByTestId('game2048-score')).toHaveText('4')
 
     await page.getByTestId('game2048-new-game').click()
     await expect(page.getByTestId('game2048-score')).toHaveText('0')
+  })
+
+  test('2048 continues accepting moves after the win overlay', async ({ page }) => {
+    await page.goto('/games/2048/?fixture=won')
+    await expect(page.getByTestId('game2048-continue')).toBeVisible()
+    await page.getByTestId('game2048-continue').click()
+    await expect(page.getByTestId('game2048-continue')).toHaveCount(0)
+    await page.keyboard.press('ArrowRight')
+    await expect(page.getByTestId('game2048-board')).toBeVisible()
   })
 
   test('Sokoban completes level one and Undo restores move and push counters', async ({ page }) => {
@@ -101,6 +117,15 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('sokoban-pushes')).toContainText('0')
   })
 
+  test('Sokoban screen controls move and Reset restores the level', async ({ page }) => {
+    await page.goto('/games/sokoban/')
+    await page.getByTestId('sokoban-up').click()
+    await expect(page.getByTestId('sokoban-moves')).toContainText('1')
+    await page.getByTestId('sokoban-reset').click()
+    await expect(page.getByTestId('sokoban-moves')).toContainText('0')
+    await expect(page.getByTestId('sokoban-pushes')).toContainText('0')
+  })
+
   test('15 Puzzle counts only legal moves and completes a near-solved board', async ({ page }) => {
     await page.goto('/games/15-puzzle/?fixture=near-solved')
     await page.getByTestId('fifteen-practice').click()
@@ -112,6 +137,16 @@ test.describe('GSC priority game critical paths', () => {
     await page.getByTestId('fifteen-tile-15').click()
     await expect(page.getByTestId('fifteen-moves')).toHaveText('1')
     await expect(page.getByTestId('fifteen-win')).toBeVisible()
+  })
+
+  test('15 Puzzle starts the deterministic Daily mode', async ({ page }) => {
+    await page.goto('/games/15-puzzle/')
+    await page.evaluate(() => localStorage.clear())
+    await page.reload()
+    await page.getByTestId('fifteen-daily').click()
+    await expect(page.getByTestId('fifteen-board')).toBeVisible()
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+    await expect(page.getByTestId('fifteen-moves')).toHaveText('0')
   })
 
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {
@@ -134,6 +169,12 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.locator('[data-testid^="minesweeper-cell-"]')).toHaveCount(256)
     await page.getByTestId('minesweeper-new-game').click()
     await expect(page.getByTestId('minesweeper-mines-left')).toHaveText('40')
+  })
+
+  test('Minesweeper reveals a mine and ends the game', async ({ page }) => {
+    await page.goto('/games/minesweeper/?fixture=mine')
+    await page.locator('[data-testid^="minesweeper-cell-"][data-mine="true"]').first().click()
+    await expect(page.getByTestId('minesweeper-result')).toContainText('Game Over!')
   })
 
   test('Flow Free draws paths, resets them, and completes level one', async ({ page }) => {
@@ -192,6 +233,13 @@ test.describe('GSC priority game critical paths', () => {
     await page.getByTestId('memory-matrix-submit').click()
     await expect(page.getByText(/Correct! Level up!/)).toBeVisible()
     await expect(page.getByTestId('memory-matrix-score')).not.toHaveText('0')
+
+    await page.reload()
+    await expect(page.getByTestId('memory-matrix-phase')).toHaveText('guessing', { timeout: 4000 })
+    const wrongCells = page.locator('[data-testid^="memory-matrix-cell-"][data-pattern="false"]')
+    for (let index = 0; index < 3; index++) await wrongCells.nth(index).click()
+    await page.getByTestId('memory-matrix-submit').click()
+    await expect(page.getByText(/Incorrect! Try the next pattern./)).toBeVisible()
   })
 
   test('Memory Grid blocks early input, accepts ordered input, and deducts a life on error', async ({ page }) => {
@@ -217,6 +265,17 @@ test.describe('GSC priority game critical paths', () => {
     const first = Number((await page.getByTestId('memory-grid-sequence').textContent())!.split(',')[0])
     await page.getByTestId(`memory-grid-cell-${(first + 1) % 9}`).click()
     await expect(page.getByTestId('memory-grid-lives')).toHaveAttribute('data-lives', '2')
+
+    for (const expectedLives of ['1', '0']) {
+      await expect(page.getByTestId('memory-grid-state')).toHaveText('input', { timeout: 3000 })
+      const nextFirst = Number((await page.getByTestId('memory-grid-sequence').textContent())!.split(',')[0])
+      await page.getByTestId(`memory-grid-cell-${(nextFirst + 1) % 9}`).click()
+      await expect(page.getByTestId('memory-grid-lives')).toHaveAttribute('data-lives', expectedLives)
+    }
+    await expect(page.getByTestId('memory-grid-state')).toHaveText('gameover', { timeout: 3000 })
+    await page.getByTestId('memory-grid-play-again').click()
+    await expect(page.getByTestId('memory-grid-state')).toHaveText('idle')
+    await expect(page.getByTestId('memory-grid-lives')).toHaveAttribute('data-lives', '3')
   })
 
   test('Chinese Chess shows legal targets, changes turns, runs AI, and resets', async ({ page }) => {
@@ -245,15 +304,19 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('wordle-current-guess')).toHaveText('A')
 
     await page.goto('/games/connections/')
-    const words = page.getByTestId('connections-word')
-    for (let index = 0; index < 4; index++) await words.nth(index).click()
+    for (const word of ['APPLE', 'BANANA', 'ORANGE', 'GRAPE']) {
+      await page.getByRole('button', { name: word, exact: true }).click()
+    }
     await expect(page.getByTestId('connections-selected-count')).toHaveText('4')
-    await expect(page.getByRole('button', { name: /Submit|提交/ })).toBeEnabled()
+    await page.getByTestId('connections-submit').click()
+    await expect(page.getByTestId('connections-solved-category')).toContainText('FRUITS')
 
-    await page.goto('/games/spelling-bee/')
-    await page.getByTestId('spelling-bee-center-letter').click()
-    await page.getByTestId('spelling-bee-letter').first().click()
-    await expect(page.getByTestId('spelling-bee-input')).not.toHaveText('...')
-    await page.getByRole('button', { name: /Delete|删除/ }).click()
+    await page.goto('/games/spelling-bee/?fixture=able')
+    for (const letter of ['A', 'B', 'L', 'E']) {
+      await page.getByRole('button', { name: letter, exact: true }).click()
+    }
+    await page.getByRole('button', { name: /Enter|确定/ }).click()
+    await expect(page.getByTestId('spelling-bee-found-count')).toHaveText('1')
+    await expect(page.getByTestId('spelling-bee-message')).toHaveText('+1')
   })
 })
