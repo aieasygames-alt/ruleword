@@ -15,7 +15,6 @@ export function createGraphGame(level: OriginalLevel): GraphGameState {
     keysCollected: [],
     shields: 0,
     visitedNodeIds: [level.viktorNodeId],
-    activatedBridges: [],
     turn: 0,
     outcome: 'playing',
     message: '',
@@ -26,18 +25,32 @@ export function exitsFor(level: OriginalLevel): number[] {
   return [level.exitNodeId, level.exitANodeId, level.exitBNodeId].filter(id => id >= 0)
 }
 
+function sameUndirectedEdge(from: number, to: number, a: number, b: number): boolean {
+  return (from === a && to === b) || (from === b && to === a)
+}
+
+export function isBridgeActive(level: OriginalLevel, bridgeIndex: number, state: GraphGameState): boolean {
+  const bridge = list(level.bridges)[bridgeIndex]
+  if (!bridge) return false
+  return state.viktorNodeId === bridge.triggerNodeId
+    || state.police.some(officer => officer.nodeId === bridge.triggerNodeId)
+}
+
+export function isBridgeConnection(level: OriginalLevel, from: number, to: number): boolean {
+  return list(level.bridges).some(bridge =>
+    sameUndirectedEdge(from, to, bridge.triggerNodeId, bridge.otherNodeId),
+  )
+}
+
 export function neighbors(level: OriginalLevel, nodeId: number, state?: GraphGameState): number[] {
   const result = new Set<number>()
   for (const edge of level.connections) {
+    const bridgeIndex = list(level.bridges).findIndex(bridge =>
+      sameUndirectedEdge(edge.fromNodeId, edge.toNodeId, bridge.triggerNodeId, bridge.otherNodeId),
+    )
+    if (bridgeIndex >= 0 && (!state || !isBridgeActive(level, bridgeIndex, state))) continue
     if (edge.fromNodeId === nodeId) result.add(edge.toNodeId)
     if (edge.toNodeId === nodeId) result.add(edge.fromNodeId)
-  }
-  if (state) {
-    list(level.bridges).forEach((bridge, index) => {
-      if (!state.activatedBridges.includes(index)) return
-      if (bridge.triggerNodeId === nodeId) result.add(bridge.otherNodeId)
-      if (bridge.otherNodeId === nodeId) result.add(bridge.triggerNodeId)
-    })
   }
   return [...result]
 }
@@ -55,7 +68,12 @@ export function openExits(level: OriginalLevel, turn: number): number[] {
   return [dual[turn % 2]]
 }
 
-export function moveViktor(level: OriginalLevel, current: GraphGameState, destination: number): MoveResult {
+export function moveViktor(
+  level: OriginalLevel,
+  current: GraphGameState,
+  destination: number,
+  random: () => number = Math.random,
+): MoveResult {
   if (current.outcome !== 'playing') return { state: current, valid: false, teleported: false, sprung: false }
   if (!neighbors(level, current.viktorNodeId, current).includes(destination)) {
     return {
@@ -78,7 +96,7 @@ export function moveViktor(level: OriginalLevel, current: GraphGameState, destin
   }
 
   if (list(level.springNodeIds).includes(viktorNodeId)) {
-    const springTarget = chooseSpringTarget(level, current.viktorNodeId, viktorNodeId, current)
+    const springTarget = chooseSpringTarget(level, current.viktorNodeId, viktorNodeId, current, random)
     if (springTarget !== null) {
       viktorNodeId = springTarget
       sprung = true
@@ -89,10 +107,6 @@ export function moveViktor(level: OriginalLevel, current: GraphGameState, destin
   if (list(level.keyNodeIds).includes(viktorNodeId)) keys.add(viktorNodeId)
   let shields = current.shields + (list(level.shieldNodeIds).includes(viktorNodeId) && !current.visitedNodeIds.includes(viktorNodeId) ? 1 : 0)
   const visited = [...new Set([...current.visitedNodeIds, viktorNodeId])]
-  const activatedBridges = [...current.activatedBridges]
-  list(level.bridges).forEach((bridge, index) => {
-    if (bridge.triggerNodeId === viktorNodeId && !activatedBridges.includes(index)) activatedBridges.push(index)
-  })
 
   if (isSpikeActive(level, viktorNodeId, turn)) {
     if (shields > 0) shields--
@@ -106,7 +120,6 @@ export function moveViktor(level: OriginalLevel, current: GraphGameState, destin
           keysCollected: [...keys],
           shields,
           visitedNodeIds: visited,
-          activatedBridges,
           turn,
           outcome: 'lost',
           message: 'The spikes were active.',
@@ -122,7 +135,6 @@ export function moveViktor(level: OriginalLevel, current: GraphGameState, destin
     keysCollected: [...keys],
     shields,
     visitedNodeIds: visited,
-    activatedBridges,
     turn,
     message: teleported ? 'Portal jump!' : sprung ? 'Spring launch!' : '',
   }
@@ -196,21 +208,10 @@ function chooseSpringTarget(
   previousId: number,
   springId: number,
   state: GraphGameState,
+  random: () => number,
 ): number | null {
-  const previous = level.nodes.find(node => node.id === previousId)
-  const spring = level.nodes.find(node => node.id === springId)
-  if (!previous || !spring) return null
-  const incomingX = spring.x - previous.x
-  const incomingY = spring.y - previous.y
   const candidates = neighbors(level, springId, state).filter(id => id !== previousId)
-  let best: { id: number; score: number } | null = null
-  for (const id of candidates) {
-    const node = level.nodes.find(item => item.id === id)
-    if (!node) continue
-    const outgoingX = node.x - spring.x
-    const outgoingY = node.y - spring.y
-    const score = incomingX * outgoingX + incomingY * outgoingY
-    if (!best || score > best.score) best = { id, score }
-  }
-  return best?.id ?? null
+  if (candidates.length === 0) return null
+  const index = Math.min(candidates.length - 1, Math.floor(random() * candidates.length))
+  return candidates[index]
 }

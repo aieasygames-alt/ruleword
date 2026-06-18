@@ -55,7 +55,6 @@ export type GraphGameState = {
   keysCollected: number[]
   shields: number
   visitedNodeIds: number[]
-  activatedBridges: number[]
   turn: number
   outcome: 'playing' | 'won' | 'lost'
   message: string

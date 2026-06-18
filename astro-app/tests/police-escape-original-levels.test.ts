@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createGraphGame, moveViktor, neighbors, shortestPath } from '../src/components/games/police-escape/engine/graphEngine'
+import { createGraphGame, isBridgeActive, moveViktor, neighbors, shortestPath } from '../src/components/games/police-escape/engine/graphEngine'
 import { ORIGINAL_LEVELS } from '../src/components/games/police-escape/engine/originalLevels'
 import type { OriginalLevel } from '../src/components/games/police-escape/engine/graphTypes'
 
@@ -90,5 +90,68 @@ describe('reverse-engineered Police Escape levels', () => {
     const legal = neighbors(level, state.viktorNodeId, state)
     expect(legal.length).toBeGreaterThan(0)
     expect(legal.every(id => level.nodes.some(node => node.id === id))).toBe(true)
+  })
+
+  it('treats a connection marked as a bridge as dynamically gated, not always open', () => {
+    const level = ORIGINAL_LEVELS[0]
+    const initial = createGraphGame(level)
+    expect(level.connections.some(edge =>
+      (edge.fromNodeId === 9 && edge.toNodeId === 13)
+      || (edge.fromNodeId === 13 && edge.toNodeId === 9),
+    )).toBe(true)
+    expect(isBridgeActive(level, 0, initial)).toBe(false)
+    expect(neighbors(level, 9, initial)).not.toContain(13)
+
+    const viktorOnTrigger = { ...initial, viktorNodeId: 9 }
+    expect(isBridgeActive(level, 0, viktorOnTrigger)).toBe(true)
+    expect(neighbors(level, 9, viktorOnTrigger)).toContain(13)
+
+    const policeOnTrigger = {
+      ...initial,
+      police: initial.police.map((officer, index) => index === 0 ? { ...officer, nodeId: 9 } : officer),
+    }
+    expect(isBridgeActive(level, 0, policeOnTrigger)).toBe(true)
+    expect(neighbors(level, 13, policeOnTrigger)).toContain(9)
+  })
+
+  it('chooses spring destinations randomly instead of projecting along the incoming direction', () => {
+    const level: OriginalLevel = {
+      sourceLevel: 1000,
+      lengthScale: 1,
+      autofit: false,
+      scale: 1,
+      policeNodeId: -1,
+      policeNodeIds: [],
+      sleepingPoliceNodeIds: [],
+      viktorNodeId: 1,
+      exitNodeId: 4,
+      exitANodeId: -1,
+      exitBNodeId: -1,
+      keyNodeIds: [],
+      stunNodeIds: [],
+      iceNodes: [],
+      backgroundIndex: 0,
+      teleportPairs: [],
+      springNodeIds: [2],
+      spikeNodeIds: [],
+      spikesStartingOn: [],
+      shieldNodeIds: [],
+      movingNodes: [],
+      bridges: [],
+      nodes: [
+        { id: 1, x: 0, y: 0 },
+        { id: 2, x: 1, y: 0 },
+        { id: 3, x: 2, y: 0 },
+        { id: 4, x: 1, y: 1 },
+      ],
+      connections: [
+        { fromNodeId: 1, toNodeId: 2, length: 1 },
+        { fromNodeId: 2, toNodeId: 3, length: 1 },
+        { fromNodeId: 2, toNodeId: 4, length: 1 },
+      ],
+    }
+
+    expect(moveViktor(level, createGraphGame(level), 2, () => 0).state.viktorNodeId).toBe(3)
+    expect(moveViktor(level, createGraphGame(level), 2, () => 0.999).state.viktorNodeId).toBe(4)
   })
 })

@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { createGraphGame, isSpikeActive, moveViktor, neighbors, openExits } from './police-escape/engine/graphEngine'
+import { createGraphGame, isBridgeActive, isBridgeConnection, isSpikeActive, moveViktor, neighbors, openExits } from './police-escape/engine/graphEngine'
 import { ORIGINAL_LEVELS } from './police-escape/engine/originalLevels'
 import type { GraphGameState, OriginalLevel } from './police-escape/engine/graphTypes'
 
@@ -200,6 +200,7 @@ export default function PoliceEscape({ settings }: Props) {
             </defs>
 
             {level.connections.map((edge, index) => {
+              if (isBridgeConnection(level, edge.fromNodeId, edge.toNodeId)) return null
               const from = positions.get(edge.fromNodeId)!
               const to = positions.get(edge.toNodeId)!
               const reachable = edge.fromNodeId === game.viktorNodeId || edge.toNodeId === game.viktorNodeId
@@ -210,7 +211,7 @@ export default function PoliceEscape({ settings }: Props) {
               const from = positions.get(bridge.triggerNodeId)
               const to = positions.get(bridge.otherNodeId)
               if (!from || !to) return null
-              const active = game.activatedBridges.includes(index)
+              const active = isBridgeActive(level, index, game)
               return <line key={`bridge-${index}`} className={`pe-bridge ${active ? 'active' : ''}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} />
             })}
 
