@@ -27,4 +27,12 @@ describe('Technical SEO safeguards', () => {
     expect(gameVariant).toContain('robots="noindex, follow"')
     expect(storyVariant).toContain('robots="noindex, follow"')
   })
+
+  it('provides static redirect fallbacks for legacy URLs', () => {
+    const redirects = fs.readFileSync(path.join(projectRoot, 'public/_redirects'), 'utf8')
+
+    expect(redirects).toContain('/zh-CN/* /:splat 301')
+    expect(redirects).toContain('/fr/* /:splat 301')
+    expect(redirects).toContain('/guides/heyawake-guide/ /guides/heyawake/ 301')
+  })
 })
