@@ -1,8 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
-import { LEVELS } from './police-escape/engine/levels'
-import { validatePath } from './police-escape/engine/pathValidator'
-import { simulate } from './police-escape/engine/simulator'
-import type { Coord, Frame, Level, Path } from './police-escape/engine/types'
+import { useCallback, useMemo, useState } from 'react'
+import { createGraphGame, isSpikeActive, moveViktor, neighbors, openExits } from './police-escape/engine/graphEngine'
+import { ORIGINAL_LEVELS } from './police-escape/engine/originalLevels'
+import type { GraphGameState, OriginalLevel } from './police-escape/engine/graphTypes'
 
 type Settings = {
   darkMode: boolean
@@ -19,327 +18,390 @@ type Props = {
 }
 
 type Progress = {
-  unlocked: number // highest unlocked level (1-based)
-  bestSteps: Record<number, number> // levelId -> best step count
+  unlocked: number
+  bestSteps: Record<number, number>
 }
 
-const PROGRESS_KEY = 'policeescape_progress'
+const PROGRESS_KEY = 'policeescape_graph_progress'
+const CHAPTER_SIZE = 20
 
 function loadProgress(): Progress {
   try {
     const raw = localStorage.getItem(PROGRESS_KEY)
-    if (raw) {
-      const p = JSON.parse(raw)
-      return { unlocked: p.unlocked ?? 1, bestSteps: p.bestSteps ?? {} }
-    }
-  } catch { /* empty */ }
+    if (raw) return JSON.parse(raw) as Progress
+  } catch { /* localStorage can be unavailable in private contexts */ }
   return { unlocked: 1, bestSteps: {} }
 }
 
-function saveProgress(p: Progress) {
-  try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)) } catch { /* empty */ }
+function saveProgress(progress: Progress) {
+  try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)) } catch { /* noop */ }
+}
+
+function projectLevel(level: OriginalLevel) {
+  const xs = level.nodes.map(node => node.x)
+  const ys = level.nodes.map(node => node.y)
+  const minX = Math.min(...xs)
+  const maxX = Math.max(...xs)
+  const minY = Math.min(...ys)
+  const maxY = Math.max(...ys)
+  const width = Math.max(maxX - minX, 1)
+  const height = Math.max(maxY - minY, 1)
+  const padding = 68
+  const available = 720 - padding * 2
+  const scale = Math.min(available / width, available / height)
+  const drawnWidth = width * scale
+  const drawnHeight = height * scale
+  const offsetX = (720 - drawnWidth) / 2
+  const offsetY = (720 - drawnHeight) / 2
+  return new Map(level.nodes.map(node => [
+    node.id,
+    {
+      x: offsetX + (node.x - minX) * scale,
+      y: offsetY + (maxY - node.y) * scale,
+    },
+  ]))
+}
+
+function featureCount(level: OriginalLevel) {
+  return [
+    level.keyNodeIds?.length,
+    level.teleportPairs?.length,
+    level.springNodeIds?.length,
+    level.spikeNodeIds?.length,
+    level.shieldNodeIds?.length,
+    level.bridges?.length,
+    level.movingNodes?.length,
+  ].filter(Boolean).length
 }
 
 export default function PoliceEscape({ settings }: Props) {
-  const isDark = settings.darkMode
   const zh = settings.language === 'zh'
-
   const [progress, setProgress] = useState<Progress>(() => loadProgress())
   const [view, setView] = useState<'select' | 'play'>('select')
   const [levelIdx, setLevelIdx] = useState(0)
-  const level: Level = LEVELS[levelIdx]
+  const [chapter, setChapter] = useState(0)
+  const level = ORIGINAL_LEVELS[levelIdx]
+  const [game, setGame] = useState<GraphGameState>(() => createGraphGame(ORIGINAL_LEVELS[0]))
+  const positions = useMemo(() => projectLevel(level), [level])
+  const legalMoves = useMemo(() => new Set(neighbors(level, game.viktorNodeId, game)), [level, game])
+  const openExitSet = useMemo(() => new Set(openExits(level, game.turn)), [level, game.turn])
 
-  const [path, setPath] = useState<Path>([])
-  const draggingRef = useRef(false)
-  const [result, setResult] = useState<null | { outcome: 'win' | 'lose' | 'invalid'; reason?: string; frames?: Frame[] }>(null)
-  const [playingFrames, setPlayingFrames] = useState<Frame[] | null>(null)
-  const [frameIdx, setFrameIdx] = useState(0)
-  const playTimer = useRef<number | null>(null)
-
-  useEffect(() => () => { if (playTimer.current) window.clearTimeout(playTimer.current) }, [])
-
-  const startLevel = useCallback((idx: number) => {
-    setLevelIdx(idx)
-    setPath([])
-    setResult(null)
-    setPlayingFrames(null)
-    setFrameIdx(0)
+  const startLevel = useCallback((index: number) => {
+    const nextLevel = ORIGINAL_LEVELS[index]
+    setLevelIdx(index)
+    setGame(createGraphGame(nextLevel))
     setView('play')
   }, [])
 
-  const resetLevel = useCallback(() => {
-    setPath([])
-    setResult(null)
-    setPlayingFrames(null)
-    setFrameIdx(0)
-    if (playTimer.current) { window.clearTimeout(playTimer.current); playTimer.current = null }
-  }, [])
+  const resetLevel = useCallback(() => setGame(createGraphGame(level)), [level])
 
-  const cellSize = level.size <= 7 ? 48 : level.size <= 9 ? 40 : 32
-
-  // Drag-to-draw path. Pointer down on thief start begins; move into adjacent cell extends;
-  // backtracking (moving into the previous-to-last cell) shortens.
-  const cellAtPointer = (clientX: number, clientY: number): Coord | null => {
-    const el = document.elementFromPoint(clientX, clientY) as HTMLElement | null
-    const cellEl = el?.closest('[data-cell]') as HTMLElement | null
-    if (!cellEl) return null
-    const r = Number(cellEl.dataset.r)
-    const c = Number(cellEl.dataset.c)
-    if (Number.isNaN(r) || Number.isNaN(c)) return null
-    return { r, c }
-  }
-
-  const onPointerDown = (e: React.PointerEvent) => {
-    if (playingFrames) return
-    const cell = cellAtPointer(e.clientX, e.clientY)
-    if (!cell) return
-    if (cell.r !== level.thiefStart.r || cell.c !== level.thiefStart.c) return
-    draggingRef.current = true
-    setPath([{ ...level.thiefStart }])
-    setResult(null)
-    ;(e.target as HTMLElement).setPointerCapture?.(e.pointerId)
-  }
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!draggingRef.current) return
-    const cell = cellAtPointer(e.clientX, e.clientY)
-    if (!cell) return
-    setPath(prev => {
-      if (prev.length === 0) return prev
-      const last = prev[prev.length - 1]
-      if (last.r === cell.r && last.c === cell.c) return prev
-      // Backtrack?
-      if (prev.length >= 2) {
-        const before = prev[prev.length - 2]
-        if (before.r === cell.r && before.c === cell.c) {
-          return prev.slice(0, -1)
+  const chooseNode = (nodeId: number) => {
+    const result = moveViktor(level, game, nodeId)
+    if (!result.valid) {
+      setGame(result.state)
+      return
+    }
+    setGame(result.state)
+    if (result.state.outcome === 'won') {
+      setProgress(previous => {
+        const levelNumber = levelIdx + 1
+        const best = previous.bestSteps[levelNumber]
+        const next = {
+          unlocked: Math.max(previous.unlocked, Math.min(ORIGINAL_LEVELS.length, levelNumber + 1)),
+          bestSteps: {
+            ...previous.bestSteps,
+            [levelNumber]: best === undefined ? result.state.turn : Math.min(best, result.state.turn),
+          },
         }
-      }
-      // Must be orthogonally adjacent to last.
-      const dist = Math.abs(last.r - cell.r) + Math.abs(last.c - cell.c)
-      if (dist !== 1) return prev
-      // Must not already be in path (no loops).
-      if (prev.some(p => p.r === cell.r && p.c === cell.c)) return prev
-      // Skip walls and unmelted ice at the entry step.
-      const cellData = level.grid[cell.r][cell.c]
-      if (cellData.kind === 'wall') return prev
-      if (cellData.kind === 'ice' && cellData.meltAt !== undefined && prev.length < cellData.meltAt) return prev
-      return [...prev, cell]
-    })
+        saveProgress(next)
+        return next
+      })
+    }
   }
 
-  const onPointerUp = () => { draggingRef.current = false }
+  const chapterLevels = ORIGINAL_LEVELS.slice(chapter * CHAPTER_SIZE, (chapter + 1) * CHAPTER_SIZE)
+  const chapterCount = Math.ceil(ORIGINAL_LEVELS.length / CHAPTER_SIZE)
 
-  const onGo = () => {
-    if (path.length === 0) return
-    const v = validatePath(level, path)
-    if (!v.valid) {
-      setResult({ outcome: 'invalid', reason: v.reason })
-      return
-    }
-    const res = simulate(level, path)
-    if (res.outcome === 'invalid') {
-      setResult({ outcome: 'invalid', reason: res.reason })
-      return
-    }
-    // Animate frames.
-    setPlayingFrames(res.frames)
-    setFrameIdx(0)
-    let i = 0
-    const step = () => {
-      i += 1
-      setFrameIdx(i)
-      if (i < res.frames.length) {
-        playTimer.current = window.setTimeout(step, 280)
-      } else {
-        // After last frame, settle the result.
-        playTimer.current = window.setTimeout(() => {
-          if (res.outcome === 'win') {
-            // Record best steps + unlock next.
-            setProgress(prev => {
-              const steps = res.frames.length
-              const best = prev.bestSteps[level.id]
-              const next: Progress = {
-                unlocked: Math.max(prev.unlocked, Math.min(level.id + 1, LEVELS.length)),
-                bestSteps: { ...prev.bestSteps, [level.id]: best === undefined ? steps : Math.min(best, steps) },
-              }
-              saveProgress(next)
-              return next
-            })
-          }
-          setResult({ outcome: res.outcome, reason: res.outcome === 'lose' ? res.reason : undefined, frames: res.frames })
-          setPlayingFrames(null)
-        }, 400)
-      }
-    }
-    playTimer.current = window.setTimeout(step, 280)
-  }
-
-  // Currently displayed positions: during playback use frames; otherwise use the initial state.
-  const displayedThief: Coord = playingFrames && frameIdx > 0 ? playingFrames[Math.min(frameIdx, playingFrames.length) - 1].thief : level.thiefStart
-  const displayedPolice: Coord[] = playingFrames && frameIdx > 0 ? playingFrames[Math.min(frameIdx, playingFrames.length) - 1].police : level.police.map(p => p.start)
-
-  const pathSet = new Set(path.map(p => `${p.r},${p.c}`))
-
-  const cellBg = (r: number, c: number, cell: Level['grid'][number][number]) => {
-    const onPath = pathSet.has(`${r},${c}`)
-    if (cell.kind === 'wall') return isDark ? 'bg-slate-900 border-slate-800' : 'bg-gray-800 border-gray-700'
-    if (cell.kind === 'exit') {
-      const open = !level.exitToggle ? true : level.exitToggle.openSteps.includes(((playingFrames && frameIdx) || 0) % level.exitToggle.period)
-      return open
-        ? 'bg-green-500 border-green-700'
-        : 'bg-red-500 border-red-700'
-    }
-    if (cell.kind === 'key') return isDark ? 'bg-amber-700 border-amber-600' : 'bg-amber-300 border-amber-500'
-    if (cell.kind === 'ice') return isDark ? 'bg-cyan-900 border-cyan-800' : 'bg-cyan-200 border-cyan-400'
-    if (onPath) return isDark ? 'bg-indigo-700 border-indigo-600' : 'bg-indigo-300 border-indigo-500'
-    return isDark ? 'bg-slate-700 border-slate-600 hover:bg-slate-600' : 'bg-white border-gray-300 hover:bg-gray-100'
-  }
-
-  // ---- Level select view ----
   if (view === 'select') {
     return (
-      <div className={`min-h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-        <header className={`p-4 border-b ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
-          <h1 className="text-xl font-bold text-center">🚔 Police Escape</h1>
-          <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-            {zh ? '划线规划逃跑路线，躲开警察追捕' : 'Draw a path to escape — avoid the police'}
-          </p>
-        </header>
-        <div className="flex-1 p-4 overflow-auto">
-          <div className="max-w-2xl mx-auto grid grid-cols-5 gap-3">
-            {LEVELS.map((lvl, i) => {
-              const locked = lvl.id > progress.unlocked
-              const best = progress.bestSteps[lvl.id]
+      <main className={`pe-shell ${settings.darkMode ? 'pe-dark' : ''}`}>
+        <style>{styles}</style>
+        <section className="pe-select">
+          <div className="pe-kicker">GOOD JOB FILES / CASE 01</div>
+          <h1>POLICE<br />ESCAPE</h1>
+          <p>{zh ? '基于逆向配置重建的 183 个节点式追逐关卡。每一步，都让警察更近一步。' : '183 reconstructed node-chase levels. Every move brings the police one step closer.'}</p>
+
+          <div className="pe-chapter-bar">
+            <button disabled={chapter === 0} onClick={() => setChapter(value => value - 1)}>←</button>
+            <div>
+              <span>{zh ? '案卷' : 'CASE FILE'}</span>
+              <strong>{String(chapter + 1).padStart(2, '0')} / {String(chapterCount).padStart(2, '0')}</strong>
+            </div>
+            <button disabled={chapter === chapterCount - 1} onClick={() => setChapter(value => value + 1)}>→</button>
+          </div>
+
+          <div className="pe-level-grid">
+            {chapterLevels.map((item, localIndex) => {
+              const index = chapter * CHAPTER_SIZE + localIndex
+              const levelNumber = index + 1
+              const locked = levelNumber > progress.unlocked
+              const best = progress.bestSteps[levelNumber]
               return (
                 <button
-                  key={lvl.id}
+                  className={`pe-level-card ${locked ? 'locked' : ''}`}
                   disabled={locked}
-                  onClick={() => startLevel(i)}
-                  className={`aspect-square rounded-lg flex flex-col items-center justify-center font-bold border-2 transition-colors ${
-                    locked
-                      ? 'bg-gray-300 border-gray-400 text-gray-500 cursor-not-allowed'
-                      : isDark
-                        ? 'bg-slate-700 border-slate-600 hover:bg-indigo-700 text-white'
-                        : 'bg-white border-gray-300 hover:bg-indigo-100 text-gray-900'
-                  }`}
+                  key={item.sourceLevel}
+                  onClick={() => startLevel(index)}
                 >
-                  <span className="text-lg">{locked ? '🔒' : lvl.id}</span>
-                  {!locked && best !== undefined && (
-                    <span className={`text-[10px] mt-1 ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>{best}{zh ? '步' : ''}</span>
-                  )}
+                  <small>{locked ? 'LOCKED' : `#${String(levelNumber).padStart(3, '0')}`}</small>
+                  <strong>{locked ? '⌁' : item.nodes.length}</strong>
+                  <span>{locked ? (zh ? '未解锁' : 'SEALED') : `${item.connections.length} ${zh ? '条道路' : 'ROADS'}`}</span>
+                  {!locked && <i>{best ? `${best} ${zh ? '步' : 'MOVES'}` : `${featureCount(item)} ${zh ? '种机关' : 'DEVICES'}`}</i>}
                 </button>
               )
             })}
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     )
   }
 
-  // ---- Play view ----
+  const remainingKeys = (level.keyNodeIds ?? []).filter(id => !game.keysCollected.includes(id))
+
   return (
-    <div className={`min-h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-      <header className={`p-3 border-b flex items-center gap-3 ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
-        <button onClick={() => setView('select')} className={`px-3 py-1 rounded ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
-          ← {zh ? '关卡' : 'Levels'}
-        </button>
-        <div className="flex-1 text-center">
-          <div className="font-bold">{zh ? level.nameZh : level.name}</div>
-          <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
-            {zh ? `第 ${level.id} / ${LEVELS.length} 关` : `Level ${level.id} of ${LEVELS.length}`}
+    <main className={`pe-shell ${settings.darkMode ? 'pe-dark' : ''}`}>
+      <style>{styles}</style>
+      <section className="pe-game">
+        <header className="pe-game-header">
+          <button className="pe-icon-button" onClick={() => setView('select')} aria-label={zh ? '返回关卡' : 'Back to levels'}>←</button>
+          <div>
+            <span>{zh ? '当前案卷' : 'ACTIVE CASE'}</span>
+            <strong>#{String(levelIdx + 1).padStart(3, '0')}</strong>
+          </div>
+          <div className="pe-turn">
+            <span>{zh ? '行动' : 'MOVES'}</span>
+            <strong>{String(game.turn).padStart(2, '0')}</strong>
+          </div>
+          <button className="pe-icon-button" onClick={resetLevel} aria-label={zh ? '重置' : 'Reset'}>↻</button>
+        </header>
+
+        <div className="pe-status-strip">
+          <span>🔑 {game.keysCollected.length}/{level.keyNodeIds?.length ?? 0}</span>
+          <span>🛡 {game.shields}</span>
+          <span>👮 {game.police.filter(item => !item.sleeping).length}/{game.police.length}</span>
+          <span>{zh ? '出口' : 'EXIT'} {remainingKeys.length ? '🔒' : '✓'}</span>
+        </div>
+
+        <div className="pe-board-wrap">
+          <div className="pe-grid-lines" />
+          <svg className="pe-board" viewBox="0 0 720 720" role="img" aria-label={zh ? `Police Escape 第 ${levelIdx + 1} 关` : `Police Escape level ${levelIdx + 1}`}>
+            <defs>
+              <filter id="soft-glow"><feGaussianBlur stdDeviation="4" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            </defs>
+
+            {level.connections.map((edge, index) => {
+              const from = positions.get(edge.fromNodeId)!
+              const to = positions.get(edge.toNodeId)!
+              const reachable = edge.fromNodeId === game.viktorNodeId || edge.toNodeId === game.viktorNodeId
+              return <line key={index} className={`pe-road ${reachable ? 'reachable' : ''}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} />
+            })}
+
+            {(level.bridges ?? []).map((bridge, index) => {
+              const from = positions.get(bridge.triggerNodeId)
+              const to = positions.get(bridge.otherNodeId)
+              if (!from || !to) return null
+              const active = game.activatedBridges.includes(index)
+              return <line key={`bridge-${index}`} className={`pe-bridge ${active ? 'active' : ''}`} x1={from.x} y1={from.y} x2={to.x} y2={to.y} />
+            })}
+
+            {level.nodes.map(node => {
+              const point = positions.get(node.id)!
+              const isViktor = node.id === game.viktorNodeId
+              const police = game.police.filter(item => item.nodeId === node.id)
+              const isExit = [level.exitNodeId, level.exitANodeId, level.exitBNodeId].includes(node.id)
+              const isOpenExit = openExitSet.has(node.id) && remainingKeys.length === 0
+              const isKey = (level.keyNodeIds ?? []).includes(node.id) && !game.keysCollected.includes(node.id)
+              const isPortal = (level.teleportPairs ?? []).some(pair => pair.nodeA === node.id || pair.nodeB === node.id)
+              const isSpring = (level.springNodeIds ?? []).includes(node.id)
+              const isShield = (level.shieldNodeIds ?? []).includes(node.id) && !game.visitedNodeIds.includes(node.id)
+              const isIce = (level.iceNodes ?? []).some(item => typeof item === 'number' ? item === node.id : item.nodeId === node.id)
+              const spike = isSpikeActive(level, node.id, game.turn)
+              const isLegal = legalMoves.has(node.id) && game.outcome === 'playing'
+              const classes = [
+                'pe-node',
+                isLegal ? 'legal' : '',
+                isExit ? 'exit' : '',
+                isOpenExit ? 'open' : '',
+                isPortal ? 'portal' : '',
+                spike ? 'spike-on' : '',
+              ].filter(Boolean).join(' ')
+              return (
+                <g
+                  className={classes}
+                  key={node.id}
+                  onClick={() => isLegal && chooseNode(node.id)}
+                  role={isLegal ? 'button' : undefined}
+                  aria-label={isLegal ? `${zh ? '移动到节点' : 'Move to node'} ${node.id}` : undefined}
+                >
+                  {isLegal && <circle className="pe-node-pulse" cx={point.x} cy={point.y} r="31" />}
+                  <circle className="pe-node-ring" cx={point.x} cy={point.y} r="23" />
+                  <circle className="pe-node-core" cx={point.x} cy={point.y} r="16" />
+                  {isExit && <text x={point.x} y={point.y + 7}>{isOpenExit ? '🚪' : '🔒'}</text>}
+                  {isKey && <text x={point.x} y={point.y + 7}>🔑</text>}
+                  {isPortal && <text x={point.x} y={point.y + 7}>◎</text>}
+                  {isSpring && <text x={point.x} y={point.y + 7}>↟</text>}
+                  {isShield && <text x={point.x} y={point.y + 7}>◆</text>}
+                  {isIce && <text x={point.x} y={point.y + 7}>❄</text>}
+                  {(level.spikeNodeIds ?? []).includes(node.id) && <text x={point.x} y={point.y + 7}>{spike ? '▲' : '△'}</text>}
+                  {isViktor && <text className="pe-actor" x={point.x} y={point.y + 9}>🏃</text>}
+                  {police.map((officer, index) => (
+                    <text className={`pe-actor police ${officer.sleeping ? 'sleeping' : ''}`} key={index} x={point.x + index * 13 - 4} y={point.y + 9}>
+                      {officer.sleeping ? '💤' : '👮'}
+                    </text>
+                  ))}
+                </g>
+              )
+            })}
+          </svg>
+        </div>
+
+        <div className="pe-instruction">
+          <div className="pe-siren" />
+          <div>
+            <strong>{game.outcome === 'playing' ? (zh ? '选择发光节点' : 'CHOOSE A LIT NODE') : game.outcome === 'won' ? (zh ? '逃脱成功' : 'ESCAPE CONFIRMED') : (zh ? '行动失败' : 'SUBJECT CAUGHT')}</strong>
+            <span>{game.message || (zh ? '你走一步，警察沿最短路径追一步。' : 'You move once. Police follow the shortest route once.')}</span>
           </div>
         </div>
-      </header>
 
-      {result && result.outcome === 'invalid' && (
-        <div className="mx-4 mt-3 px-4 py-2 rounded-lg bg-red-100 border border-red-300 text-red-800 text-sm">
-          ⚠️ {result.reason}
+        <div className="pe-legend">
+          <span>◎ {zh ? '传送' : 'PORTAL'}</span>
+          <span>↟ {zh ? '弹簧' : 'SPRING'}</span>
+          <span>▲ {zh ? '尖刺' : 'SPIKE'}</span>
+          <span>◆ {zh ? '护盾' : 'SHIELD'}</span>
         </div>
-      )}
 
-      <div className="flex-1 flex items-center justify-center p-4 overflow-auto">
-        <div
-          className="grid gap-0 touch-none select-none"
-          style={{ gridTemplateColumns: `repeat(${level.size}, ${cellSize}px)` }}
-          onPointerDown={onPointerDown}
-          onPointerMove={onPointerMove}
-          onPointerUp={onPointerUp}
-          onPointerCancel={onPointerUp}
-        >
-          {level.grid.map((row, r) =>
-            row.map((cell, c) => {
-              const isThief = displayedThief.r === r && displayedThief.c === c
-              const policeIdx = displayedPolice.findIndex(p => p.r === r && p.c === c)
-              const isPolice = policeIdx >= 0
-              return (
-                <div
-                  key={`${r}-${c}`}
-                  data-cell
-                  data-r={r}
-                  data-c={c}
-                  className={`border flex items-center justify-center ${cellBg(r, c, cell)}`}
-                  style={{ width: cellSize, height: cellSize }}
-                >
-                  {cell.kind === 'exit' && <span className="text-lg">🚪</span>}
-                  {cell.kind === 'key' && <span className="text-lg">🔑</span>}
-                  {cell.kind === 'ice' && <span className="text-xs">🧊</span>}
-                  {isThief && <span className="text-lg">🥷</span>}
-                  {isPolice && <span className="text-lg">👮</span>}
-                </div>
-              )
-            })
-          )}
-        </div>
-      </div>
-
-      <div className={`p-3 text-center text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>
-        {zh ? '从 🥷 拖到 🚪 画路径' : 'Drag from 🥷 to 🚪 to draw a path'}
-        {level.requiredKeys.length > 0 && (zh ? ` · 需收集 ${level.requiredKeys.length} 把 🔑` : ` · collect ${level.requiredKeys.length} 🔑`)}
-      </div>
-
-      <div className="flex justify-center gap-3 p-3">
-        <button onClick={resetLevel} className={`px-5 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600' : 'bg-gray-200 hover:bg-gray-300'}`}>
-          {zh ? '重置' : 'Reset'}
-        </button>
-        <button
-          onClick={onGo}
-          disabled={path.length < 2 || !!playingFrames}
-          className="px-6 py-2 rounded-lg font-medium bg-green-600 hover:bg-green-500 disabled:bg-gray-400 text-white"
-        >
-          {zh ? '出发!' : 'Go!'}
-        </button>
-      </div>
-
-      {result && (result.outcome === 'win' || result.outcome === 'lose') && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/50 p-4">
-          <div className={`p-6 rounded-2xl max-w-sm w-full ${isDark ? 'bg-slate-800' : 'bg-white'}`}>
-            <h2 className={`text-2xl font-bold text-center ${result.outcome === 'win' ? 'text-green-500' : 'text-red-500'}`}>
-              {result.outcome === 'win'
-                ? (zh ? '🎉 逃脱成功!' : '🎉 Escaped!')
-                : (zh ? '💥 被抓住了!' : '💥 Caught!')}
-            </h2>
-            {result.outcome === 'lose' && result.reason && (
-              <p className={`mt-2 text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>{result.reason}</p>
-            )}
-            <div className="mt-4 flex gap-2">
-              <button onClick={resetLevel} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}>
-                {zh ? '重试' : 'Retry'}
-              </button>
-              {result.outcome === 'win' && level.id < LEVELS.length && (
-                <button onClick={() => startLevel(levelIdx + 1)} className="flex-1 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium">
-                  {zh ? '下一关' : 'Next'}
-                </button>
-              )}
-              {result.outcome === 'win' && (
-                <button onClick={() => setView('select')} className={`flex-1 py-2 rounded-lg font-medium ${isDark ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-800'}`}>
-                  {zh ? '关卡' : 'Levels'}
-                </button>
-              )}
+        {game.outcome !== 'playing' && (
+          <div className="pe-modal-backdrop">
+            <div className={`pe-modal ${game.outcome}`}>
+              <small>{game.outcome === 'won' ? 'CASE CLOSED' : 'PURSUIT ENDED'}</small>
+              <h2>{game.outcome === 'won' ? (zh ? '逃脱成功' : 'YOU GOT OUT') : (zh ? '你被抓住了' : 'YOU WERE CAUGHT')}</h2>
+              <p>{zh ? `本次行动 ${game.turn} 步。` : `${game.turn} moves recorded.`}</p>
+              <div>
+                <button onClick={resetLevel}>{zh ? '再试一次' : 'RETRY'}</button>
+                {game.outcome === 'won' && levelIdx < ORIGINAL_LEVELS.length - 1 && (
+                  <button className="primary" onClick={() => startLevel(levelIdx + 1)}>{zh ? '下一关' : 'NEXT CASE'}</button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </section>
+    </main>
   )
 }
+
+const styles = `
+  .pe-shell {
+    --ink: #12202a;
+    --paper: #e8e2d2;
+    --paper-2: #d8d0bc;
+    --red: #e43f3f;
+    --blue: #2c74b9;
+    --lime: #d8ff43;
+    --muted: #66727a;
+    min-height: 100vh;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 18% 6%, rgba(255,255,255,.72), transparent 28rem),
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(18,32,42,.025) 3px 4px),
+      var(--paper);
+    font-family: "Arial Narrow", "Roboto Condensed", sans-serif;
+  }
+  .pe-dark {
+    --ink: #edf4ed;
+    --paper: #111b20;
+    --paper-2: #1b292f;
+    --muted: #9aabb0;
+    background:
+      radial-gradient(circle at 18% 6%, rgba(44,116,185,.2), transparent 28rem),
+      repeating-linear-gradient(0deg, transparent 0 3px, rgba(255,255,255,.018) 3px 4px),
+      var(--paper);
+  }
+  .pe-select, .pe-game { width: min(100%, 900px); min-height: 100vh; margin: 0 auto; padding: 28px 18px 44px; }
+  .pe-select h1 { font-family: Impact, Haettenschweiler, sans-serif; font-size: clamp(4.4rem, 16vw, 8.8rem); line-height: .73; letter-spacing: -.04em; margin: 24px 0; transform: skewY(-2deg); }
+  .pe-select h1::first-line { color: var(--blue); text-shadow: 4px 4px 0 var(--red); }
+  .pe-kicker { display: inline-block; color: var(--paper); background: var(--ink); padding: 7px 11px; font-weight: 900; letter-spacing: .16em; font-size: .7rem; }
+  .pe-select > p { max-width: 560px; font-family: Georgia, serif; font-size: 1rem; line-height: 1.65; color: var(--muted); }
+  .pe-chapter-bar { display: flex; align-items: stretch; gap: 8px; margin: 30px 0 16px; border-top: 3px solid var(--ink); padding-top: 12px; }
+  .pe-chapter-bar button, .pe-icon-button { border: 2px solid var(--ink); color: var(--ink); background: transparent; font-weight: 900; cursor: pointer; min-width: 48px; }
+  .pe-chapter-bar button:disabled { opacity: .25; cursor: default; }
+  .pe-chapter-bar > div { flex: 1; display: flex; justify-content: space-between; align-items: baseline; background: var(--ink); color: var(--paper); padding: 10px 14px; }
+  .pe-chapter-bar span, .pe-game-header span, .pe-turn span { font-size: .64rem; letter-spacing: .15em; font-weight: 800; }
+  .pe-level-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .pe-level-card { min-height: 112px; padding: 10px; text-align: left; border: 2px solid var(--ink); background: transparent; color: var(--ink); display: flex; flex-direction: column; cursor: pointer; transition: transform .15s ease, background .15s ease, color .15s ease; }
+  .pe-level-card:hover:not(:disabled) { transform: translateY(-4px) rotate(-1deg); background: var(--lime); color: #12202a; box-shadow: 4px 4px 0 var(--ink); }
+  .pe-level-card small { font-weight: 900; letter-spacing: .12em; }
+  .pe-level-card strong { font-family: Impact, sans-serif; font-size: 2rem; line-height: 1; margin-top: auto; }
+  .pe-level-card span { font-size: .64rem; font-weight: 800; }
+  .pe-level-card i { margin-top: 4px; color: var(--muted); font-size: .58rem; font-style: normal; }
+  .pe-level-card.locked { opacity: .24; cursor: not-allowed; }
+  .pe-game { display: flex; flex-direction: column; }
+  .pe-game-header { display: grid; grid-template-columns: 50px 1fr auto 50px; gap: 12px; align-items: stretch; border-bottom: 3px solid var(--ink); padding-bottom: 12px; }
+  .pe-game-header > div { display: flex; flex-direction: column; }
+  .pe-game-header strong { font-family: Impact, sans-serif; font-size: 1.8rem; line-height: 1; }
+  .pe-turn { text-align: right; }
+  .pe-status-strip { display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid var(--ink); }
+  .pe-status-strip span { padding: 8px 13px; border-right: 1px solid var(--ink); font-size: .72rem; font-weight: 900; letter-spacing: .06em; }
+  .pe-board-wrap { position: relative; width: min(100%, 680px); margin: 16px auto; aspect-ratio: 1; overflow: hidden; background: #17242b; border: 5px solid var(--ink); box-shadow: 9px 9px 0 rgba(18,32,42,.18); }
+  .pe-grid-lines { position: absolute; inset: 0; opacity: .18; background-image: linear-gradient(#b6d3d6 1px, transparent 1px), linear-gradient(90deg, #b6d3d6 1px, transparent 1px); background-size: 36px 36px; }
+  .pe-board { position: relative; width: 100%; height: 100%; touch-action: manipulation; }
+  .pe-road { stroke: #718991; stroke-width: 8; stroke-linecap: round; opacity: .72; }
+  .pe-road.reachable { stroke: var(--lime); opacity: .95; filter: url(#soft-glow); }
+  .pe-bridge { stroke: #ffbd3e; stroke-width: 8; stroke-dasharray: 9 10; opacity: .25; }
+  .pe-bridge.active { opacity: 1; }
+  .pe-node { cursor: default; }
+  .pe-node.legal { cursor: pointer; }
+  .pe-node-ring { fill: #263b45; stroke: #b9c8c8; stroke-width: 4; }
+  .pe-node-core { fill: #d7e0da; }
+  .pe-node.legal .pe-node-ring { stroke: var(--lime); stroke-width: 6; }
+  .pe-node.exit .pe-node-ring { stroke: #ffbd3e; }
+  .pe-node.exit.open .pe-node-ring { stroke: #65db7c; filter: url(#soft-glow); }
+  .pe-node.portal .pe-node-core { fill: #78d6ff; }
+  .pe-node.spike-on .pe-node-core { fill: #ff6262; }
+  .pe-node-pulse { fill: none; stroke: var(--lime); stroke-width: 3; opacity: .55; animation: pePulse 1.25s ease-out infinite; }
+  .pe-node text { text-anchor: middle; font-size: 22px; font-weight: 900; pointer-events: none; }
+  .pe-node .pe-actor { font-size: 32px; filter: drop-shadow(2px 3px 0 rgba(0,0,0,.5)); }
+  .pe-node .police { font-size: 31px; }
+  .pe-node .sleeping { font-size: 24px; }
+  .pe-instruction { display: flex; gap: 12px; align-items: center; border: 2px solid var(--ink); padding: 11px; }
+  .pe-instruction > div:last-child { display: flex; flex-direction: column; }
+  .pe-instruction strong { font-size: .78rem; letter-spacing: .1em; }
+  .pe-instruction span { color: var(--muted); font-family: Georgia, serif; font-size: .78rem; }
+  .pe-siren { width: 34px; height: 22px; border-radius: 20px 20px 3px 3px; background: linear-gradient(90deg, var(--red) 50%, var(--blue) 50%); box-shadow: 0 0 14px var(--red); animation: peSiren .55s steps(2) infinite; }
+  .pe-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 13px; padding-top: 12px; color: var(--muted); font-size: .6rem; font-weight: 900; letter-spacing: .08em; }
+  .pe-modal-backdrop { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; padding: 20px; background: rgba(4,9,12,.74); backdrop-filter: blur(5px); }
+  .pe-modal { width: min(100%, 410px); background: var(--paper); color: var(--ink); border: 5px solid var(--ink); padding: 28px; box-shadow: 12px 12px 0 var(--red); transform: rotate(-1deg); }
+  .pe-modal.won { box-shadow: 12px 12px 0 var(--lime); }
+  .pe-modal small { font-weight: 900; letter-spacing: .18em; }
+  .pe-modal h2 { font-family: Impact, sans-serif; font-size: 2.7rem; line-height: .95; margin: 8px 0; }
+  .pe-modal p { font-family: Georgia, serif; color: var(--muted); }
+  .pe-modal > div { display: flex; gap: 8px; margin-top: 20px; }
+  .pe-modal button { flex: 1; border: 2px solid var(--ink); padding: 11px; background: transparent; color: var(--ink); font-weight: 900; cursor: pointer; }
+  .pe-modal button.primary { background: var(--ink); color: var(--paper); }
+  @keyframes pePulse { from { r: 25; opacity: .8; } to { r: 37; opacity: 0; } }
+  @keyframes peSiren { 50% { box-shadow: 0 0 14px var(--blue); filter: saturate(1.5); } }
+  @media (max-width: 620px) {
+    .pe-select, .pe-game { padding: 18px 10px 28px; }
+    .pe-level-grid { grid-template-columns: repeat(4, 1fr); }
+    .pe-level-card { min-height: 94px; }
+    .pe-level-card strong { font-size: 1.55rem; }
+    .pe-board-wrap { margin: 10px auto; border-width: 3px; box-shadow: 5px 5px 0 rgba(18,32,42,.18); }
+  }
+  @media (max-width: 390px) {
+    .pe-level-grid { grid-template-columns: repeat(3, 1fr); }
+    .pe-status-strip span { padding: 7px 9px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pe-node-pulse, .pe-siren { animation: none; }
+  }
+`

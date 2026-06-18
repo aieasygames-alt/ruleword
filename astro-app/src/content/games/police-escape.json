@@ -6,36 +6,36 @@
   "color": "from-blue-500 to-red-600",
   "en": {
     "name": "Police Escape",
-    "desc": "Play Police Escape free online — draw a path to outrun the cops. 30 levels with keys, portals, ice, and toggle exits.",
-    "description": "Police Escape is a turn-based chase puzzle. You play a thief who must draw a continuous escape route to the exit, while one or more police pursue via shortest-path AI. Plan your path, hit Go, and watch the chase play out — escape before they catch you! 30 hand-crafted levels introduce new mechanics every 5 stages: keys you must collect, teleport portals, ice blocks that block cells until they melt, and exits that toggle open and closed on a schedule. Play free online, no download.",
-    "objectives": "Draw a path from thief to exit that avoids the police. Collect all required keys. Arrive at the exit when it's open.",
-    "howToPlay": "Drag from the thief to the exit to draw your path. Press Go to commit. The thief and police advance one cell per turn; if a police catches you, you lose.",
+    "desc": "Play Police Escape free online — move node by node through 183 reconstructed chase puzzles with keys, portals, springs, spikes, shields, and bridges.",
+    "description": "Police Escape is a turn-based chase puzzle rebuilt from the original game's extracted level configurations. Move Viktor one connected node at a time while police respond along the shortest available route. Collect every key, exploit portals and devices, and reach an open exit before the pursuit closes in. The game includes all 183 reconstructed node layouts and supports touch or mouse play.",
+    "objectives": "Reach an open exit before the police catch you. Collect every required key and use each level's devices to create a safe route.",
+    "howToPlay": "Select one of the glowing connected nodes to move. After every move, each active police advances one node along its shortest route toward you.",
     "rules": {
-      "controls": "Drag from 🥷 to 🚪 with mouse or touch. Backtrack by dragging onto the previous cell. Press Go! to commit the path.",
+      "controls": "Tap or click a glowing connected node. Use Reset to restart the current case.",
       "mechanics": [
-        "Thief and police move one cell per turn",
+        "Viktor and police move one graph node per turn",
         "Police use BFS shortest-path AI to chase you",
-        "Path cannot cross police cells or repeat cells",
+        "Only directly connected nodes can be selected",
         "Collect all keys before exiting"
       ],
       "features": [
-        "30 hand-crafted levels",
-        "Keys (L6), portals (L11), ice (L16), exit toggle (L21)",
+        "183 reconstructed original level layouts",
+        "Keys, portals, ice, springs, spikes, bridges, shields, and dual exits",
         "Linear unlock progression",
         "Best step count per level"
       ]
     },
     "tips": [
-      "Plan a SHORT path — police catch up fast on long routes",
-      "Use walls to break line-of-sight between you and the police",
-      "Patrol points tell you where idle police drift — exploit them",
-      "On toggle levels, time your arrival for an open tick",
-      "Portals are optional — use them only when they shorten your route"
+      "Count graph edges — every extra move gives police another step",
+      "Use branches and portals to force police onto slower routes",
+      "Collect shields before attempting a risky crossing",
+      "Watch spike timing and which dual exit is currently open",
+      "Sleeping police wake when the chase gets close or keys are collected"
     ],
     "faq": [
       {
         "question": "How do police move?",
-        "answer": "Each police computes the BFS shortest path to your CURRENT cell and steps one square along it. If they can't reach you (walled off), they walk toward their patrol point."
+        "answer": "Each active police computes the shortest path to your current node and advances one connected node after your move."
       },
       {
         "question": "Why did I lose when our paths didn't overlap?",
@@ -43,7 +43,7 @@
       },
       {
         "question": "Are the levels solvable?",
-        "answer": "Yes. Every one of the 30 levels was verified solvable by a backtracking solver before shipping — there is always at least one winning path."
+        "answer": "The game loads all 183 extracted layouts. Advanced device behavior is reconstructed from the available configuration schema and can be refined as more original method logic is recovered."
       },
       {
         "question": "Does my progress save?",
@@ -61,36 +61,36 @@
   },
   "zh": {
     "name": "警察与小偷",
-    "desc": "免费在线玩《警察与小偷》——划线规划逃跑路线，躲开警察追捕。30关，含钥匙、传送门、冰块、切换出口。",
-    "description": "《警察与小偷》是一款回合制追逐解谜游戏。你扮演小偷，需要划出一条连续的逃跑路线到达出口，而一个或多个警察会按最短路径追捕你。规划好路线，按下出发，观看追逐展开——在被抓住之前逃出去！30关手工设计的关卡，每5关引入一个新机制：必须收集的钥匙、传送管道、融化前阻挡通行的冰块、按时开关的切换出口。免费在线玩，无需下载。",
-    "objectives": "画出从起点到出口的逃跑路径，避开警察。收集所有必需的钥匙，在出口开放时到达。",
-    "howToPlay": "从🥷拖到🚪画出路径，按出发提交。小偷和警察每回合各走一格，被警察抓住则失败。",
+    "desc": "免费在线玩《警察与小偷》——在 183 个逆向重建的节点关卡中逐步逃脱，包含钥匙、传送门、弹簧、尖刺、护盾和桥梁。",
+    "description": "《警察与小偷》是一款根据原游戏提取关卡配置重建的回合制追逐解谜游戏。每次选择一个相连节点移动 Viktor，警察随后沿最短路线追近一步。收集全部钥匙，利用传送门和机关改变路线，在追捕合围前抵达开放出口。游戏已接入全部 183 个节点布局，支持鼠标和触屏操作。",
+    "objectives": "在被警察抓住前抵达开放出口。收集所有钥匙，并利用关卡机关创造安全路线。",
+    "howToPlay": "点击发光的相邻节点移动。你每走一步，所有已苏醒警察都会沿最短路线追一步。",
     "rules": {
-      "controls": "用鼠标或手指从🥷拖到🚪画路径。拖回上一格可撤销。按出发提交路径。",
+      "controls": "用鼠标或手指点击发光的相邻节点。点击重置可重新开始当前关卡。",
       "mechanics": [
-        "小偷和警察每回合各走一格",
+        "Viktor 和警察每回合各移动一个图节点",
         "警察使用 BFS 最短路径 AI 追你",
-        "路径不能与警察相交，不能重复经过格子",
+        "只能选择与当前位置直接相连的节点",
         "到达出口前必须收集所有钥匙"
       ],
       "features": [
-        "30关手工设计",
-        "钥匙(L6)、传送门(L11)、冰块(L16)、出口切换(L21)",
+        "183 个原作逆向重建关卡布局",
+        "钥匙、传送门、冰面、弹簧、尖刺、桥、护盾和双出口",
         "线性解锁进度",
         "记录每关最佳步数"
       ]
     },
     "tips": [
-      "规划短路径——长路线会被警察追上",
-      "用墙挡住你和警察之间的视线",
-      "巡逻点告诉你警察闲时会去哪里，加以利用",
-      "出口切换关卡，要在开放时刻到达",
-      "传送门是可选的——只在能缩短路径时使用"
+      "计算节点距离——每多走一步，警察也会更近一步",
+      "利用分叉和传送门迫使警察绕远",
+      "在高风险交汇前优先取得护盾",
+      "观察尖刺节奏和双出口当前开放状态",
+      "沉睡警察会在追逐靠近或收集钥匙后苏醒"
     ],
     "faq": [
       {
         "question": "警察怎么移动？",
-        "answer": "每个警察计算到达你当前位置的 BFS 最短路径，并沿路径走一格。如果他们无法到达你（被墙挡住），会朝巡逻点走。"
+        "answer": "每个已苏醒警察都会计算到达你当前节点的最短路径，并在你移动后沿连接线前进一步。"
       },
       {
         "question": "为什么路径没重叠也算输？",
@@ -98,7 +98,7 @@
       },
       {
         "question": "关卡都是可解的吗？",
-        "answer": "是的。30关每一关都经过回溯求解器验证至少有一条合法解后才发布。"
+        "answer": "游戏已载入全部 183 个提取布局。高级机关行为依据现有配置 Schema 重建，后续拿到更多原方法逻辑后可以继续精确校准。"
       },
       {
         "question": "进度会保存吗？",

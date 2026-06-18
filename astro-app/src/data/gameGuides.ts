@@ -575,13 +575,13 @@ const gameGuidesEn: GameGuides = {
   },
   'police-escape': {
     name: 'Police Escape',
-    intro: 'Police Escape is a turn-based chase puzzle. Draw a path from thief to exit while police pursue via shortest-path AI. 30 levels with keys, portals, ice, and toggle exits.',
-    howToPlay: 'Drag from the thief to the exit to draw your path. Press Go to commit — the thief and police then advance one cell per turn. Reach the exit before any police catches you.',
+    intro: 'Police Escape is a turn-based chase puzzle reconstructed from 183 original node-graph level configurations, with keys, portals, springs, spikes, shields, bridges, and dual exits.',
+    howToPlay: 'Click a glowing connected node to move. Each active police then advances one node along its shortest route toward you. Collect every key and reach an open exit.',
     tips: [
-      'Keep paths short — every extra turn helps the police catch up',
-      'Police use BFS shortest path; predict their moves and route around them',
+      'Count graph edges — every extra turn helps the police catch up',
+      'Police use shortest paths; use branches and portals to route around them',
       'Collect all keys before the exit will accept you',
-      'On toggle-exit levels, time your arrival for an open tick',
+      'Watch spike timing, shields, sleeping police, and dual-exit state',
     ],
   },
   aqre: {
