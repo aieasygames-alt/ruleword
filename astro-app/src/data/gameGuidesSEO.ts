@@ -1490,9 +1490,9 @@ If the across clue allows digits {1,2,3} and the down clue allows {2,3,4}, the c
 // Slitherlink Guide - Logic loop puzzle
 gameGuides['slitherlink'] = {
   slug: 'slitherlink',
-  title: 'Slitherlink Puzzle Guide: How to Solve Loop Logic Puzzles',
-  description: 'Master Slitherlink puzzles with our comprehensive guide. Learn the rules, basic patterns, and advanced techniques to draw the perfect loop.',
-  keywords: ['slitherlink', 'slitherlink puzzle', 'loop puzzle', 'fences puzzle', 'slitherlink tips', 'how to play slitherlink', 'logic puzzle'],
+  title: 'Slitherlink Tips & Rules: How to Solve Loop Puzzles',
+  description: 'Master Slitherlink with rules, beginner patterns, edge-counting tips, and solving techniques for Japanese loop puzzles. Practice online for free.',
+  keywords: ['slitherlink tips', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink puzzle', 'loop puzzle', 'fences puzzle', 'logic puzzle'],
   introduction: `Slitherlink is a Japanese logic puzzle where you draw a single continuous loop through a grid of dots. The numbers indicate how many of that cell\'s four sides are part of the loop. It\'s deceptively simple but deeply satisfying!`,
   sections: [
     {
@@ -3243,9 +3243,9 @@ Category knowledge also helps with pattern recognition. If the category is "frui
 // Boggle Guide
 gameGuides['boggle'] = {
   slug: 'boggle',
-  title: 'Boggle Strategy Guide: How to Find More Words and Score Higher',
-  description: `Master Boggle with word-finding strategies, letter pattern recognition, and scoring techniques. Learn to find more words under time pressure and beat your opponents.`,
-  keywords: ['boggle', 'boggle strategy', 'boggle tips', 'how to play boggle', 'word game strategy', 'boggle scoring', 'boggle word finder'],
+  title: 'Boggle Strategy Guide: Rules, Scoring, and Word-Finding Tips',
+  description: `Master Boggle online with rules, scoring, word-finding strategies, letter pattern recognition, and tips for finding more words under time pressure.`,
+  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle online free'],
   introduction: `Boggle challenges you to find as many words as possible by connecting adjacent letters on a 4x4 grid within a time limit. Words are formed by chaining horizontally, vertically, or diagonally adjacent cubes, without reusing any cube. This guide covers strategies to find more words faster and maximize your score under pressure.`,
   sections: [
     {
@@ -5081,9 +5081,9 @@ The key to efficient advanced solving is choosing the right cell to test. Pick a
 // Boggle Guide
 gameGuides['boggle'] = {
   slug: 'boggle',
-  title: 'Boggle Strategy Guide: How to Find More Words and Score Higher',
-  description: 'Learn Boggle strategies to find more words in every grid. Systematic scanning, prefix/suffix patterns, scoring tips, and time management for 4x4 and 5x5 Boggle.',
-  keywords: ['boggle strategy', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle scoring', 'boggle rules', 'boggle guide', 'word search strategy'],
+  title: 'Boggle Strategy Guide: Rules, Scoring, and Word-Finding Tips',
+  description: 'Learn Boggle rules, scoring, and strategies to find more words in every grid. Systematic scanning, prefix/suffix patterns, and tips for 4x4 and 5x5 Boggle.',
+  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle guide', 'boggle online free'],
   introduction: `Boggle looks deceptively simple — find words in a grid of 16 letters. But the gap between a casual player scoring 10 points and an expert scoring 50+ comes down to strategy and systematic scanning.
 
 This guide teaches you the techniques that competitive Boggle players use to find more words, score higher, and make the most of every second on the clock.`,
@@ -5174,9 +5174,9 @@ Scoring rewards longer words heavily: 3-4 letters = 1 point, 5 letters = 2 point
 // Slitherlink Guide
 gameGuides['slitherlink'] = {
   slug: 'slitherlink',
-  title: 'Slitherlink Guide: Rules, Patterns, and Solving Techniques',
-  description: 'Master Slitherlink with this complete guide. Learn the rules, essential patterns (0 cells, 3 corners, diagonal 3s), edge counting, and advanced loop-building techniques.',
-  keywords: ['slitherlink guide', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink patterns', 'slitherlink tips', 'loop puzzle guide', 'fences puzzle'],
+  title: 'Slitherlink Tips & Rules: How to Solve Loop Puzzles',
+  description: 'Master Slitherlink with rules, beginner patterns, edge-counting tips, and advanced loop-building techniques for Japanese loop puzzles.',
+  keywords: ['slitherlink tips', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink patterns', 'slitherlink puzzle', 'loop puzzle guide', 'fences puzzle'],
   introduction: `Slitherlink is one of the most elegant Japanese logic puzzles — draw a single continuous loop through a grid of dots, using number clues to determine which edges to include.
 
 This guide covers everything from basic rules to advanced solving techniques.`,
@@ -5267,9 +5267,9 @@ This guide covers everything from basic rules to advanced solving techniques.`,
 // Heyawake Guide
 gameGuides['heyawake'] = {
   slug: 'heyawake',
-  title: 'Heyawake Guide: Rules, Strategy, and Solving Techniques',
-  description: 'Complete Heyawake guide. Learn the room-shading rules, three-in-a-row constraint, white connectivity, and systematic solving techniques.',
-  keywords: ['heyawake guide', 'heyawake rules', 'how to solve heyawake', 'heyawake strategy', 'heyawake tips', 'japanese room puzzle', 'shade cells puzzle'],
+  title: 'Heyawake Rules and Strategy: How to Solve Room Puzzles',
+  description: 'Complete Heyawake guide. Learn the room-shading rules, no-three-in-a-row constraint, white connectivity, and systematic solving techniques.',
+  keywords: ['heyawake rules', 'heyawake guide', 'how to solve heyawake', 'heyawake strategy', 'heyawake tips', 'japanese room puzzle', 'shade cells puzzle'],
   introduction: `Heyawake is a beautifully balanced Japanese shading puzzle where you shade cells in a grid divided into rectangular rooms. Three simple rules create deep, satisfying logic.`,
   sections: [
     {
@@ -5352,9 +5352,9 @@ gameGuides['heyawake'] = {
 // Suguru Guide
 gameGuides['suguru'] = {
   slug: 'suguru',
-  title: 'Suguru Guide: Rules, Strategy, and How to Solve Number Regions',
-  description: 'Complete Suguru puzzle guide. Learn how to fill number regions without adjacent duplicates, master diagonal elimination, and develop systematic solving strategies.',
-  keywords: ['suguru guide', 'suguru rules', 'how to solve suguru', 'suguru strategy', 'suguru tips', 'number region puzzle', 'japanese number puzzle'],
+  title: 'Suguru Rules and Strategy: How to Solve Number Regions',
+  description: 'Complete Suguru game guide. Learn the rules for number regions, avoid adjacent duplicates, master diagonal elimination, and solve without guessing.',
+  keywords: ['suguru game', 'suguru rules', 'suguru guide', 'how to solve suguru', 'suguru strategy', 'suguru tips', 'number region puzzle', 'japanese number puzzle'],
   introduction: `Suguru is a number placement puzzle where you fill irregular regions with digits. Unlike Sudoku, Suguru uses regions of varying sizes — and diagonal adjacency matters.`,
   sections: [
     {

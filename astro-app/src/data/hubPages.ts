@@ -28,10 +28,14 @@ export const hubPages: Record<string, HubPage> = {
     title: 'Word Games Online Free - Play 20+ Vocabulary & Spelling Games',
     description: 'Play the best free word games online: Wordle, Crossword, Spelling Bee, Anagrams, and more. Improve vocabulary, spelling, and verbal skills with daily puzzles.',
     heroDescription: 'Challenge your vocabulary and verbal skills with our collection of 20+ free word games. From daily Wordle puzzles to classic crosswords, find your perfect word challenge.',
-    keywords: ['word games online', 'free word games', 'vocabulary games', 'spelling games', 'word puzzles', 'wordle alternatives', 'online crossword'],
+    keywords: ['word games online', 'free word games', 'boggle online free', 'boggle online', 'crosswordle swapping', 'vocabulary games', 'spelling games', 'word puzzles', 'wordle alternatives', 'online crossword'],
     categoryIds: ['word'],
-    featuredGames: ['wordle', 'crossword', 'anagrams', 'word-scramble', 'hangman', 'spelling-bee', 'connections', 'word-search'],
-    featuredGuides: ['wordle'],
+    featuredGames: ['boggle', 'crosswordle', 'wordle', 'connections', 'spelling-bee', 'word-search', 'crossword', 'anagrams'],
+    featuredGuides: ['boggle', 'wordle'],
+    priorityLinks: [
+      { href: '/games/boggle/', label: 'Play Boggle online free' },
+      { href: '/games/crosswordle/', label: 'Play Crosswordle swapping game' }
+    ],
     content: {
       whatIsSection: `Word games are puzzles that test your vocabulary, spelling, and verbal reasoning skills. They range from simple spelling challenges to complex word association puzzles that require lateral thinking.
 
@@ -117,11 +121,17 @@ The most famous number puzzle, Sudoku, became a global phenomenon in the 2000s a
     title: 'Japanese Logic Puzzles - Nonogram, Slitherlink, Shakashaka, Tapa',
     description: 'Discover authentic Japanese logic puzzles: Nonogram (Picross), Slitherlink, Shakashaka, Tapa, Star Battle, and more. Pure logic, no guessing required.',
     heroDescription: 'Experience the elegant world of Japanese logic puzzles. Created by puzzle masters at Nikoli and other Japanese publishers, these games feature simple rules but deep complexity.',
-    keywords: ['japanese logic puzzles', 'nonogram online', 'picross puzzle', 'slitherlink', 'nurikabe', 'hitori', 'shakashaka', 'tapa puzzle', 'japanese puzzles', 'logic grid puzzles', 'star battle', 'queens game', 'binary puzzle'],
+    keywords: ['japanese logic puzzles', 'heyawake', 'suguru game', 'skyscrapers game', 'slitherlink', 'kakurasu puzzle', 'nonogram online', 'picross puzzle', 'nurikabe', 'hitori', 'shakashaka', 'tapa puzzle', 'japanese puzzles', 'logic grid puzzles', 'star battle', 'queens game', 'binary puzzle'],
     categoryIds: ['logic'],
-    featuredGames: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink', 'nurikabe', 'hitori'],
-    featuredGuides: ['queens', 'shakashaka', 'tapa', 'star-battle', 'nonogram', 'slitherlink'],
-    priorityLinks: [{ href: '/games/shakashaka/', label: 'Play Shaka Shaka Puzzle online' }],
+    featuredGames: ['heyawake', 'suguru', 'skyscrapers', 'slitherlink', 'kakurasu', 'nonogram', 'queens', 'shakashaka'],
+    featuredGuides: ['heyawake', 'suguru', 'slitherlink', 'queens', 'shakashaka', 'nonogram'],
+    priorityLinks: [
+      { href: '/games/heyawake/', label: 'Play Heyawake online free' },
+      { href: '/games/suguru/', label: 'Play Suguru game online free' },
+      { href: '/games/skyscrapers/', label: 'Play Skyscrapers game online' },
+      { href: '/games/slitherlink/', label: 'Play Slitherlink online free' },
+      { href: '/games/kakurasu/', label: 'Play Kakurasu puzzle online' }
+    ],
     content: {
       whatIsSection: `Japanese logic puzzles emerged from Japan's rich puzzle culture, pioneered by publishers like Nikoli. These puzzles share a common philosophy: simple rules that create elegant, challenging problems.
 

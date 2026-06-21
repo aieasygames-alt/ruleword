@@ -126,18 +126,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   boggle: {
     primaryKeyword: 'boggle online free',
-    secondaryKeywords: ['boggle game', 'play boggle free', 'boggle word game', 'boggle no download', '4x4 boggle', '5x5 boggle'],
-    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', '4x4 word puzzle', 'boggle word finder', 'boggle rules and scoring', 'boggle strategy tips'],
-    titleTemplate: 'Play Boggle Online Free - Classic Word Game in Your Browser | {brand}',
-    descriptionTemplate: 'Play Boggle free in your browser—no download required. Find words in a 4x4 grid, race the clock, improve your score, and play unlimited rounds.',
+    secondaryKeywords: ['boggle online', 'boggle game', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', '5x5 boggle'],
+    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', '4x4 word puzzle', 'boggle word finder', 'boggle rules and scoring', 'boggle strategy tips'],
+    titleTemplate: 'Boggle Online Free - Play the Classic Word Game | {brand}',
+    descriptionTemplate: 'Play Boggle online free in your browser. Find words in a 4x4 letter grid, race the clock, learn the rules, and start unlimited rounds with no download.',
     intent: 'play'
   },
   crosswordle: {
-    primaryKeyword: 'crosswordle',
-    secondaryKeywords: ['crosswordle scrambled', 'crossword meets wordle', 'crossword wordle', 'letter swap game'],
-    longTailKeywords: ['play crosswordle scrambled online free', 'crossword meets wordle game', 'crosswordle game rules', 'how to play crosswordle'],
-    titleTemplate: 'Crosswordle Scrambled - Crossword Meets Wordle | {brand}',
-    descriptionTemplate: 'Play Crosswordle Scrambled free online, where crossword meets Wordle. Swap letters to complete crossing words in daily or unlimited puzzles—no download.',
+    primaryKeyword: 'crosswordle swapping',
+    secondaryKeywords: ['crosswordle', 'crosswordle scrambled', 'crossword meets wordle', 'crossword wordle', 'letter swap game'],
+    longTailKeywords: ['play crosswordle scrambled online free', 'crosswordle swapping game', 'crossword meets wordle game', 'crosswordle game rules', 'how to play crosswordle'],
+    titleTemplate: 'Crosswordle Swapping Game - Play Online Free | {brand}',
+    descriptionTemplate: 'Play Crosswordle free online. Swap letters between columns to solve crossing words, use color feedback, and try daily or unlimited puzzles with no download.',
     intent: 'play'
   },
   connections: {
@@ -320,18 +320,18 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   // Note: nonogram SEO is defined earlier in the file with picross keyword
   slitherlink: {
     primaryKeyword: 'slitherlink puzzle',
-    secondaryKeywords: ['slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu', 'logic loop game'],
-    longTailKeywords: ['play slitherlink online free', 'slitherlink rules explained', 'how to solve slitherlink', 'slitherlink tips and strategy', 'single loop puzzle guide'],
-    titleTemplate: 'Slitherlink Puzzle Online Free - Play Loop Logic Game | {brand}',
-    descriptionTemplate: 'Play Slitherlink free in your browser! Draw a single loop through the grid using number clues. Japanese logic puzzle — no download, 100+ levels. Play now!',
+    secondaryKeywords: ['slitherlink', 'slitherlink online', 'loop puzzle', 'fences puzzle', 'suraromu', 'logic loop game'],
+    longTailKeywords: ['play slitherlink online free', 'slitherlink online puzzle game', 'slitherlink rules explained', 'how to solve slitherlink', 'slitherlink tips and strategy', 'single loop puzzle guide'],
+    titleTemplate: 'Slitherlink Online Free - Play Loop Puzzle Game | {brand}',
+    descriptionTemplate: 'Play Slitherlink online free. Draw one continuous loop using number clues, learn the rules, and solve Japanese logic puzzles in your browser with no download.',
     intent: 'play'
   },
   suguru: {
     primaryKeyword: 'suguru game',
-    secondaryKeywords: ['suguru puzzle', 'suguru online', 'number regions', 'japanese number puzzle'],
-    longTailKeywords: ['play suguru online free', 'suguru puzzle rules', 'how to solve suguru', 'suguru strategy tips', 'number region puzzle game'],
-    titleTemplate: 'Suguru Puzzle Online Free - Play Japanese Number Game | {brand}',
-    descriptionTemplate: 'Play Suguru free in your browser! Fill regions with numbers so no adjacent cells share the same value. Pure logic Japanese puzzle — no download, no guessing. Play now!',
+    secondaryKeywords: ['suguru game online free', 'suguru puzzle', 'suguru online', 'number regions', 'japanese number puzzle'],
+    longTailKeywords: ['play suguru online free', 'suguru puzzles to play online', 'suguru puzzle rules', 'how to solve suguru', 'suguru strategy tips', 'number region puzzle game'],
+    titleTemplate: 'Suguru Game Online Free - Play Number Region Puzzle | {brand}',
+    descriptionTemplate: 'Play Suguru online free. Fill number regions so no adjacent cells match, learn the rules, and solve Japanese logic puzzles with no download or sign-up.',
     intent: 'play'
   },
   nurikabe: {
@@ -368,10 +368,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   skyscrapers: {
     primaryKeyword: 'skyscrapers game',
-    secondaryKeywords: ['skyscrapers puzzle online', 'skyscrapers puzzle', 'building puzzle', 'visibility puzzle'],
+    secondaryKeywords: ['skyscrapers puzzle online', 'skyscraper game', 'skyscrapers puzzle', 'building puzzle', 'visibility puzzle'],
     longTailKeywords: ['play skyscrapers game online free', 'skyscrapers puzzle rules', 'how to solve skyscrapers', 'skyscrapers strategy tips', 'building visibility puzzle guide'],
-    titleTemplate: 'Skyscrapers Puzzle Game - Play Online Free | {brand}',
-    descriptionTemplate: 'Play Skyscrapers puzzle free in your browser! Place buildings so the visible count from each side matches clues. Sudoku-style 3D logic puzzle — no download, play now!',
+    titleTemplate: 'Skyscrapers Game Online Free - Play Building Puzzle | {brand}',
+    descriptionTemplate: 'Play Skyscrapers game online free. Place building heights so each side sees the right count, solve Sudoku-style logic, and start instantly with no download.',
     intent: 'play'
   },
   hitori: {
@@ -588,10 +588,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   heyawake: {
     primaryKeyword: 'heyawake',
-    secondaryKeywords: ['heyawake puzzle', 'heyawake online', 'japanese room puzzle', 'shade cells puzzle'],
-    longTailKeywords: ['play heyawake online free', 'heyawake rules explained', 'how to solve heyawake', 'heyawake strategy tips', 'japanese room shading puzzle guide'],
-    titleTemplate: 'Heyawake Puzzle - Play Online Free (No Download) | {brand}',
-    descriptionTemplate: 'Play Heyawake free in your browser! Shade cells in rooms using number clues — no 3-in-a-row, all whites connected. Japanese Nikoli logic puzzle, 100+ levels. Play now!',
+    secondaryKeywords: ['heyawake puzzle', 'heyawake online', 'japanese room puzzle', 'shade cells puzzle', 'heyawake game'],
+    longTailKeywords: ['play heyawake online free', 'heyawake puzzle online', 'heyawake rules explained', 'how to solve heyawake', 'heyawake strategy tips', 'japanese room shading puzzle guide'],
+    titleTemplate: 'Heyawake Online Free - Play Japanese Room Puzzle | {brand}',
+    descriptionTemplate: 'Play Heyawake online free. Shade rooms using number clues, keep white cells connected, learn the rules, and solve Japanese logic puzzles with no download.',
     intent: 'play'
   },
   aqre: {
@@ -948,10 +948,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   kakurasu: {
     primaryKeyword: 'kakurasu puzzle',
-    secondaryKeywords: ['kakurasu online', 'cross sum', 'japanese math'],
-    longTailKeywords: ['play kakurasu free', 'cross sums puzzle', 'grid math game', 'japanese number puzzle'],
-    titleTemplate: 'Kakurasu Puzzle Online Free - Cross Sum Game | {brand}',
-    descriptionTemplate: 'Play Kakurasu online free! Use cross sums to fill the grid. Japanese math puzzle!',
+    secondaryKeywords: ['kakurasu', 'kakurasu online', 'kakurasu game', 'cross sum', 'japanese math puzzle'],
+    longTailKeywords: ['play kakurasu online free', 'kakurasu puzzle online', 'cross sums puzzle', 'grid math game', 'japanese number puzzle'],
+    titleTemplate: 'Kakurasu Online Free - Play Cross Sum Puzzle | {brand}',
+    descriptionTemplate: 'Play Kakurasu online free. Use row and column cross sums to mark the right cells, solve a Japanese math logic puzzle, and play instantly with no download.',
     intent: 'play'
   },
   // Note: sudoku-x SEO is defined earlier (line 836) with more keywords

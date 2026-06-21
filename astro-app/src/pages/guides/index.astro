@@ -11,6 +11,9 @@ const allGuides = guideSlugs.map(slug => {
   const guide = getGameGuide(slug)!
   const game = games.find(g => g.slug === slug)
   return { slug, guide, game }
+}).sort((a, b) => {
+  const priority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 3, slitherlink: 4, suguru: 5 }
+  return (priority[a.slug] || 999) - (priority[b.slug] || 999)
 })
 
 const breadcrumbItems = [
@@ -20,9 +23,9 @@ const breadcrumbItems = [
 ---
 
 <BaseLayout
-  title="Game Strategy Guides - Tips, Tricks & How to Play | Free Games Hub"
-  description="Free game guides and strategy tips for Wordle, Sudoku, 2048, Tetris, Chess, Minesweeper and more. Learn winning strategies and improve your gameplay."
-  keywords="game guides, game strategy, wordle tips, sudoku strategy, 2048 tricks, how to play, game tips, puzzle game guides"
+  title="Game Strategy Guides - Boggle, 2048, Heyawake & Puzzle Tips | Free Games Hub"
+  description="Free strategy guides for Boggle, 2048, Heyawake, Slitherlink, Suguru, Sudoku and more. Learn rules, tips, and solving techniques for online puzzle games."
+  keywords="game guides, boggle strategy, 2048 strategy guide, heyawake rules, slitherlink tips, suguru guide, sudoku strategy, puzzle game guides"
   canonicalPath="/guides/"
   breadcrumbItems={breadcrumbItems}
 >

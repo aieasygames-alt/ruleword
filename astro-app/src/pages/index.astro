@@ -65,6 +65,7 @@ const storyGames = storiesCollection.map(entry => ({
 }))
 
 const siteRating = getSiteAverageRating()
+const guidePriority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 3 }
 ---
 
 <BaseLayout
@@ -520,10 +521,9 @@ const siteRating = getSiteAverageRating()
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {Object.values(gameGuides).sort((a, b) => {
-            // Prioritize 2048 guide first, then wordle, then others
-            const priority = { '2048': 1, 'wordle': 2, 'sudoku': 3 }
-            const priorityA = priority[a.slug] || 999
-            const priorityB = priority[b.slug] || 999
+            // Prioritize current Webmaster opportunity pages.
+            const priorityA = guidePriority[a.slug] || 999
+            const priorityB = guidePriority[b.slug] || 999
             return priorityA - priorityB
           }).slice(0, 3).map(guide => {
             const game = games.find(g => g.slug === guide.slug)
