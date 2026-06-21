@@ -804,20 +804,16 @@ The scoring heavily rewards longer words. One 7-letter word (5 pts) is worth mor
 **Hidden gems**: Less common but high-value: -OUGHT (THOUGHT, BROUGHT), -EIGHT (WEIGHT), -IQUE (UNIQUE).`
       },
       {
-        title: '4×4 vs 5×5 Boggle Strategy',
-        content: `The two grid sizes require different approaches:
+        title: '4×4 Grid Strategy',
+        content: `The classic 4×4 grid (16 dice) is what most Boggle players know and what this site uses:
 
-**4×4 Classic Boggle**:
 - Minimum word length: 3 letters
 - Focus on finding many 4-5 letter words
 - Scan speed matters more — race through the grid
 - Average game yields 40-80 words
+- Use the "extend" technique: once you find a 4-letter word like PLAY, look for nearby letters to extend it into PLAYS, PLAYED, PLAYER, PLAYING for 2-3 points each
 
-**5×5 Big Boggle**:
-- Minimum word length: 4 letters
-- More space means longer words are common
-- Take your time — 7+ letter words are the real score
-- Average game yields 100+ words`
+Word-length efficiency on a 4×4 grid: one 7-letter word (5 pts) equals five 3-letter words (5 pts) but takes far less time to find — always favor longer extensions.`
       },
       {
         title: 'Time Management',
@@ -838,15 +834,15 @@ Practice these techniques by playing Boggle free online. Each grid is randomly g
     faq: [
       {
         question: 'What is the average Boggle score?',
-        answer: 'In casual 4×4 Boggle, most players score 15-25 points per round. Experienced players average 30-50 points. Tournament players can score 50-80+ points consistently.'
+        answer: 'In casual 4×4 Boggle with a 2-minute timer, most players score 15-25 points per round. Experienced players average 30-50 points. Tournament players can score 50-80+ points consistently.'
       },
       {
         question: 'Are proper nouns allowed in Boggle?',
         answer: 'Standard Boggle rules exclude proper nouns (names, places), abbreviations, and foreign words. Only words found in a standard English dictionary are valid.'
       },
       {
-        question: 'What is Big Boggle?',
-        answer: 'Big Boggle uses a 5×5 grid (25 dice instead of 16) with a minimum word length of 4 letters. It was introduced in 1979 and produces longer, higher-scoring words than the classic 4×4 version.'
+        question: 'How is the Qu tile handled?',
+        answer: 'Standard Boggle treats Q as a "Qu" tile — when you press Q, it counts as both letters. So selecting the Qu tile plus I, C, K spells QUICK (5 letters, 2 points).'
       }
     ],
     relatedGames: ['boggle', 'wordle', 'connections', 'spelling-bee', 'word-search']

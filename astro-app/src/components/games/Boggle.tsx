@@ -27,7 +27,7 @@ const DICE = [
   ['L', 'U', 'P', 'E', 'T', 'S'],
   ['A', 'C', 'I', 'T', 'O', 'A'],
   ['Y', 'L', 'G', 'K', 'U', 'E'],
-  ['Q', 'B', 'M', 'J', 'O', 'A'],
+  ['Qu', 'B', 'M', 'J', 'O', 'A'],
   ['E', 'H', 'I', 'S', 'P', 'N'],
   ['V', 'E', 'T', 'I', 'G', 'N'],
   ['B', 'A', 'L', 'I', 'Y', 'T'],
@@ -37,8 +37,9 @@ const DICE = [
   ['P', 'A', 'C', 'E', 'M', 'D'],
 ]
 
-// Common English words for validation (subset)
-const VALID_WORDS = new Set([
+// Fallback common words used until the full dictionary (~76k words from /data/words-en.txt) loads.
+// Lets the game stay playable on first paint even if the fetch is slow or fails.
+const FALLBACK_WORDS = new Set([
   'able', 'ace', 'act', 'add', 'age', 'ago', 'aid', 'aim', 'air', 'all',
   'and', 'ant', 'any', 'ape', 'arc', 'are', 'ark', 'arm', 'art', 'ask',
   'ate', 'aug', 'awe', 'axe', 'bad', 'bag', 'ban', 'bar', 'bat', 'bay',
@@ -249,6 +250,86 @@ const VALID_WORDS = new Set([
   'yours', 'youth', 'zebra', 'zesty',
 ])
 
+// Async-loaded full dictionary. Module-level cache shared across all Boggle instances.
+let dictionaryPromise: Promise<Set<string>> | null = null
+let dictionaryCache: Set<string> | null = null
+
+function loadDictionary(): Promise<Set<string>> {
+  if (dictionaryCache) return Promise.resolve(dictionaryCache)
+  if (!dictionaryPromise) {
+    dictionaryPromise = fetch('/data/words-en.txt')
+      .then(r => (r.ok ? r.text() : ''))
+      .then(text => {
+        const words = new Set<string>()
+        for (const w of text.split('\n')) {
+          const trimmed = w.trim().toLowerCase()
+          if (trimmed.length >= 3 && trimmed.length <= 8 && /^[a-z]+$/.test(trimmed)) {
+            words.add(trimmed)
+          }
+        }
+        if (words.size > 0) dictionaryCache = words
+        return words
+      })
+      .catch(() => new Set<string>())
+  }
+  return dictionaryPromise
+}
+
+// Public accessor used by the game-over screen to enumerate all valid words on the board.
+function getDictionary(): Set<string> {
+  return dictionaryCache ?? FALLBACK_WORDS
+}
+
+// Synchronous validator used during play. Returns true if the word exists in either
+// the loaded dictionary or the fallback set.
+function isValidWord(word: string): boolean {
+  const lower = word.toLowerCase()
+  if (dictionaryCache) return dictionaryCache.has(lower)
+  return FALLBACK_WORDS.has(lower)
+}
+
+// Find every dictionary word formable on the board via adjacent traversals.
+// Used by the game-over screen to show words the player missed.
+function findAllBoardWords(board: string[][]): Set<string> {
+  const dict = getDictionary()
+  const rows = board.length
+  const cols = board[0].length
+  const found = new Set<string>()
+
+  const dfs = (r: number, c: number, path: string, visited: Set<string>) => {
+    if (path.length >= 3 && dict.has(path.toLowerCase())) {
+      found.add(path.toUpperCase())
+    }
+    if (path.length >= 8) return
+    for (let dr = -1; dr <= 1; dr++) {
+      for (let dc = -1; dc <= 1; dc++) {
+        if (dr === 0 && dc === 0) continue
+        const nr = r + dr
+        const nc = c + dc
+        if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue
+        const key = `${nr},${nc}`
+        if (visited.has(key)) continue
+        visited.add(key)
+        dfs(nr, nc, path + board[nr][nc], visited)
+        visited.delete(key)
+      }
+    }
+  }
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const visited = new Set<string>([`${r},${c}`])
+      dfs(r, c, board[r][c], visited)
+    }
+  }
+  return found
+}
+
+// Normalise a tile path back to uppercase letters, collapsing "Qu" → "QU" for dictionary lookup.
+function tilesToWord(tiles: string): string {
+  return tiles.toUpperCase()
+}
+
 function generateBoard(): string[][] {
   const shuffledDice = [...DICE].sort(() => Math.random() - 0.5)
   const board: string[][] = []
@@ -276,12 +357,18 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
   const [gameActive, setGameActive] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [message, setMessage] = useState('')
+  const [missedWords, setMissedWords] = useState<string[]>([])
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = isDark ? 'text-white' : 'text-gray-900'
 
   const timerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Kick off dictionary load as soon as the component mounts.
+  useEffect(() => {
+    loadDictionary()
+  }, [])
 
   // Start game
   const startGame = useCallback(() => {
@@ -294,6 +381,7 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
     setGameActive(true)
     setGameOver(false)
     setMessage('')
+    setMissedWords([])
   }, [])
 
   // Timer
@@ -305,6 +393,16 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
     } else if (timeLeft === 0 && gameActive) {
       setGameActive(false)
       setGameOver(true)
+      // Compute all formable words so we can reveal what the player missed.
+      try {
+        const all = findAllBoardWords(board)
+        const missed = Array.from(all)
+          .filter(w => !foundWords.has(w))
+          .sort((a, b) => b.length - a.length || a.localeCompare(b))
+        setMissedWords(missed)
+      } catch {
+        setMissedWords([])
+      }
     }
 
     return () => {
@@ -344,20 +442,22 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
   const submitWord = useCallback(() => {
     if (!currentWord || currentWord.length < 3 || !gameActive) return
 
-    const word = currentWord.toUpperCase()
+    // Normalise "Qu" → "QU" for dictionary lookup and dedup
+    const word = currentWord.toUpperCase().replace(/QU/g, 'QU')
+
+    // Word length for scoring = letters used (Qu counts as 2 letters, matching standard Boggle)
+    const tileCount = currentWord.length
 
     if (foundWords.has(word)) {
       setMessage('Already found!')
       setTimeout(() => setMessage(''), 1500)
-    } else if (VALID_WORDS.has(word.toLowerCase())) {
-      // Calculate score
+    } else if (isValidWord(word)) {
+      // Scoring matches published rules: 3-4=1, 5=2, 6=3, 7+=5
       let points = 0
-      if (word.length === 3) points = 1
-      else if (word.length === 4) points = 1
-      else if (word.length === 5) points = 2
-      else if (word.length === 6) points = 3
-      else if (word.length === 7) points = 5
-      else points = 11
+      if (tileCount <= 4) points = 1
+      else if (tileCount === 5) points = 2
+      else if (tileCount === 6) points = 3
+      else points = 5
 
       setScore(prev => prev + points)
       setFoundWords(prev => new Set([...prev, word]))
@@ -377,6 +477,57 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
     setSelectedCells([])
     setCurrentWord('')
   }, [])
+
+  // Keyboard input: type letters to extend the path, Enter submits, Backspace undoes, Escape clears.
+  useEffect(() => {
+    if (!gameActive) return
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key
+      if (key === 'Enter') {
+        e.preventDefault()
+        submitWord()
+        return
+      }
+      if (key === 'Backspace') {
+        e.preventDefault()
+        if (selectedCells.length > 0) {
+          const trimmed = selectedCells.slice(0, -1)
+          setSelectedCells(trimmed)
+          setCurrentWord(trimmed.map(c => board[c.row][c.col]).join(''))
+        }
+        return
+      }
+      if (key === 'Escape') {
+        e.preventDefault()
+        clearSelection()
+        return
+      }
+      if (!/^[a-zA-Z]$/.test(key)) return
+      e.preventDefault()
+      const letter = key.toUpperCase()
+      const last = selectedCells[selectedCells.length - 1]
+      const candidates: { row: number; col: number }[] = []
+      for (let r = 0; r < board.length; r++) {
+        for (let c = 0; c < board[r].length; c++) {
+          if (selectedCells.some(s => s.row === r && s.col === c)) continue
+          const tile = board[r][c].toUpperCase()
+          // "Qu" tile matches a press of "Q".
+          if (tile !== letter && !(tile === 'QU' && letter === 'Q')) continue
+          if (!last || isAdjacent(last, { row: r, col: c })) {
+            candidates.push({ row: r, col: c })
+          }
+        }
+      }
+      if (candidates.length > 0) {
+        const next = candidates[0]
+        const newSelected = [...selectedCells, next]
+        setSelectedCells(newSelected)
+        setCurrentWord(newSelected.map(c => board[c.row][c.col]).join(''))
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [gameActive, selectedCells, board, submitWord, clearSelection])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -445,7 +596,11 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
                 {currentWord || '_'}
               </div>
               {message && (
-                <div className={`text-sm mt-1 ${message.includes('+') ? 'text-green-400' : 'text-red-400'}`}>
+                <div className={`text-sm mt-1 ${
+                  message.includes('+') ? 'text-green-400'
+                  : message.toLowerCase().includes('already') ? 'text-amber-400'
+                  : 'text-red-400'
+                }`}>
                   {message}
                 </div>
               )}
@@ -518,16 +673,46 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
 
         {/* Game Over Modal */}
         {gameOver && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-            <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-8 text-center shadow-2xl max-w-sm mx-4`}>
-              <div className="text-5xl mb-4">⏱️</div>
-              <h2 className="text-2xl font-bold mb-2">Time's Up!</h2>
-              <p className={`mb-2 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
-                Score: <span className="text-yellow-400 font-bold">{score}</span>
-              </p>
-              <p className={`mb-4 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
-                Words Found: <span className="text-blue-400 font-bold">{foundWords.size}</span>
-              </p>
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+            <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-6 text-center shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto`}>
+              <div className="text-5xl mb-3">⏱️</div>
+              <h2 className="text-2xl font-bold mb-3">Time's Up!</h2>
+              <div className="flex justify-center gap-6 mb-4">
+                <div>
+                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Score</div>
+                  <div className="text-xl font-bold text-yellow-400">{score}</div>
+                </div>
+                <div>
+                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Found</div>
+                  <div className="text-xl font-bold text-blue-400">{foundWords.size}</div>
+                </div>
+                <div>
+                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Missed</div>
+                  <div className="text-xl font-bold text-red-400">{missedWords.length}</div>
+                </div>
+              </div>
+              {missedWords.length > 0 && (
+                <div className="mb-4">
+                  <div className={`text-sm mb-2 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
+                    Words you missed:
+                  </div>
+                  <div className="flex flex-wrap gap-1 justify-center max-h-48 overflow-y-auto">
+                    {missedWords.map(word => (
+                      <span
+                        key={word}
+                        className={`px-2 py-1 rounded text-xs ${
+                          word.length >= 7 ? 'bg-purple-700 text-purple-100'
+                          : word.length >= 5 ? 'bg-slate-700 text-slate-100'
+                          : isDark ? 'bg-slate-700/60 text-slate-300' : 'bg-gray-200 text-gray-700'
+                        }`}
+                        title={`${word.length} letters`}
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
               <button
                 onClick={startGame}
                 className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium"

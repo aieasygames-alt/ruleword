@@ -8,7 +8,7 @@
   "en": {
     "name": "Boggle",
     "desc": "Find words in a 4x4 letter grid — race against time! Free online Boggle, no download required.",
-    "description": "Boggle is the classic word search game that has challenged vocabulary skills since 1972! Shake up the letter cubes and race against time to find as many words as possible hidden in a 4×4 grid of letters. Connect adjacent letters (including diagonals) to form words of 3 or more letters. Longer words score more points, so scan strategically and think fast! Play Boggle free online — no download needed. Choose from classic 4×4 grids or challenging 5×5 Big Boggle boards.",
+    "description": "Boggle is the classic word search game that has challenged vocabulary skills since 1972! Shake up the letter cubes and race against time to find as many words as possible hidden in a 4×4 grid of letters. Connect adjacent letters (including diagonals) to form words of 3 or more letters. Longer words score more points, so scan strategically and think fast! Play Boggle free online — no download or sign-up needed. 2-minute timer, unlimited rounds, straight in your browser.",
     "objectives": "Find as many valid words as possible within the time limit by connecting adjacent letters. Longer words earn more points. Beat your high score by expanding your vocabulary and improving your pattern recognition.",
     "howToPlay": "Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.",
     "rules": {
@@ -32,8 +32,7 @@
       "Look for plural forms ending in S — an S tile next to common words is gold",
       "Scan systematically through starting letters, row by row",
       "Practice finding longer words for higher scores — 7+ letter words are worth 5 points each",
-      "In 4×4 Boggle, focus on 4-5 letter words first, then extend them to 6+ letters",
-      "In 5×5 Big Boggle, look for longer words — the minimum word length is 4 letters",
+      "Focus on 4-5 letter words first, then extend them to 6+ letters",
       "Learn common 3-letter word patterns: ACE, AGE, ATE, EEL, ORE, OUT, USE",
       "Check for -ED and -ING endings on any verb stem you find"
     ],
@@ -52,11 +51,7 @@
       },
       {
         "question": "How do I find longer words?",
-        "answer": "Look for letter combinations that commonly appear together, like -TION, -UGHT, -OUGH. Practice recognizing patterns and word families. In Big Boggle (5×5), longer words are more common due to the larger grid."
-      },
-      {
-        "question": "What is the difference between 4×4 and 5×5 Boggle?",
-        "answer": "Classic Boggle uses a 4×4 grid (16 letters) with a minimum word length of 3 letters. Big Boggle uses a 5×5 grid (25 letters) with a minimum word length of 4 letters. Big Boggle produces longer, higher-scoring words."
+        "answer": "Look for letter combinations that commonly appear together, like -TION, -UGHT, -OUGH. Practice recognizing patterns and word families. Longer words are worth more — a 7-letter word is worth 5 points, the top single-word score on this board."
       },
       {
         "question": "How is Boggle scored?",
@@ -68,7 +63,7 @@
       },
       {
         "question": "Can I play Boggle online for free?",
-        "answer": "Yes! You can play Boggle free right in your browser — no download or sign-up required. Click adjacent letters to form words, race against the timer, and try to beat your high score."
+        "answer": "Yes! You can play Boggle free right in your browser — no download or sign-up required. Click adjacent letters to form words, race against the 2-minute timer, and try to beat your high score."
       }
     ]
   },
@@ -99,8 +94,7 @@
       "寻找以S结尾的复数形式 — S旁边的常见单词是金矿",
       "系统地扫描起始字母，逐行进行",
       "练习找到更长的单词以获得更高的分数 — 7+字母单词每个值5分",
-      "在4×4模式中，先找4-5字母单词，再扩展到6+字母",
-      "在5×5大字母方阵中，寻找更长的单词 — 最低单词长度为4个字母",
+      "先找4-5字母单词，再扩展到6+字母",
       "学习常见的3字母单词模式：ACE, AGE, ATE, EEL, ORE, OUT, USE",
       "检查找到的任何动词词干是否有-ED和-ING结尾"
     ],
@@ -119,11 +113,7 @@
       },
       {
         "question": "如何找到更长的单词？",
-        "answer": "寻找经常一起出现的字母组合，如-TION、-UGHT、-OUGH。练习识别模式和词族。在大字母方阵（5×5）中，由于网格更大，更长的单词更常见。"
-      },
-      {
-        "question": "4×4和5×5字母方阵有什么区别？",
-        "answer": "经典字母方阵使用4×4网格（16个字母），最低单词长度为3个字母。大字母方阵使用5×5网格（25个字母），最低单词长度为4个字母。大字母方阵能产生更长、得分更高的单词。"
+        "answer": "寻找经常一起出现的字母组合，如-TION、-UGHT、-OUGH。练习识别模式和词族。更长的单词得分更高 — 7字母单词值5分，是本棋盘上的单字最高分。"
       },
       {
         "question": "字母方阵的计分规则是什么？",
@@ -135,7 +125,7 @@
       },
       {
         "question": "可以免费在线玩字母方阵吗？",
-        "answer": "是的！你可以直接在浏览器中免费玩字母方阵 — 无需下载或注册。点击相邻字母组成单词，与计时器赛跑，挑战你的最高分。"
+        "answer": "是的！你可以直接在浏览器中免费玩字母方阵 — 无需下载或注册。点击相邻字母组成单词，与2分钟计时器赛跑，挑战你的最高分。"
       }
     ]
   }

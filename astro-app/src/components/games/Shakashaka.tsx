@@ -11,6 +11,7 @@ import {
 
 type Props = {
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }
+  onBack?: () => void
 }
 
 // Triangle orientation -> SVG path. The black triangle's right angle sits at the named corner.
@@ -37,7 +38,7 @@ const createInitialGrid = (puzzleIndex: number, solved = false): Cell[][] => {
   )
 }
 
-export default function Shakashaka({ settings }: Props) {
+export default function Shakashaka({ settings, onBack }: Props) {
   const [puzzleIndex, setPuzzleIndex] = useState(0)
   const [grid, setGrid] = useState<Cell[][]>(() => createInitialGrid(0))
   const [solved, setSolved] = useState(false)
@@ -93,13 +94,29 @@ export default function Shakashaka({ settings }: Props) {
   return (
     <div className={`min-h-screen flex flex-col ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <div className={`p-4 border-b ${isDark ? 'border-slate-700' : 'border-gray-300'}`}>
-        <h1 className="text-xl font-bold text-center">📐 Shakashaka</h1>
-        <p className={`text-center text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
-          {zh ? '放置三角形：黑格数字 = 正交邻居的三角形数，白色区域须为矩形' : 'Place triangles: black numbers count orthogonal triangle neighbors; white areas must be rectangles'}
-        </p>
-        <p className={`text-center text-xs mt-1 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
-          {zh ? `谜题 ${puzzleIndex + 1} / ${SHAKASHAKA_PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${SHAKASHAKA_PUZZLES.length}`}
-        </p>
+        <div className="max-w-2xl mx-auto flex items-center gap-3">
+          {onBack && (
+            <button
+              onClick={onBack}
+              data-testid="shakashaka-back"
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm transition-colors shrink-0 ${
+                isDark ? 'bg-slate-800 hover:bg-slate-700 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
+              }`}
+            >
+              ← {zh ? '返回' : 'Back'}
+            </button>
+          )}
+          <div className="flex-1 text-center">
+            <h1 className="text-xl font-bold">📐 Shakashaka</h1>
+            <p className={`text-sm ${isDark ? 'text-slate-400' : 'text-gray-600'}`}>
+              {zh ? '放置三角形：黑格数字 = 正交邻居的三角形数，白色区域须为矩形' : 'Place triangles: black numbers count orthogonal triangle neighbors; white areas must be rectangles'}
+            </p>
+            <p className={`text-xs mt-1 ${isDark ? 'text-slate-500' : 'text-gray-400'}`}>
+              {zh ? `谜题 ${puzzleIndex + 1} / ${SHAKASHAKA_PUZZLES.length}` : `Puzzle ${puzzleIndex + 1} of ${SHAKASHAKA_PUZZLES.length}`}
+            </p>
+          </div>
+          <div className="w-[72px] shrink-0" aria-hidden="true" />
+        </div>
       </div>
 
       {error && (

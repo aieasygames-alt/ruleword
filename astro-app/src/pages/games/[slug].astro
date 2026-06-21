@@ -233,6 +233,28 @@ const howToSchema = gameGuideEn.howToPlay ? {
 
 const gameRating = getGameRating(game.slug)
 const gamePopularity = getGamePopularity(game.slug)
+
+// Generate FAQPage schema from in-page FAQ content for richer SERP coverage.
+const faqSchema = gameGuideEn.faq && gameGuideEn.faq.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": gameGuideEn.faq.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer
+    }
+  }))
+} : undefined
+
+// hreflang alternates. Ruleword uses ?lang= query params rather than separate URLs,
+// so we declare both the canonical English page and the Chinese variant.
+const hreflangUrls = [
+  { lang: 'en', url: canonicalUrl },
+  { lang: 'zh-CN', url: `${canonicalUrl}?lang=zh-CN` },
+  { lang: 'x-default', url: canonicalUrl }
+]
 ---
 
 <BaseLayout
@@ -245,9 +267,13 @@ const gamePopularity = getGamePopularity(game.slug)
   breadcrumbItems={breadcrumbItems}
   howToSchema={howToSchema}
   aggregateRating={gameRating}
+  hreflangUrls={hreflangUrls}
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
+  {faqSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  )}
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
     <!-- Navigation Bar -->
     <nav class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -335,6 +361,31 @@ const gamePopularity = getGamePopularity(game.slug)
         />
       )}
     </main>
+
+    {relatedGames.length > 0 && (
+      <section class="bg-slate-900/40 border-t border-slate-800/60 py-6 px-4 sm:px-6">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-sm uppercase tracking-wider text-slate-400 mb-3">
+            {game.category === 'word' ? 'More Word Games' : game.category === 'logic' ? 'More Logic Puzzles' : 'More Games Like This'}
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            {relatedGames.map(g => {
+              const gNameEn = useCMS ? (g as CMSGameData).name : (g as LocalGameData).en.name
+              const gIcon = useCMS ? (g as CMSGameData).icon : (g as LocalGameData).en.icon || '🎮'
+              return (
+                <a
+                  href={`/games/${g.slug}/`}
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors text-sm font-medium border border-slate-700/60"
+                >
+                  <span>{gIcon}</span>
+                  <span>{gNameEn}</span>
+                </a>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- SEO Game Guide Section -->
     {gameGuideEn && (

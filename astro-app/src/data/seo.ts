@@ -126,10 +126,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   boggle: {
     primaryKeyword: 'boggle online free',
-    secondaryKeywords: ['boggle online', 'boggle game', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', '5x5 boggle'],
-    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', '4x4 word puzzle', 'boggle word finder', 'boggle rules and scoring', 'boggle strategy tips'],
-    titleTemplate: 'Boggle Online Free - Play the Classic Word Game | {brand}',
-    descriptionTemplate: 'Play Boggle online free in your browser. Find words in a 4x4 letter grid, race the clock, learn the rules, and start unlimited rounds with no download.',
+    secondaryKeywords: ['boggle online', 'boggle game', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', 'boggle word finder'],
+    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', '4x4 word puzzle', 'boggle rules and scoring', 'boggle strategy tips', 'how to play boggle'],
+    titleTemplate: 'Play Boggle Online Free — No Download, 4x4 Word Game | {brand}',
+    descriptionTemplate: 'Play Boggle online free in your browser. Find words in a 4x4 letter grid, race the 2-minute timer, learn the rules and scoring, and play unlimited rounds with no download.',
     intent: 'play'
   },
   crosswordle: {
@@ -614,8 +614,8 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'shakashaka',
     secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle', 'shaka shaka puzzle'],
     longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide', 'shakashaka puzzle online no download'],
-    titleTemplate: 'Shaka Shaka Puzzle Online - Play Free | {brand}',
-    descriptionTemplate: 'Play Shakashaka, also called Shaka Shaka Puzzle, free online. Place triangles so white spaces form rectangles. No download—start solving instantly.',
+    titleTemplate: 'Shakashaka (Shaka Shaka) Puzzle Online - Play Free | {brand}',
+    descriptionTemplate: 'Play Shakashaka (also called Shaka Shaka Puzzle) free online. Place triangles so the remaining white spaces form rectangles. Learn the rules and solve Japanese Nikoli logic puzzles—no download, instant play.',
     intent: 'play'
   },
   'police-escape': {
