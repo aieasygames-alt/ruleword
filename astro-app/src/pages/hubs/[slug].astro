@@ -131,6 +131,7 @@ const faqSchema = hub.faq.length > 0 ? {
     }
   }))
 } : null
+const isWordGamesHub = slug === 'word-games'
 ---
 
 <BaseLayout title={hub.title} description={hub.description} keywords={hub.keywords} ogImage={`/og/hub-${slug}.png`} canonicalPath={`/hubs/${slug}/`}>
@@ -219,6 +220,24 @@ const faqSchema = hub.faq.length > 0 ? {
             </a>
           ))}
         </nav>
+      )}
+
+      {isWordGamesHub && (
+        <section class="mb-10 rounded-2xl border border-emerald-900/40 bg-gradient-to-br from-emerald-950/60 via-slate-900 to-slate-950 p-6">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="max-w-2xl">
+              <p class="text-xs uppercase tracking-[0.22em] text-emerald-400/80">Word Game Spotlight</p>
+              <h2 class="mt-2 text-2xl font-bold text-white">Play Boggle Online Free</h2>
+              <p class="mt-3 text-slate-300">
+                Boggle is one of the strongest entry points in this collection if you want quick practice rounds, active vocabulary recall, and a classic 4x4 word board you can replay instantly.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a href="/games/boggle/" class="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">Play Boggle</a>
+              <a href="/guides/boggle/" class="rounded-lg border border-slate-700 bg-slate-900/70 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">Read Boggle guide</a>
+            </div>
+          </div>
+        </section>
       )}
 
       <!-- AI Stories Grid (AI Games hub only) -->

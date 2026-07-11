@@ -5081,93 +5081,109 @@ The key to efficient advanced solving is choosing the right cell to test. Pick a
 // Boggle Guide
 gameGuides['boggle'] = {
   slug: 'boggle',
-  title: 'Boggle Strategy Guide: Rules, Scoring, and Word-Finding Tips',
-  description: 'Learn Boggle rules, scoring, and strategies to find more words in every grid. Systematic scanning, prefix/suffix patterns, and tips for 4x4 and 5x5 Boggle.',
-  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle guide', 'boggle online free'],
-  introduction: `Boggle looks deceptively simple — find words in a grid of 16 letters. But the gap between a casual player scoring 10 points and an expert scoring 50+ comes down to strategy and systematic scanning.
+  title: 'Boggle Strategy Guide: Rules, Scoring, Tips, and How to Play Better',
+  description: 'Learn how to play Boggle, understand Boggle scoring, and use proven scanning strategies to find more words on a classic 4x4 board. Includes beginner rules and advanced word-finding tips.',
+  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'how to play boggle', 'boggle tips', 'boggle online free', 'boggle guide', 'boggle word game', 'boggle 4x4', 'boggle word finder'],
+  introduction: `Boggle is easy to start and surprisingly hard to master. You only need to connect adjacent letters and build words before the timer runs out, but strong scores come from much more than a large vocabulary. Efficient scanning, quick pattern recognition, and smart score prioritization matter just as much.
 
-This guide teaches you the techniques that competitive Boggle players use to find more words, score higher, and make the most of every second on the clock.`,
+This guide is designed for players searching for Boggle rules, scoring, or practical ways to find more words on a classic 4x4 board. Use it alongside the playable Boggle page on Ruleword: learn the method here, then practice it immediately in unlimited browser rounds.`,
   sections: [
     {
-      title: 'Understanding Boggle Rules and Scoring',
-      content: `Boggle uses a 4x4 (classic) or 5x5 (Big Boggle) grid of letters. You connect adjacent letters (including diagonals) to form words of 3+ letters. Each letter cube can only be used once per word.
+      title: 'How Boggle Works: Rules, Board Size, and Valid Words',
+      content: `Classic Boggle uses a 4x4 board with 16 letter tiles. Your goal is to connect adjacent letters horizontally, vertically, or diagonally to make words before the timer expires. In most standard versions, words must be at least 3 letters long, and you cannot reuse the same tile twice within one word.
 
-Scoring rewards longer words heavily: 3-4 letters = 1 point, 5 letters = 2 points, 6 letters = 3 points, 7+ letters = 5 points.`,
+Valid words are usually standard dictionary words. Proper nouns, abbreviations, and most foreign words are not allowed. The Qu tile counts as the letters Q and U together, which is why it is especially useful for building longer words quickly.
+
+If you are practicing online, the core habits are the same as the physical game: spot paths fast, avoid rechecking the same area too often, and keep moving before the clock burns away.`,
       tips: [
-        '7+ letter words are worth 5 points — focus on finding these first',
-        '4x4 grids: minimum 3-letter words; 5x5 grids: minimum 4-letter words',
-        'Each letter cube can only be used once per word, but same letters can appear multiple times on the board',
-        'Proper nouns, abbreviations, and foreign words are not valid'
+        'Classic Boggle means a 4x4 board unless a page clearly says Big Boggle or 5x5',
+        'Letters must touch in sequence; diagonal moves are allowed',
+        'You cannot reuse the same tile in one word path',
+        'The Qu tile is powerful because it covers two letters in one move'
       ]
     },
     {
-      title: 'Systematic Scanning Techniques',
-      content: `Random scanning wastes time. Use a systematic approach:
+      title: 'Boggle Scoring: Why Longer Words Matter So Much',
+      content: `Boggle scoring is simple, but it changes how you should search the grid. Standard scoring is: 3-4 letters = 1 point, 5 letters = 2 points, 6 letters = 3 points, 7 letters = 5 points, and 8+ letters = 11 points in many official versions. Some online versions simplify the top end, but the strategic lesson is always the same: longer words are disproportionately valuable.
 
-**Spiral scan**: Start from a corner and spiral inward, checking each letter as a potential word start.
-
-**Vowel-first scan**: Identify all vowels first and check what consonants surround them.
-
-**Prefix scan**: For each letter, check common prefixes: RE-, UN-, IN-, DIS-, PRE-, OVER-, OUT-, SUB-.
-
-**Suffix scan**: Look for letters that end common suffixes: -ING, -TION, -NESS, -MENT, -ABLE, -LY, -ER, -ED.`,
+That means a player who only collects short words may feel busy, but still lose to someone who finds a handful of 6-8 letter paths. Short words are still useful, especially in the final stretch, but high scores usually come from extending stems into longer families.`,
       tips: [
-        'Always scan the board twice — your brain spots patterns better on the second pass',
-        'Start with the most vowel-rich areas of the grid',
-        'Check for S and D tiles — they create plurals and past tenses of words you already found',
-        'Look for common letter pairs: TH, CH, SH, QU, CK, NG, ST'
+        'A 7-letter word is worth much more than several random 3-letter finds',
+        'Use short words as stems you can extend into higher-value words',
+        'If you spot -ED, -ER, -ING, or plural S endings, test them quickly',
+        'Do not spend the whole round farming only easy 3-letter words'
       ]
     },
     {
-      title: 'High-Value Word Patterns',
-      content: `Train yourself to spot patterns that lead to high-scoring words:
+      title: 'Systematic Scanning: The Fastest Way to Find More Words',
+      content: `Random eye movement is the biggest reason intermediate players stall out. Strong Boggle players use a repeatable scan so they do not keep rediscovering the same obvious words.
 
-**-TION words**: Look for T-I-O-N sequences. STATION, NATION, MOTION each score 3-5 points.
+One reliable approach is a board sweep: start in the top-left corner, test each tile as a starting point, and move row by row. Another is a vowel-first pass, where you identify A, E, I, O, U, and Qu clusters first because they often anchor multiple valid paths. A third is prefix scanning: check for common starts like RE-, UN-, IN-, PRE-, ST-, TR-, and OVER- whenever the letter arrangement allows.
 
-**Compound words**: Boggle allows compound words — SUNSHINE, PLAYGROUND, BASKETBALL.
-
-**Word families**: When you find a stem like PLAY, check for PLAYED, PLAYING, PLAYER, PLAYS — 4-6 extra points from one discovery.`,
+The important part is not which scan you choose. It is choosing one and sticking to it. Structure beats frantic searching.`,
       tips: [
-        'Every S on the board can pluralize multiple words — never ignore S tiles',
-        'Find a word stem first, then check all its derivatives before moving on',
-        'Common endings -ED, -ER, -EST turn short words into longer ones worth more points',
-        'Look for Q near U — QU is the start of many high-scoring words'
+        'Scan the whole board once instead of bouncing between random hotspots',
+        'Vowel-rich zones often generate multiple connected words',
+        'After finding one word, quickly test nearby extensions before moving on',
+        'A second structured pass often finds words you missed on the first'
       ]
     },
     {
-      title: 'Time Management Strategy',
-      content: `In timed Boggle, efficiency wins:
+      title: 'High-Value Patterns: Prefixes, Suffixes, and Word Families',
+      content: `The easiest way to level up in Boggle is to stop searching for isolated words and start searching for word families. If you find PLAY, ask whether PLAYER, PLAYED, or PLAYS is available. If you find CARE, check for CARED, CARES, or CAREFUL-like extensions if the board supports them.
 
-**First 30 seconds**: Quick scan for obvious long words (7+ letters). These are worth the most.
+Prefixes and suffixes are especially powerful because they let you reuse your mental work. Common endings such as -S, -ED, -ER, -ING, and -LY can turn one discovery into several. Common starts such as RE-, UN-, PRE-, DIS-, and OUT- can also unlock longer words quickly.
 
-**Middle portion**: Systematic prefix/suffix scanning. Build word families from stems you found.
-
-**Last 30 seconds**: Grab easy short words you missed. 3-4 letter words add up quickly.`,
+Letter pairs matter too. TH, CH, SH, ST, TR, QU, and ING-like paths should immediately trigger a deeper search because they frequently lead to valid English words.`,
       tips: [
-        'Spend the first 10 seconds just scanning — do not start typing until you have 3-5 words identified',
-        'Group words by starting letter to avoid redundant scanning',
-        'If you find a long word, immediately check for shorter derivatives',
-        'Keep a mental count of how many words start with each letter to avoid missing clusters'
+        'Never ignore S tiles; they can multiply your word count fast',
+        'Find the base word, then test common endings before leaving the area',
+        'Qu tiles often lead to strong scoring opportunities',
+        'Common digraphs like TH and ST deserve extra attention'
+      ]
+    },
+    {
+      title: 'Time Management and Practice Strategy for Online Boggle',
+      content: `A timed round rewards pace, not perfection. In the opening seconds, look for obvious long words and strong stems. In the middle of the round, switch to structured scanning and extension work. In the final stretch, clean up easy 3-4 letter words that you skipped earlier.
+
+Online Boggle is ideal for practice because you can run unlimited rounds and focus on one habit at a time. Spend one session training vowel scans, another hunting suffixes, and another practicing board discipline. Short targeted repetition is usually more effective than playing mindlessly for an hour.`,
+      tips: [
+        'Early round: hunt long words and high-potential stems',
+        'Middle round: use structured scans instead of guessing',
+        'Late round: grab overlooked short words quickly',
+        'Practice one scanning habit per session to improve faster'
       ]
     }
   ],
   faq: [
     {
-      question: 'What is the average Boggle score?',
-      answer: 'Casual 4x4 Boggle players score 15-25 points per round. Experienced players average 30-50. Tournament players can score 50-80+ consistently.'
+      question: 'How do you get better at Boggle?',
+      answer: 'The fastest way to improve at Boggle is to use a consistent scan pattern, learn common prefixes and suffixes, and practice extending short words into longer families. Strong players do not rely only on vocabulary; they rely on repeatable board-reading habits.'
+    },
+    {
+      question: 'What are the official Boggle rules?',
+      answer: 'In classic Boggle, players connect adjacent letters horizontally, vertically, or diagonally to form words. Words are usually at least 3 letters long, each tile can only be used once per word, and proper nouns or abbreviations are typically not allowed.'
+    },
+    {
+      question: 'How is Boggle scored?',
+      answer: 'Standard Boggle scoring awards 1 point for 3-4 letter words, 2 points for 5-letter words, 3 points for 6-letter words, and 5 or more points for longer words depending on the version. The key idea is that longer words are much more valuable than short ones.'
+    },
+    {
+      question: 'What is a good Boggle score on a 4x4 board?',
+      answer: 'A casual score on classic 4x4 Boggle is often around 15-25 points. Experienced players regularly score 30-50, while very strong players can push beyond that on favorable boards.'
     },
     {
       question: 'How many words are in a typical Boggle grid?',
-      answer: 'A typical 4x4 Boggle grid contains 40-80 valid words. 5x5 Big Boggle grids contain 100-200+ words.'
+      answer: 'A typical 4x4 Boggle grid often contains dozens of valid words, commonly around 40-80 depending on the board. The challenge is not whether words exist, but how many you can actually see before time runs out.'
     },
     {
       question: 'What is Big Boggle?',
-      answer: 'Big Boggle uses a 5x5 grid (25 dice instead of 16) with a minimum word length of 4 letters. It was introduced in 1979 and produces longer, higher-scoring words than the classic 4x4 version.'
+      answer: 'Big Boggle is a larger version of the game that uses a 5x5 board instead of the classic 4x4 layout. It usually requires longer minimum words and creates more opportunities for long, high-scoring finds.'
     },
     {
       question: 'Can I play Boggle online free?',
-      answer: 'Yes! Play Boggle free in your browser on Free Games Hub — no download or sign-up required. Both 4x4 classic and 5x5 Big Boggle modes available with unlimited plays.'
-    }
+      answer: 'Yes. You can play Boggle online free on Ruleword in your browser with no download or sign-up, which makes it a convenient way to practice both beginner rules and advanced scanning strategies.'
+      }
   ]
 }
 

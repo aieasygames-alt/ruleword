@@ -27,19 +27,20 @@ export const hubPages: Record<string, HubPage> = {
     slug: 'word-games',
     title: 'Word Games Online Free - Play 20+ Vocabulary & Spelling Games',
     description: 'Play the best free word games online: Wordle, Crossword, Spelling Bee, Anagrams, and more. Improve vocabulary, spelling, and verbal skills with daily puzzles.',
-    heroDescription: 'Challenge your vocabulary and verbal skills with our collection of 20+ free word games. From daily Wordle puzzles to classic crosswords, find your perfect word challenge.',
+    heroDescription: 'Challenge your vocabulary and verbal skills with our collection of free word games. Start with Boggle online free for fast 4x4 word-hunting rounds, then explore Wordle, Crosswordle, Spelling Bee, and more.',
     keywords: ['word games online', 'free word games', 'boggle online free', 'boggle online', 'crosswordle swapping', 'vocabulary games', 'spelling games', 'word puzzles', 'wordle alternatives', 'online crossword'],
     categoryIds: ['word'],
     featuredGames: ['boggle', 'crosswordle', 'wordle', 'connections', 'spelling-bee', 'word-search', 'crossword', 'anagrams'],
     featuredGuides: ['boggle', 'wordle'],
     priorityLinks: [
       { href: '/games/boggle/', label: 'Play Boggle online free' },
+      { href: '/guides/boggle/', label: 'Read the Boggle strategy guide' },
       { href: '/games/crosswordle/', label: 'Play Crosswordle swapping game' }
     ],
     content: {
       whatIsSection: `Word games are puzzles that test your vocabulary, spelling, and verbal reasoning skills. They range from simple spelling challenges to complex word association puzzles that require lateral thinking.
 
-Classic word games like Crossword and Hangman have been popular for over a century, while modern games like Wordle have created entirely new genres of daily puzzle challenges.`,
+Classic word games like Crossword and Hangman have been popular for over a century, while modern games like Wordle have created entirely new genres of daily puzzle challenges. Boggle sits in a valuable middle ground: quick to learn, fast to replay, and ideal for improving scanning speed, word recall, and pattern recognition.`,
       benefitsSection: `Playing word games regularly offers significant cognitive benefits:
 
 **Vocabulary Expansion**: Encounter new words and reinforce spelling patterns
@@ -49,16 +50,16 @@ Classic word games like Crossword and Hangman have been popular for over a centu
 **Language Learning**: Excellent for ESL learners to practice English`,
       gettingStarted: `New to word games? We recommend this progression:
 
-1. **Start with Wordle** - 5 minutes daily, perfect difficulty curve
-2. **Try Word Scramble** - Practice unscrambling common words
-3. **Progress to Crossword** - Build general knowledge and vocabulary
-4. **Challenge yourself with Anagrams** - Advanced word manipulation
-5. **Explore Connections** - Test categorical thinking`
+1. **Start with Boggle** - Fast browser rounds, great for active word finding
+2. **Try Wordle** - Daily deduction with a simple ruleset
+3. **Use Spelling Bee or Word Scramble** - Reinforce spelling and pattern recall
+4. **Progress to Crossword** - Build vocabulary depth and clue solving
+5. **Explore Connections and Anagrams** - Test category thinking and word flexibility`
     },
     faq: [
       {
         question: 'What is the best free word game online?',
-        answer: 'Wordle is currently the most popular free word game, offering a perfect balance of challenge and accessibility. For vocabulary building, Spelling Bee and Crossword are excellent choices.'
+        answer: 'It depends on what you want. Wordle is excellent for daily deduction, but Boggle is one of the best free word games online for fast repeat play because you can jump into unlimited rounds and actively practice finding words under time pressure.'
       },
       {
         question: 'Are word games good for your brain?',
@@ -66,7 +67,7 @@ Classic word games like Crossword and Hangman have been popular for over a centu
       },
       {
         question: 'How can I improve at word games?',
-        answer: 'Practice regularly, learn common word patterns, expand your vocabulary through reading, and study letter frequency in English. Starting words like CRANE or SLATE are optimal for Wordle.'
+        answer: 'Practice regularly, learn common word patterns, expand your vocabulary through reading, and study letter frequency in English. For fast improvement, combine Boggle for scanning speed with Wordle for deduction and Crossword for vocabulary range.'
       }
     ]
   },
@@ -128,6 +129,7 @@ The most famous number puzzle, Sudoku, became a global phenomenon in the 2000s a
     priorityLinks: [
       { href: '/games/heyawake/', label: 'Play Heyawake online free' },
       { href: '/games/suguru/', label: 'Play Suguru game online free' },
+      { href: '/games/shakashaka/', label: 'Play Shaka Shaka Puzzle online' },
       { href: '/games/skyscrapers/', label: 'Play Skyscrapers game online' },
       { href: '/games/slitherlink/', label: 'Play Slitherlink online free' },
       { href: '/games/kakurasu/', label: 'Play Kakurasu puzzle online' }

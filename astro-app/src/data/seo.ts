@@ -128,8 +128,8 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     primaryKeyword: 'boggle online free',
     secondaryKeywords: ['boggle online', 'boggle game', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', 'boggle word finder'],
     longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', '4x4 word puzzle', 'boggle rules and scoring', 'boggle strategy tips', 'how to play boggle'],
-    titleTemplate: 'Play Boggle Online Free — No Download, 4x4 Word Game | {brand}',
-    descriptionTemplate: 'Play Boggle online free in your browser. Find words in a 4x4 letter grid, race the 2-minute timer, learn the rules and scoring, and play unlimited rounds with no download.',
+    titleTemplate: 'Play Boggle Online Free - Classic 4x4 Word Game, No Download | {brand}',
+    descriptionTemplate: 'Play classic Boggle online free with unlimited 4x4 rounds, a 2-minute timer, instant browser play, and built-in rules and scoring tips. No download or sign-up.',
     intent: 'play'
   },
   crosswordle: {
@@ -615,7 +615,7 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     secondaryKeywords: ['shakashaka puzzle', 'shakashaka online', 'play shakashaka', 'triangle puzzle', 'rectangle puzzle', 'nikoli puzzle', 'shaka shaka puzzle'],
     longTailKeywords: ['play shakashaka online free', 'shakashaka rules explained', 'how to solve shakashaka', 'shakashaka strategy tips', 'japanese triangle puzzle guide', 'shakashaka puzzle online no download'],
     titleTemplate: 'Shakashaka (Shaka Shaka) Puzzle Online - Play Free | {brand}',
-    descriptionTemplate: 'Play Shakashaka (also called Shaka Shaka Puzzle) free online. Place triangles so the remaining white spaces form rectangles. Learn the rules and solve Japanese Nikoli logic puzzles—no download, instant play.',
+    descriptionTemplate: 'Play Shakashaka free online. Place triangles so white spaces become rectangles, learn the rules, and solve a classic Nikoli logic puzzle with no download.',
     intent: 'play'
   },
   'police-escape': {

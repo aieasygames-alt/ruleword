@@ -191,13 +191,19 @@ const breadcrumbItems = [
 ]
 
 // Optimized SEO title and description
-const seoTitle = gameSEO.titleTemplate
+const defaultSeoTitle = gameSEO.titleTemplate
   .replace('{game}', gameNameEn)
   .replace('{brand}', 'Free Games Hub')
 
-const seoDescription = gameSEO.descriptionTemplate
+const defaultSeoDescription = gameSEO.descriptionTemplate
   .replace('{game}', gameNameEn)
   .replace('{brand}', 'Free Games Hub')
+const seoTitle = gameSlug === 'boggle'
+  ? 'Play Boggle Online Free - Classic 4x4 Word Game, No Download | Free Games Hub'
+  : defaultSeoTitle
+const seoDescription = gameSlug === 'boggle'
+  ? 'Play classic Boggle online free with unlimited 4x4 rounds, a 2-minute timer, instant browser play, and built-in rules and scoring tips. No download or sign-up.'
+  : defaultSeoDescription
 
 // Handle lang parameter for SEO
 const hasLangParam = Astro.url.searchParams.has('lang')
@@ -233,6 +239,92 @@ const howToSchema = gameGuideEn.howToPlay ? {
 
 const gameRating = getGameRating(game.slug)
 const gamePopularity = getGamePopularity(game.slug)
+const isBogglePage = gameSlug === 'boggle'
+const boggleQuickFacts = [
+  { labelEn: 'Grid', labelZh: '棋盘', valueEn: 'Classic 4x4 board', valueZh: '经典 4x4 棋盘' },
+  { labelEn: 'Timer', labelZh: '计时', valueEn: '2-minute rounds', valueZh: '每局 2 分钟' },
+  { labelEn: 'Mode', labelZh: '模式', valueEn: 'Unlimited browser play', valueZh: '浏览器无限畅玩' },
+  { labelEn: 'Skills', labelZh: '锻炼', valueEn: 'Vocabulary, speed, pattern recognition', valueZh: '词汇、速度、模式识别' }
+]
+const boggleRuleHighlights = [
+  { en: 'Connect letters horizontally, vertically, or diagonally to build words.', zh: '通过横向、纵向或对角线连接字母来组成单词。' },
+  { en: 'Every word must be at least 3 letters long.', zh: '每个单词至少要有 3 个字母。' },
+  { en: 'You can only use each tile once in a single word path.', zh: '同一个单词路径里，每个字母格只能使用一次。' },
+  { en: 'Longer words score more points, so extend short finds whenever possible.', zh: '更长的单词分数更高，所以尽量把短词继续延展。' }
+]
+const boggleRulesSummary = [
+  { ruleEn: 'Board format', ruleZh: '棋盘形式', detailEn: 'Classic Boggle uses a 4x4 grid with 16 letter tiles.', detailZh: '经典 Boggle 使用 4x4 网格，一共 16 个字母格。' },
+  { ruleEn: 'Valid paths', ruleZh: '有效路径', detailEn: 'Letters can connect horizontally, vertically, or diagonally.', detailZh: '字母可以横向、纵向或对角线连接。' },
+  { ruleEn: 'Minimum word', ruleZh: '最短词长', detailEn: 'Words must be at least 3 letters long in classic play.', detailZh: '在经典玩法中，单词至少要有 3 个字母。' },
+  { ruleEn: 'Tile reuse', ruleZh: '重复使用', detailEn: 'A tile can only be used once in a single word.', detailZh: '同一个单词里，每个字母格只能使用一次。' },
+  { ruleEn: 'Dictionary rule', ruleZh: '字典规则', detailEn: 'Proper nouns, abbreviations, and most non-standard words are not allowed.', detailZh: '专有名词、缩写和大多数非标准词通常不算有效。' },
+  { ruleEn: 'Qu tile', ruleZh: 'Qu 方块', detailEn: 'The Qu tile counts as both letters together and often unlocks longer words.', detailZh: 'Qu 方块会同时算作 Q 和 U，经常能帮助你拼出更长单词。' }
+]
+const boggleScoringTable = [
+  { lengthEn: '3-4 letters', lengthZh: '3-4 个字母', pointsEn: '1 point', pointsZh: '1 分', noteEn: 'Useful for cleanup and quick board coverage.', noteZh: '适合最后扫尾和快速覆盖棋盘。' },
+  { lengthEn: '5 letters', lengthZh: '5 个字母', pointsEn: '2 points', pointsZh: '2 分', noteEn: 'A solid middle tier when you can extend short stems.', noteZh: '把短词延展后，5 字母词是很稳定的得分层。' },
+  { lengthEn: '6 letters', lengthZh: '6 个字母', pointsEn: '3 points', pointsZh: '3 分', noteEn: 'Usually where strong scoring starts to separate players.', noteZh: '通常从这里开始，高手会和普通玩家拉开差距。' },
+  { lengthEn: '7+ letters', lengthZh: '7 个以上字母', pointsEn: '5 points', pointsZh: '5 分', noteEn: 'High-value words that can swing a round quickly in this version of Boggle.', noteZh: '在这个版本里，高价值长词往往能迅速改变一局分差。' }
+]
+const boggleAnchorLinks = [
+  { href: '#boggle-jump-links', labelEn: 'Quick links', labelZh: '快速跳转' },
+  { href: '#boggle-rules-summary', labelEn: 'Rules summary', labelZh: '规则摘要' },
+  { href: '#boggle-scoring-table', labelEn: 'Scoring table', labelZh: '计分表' },
+  { href: '#guide-howtoplay-section', labelEn: 'How to play', labelZh: '玩法说明' },
+  { href: '#boggle-rules-section', labelEn: 'Strategy notes', labelZh: '策略要点' },
+  { href: '#guide-faq-section', labelEn: 'FAQ', labelZh: '常见问题' }
+]
+const boggleInternalLinks = [
+  { href: '/guides/boggle/', labelEn: 'Boggle strategy guide', labelZh: 'Boggle 策略指南' },
+  { href: '/hubs/word-games/', labelEn: 'More word games', labelZh: '更多文字游戏' },
+  { href: '/games/word-search/', labelEn: 'Word Search', labelZh: '单词搜索' },
+  { href: '/games/spelling-bee/', labelEn: 'Spelling Bee', labelZh: '拼字蜜蜂' }
+]
+const boggleRuleSetSchema = isBogglePage ? {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "name": "Boggle Rules Summary",
+  "description": "Core rules for playing classic 4x4 Boggle online.",
+  "url": `${canonicalUrl}#boggle-rules-summary`,
+  "hasDefinedTerm": boggleRulesSummary.map((item) => ({
+    "@type": "DefinedTerm",
+      "name": item.ruleEn,
+      "description": item.detailEn
+  }))
+} : undefined
+const boggleScoringSchema = isBogglePage ? {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Boggle Scoring Table",
+  "description": "Word length to score mapping for classic Boggle scoring.",
+  "url": `${canonicalUrl}#boggle-scoring-table`,
+  "numberOfItems": boggleScoringTable.length,
+  "itemListElement": boggleScoringTable.map((row, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": `${row.lengthEn}: ${row.pointsEn}`,
+    "description": row.noteEn
+  }))
+} : undefined
+const bogglePageSchema = isBogglePage ? {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Play Boggle Online Free",
+  "url": canonicalUrl,
+  "description": seoDescription,
+  "about": {
+    "@type": "Thing",
+    "name": "Boggle"
+  },
+  "keywords": ["boggle online free", "boggle game", "play boggle online", "boggle rules", "boggle scoring"],
+  "hasPart": boggleAnchorLinks
+    .filter((link) => link.href.startsWith('#'))
+    .map((link) => ({
+      "@type": "WebPageElement",
+      "name": link.labelEn,
+      "url": `${canonicalUrl}${link.href}`
+    }))
+} : undefined
 
 // Generate FAQPage schema from in-page FAQ content for richer SERP coverage.
 const faqSchema = gameGuideEn.faq && gameGuideEn.faq.length > 0 ? {
@@ -271,6 +363,15 @@ const hreflangUrls = [
 >
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
+  {bogglePageSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(bogglePageSchema)} />
+  )}
+  {boggleRuleSetSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(boggleRuleSetSchema)} />
+  )}
+  {boggleScoringSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(boggleScoringSchema)} />
+  )}
   {faqSchema && (
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   )}
@@ -361,6 +462,60 @@ const hreflangUrls = [
         />
       )}
     </main>
+
+    {isBogglePage && (
+      <section class="border-t border-slate-800 bg-gradient-to-b from-emerald-950/40 via-slate-950 to-slate-950 px-4 py-8 sm:px-6">
+        <div class="mx-auto max-w-4xl">
+          <div class="rounded-2xl border border-emerald-900/40 bg-slate-900/70 p-6 shadow-[0_0_0_1px_rgba(16,185,129,0.06)]">
+            <p class="max-w-3xl text-base leading-7 text-slate-200 sm:text-lg">
+              <span id="boggle-hero-copy"
+                data-en="Play Boggle online free in your browser with no download or sign-up. This classic 4x4 word game gives you 2 minutes to connect adjacent letters, find as many words as possible, and chase a higher score every round."
+                data-zh="直接在浏览器里免费玩 Boggle，无需下载或注册。这个经典的 4x4 单词游戏给你 2 分钟时间连接相邻字母、尽可能找出更多单词，并不断刷新更高分。"
+              >
+              Play Boggle online free in your browser with no download or sign-up. This classic 4x4 word game gives you 2 minutes to connect adjacent letters, find as many words as possible, and chase a higher score every round.
+              </span>
+            </p>
+
+            <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {boggleQuickFacts.map((fact) => (
+                <div class="rounded-xl border border-slate-800 bg-slate-950/70 p-4">
+                  <div class="text-xs uppercase tracking-[0.18em] text-emerald-400/80" data-fact-label-en={fact.labelEn} data-fact-label-zh={fact.labelZh}>{fact.labelEn}</div>
+                  <div class="mt-2 text-sm font-medium text-white" data-fact-value-en={fact.valueEn} data-fact-value-zh={fact.valueZh}>{fact.valueEn}</div>
+                </div>
+              ))}
+            </div>
+
+            <nav id="boggle-jump-links" class="mt-6 rounded-xl border border-slate-800 bg-slate-950/60 p-4" aria-label="Boggle page quick links">
+              <h2 id="boggle-jump-title" class="text-sm font-semibold uppercase tracking-[0.16em] text-emerald-400/80" data-en="Boggle Quick Links" data-zh="Boggle 快速跳转">Boggle Quick Links</h2>
+              <p id="boggle-jump-desc" class="mt-2 text-sm leading-6 text-slate-400" data-en="Jump straight to Boggle rules, scoring, how to play, strategy notes, and FAQ sections." data-zh="直接跳到 Boggle 规则、计分、玩法说明、策略要点和常见问题。">
+                Jump straight to Boggle rules, scoring, how to play, strategy notes, and FAQ sections.
+              </p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {boggleAnchorLinks.map((link) => (
+                  <a
+                    href={link.href}
+                    data-anchor-en={link.labelEn}
+                    data-anchor-zh={link.labelZh}
+                    class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-sm text-slate-200 transition-colors hover:bg-slate-800"
+                  >
+                    {link.labelEn}
+                  </a>
+                ))}
+              </div>
+            </nav>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="/guides/boggle/" id="boggle-cta-guide" data-en="Read Boggle strategy guide" data-zh="阅读 Boggle 策略指南" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">
+                Read Boggle strategy guide
+              </a>
+              <a href="/hubs/word-games/" id="boggle-cta-hub" data-en="Explore more word games" data-zh="查看更多文字游戏" class="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">
+                Explore more word games
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
 
     {relatedGames.length > 0 && (
       <section class="bg-slate-900/40 border-t border-slate-800/60 py-6 px-4 sm:px-6">
@@ -496,6 +651,134 @@ const hreflangUrls = [
                   ))}
                 </ul>
               </div>
+            )}
+
+            {isBogglePage && (
+              <>
+                <div id="boggle-rules-summary">
+                  <h3 class="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                    <span class="text-2xl">📌</span>
+                    <span id="boggle-rules-summary-title" data-en="Boggle Rules Summary" data-zh="Boggle 规则摘要">Boggle Rules Summary</span>
+                  </h3>
+                  <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
+                    <table class="w-full border-collapse text-left text-sm">
+                      <thead class="bg-slate-800/90 text-slate-200">
+                        <tr>
+                          <th id="boggle-rule-col" class="px-4 py-3 font-semibold" data-en="Rule" data-zh="规则">Rule</th>
+                          <th id="boggle-summary-col" class="px-4 py-3 font-semibold" data-en="Summary" data-zh="说明">Summary</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boggleRulesSummary.map((item, index) => (
+                          <tr class={index < boggleRulesSummary.length - 1 ? 'border-b border-slate-800' : ''}>
+                            <td class="px-4 py-3 align-top font-medium text-white" data-rule-en={item.ruleEn} data-rule-zh={item.ruleZh}>{item.ruleEn}</td>
+                            <td class="px-4 py-3 text-slate-300" data-detail-en={item.detailEn} data-detail-zh={item.detailZh}>{item.detailEn}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div id="boggle-scoring-table">
+                  <h3 class="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                    <span class="text-2xl">🏁</span>
+                    <span id="boggle-scoring-title" data-en="Boggle Scoring Table" data-zh="Boggle 计分表">Boggle Scoring Table</span>
+                  </h3>
+                  <div class="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60">
+                    <table class="w-full border-collapse text-left text-sm">
+                      <thead class="bg-slate-800/90 text-slate-200">
+                        <tr>
+                          <th id="boggle-length-col" class="px-4 py-3 font-semibold" data-en="Word length" data-zh="单词长度">Word length</th>
+                          <th id="boggle-points-col" class="px-4 py-3 font-semibold" data-en="Points" data-zh="分数">Points</th>
+                          <th id="boggle-note-col" class="px-4 py-3 font-semibold" data-en="What it means" data-zh="说明">What it means</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {boggleScoringTable.map((row, index) => (
+                          <tr class={index < boggleScoringTable.length - 1 ? 'border-b border-slate-800' : ''}>
+                            <td class="px-4 py-3 align-top font-medium text-white" data-length-en={row.lengthEn} data-length-zh={row.lengthZh}>{row.lengthEn}</td>
+                            <td class="px-4 py-3 align-top text-emerald-300" data-points-en={row.pointsEn} data-points-zh={row.pointsZh}>{row.pointsEn}</td>
+                            <td class="px-4 py-3 text-slate-300" data-note-en={row.noteEn} data-note-zh={row.noteZh}>{row.noteEn}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p id="boggle-scoring-copy" class="mt-3 text-sm leading-6 text-slate-400" data-en="Classic Boggle scoring heavily rewards longer words, which is why strong players spend time extending stems instead of collecting only quick 3-letter words." data-zh="经典 Boggle 计分会明显奖励长单词，所以高手通常会花时间把词干延展成长词，而不是只收集快速的 3 字母单词。">
+                    Classic Boggle scoring heavily rewards longer words, which is why strong players spend time extending stems instead of collecting only quick 3-letter words.
+                  </p>
+                </div>
+
+                <div id="boggle-rules-section">
+                  <h3 class="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                    <span class="text-2xl">🧩</span>
+                    <span id="boggle-glance-title" data-en="Boggle Rules at a Glance" data-zh="Boggle 规则速览">Boggle Rules at a Glance</span>
+                  </h3>
+                  <div class="grid gap-3">
+                    {boggleRuleHighlights.map((item) => (
+                      <div class="rounded-xl border border-slate-800 bg-slate-800/40 p-4 text-slate-300" data-highlight-en={item.en} data-highlight-zh={item.zh}>
+                        {item.en}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div id="boggle-keyword-section">
+                  <h3 class="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                    <span class="text-2xl">🔎</span>
+                    <span id="boggle-useful-title" data-en="Why This Boggle Page Is Useful" data-zh="为什么这个 Boggle 页面有用">Why This Boggle Page Is Useful</span>
+                  </h3>
+                  <div class="space-y-4 text-slate-300 leading-relaxed">
+                    <p
+                      id="boggle-useful-copy-1"
+                      data-en="If you searched for boggle online free, boggle game, or play boggle online, this page is built for exactly that intent: quick browser play first, then rules, scoring, and strategy right below the game."
+                      data-zh="如果你搜索的是 boggle online free、boggle game 或 play boggle online，这个页面就是为这种需求打造的：先快速在浏览器里开玩，再直接往下看规则、计分和策略。"
+                      data-html-en="If you searched for <strong class=&quot;text-white&quot;>boggle online free</strong>, <strong class=&quot;text-white&quot;>boggle game</strong>, or <strong class=&quot;text-white&quot;>play boggle online</strong>, this page is built for exactly that intent: quick browser play first, then rules, scoring, and strategy right below the game."
+                      data-html-zh="如果你搜索的是 boggle online free、boggle game 或 play boggle online，这个页面就是为这种需求打造的：先快速在浏览器里开玩，再直接往下看规则、计分和策略。"
+                    >
+                      If you searched for <strong class="text-white">boggle online free</strong>, <strong class="text-white">boggle game</strong>, or <strong class="text-white">play boggle online</strong>, this page is built for exactly that intent: quick browser play first, then rules, scoring, and strategy right below the game.
+                    </p>
+                    <p
+                      id="boggle-useful-copy-2"
+                      data-en="The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds."
+                      data-zh="经典版 Boggle 使用 4x4 字母网格，而 Ruleword 上也是这个形式。所以这个页面很适合想找快速练习盘、免下载 Boggle 替代品，或在正式对战之间练习扫描速度的玩家。"
+                      data-html-en="The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds."
+                      data-html-zh="经典版 Boggle 使用 4x4 字母网格，而 Ruleword 上也是这个形式。所以这个页面很适合想找快速练习盘、免下载 Boggle 替代品，或在正式对战之间练习扫描速度的玩家。"
+                    >
+                      The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds.
+                    </p>
+                    <p
+                      id="boggle-useful-copy-3"
+                      data-en="After you play, use the full guide to learn better opening scans, common prefixes and suffixes, and ways to stretch short words into 5-letter and 6-letter scores."
+                      data-zh="玩完之后，你可以继续看完整指南，学习更好的开局扫描方式、常见前后缀，以及如何把短词延展成 5 字母和 6 字母得分词。"
+                      data-html-en="After you play, use the full guide to learn better opening scans, common prefixes and suffixes, and ways to stretch short words into 5-letter and 6-letter scores."
+                      data-html-zh="玩完之后，你可以继续看完整指南，学习更好的开局扫描方式、常见前后缀，以及如何把短词延展成 5 字母和 6 字母得分词。"
+                    >
+                      After you play, use the full guide to learn better opening scans, common prefixes and suffixes, and ways to stretch short words into 5-letter and 6-letter scores.
+                    </p>
+                  </div>
+                </div>
+
+                <div id="boggle-links-section">
+                  <h3 class="mb-4 flex items-center gap-2 text-xl font-semibold text-white">
+                    <span class="text-2xl">🔗</span>
+                    <span id="boggle-practice-title" data-en="Keep Practicing" data-zh="继续练习">Keep Practicing</span>
+                  </h3>
+                  <div class="flex flex-wrap gap-2">
+                    {boggleInternalLinks.map((link) => (
+                      <a
+                        href={link.href}
+                        data-link-en={link.labelEn}
+                        data-link-zh={link.labelZh}
+                        class="inline-flex items-center gap-2 rounded-lg border border-slate-700/60 bg-slate-800/60 px-4 py-2 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-700"
+                      >
+                        {link.labelEn}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
 
             <!-- FAQ Section -->
@@ -737,6 +1020,60 @@ const hreflangUrls = [
         }
         if (answer) {
           answer.textContent = isZh ? answer.getAttribute('data-answer-zh') : answer.getAttribute('data-answer-en');
+        }
+      });
+
+      // Update Boggle-specific SEO blocks
+      const boggleHeroCopy = document.getElementById('boggle-hero-copy');
+      if (boggleHeroCopy) {
+        boggleHeroCopy.textContent = isZh ? boggleHeroCopy.getAttribute('data-zh') : boggleHeroCopy.getAttribute('data-en');
+      }
+      const boggleLocalizedIds = [
+        'boggle-jump-title', 'boggle-jump-desc', 'boggle-cta-guide', 'boggle-cta-hub',
+        'boggle-rules-summary-title', 'boggle-rule-col', 'boggle-summary-col',
+        'boggle-scoring-title', 'boggle-length-col', 'boggle-points-col', 'boggle-note-col',
+        'boggle-scoring-copy', 'boggle-glance-title', 'boggle-useful-title', 'boggle-practice-title'
+      ];
+      boggleLocalizedIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.textContent = isZh ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+        }
+      });
+      document.querySelectorAll('[data-anchor-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-anchor-zh') : el.getAttribute('data-anchor-en');
+      });
+      document.querySelectorAll('[data-fact-label-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-fact-label-zh') : el.getAttribute('data-fact-label-en');
+      });
+      document.querySelectorAll('[data-fact-value-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-fact-value-zh') : el.getAttribute('data-fact-value-en');
+      });
+      document.querySelectorAll('[data-rule-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-rule-zh') : el.getAttribute('data-rule-en');
+      });
+      document.querySelectorAll('[data-detail-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-detail-zh') : el.getAttribute('data-detail-en');
+      });
+      document.querySelectorAll('[data-length-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-length-zh') : el.getAttribute('data-length-en');
+      });
+      document.querySelectorAll('[data-points-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-points-zh') : el.getAttribute('data-points-en');
+      });
+      document.querySelectorAll('[data-note-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-note-zh') : el.getAttribute('data-note-en');
+      });
+      document.querySelectorAll('[data-highlight-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-highlight-zh') : el.getAttribute('data-highlight-en');
+      });
+      document.querySelectorAll('[data-link-en]').forEach((el) => {
+        el.textContent = isZh ? el.getAttribute('data-link-zh') : el.getAttribute('data-link-en');
+      });
+      ['boggle-useful-copy-1', 'boggle-useful-copy-2', 'boggle-useful-copy-3'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.innerHTML = isZh ? el.getAttribute('data-html-zh') : el.getAttribute('data-html-en');
         }
       });
 

@@ -577,10 +577,15 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
           // Start Screen
           <div className="text-center space-y-6">
             <div className="text-6xl">🎲</div>
-            <h1 className="text-3xl font-bold">Boggle</h1>
-            <p className="text-slate-400 max-w-sm mx-auto">
-              Find as many words as possible in {formatTime(TIME_LIMIT)}! Click adjacent letters to form words (3+ letters).
+            <h1 className="text-3xl font-bold">Play Boggle Online Free</h1>
+            <p className="text-slate-400 max-w-md mx-auto">
+              Find as many words as possible in {formatTime(TIME_LIMIT)}. Connect adjacent letters, build 3+ letter words, and play unlimited classic 4x4 rounds right in your browser.
             </p>
+            <div className="max-w-lg mx-auto grid gap-2 text-sm text-slate-300">
+              <div className="rounded-lg bg-slate-800/70 px-4 py-2">Classic 4x4 Boggle board</div>
+              <div className="rounded-lg bg-slate-800/70 px-4 py-2">No download, no sign-up, instant restart</div>
+              <div className="rounded-lg bg-slate-800/70 px-4 py-2">Longer words score more points</div>
+            </div>
             <button
               onClick={startGame}
               className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg"

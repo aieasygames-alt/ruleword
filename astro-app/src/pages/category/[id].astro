@@ -43,6 +43,8 @@ const seoConfig = categorySEO[category.id]
 const seoTitle = seoConfig?.title || `${category.en} - Free Online Games | Free Games Hub`
 const seoDescription = seoConfig?.description || `Play ${categoryGames.length}+ free ${category.en.toLowerCase()} games at Free Games Hub. No download required.`
 const seoKeywords = seoConfig?.keywords || `${category.en.toLowerCase()}, free online games`
+const isWordCategory = category.id === 'word'
+const boggleGame = isWordCategory ? categoryGames.find(g => g.slug === 'boggle') : null
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -136,6 +138,37 @@ const breadcrumbItems = [
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      {isWordCategory && boggleGame && (
+        <section class="mb-10">
+          <div class="overflow-hidden rounded-3xl border border-emerald-900/40 bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-950 p-6">
+            <div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-400/80">Featured Word Game</p>
+                <h2 class="mt-2 text-2xl font-bold text-white">Play Boggle Online Free</h2>
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-300">
+                  Boggle is the strongest fit in this word category if you want quick 4x4 practice rounds, classic rules, and a page that also explains scoring and strategy. Use it as your main replayable word game hub.
+                </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                  <a href="/games/boggle/" class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">Play Boggle online free</a>
+                  <a href="/guides/boggle/" class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">Read Boggle rules and strategy</a>
+                </div>
+              </div>
+              <a
+                href="/games/boggle/"
+                class={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${boggleGame.color} p-6 text-white shadow-lg`}
+              >
+                <div class="flex items-start justify-between">
+                  <span class="text-5xl">{boggleGame.icon}</span>
+                  <span class="rounded-full bg-black/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider">Classic 4x4</span>
+                </div>
+                <h3 class="mt-10 text-2xl font-bold">{boggleGame.name}</h3>
+                <p class="mt-2 text-sm text-white/85">{boggleGame.desc}</p>
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
       {categoryGames.length === 0 ? (
         <div class="text-center py-20 text-slate-400">
           <p class="text-6xl mb-4">🎮</p>

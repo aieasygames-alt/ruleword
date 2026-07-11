@@ -7,8 +7,8 @@
   "color": "from-orange-500 to-red-600",
   "en": {
     "name": "Boggle",
-    "desc": "Find words in a 4x4 letter grid — race against time! Free online Boggle, no download required.",
-    "description": "Boggle is the classic word search game that has challenged vocabulary skills since 1972! Shake up the letter cubes and race against time to find as many words as possible hidden in a 4×4 grid of letters. Connect adjacent letters (including diagonals) to form words of 3 or more letters. Longer words score more points, so scan strategically and think fast! Play Boggle free online — no download or sign-up needed. 2-minute timer, unlimited rounds, straight in your browser.",
+    "desc": "Play Boggle online free in a classic 4x4 letter grid. Race against time, find more words, and start instantly with no download.",
+    "description": "Boggle is the classic 4x4 word game that has challenged vocabulary skills since 1972. Connect adjacent letters, build words of 3 or more letters, and score higher by spotting longer paths fast. Play Boggle online free with a 2-minute timer, unlimited rounds, and no download or sign-up needed. If you want a free online Boggle game in your browser, this page lets you jump straight into practice.",
     "objectives": "Find as many valid words as possible within the time limit by connecting adjacent letters. Longer words earn more points. Beat your high score by expanding your vocabulary and improving your pattern recognition.",
     "howToPlay": "Click adjacent letters (horizontal, vertical, diagonal) to form words of 3+ letters. Each letter can only be used once per word. Longer words score more points.",
     "rules": {
@@ -64,6 +64,14 @@
       {
         "question": "Can I play Boggle online for free?",
         "answer": "Yes! You can play Boggle free right in your browser — no download or sign-up required. Click adjacent letters to form words, race against the 2-minute timer, and try to beat your high score."
+      },
+      {
+        "question": "Is this a classic 4x4 Boggle board?",
+        "answer": "Yes. This version uses the classic 4x4 Boggle format with 16 letter tiles, making it a good match for players searching for standard Boggle rules, scoring, and practice."
+      },
+      {
+        "question": "Can I use this page to practice Boggle strategy?",
+        "answer": "Yes. Because you can start unlimited rounds instantly, this page works well for practicing systematic scans, spotting prefixes and suffixes, and improving speed on a standard Boggle board."
       }
     ]
   },
@@ -126,6 +134,14 @@
       {
         "question": "可以免费在线玩字母方阵吗？",
         "answer": "是的！你可以直接在浏览器中免费玩字母方阵 — 无需下载或注册。点击相邻字母组成单词，与2分钟计时器赛跑，挑战你的最高分。"
+      },
+      {
+        "question": "这是经典的 4x4 Boggle 棋盘吗？",
+        "answer": "是的。这个版本使用经典的 4x4 Boggle 形式，共 16 个字母格，很适合想练习标准 Boggle 规则、计分和找词速度的玩家。"
+      },
+      {
+        "question": "我可以用这个页面练习 Boggle 策略吗？",
+        "answer": "可以。因为这里可以无限开局、立即重玩，所以很适合练习系统扫描、识别前后缀，以及提升经典 Boggle 棋盘上的找词速度。"
       }
     ]
   }

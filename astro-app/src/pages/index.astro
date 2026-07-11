@@ -66,6 +66,7 @@ const storyGames = storiesCollection.map(entry => ({
 
 const siteRating = getSiteAverageRating()
 const guidePriority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 3 }
+const boggleSpotlight = games.find(g => g.slug === 'boggle')
 ---
 
 <BaseLayout
@@ -227,6 +228,42 @@ const guidePriority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 
           )})}
         </div>
       </section>
+
+      {boggleSpotlight && (
+        <section class="mb-10">
+          <div class="overflow-hidden rounded-3xl border border-emerald-200 bg-gradient-to-r from-emerald-50 via-white to-amber-50 p-6 shadow-sm dark:border-emerald-900/40 dark:from-emerald-950/60 dark:via-slate-900 dark:to-slate-950">
+            <div class="grid gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-center">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-600 dark:text-emerald-400">Spotlight Game</p>
+                <h2 class="mt-2 text-2xl font-bold text-gray-900 dark:text-white">Play Boggle Online Free</h2>
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-gray-700 dark:text-slate-300">
+                  Ruleword is already getting search demand for Boggle, so we are leaning into it here as a core word game. Play classic 4x4 rounds instantly, then use the guide to learn rules, scoring, and better word-finding patterns.
+                </p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                  <a href="/games/boggle/" class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">Play Boggle</a>
+                  <a href="/guides/boggle/" class="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-800 transition-colors hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800">Boggle Strategy Guide</a>
+                </div>
+              </div>
+              <a
+                href="/games/boggle/"
+                class={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${boggleSpotlight.color} p-6 text-white shadow-lg`}
+              >
+                <div class="flex items-start justify-between">
+                  <span class="text-5xl">{boggleSpotlight.icon}</span>
+                  <span class="rounded-full bg-black/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider">4x4 Word Game</span>
+                </div>
+                <h3 class="mt-10 text-2xl font-bold">{boggleSpotlight.name}</h3>
+                <p class="mt-2 text-sm text-white/85">{boggleSpotlight.desc}</p>
+                <div class="mt-4 flex flex-wrap gap-2 text-[11px] text-white/90">
+                  <span class="rounded-full bg-white/15 px-2.5 py-1">No download</span>
+                  <span class="rounded-full bg-white/15 px-2.5 py-1">Unlimited rounds</span>
+                  <span class="rounded-full bg-white/15 px-2.5 py-1">Practice strategy</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
 
       <!-- AI Story Games -->
       {storyGames.length > 0 && (
