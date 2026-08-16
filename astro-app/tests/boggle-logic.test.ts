@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import {
   bogglePathToWord,
   canAddBoggleCell,
@@ -13,6 +13,11 @@ import {
   scoreBoggleWord,
   summarizeBoggleRound,
 } from '../src/games/boggle/logic'
+import {
+  addRecentBoggleRound,
+  getNextBoggleDailyStats,
+  type BoggleRecentRound,
+} from '../src/games/boggle/retention'
 
 describe('Boggle rules', () => {
   it('scores words using standard Boggle values', () => {
@@ -116,5 +121,48 @@ describe('Boggle rules', () => {
       size: 5,
       date: new Date('2026-08-16T00:00:00Z'),
     })).toContain('Daily 2026-08-16 5x5')
+  })
+})
+
+describe('Boggle retention storage', () => {
+  beforeEach(() => localStorage.clear())
+
+  it('tracks daily streaks without double-counting the same day', () => {
+    const first = getNextBoggleDailyStats({ streak: 0, bestStreak: 0, lastPlayedDate: '' }, '2026-08-16')
+    const duplicate = getNextBoggleDailyStats(first, '2026-08-16')
+    const second = getNextBoggleDailyStats(duplicate, '2026-08-17')
+
+    expect(first.streak).toBe(1)
+    expect(duplicate.streak).toBe(1)
+    expect(second.streak).toBe(2)
+    expect(second.bestStreak).toBe(2)
+  })
+
+  it('resets the current streak after a missed day but preserves best streak', () => {
+    const first = getNextBoggleDailyStats({ streak: 0, bestStreak: 0, lastPlayedDate: '' }, '2026-08-16')
+    const second = getNextBoggleDailyStats(first, '2026-08-17')
+    const afterGap = getNextBoggleDailyStats(second, '2026-08-19')
+
+    expect(afterGap.streak).toBe(1)
+    expect(afterGap.bestStreak).toBe(2)
+    expect(afterGap.lastPlayedDate).toBe('2026-08-19')
+  })
+
+  it('keeps only the five most recent rounds', () => {
+    let rounds: BoggleRecentRound[] = []
+    for (let index = 0; index < 6; index++) {
+      rounds = addRecentBoggleRound(rounds, {
+        id: `round-${index}`,
+        playedAt: `2026-08-16T00:0${index}:00.000Z`,
+        mode: 'classic',
+        boardSize: 4,
+        score: index,
+        wordCount: index + 1,
+      })
+    }
+
+    expect(rounds).toHaveLength(5)
+    expect(rounds[0].id).toBe('round-5')
+    expect(rounds[4].id).toBe('round-1')
   })
 })

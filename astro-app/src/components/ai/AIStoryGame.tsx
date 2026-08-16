@@ -12,6 +12,7 @@ import {
   type StoryProgress,
 } from '../../utils/storyTemplates'
 import { getThemeConfig } from '../../utils/storyThemes'
+import { trackRulewordEvent } from '../../utils/analytics'
 import StoryRenderer from './StoryRenderer'
 import ChoicePanel from './ChoicePanel'
 import StatsBar from './StatsBar'
@@ -21,7 +22,16 @@ interface AIStoryGameProps {
   template: string
   settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh-CN' }
   onBack: () => void
-  onShare?: (data: { result: string; score?: number; storyTitle?: string; storyDesc?: string; storySlug?: string }) => void
+  onShare?: (data: {
+    result: string
+    score?: number
+    storyTitle?: string
+    storyDesc?: string
+    storySlug?: string
+    storyEndingId?: string
+    storyUnlockedEndings?: number
+    storyTotalEndings?: number
+  }) => void
   gameId?: string
   gameSlug?: string
   gameName?: string
@@ -124,6 +134,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   const stateRef = useRef(state)
   stateRef.current = state
   const prevChapterIndexRef = useRef(state.currentChapterIndex)
+  const trackedEndingRef = useRef('')
   const [chapterTransition, setChapterTransition] = useState<ChapterTransition | null>(null)
   const [progress, setProgress] = useState<StoryProgress>(() => loadStoryProgress(template.id))
   const [fallbackNotice, setFallbackNotice] = useState('')
@@ -143,8 +154,14 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
     const saved = loadStoryState(template.id)
     if (saved && saved.phase !== 'idle' && saved.history.length > 0) {
       dispatch({ type: 'RESTORE', savedState: saved })
+      trackRulewordEvent('story_resume', {
+        story_id: template.id,
+        story_slug: gameSlug,
+        chapter_index: saved.currentChapterIndex,
+        history_length: saved.history.length,
+      })
     }
-  }, [template.id])
+  }, [gameSlug, template.id])
 
   useEffect(() => {
     if (state.phase !== 'idle' && state.phase !== 'loading') {
@@ -152,6 +169,20 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       setProgress(recordStoryProgress(template.id, state))
     }
   }, [state, template.id])
+
+  useEffect(() => {
+    if (state.phase !== 'ended' || !state.ending) return
+    const eventKey = `${template.id}:${state.ending.endingId}`
+    if (trackedEndingRef.current === eventKey) return
+    trackedEndingRef.current = eventKey
+    trackRulewordEvent('story_complete', {
+      story_id: template.id,
+      story_slug: gameSlug,
+      ending_id: state.ending.endingId,
+      chapter_index: state.currentChapterIndex,
+      history_length: state.history.length,
+    })
+  }, [gameSlug, state.currentChapterIndex, state.ending, state.history.length, state.phase, template.id])
 
   // Detect chapter transitions
   useEffect(() => {
@@ -173,11 +204,22 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
   const handleStart = useCallback(() => {
     dispatch({ type: 'START', template })
-  }, [template])
+    trackRulewordEvent('story_start', {
+      story_id: template.id,
+      story_slug: gameSlug,
+      template_type: template.templateType,
+    })
+  }, [gameSlug, template])
 
   const handleChoice = useCallback(async (choiceId: string) => {
     const currentState = stateRef.current
     dispatch({ type: 'MAKE_CHOICE', choiceId })
+    trackRulewordEvent('story_choice', {
+      story_id: template.id,
+      story_slug: gameSlug,
+      chapter_index: currentState.currentChapterIndex,
+      turn_number: currentState.turnNumber,
+    })
 
     const node: StoryNode | null = await fetchStoryNode({
       templateId: template.id,
@@ -216,7 +258,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
         dispatch({ type: 'ERROR', error: 'Failed to get story content. Please try again.' })
       }
     }
-  }, [template, settings.language])
+  }, [gameSlug, template, settings.language])
 
   const handleReplay = useCallback(() => {
     clearStoryState(template.id)
@@ -231,9 +273,19 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
         storyTitle: state.ending.title,
         storyDesc: state.ending.description,
         storySlug: gameSlug,
+        storyEndingId: state.ending.endingId,
+        storyUnlockedEndings: progress.unlockedEndings.length,
+        storyTotalEndings: template.storySkeleton.endings.length,
+      })
+      trackRulewordEvent('story_share', {
+        story_id: template.id,
+        story_slug: gameSlug,
+        ending_id: state.ending.endingId,
+        unlocked_endings: progress.unlockedEndings.length,
+        total_endings: template.storySkeleton.endings.length,
       })
     }
-  }, [onShare, state.ending, gameSlug])
+  }, [onShare, state.ending, gameSlug, progress.unlockedEndings.length, template.storySkeleton.endings.length])
 
   // Keyboard shortcuts (1-4 for choices)
   useEffect(() => {
@@ -432,7 +484,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       {state.phase === 'ended' && state.ending && (
         <StoryEndScreen
           ending={{
-            endingId: '',
+            endingId: state.ending.endingId,
             title: state.ending.title,
             description: state.ending.description,
             summary: '',

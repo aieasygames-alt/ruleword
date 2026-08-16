@@ -2,8 +2,16 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import StoryGameWithShare from '../../components/ai/StoryGameWithShare'
 import { getCollection } from 'astro:content'
-import { languages, type Language } from '../../data/i18n'
 import { getGameRating } from '../../data/gameRatings'
+
+type StoryListItem = {
+  slug: string
+  name: string
+  desc: string
+  icon: string
+  color: string
+  templateType: string
+}
 
 export async function getStaticPaths() {
   const stories = await getCollection('stories')
@@ -22,10 +30,10 @@ export async function getStaticPaths() {
 }
 
 const { story, allStories } = Astro.props
-const lang: Language = 'en'
+const allStoryItems = allStories as StoryListItem[]
 
 // Get other stories for cross-linking
-const otherStories = allStories.filter((s: any) => s.slug !== story.slug).slice(0, 4)
+const otherStories = allStoryItems.filter(s => s.slug !== story.slug).slice(0, 4)
 
 const storyName = story.en.name
 const storyDesc = story.en.desc
@@ -37,6 +45,8 @@ const storyFaq = story.en.faq || []
 const storyIcon = story.icon
 const characters = story.storySkeleton.characters
 const chapters = story.storySkeleton.chapters
+const endings = story.storySkeleton.endings
+const storyStats = story.uiConfig.stats || []
 
 const seoTitle = `${storyName} - Play AI Interactive Story Game Online Free | Free Games Hub`
 const seoDescription = storyDesc
@@ -98,8 +108,43 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
       </div>
     </nav>
 
+    <!-- Story Overview -->
+    <section class="border-b border-slate-800 bg-slate-900/60 px-4 py-5 sm:px-6">
+      <div class="mx-auto grid max-w-5xl gap-5 lg:grid-cols-[1fr_320px]">
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">{storyIcon}</span>
+            <div>
+              <p class="text-xs uppercase tracking-wide text-pink-300">{templateType.replace(/-/g, ' ')}</p>
+              <h2 class="text-2xl font-bold text-white">{storyName}</h2>
+            </div>
+          </div>
+          <p class="max-w-3xl text-sm leading-6 text-slate-300">{storyDesc}</p>
+          <div class="flex flex-wrap gap-2 text-xs text-slate-300">
+            <span class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-1.5">{chapters.length} chapters</span>
+            <span class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-1.5">{endings.length} endings</span>
+            <span class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-1.5">15-25 min playthrough</span>
+            <span class="rounded-lg border border-slate-700 bg-slate-950 px-3 py-1.5">Auto-save enabled</span>
+          </div>
+        </div>
+        <div class="rounded-xl border border-slate-700/70 bg-slate-950/70 p-4">
+          <h3 class="mb-3 text-sm font-semibold text-white">Story Systems</h3>
+          <div class="space-y-2">
+            {storyStats.length > 0 ? storyStats.slice(0, 4).map(stat => (
+              <div class="flex items-center justify-between rounded-lg bg-slate-800/70 px-3 py-2 text-sm">
+                <span class="flex items-center gap-2 text-slate-300"><span>{stat.icon}</span>{stat.label}</span>
+                <span class="text-slate-500">{stat.initialValue}</span>
+              </div>
+            )) : (
+              <p class="text-sm text-slate-400">Choices, chapters, and endings adapt to your decisions.</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Game Area - fixed viewport height (dvh for mobile browser compatibility) -->
-    <main class="h-[calc(100dvh-3.5rem)] relative">
+    <main class="h-[calc(100dvh-15rem)] min-h-[620px] relative">
       <StoryGameWithShare
         client:load
         template={JSON.stringify(story)}
@@ -146,11 +191,28 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
             <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
               <span class="text-2xl">📚</span> Story Chapters
             </h3>
-            <div class="space-y-2">
+            <div class="grid gap-3 sm:grid-cols-2">
               {chapters.map((chapter, i) => (
-                <div class="flex items-center gap-3 text-slate-300">
-                  <span class="text-pink-400 font-mono text-sm w-6">Ch.{i + 1}</span>
-                  <span class="text-sm">{chapter.title || chapter.goal}</span>
+                <div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4">
+                  <div class="mb-1 text-xs font-mono text-pink-400">Chapter {i + 1}</div>
+                  <h4 class="text-sm font-semibold text-white">{chapter.title || `Chapter ${i + 1}`}</h4>
+                  <p class="mt-1 text-xs leading-5 text-slate-400">{chapter.goal}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Endings -->
+          <div>
+            <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+              <span class="text-2xl">🏁</span> Endings to Unlock
+            </h3>
+            <div class="grid gap-3 sm:grid-cols-2">
+              {endings.map((ending, i) => (
+                <div class="rounded-xl border border-slate-700/50 bg-slate-800/40 p-4">
+                  <div class="mb-1 text-xs font-mono text-pink-400">Ending {i + 1}</div>
+                  <h4 class="text-sm font-semibold text-white">{ending.title}</h4>
+                  <p class="mt-1 text-xs leading-5 text-slate-400">{ending.condition}</p>
                 </div>
               ))}
             </div>
@@ -210,7 +272,7 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
       <div class="max-w-4xl mx-auto">
         <h3 class="text-lg font-semibold mb-4 text-center">Explore More AI Stories</h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-          {otherStories.map((s: any) => (
+          {otherStories.map(s => (
             <a href={`/stories/${s.slug}/`} class="group block bg-slate-800/60 rounded-xl overflow-hidden hover:bg-slate-700/60 transition-all border border-slate-700/50">
               <div class={`h-1 bg-gradient-to-r ${s.color}`} />
               <div class="p-3">

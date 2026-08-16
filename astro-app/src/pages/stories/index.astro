@@ -1,9 +1,24 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
+import StoriesProgressShelf from '../../components/ai/StoriesProgressShelf'
 
 const stories = await getCollection('stories')
 const storyData = stories.map(entry => entry.data)
+const storySummaries = storyData.map(story => ({
+  slug: story.slug,
+  name: story.en.name,
+  icon: story.icon,
+  color: story.color,
+  endings: story.storySkeleton.endings.length,
+  chapters: story.storySkeleton.chapters.length,
+}))
+const featuredStories = storyData
+  .filter(story => ['ai-dating-simulator', 'ai-murder-mystery', 'startup-simulator'].includes(story.slug))
+  .slice(0, 3)
+const trendingStories = storyData
+  .filter(story => ['ai-zombie-survival', 'ai-fantasy-adventure', 'ai-escape-room', 'ai-crypto-trader'].includes(story.slug))
+  .slice(0, 4)
 
 // Group stories by genre for better SEO structure
 const genreGroups = [
@@ -17,8 +32,9 @@ const genreMap = new Map<string, typeof storyData>()
 storyData.forEach(s => {
   const g = genreGroups.find(g => g.types.includes(s.templateType))
   const key = g ? g.label : 'Strategy & Simulation'
-  if (!genreMap.has(key)) genreMap.set(key, [])
-  genreMap.get(key)!.push(s)
+  const groupStories = genreMap.get(key) ?? []
+  groupStories.push(s)
+  genreMap.set(key, groupStories)
 })
 
 const seoTitle = 'AI Story Games - 15+ Free Interactive Fiction Games Online'
@@ -110,8 +126,51 @@ const breadcrumbItems = [
       </div>
     </section>
 
+    <StoriesProgressShelf client:load stories={storySummaries} />
+
+    <!-- Featured Stories -->
+    <section class="max-w-5xl mx-auto px-4 py-10">
+      <div class="mb-4 flex items-end justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold">Featured AI Stories</h2>
+          <p class="text-sm text-slate-400">Strong starting points with clear goals, memorable characters, and multiple endings.</p>
+        </div>
+      </div>
+      <div class="grid gap-4 md:grid-cols-3">
+        {featuredStories.map(story => (
+          <a href={`/stories/${story.slug}/`} class="group block overflow-hidden rounded-xl border border-slate-700/60 bg-slate-800/60 transition-all hover:border-pink-500/60">
+            <div class={`h-2 bg-gradient-to-r ${story.color}`} />
+            <div class="space-y-4 p-5">
+              <div class="flex items-center gap-3">
+                <span class="text-3xl">{story.icon}</span>
+                <div>
+                  <h3 class="font-bold text-white group-hover:text-pink-300">{story.en.name}</h3>
+                  <p class="text-xs uppercase tracking-wide text-slate-500">{story.templateType.replace(/-/g, ' ')}</p>
+                </div>
+              </div>
+              <p class="line-clamp-3 text-sm leading-relaxed text-slate-400">{story.en.desc}</p>
+              <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                <div class="rounded-lg bg-slate-900/70 px-2 py-2">
+                  <div class="font-semibold text-white">{story.storySkeleton.chapters.length}</div>
+                  <div class="text-slate-500">chapters</div>
+                </div>
+                <div class="rounded-lg bg-slate-900/70 px-2 py-2">
+                  <div class="font-semibold text-white">{story.storySkeleton.endings.length}</div>
+                  <div class="text-slate-500">endings</div>
+                </div>
+                <div class="rounded-lg bg-slate-900/70 px-2 py-2">
+                  <div class="font-semibold text-white">15-25</div>
+                  <div class="text-slate-500">minutes</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
     <!-- Stories by Genre -->
-    <section class="max-w-5xl mx-auto px-4 py-12 space-y-12">
+    <section class="max-w-5xl mx-auto px-4 py-12 space-y-12 border-t border-slate-800">
       {genreGroups.map(g => {
         const groupStories = genreMap.get(g.label)
         if (!groupStories || groupStories.length === 0) return null
@@ -142,7 +201,9 @@ const breadcrumbItems = [
                       <span>•</span>
                       <span>{story.storySkeleton.chapters.length} chapters</span>
                       <span>•</span>
-                      <span>{story.storySkeleton.endings.length}+ endings</span>
+                      <span>{story.storySkeleton.endings.length} endings</span>
+                      <span>•</span>
+                      <span>15-25 min</span>
                     </div>
                     <div class="pt-2">
                       <span class="inline-block px-4 py-1.5 bg-pink-500/20 text-pink-300 rounded-lg text-sm group-hover:bg-pink-500/30 transition-colors">
@@ -156,6 +217,24 @@ const breadcrumbItems = [
           </div>
         )
       })}
+    </section>
+
+    <!-- Trending Themes -->
+    <section class="bg-slate-900/40 border-t border-slate-800 py-10 px-4">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-xl font-bold mb-4">Trending Story Themes</h2>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {trendingStories.map(story => (
+            <a href={`/stories/${story.slug}/`} class="group flex items-center gap-3 rounded-xl border border-slate-700/50 bg-slate-800/50 p-4 transition-colors hover:border-pink-500/50">
+              <span class="text-2xl">{story.icon}</span>
+              <div>
+                <h3 class="line-clamp-1 text-sm font-semibold text-white group-hover:text-pink-300">{story.en.name}</h3>
+                <p class="text-xs text-slate-500">{story.storySkeleton.endings.length} endings to unlock</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
     </section>
 
     <!-- What are AI Story Games -->

@@ -42,12 +42,24 @@ export default function StoryGameWithShare({ template, gameName, gameSlug, gameE
     storyTitle?: string
     storyDesc?: string
     storySlug?: string
+    storyEndingId?: string
+    storyUnlockedEndings?: number
+    storyTotalEndings?: number
   }>({
     gameName,
     gameEmoji,
   })
 
-  const handleShare = useCallback((data: { result: string; score?: number; storyTitle?: string; storyDesc?: string; storySlug?: string }) => {
+  const handleShare = useCallback((data: {
+    result: string
+    score?: number
+    storyTitle?: string
+    storyDesc?: string
+    storySlug?: string
+    storyEndingId?: string
+    storyUnlockedEndings?: number
+    storyTotalEndings?: number
+  }) => {
     setShareData({
       gameName,
       gameEmoji,

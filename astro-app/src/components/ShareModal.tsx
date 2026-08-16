@@ -12,6 +12,9 @@ type ShareData = {
   storyTitle?: string   // ending title (e.g. "True Love")
   storyDesc?: string     // ending description
   storySlug?: string     // story URL slug for deep link
+  storyEndingId?: string
+  storyUnlockedEndings?: number
+  storyTotalEndings?: number
 }
 
 type Props = {
@@ -23,6 +26,7 @@ type Props = {
 
 export default function ShareModal({ isOpen, onClose, shareData, darkMode = true }: Props) {
   const [copied, setCopied] = useState(false)
+  const [shared, setShared] = useState(false)
 
   if (!isOpen) return null
 
@@ -32,6 +36,12 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
     if (shareData.storyTitle) {
       let text = `${shareData.gameEmoji} ${shareData.gameName}\n`
       text += `\n📖 Ending: ${shareData.storyTitle}\n`
+      if (shareData.storyEndingId) {
+        text += `🏁 Ending ID: ${shareData.storyEndingId}\n`
+      }
+      if (shareData.storyUnlockedEndings !== undefined && shareData.storyTotalEndings !== undefined) {
+        text += `🔓 Collection: ${shareData.storyUnlockedEndings}/${shareData.storyTotalEndings} endings\n`
+      }
       if (shareData.storyDesc) {
         text += `\n${shareData.storyDesc}\n`
       }
@@ -78,7 +88,7 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
       await navigator.clipboard.writeText(text)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
+    } catch {
       // 降级方案
       const textArea = document.createElement('textarea')
       textArea.value = text
@@ -88,6 +98,31 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
       document.body.removeChild(textArea)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  const handleNativeShare = async () => {
+    if (!navigator.share) {
+      await handleCopy()
+      return
+    }
+
+    const url = shareData.storySlug
+      ? `https://ruleword.com/stories/${shareData.storySlug}/`
+      : 'https://ruleword.com'
+
+    try {
+      await navigator.share({
+        title: shareData.storyTitle
+          ? `${shareData.gameName}: ${shareData.storyTitle}`
+          : shareData.gameName,
+        text: generateShareText(),
+        url,
+      })
+      setShared(true)
+      setTimeout(() => setShared(false), 2000)
+    } catch {
+      // User cancelled or the platform rejected the share payload.
     }
   }
 
@@ -150,8 +185,18 @@ export default function ShareModal({ isOpen, onClose, shareData, darkMode = true
           </div>
         </div>
 
-        {/* Copy Button */}
-        <div className="p-6">
+        {/* Share Actions */}
+        <div className="grid grid-cols-1 gap-3 p-6 sm:grid-cols-2">
+          <button
+            onClick={handleNativeShare}
+            className={`w-full py-3 rounded-xl font-semibold transition-all ${
+              shared
+                ? 'bg-green-600 text-white'
+                : `${darkMode ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-blue-600 hover:bg-blue-500 text-white'}`
+            }`}
+          >
+            {shared ? '✅ Shared!' : '↗ Share'}
+          </button>
           <button
             onClick={handleCopy}
             className={`w-full py-3 rounded-xl font-semibold transition-all ${

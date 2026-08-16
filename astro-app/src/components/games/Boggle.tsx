@@ -15,6 +15,17 @@ import {
   scoreBoggleWord,
   summarizeBoggleRound,
 } from '../../games/boggle/logic'
+import {
+  BOGGLE_BEST_SCORE_KEY,
+  getBoggleStorage,
+  readBoggleDailyStats,
+  readRecentBoggleRounds,
+  saveRecentBoggleRound,
+  updateBoggleDailyStats,
+  type BoggleDailyStats,
+  type BoggleRecentRound,
+} from '../../games/boggle/retention'
+import { trackRulewordEvent } from '../../utils/analytics'
 
 type Settings = {
   darkMode: boolean
@@ -309,6 +320,8 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   const [revealedHints, setRevealedHints] = useState<Set<string>>(new Set())
   const [hintText, setHintText] = useState('')
   const [shareStatus, setShareStatus] = useState('')
+  const [recentRounds, setRecentRounds] = useState<BoggleRecentRound[]>([])
+  const [dailyStats, setDailyStats] = useState<BoggleDailyStats>({ streak: 0, bestStreak: 0, lastPlayedDate: '' })
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
@@ -317,8 +330,10 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
 
   useEffect(() => {
     loadDictionary()
-    const stored = window.localStorage.getItem('ruleword:boggle:bestScore')
+    const stored = getBoggleStorage()?.getItem(BOGGLE_BEST_SCORE_KEY)
     if (stored) setBestScore(Number(stored) || 0)
+    setRecentRounds(readRecentBoggleRounds())
+    setDailyStats(readBoggleDailyStats())
   }, [])
 
   const clearSelection = useCallback(() => {
@@ -334,15 +349,35 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
     try {
       const summary = summarizeBoggleRound(board, foundWords, getDictionary())
       setRoundSummary(summary)
+      const nextDailyStats = mode === 'daily' ? updateBoggleDailyStats() : dailyStats
+      if (mode === 'daily') setDailyStats(nextDailyStats)
+      setRecentRounds(saveRecentBoggleRound({
+        id: `${Date.now()}-${mode}-${boardSize}`,
+        playedAt: new Date().toISOString(),
+        mode,
+        boardSize,
+        score,
+        wordCount: foundWords.size,
+        possibleWordCount: summary.possibleWords.length,
+      }))
+      trackRulewordEvent('boggle_complete', {
+        mode,
+        board_size: boardSize,
+        score,
+        word_count: foundWords.size,
+        possible_word_count: summary.possibleWords.length,
+        missed_word_count: summary.missedWords.length,
+        daily_streak: nextDailyStats.streak,
+      })
       setBestScore(prev => {
         const next = Math.max(prev, score)
-        window.localStorage.setItem('ruleword:boggle:bestScore', String(next))
+        getBoggleStorage()?.setItem(BOGGLE_BEST_SCORE_KEY, String(next))
         return next
       })
     } catch {
       setRoundSummary(null)
     }
-  }, [board, clearSelection, foundWords, score])
+  }, [board, boardSize, clearSelection, dailyStats, foundWords, mode, score])
 
   const startGame = useCallback(() => {
     setBoard(mode === 'daily' ? generateDailyBoggleBoard(new Date(), boardSize) : generateBoggleBoard(Math.random, boardSize))
@@ -359,6 +394,10 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
     setRevealedHints(new Set())
     setHintText('')
     setShareStatus('')
+    trackRulewordEvent('boggle_start', {
+      mode,
+      board_size: boardSize,
+    })
   }, [boardSize, mode])
 
   useEffect(() => {
@@ -432,7 +471,12 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
     })
     if (hintedWord) setRevealedHints(prev => new Set([...prev, hintedWord]))
     setHintText(hint)
-  }, [board, foundWords, revealedHints])
+    trackRulewordEvent('boggle_hint', {
+      mode,
+      board_size: boardSize,
+      revealed_hints: revealedHints.size + 1,
+    })
+  }, [board, boardSize, foundWords, mode, revealedHints])
 
   const handleShare = useCallback(async () => {
     const text = createBoggleShareText({
@@ -445,11 +489,23 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
     })
     if (onShare) {
       onShare({ score, result: text })
+      trackRulewordEvent('boggle_share', {
+        mode,
+        board_size: boardSize,
+        score,
+        word_count: foundWords.size,
+      })
       return
     }
     try {
       await navigator.clipboard.writeText(text)
       setShareStatus('Copied')
+      trackRulewordEvent('boggle_share', {
+        mode,
+        board_size: boardSize,
+        score,
+        word_count: foundWords.size,
+      })
       window.setTimeout(() => setShareStatus(''), 1400)
     } catch {
       setShareStatus('Share unavailable')
@@ -565,6 +621,29 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
               <div className="rounded-lg bg-slate-800/70 px-4 py-3">Mouse, touch, keyboard</div>
               <div className="rounded-lg bg-slate-800/70 px-4 py-3">Daily board, hints, share result</div>
             </div>
+            <div className="grid gap-3 text-left sm:grid-cols-[0.8fr_1.2fr]">
+              <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                <div className="text-xs uppercase text-slate-500">Daily Streak</div>
+                <div className="mt-1 text-2xl font-bold text-amber-300">{dailyStats.streak}</div>
+                <div className="text-xs text-slate-400">Best streak: {dailyStats.bestStreak}</div>
+              </div>
+              <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="text-xs uppercase text-slate-500">Recent Rounds</div>
+                  <div className="text-xs text-slate-600">{recentRounds.length}/5</div>
+                </div>
+                <div className="space-y-2">
+                  {recentRounds.length > 0 ? recentRounds.slice(0, 3).map(round => (
+                    <div key={round.id} className="flex items-center justify-between rounded-lg bg-slate-800/70 px-3 py-2 text-xs">
+                      <span className="capitalize text-slate-300">{round.mode} {round.boardSize}x{round.boardSize}</span>
+                      <span className="text-slate-400">{round.score} pts · {round.wordCount} words</span>
+                    </div>
+                  )) : (
+                    <div className="rounded-lg bg-slate-800/70 px-3 py-2 text-xs text-slate-500">Finish a round to start your history.</div>
+                  )}
+                </div>
+              </div>
+            </div>
             <button onClick={startGame} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
               Start Game
             </button>
@@ -667,6 +746,14 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                   <div className="text-xl font-bold text-emerald-400">{bestScore}</div>
                 </div>
               </div>
+
+              {mode === 'daily' && (
+                <div className="mb-4 rounded-xl border border-amber-400/20 bg-amber-400/10 p-3">
+                  <div className="text-xs uppercase text-amber-200/80">Daily Boggle Streak</div>
+                  <div className="mt-1 text-lg font-bold text-amber-200">{dailyStats.streak} day{dailyStats.streak === 1 ? '' : 's'}</div>
+                  <div className="text-xs text-amber-100/70">Best streak: {dailyStats.bestStreak}</div>
+                </div>
+              )}
 
               {roundSummary && (
                 <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
