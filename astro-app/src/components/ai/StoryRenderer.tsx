@@ -27,6 +27,22 @@ const emotionEmoji: Record<string, string> = {
   neutral: '😐',
 }
 
+function MetadataDelta({ update }: { update?: Record<string, number> }) {
+  if (!update || Object.keys(update).length === 0) return null
+  return (
+    <div className="mt-2 flex flex-wrap gap-1">
+      {Object.entries(update).map(([key, value]) => (
+        <span
+          key={key}
+          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${value >= 0 ? 'bg-emerald-500/15 text-emerald-300' : 'bg-red-500/15 text-red-300'}`}
+        >
+          {key.replace(/-/g, ' ')} {value >= 0 ? '+' : ''}{value}
+        </span>
+      ))}
+    </div>
+  )
+}
+
 export default function StoryRenderer({ history, isLatest, characters }: StoryRendererProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -65,6 +81,7 @@ export default function StoryRenderer({ history, isLatest, characters }: StoryRe
                 ) : (
                   <p className="text-slate-200 text-sm leading-relaxed">{entry.text}</p>
                 )}
+                <MetadataDelta update={entry.metadataUpdate} />
               </div>
             </div>
           )
@@ -78,6 +95,7 @@ export default function StoryRenderer({ history, isLatest, characters }: StoryRe
               ) : (
                 <p className="text-slate-300 text-sm leading-relaxed italic">{entry.text}</p>
               )}
+              <MetadataDelta update={entry.metadataUpdate} />
             </div>
           </div>
         )

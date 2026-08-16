@@ -1,4 +1,20 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
+import {
+  BOGGLE_TIME_LIMIT,
+  type BoggleBoard,
+  type BoggleBoardSize,
+  type BoggleCell,
+  type BoggleMode,
+  type BoggleRoundSummary,
+  bogglePathToWord,
+  canAddBoggleCell,
+  createBoggleShareText,
+  generateDailyBoggleBoard,
+  generateBoggleBoard,
+  getBoggleHint,
+  scoreBoggleWord,
+  summarizeBoggleRound,
+} from '../../games/boggle/logic'
 
 type Settings = {
   darkMode: boolean
@@ -9,33 +25,11 @@ type Settings = {
 type BoggleProps = {
   settings: Settings
   onBack: () => void
+  onShare?: (data: { score?: number; result?: string }) => void
   toggleLanguage: () => void
   toggleTheme: () => void
   toggleSound: () => void
 }
-
-const GRID_SIZE = 4
-const TIME_LIMIT = 120 // 2 minutes
-
-// Dice configuration for Boggle (standard)
-const DICE = [
-  ['R', 'I', 'F', 'O', 'B', 'X'],
-  ['I', 'F', 'E', 'H', 'E', 'Y'],
-  ['D', 'E', 'N', 'O', 'W', 'S'],
-  ['U', 'T', 'O', 'K', 'N', 'D'],
-  ['H', 'M', 'S', 'R', 'A', 'O'],
-  ['L', 'U', 'P', 'E', 'T', 'S'],
-  ['A', 'C', 'I', 'T', 'O', 'A'],
-  ['Y', 'L', 'G', 'K', 'U', 'E'],
-  ['Qu', 'B', 'M', 'J', 'O', 'A'],
-  ['E', 'H', 'I', 'S', 'P', 'N'],
-  ['V', 'E', 'T', 'I', 'G', 'N'],
-  ['B', 'A', 'L', 'I', 'Y', 'T'],
-  ['E', 'Z', 'A', 'V', 'N', 'D'],
-  ['R', 'A', 'L', 'E', 'S', 'C'],
-  ['U', 'W', 'I', 'L', 'R', 'G'],
-  ['P', 'A', 'C', 'E', 'M', 'D'],
-]
 
 // Fallback common words used until the full dictionary (~76k words from /data/words-en.txt) loads.
 // Lets the game stay playable on first paint even if the fetch is slow or fails.
@@ -250,6 +244,7 @@ const FALLBACK_WORDS = new Set([
   'yours', 'youth', 'zebra', 'zesty',
 ])
 
+
 // Async-loaded full dictionary. Module-level cache shared across all Boggle instances.
 let dictionaryPromise: Promise<Set<string>> | null = null
 let dictionaryCache: Set<string> | null = null
@@ -263,7 +258,7 @@ function loadDictionary(): Promise<Set<string>> {
         const words = new Set<string>()
         for (const w of text.split('\n')) {
           const trimmed = w.trim().toLowerCase()
-          if (trimmed.length >= 3 && trimmed.length <= 8 && /^[a-z]+$/.test(trimmed)) {
+          if (trimmed.length >= 3 && trimmed.length <= 16 && /^[a-z]+$/.test(trimmed)) {
             words.add(trimmed)
           }
         }
@@ -275,282 +270,246 @@ function loadDictionary(): Promise<Set<string>> {
   return dictionaryPromise
 }
 
-// Public accessor used by the game-over screen to enumerate all valid words on the board.
 function getDictionary(): Set<string> {
   return dictionaryCache ?? FALLBACK_WORDS
 }
 
-// Synchronous validator used during play. Returns true if the word exists in either
-// the loaded dictionary or the fallback set.
 function isValidWord(word: string): boolean {
   const lower = word.toLowerCase()
   if (dictionaryCache) return dictionaryCache.has(lower)
   return FALLBACK_WORDS.has(lower)
 }
 
-// Find every dictionary word formable on the board via adjacent traversals.
-// Used by the game-over screen to show words the player missed.
-function findAllBoardWords(board: string[][]): Set<string> {
-  const dict = getDictionary()
-  const rows = board.length
-  const cols = board[0].length
-  const found = new Set<string>()
-
-  const dfs = (r: number, c: number, path: string, visited: Set<string>) => {
-    if (path.length >= 3 && dict.has(path.toLowerCase())) {
-      found.add(path.toUpperCase())
-    }
-    if (path.length >= 8) return
-    for (let dr = -1; dr <= 1; dr++) {
-      for (let dc = -1; dc <= 1; dc++) {
-        if (dr === 0 && dc === 0) continue
-        const nr = r + dr
-        const nc = c + dc
-        if (nr < 0 || nr >= rows || nc < 0 || nc >= cols) continue
-        const key = `${nr},${nc}`
-        if (visited.has(key)) continue
-        visited.add(key)
-        dfs(nr, nc, path + board[nr][nc], visited)
-        visited.delete(key)
-      }
-    }
-  }
-
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const visited = new Set<string>([`${r},${c}`])
-      dfs(r, c, board[r][c], visited)
-    }
-  }
-  return found
+function formatTime(seconds: number) {
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  return `${mins}:${secs.toString().padStart(2, '0')}`
 }
 
-// Normalise a tile path back to uppercase letters, collapsing "Qu" → "QU" for dictionary lookup.
-function tilesToWord(tiles: string): string {
-  return tiles.toUpperCase()
+function wordListLabel(words: string[]) {
+  if (words.length === 0) return 'No words yet'
+  return `${words.length} word${words.length === 1 ? '' : 's'}`
 }
 
-function generateBoard(): string[][] {
-  const shuffledDice = [...DICE].sort(() => Math.random() - 0.5)
-  const board: string[][] = []
-
-  for (let i = 0; i < GRID_SIZE; i++) {
-    const row: string[] = []
-    for (let j = 0; j < GRID_SIZE; j++) {
-      const die = shuffledDice[i * GRID_SIZE + j]
-      const letter = die[Math.floor(Math.random() * die.length)]
-      row.push(letter)
-    }
-    board.push(row)
-  }
-
-  return board
-}
-
-export default function Boggle({ settings, onBack }: BoggleProps) {
-  const [board, setBoard] = useState<string[][]>([])
-  const [selectedCells, setSelectedCells] = useState<{ row: number; col: number }[]>([])
+export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
+  const [board, setBoard] = useState<BoggleBoard>([])
+  const [selectedCells, setSelectedCells] = useState<BoggleCell[]>([])
   const [currentWord, setCurrentWord] = useState('')
   const [foundWords, setFoundWords] = useState<Set<string>>(new Set())
   const [score, setScore] = useState(0)
-  const [timeLeft, setTimeLeft] = useState(TIME_LIMIT)
+  const [timeLeft, setTimeLeft] = useState(BOGGLE_TIME_LIMIT)
+  const [mode, setMode] = useState<BoggleMode>('classic')
+  const [boardSize, setBoardSize] = useState<BoggleBoardSize>(4)
   const [gameActive, setGameActive] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [message, setMessage] = useState('')
-  const [missedWords, setMissedWords] = useState<string[]>([])
+  const [roundSummary, setRoundSummary] = useState<BoggleRoundSummary | null>(null)
+  const [bestScore, setBestScore] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [revealedHints, setRevealedHints] = useState<Set<string>>(new Set())
+  const [hintText, setHintText] = useState('')
+  const [shareStatus, setShareStatus] = useState('')
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = isDark ? 'text-white' : 'text-gray-900'
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-
-  // Kick off dictionary load as soon as the component mounts.
   useEffect(() => {
     loadDictionary()
+    const stored = window.localStorage.getItem('ruleword:boggle:bestScore')
+    if (stored) setBestScore(Number(stored) || 0)
   }, [])
 
-  // Start game
-  const startGame = useCallback(() => {
-    setBoard(generateBoard())
-    setSelectedCells([])
-    setCurrentWord('')
-    setFoundWords(new Set())
-    setScore(0)
-    setTimeLeft(TIME_LIMIT)
-    setGameActive(true)
-    setGameOver(false)
-    setMessage('')
-    setMissedWords([])
-  }, [])
-
-  // Timer
-  useEffect(() => {
-    if (gameActive && timeLeft > 0) {
-      timerRef.current = setTimeout(() => {
-        setTimeLeft(prev => prev - 1)
-      }, 1000)
-    } else if (timeLeft === 0 && gameActive) {
-      setGameActive(false)
-      setGameOver(true)
-      // Compute all formable words so we can reveal what the player missed.
-      try {
-        const all = findAllBoardWords(board)
-        const missed = Array.from(all)
-          .filter(w => !foundWords.has(w))
-          .sort((a, b) => b.length - a.length || a.localeCompare(b))
-        setMissedWords(missed)
-      } catch {
-        setMissedWords([])
-      }
-    }
-
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [gameActive, timeLeft])
-
-  // Check if cells are adjacent
-  const isAdjacent = (cell1: { row: number; col: number }, cell2: { row: number; col: number }): boolean => {
-    const rowDiff = Math.abs(cell1.row - cell2.row)
-    const colDiff = Math.abs(cell1.col - cell2.col)
-    return rowDiff <= 1 && colDiff <= 1 && !(rowDiff === 0 && colDiff === 0)
-  }
-
-  // Handle cell click
-  const handleCellClick = (row: number, col: number) => {
-    if (!gameActive) return
-
-    const cellIndex = selectedCells.findIndex(c => c.row === row && c.col === col)
-
-    if (cellIndex !== -1) {
-      // Deselect from this cell onwards
-      const newSelected = selectedCells.slice(0, cellIndex)
-      setSelectedCells(newSelected)
-      setCurrentWord(newSelected.map(c => board[c.row][c.col]).join(''))
-    } else {
-      // Check if adjacent to last selected cell
-      if (selectedCells.length === 0 || isAdjacent(selectedCells[selectedCells.length - 1], { row, col })) {
-        const newSelected = [...selectedCells, { row, col }]
-        setSelectedCells(newSelected)
-        setCurrentWord(prev => prev + board[row][col])
-      }
-    }
-  }
-
-  // Submit word
-  const submitWord = useCallback(() => {
-    if (!currentWord || currentWord.length < 3 || !gameActive) return
-
-    // Normalise "Qu" → "QU" for dictionary lookup and dedup
-    const word = currentWord.toUpperCase().replace(/QU/g, 'QU')
-
-    // Word length for scoring = letters used (Qu counts as 2 letters, matching standard Boggle)
-    const tileCount = currentWord.length
-
-    if (foundWords.has(word)) {
-      setMessage('Already found!')
-      setTimeout(() => setMessage(''), 1500)
-    } else if (isValidWord(word)) {
-      // Scoring matches published rules: 3-4=1, 5=2, 6=3, 7+=5
-      let points = 0
-      if (tileCount <= 4) points = 1
-      else if (tileCount === 5) points = 2
-      else if (tileCount === 6) points = 3
-      else points = 5
-
-      setScore(prev => prev + points)
-      setFoundWords(prev => new Set([...prev, word]))
-      setMessage(`+${points} points!`)
-      setTimeout(() => setMessage(''), 1500)
-    } else {
-      setMessage('Not a valid word')
-      setTimeout(() => setMessage(''), 1500)
-    }
-
-    setSelectedCells([])
-    setCurrentWord('')
-  }, [currentWord, foundWords, gameActive])
-
-  // Clear selection
   const clearSelection = useCallback(() => {
     setSelectedCells([])
     setCurrentWord('')
   }, [])
 
-  // Keyboard input: type letters to extend the path, Enter submits, Backspace undoes, Escape clears.
+  const finishRound = useCallback(() => {
+    setGameActive(false)
+    setGameOver(true)
+    setIsDragging(false)
+    clearSelection()
+    try {
+      const summary = summarizeBoggleRound(board, foundWords, getDictionary())
+      setRoundSummary(summary)
+      setBestScore(prev => {
+        const next = Math.max(prev, score)
+        window.localStorage.setItem('ruleword:boggle:bestScore', String(next))
+        return next
+      })
+    } catch {
+      setRoundSummary(null)
+    }
+  }, [board, clearSelection, foundWords, score])
+
+  const startGame = useCallback(() => {
+    setBoard(mode === 'daily' ? generateDailyBoggleBoard(new Date(), boardSize) : generateBoggleBoard(Math.random, boardSize))
+    setSelectedCells([])
+    setCurrentWord('')
+    setFoundWords(new Set())
+    setScore(0)
+    setTimeLeft(BOGGLE_TIME_LIMIT)
+    setGameActive(true)
+    setGameOver(false)
+    setMessage('')
+    setRoundSummary(null)
+    setIsDragging(false)
+    setRevealedHints(new Set())
+    setHintText('')
+    setShareStatus('')
+  }, [boardSize, mode])
+
+  useEffect(() => {
+    if (gameActive && mode === 'classic' && timeLeft > 0) {
+      timerRef.current = setTimeout(() => setTimeLeft(prev => prev - 1), 1000)
+    } else if (gameActive && mode === 'classic' && timeLeft === 0) {
+      finishRound()
+    }
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+  }, [finishRound, gameActive, mode, timeLeft])
+
+  const addCellToPath = useCallback((row: number, col: number) => {
+    if (!gameActive) return
+
+    const cellIndex = selectedCells.findIndex(c => c.row === row && c.col === col)
+    if (cellIndex !== -1) {
+      const nextPath = selectedCells.slice(0, cellIndex)
+      setSelectedCells(nextPath)
+      setCurrentWord(bogglePathToWord(board, nextPath))
+      return
+    }
+
+    const next = { row, col }
+    if (!canAddBoggleCell(board, selectedCells, next)) return
+    const nextPath = [...selectedCells, next]
+    setSelectedCells(nextPath)
+    setCurrentWord(bogglePathToWord(board, nextPath))
+  }, [board, gameActive, selectedCells])
+
+  const handlePointerMove = useCallback((clientX: number, clientY: number) => {
+    if (!isDragging || !gameActive) return
+    const target = document.elementFromPoint(clientX, clientY)
+    const cell = target?.closest<HTMLButtonElement>('[data-boggle-cell]')
+    const row = Number(cell?.dataset.row)
+    const col = Number(cell?.dataset.col)
+    if (Number.isInteger(row) && Number.isInteger(col)) addCellToPath(row, col)
+  }, [addCellToPath, gameActive, isDragging])
+
+  const submitWord = useCallback(() => {
+    if (!currentWord || currentWord.length < 3 || !gameActive) return
+
+    const word = currentWord.toUpperCase()
+    if (foundWords.has(word)) {
+      setMessage('Already found')
+    } else if (isValidWord(word)) {
+      const points = scoreBoggleWord(word)
+      setScore(prev => prev + points)
+      setFoundWords(prev => new Set([...prev, word]))
+      setMessage(`+${points} points`)
+    } else {
+      setMessage('Not a valid word')
+    }
+
+    window.setTimeout(() => setMessage(''), 1400)
+    clearSelection()
+  }, [clearSelection, currentWord, foundWords, gameActive])
+
+  const handleHint = useCallback(() => {
+    const summary = summarizeBoggleRound(board, foundWords, getDictionary())
+    const hint = getBoggleHint(summary, revealedHints)
+    if (!hint) {
+      setHintText('No more hints available')
+      return
+    }
+    const hintedWord = summary.missedWords.find(word => {
+      const prefixLength = word.length >= 6 ? 2 : 1
+      return hint.startsWith(word.slice(0, prefixLength))
+    })
+    if (hintedWord) setRevealedHints(prev => new Set([...prev, hintedWord]))
+    setHintText(hint)
+  }, [board, foundWords, revealedHints])
+
+  const handleShare = useCallback(async () => {
+    const text = createBoggleShareText({
+      score,
+      wordCount: foundWords.size,
+      possibleWordCount: roundSummary?.possibleWords.length,
+      mode,
+      size: boardSize,
+      date: new Date(),
+    })
+    if (onShare) {
+      onShare({ score, result: text })
+      return
+    }
+    try {
+      await navigator.clipboard.writeText(text)
+      setShareStatus('Copied')
+      window.setTimeout(() => setShareStatus(''), 1400)
+    } catch {
+      setShareStatus('Share unavailable')
+    }
+  }, [boardSize, foundWords.size, mode, onShare, roundSummary?.possibleWords.length, score])
+
   useEffect(() => {
     if (!gameActive) return
     const handler = (e: KeyboardEvent) => {
-      const key = e.key
-      if (key === 'Enter') {
+      if (e.key === 'Enter') {
         e.preventDefault()
         submitWord()
         return
       }
-      if (key === 'Backspace') {
+      if (e.key === 'Backspace') {
         e.preventDefault()
-        if (selectedCells.length > 0) {
-          const trimmed = selectedCells.slice(0, -1)
-          setSelectedCells(trimmed)
-          setCurrentWord(trimmed.map(c => board[c.row][c.col]).join(''))
-        }
+        const nextPath = selectedCells.slice(0, -1)
+        setSelectedCells(nextPath)
+        setCurrentWord(bogglePathToWord(board, nextPath))
         return
       }
-      if (key === 'Escape') {
+      if (e.key === 'Escape') {
         e.preventDefault()
         clearSelection()
         return
       }
-      if (!/^[a-zA-Z]$/.test(key)) return
+      if (!/^[a-zA-Z]$/.test(e.key)) return
       e.preventDefault()
-      const letter = key.toUpperCase()
-      const last = selectedCells[selectedCells.length - 1]
-      const candidates: { row: number; col: number }[] = []
-      for (let r = 0; r < board.length; r++) {
-        for (let c = 0; c < board[r].length; c++) {
-          if (selectedCells.some(s => s.row === r && s.col === c)) continue
-          const tile = board[r][c].toUpperCase()
-          // "Qu" tile matches a press of "Q".
+      const letter = e.key.toUpperCase()
+      for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[row].length; col++) {
+          if (selectedCells.some(cell => cell.row === row && cell.col === col)) continue
+          const tile = board[row][col].toUpperCase()
           if (tile !== letter && !(tile === 'QU' && letter === 'Q')) continue
-          if (!last || isAdjacent(last, { row: r, col: c })) {
-            candidates.push({ row: r, col: c })
-          }
+          if (!canAddBoggleCell(board, selectedCells, { row, col })) continue
+          const nextPath = [...selectedCells, { row, col }]
+          setSelectedCells(nextPath)
+          setCurrentWord(bogglePathToWord(board, nextPath))
+          return
         }
-      }
-      if (candidates.length > 0) {
-        const next = candidates[0]
-        const newSelected = [...selectedCells, next]
-        setSelectedCells(newSelected)
-        setCurrentWord(newSelected.map(c => board[c.row][c.col]).join(''))
       }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [gameActive, selectedCells, board, submitWord, clearSelection])
+  }, [board, clearSelection, gameActive, selectedCells, submitWord])
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, '0')}`
-  }
+  const sortedFoundWords = Array.from(foundWords).sort((a, b) => b.length - a.length || a.localeCompare(b))
 
   return (
     <div className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
-      {/* Header */}
       <header className="sticky top-0 z-10 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
-        <div className="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm"
-          >
-            ← Back
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <button onClick={onBack} className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
+            Back
           </button>
           <div className="flex items-center gap-4">
             <div className="text-center">
               <div className="text-xs text-slate-400">Time</div>
-              <div className={`text-lg font-bold ${timeLeft <= 30 ? 'text-red-400' : 'text-green-400'}`}>
-                {formatTime(timeLeft)}
+              <div className={`text-lg font-bold ${mode === 'classic' && timeLeft <= 30 ? 'text-red-400' : 'text-green-400'}`}>
+                {mode === 'classic' ? formatTime(timeLeft) : 'Relax'}
               </div>
             </div>
             <div className="text-center">
@@ -561,169 +520,202 @@ export default function Boggle({ settings, onBack }: BoggleProps) {
               <div className="text-xs text-slate-400">Words</div>
               <div className="text-lg font-bold text-blue-400">{foundWords.size}</div>
             </div>
+            <div className="hidden sm:block text-center">
+              <div className="text-xs text-slate-400">Best</div>
+              <div className="text-lg font-bold text-emerald-400">{bestScore}</div>
+            </div>
           </div>
-          <button
-            onClick={startGame}
-            className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium"
-          >
-            {gameOver ? 'Play Again' : 'New'}
+          <button onClick={startGame} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
+            {gameActive ? 'New' : gameOver ? 'Play Again' : 'Start'}
           </button>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="flex-1 flex flex-col items-center justify-center p-4 gap-4">
         {!gameActive && !gameOver ? (
-          // Start Screen
-          <div className="text-center space-y-6">
-            <div className="text-6xl">🎲</div>
+          <div className="text-center space-y-6 max-w-2xl">
             <h1 className="text-3xl font-bold">Play Boggle Online Free</h1>
             <p className="text-slate-400 max-w-md mx-auto">
-              Find as many words as possible in {formatTime(TIME_LIMIT)}. Connect adjacent letters, build 3+ letter words, and play unlimited classic 4x4 rounds right in your browser.
+              Race the classic 2-minute timer or practice in relaxed mode. Connect adjacent letters, submit 3+ letter words, and review missed words after every round.
             </p>
-            <div className="max-w-lg mx-auto grid gap-2 text-sm text-slate-300">
-              <div className="rounded-lg bg-slate-800/70 px-4 py-2">Classic 4x4 Boggle board</div>
-              <div className="rounded-lg bg-slate-800/70 px-4 py-2">No download, no sign-up, instant restart</div>
-              <div className="rounded-lg bg-slate-800/70 px-4 py-2">Longer words score more points</div>
+            <div className="inline-flex rounded-xl border border-slate-700 bg-slate-900 p-1">
+              {(['classic', 'relaxed', 'daily'] as BoggleMode[]).map(option => (
+                <button
+                  key={option}
+                  onClick={() => setMode(option)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === option ? 'bg-green-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
+                >
+                  {option === 'classic' ? 'Classic 2:00' : option === 'daily' ? 'Daily' : 'Relaxed'}
+                </button>
+              ))}
             </div>
-            <button
-              onClick={startGame}
-              className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg"
-            >
+            <div className="inline-flex rounded-xl border border-slate-700 bg-slate-900 p-1">
+              {([4, 5] as BoggleBoardSize[]).map(size => (
+                <button
+                  key={size}
+                  onClick={() => setBoardSize(size)}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${boardSize === size ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
+                >
+                  {size}x{size}
+                </button>
+              ))}
+            </div>
+            <div className="grid gap-2 text-sm text-slate-300 sm:grid-cols-3">
+              <div className="rounded-lg bg-slate-800/70 px-4 py-3">Classic 4x4 and Big 5x5</div>
+              <div className="rounded-lg bg-slate-800/70 px-4 py-3">Mouse, touch, keyboard</div>
+              <div className="rounded-lg bg-slate-800/70 px-4 py-3">Daily board, hints, share result</div>
+            </div>
+            <button onClick={startGame} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
               Start Game
             </button>
           </div>
         ) : (
           <>
-            {/* Current Word */}
             <div className="text-center">
-              <div className="text-3xl font-bold tracking-wider min-h-[2.5rem]">
-                {currentWord || '_'}
-              </div>
+              <div className="text-3xl font-bold tracking-wider min-h-[2.5rem]">{currentWord || '_'}</div>
               {message && (
-                <div className={`text-sm mt-1 ${
-                  message.includes('+') ? 'text-green-400'
-                  : message.toLowerCase().includes('already') ? 'text-amber-400'
-                  : 'text-red-400'
-                }`}>
+                <div className={`text-sm mt-1 ${message.includes('+') ? 'text-green-400' : message.includes('Already') ? 'text-amber-400' : 'text-red-400'}`}>
                   {message}
                 </div>
               )}
             </div>
 
-            {/* Game Board */}
-            <div className="bg-slate-800 rounded-xl p-4">
-              <div className="grid grid-cols-4 gap-2">
-                {board.map((row, rowIdx) =>
-                  row.map((letter, colIdx) => {
-                    const isSelected = selectedCells.some(c => c.row === rowIdx && c.col === colIdx)
-                    const isLast = selectedCells.length > 0 &&
-                      selectedCells[selectedCells.length - 1].row === rowIdx &&
-                      selectedCells[selectedCells.length - 1].col === colIdx
-
-                    return (
-                      <button
-                        key={`${rowIdx}-${colIdx}`}
-                        onClick={() => handleCellClick(rowIdx, colIdx)}
-                        className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg text-xl font-bold flex items-center justify-center transition-all ${
-                          isSelected
-                            ? 'bg-green-600 scale-95'
-                            : 'bg-slate-700 hover:bg-slate-600'
-                        } ${isLast ? 'ring-2 ring-yellow-400' : ''}`}
-                      >
-                        {letter}
-                      </button>
-                    )
-                  })
-                )}
+            <div
+              className="bg-slate-800 rounded-xl p-4 touch-none select-none"
+              onPointerMove={event => handlePointerMove(event.clientX, event.clientY)}
+              onPointerLeave={() => setIsDragging(false)}
+              onPointerUp={() => setIsDragging(false)}
+              onPointerCancel={() => setIsDragging(false)}
+            >
+              <div className={`grid gap-2 ${boardSize === 5 ? 'grid-cols-5' : 'grid-cols-4'}`}>
+                {board.map((row, rowIdx) => row.map((letter, colIdx) => {
+                  const isSelected = selectedCells.some(c => c.row === rowIdx && c.col === colIdx)
+                  const isLast = selectedCells[selectedCells.length - 1]?.row === rowIdx && selectedCells[selectedCells.length - 1]?.col === colIdx
+                  return (
+                    <button
+                      key={`${rowIdx}-${colIdx}`}
+                      data-boggle-cell
+                      data-row={rowIdx}
+                      data-col={colIdx}
+                      onPointerDown={event => {
+                        event.currentTarget.setPointerCapture(event.pointerId)
+                        setIsDragging(true)
+                        addCellToPath(rowIdx, colIdx)
+                      }}
+                      className={`${boardSize === 5 ? 'w-11 h-11 sm:w-14 sm:h-14' : 'w-14 h-14 sm:w-16 sm:h-16'} rounded-lg text-xl font-bold flex items-center justify-center transition-all ${isSelected ? 'bg-green-600 scale-95' : 'bg-slate-700 hover:bg-slate-600'} ${isLast ? 'ring-2 ring-yellow-400' : ''}`}
+                    >
+                      {letter}
+                    </button>
+                  )
+                }))}
               </div>
             </div>
 
-            {/* Controls */}
-            <div className="flex gap-2">
-              <button
-                onClick={clearSelection}
-                disabled={!currentWord}
-                className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-              >
+            <div className="flex flex-wrap justify-center gap-2">
+              <button onClick={clearSelection} disabled={!currentWord} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
                 Clear
               </button>
-              <button
-                onClick={submitWord}
-                disabled={!currentWord || currentWord.length < 3}
-                className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-              >
+              <button onClick={submitWord} disabled={!currentWord || currentWord.length < 3} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
                 Submit
               </button>
+              {mode === 'relaxed' && gameActive && (
+                <button onClick={finishRound} className="px-6 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 transition-colors font-medium">
+                  End Round
+                </button>
+              )}
+              {gameActive && (
+                <button onClick={handleHint} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
+                  Hint
+                </button>
+              )}
             </div>
+            {hintText && <div className="text-sm text-blue-300">Hint: {hintText}</div>}
 
-            {/* Found Words */}
-            {foundWords.size > 0 && (
-              <div className="w-full max-w-md">
-                <div className="text-sm text-slate-400 mb-2">Found Words ({foundWords.size}):</div>
-                <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto">
-                  {Array.from(foundWords).sort().map(word => (
-                    <span
-                      key={word}
-                      className="px-2 py-1 bg-slate-700 rounded text-xs"
-                    >
-                      {word}
-                    </span>
-                  ))}
-                </div>
+            <div className="w-full max-w-lg rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <span className="text-slate-400">Found Words</span>
+                <span className="text-slate-500">{wordListLabel(sortedFoundWords)}</span>
               </div>
-            )}
+              <div className="flex flex-wrap gap-1 max-h-28 overflow-y-auto">
+                {sortedFoundWords.map(word => (
+                  <span key={word} className="px-2 py-1 bg-slate-700 rounded text-xs">{word}</span>
+                ))}
+              </div>
+            </div>
           </>
         )}
 
-        {/* Game Over Modal */}
         {gameOver && (
           <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-            <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-6 text-center shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto`}>
-              <div className="text-5xl mb-3">⏱️</div>
-              <h2 className="text-2xl font-bold mb-3">Time's Up!</h2>
-              <div className="flex justify-center gap-6 mb-4">
-                <div>
-                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Score</div>
+            <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-6 text-center shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto`}>
+              <h2 className="text-2xl font-bold mb-3">Round Complete</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                <div className="rounded-xl bg-slate-900/60 p-3">
+                  <div className="text-xs text-slate-400">Score</div>
                   <div className="text-xl font-bold text-yellow-400">{score}</div>
                 </div>
-                <div>
-                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Found</div>
+                <div className="rounded-xl bg-slate-900/60 p-3">
+                  <div className="text-xs text-slate-400">Found</div>
                   <div className="text-xl font-bold text-blue-400">{foundWords.size}</div>
                 </div>
-                <div>
-                  <div className={`text-xs ${isDark ? 'text-slate-400' : 'text-gray-500'}`}>Missed</div>
-                  <div className="text-xl font-bold text-red-400">{missedWords.length}</div>
+                <div className="rounded-xl bg-slate-900/60 p-3">
+                  <div className="text-xs text-slate-400">Missed</div>
+                  <div className="text-xl font-bold text-red-400">{roundSummary?.missedWords.length ?? 0}</div>
+                </div>
+                <div className="rounded-xl bg-slate-900/60 p-3">
+                  <div className="text-xs text-slate-400">Best</div>
+                  <div className="text-xl font-bold text-emerald-400">{bestScore}</div>
                 </div>
               </div>
-              {missedWords.length > 0 && (
-                <div className="mb-4">
-                  <div className={`text-sm mb-2 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>
-                    Words you missed:
+
+              {roundSummary && (
+                <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+                  <div className="rounded-xl bg-slate-900/60 p-3">
+                    <div className="text-xs uppercase text-slate-400">Best possible</div>
+                    <div className="text-lg font-bold text-emerald-400">{roundSummary.bestPossibleScore} pts</div>
+                    <div className="text-xs text-slate-500">{roundSummary.possibleWords.length} total words on this board</div>
                   </div>
-                  <div className="flex flex-wrap gap-1 justify-center max-h-48 overflow-y-auto">
-                    {missedWords.map(word => (
-                      <span
-                        key={word}
-                        className={`px-2 py-1 rounded text-xs ${
-                          word.length >= 7 ? 'bg-purple-700 text-purple-100'
-                          : word.length >= 5 ? 'bg-slate-700 text-slate-100'
-                          : isDark ? 'bg-slate-700/60 text-slate-300' : 'bg-gray-200 text-gray-700'
-                        }`}
-                        title={`${word.length} letters`}
-                      >
-                        {word}
-                      </span>
-                    ))}
+                  <div className="rounded-xl bg-slate-900/60 p-3">
+                    <div className="text-xs uppercase text-slate-400">Your breakdown</div>
+                    <div className="mt-1 flex flex-wrap gap-1">
+                      {roundSummary.scoreByLength.length > 0 ? roundSummary.scoreByLength.map(row => (
+                        <span key={row.length} className="rounded bg-slate-700 px-2 py-1 text-xs">
+                          {row.length}L: {row.count} / {row.score}pts
+                        </span>
+                      )) : <span className="text-xs text-slate-500">No scored words yet</span>}
+                    </div>
                   </div>
                 </div>
               )}
-              <button
-                onClick={startGame}
-                className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium"
-              >
-                Play Again
-              </button>
+
+              {roundSummary && roundSummary.missedWords.length > 0 && (
+                <div className="mb-4">
+                  <div className={`text-sm mb-2 ${isDark ? 'text-slate-300' : 'text-gray-600'}`}>Words you missed</div>
+                  <div className="flex flex-wrap gap-1 justify-center max-h-48 overflow-y-auto">
+                    {roundSummary.missedWords.slice(0, 80).map(word => (
+                      <span key={word} className={`px-2 py-1 rounded text-xs ${word.length >= 8 ? 'bg-purple-700 text-purple-100' : word.length >= 5 ? 'bg-slate-700 text-slate-100' : isDark ? 'bg-slate-700/60 text-slate-300' : 'bg-gray-200 text-gray-700'}`}>
+                        {word}
+                      </span>
+                    ))}
+                    {roundSummary.missedWords.length > 80 && (
+                      <span className="px-2 py-1 rounded text-xs bg-slate-700 text-slate-300">+{roundSummary.missedWords.length - 80} more</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-center gap-2">
+                <button onClick={startGame} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium">
+                  Play Again
+                </button>
+                <button onClick={handleShare} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
+                  Share
+                </button>
+                <button onClick={() => setGameOver(false)} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors font-medium">
+                  Review Board
+                </button>
+              </div>
+              {shareStatus && <div className="mt-3 text-sm text-blue-300">{shareStatus}</div>}
             </div>
           </div>
         )}

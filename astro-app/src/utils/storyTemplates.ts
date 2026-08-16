@@ -1,5 +1,14 @@
 import type { StoryTemplate, StoryState, StoryNode, StoryChapter } from '../types'
 
+export interface StoryProgress {
+  templateId: string
+  unlockedEndings: Array<{ id: string; title: string; unlockedAt: string }>
+  completedRuns: number
+  recordedEndingKeys: string[]
+  bestChapterIndex: number
+  lastPlayedAt: string
+}
+
 export function getFallbackNode(
   template: StoryTemplate,
   chapterId: string,
@@ -56,6 +65,7 @@ export function isStoryComplete(template: StoryTemplate, state: StoryState): boo
 }
 
 const STORAGE_PREFIX = 'ruleword_story_'
+const PROGRESS_PREFIX = 'ruleword_story_progress_'
 
 export function saveStoryState(templateId: string, state: StoryState): void {
   try {
@@ -84,4 +94,63 @@ export function clearStoryState(templateId: string): void {
   } catch {
     // ignore
   }
+}
+
+export function loadStoryProgress(templateId: string): StoryProgress {
+  try {
+    const saved = localStorage.getItem(`${PROGRESS_PREFIX}${templateId}`)
+    if (saved) {
+      const progress = JSON.parse(saved) as StoryProgress
+      return {
+        ...progress,
+        recordedEndingKeys: progress.recordedEndingKeys ?? [],
+      }
+    }
+  } catch {
+    // ignore corrupt progress
+  }
+
+  return {
+    templateId,
+    unlockedEndings: [],
+    completedRuns: 0,
+    recordedEndingKeys: [],
+    bestChapterIndex: 0,
+    lastPlayedAt: new Date(0).toISOString(),
+  }
+}
+
+export function saveStoryProgress(progress: StoryProgress): void {
+  try {
+    localStorage.setItem(`${PROGRESS_PREFIX}${progress.templateId}`, JSON.stringify(progress))
+  } catch {
+    // localStorage may be unavailable
+  }
+}
+
+export function recordStoryProgress(templateId: string, state: StoryState): StoryProgress {
+  const progress = loadStoryProgress(templateId)
+  progress.lastPlayedAt = new Date().toISOString()
+  progress.bestChapterIndex = Math.max(progress.bestChapterIndex, state.currentChapterIndex)
+
+  if (state.phase === 'ended' && state.ending) {
+    const endingId = state.ending.endingId || state.ending.title
+    const firstHistoryText = state.history[0]?.text ?? ''
+    const lastHistoryText = state.history[state.history.length - 1]?.text ?? ''
+    const endingKey = `${endingId}:${state.history.length}:${state.turnNumber}:${firstHistoryText}:${lastHistoryText}`
+    if (!progress.recordedEndingKeys.includes(endingKey)) {
+      progress.completedRuns += 1
+      progress.recordedEndingKeys.push(endingKey)
+    }
+    if (!progress.unlockedEndings.some(ending => ending.id === endingId)) {
+      progress.unlockedEndings.push({
+        id: endingId,
+        title: state.ending.title,
+        unlockedAt: new Date().toISOString(),
+      })
+    }
+  }
+
+  saveStoryProgress(progress)
+  return progress
 }

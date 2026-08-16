@@ -1,17 +1,18 @@
-import type { StoryEndingResult, StoryStat, StoryTheme } from '../../types'
+import type { StoryEndingResult, StoryStat } from '../../types'
 import type { StoryThemeConfig } from '../../utils/storyThemes'
 
 interface StoryEndScreenProps {
   ending: StoryEndingResult
   metadata: Record<string, number>
   stats: StoryStat[]
+  unlockedEndings: Array<{ id: string; title: string; unlockedAt: string }>
+  totalEndings: number
   themeConfig: StoryThemeConfig
-  colorGradient: string
   onShare: () => void
   onReplay: () => void
 }
 
-export default function StoryEndScreen({ ending, metadata, stats, themeConfig, colorGradient, onShare, onReplay }: StoryEndScreenProps) {
+export default function StoryEndScreen({ ending, metadata, stats, unlockedEndings, totalEndings, themeConfig, onShare, onReplay }: StoryEndScreenProps) {
   return (
     <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-slate-800 rounded-2xl p-6 max-w-md w-full text-center space-y-4 border border-slate-700 animate-slide-up">
@@ -21,6 +22,20 @@ export default function StoryEndScreen({ ending, metadata, stats, themeConfig, c
         {ending.summary && (
           <p className="text-slate-400 text-xs italic">"{ending.summary}"</p>
         )}
+
+        <div className="rounded-xl bg-slate-900/60 border border-slate-700/60 px-4 py-3 text-left">
+          <div className="flex items-center justify-between text-sm">
+            <span className="font-medium text-white">Ending Collection</span>
+            <span className={themeConfig.accent}>{unlockedEndings.length}/{totalEndings}</span>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-1">
+            {unlockedEndings.map(unlocked => (
+              <span key={unlocked.id} className="rounded-full bg-slate-700 px-2 py-1 text-xs text-slate-200">
+                {unlocked.title}
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Stat summary */}
         {stats.length > 0 && (

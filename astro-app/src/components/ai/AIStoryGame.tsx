@@ -1,7 +1,16 @@
 import { useReducer, useEffect, useCallback, useRef, useState, useMemo } from 'react'
 import type { StoryTemplate, StoryState, StoryAction, StoryNode, StoryEndingResult } from '../../types'
 import { fetchStoryNode, fetchStoryEnding } from '../../utils/aiClient'
-import { buildInitialStoryState, saveStoryState, loadStoryState, clearStoryState, getFallbackNode } from '../../utils/storyTemplates'
+import {
+  buildInitialStoryState,
+  saveStoryState,
+  loadStoryState,
+  clearStoryState,
+  getFallbackNode,
+  loadStoryProgress,
+  recordStoryProgress,
+  type StoryProgress,
+} from '../../utils/storyTemplates'
 import { getThemeConfig } from '../../utils/storyThemes'
 import StoryRenderer from './StoryRenderer'
 import ChoicePanel from './ChoicePanel'
@@ -63,6 +72,7 @@ function storyReducer(state: StoryState, action: StoryAction): StoryState {
             text: node.nodeText,
             speaker: node.speaker,
             emotion: node.emotion,
+            metadataUpdate: node.metadataUpdate,
           },
         ],
         choices: node.choices,
@@ -80,6 +90,7 @@ function storyReducer(state: StoryState, action: StoryAction): StoryState {
           title: action.ending.title,
           description: action.ending.description,
           shareText: action.ending.shareText,
+          endingId: action.ending.endingId,
         },
       }
     case 'ERROR':
@@ -110,11 +121,12 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
   const theme = getThemeConfig(template.uiConfig.theme)
   const [state, dispatch] = useReducer(storyReducer, null, () => buildInitialStoryState(template))
-  const typingDoneRef = useRef(true)
   const stateRef = useRef(state)
   stateRef.current = state
   const prevChapterIndexRef = useRef(state.currentChapterIndex)
   const [chapterTransition, setChapterTransition] = useState<ChapterTransition | null>(null)
+  const [progress, setProgress] = useState<StoryProgress>(() => loadStoryProgress(template.id))
+  const [fallbackNotice, setFallbackNotice] = useState('')
   const chapterTimerRef = useRef<ReturnType<typeof setTimeout>>()
 
   // Progress calculation
@@ -137,6 +149,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   useEffect(() => {
     if (state.phase !== 'idle' && state.phase !== 'loading') {
       saveStoryState(template.id, state)
+      setProgress(recordStoryProgress(template.id, state))
     }
   }, [state, template.id])
 
@@ -180,6 +193,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
     })
 
     if (node) {
+      setFallbackNotice('')
       dispatch({ type: 'RECEIVE_NODE', node })
 
       if (node.isChapterEnd && !node.nextChapter) {
@@ -196,6 +210,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
     } else {
       const fallback = getFallbackNode(template, currentState.currentChapterId, currentState.turnNumber)
       if (fallback) {
+        setFallbackNotice('Story continued in offline mode.')
         dispatch({ type: 'RECEIVE_NODE', node: fallback })
       } else {
         dispatch({ type: 'ERROR', error: 'Failed to get story content. Please try again.' })
@@ -205,6 +220,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
   const handleReplay = useCallback(() => {
     clearStoryState(template.id)
+    setProgress(loadStoryProgress(template.id))
     dispatch({ type: 'RESET' })
   }, [template.id])
 
@@ -218,10 +234,6 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       })
     }
   }, [onShare, state.ending, gameSlug])
-
-  const handleTypingComplete = useCallback(() => {
-    typingDoneRef.current = true
-  }, [])
 
   // Keyboard shortcuts (1-4 for choices)
   useEffect(() => {
@@ -256,6 +268,20 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
             <div className="text-6xl">{template.icon}</div>
             <h2 className="text-3xl font-bold text-white">{template.en.name}</h2>
             <p className="text-slate-400 text-base max-w-lg mx-auto leading-relaxed">{template.en.desc}</p>
+            <div className="grid grid-cols-3 gap-2 max-w-lg mx-auto text-center">
+              <div className={`${theme.cardBg} rounded-xl border border-slate-700/50 px-3 py-2`}>
+                <div className={`text-lg font-bold ${theme.accent}`}>{progress.unlockedEndings.length}/{template.storySkeleton.endings.length}</div>
+                <div className="text-xs text-slate-500">Endings</div>
+              </div>
+              <div className={`${theme.cardBg} rounded-xl border border-slate-700/50 px-3 py-2`}>
+                <div className={`text-lg font-bold ${theme.accent}`}>{progress.completedRuns}</div>
+                <div className="text-xs text-slate-500">Runs</div>
+              </div>
+              <div className={`${theme.cardBg} rounded-xl border border-slate-700/50 px-3 py-2`}>
+                <div className={`text-lg font-bold ${theme.accent}`}>Ch.{Math.min(progress.bestChapterIndex + 1, totalChapters)}</div>
+                <div className="text-xs text-slate-500">Best</div>
+              </div>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-lg mx-auto">
               {characters.map(char => (
                 <div key={char.id} className={`${theme.cardBg} rounded-xl p-3 text-center border border-slate-700/50`}>
@@ -374,6 +400,14 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
         </div>
       )}
 
+      {fallbackNotice && state.phase !== 'loading' && state.phase !== 'ended' && (
+        <div className="px-4 pb-3 max-w-3xl mx-auto w-full shrink-0">
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs text-amber-200">
+            {fallbackNotice}
+          </div>
+        </div>
+      )}
+
       {/* Chapter transition overlay */}
       {chapterTransition && (
         <div
@@ -406,8 +440,9 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
           }}
           metadata={state.metadata}
           stats={template.uiConfig.stats}
+          unlockedEndings={progress.unlockedEndings}
+          totalEndings={template.storySkeleton.endings.length}
           themeConfig={theme}
-          colorGradient={template.color}
           onShare={handleShare}
           onReplay={handleReplay}
         />

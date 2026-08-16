@@ -199,10 +199,10 @@ const defaultSeoDescription = gameSEO.descriptionTemplate
   .replace('{game}', gameNameEn)
   .replace('{brand}', 'Free Games Hub')
 const seoTitle = gameSlug === 'boggle'
-  ? 'Play Boggle Online Free - Classic 4x4 Word Game, No Download | Free Games Hub'
+  ? 'Play Boggle Online Free - 4x4, 5x5 & Daily Word Game | Free Games Hub'
   : defaultSeoTitle
 const seoDescription = gameSlug === 'boggle'
-  ? 'Play classic Boggle online free with unlimited 4x4 rounds, a 2-minute timer, instant browser play, and built-in rules and scoring tips. No download or sign-up.'
+  ? 'Play Boggle online free with classic 4x4, big 5x5, daily challenge, relaxed practice, hints, scoring review, and missed-word recap. No download or sign-up.'
   : defaultSeoDescription
 
 // Handle lang parameter for SEO
@@ -241,8 +241,8 @@ const gameRating = getGameRating(game.slug)
 const gamePopularity = getGamePopularity(game.slug)
 const isBogglePage = gameSlug === 'boggle'
 const boggleQuickFacts = [
-  { labelEn: 'Grid', labelZh: '棋盘', valueEn: 'Classic 4x4 board', valueZh: '经典 4x4 棋盘' },
-  { labelEn: 'Timer', labelZh: '计时', valueEn: '2-minute rounds', valueZh: '每局 2 分钟' },
+  { labelEn: 'Grid', labelZh: '棋盘', valueEn: 'Classic 4x4 and big 5x5 boards', valueZh: '经典 4x4 与大型 5x5 棋盘' },
+  { labelEn: 'Modes', labelZh: '模式', valueEn: 'Classic, relaxed, and daily challenge', valueZh: '经典、放松与每日挑战' },
   { labelEn: 'Mode', labelZh: '模式', valueEn: 'Unlimited browser play', valueZh: '浏览器无限畅玩' },
   { labelEn: 'Skills', labelZh: '锻炼', valueEn: 'Vocabulary, speed, pattern recognition', valueZh: '词汇、速度、模式识别' }
 ]
@@ -253,7 +253,7 @@ const boggleRuleHighlights = [
   { en: 'Longer words score more points, so extend short finds whenever possible.', zh: '更长的单词分数更高，所以尽量把短词继续延展。' }
 ]
 const boggleRulesSummary = [
-  { ruleEn: 'Board format', ruleZh: '棋盘形式', detailEn: 'Classic Boggle uses a 4x4 grid with 16 letter tiles.', detailZh: '经典 Boggle 使用 4x4 网格，一共 16 个字母格。' },
+  { ruleEn: 'Board format', ruleZh: '棋盘形式', detailEn: 'Classic Boggle uses a 4x4 grid, while Big Boggle-style play uses a 5x5 grid.', detailZh: '经典 Boggle 使用 4x4 网格，大型 Boggle 风格玩法使用 5x5 网格。' },
   { ruleEn: 'Valid paths', ruleZh: '有效路径', detailEn: 'Letters can connect horizontally, vertically, or diagonally.', detailZh: '字母可以横向、纵向或对角线连接。' },
   { ruleEn: 'Minimum word', ruleZh: '最短词长', detailEn: 'Words must be at least 3 letters long in classic play.', detailZh: '在经典玩法中，单词至少要有 3 个字母。' },
   { ruleEn: 'Tile reuse', ruleZh: '重复使用', detailEn: 'A tile can only be used once in a single word.', detailZh: '同一个单词里，每个字母格只能使用一次。' },
@@ -284,7 +284,7 @@ const boggleRuleSetSchema = isBogglePage ? {
   "@context": "https://schema.org",
   "@type": "DefinedTermSet",
   "name": "Boggle Rules Summary",
-  "description": "Core rules for playing classic 4x4 Boggle online.",
+  "description": "Core rules for playing classic 4x4 and big 5x5 Boggle online.",
   "url": `${canonicalUrl}#boggle-rules-summary`,
   "hasDefinedTerm": boggleRulesSummary.map((item) => ({
     "@type": "DefinedTerm",
@@ -469,10 +469,10 @@ const hreflangUrls = [
           <div class="rounded-2xl border border-emerald-900/40 bg-slate-900/70 p-6 shadow-[0_0_0_1px_rgba(16,185,129,0.06)]">
             <p class="max-w-3xl text-base leading-7 text-slate-200 sm:text-lg">
               <span id="boggle-hero-copy"
-                data-en="Play Boggle online free in your browser with no download or sign-up. This classic 4x4 word game gives you 2 minutes to connect adjacent letters, find as many words as possible, and chase a higher score every round."
-                data-zh="直接在浏览器里免费玩 Boggle，无需下载或注册。这个经典的 4x4 单词游戏给你 2 分钟时间连接相邻字母、尽可能找出更多单词，并不断刷新更高分。"
+                data-en="Play Boggle online free in your browser with no download or sign-up. Choose classic 4x4, big 5x5, relaxed practice, or the daily challenge, then review missed words after every round."
+                data-zh="直接在浏览器里免费玩 Boggle，无需下载或注册。你可以选择经典 4x4、大型 5x5、放松练习或每日挑战，并在每局结束后复盘错过的单词。"
               >
-              Play Boggle online free in your browser with no download or sign-up. This classic 4x4 word game gives you 2 minutes to connect adjacent letters, find as many words as possible, and chase a higher score every round.
+              Play Boggle online free in your browser with no download or sign-up. Choose classic 4x4, big 5x5, relaxed practice, or the daily challenge, then review missed words after every round.
               </span>
             </p>
 
@@ -741,12 +741,12 @@ const hreflangUrls = [
                     </p>
                     <p
                       id="boggle-useful-copy-2"
-                      data-en="The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds."
-                      data-zh="经典版 Boggle 使用 4x4 字母网格，而 Ruleword 上也是这个形式。所以这个页面很适合想找快速练习盘、免下载 Boggle 替代品，或在正式对战之间练习扫描速度的玩家。"
-                      data-html-en="The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds."
-                      data-html-zh="经典版 Boggle 使用 4x4 字母网格，而 Ruleword 上也是这个形式。所以这个页面很适合想找快速练习盘、免下载 Boggle 替代品，或在正式对战之间练习扫描速度的玩家。"
+                      data-en="The classic version of Boggle uses a 4x4 letter grid, while many online players also look for a larger 5x5 board, daily board, or relaxed practice mode. RuleWord now supports those formats in one no-download browser game."
+                      data-zh="经典版 Boggle 使用 4x4 字母网格，而许多在线玩家也会寻找更大的 5x5 棋盘、每日棋盘或放松练习模式。RuleWord 现在把这些形式放在同一个免下载浏览器游戏里。"
+                      data-html-en="The classic version of Boggle uses a 4x4 letter grid, while many online players also look for a larger 5x5 board, daily board, or relaxed practice mode. RuleWord now supports those formats in one no-download browser game."
+                      data-html-zh="经典版 Boggle 使用 4x4 字母网格，而许多在线玩家也会寻找更大的 5x5 棋盘、每日棋盘或放松练习模式。RuleWord 现在把这些形式放在同一个免下载浏览器游戏里。"
                     >
-                      The classic version of Boggle uses a 4x4 letter grid, which is also the format on Ruleword. That makes this page a strong fit for players looking for a fast practice board, a no-download Boggle alternative, or a place to sharpen scanning speed between competitive rounds.
+                      The classic version of Boggle uses a 4x4 letter grid, while many online players also look for a larger 5x5 board, daily board, or relaxed practice mode. RuleWord now supports those formats in one no-download browser game.
                     </p>
                     <p
                       id="boggle-useful-copy-3"

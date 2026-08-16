@@ -248,6 +248,7 @@ export interface StoryHistoryEntry {
   speaker?: string
   text: string
   emotion?: string
+  metadataUpdate?: Record<string, number>
 }
 
 export interface StoryState {
@@ -258,7 +259,7 @@ export interface StoryState {
   history: StoryHistoryEntry[]
   choices: Array<{ id: string; text: string }>
   metadata: Record<string, number>
-  ending?: { title: string; description: string; shareText: string }
+  ending?: { title: string; description: string; shareText: string; endingId?: string }
   error?: string
 }
 
