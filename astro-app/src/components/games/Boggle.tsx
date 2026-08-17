@@ -12,16 +12,23 @@ import {
   generateDailyBoggleBoard,
   generateBoggleBoard,
   getBoggleHint,
+  groupBoggleWordsByLength,
   scoreBoggleWord,
   summarizeBoggleRound,
 } from '../../games/boggle/logic'
 import {
   BOGGLE_BEST_SCORE_KEY,
+  boggleBestScoreKey,
   getBoggleStorage,
+  readBoggleBestScores,
   readBoggleDailyStats,
+  readBoggleSettings,
   readRecentBoggleRounds,
   saveRecentBoggleRound,
+  saveBoggleSettings,
+  updateBoggleBestScores,
   updateBoggleDailyStats,
+  type BoggleBestScores,
   type BoggleDailyStats,
   type BoggleRecentRound,
 } from '../../games/boggle/retention'
@@ -322,6 +329,8 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   const [shareStatus, setShareStatus] = useState('')
   const [recentRounds, setRecentRounds] = useState<BoggleRecentRound[]>([])
   const [dailyStats, setDailyStats] = useState<BoggleDailyStats>({ streak: 0, bestStreak: 0, lastPlayedDate: '' })
+  const [bestScores, setBestScores] = useState<BoggleBestScores>({})
+  const [settingsLoaded, setSettingsLoaded] = useState(false)
 
   const isDark = settings.darkMode
   const bgClass = isDark ? 'bg-slate-900' : 'bg-gray-100'
@@ -334,7 +343,17 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
     if (stored) setBestScore(Number(stored) || 0)
     setRecentRounds(readRecentBoggleRounds())
     setDailyStats(readBoggleDailyStats())
+    setBestScores(readBoggleBestScores())
+    const savedSettings = readBoggleSettings()
+    setMode(savedSettings.mode)
+    setBoardSize(savedSettings.boardSize)
+    setSettingsLoaded(true)
   }, [])
+
+  useEffect(() => {
+    if (!settingsLoaded) return
+    saveBoggleSettings({ mode, boardSize })
+  }, [boardSize, mode, settingsLoaded])
 
   const clearSelection = useCallback(() => {
     setSelectedCells([])
@@ -374,6 +393,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
         getBoggleStorage()?.setItem(BOGGLE_BEST_SCORE_KEY, String(next))
         return next
       })
+      setBestScores(updateBoggleBestScores(mode, boardSize, score))
     } catch {
       setRoundSummary(null)
     }
@@ -483,6 +503,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
       score,
       wordCount: foundWords.size,
       possibleWordCount: roundSummary?.possibleWords.length,
+      bestPossibleScore: roundSummary?.bestPossibleScore,
       mode,
       size: boardSize,
       date: new Date(),
@@ -553,6 +574,8 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   }, [board, clearSelection, gameActive, selectedCells, submitWord])
 
   const sortedFoundWords = Array.from(foundWords).sort((a, b) => b.length - a.length || a.localeCompare(b))
+  const groupedFoundWords = groupBoggleWordsByLength(sortedFoundWords)
+  const selectedBestScore = bestScores[boggleBestScoreKey(mode, boardSize)] ?? 0
   const hasBoard = board.length > 0
 
   return (
@@ -629,6 +652,10 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                 <div className="text-xs uppercase text-slate-500">Daily Streak</div>
                 <div className="mt-1 text-2xl font-bold text-amber-300">{dailyStats.streak}</div>
                 <div className="text-xs text-slate-400">Best streak: {dailyStats.bestStreak}</div>
+                <div className="mt-3 border-t border-slate-800 pt-3">
+                  <div className="text-xs uppercase text-slate-500">Best for {mode} {boardSize}x{boardSize}</div>
+                  <div data-testid="boggle-selected-best" className="mt-1 text-xl font-bold text-emerald-300">{selectedBestScore}</div>
+                </div>
               </div>
               <div className="rounded-xl border border-slate-800 bg-slate-900/70 p-4">
                 <div className="mb-2 flex items-center justify-between">
@@ -720,10 +747,22 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                 <span className="text-slate-400">Found Words</span>
                 <span className="text-slate-500">{wordListLabel(sortedFoundWords)}</span>
               </div>
-              <div className="flex flex-wrap gap-1 max-h-28 overflow-y-auto">
-                {sortedFoundWords.map(word => (
-                  <span key={word} className="px-2 py-1 bg-slate-700 rounded text-xs">{word}</span>
-                ))}
+              <div className="max-h-36 space-y-3 overflow-y-auto">
+                {groupedFoundWords.length > 0 ? groupedFoundWords.map(group => (
+                  <div key={group.length} data-testid={`boggle-found-group-${group.length}`} className="text-left">
+                    <div className="mb-1 flex items-center justify-between text-xs text-slate-500">
+                      <span>{group.length} letters</span>
+                      <span>{group.words.length} word{group.words.length === 1 ? '' : 's'} · {group.score} pts</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {group.words.map(word => (
+                        <span key={word} className="px-2 py-1 bg-slate-700 rounded text-xs">{word}</span>
+                      ))}
+                    </div>
+                  </div>
+                )) : (
+                  <div className="rounded-lg bg-slate-800/70 px-3 py-2 text-xs text-slate-500">Found words will group by length here.</div>
+                )}
               </div>
             </div>
           </>

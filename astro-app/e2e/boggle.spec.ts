@@ -9,6 +9,10 @@ test.describe('Boggle critical paths', () => {
     await expect(page.getByTestId('boggle-game').getByRole('heading', { name: 'Play Boggle Online Free' })).toBeVisible()
     await page.getByTestId('boggle-mode-relaxed').click()
     await page.getByTestId('boggle-size-5').click()
+    await expect(page.getByTestId('boggle-selected-best')).toHaveText('0')
+    await page.reload()
+    await expect(page.getByTestId('boggle-mode-relaxed')).toHaveClass(/bg-green-600/)
+    await expect(page.getByTestId('boggle-size-5')).toHaveClass(/bg-blue-600/)
     await page.getByTestId('boggle-start').click()
 
     await expect(page.getByTestId('boggle-board')).toBeVisible()

@@ -16,8 +16,17 @@ export type BoggleDailyStats = {
   lastPlayedDate: string
 }
 
+export type BoggleBestScores = Partial<Record<`${BoggleMode}:${BoggleBoardSize}`, number>>
+
+export type BoggleSettings = {
+  mode: BoggleMode
+  boardSize: BoggleBoardSize
+}
+
 const BOGGLE_RECENT_ROUNDS_KEY = 'ruleword:boggle:recentRounds'
 const BOGGLE_DAILY_STATS_KEY = 'ruleword:boggle:dailyStats'
+const BOGGLE_BEST_SCORES_KEY = 'ruleword:boggle:bestScores'
+const BOGGLE_SETTINGS_KEY = 'ruleword:boggle:settings'
 
 export const BOGGLE_BEST_SCORE_KEY = 'ruleword:boggle:bestScore'
 
@@ -61,6 +70,48 @@ export function saveRecentBoggleRound(round: BoggleRecentRound): BoggleRecentRou
 
 export function addRecentBoggleRound(rounds: BoggleRecentRound[], round: BoggleRecentRound): BoggleRecentRound[] {
   return [round, ...rounds].slice(0, 5)
+}
+
+export function boggleBestScoreKey(mode: BoggleMode, boardSize: BoggleBoardSize): `${BoggleMode}:${BoggleBoardSize}` {
+  return `${mode}:${boardSize}`
+}
+
+export function readBoggleBestScores(): BoggleBestScores {
+  try {
+    const raw = getBoggleStorage()?.getItem(BOGGLE_BEST_SCORES_KEY)
+    return raw ? JSON.parse(raw) : {}
+  } catch {
+    return {}
+  }
+}
+
+export function updateBoggleBestScores(mode: BoggleMode, boardSize: BoggleBoardSize, score: number): BoggleBestScores {
+  const scores = readBoggleBestScores()
+  const key = boggleBestScoreKey(mode, boardSize)
+  scores[key] = Math.max(scores[key] ?? 0, score)
+  getBoggleStorage()?.setItem(BOGGLE_BEST_SCORES_KEY, JSON.stringify(scores))
+  return scores
+}
+
+export function normalizeBoggleSettings(input: Partial<BoggleSettings> | null | undefined): BoggleSettings {
+  const mode = input?.mode === 'relaxed' || input?.mode === 'daily' ? input.mode : 'classic'
+  const boardSize = input?.boardSize === 5 ? 5 : 4
+  return { mode, boardSize }
+}
+
+export function readBoggleSettings(): BoggleSettings {
+  try {
+    const raw = getBoggleStorage()?.getItem(BOGGLE_SETTINGS_KEY)
+    return normalizeBoggleSettings(raw ? JSON.parse(raw) : null)
+  } catch {
+    return normalizeBoggleSettings(null)
+  }
+}
+
+export function saveBoggleSettings(settings: BoggleSettings): BoggleSettings {
+  const normalized = normalizeBoggleSettings(settings)
+  getBoggleStorage()?.setItem(BOGGLE_SETTINGS_KEY, JSON.stringify(normalized))
+  return normalized
 }
 
 export function readBoggleDailyStats(): BoggleDailyStats {

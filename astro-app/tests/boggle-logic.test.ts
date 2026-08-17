@@ -3,19 +3,26 @@ import {
   bogglePathToWord,
   canAddBoggleCell,
   createBoggleShareText,
+  createBoggleShareGrid,
   createSeededRandom,
   findAllBoggleWords,
   generateBoggleBoard,
   generateDailyBoggleBoard,
   getBoggleDailySeed,
   getBoggleHint,
+  groupBoggleWordsByLength,
   isBoggleAdjacent,
   scoreBoggleWord,
   summarizeBoggleRound,
 } from '../src/games/boggle/logic'
 import {
   addRecentBoggleRound,
+  boggleBestScoreKey,
   getNextBoggleDailyStats,
+  normalizeBoggleSettings,
+  readBoggleSettings,
+  saveBoggleSettings,
+  updateBoggleBestScores,
   type BoggleRecentRound,
 } from '../src/games/boggle/retention'
 
@@ -100,6 +107,14 @@ describe('Boggle rules', () => {
     expect(summary.scoreByLength).toEqual([{ length: 3, count: 2, score: 2 }])
   })
 
+  it('groups found words by length for score review', () => {
+    expect(groupBoggleWordsByLength(['cat', 'trees', 'dog', 'starting'])).toEqual([
+      { length: 8, words: ['STARTING'], score: 11 },
+      { length: 5, words: ['TREES'], score: 2 },
+      { length: 3, words: ['CAT', 'DOG'], score: 2 },
+    ])
+  })
+
   it('creates non-spoiling hints from missed words', () => {
     const board = [
       ['C', 'A', 'R'],
@@ -113,14 +128,19 @@ describe('Boggle rules', () => {
   })
 
   it('creates a compact share text', () => {
-    expect(createBoggleShareText({
+    const shareText = createBoggleShareText({
       score: 12,
       wordCount: 8,
       possibleWordCount: 40,
+      bestPossibleScore: 24,
       mode: 'daily',
       size: 5,
       date: new Date('2026-08-16T00:00:00Z'),
-    })).toContain('Daily 2026-08-16 5x5')
+    })
+
+    expect(shareText).toContain('Daily 2026-08-16 5x5')
+    expect(shareText).toContain('■■■□□')
+    expect(createBoggleShareGrid(25, 50)).toBe('■■■□□')
   })
 })
 
@@ -164,5 +184,30 @@ describe('Boggle retention storage', () => {
     expect(rounds).toHaveLength(5)
     expect(rounds[0].id).toBe('round-5')
     expect(rounds[4].id).toBe('round-1')
+  })
+
+  it('tracks best scores separately by mode and board size', () => {
+    const storage = new Map<string, string>()
+    localStorage.getItem = (key: string) => storage.get(key) ?? null
+    localStorage.setItem = (key: string, value: string) => storage.set(key, value)
+
+    updateBoggleBestScores('classic', 4, 12)
+    updateBoggleBestScores('classic', 4, 10)
+    const bestScores = updateBoggleBestScores('daily', 5, 20)
+
+    expect(bestScores[boggleBestScoreKey('classic', 4)]).toBe(12)
+    expect(bestScores[boggleBestScoreKey('daily', 5)]).toBe(20)
+  })
+
+  it('normalizes and persists preferred mode and board size', () => {
+    const storage = new Map<string, string>()
+    localStorage.getItem = (key: string) => storage.get(key) ?? null
+    localStorage.setItem = (key: string, value: string) => storage.set(key, value)
+
+    expect(normalizeBoggleSettings({ mode: 'daily', boardSize: 5 })).toEqual({ mode: 'daily', boardSize: 5 })
+    expect(normalizeBoggleSettings({ mode: 'daily' })).toEqual({ mode: 'daily', boardSize: 4 })
+
+    saveBoggleSettings({ mode: 'relaxed', boardSize: 5 })
+    expect(readBoggleSettings()).toEqual({ mode: 'relaxed', boardSize: 5 })
   })
 })

@@ -11,6 +11,12 @@ export type BoggleRoundSummary = {
   scoreByLength: Array<{ length: number; count: number; score: number }>
 }
 
+export type BoggleWordGroup = {
+  length: number
+  words: string[]
+  score: number
+}
+
 export const BOGGLE_GRID_SIZE = 4
 export const BOGGLE_TIME_LIMIT = 120
 export const BOGGLE_DICE = [
@@ -215,6 +221,30 @@ export function summarizeBoggleRound(
   }
 }
 
+export function groupBoggleWordsByLength(words: Iterable<string>): BoggleWordGroup[] {
+  const groups = new Map<number, string[]>()
+
+  for (const word of words) {
+    const normalized = normalizeBoggleWord(word)
+    if (!normalized) continue
+    const length = boggleWordLength(normalized)
+    const group = groups.get(length) ?? []
+    group.push(normalized)
+    groups.set(length, group)
+  }
+
+  return Array.from(groups.entries())
+    .sort(([a], [b]) => b - a)
+    .map(([length, group]) => {
+      const sortedWords = group.sort((a, b) => a.localeCompare(b))
+      return {
+        length,
+        words: sortedWords,
+        score: sortedWords.reduce((sum, word) => sum + scoreBoggleWord(word), 0),
+      }
+    })
+}
+
 export function getBoggleHint(summary: BoggleRoundSummary, revealedHints: Set<string>): string | null {
   const candidate = summary.missedWords.find(word => !revealedHints.has(word))
   if (!candidate) return null
@@ -226,6 +256,7 @@ export function createBoggleShareText(input: {
   score: number
   wordCount: number
   possibleWordCount?: number
+  bestPossibleScore?: number
   mode: BoggleMode
   size: BoggleBoardSize
   date?: Date
@@ -234,9 +265,20 @@ export function createBoggleShareText(input: {
     ? `Daily ${input.date?.toISOString().slice(0, 10) ?? ''}`.trim()
     : input.mode === 'relaxed' ? 'Relaxed' : 'Classic'
   const possible = input.possibleWordCount ? ` / ${input.possibleWordCount} possible` : ''
+  const resultGrid = createBoggleShareGrid(input.score, input.bestPossibleScore)
   return [
     `RuleWord Boggle ${modeLabel} ${input.size}x${input.size}`,
     `${input.score} points, ${input.wordCount}${possible} words`,
+    resultGrid,
     'Play free: https://ruleword.com/games/boggle/',
   ].join('\n')
+}
+
+export function createBoggleShareGrid(score: number, bestPossibleScore?: number): string {
+  const maxBlocks = 5
+  const ratio = bestPossibleScore && bestPossibleScore > 0
+    ? Math.max(0, Math.min(1, score / bestPossibleScore))
+    : Math.max(0, Math.min(1, score / 50))
+  const filled = Math.max(0, Math.min(maxBlocks, Math.round(ratio * maxBlocks)))
+  return `${'■'.repeat(filled)}${'□'.repeat(maxBlocks - filled)}`
 }
