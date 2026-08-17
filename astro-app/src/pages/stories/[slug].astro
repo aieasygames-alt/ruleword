@@ -73,6 +73,60 @@ const howToSchema = storyHowToPlay ? {
 } : undefined
 
 const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
+const storyCanonicalUrl = `https://ruleword.com/stories/${story.slug}/`
+const storyGameSchema = {
+  "@context": "https://schema.org",
+  "@type": ["Game", "WebApplication"],
+  "name": storyName,
+  "description": storyDesc,
+  "url": storyCanonicalUrl,
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "genre": "Interactive Fiction",
+  "gamePlatform": "Web browser",
+  "numberOfPlayers": 1,
+  "playMode": "SinglePlayer",
+  "isAccessibleForFree": true,
+  "keywords": ["AI story game", "interactive fiction", "multiple endings", templateType.replace(/-/g, ' ')],
+  "potentialAction": {
+    "@type": "PlayAction",
+    "target": storyCanonicalUrl,
+  },
+  "hasPart": [
+    {
+      "@type": "ItemList",
+      "name": `${storyName} chapters`,
+      "numberOfItems": chapters.length,
+      "itemListElement": chapters.map((chapter, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": chapter.title || `Chapter ${index + 1}`,
+        "description": chapter.goal,
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "name": `${storyName} endings`,
+      "numberOfItems": endings.length,
+      "itemListElement": endings.map((ending, index) => ({
+        "@type": "ListItem",
+        "position": index + 1,
+        "name": ending.title,
+        "description": ending.condition,
+      })),
+    },
+  ],
+}
+const storyFaqSchema = storyFaq.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": storyFaq.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": { "@type": "Answer", "text": item.answer },
+  })),
+} : undefined
 ---
 
 <BaseLayout
@@ -86,6 +140,12 @@ const storyRating = getGameRating(`ai-${story.slug.replace('ai-', '')}`)
   howToSchema={howToSchema}
   aggregateRating={storyRating}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(storyGameSchema)} />
+    {storyFaqSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(storyFaqSchema)} />
+    )}
+  </Fragment>
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
     <!-- Navigation Bar -->
     <nav class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">

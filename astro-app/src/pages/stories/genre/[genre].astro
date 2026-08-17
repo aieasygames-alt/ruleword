@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content'
+import { getStoryGenreForTemplateType, storyGenres } from '../../../data/storyGenres'
+
+export async function getStaticPaths() {
+  const stories = await getCollection('stories')
+
+  return storyGenres.map(genre => ({
+    params: { genre: genre.slug },
+    props: {
+      genre,
+      stories: stories
+        .map(entry => entry.data)
+        .filter(story => getStoryGenreForTemplateType(story.templateType).slug === genre.slug),
+    },
+  }))
+}
+
+const { genre, stories } = Astro.props
+const genreStories = stories
+const otherGenres = storyGenres.filter(item => item.slug !== genre.slug)
+const canonicalPath = `/stories/genre/${genre.slug}/`
+const canonicalUrl = `https://ruleword.com${canonicalPath}`
+const seoTitle = `${genre.label} AI Story Games - Play Free Interactive Fiction Online`
+const seoDescription = `${genre.description} Play free browser-based AI story games with auto-save, branching chapters, and multiple endings.`
+
+const faqItems = [
+  {
+    q: `What are ${genre.label.toLowerCase()} AI story games?`,
+    a: `${genre.label} AI story games are interactive fiction experiences where your choices shape characters, chapters, stats, and endings in real time.`,
+  },
+  {
+    q: 'Do these stories have multiple endings?',
+    a: 'Yes. Each story includes several endings, and your decisions throughout the playthrough determine which result you unlock.',
+  },
+  {
+    q: 'Can I continue a story later?',
+    a: 'Yes. Stories auto-save progress in your browser, so you can leave and come back to continue where you stopped.',
+  },
+]
+
+const breadcrumbItems = [
+  { name: 'Home', url: '/' },
+  { name: 'AI Stories', url: '/stories/' },
+  { name: genre.label, url: canonicalPath },
+]
+
+const genreSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": `${genre.label} AI Story Games`,
+  "description": seoDescription,
+  "url": canonicalUrl,
+  "keywords": genre.keywords,
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": genreStories.length,
+    "itemListElement": genreStories.map((story, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Game",
+        "name": story.en.name,
+        "description": story.en.desc,
+        "genre": genre.label,
+        "gamePlatform": "Web browser",
+        "url": `https://ruleword.com/stories/${story.slug}/`,
+        "numberOfPlayers": 1,
+        "playMode": "SinglePlayer",
+      },
+    })),
+  },
+}
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.q,
+    "acceptedAnswer": { "@type": "Answer", "text": item.a },
+  })),
+}
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  keywords={[...genre.keywords, 'AI story games', 'interactive fiction', 'multiple endings', 'free browser games'].join(', ')}
+  canonicalPath={canonicalPath}
+  ogImage="/og/stories-index.png"
+  breadcrumbItems={breadcrumbItems}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(genreSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
+  <div class="min-h-screen bg-slate-950 text-white">
+    <nav class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl">
+      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <a href="/" class="flex items-center gap-2 transition-opacity hover:opacity-80">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 text-sm font-bold text-white shadow-lg">R</div>
+          <span class="hidden font-semibold sm:inline">Free Games Hub</span>
+        </a>
+        <h1 class="max-w-[190px] truncate text-lg font-bold sm:max-w-none">{genre.icon} {genre.label}</h1>
+        <a href="/stories/" class="text-sm text-pink-300 hover:text-pink-200">All Stories</a>
+      </div>
+    </nav>
+
+    <main>
+      <section class="border-b border-slate-800 bg-slate-900/60 px-4 py-10 sm:px-6">
+        <div class="mx-auto max-w-5xl space-y-5">
+          <div class="flex flex-wrap items-center gap-3 text-sm text-slate-400">
+            <a href="/stories/" class="text-pink-300 hover:text-pink-200">AI Stories</a>
+            <span>/</span>
+            <span>{genre.label}</span>
+          </div>
+          <div class="grid gap-5 lg:grid-cols-[1fr_280px] lg:items-end">
+            <div class="space-y-3">
+              <p class="text-5xl">{genre.icon}</p>
+              <h2 class="text-3xl font-bold text-white sm:text-4xl">{genre.label} AI Story Games</h2>
+              <p class="max-w-3xl text-base leading-7 text-slate-300">{genre.description}</p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+              <div class="rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-3">
+                <div class="text-lg font-bold text-white">{genreStories.length}</div>
+                <div class="text-slate-500">stories</div>
+              </div>
+              <div class="rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-3">
+                <div class="text-lg font-bold text-white">{genreStories.reduce((sum, story) => sum + story.storySkeleton.endings.length, 0)}</div>
+                <div class="text-slate-500">endings</div>
+              </div>
+              <div class="rounded-lg border border-slate-700 bg-slate-950/70 px-2 py-3">
+                <div class="text-lg font-bold text-white">Free</div>
+                <div class="text-slate-500">browser</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {genreStories.map(story => (
+            <a href={`/stories/${story.slug}/`} class="group block overflow-hidden rounded-xl border border-slate-700/60 bg-slate-800/60 transition-all hover:border-pink-500/60 hover:shadow-lg hover:shadow-pink-500/10">
+              <div class={`h-2 bg-gradient-to-r ${story.color}`} />
+              <div class="space-y-4 p-5">
+                <div class="flex items-center gap-3">
+                  <span class="text-3xl">{story.icon}</span>
+                  <div>
+                    <h3 class="font-bold text-white group-hover:text-pink-300">{story.en.name}</h3>
+                    <p class="text-xs uppercase tracking-wide text-slate-500">{story.templateType.replace(/-/g, ' ')}</p>
+                  </div>
+                </div>
+                <p class="line-clamp-3 text-sm leading-relaxed text-slate-400">{story.en.desc}</p>
+                <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                  <div class="rounded-lg bg-slate-950/70 px-2 py-2">
+                    <div class="font-semibold text-white">{story.storySkeleton.characters.length}</div>
+                    <div class="text-slate-500">chars</div>
+                  </div>
+                  <div class="rounded-lg bg-slate-950/70 px-2 py-2">
+                    <div class="font-semibold text-white">{story.storySkeleton.chapters.length}</div>
+                    <div class="text-slate-500">chapters</div>
+                  </div>
+                  <div class="rounded-lg bg-slate-950/70 px-2 py-2">
+                    <div class="font-semibold text-white">{story.storySkeleton.endings.length}</div>
+                    <div class="text-slate-500">endings</div>
+                  </div>
+                </div>
+                <span class="inline-flex rounded-lg bg-pink-500/20 px-4 py-1.5 text-sm text-pink-300 transition-colors group-hover:bg-pink-500/30">Play story →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="border-t border-slate-800 bg-slate-900/40 px-4 py-10 sm:px-6">
+        <div class="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[1fr_320px]">
+          <div class="space-y-5">
+            <h2 class="text-2xl font-bold">Why Play {genre.label} Stories?</h2>
+            <p class="leading-7 text-slate-300">
+              These free AI story games combine structured chapters with dynamic choice-driven narration. You can start instantly, follow the story arc, and replay to discover different outcomes.
+            </p>
+            <div class="grid gap-3 sm:grid-cols-3">
+              <div class="rounded-xl border border-slate-700/60 bg-slate-800/50 p-4">
+                <h3 class="text-sm font-semibold text-white">Branching Choices</h3>
+                <p class="mt-2 text-xs leading-5 text-slate-400">Stats and relationships shift as you pick your path.</p>
+              </div>
+              <div class="rounded-xl border border-slate-700/60 bg-slate-800/50 p-4">
+                <h3 class="text-sm font-semibold text-white">Multiple Endings</h3>
+                <p class="mt-2 text-xs leading-5 text-slate-400">Replay to unlock alternate finales and story results.</p>
+              </div>
+              <div class="rounded-xl border border-slate-700/60 bg-slate-800/50 p-4">
+                <h3 class="text-sm font-semibold text-white">Auto-Save</h3>
+                <p class="mt-2 text-xs leading-5 text-slate-400">Continue later from the same browser without an account.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="rounded-xl border border-slate-700/60 bg-slate-800/50 p-5">
+            <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-400">More Story Genres</h2>
+            <div class="mt-4 space-y-2">
+              {otherGenres.map(item => (
+                <a href={`/stories/genre/${item.slug}/`} class="flex items-center justify-between rounded-lg bg-slate-950/60 px-3 py-2 text-sm text-slate-300 hover:text-pink-300">
+                  <span><span class="mr-2">{item.icon}</span>{item.label}</span>
+                  <span>→</span>
+                </a>
+              ))}
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+        <h2 class="mb-5 text-2xl font-bold">Frequently Asked Questions</h2>
+        <div class="space-y-3">
+          {faqItems.map(item => (
+            <details class="group rounded-lg bg-slate-800/40">
+              <summary class="cursor-pointer px-4 py-3 font-medium text-white transition-colors hover:text-pink-300">{item.q}</summary>
+              <p class="px-4 pb-3 text-sm leading-6 text-slate-400">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

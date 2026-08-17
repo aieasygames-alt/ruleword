@@ -58,7 +58,7 @@ export default function StoryRenderer({ history, isLatest, characters }: StoryRe
   }, [history.length])
 
   return (
-    <div ref={containerRef} className="px-4 py-6 space-y-4">
+    <div ref={containerRef} data-testid="story-log" className="px-4 py-6 space-y-4">
       {history.map((entry, index) => {
         const isLatestEntry = isLatest && index === history.length - 1
         const isDialogue = !!entry.speaker
@@ -66,7 +66,7 @@ export default function StoryRenderer({ history, isLatest, characters }: StoryRe
         if (isDialogue && entry.speaker) {
           const colors = getSpeakerColor(entry.speaker, speakerColorMap, nextColorIndex)
           return (
-            <div key={index} className="flex justify-start">
+            <div key={index} data-testid="story-entry" className="flex justify-start">
               <div className={`max-w-[85%] bg-slate-700/60 border-l-2 ${colors.border} rounded-2xl rounded-tl-sm px-4 py-3`}>
                 <div className="flex items-center gap-2 mb-1">
                   <span className={`text-sm font-semibold ${colors.text}`}>{entry.speaker}</span>
@@ -88,7 +88,7 @@ export default function StoryRenderer({ history, isLatest, characters }: StoryRe
         }
 
         return (
-          <div key={index} className="flex justify-center">
+          <div key={index} data-testid="story-entry" className="flex justify-center">
             <div className="max-w-[90%] text-center">
               {isLatestEntry ? (
                 <TypingEffect text={entry.text} speed={15} className="text-slate-300 text-sm leading-relaxed italic" />

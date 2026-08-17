@@ -4,6 +4,7 @@ import { categories } from '../data/categories'
 import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { blogPosts } from '../data/blogPosts'
+import { storyGenres } from '../data/storyGenres'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -121,6 +122,12 @@ ${blogSlugs.map(slug => `  <url>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+${storyGenres.map(genre => `  <url>
+    <loc>${baseUrl}/stories/genre/${genre.slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`).join('\n')}
 ${(await getCollection('stories')).map(entry => `  <url>
     <loc>${baseUrl}/stories/${entry.data.slug}/</loc>
     <lastmod>${lastmod}</lastmod>

@@ -344,6 +344,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
               ))}
             </div>
             <button
+              data-testid="story-start"
               onClick={handleStart}
               className={`px-8 py-3 ${theme.primaryButton} ${theme.primaryButtonHover} text-white rounded-xl font-medium transition-colors text-lg shadow-lg ${theme.primaryShadow}`}
             >
@@ -396,7 +397,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
 
       {/* Progress bar */}
       {state.phase !== 'idle' && (
-        <div className="h-0.5 bg-slate-800 shrink-0 max-w-3xl mx-auto w-full">
+        <div data-testid="story-progress" className="h-0.5 bg-slate-800 shrink-0 max-w-3xl mx-auto w-full">
           <div
             className={`h-full bg-gradient-to-r ${template.color} transition-all duration-700 ease-out`}
             style={{ width: `${progressPercent}%` }}

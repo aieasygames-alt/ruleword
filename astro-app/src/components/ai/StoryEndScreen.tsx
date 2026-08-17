@@ -14,7 +14,7 @@ interface StoryEndScreenProps {
 
 export default function StoryEndScreen({ ending, metadata, stats, unlockedEndings, totalEndings, themeConfig, onShare, onReplay }: StoryEndScreenProps) {
   return (
-    <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
+    <div data-testid="story-end-screen" className="absolute inset-0 z-10 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-slate-800 rounded-2xl p-6 max-w-md w-full text-center space-y-4 border border-slate-700 animate-slide-up">
         <div className="text-5xl">{themeConfig.endEmoji}</div>
         <h2 className="text-2xl font-bold text-white">{ending.title}</h2>
@@ -65,12 +65,14 @@ export default function StoryEndScreen({ ending, metadata, stats, unlockedEnding
 
         <div className="flex flex-col gap-3 pt-2">
           <button
+            data-testid="story-share"
             onClick={onShare}
             className={`w-full px-4 py-3 ${themeConfig.primaryButton} ${themeConfig.primaryButtonHover} text-white rounded-xl text-sm font-medium transition-colors`}
           >
             Share Your Story
           </button>
           <button
+            data-testid="story-replay"
             onClick={onReplay}
             className="w-full px-4 py-3 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-sm transition-colors"
           >

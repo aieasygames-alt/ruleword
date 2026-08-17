@@ -35,4 +35,31 @@ describe('Technical SEO safeguards', () => {
     expect(redirects).toContain('/fr/* /:splat 301')
     expect(redirects).toContain('/guides/heyawake-guide/ /guides/heyawake/ 301')
   })
+
+  it('keeps upgraded AI Stories structured data in place', () => {
+    const storiesIndex = fs.readFileSync(path.join(projectRoot, 'src/pages/stories/index.astro'), 'utf8')
+    const storyPage = fs.readFileSync(path.join(projectRoot, 'src/pages/stories/[slug].astro'), 'utf8')
+    const storyGenrePage = fs.readFileSync(path.join(projectRoot, 'src/pages/stories/genre/[genre].astro'), 'utf8')
+    const sitemap = fs.readFileSync(path.join(projectRoot, 'src/pages/sitemap.xml.ts'), 'utf8')
+
+    expect(storiesIndex).toContain('"@type": "CollectionPage"')
+    expect(storiesIndex).toContain('"hasPart": genreGroups.map')
+    expect(storiesIndex).toContain('"@type": "Game"')
+    expect(storiesIndex).toContain('"gamePlatform": "Web browser"')
+    expect(storiesIndex).toContain('/stories/genre/${g.slug}/')
+
+    expect(storyPage).toContain('"@type": ["Game", "WebApplication"]')
+    expect(storyPage).toContain('"@type": "PlayAction"')
+    expect(storyPage).toContain('"name": `${storyName} endings`')
+    expect(storyPage).toContain('"@type": "FAQPage"')
+
+    expect(storyGenrePage).toContain('getStaticPaths')
+    expect(storyGenrePage).toContain('"@type": "CollectionPage"')
+    expect(storyGenrePage).toContain('"@type": "FAQPage"')
+    expect(storyGenrePage).toContain('itemListElement')
+    expect(storyGenrePage).toContain('More Story Genres')
+
+    expect(sitemap).toContain('storyGenres.map')
+    expect(sitemap).toContain('/stories/genre/${genre.slug}/')
+  })
 })

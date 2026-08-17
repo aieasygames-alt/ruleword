@@ -23,6 +23,8 @@ export default function ChoicePanel({ choices, disabled, onSelect, theme }: Choi
       {choices.map((choice, index) => (
         <button
           key={choice.id}
+          data-testid={`story-choice-${index}`}
+          data-choice-id={choice.id}
           onClick={() => onSelect(choice.id)}
           disabled={disabled}
           className={`

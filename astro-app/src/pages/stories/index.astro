@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
 import StoriesProgressShelf from '../../components/ai/StoriesProgressShelf'
+import { groupStoriesByGenre, storyGenres } from '../../data/storyGenres'
 
 const stories = await getCollection('stories')
 const storyData = stories.map(entry => entry.data)
@@ -20,22 +21,8 @@ const trendingStories = storyData
   .filter(story => ['ai-zombie-survival', 'ai-fantasy-adventure', 'ai-escape-room', 'ai-crypto-trader'].includes(story.slug))
   .slice(0, 4)
 
-// Group stories by genre for better SEO structure
-const genreGroups = [
-  { label: 'Romance & Relationships', icon: '💕', types: ['dating-sim'] },
-  { label: 'Mystery & Detective', icon: '🔍', types: ['detective', 'persuasion'] },
-  { label: 'Survival & Horror', icon: '🧟', types: ['survival', 'horror'] },
-  { label: 'Fantasy & Adventure', icon: '⚔️', types: ['fantasy-rpg', 'open-adventure'] },
-  { label: 'Strategy & Simulation', icon: '💼', types: ['startup-sim', 'business-sim', 'negotiation', 'personality-quiz', 'escape-room'] },
-]
-const genreMap = new Map<string, typeof storyData>()
-storyData.forEach(s => {
-  const g = genreGroups.find(g => g.types.includes(s.templateType))
-  const key = g ? g.label : 'Strategy & Simulation'
-  const groupStories = genreMap.get(key) ?? []
-  groupStories.push(s)
-  genreMap.set(key, groupStories)
-})
+const genreGroups = storyGenres
+const genreMap = groupStoriesByGenre(storyData)
 
 const seoTitle = 'AI Story Games - 15+ Free Interactive Fiction Games Online'
 const seoDescription = 'Play 15+ AI-powered interactive story games free. Romance, mystery, survival, fantasy & more. Every choice shapes a unique story. No download required!'
@@ -53,6 +40,39 @@ const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'AI Stories', url: '/stories/' },
 ]
+
+const storyCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "AI Interactive Story Games",
+  "description": seoDescription,
+  "url": "https://ruleword.com/stories/",
+  "keywords": ["AI story games", "interactive fiction", "multiple endings", "AI dating simulator", "AI mystery game"],
+  "hasPart": genreGroups.map(group => ({
+    "@type": "Collection",
+    "name": group.label,
+    "url": `https://ruleword.com/stories/genre/${group.slug}/`,
+    "numberOfItems": genreMap.get(group.slug)?.length ?? 0,
+  })),
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": storyData.length,
+    "itemListElement": storyData.map((story, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "item": {
+        "@type": "Game",
+        "name": story.en.name,
+        "description": story.en.desc,
+        "genre": "Interactive Fiction",
+        "gamePlatform": "Web browser",
+        "url": `https://ruleword.com/stories/${story.slug}/`,
+        "numberOfPlayers": 1,
+        "playMode": "SinglePlayer",
+      }
+    }))
+  }
+}
 ---
 
 <BaseLayout
@@ -64,23 +84,7 @@ const breadcrumbItems = [
   breadcrumbItems={breadcrumbItems}
 >
   <Fragment slot="head">
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      "name": "AI Interactive Story Games",
-      "description": seoDescription,
-      "url": "https://ruleword.com/stories/",
-      "mainEntity": {
-        "@type": "ItemList",
-        "numberOfItems": storyData.length,
-        "itemListElement": storyData.map((story, i) => ({
-          "@type": "ListItem",
-          "position": i + 1,
-          "name": story.en.name,
-          "url": `https://ruleword.com/stories/${story.slug}/`
-        }))
-      }
-    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(storyCollectionSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -118,7 +122,7 @@ const breadcrumbItems = [
         </p>
         <div class="flex flex-wrap justify-center gap-3 text-sm">
           {genreGroups.map(g => (
-            <a href={`#${g.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}`} class="px-3 py-1 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 rounded-full transition-colors border border-slate-700/50">
+            <a href={`/stories/genre/${g.slug}/`} class="px-3 py-1 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 rounded-full transition-colors border border-slate-700/50">
               {g.icon} {g.label}
             </a>
           ))}
@@ -172,14 +176,17 @@ const breadcrumbItems = [
     <!-- Stories by Genre -->
     <section class="max-w-5xl mx-auto px-4 py-12 space-y-12 border-t border-slate-800">
       {genreGroups.map(g => {
-        const groupStories = genreMap.get(g.label)
+        const groupStories = genreMap.get(g.slug)
         if (!groupStories || groupStories.length === 0) return null
         return (
-          <div id={g.label.toLowerCase().replace(/\s+/g, '-').replace(/&/g, 'and')}>
-            <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-              <span class="text-2xl">{g.icon}</span>
-              {g.label}
-            </h2>
+          <div id={g.slug}>
+            <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-xl font-bold flex items-center gap-2">
+                <span class="text-2xl">{g.icon}</span>
+                {g.label}
+              </h2>
+              <a href={`/stories/genre/${g.slug}/`} class="text-sm text-pink-300 hover:text-pink-200">Explore genre →</a>
+            </div>
             <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               {groupStories.map(story => (
                 <a
