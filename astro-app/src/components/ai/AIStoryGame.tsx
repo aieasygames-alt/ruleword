@@ -43,6 +43,44 @@ interface ChapterTransition {
   index: number
 }
 
+interface StoryProgressSummaryProps {
+  progress: StoryProgress
+  totalEndings: number
+  totalChapters: number
+  themeAccent: string
+}
+
+function StoryProgressSummary({ progress, totalEndings, totalChapters, themeAccent }: StoryProgressSummaryProps) {
+  const bestChapter = Math.min(progress.bestChapterIndex + 1, totalChapters)
+
+  return (
+    <div
+      data-testid="story-progress-summary"
+      className="max-w-3xl mx-auto w-full grid grid-cols-3 gap-2 px-4 py-2 bg-slate-950/30 border-b border-slate-800/60"
+      aria-label="Story progress summary"
+    >
+      <div className="min-w-0 rounded-lg bg-slate-900/60 border border-slate-700/50 px-3 py-2 text-center">
+        <div data-testid="story-unlocked-endings" className={`text-sm font-bold ${themeAccent}`}>
+          {progress.unlockedEndings.length}/{totalEndings}
+        </div>
+        <div className="text-[10px] uppercase text-slate-500">Endings</div>
+      </div>
+      <div className="min-w-0 rounded-lg bg-slate-900/60 border border-slate-700/50 px-3 py-2 text-center">
+        <div data-testid="story-completed-runs" className={`text-sm font-bold ${themeAccent}`}>
+          {progress.completedRuns}
+        </div>
+        <div className="text-[10px] uppercase text-slate-500">Runs</div>
+      </div>
+      <div className="min-w-0 rounded-lg bg-slate-900/60 border border-slate-700/50 px-3 py-2 text-center">
+        <div data-testid="story-best-chapter" className={`text-sm font-bold ${themeAccent}`}>
+          Ch.{bestChapter}
+        </div>
+        <div className="text-[10px] uppercase text-slate-500">Best</div>
+      </div>
+    </div>
+  )
+}
+
 function storyReducer(state: StoryState, action: StoryAction): StoryState {
   switch (action.type) {
     case 'START': {
@@ -404,6 +442,13 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
           />
         </div>
       )}
+
+      <StoryProgressSummary
+        progress={progress}
+        totalEndings={template.storySkeleton.endings.length}
+        totalChapters={totalChapters}
+        themeAccent={theme.accent}
+      />
 
       {/* Stats */}
       {template.uiConfig.showStats && (

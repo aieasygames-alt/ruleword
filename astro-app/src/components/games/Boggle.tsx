@@ -553,9 +553,10 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   }, [board, clearSelection, gameActive, selectedCells, submitWord])
 
   const sortedFoundWords = Array.from(foundWords).sort((a, b) => b.length - a.length || a.localeCompare(b))
+  const hasBoard = board.length > 0
 
   return (
-    <div className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
+    <div data-testid="boggle-game" className={`min-h-screen ${bgClass} ${textClass} flex flex-col`}>
       <header className="sticky top-0 z-10 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <button onClick={onBack} className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-sm">
@@ -564,31 +565,31 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
           <div className="flex items-center gap-4">
             <div className="text-center">
               <div className="text-xs text-slate-400">Time</div>
-              <div className={`text-lg font-bold ${mode === 'classic' && timeLeft <= 30 ? 'text-red-400' : 'text-green-400'}`}>
+              <div data-testid="boggle-time" className={`text-lg font-bold ${mode === 'classic' && timeLeft <= 30 ? 'text-red-400' : 'text-green-400'}`}>
                 {mode === 'classic' ? formatTime(timeLeft) : 'Relax'}
               </div>
             </div>
             <div className="text-center">
               <div className="text-xs text-slate-400">Score</div>
-              <div className="text-lg font-bold text-yellow-400">{score}</div>
+              <div data-testid="boggle-score" className="text-lg font-bold text-yellow-400">{score}</div>
             </div>
             <div className="text-center">
               <div className="text-xs text-slate-400">Words</div>
-              <div className="text-lg font-bold text-blue-400">{foundWords.size}</div>
+              <div data-testid="boggle-word-count" className="text-lg font-bold text-blue-400">{foundWords.size}</div>
             </div>
             <div className="hidden sm:block text-center">
               <div className="text-xs text-slate-400">Best</div>
               <div className="text-lg font-bold text-emerald-400">{bestScore}</div>
             </div>
           </div>
-          <button onClick={startGame} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
-            {gameActive ? 'New' : gameOver ? 'Play Again' : 'Start'}
+          <button data-testid="boggle-header-start" onClick={startGame} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
+            {gameActive ? 'New' : gameOver ? 'Play Again' : hasBoard ? 'New' : 'Start'}
           </button>
         </div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 gap-4">
-        {!gameActive && !gameOver ? (
+        {!gameActive && !gameOver && !hasBoard ? (
           <div className="text-center space-y-6 max-w-2xl">
             <h1 className="text-3xl font-bold">Play Boggle Online Free</h1>
             <p className="text-slate-400 max-w-md mx-auto">
@@ -598,6 +599,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
               {(['classic', 'relaxed', 'daily'] as BoggleMode[]).map(option => (
                 <button
                   key={option}
+                  data-testid={`boggle-mode-${option}`}
                   onClick={() => setMode(option)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${mode === option ? 'bg-green-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
                 >
@@ -609,6 +611,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
               {([4, 5] as BoggleBoardSize[]).map(size => (
                 <button
                   key={size}
+                  data-testid={`boggle-size-${size}`}
                   onClick={() => setBoardSize(size)}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${boardSize === size ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
                 >
@@ -644,22 +647,23 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                 </div>
               </div>
             </div>
-            <button onClick={startGame} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
+            <button data-testid="boggle-start" onClick={startGame} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
               Start Game
             </button>
           </div>
         ) : (
           <>
             <div className="text-center">
-              <div className="text-3xl font-bold tracking-wider min-h-[2.5rem]">{currentWord || '_'}</div>
+              <div data-testid="boggle-current-word" className="text-3xl font-bold tracking-wider min-h-[2.5rem]">{currentWord || '_'}</div>
               {message && (
-                <div className={`text-sm mt-1 ${message.includes('+') ? 'text-green-400' : message.includes('Already') ? 'text-amber-400' : 'text-red-400'}`}>
+                <div data-testid="boggle-message" className={`text-sm mt-1 ${message.includes('+') ? 'text-green-400' : message.includes('Already') ? 'text-amber-400' : 'text-red-400'}`}>
                   {message}
                 </div>
               )}
             </div>
 
             <div
+              data-testid="boggle-board"
               className="bg-slate-800 rounded-xl p-4 touch-none select-none"
               onPointerMove={event => handlePointerMove(event.clientX, event.clientY)}
               onPointerLeave={() => setIsDragging(false)}
@@ -674,6 +678,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                     <button
                       key={`${rowIdx}-${colIdx}`}
                       data-boggle-cell
+                      data-testid={`boggle-cell-${rowIdx}-${colIdx}`}
                       data-row={rowIdx}
                       data-col={colIdx}
                       onPointerDown={event => {
@@ -691,26 +696,26 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
             </div>
 
             <div className="flex flex-wrap justify-center gap-2">
-              <button onClick={clearSelection} disabled={!currentWord} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
+              <button data-testid="boggle-clear" onClick={clearSelection} disabled={!currentWord} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
                 Clear
               </button>
-              <button onClick={submitWord} disabled={!currentWord || currentWord.length < 3} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
+              <button data-testid="boggle-submit" onClick={submitWord} disabled={!currentWord || currentWord.length < 3} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium">
                 Submit
               </button>
               {mode === 'relaxed' && gameActive && (
-                <button onClick={finishRound} className="px-6 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 transition-colors font-medium">
+                <button data-testid="boggle-end-round" onClick={finishRound} className="px-6 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 transition-colors font-medium">
                   End Round
                 </button>
               )}
               {gameActive && (
-                <button onClick={handleHint} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
+                <button data-testid="boggle-hint" onClick={handleHint} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
                   Hint
                 </button>
               )}
             </div>
-            {hintText && <div className="text-sm text-blue-300">Hint: {hintText}</div>}
+            {hintText && <div data-testid="boggle-hint-text" className="text-sm text-blue-300">Hint: {hintText}</div>}
 
-            <div className="w-full max-w-lg rounded-xl border border-slate-800 bg-slate-900/70 p-4">
+            <div data-testid="boggle-found-words" className="w-full max-w-lg rounded-xl border border-slate-800 bg-slate-900/70 p-4">
               <div className="mb-2 flex items-center justify-between text-sm">
                 <span className="text-slate-400">Found Words</span>
                 <span className="text-slate-500">{wordListLabel(sortedFoundWords)}</span>
@@ -725,7 +730,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
         )}
 
         {gameOver && (
-          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div data-testid="boggle-round-complete" className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
             <div className={`${isDark ? 'bg-slate-800' : 'bg-white'} rounded-2xl p-6 text-center shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto`}>
               <h2 className="text-2xl font-bold mb-3">Round Complete</h2>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
@@ -792,13 +797,13 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
               )}
 
               <div className="flex justify-center gap-2">
-                <button onClick={startGame} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium">
+                <button data-testid="boggle-play-again" onClick={startGame} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium">
                   Play Again
                 </button>
-                <button onClick={handleShare} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
+                <button data-testid="boggle-share" onClick={handleShare} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">
                   Share
                 </button>
-                <button onClick={() => setGameOver(false)} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors font-medium">
+                <button data-testid="boggle-review-board" onClick={() => setGameOver(false)} className="px-6 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 transition-colors font-medium">
                   Review Board
                 </button>
               </div>

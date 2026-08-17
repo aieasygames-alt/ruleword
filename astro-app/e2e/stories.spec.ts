@@ -28,6 +28,10 @@ test.describe('AI Stories critical paths', () => {
     await expect(page.getByTestId('story-log')).toContainText("You've just moved to the city")
     await expect(page.getByTestId('story-choice-0')).toBeVisible()
     await expect(page.getByTestId('story-progress')).toBeVisible()
+    await expect(page.getByTestId('story-progress-summary')).toBeVisible()
+    await expect(page.getByTestId('story-unlocked-endings')).toHaveText('0/4')
+    await expect(page.getByTestId('story-completed-runs')).toHaveText('0')
+    await expect(page.getByTestId('story-best-chapter')).toHaveText('Ch.1')
 
     const entryCountBefore = await page.getByTestId('story-entry').count()
     await page.getByTestId('story-choice-0').click()

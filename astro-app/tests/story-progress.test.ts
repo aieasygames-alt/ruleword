@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   buildInitialStoryState,
   loadStoryProgress,
@@ -36,6 +36,20 @@ describe('story progress', () => {
     const progress = loadStoryProgress('test-story')
     expect(progress.unlockedEndings).toEqual([])
     expect(progress.completedRuns).toBe(0)
+  })
+
+  it('normalizes older stored progress records', () => {
+    vi.mocked(localStorage.getItem).mockReturnValueOnce(JSON.stringify({
+      templateId: 'test-story',
+      unlockedEndings: [{ id: 'good', title: 'Good Ending', unlockedAt: '2026-08-16T00:00:00.000Z' }],
+    }))
+
+    const progress = loadStoryProgress('test-story')
+    expect(progress.unlockedEndings).toHaveLength(1)
+    expect(progress.completedRuns).toBe(0)
+    expect(progress.recordedEndingKeys).toEqual([])
+    expect(progress.bestChapterIndex).toBe(0)
+    expect(progress.lastPlayedAt).toBe('1970-01-01T00:00:00.000Z')
   })
 
   it('records best chapter and unlocked endings', () => {

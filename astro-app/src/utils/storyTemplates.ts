@@ -103,7 +103,11 @@ export function loadStoryProgress(templateId: string): StoryProgress {
       const progress = JSON.parse(saved) as StoryProgress
       return {
         ...progress,
+        unlockedEndings: progress.unlockedEndings ?? [],
+        completedRuns: progress.completedRuns ?? 0,
         recordedEndingKeys: progress.recordedEndingKeys ?? [],
+        bestChapterIndex: progress.bestChapterIndex ?? 0,
+        lastPlayedAt: progress.lastPlayedAt ?? new Date(0).toISOString(),
       }
     }
   } catch {
