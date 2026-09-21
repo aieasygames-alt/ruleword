@@ -469,7 +469,7 @@ export default function AgarIo({
   }, [gameState, settings.darkMode, playSound, updateScore, score, highScore, createFood, createAI])
 
   const texts = {
-    title: settings.language === 'zh' ? '大球吃小球' : 'Agar.io',
+    title: settings.language === 'zh' ? '细胞竞技场' : 'Cell Arena',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'Best',
     start: settings.language === 'zh' ? '开始游戏' : 'Start',

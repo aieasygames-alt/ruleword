@@ -671,7 +671,7 @@ export default function DoodleJump({
   }, [gameState, player, platforms, settings.darkMode, animFrame, score])
 
   const texts = {
-    title: settings.language === 'zh' ? '涂鸦跳跃' : 'Doodle Jump',
+    title: settings.language === 'zh' ? '弹跳向上' : 'Bounce Up',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'High Score',
     start: settings.language === 'zh' ? '开始游戏' : 'Start Game',

@@ -190,7 +190,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
       case 'ArrowUp':
       case 'w':
@@ -217,14 +217,17 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
         move('right');
         break;
     }
-  };
+  }, [move]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyPress]);
 
   return (
     <div
       className={`min-h-screen flex flex-col items-center justify-center p-4 ${darkMode ? 'bg-slate-900' : 'bg-gray-100'}`}
-      onKeyDown={handleKeyPress}
-      tabIndex={0}
-      autoFocus
+      data-testid="cupcakes-game"
     >
       <div className={`max-w-md w-full rounded-2xl shadow-2xl p-6 ${darkMode ? 'bg-slate-800' : 'bg-white'}`}>
         {/* Header */}
@@ -238,7 +241,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
             </p>
           </div>
           <div className="text-right">
-            <div className={`text-3xl font-bold ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>
+            <div data-testid="cupcakes-score" className={`text-3xl font-bold ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>
               {score}
             </div>
             <div className={`text-sm ${darkMode ? 'text-slate-400' : 'text-gray-600'}`}>Score</div>
@@ -285,6 +288,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
             <div></div>
             <button
               onClick={() => move('up')}
+              data-testid="cupcakes-up"
               className={`p-4 rounded-lg font-bold ${
                 darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
               }`}
@@ -294,6 +298,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
             <div></div>
             <button
               onClick={() => move('left')}
+              data-testid="cupcakes-left"
               className={`p-4 rounded-lg font-bold ${
                 darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
               }`}
@@ -302,6 +307,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
             </button>
             <button
               onClick={() => move('down')}
+              data-testid="cupcakes-down"
               className={`p-4 rounded-lg font-bold ${
                 darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
               }`}
@@ -310,6 +316,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
             </button>
             <button
               onClick={() => move('right')}
+              data-testid="cupcakes-right"
               className={`p-4 rounded-lg font-bold ${
                 darkMode ? 'bg-slate-700 hover:bg-slate-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
               }`}
@@ -335,6 +342,7 @@ export default function Two048Cupcakes({ settings = { darkMode: true, soundEnabl
         <div className="flex gap-4">
           <button
             onClick={initGame}
+            data-testid="cupcakes-new-game"
             className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
               darkMode
                 ? 'bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-400 hover:to-rose-500 text-white'

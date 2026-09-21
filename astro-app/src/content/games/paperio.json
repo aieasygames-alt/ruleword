@@ -5,9 +5,9 @@
   "category": "skill",
   "color": "from-blue-400 to-indigo-600",
   "en": {
-    "name": "Paper.io",
+    "name": "Trail Territory",
     "desc": "Capture territory by enclosing areas with your trail!",
-    "description": "Paper.io is a territory capture game where you move your character around a grid to create trails. When you return to your territory, the enclosed area becomes yours. Watch out for other players who can cut your trail - if you hit your trail or an enemy trail, game over! Features AI opponents that compete for territory.",
+    "description": "Trail Territory is an original territory-capture game. Move around the grid to create trails, then return to your territory to claim enclosed areas. Avoid every exposed trail while competing with AI rivals.",
     "objectives": "Capture as much territory as possible. Return to your territory to enclose captured areas. Avoid hitting your own trail or enemy trails. Eliminate AI opponents by cutting their trails.",
     "howToPlay": "Use arrow keys or WASD to move your character. Move outside your territory to create a trail. Return to your territory to enclose the captured area. Don't hit your own trail or game over! Cut enemy trails to eliminate them.",
     "rules": {
@@ -41,9 +41,9 @@
     ]
   },
   "zh": {
-    "name": "圈地大作战",
+    "name": "轨迹领地",
     "desc": "用你的轨迹包围区域来占领领土！",
-    "description": "Paper.io是一款领土占领游戏，在网格上移动角色创建轨迹。当返回自己的领土时，包围的区域成为你的。注意其他玩家可以切断你的轨迹 - 如果撞到自己的轨迹或敌人轨迹，游戏结束！游戏包含与AI对手争夺领土。",
+    "description": "轨迹领地是一款原创领土占领游戏。在网格上移动角色创建轨迹，返回自己的领土后即可占领包围区域。避开所有暴露的轨迹，并与 AI 对手争夺领土。",
     "objectives": "占领尽可能多的领土。返回自己的领土来包围捕获区域.避免撞到自己的轨迹或敌人轨迹.通过切断敌人轨迹来消灭AI对手.",
     "howToPlay": "使用方向键或WASD移动角色.移动到领土外创建轨迹.返回领土包围捕获区域.不要撞到自己的轨迹否则游戏结束！切断敌人轨迹消灭他们.",
     "rules": {

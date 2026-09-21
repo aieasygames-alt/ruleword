@@ -72,5 +72,4 @@
 //   chapter: 1,
 //   maxMistakes: 3,
 // },
-// // ... continue for more levels up to 100
-]
+// ... continue for more levels up to 100

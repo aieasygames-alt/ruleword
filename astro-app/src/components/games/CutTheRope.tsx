@@ -659,7 +659,7 @@ export default function CutTheRope({
   }, [candy, ropes, stars, frog, slicing, sliceStart, sliceEnd, settings.darkMode, level])
 
   const texts = {
-    title: settings.language === 'zh' ? '割绳子' : 'Cut the Rope',
+    title: settings.language === 'zh' ? '糖果绳索' : 'Candy Lines',
     score: settings.language === 'zh' ? '分数' : 'Score',
     level: settings.language === 'zh' ? '关卡' : 'Level',
     start: settings.language === 'zh' ? '开始游戏' : 'Start Game',

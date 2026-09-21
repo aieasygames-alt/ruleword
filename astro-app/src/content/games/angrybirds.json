@@ -5,18 +5,18 @@
   "category": "skill",
   "color": "from-red-500 to-orange-600",
   "en": {
-    "name": "Angry Birds",
-    "desc": "Launch birds from a slingshot to destroy pigs and structures!",
-    "description": "Angry Birds is a physics-based puzzle game where you launch colorful birds from a slingshot to destroy structures and defeat green pigs. Use trajectory, momentum, and strategy to maximize destruction. Each bird has unique abilities, and different materials (wood, stone, glass) have different properties.",
-    "objectives": "Destroy all pigs using your birds. Maximize destruction for bonus points. Complete all levels with minimum birds. Beat your high score.",
-    "howToPlay": "Click and drag on the slingshot to aim. Release to launch the bird. Hit pigs and structures to deal damage. Destroy all pigs to complete the level. Use remaining birds wisely - they're limited!",
+    "name": "Slingshot Siege",
+    "desc": "Launch birds from a slingshot to topple targets and structures!",
+    "description": "Slingshot Siege is an original physics puzzle where you launch colorful birds from a slingshot to topple targets and structures. Use trajectory, momentum, and strategy to create chain reactions. Wood, stone, and glass obstacles each respond differently to impact.",
+    "objectives": "Clear every target with a limited flock. Maximize destruction for bonus points and complete each level efficiently.",
+    "howToPlay": "Click or drag on the slingshot to aim, then release to launch. Hit targets and structures to deal damage. Clear every target to complete the level.",
     "rules": {
       "controls": "Click and drag on the slingshot to aim. Release to launch the bird. The further you pull, the more power.",
       "mechanics": [
         "You have a limited number of birds per level",
-        "Pigs are destroyed when hit with enough force",
+        "Targets are cleared when hit with enough force",
         "Different materials have different durability",
-        "Level ends when all pigs are destroyed or birds run out"
+        "Level ends when all targets are cleared or birds run out"
       ]
     },
     "tips": [
@@ -41,18 +41,18 @@
     ]
   },
   "zh": {
-    "name": "愤怒的小鸟",
-    "desc": "用弹弓发射小鸟摧毁猪和建筑！",
-    "description": "愤怒的小鸟是一款基于物理的益智游戏，你从弹弓发射彩色小鸟来摧毁结构物并击败绿色猪。利用轨迹、动量和策略来最大化破坏.每只鸟都有独特能力，不同材料（木头、石头、玻璃）有不同属性。",
-    "objectives": "用你的鸟消灭所有猪。最大化破坏获得额外分数.用最少的鸟完成所有关卡.打破你的最高分.",
-    "howToPlay": "点击并拖动弹弓来瞄准.释放发射小鸟.撞击猪和建筑造成伤害.消灭所有猪完成关卡.明智地使用剩余的鸟 - 它们是有限的！",
+    "name": "弹弓攻城",
+    "desc": "用弹弓发射小鸟，击倒目标和建筑！",
+    "description": "弹弓攻城是一款原创物理益智游戏。你从弹弓发射彩色小鸟，击倒目标和结构物。利用轨迹、动量和策略制造连锁反应；木头、石头和玻璃障碍对撞击的反应各不相同。",
+    "objectives": "在有限的小鸟数量内清除所有目标。最大化破坏获得额外分数，并高效完成关卡。",
+    "howToPlay": "点击或拖动弹弓来瞄准，释放后发射。撞击目标和建筑造成伤害，清除所有目标即可完成关卡。",
     "rules": {
       "controls": "点击并拖动弹弓来瞄准。释放发射小鸟。拉得越远，力量越大。",
       "mechanics": [
         "每关鸟的数量有限",
-        "受到足够力量撞击时猪会被消灭",
+        "受到足够力量撞击时目标会被清除",
         "不同材料有不同耐久度",
-        "消灭所有猪或鸟用完时关卡结束"
+        "清除所有目标或鸟用完时关卡结束"
       ]
     },
     "tips": [

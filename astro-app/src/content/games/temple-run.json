@@ -5,9 +5,9 @@
   "category": "arcade",
   "color": "from-amber-500 to-orange-600",
   "en": {
-    "name": "Temple Run",
+    "name": "Jungle Sprint",
     "desc": "Run, jump, and slide through endless obstacles!",
-    "description": "Temple Run is an endless runner game where you control a character running through a temple path. Swipe to change lanes, jump over obstacles, or slide under barriers. Collect coins and see how far you can run!",
+    "description": "Jungle Sprint is an original endless runner where you guide a character along a jungle path. Swipe to change lanes, jump over obstacles, slide under barriers, and collect coins.",
     "objectives": "Run as far as possible without hitting obstacles. Collect coins for bonus points. Switch lanes to avoid danger and survive.",
     "howToPlay": "Swipe left/right or use A/D keys to change lanes. Swipe up or press W to jump over obstacles. Swipe down or press S to slide under barriers. Avoid all obstacles to survive.",
     "rules": {
@@ -42,9 +42,9 @@
     ]
   },
   "zh": {
-    "name": "神庙逃亡",
+    "name": "丛林冲刺",
     "desc": "跑、跳、滑穿越无尽障碍！",
-    "description": "神庙逃亡是一款无尽跑酷游戏，你控制角色在神庙道路上奔跑。滑动切换跑道、跳跃越过障碍或滑行穿过屏障。收集金币看看你能跑多远！",
+    "description": "丛林冲刺是一款原创无尽跑酷游戏。你控制角色沿丛林道路奔跑，滑动切换跑道、跳跃越过障碍、滑行穿过屏障，并收集金币。",
     "objectives": "尽可能跑得远，不要撞到障碍物。收集金币获得额外分数。切换跑道躲避危险并生存下去。",
     "howToPlay": "左右滑动或使用A/D键切换跑道。向上滑动或按W键跳过障碍。向下滑动或按S键从屏障下滑过。避开所有障碍物生存下去。",
     "rules": {

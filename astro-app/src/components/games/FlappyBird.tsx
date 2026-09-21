@@ -409,7 +409,7 @@ export default function FlappyBird({
   }, [jump])
 
   const texts = {
-    title: settings.language === 'zh' ? '像素鸟' : 'Flappy Bird',
+    title: settings.language === 'zh' ? '天空跳跃' : 'Sky Hopper',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'High Score',
     start: settings.language === 'zh' ? '点击开始' : 'Tap to Start',

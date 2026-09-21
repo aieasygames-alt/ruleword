@@ -1,7 +1,12 @@
 import { expect, test } from '@playwright/test'
-import { games } from '../src/data/games'
+import { readdirSync, readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 
-const gameSlugs = games.map(game => game.slug)
+const contentDirectory = resolve(import.meta.dirname, '../src/content/games')
+const gameSlugs = readdirSync(contentDirectory)
+  .filter(fileName => fileName.endsWith('.json'))
+  .map(fileName => JSON.parse(readFileSync(resolve(contentDirectory, fileName), 'utf8')) as { slug: string })
+  .map(game => game.slug)
 
 test.describe(`Game load coverage - ${gameSlugs.length} registered games`, () => {
   test.describe.configure({ mode: 'parallel', timeout: 30000 })

@@ -471,7 +471,7 @@ export default function PaperIo({
   }, [gameState, settings.darkMode, playSound, fillTerritory, updateScore, score, highScore])
 
   const texts = {
-    title: settings.language === 'zh' ? '圈地大作战' : 'Paper.io',
+    title: settings.language === 'zh' ? '轨迹领地' : 'Trail Territory',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'Best',
     start: settings.language === 'zh' ? '开始游戏' : 'Start',

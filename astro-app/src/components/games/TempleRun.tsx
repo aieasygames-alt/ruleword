@@ -599,7 +599,7 @@ export default function TempleRun({
   }, [obstacles, coins, playerLane, isJumping, isSliding, jumpProgress, score, coinCount, settings.darkMode])
 
   const texts = {
-    title: settings.language === 'zh' ? '神庙逃亡' : 'Temple Run',
+    title: settings.language === 'zh' ? '丛林冲刺' : 'Jungle Sprint',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'Best',
     coins: settings.language === 'zh' ? '金币' : 'Coins',

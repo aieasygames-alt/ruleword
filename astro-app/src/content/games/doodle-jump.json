@@ -6,9 +6,9 @@
   "featured": true,
   "color": "from-green-500 to-emerald-600",
   "en": {
-    "name": "Doodle Jump",
+    "name": "Bounce Up",
     "desc": "Jump from platform to platform and climb as high as you can!",
-    "description": "Doodle Jump is an addictive vertical platformer where you guide a bouncy creature ever upward! Jump automatically from platform to platform, using left and right controls to navigate. Encounter different platform types: normal green platforms for safe bouncing, blue moving platforms, yellow breakable platforms that crumble on impact, and spring platforms that launch you extra high. How high can you climb?",
+    "description": "Bounce Up is an original vertical platformer where you guide a bouncy creature upward. It jumps automatically while left and right controls help it land on moving, breakable, and spring platforms.",
     "objectives": "Climb as high as possible by jumping from platform to platform. Avoid falling through the bottom of the screen. Collect points based on height achieved and see how you rank on the leaderboard!",
     "howToPlay": "Your character bounces automatically. Use left and right arrow keys (or A/D) to move horizontally. Land on platforms to continue jumping upward. The screen scrolls up as you climb higher.",
     "rules": {
@@ -54,9 +54,9 @@
     ]
   },
   "zh": {
-    "name": "涂鸦跳跃",
+    "name": "弹跳向上",
     "desc": "在平台之间跳跃，爬得越高越好！",
-    "description": "涂鸦跳跃是一款令人上瘾的垂直平台跳跃游戏，你引导一个弹跳的小生物不断向上跳！角色会自动在平台间跳跃，使用左右控制来导航。遇到不同的平台类型：普通绿色平台安全弹跳，蓝色移动平台，黄色易碎平台会在接触时碎裂，弹簧平台可以让你跳得更高。你能跳多高？",
+    "description": "弹跳向上是一款原创垂直平台游戏。你引导一个弹跳生物不断向上，它会自动跳跃；使用左右控制，在移动、易碎和弹簧平台之间穿行。",
     "objectives": "通过在平台间跳跃尽可能爬高。避免从屏幕底部掉落。根据达到的高度获得分数，看看你在排行榜上的排名！",
     "howToPlay": "你的角色会自动弹跳。使用左右方向键（或A/D）水平移动。落在平台上继续向上跳。随着你爬得更高，屏幕会向上滚动。",
     "rules": {

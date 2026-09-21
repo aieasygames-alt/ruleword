@@ -98,6 +98,19 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('game2048-board')).toBeVisible()
   })
 
+  test('2048 Cupcakes accepts keyboard moves without requiring a focused game surface', async ({ page }) => {
+    await page.goto('/games/2048-cupcakes/')
+    await expect(page.getByTestId('cupcakes-game')).toBeVisible()
+
+    const score = page.getByTestId('cupcakes-score')
+    const before = await score.textContent()
+    for (const key of ['ArrowLeft', 'ArrowUp', 'ArrowRight', 'ArrowDown']) {
+      await page.keyboard.press(key)
+      if ((await score.textContent()) !== before) break
+    }
+    await expect(score).not.toHaveText(before ?? '')
+  })
+
   test('Sokoban completes level one and Undo restores move and push counters', async ({ page }) => {
     await page.goto('/games/sokoban/')
     await expect(page.getByTestId('sokoban-board')).toBeVisible()

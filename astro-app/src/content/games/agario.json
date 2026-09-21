@@ -5,9 +5,9 @@
   "category": "skill",
   "color": "from-green-400 to-teal-600",
   "en": {
-    "name": "Agar.io",
+    "name": "Cell Arena",
     "desc": "Control your cell, eat smaller cells to grow, and avoid larger cells!",
-    "description": "Agar.io is a multiplayer-style survival game where you control a small cell in a petri dish world. Your goal is to eat smaller cells and food particles to grow larger while avoiding bigger cells that can eat you. The larger you grow, the slower you move, making strategic positioning crucial. Features AI opponents that hunt and flee based on size relationships.",
+    "description": "Cell Arena is an original survival game where you control a small cell in a petri-dish world. Eat smaller cells and food to grow while avoiding larger opponents. Larger cells move slower, so positioning matters.",
     "objectives": "Eat smaller cells and food to grow your cell size. Avoid larger cells that can consume you. Grow as large as possible to dominate the arena. Use speed and positioning strategically to survive.",
     "howToPlay": "Move your mouse or touch the screen to direct your cell. Your cell follows your cursor/finger automatically. Eat cells smaller than you to grow in size. Run away from cells larger than you. The larger you are, the slower you move.",
     "rules": {
@@ -41,9 +41,9 @@
     ]
   },
   "zh": {
-    "name": "大球吃小球",
+    "name": "细胞竞技场",
     "desc": "控制你的细胞，吃掉比你小的细胞来成长，躲避更大的细胞！",
-    "description": "Agar.io是一款多人风格的生存游戏，你在培养皿世界中控制一个小细胞。你的目标是吃掉更小的细胞和食物粒子来变大，同时躲避能吃掉你的更大细胞。你越大移动越慢，使战略定位变得至关重要。游戏包含根据大小关系进行追捕和逃跑的AI对手。",
+    "description": "细胞竞技场是一款原创生存游戏。你在培养皿世界中控制一个小细胞，吃掉更小的细胞和食物来成长，同时躲避更大的对手；体型越大移动越慢，因此站位至关重要。",
     "objectives": "吃掉比你小的细胞和食物来增加你的细胞大小。躲避能吃掉你的更大细胞.尽可能长大以称霸竞技场.策略性地利用速度和位置来生存.",
     "howToPlay": "移动鼠标或触摸屏幕来引导你的细胞.你的细胞自动跟随你的光标/手指.吃掉比你小的细胞来变大.逃离比你大的细胞.你越大，移动越慢.",
     "rules": {

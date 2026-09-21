@@ -6,9 +6,9 @@
   "featured": true,
   "color": "from-indigo-500 to-purple-600",
   "en": {
-    "name": "Geometry Dash",
+    "name": "Neon Runner",
     "desc": "Jump through spikes and blocks! A rhythm-based endless runner with progressive difficulty.",
-    "description": "Geometry Dash is an addictive rhythm-based platformer where you guide a jumping cube through dangerous passages filled with spikes and blocks. The goal is to survive as long as possible! With progressively harder difficulty, each level challenges your timing and jumping skills!",
+    "description": "Neon Runner is an original rhythm-based platformer where you guide a jumping cube through dangerous passages filled with spikes and blocks. Survive as long as possible while each level tests timing and jumping skills.",
     "objectives": "Guide a jumping cube through dangerous passages. Time your jumps perfectly to avoid spikes and obstacles. Survive as long as possible and beat your high score.",
     "howToPlay": "Click or tap the screen to jump. You can also press Space, W, or Up Arrow. Avoid spikes and blocks. The game gets progressively harder. One hit and it's game over!",
     "rules": {
@@ -42,9 +42,9 @@
     ]
   },
   "zh": {
-    "name": "几何冲刺",
+    "name": "霓虹冲刺",
     "desc": "跳跃穿越尖刺和障碍物！节奏跑酷游戏，考验你的反应速度。",
-    "description": "几何冲刺是一款令人上瘾的节奏跑酷游戏，你引导一个跳跃的立方体穿过充满尖刺和障碍物的危险通道。目标是尽可能长时间生存！随着难度逐渐增加，每个关卡都挑战你的时机和跳跃技巧！",
+    "description": "霓虹冲刺是一款原创节奏跑酷游戏。你引导一个跳跃的立方体穿过充满尖刺和障碍物的危险通道，目标是尽可能长时间生存；每个关卡都会挑战你的时机和跳跃技巧。",
     "objectives": "引导跳跃的立方体穿越危险的通道。完美把握跳跃时机来躲避尖刺和障碍物。尽可能长时间生存并打破你的最高分。",
     "howToPlay": "点击或触摸屏幕跳跃。你也可以按空格键、W键或上箭头。躲避尖刺和障碍物。游戏难度逐渐增加。碰到任何障碍物游戏结束！",
     "rules": {

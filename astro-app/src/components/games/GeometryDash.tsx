@@ -485,7 +485,7 @@ export default function GeometryDash({
   }, [gameState, startGame, jump])
 
   const texts = {
-    title: settings.language === 'zh' ? '几何冲刺' : 'Geometry Dash',
+    title: settings.language === 'zh' ? '霓虹冲刺' : 'Neon Runner',
     score: settings.language === 'zh' ? '分数' : 'Score',
     highScore: settings.language === 'zh' ? '最高分' : 'High Score',
     attempts: settings.language === 'zh' ? '尝试次数' : 'Attempts',

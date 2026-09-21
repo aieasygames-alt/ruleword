@@ -78,3 +78,26 @@ test('Flow Free accepts touch dragging and records a path', async ({ page }) => 
 
   await expect(page.getByTestId('flow-free-path-count')).toHaveText('1')
 })
+
+test('classic arcade games expose usable mobile controls after starting', async ({ page }) => {
+  const cases = [
+    { slug: 'snake', start: /classic|start/i, control: '⬅️' },
+    { slug: 'tetris', start: /start game/i, control: '←' },
+    { slug: 'pac-man', start: /start game/i, control: '↑' },
+    { slug: 'pong', start: /start game/i, control: '↑' },
+    { slug: 'space-invaders', start: /start game/i, control: 'FIRE' },
+    { slug: 'asteroids', start: /start game/i, control: /THRUST/i },
+    { slug: 'frogger', start: /start game/i, control: '↑' },
+    { slug: 'doodle-jump', start: /start game/i, control: '←' },
+  ]
+
+  for (const game of cases) {
+    await page.goto(`/games/${game.slug}/`)
+    await page.getByRole('button', { name: game.start }).first().click()
+    const control = typeof game.control === 'string'
+      ? page.getByRole('button', { name: game.control, exact: true }).first()
+      : page.getByRole('button', { name: game.control }).first()
+    await expect(control).toBeInViewport()
+    await control.click()
+  }
+})

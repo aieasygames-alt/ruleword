@@ -677,35 +677,35 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   'flappy-bird': {
-    primaryKeyword: 'flappy bird game',
-    secondaryKeywords: ['flappy bird online', 'tap fly', 'pipe game'],
-    longTailKeywords: ['play flappy bird free', 'tap to fly game', 'bird pipe game', 'flapping bird'],
-    titleTemplate: 'Flappy Bird Game Online Free - Tap to Fly | {brand}',
-    descriptionTemplate: 'Play Flappy Bird online free! Tap to fly through pipes. Addictive arcade challenge!',
+    primaryKeyword: 'tap to fly game',
+    secondaryKeywords: ['bird pipe game', 'tap arcade game', 'flying game'],
+    longTailKeywords: ['play tap to fly game free', 'bird pipe game online', 'one button flying game', 'arcade flight challenge'],
+    titleTemplate: 'Sky Hopper Online Free - Tap to Fly | {brand}',
+    descriptionTemplate: 'Play Sky Hopper online free. Tap to guide a bird through pipes and beat your best score.',
     intent: 'play'
   },
   'doodle-jump': {
-    primaryKeyword: 'doodle jump game',
-    secondaryKeywords: ['doodle jump online', 'jumping game', 'platform jumper'],
-    longTailKeywords: ['play doodle jump free', 'jump platforms game', 'doodler game', 'bounce jump'],
-    titleTemplate: 'Doodle Jump Game Online Free - Jump Platforms | {brand}',
-    descriptionTemplate: 'Play Doodle Jump online free! Jump on platforms to climb higher. Addictive arcade!',
+    primaryKeyword: 'vertical platform game',
+    secondaryKeywords: ['jumping game', 'platform jumper', 'bounce game'],
+    longTailKeywords: ['play vertical platform game free', 'jump platforms game', 'bounce jump game', 'endless platform climber'],
+    titleTemplate: 'Bounce Up Online Free - Jump Platforms | {brand}',
+    descriptionTemplate: 'Play Bounce Up online free. Jump across platforms, avoid falls, and climb higher.',
     intent: 'play'
   },
   'angry-birds': {
-    primaryKeyword: 'angry birds game',
-    secondaryKeywords: ['angry birds online', 'bird slingshot', 'physics game'],
-    longTailKeywords: ['play angry birds free', 'launch birds game', 'slingshot physics', 'destroy pigs'],
-    titleTemplate: 'Angry Birds Game Online Free - Launch Birds | {brand}',
-    descriptionTemplate: 'Play Angry Birds online free! Launch birds to destroy pig structures. Physics puzzle!',
+    primaryKeyword: 'slingshot physics game',
+    secondaryKeywords: ['bird slingshot', 'physics puzzle', 'launch game'],
+    longTailKeywords: ['play slingshot game free', 'launch birds game', 'slingshot physics puzzle', 'structure destruction game'],
+    titleTemplate: 'Slingshot Siege Online Free - Physics Puzzle | {brand}',
+    descriptionTemplate: 'Play Slingshot Siege online free. Launch birds to topple targets and structures.',
     intent: 'play'
   },
   'cut-the-rope': {
-    primaryKeyword: 'cut the rope game',
-    secondaryKeywords: ['cut the rope online', 'om nom', 'rope cutting', 'cut the rope free'],
-    longTailKeywords: ['play cut the rope free', 'cut rope puzzle', 'feed candy monster', 'physics rope game', 'cut the rope unblocked'],
-    titleTemplate: 'Cut the Rope - Feed Om Nom! Free Physics Puzzle Game | {brand}',
-    descriptionTemplate: 'Swipe to cut ropes and swing candy into Om Nom\'s mouth! 25 physics puzzles with bubbles, air cushions & stars to collect. The classic game — free in browser!',
+    primaryKeyword: 'rope cutting puzzle',
+    secondaryKeywords: ['physics candy game', 'rope puzzle', 'candy physics'],
+    longTailKeywords: ['play rope puzzle free', 'cut rope puzzle', 'feed candy game', 'physics rope game'],
+    titleTemplate: 'Candy Lines Online Free - Physics Rope Puzzle | {brand}',
+    descriptionTemplate: 'Play Candy Lines online free. Cut ropes, collect stars, and guide candy to its target.',
     intent: 'play'
   },
   'tower-defense': {
@@ -835,35 +835,35 @@ export const gameSEOConfig: Record<string, GameSEO> = {
     intent: 'play'
   },
   'geometry-dash': {
-    primaryKeyword: 'geometry dash game',
-    secondaryKeywords: ['geometry dash online', 'rhythm jump', 'platform runner'],
-    longTailKeywords: ['play geometry dash free', 'jump rhythm game', 'geometric runner', 'music jump'],
-    titleTemplate: 'Geometry Dash Game Online Free - Rhythm Jump | {brand}',
-    descriptionTemplate: 'Play Geometry Dash online free! Jump to the rhythm through obstacles. Music platformer!',
+    primaryKeyword: 'rhythm jump game',
+    secondaryKeywords: ['platform runner', 'music jump game', 'neon runner'],
+    longTailKeywords: ['play rhythm jump game free', 'jump rhythm game', 'geometric runner', 'music platformer'],
+    titleTemplate: 'Neon Runner Online Free - Rhythm Jump | {brand}',
+    descriptionTemplate: 'Play Neon Runner online free. Time jumps through spikes and obstacles in a rhythm platformer.',
     intent: 'play'
   },
   'temple-run': {
-    primaryKeyword: 'temple run game',
-    secondaryKeywords: ['temple run online', 'endless runner', 'running game'],
-    longTailKeywords: ['play temple run free', 'endless running game', 'escape temple', 'runner browser'],
-    titleTemplate: 'Temple Run Game Online Free - Endless Runner | {brand}',
-    descriptionTemplate: 'Play Temple Run online free! Run, jump, and slide to escape. Endless runner!',
+    primaryKeyword: 'endless runner game',
+    secondaryKeywords: ['running game', 'jungle runner', 'lane runner'],
+    longTailKeywords: ['play endless runner free', 'endless running game', 'jungle escape runner', 'runner browser game'],
+    titleTemplate: 'Jungle Sprint Online Free - Endless Runner | {brand}',
+    descriptionTemplate: 'Play Jungle Sprint online free. Run, jump, slide, and switch lanes to avoid obstacles.',
     intent: 'play'
   },
   'paper-io': {
-    primaryKeyword: 'paper io game',
-    secondaryKeywords: ['paper io online', 'territory capture', 'io game'],
-    longTailKeywords: ['play paper io free', 'capture territory', 'draw area game', 'io browser game'],
-    titleTemplate: 'Paper.io Game Online Free - Territory Capture | {brand}',
-    descriptionTemplate: 'Play Paper.io online free! Capture territory by drawing paths. Multiplayer io game!',
+    primaryKeyword: 'territory capture game',
+    secondaryKeywords: ['trail game', 'area capture game', 'arena game'],
+    longTailKeywords: ['play territory capture game free', 'capture territory', 'draw area game', 'trail browser game'],
+    titleTemplate: 'Trail Territory Online Free - Territory Capture | {brand}',
+    descriptionTemplate: 'Play Trail Territory online free. Capture areas with trails while avoiding rivals.',
     intent: 'play'
   },
   'agar-io': {
-    primaryKeyword: 'agar io game',
-    secondaryKeywords: ['agar io online', 'cell game', 'eat and grow'],
-    longTailKeywords: ['play agar io free', 'eat cells game', 'grow bigger', 'multiplayer io'],
-    titleTemplate: 'Agar.io Game Online Free - Cell Eating | {brand}',
-    descriptionTemplate: 'Play Agar.io online free! Eat smaller cells to grow. Multiplayer io game!',
+    primaryKeyword: 'cell survival game',
+    secondaryKeywords: ['cell game', 'eat and grow', 'arena survival game'],
+    longTailKeywords: ['play cell survival game free', 'eat cells game', 'grow bigger game', 'cell arena online'],
+    titleTemplate: 'Cell Arena Online Free - Eat and Grow | {brand}',
+    descriptionTemplate: 'Play Cell Arena online free. Eat smaller cells, grow larger, and evade rivals.',
     intent: 'play'
   },
   'flow-free': {

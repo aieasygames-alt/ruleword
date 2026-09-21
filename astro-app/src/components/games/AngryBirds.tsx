@@ -1212,7 +1212,7 @@ export default function AngryBirds({
   }, [gameState, birds, blocks, pigs, score, settings.darkMode])
 
   const texts = {
-    title: isZh ? '愤怒的小鸟' : 'Angry Birds',
+    title: isZh ? '弹弓攻城' : 'Slingshot Siege',
     level: isZh ? '关卡' : 'Level',
     score: isZh ? '分数' : 'Score',
     highScore: isZh ? '最高分' : 'Best',
