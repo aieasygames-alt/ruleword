@@ -1,6 +1,8 @@
 // Cloudflare Pages Function - EmailJS proxy
 // Keeps credentials server-side, away from client code
 
+import type { PagesFunction } from '../types'
+
 interface FeedbackRequest {
   type: string
   message: string

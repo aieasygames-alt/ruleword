@@ -434,14 +434,12 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       </div>
 
       {/* Progress bar */}
-      {state.phase !== 'idle' && (
-        <div data-testid="story-progress" className="h-0.5 bg-slate-800 shrink-0 max-w-3xl mx-auto w-full">
-          <div
-            className={`h-full bg-gradient-to-r ${template.color} transition-all duration-700 ease-out`}
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-      )}
+      <div data-testid="story-progress" className="h-0.5 bg-slate-800 shrink-0 max-w-3xl mx-auto w-full">
+        <div
+          className={`h-full bg-gradient-to-r ${template.color} transition-all duration-700 ease-out`}
+          style={{ width: `${progressPercent}%` }}
+        />
+      </div>
 
       <StoryProgressSummary
         progress={progress}
@@ -530,7 +528,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
       {state.phase === 'ended' && state.ending && (
         <StoryEndScreen
           ending={{
-            endingId: state.ending.endingId,
+            endingId: state.ending.endingId ?? 'unknown',
             title: state.ending.title,
             description: state.ending.description,
             summary: '',

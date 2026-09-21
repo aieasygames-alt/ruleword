@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 
-type JewelType = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
+type JewelColor = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
+type JewelType = JewelColor | 'empty';
 
 interface Jewel {
   type: JewelType;
@@ -28,7 +29,7 @@ const LEVELS: Level[] = [
   { id: 8, name: 'Legend', nameZh: '传奇', targetScore: 4000, moves: 35, gridSize: 8, jewelTypes: 6 },
 ];
 
-const JEWEL_COLORS: Record<JewelType, string> = {
+const JEWEL_COLORS: Record<JewelColor, string> = {
   red: 'bg-gradient-to-br from-red-400 to-red-600',
   blue: 'bg-gradient-to-br from-blue-400 to-blue-600',
   green: 'bg-gradient-to-br from-green-400 to-green-600',
@@ -37,7 +38,7 @@ const JEWEL_COLORS: Record<JewelType, string> = {
   orange: 'bg-gradient-to-br from-orange-400 to-orange-600',
 };
 
-const JEWEL_GLOW: Record<JewelType, string> = {
+const JEWEL_GLOW: Record<JewelColor, string> = {
   red: 'shadow-red-500/50',
   blue: 'shadow-blue-500/50',
   green: 'shadow-green-500/50',
@@ -46,7 +47,7 @@ const JEWEL_GLOW: Record<JewelType, string> = {
   orange: 'shadow-orange-500/50',
 };
 
-const JEWEL_EMOJI: Record<JewelType, string> = {
+const JEWEL_EMOJI: Record<JewelColor, string> = {
   red: '💎',
   blue: '💠',
   green: '🟢',
@@ -55,7 +56,7 @@ const JEWEL_EMOJI: Record<JewelType, string> = {
   orange: '🟠',
 };
 
-const JEWEL_HEX: Record<JewelType, string> = {
+const JEWEL_HEX: Record<JewelColor, string> = {
   red: '#ef4444',
   blue: '#3b82f6',
   green: '#22c55e',
@@ -75,12 +76,12 @@ type Props = {
 const createBoard = (gridSize: number, jewelTypeCount: number): Jewel[][] => {
   const board: Jewel[][] = [];
   let id = 0;
-  const types = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'].slice(0, jewelTypeCount) as JewelType[];
+  const types = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'].slice(0, jewelTypeCount) as JewelColor[];
 
   for (let row = 0; row < gridSize; row++) {
     board[row] = [];
     for (let col = 0; col < gridSize; col++) {
-      let type: JewelType;
+      let type: JewelColor;
       do {
         type = types[Math.floor(Math.random() * types.length)];
       } while (
@@ -141,14 +142,14 @@ const findMatches = (board: Jewel[][], gridSize: number): [number, number][] => 
 const removeMatches = (board: Jewel[][], matches: [number, number][]): Jewel[][] => {
   const newBoard = board.map(row => [...row]);
   matches.forEach(([row, col]) => {
-    newBoard[row][col] = { type: 'empty' as JewelType, id: -1 };
+    newBoard[row][col] = { type: 'empty', id: -1 };
   });
   return newBoard;
 };
 
 const applyGravity = (board: Jewel[][], gridSize: number, jewelTypeCount: number): Jewel[][] => {
   const newBoard = board.map(row => [...row]);
-  const types = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'].slice(0, jewelTypeCount) as JewelType[];
+  const types = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'].slice(0, jewelTypeCount) as JewelColor[];
 
   for (let col = 0; col < gridSize; col++) {
     let emptyRow = gridSize - 1;
@@ -157,7 +158,7 @@ const applyGravity = (board: Jewel[][], gridSize: number, jewelTypeCount: number
       if (newBoard[row][col].type !== 'empty') {
         if (row !== emptyRow) {
           newBoard[emptyRow][col] = newBoard[row][col];
-          newBoard[row][col] = { type: 'empty' as JewelType, id: -1 };
+          newBoard[row][col] = { type: 'empty', id: -1 };
         }
         emptyRow--;
       }
@@ -553,9 +554,9 @@ export default function JewelQuest({ settings, onBack }: Props) {
                     className={`
                       rounded-lg cursor-pointer transition-all duration-150
                       flex items-center justify-center
-                      ${JEWEL_COLORS[jewel.type] || 'bg-gray-400'}
+                      ${jewel.type === 'empty' ? 'bg-gray-400' : JEWEL_COLORS[jewel.type]}
                       ${selected?.[0] === rowIndex && selected?.[1] === colIndex
-                        ? `ring-2 ring-white scale-110 shadow-lg ${JEWEL_GLOW[jewel.type] || ''}`
+                        ? `ring-2 ring-white scale-110 shadow-lg ${jewel.type === 'empty' ? '' : JEWEL_GLOW[jewel.type]}`
                         : 'hover:scale-105 hover:shadow-md'}
                       shadow-md
                     `}
@@ -564,11 +565,11 @@ export default function JewelQuest({ settings, onBack }: Props) {
                       height: cellSize,
                       fontSize: cellSize * 0.5,
                       boxShadow: selected?.[0] === rowIndex && selected?.[1] === colIndex
-                        ? `0 0 15px ${JEWEL_HEX[jewel.type]}`
+                        ? `0 0 15px ${jewel.type === 'empty' ? 'transparent' : JEWEL_HEX[jewel.type]}`
                         : undefined
                     }}
                   >
-                    <span className="drop-shadow-md">{JEWEL_EMOJI[jewel.type] || ''}</span>
+                    <span className="drop-shadow-md">{jewel.type === 'empty' ? '' : JEWEL_EMOJI[jewel.type]}</span>
                   </div>
                 ))
               )}

@@ -173,7 +173,7 @@ const GAP = 2
 
 // 牌面花纹装饰 - 筒子的圆点图案
 const DotPattern = ({ count, color }: { count: number; color: string }) => {
-  const positions: [number, number][] = {
+  const positionsByCount: Record<number, [number, number][]> = {
     1: [[50, 50]],
     2: [[35, 35], [65, 65]],
     3: [[35, 25], [50, 50], [65, 75]],
@@ -183,7 +183,8 @@ const DotPattern = ({ count, color }: { count: number; color: string }) => {
     7: [[35, 30], [65, 30], [50, 30], [35, 50], [65, 50], [35, 70], [65, 70]],
     8: [[30, 25], [50, 25], [70, 25], [30, 50], [70, 50], [30, 75], [50, 75], [70, 75]],
     9: [[30, 25], [50, 25], [70, 25], [30, 50], [50, 50], [70, 50], [30, 75], [50, 75], [70, 75]],
-  }[count] || [[50, 50]]
+  }
+  const positions = positionsByCount[count] ?? [[50, 50]]
 
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -196,7 +197,7 @@ const DotPattern = ({ count, color }: { count: number; color: string }) => {
 
 // 条子的竹节图案
 const BambooPattern = ({ count, color }: { count: number; color: string }) => {
-  const positions: [number, number][] = {
+  const positionsByCount: Record<number, [number, number][]> = {
     1: [[50, 50]],
     2: [[38, 40], [62, 60]],
     3: [[38, 30], [50, 50], [62, 70]],
@@ -206,7 +207,8 @@ const BambooPattern = ({ count, color }: { count: number; color: string }) => {
     7: [[35, 25], [65, 25], [50, 25], [35, 50], [65, 50], [35, 75], [65, 75]],
     8: [[30, 22], [50, 22], [70, 22], [30, 50], [70, 50], [30, 78], [50, 78], [70, 78]],
     9: [[30, 22], [50, 22], [70, 22], [30, 50], [50, 50], [70, 50], [30, 78], [50, 78], [70, 78]],
-  }[count] || [[50, 50]]
+  }
+  const positions = positionsByCount[count] ?? [[50, 50]]
 
   return (
     <svg viewBox="0 0 100 100" className="w-full h-full">

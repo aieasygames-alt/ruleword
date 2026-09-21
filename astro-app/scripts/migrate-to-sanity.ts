@@ -130,7 +130,8 @@ async function migrate() {
       const content = fs.readFileSync(filePath, 'utf-8')
       const gameData: GameData = JSON.parse(content)
 
-      console.log(`📝 处理: ${gameData.id} (${gameData.en?.name || 'Unknown'})`)
+      const english = gameData.en as GameLocaleData | undefined
+      console.log(`📝 处理: ${gameData.id} (${english?.name || 'Unknown'})`)
 
       // 检查是否已存在
       const exists = await documentExists(gameData.id)
@@ -148,14 +149,14 @@ async function migrate() {
           _type: 'slug',
           current: gameData.slug,
         },
-        title: gameData.en?.name || '',
+        title: english?.name || '',
         icon: gameData.icon || '',
         category: gameData.category,
         colorGradient: gameData.color || 'from-gray-600 to-gray-800',
         isFeatured: gameData.featured || false,
-        description: gameData.en?.desc || '',
-        howToPlay: gameData.en?.howToPlay || '',
-        tips: gameData.en?.tips?.join('\n') || '',
+        description: english?.desc || '',
+        howToPlay: english?.howToPlay || '',
+        tips: english?.tips?.join('\n') || '',
         // 中文内容 (需要配置多语言插件)
         // title_zh: gameData.zh?.name,
         // description_zh: gameData.zh?.desc,

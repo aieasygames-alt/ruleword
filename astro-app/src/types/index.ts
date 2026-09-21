@@ -58,6 +58,13 @@ export interface GameSEO {
   intent: SearchIntent
 }
 
+export interface SEOMeta {
+  title: string
+  description: string
+  keywords?: string[]
+  ogImage?: string
+}
+
 // ====================
 // i18n Types
 // ====================
@@ -86,6 +93,17 @@ export interface GameGuideContent {
 }
 
 export type GameGuides = Record<string, GameGuideContent>
+
+export interface Guide {
+  slug: string
+  title: string
+  titleZh: string
+  gameSlug: string
+  content: {
+    en: { overview: string; howToPlay: string[]; tips: string[]; faq: GameFAQ[] }
+    zh: { overview: string; howToPlay: string[]; tips: string[]; faq: GameFAQ[] }
+  }
+}
 
 // ====================
 // Game Progress Types

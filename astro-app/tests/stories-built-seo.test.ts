@@ -49,7 +49,7 @@ describe('Built AI Stories SEO output', () => {
     expect(gameSchema).toBeDefined()
     expect(normalizeType(gameSchema['@type'])).toContain('WebApplication')
     expect(gameSchema.potentialAction['@type']).toBe('PlayAction')
-    expect(gameSchema.hasPart.some(part => part.name.includes('endings'))).toBe(true)
+    expect(gameSchema.hasPart.some((part: { name: string }) => part.name.includes('endings'))).toBe(true)
     expect(faqSchema.mainEntity.length).toBeGreaterThan(0)
   })
 

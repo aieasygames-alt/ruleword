@@ -1,5 +1,7 @@
 // Cloudflare Pages Function - AI API Health Check
 
+import type { PagesFunction } from '../../types'
+
 export const onRequestGet: PagesFunction = async (context) => {
   const { env } = context
 

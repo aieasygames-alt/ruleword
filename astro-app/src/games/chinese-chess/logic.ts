@@ -31,12 +31,15 @@ function inPalace(row: number, col: number, color: ChineseChessColor): boolean {
 export function areChineseKingsFacing(board: ChineseChessBoard): boolean {
   let red: ChineseChessPosition | null = null
   let black: ChineseChessPosition | null = null
-  board.forEach((row, rowIndex) => row.forEach((piece, colIndex) => {
-    if (piece?.type === 'K') {
-      if (piece.color === 'red') red = { row: rowIndex, col: colIndex }
-      else black = { row: rowIndex, col: colIndex }
+  for (let row = 0; row < board.length; row++) {
+    for (let col = 0; col < board[row].length; col++) {
+      const piece = board[row][col]
+      if (piece?.type === 'K') {
+        if (piece.color === 'red') red = { row, col }
+        else black = { row, col }
+      }
     }
-  }))
+  }
   if (!red || !black || red.col !== black.col) return false
   for (let row = black.row + 1; row < red.row; row++) {
     if (board[row][red.col]) return false

@@ -35,6 +35,7 @@ describe('validatePath', () => {
     const path: Path = [{ r: 0, c: 0 }, { r: 0, c: 1 }]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/start at the thief/)
   })
 
@@ -45,6 +46,7 @@ describe('validatePath', () => {
     ]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/Non-adjacent/)
   })
 
@@ -56,6 +58,7 @@ describe('validatePath', () => {
     const path: Path = [{ r: 3, c: 0 }, { r: 2, c: 0 }, { r: 1, c: 0 }, { r: 0, c: 0 }]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/wall/)
   })
 
@@ -67,6 +70,7 @@ describe('validatePath', () => {
     const path: Path = [{ r: 3, c: 0 }, { r: 2, c: 0 }] // enter ice at step 1 < 5
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/unmelted ice/)
   })
 
@@ -91,6 +95,7 @@ describe('validatePath', () => {
     ]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/repeats/)
   })
 
@@ -99,6 +104,7 @@ describe('validatePath', () => {
     const path: Path = [{ r: 3, c: 0 }, { r: 2, c: 0 }, { r: 1, c: 0 }]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/exit/)
   })
 
@@ -113,6 +119,7 @@ describe('validatePath', () => {
     ]
     const r = validatePath(lvl, path)
     expect(r.valid).toBe(false)
+    if (r.valid) throw new Error('Expected invalid path')
     expect(r.reason).toMatch(/Missing key/)
   })
 

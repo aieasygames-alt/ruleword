@@ -212,7 +212,7 @@ async function main() {
       width: w, height: h,
       fonts: [{ name: 'Inter', data: fontRegular, weight: 400, style: 'normal' }, { name: 'Inter', data: fontBold, weight: 700, style: 'normal' }],
     })
-    const png = svgToPng(svg, w)
+    const png = svgToPng(svg, w, h)
     writeFileSync(path, png)
   }
 

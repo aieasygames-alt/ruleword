@@ -758,7 +758,7 @@ function generateLevelFromConfig(levelNum: number, config: LevelConfig, rand: ()
     const remaining = arrowCount - allArrows.length
     const thisCount = Math.min(perAlgo, remaining)
 
-    const arrows = runAlgorithm(rand, width, height, thisCount, minLen, maxLen)
+    const arrows = runAlgorithm(algo, rand, width, height, thisCount, minLen, maxLen)
 
     for (const arrow of arrows) {
       if (allArrows.length >= arrowCount) break

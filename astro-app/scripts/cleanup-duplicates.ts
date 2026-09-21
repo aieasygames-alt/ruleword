@@ -56,7 +56,8 @@ async function cleanupDuplicates() {
       console.log(`   ❌ 已删除: ${doc.title} (${doc._id})`);
       deleted++;
     } catch (err) {
-      console.log(`   ⚠️  删除失败: ${doc.title} - ${err.message}`);
+      const message = err instanceof Error ? err.message : String(err);
+      console.log(`   ⚠️  删除失败: ${doc.title} - ${message}`);
     }
   }
 

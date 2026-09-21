@@ -26,6 +26,10 @@ export const i18n: Record<Language, {
     quickPlay: string
     quickPlayDesc: string
     browseByCategory: string
+    gameGuides: string
+    viewAllGuides: string
+    brainTests: string
+    brainTestsDesc: string
     feature1Title: string
     feature1Desc: string
     feature2Title: string
@@ -118,6 +122,7 @@ export const i18n: Record<Language, {
       featured: '精选游戏', allGames: '所有游戏', gamesCount: '款游戏', freeGames: '免费游戏',
       categories: '游戏分类', copyright: '© 2026 免费游戏站', aboutTitle: '关于免费游戏站', quickPlay: '快速游玩', quickPlayDesc: '立即体验最受欢迎的游戏', browseByCategory: '按分类浏览',
       gameGuides: '游戏攻略', viewAllGuides: '查看所有攻略 →',
+      brainTests: '脑力测试与认知挑战', brainTestsDesc: '通过热门脑力挑战测试你的记忆力、反应速度和认知控制能力！',
       feature1Title: '完全免费 无限畅玩', feature1Desc: '所有游戏完全免费,无时间限制,无需注册即可畅玩。',
       feature2Title: '即开即玩 无需下载', feature2Desc: '所有游戏直接在浏览器中运行,无需安装任何应用程序。',
       feature3Title: '随时随地畅玩', feature3Desc: '支持电脑、平板和手机,随时随地享受游戏乐趣。',

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, type ComponentType } from 'react'
 import { getGameProgress, recordGamePlay } from '../utils/gameProgress'
 import { addRecentlyPlayed } from '../utils/recentlyPlayed'
 import ShareModal from './ShareModal'

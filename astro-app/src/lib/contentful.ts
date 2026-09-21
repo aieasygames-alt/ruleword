@@ -1,16 +1,31 @@
-import contentful from 'contentful'
+import { createClient, type EntryFieldTypes, type EntrySkeletonType } from 'contentful'
 import type { GameEntry, GameFields, LocalizedGame } from '../types/contentful'
 
+type GameSkeleton = EntrySkeletonType<{
+  gameId: EntryFieldTypes.Symbol
+  slug: EntryFieldTypes.Symbol
+  title: EntryFieldTypes.Symbol
+  icon?: EntryFieldTypes.Symbol
+  category: EntryFieldTypes.Symbol
+  colorGradient?: EntryFieldTypes.Symbol
+  isFeatured?: EntryFieldTypes.Boolean
+  description?: EntryFieldTypes.Text
+  howToPlay?: EntryFieldTypes.Text
+  tips?: EntryFieldTypes.Text
+  coverImage?: EntryFieldTypes.AssetLink
+  releaseDate?: EntryFieldTypes.Date
+}, 'game'>
+
 // Contentful Delivery API 客户端 (生产环境)
-export const contentfulClient = contentful.createClient({
-  space: import.meta.env.CONTENTFUL_SPACE_ID,
-  accessToken: import.meta.env.CONTENTFUL_DELIVERY_TOKEN,
+export const contentfulClient = createClient({
+  space: import.meta.env.CONTENTFUL_SPACE_ID ?? '',
+  accessToken: import.meta.env.CONTENTFUL_DELIVERY_TOKEN ?? '',
   environment: import.meta.env.CONTENTFUL_ENVIRONMENT || 'master',
 })
 
 // Contentful Preview API 客户端 (草稿预览)
-export const contentfulPreviewClient = contentful.createClient({
-  space: import.meta.env.CONTENTFUL_SPACE_ID,
+export const contentfulPreviewClient = createClient({
+  space: import.meta.env.CONTENTFUL_SPACE_ID ?? '',
   accessToken: import.meta.env.CONTENTFUL_PREVIEW_TOKEN || '',
   host: 'preview.contentful.com',
   environment: import.meta.env.CONTENTFUL_ENVIRONMENT || 'master',
@@ -43,7 +58,7 @@ export function toContentfulLocale(locale: string): string {
  */
 export async function getAllGames(locale: string = 'en'): Promise<GameEntry[]> {
   const cfLocale = toContentfulLocale(locale)
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     locale: cfLocale,
     order: ['-fields.isFeatured', 'fields.title'],
@@ -59,7 +74,7 @@ export async function getGameBySlug(
   locale: string = 'en'
 ): Promise<GameEntry | null> {
   const cfLocale = toContentfulLocale(locale)
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     'fields.slug': slug,
     locale: cfLocale,
@@ -76,7 +91,7 @@ export async function getGamesByCategory(
   locale: string = 'en'
 ): Promise<GameEntry[]> {
   const cfLocale = toContentfulLocale(locale)
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     'fields.category': category,
     locale: cfLocale,
@@ -89,13 +104,13 @@ export async function getGamesByCategory(
  * 获取所有游戏分类
  */
 export async function getCategories(): Promise<string[]> {
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     select: ['fields.category'],
   })
 
   const categories = new Set(
-    entries.items.map((item) => item.fields.category as string)
+    entries.items.map((item) => String(item.fields.category))
   )
   return Array.from(categories)
 }
@@ -104,11 +119,11 @@ export async function getCategories(): Promise<string[]> {
  * 获取所有游戏的 slug (用于 getStaticPaths)
  */
 export async function getAllGameSlugs(): Promise<string[]> {
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     select: ['fields.slug'],
   })
-  return entries.items.map((item) => item.fields.slug as string)
+  return entries.items.map((item) => String(item.fields.slug))
 }
 
 /**
@@ -118,7 +133,7 @@ export async function getFeaturedGames(
   locale: string = 'en'
 ): Promise<GameEntry[]> {
   const cfLocale = toContentfulLocale(locale)
-  const entries = await contentfulClient.getEntries<GameFields>({
+  const entries = await contentfulClient.getEntries<GameSkeleton>({
     content_type: 'game',
     'fields.isFeatured': true,
     locale: cfLocale,

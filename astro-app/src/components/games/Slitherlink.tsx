@@ -3,6 +3,8 @@ import GameGuide from './GameGuide'
 
 type Difficulty = 'easy' | 'normal' | 'hard'
 type EdgeState = 'none' | 'on'
+type EdgeCell = { right: EdgeState; down: EdgeState }
+type EdgeGrid = EdgeCell[][]
 
 interface Stats {
   played: number
@@ -168,8 +170,8 @@ function edgesCross(
 function pathToEdges(
   path: { row: number; col: number }[],
   size: number
-): EdgeState[][][] {
-  const solution: EdgeState[][][] = Array(size + 1).fill(null).map(() =>
+): EdgeGrid {
+  const solution: EdgeGrid = Array(size + 1).fill(null).map(() =>
     Array(size + 1).fill(null).map(() => ({ right: 'none' as EdgeState, down: 'none' as EdgeState }))
   )
 
@@ -202,7 +204,7 @@ function pathToEdges(
 }
 
 // Generate varied puzzle with interesting loop shapes
-function generatePuzzle(size: number, rng: () => number): { clues: number[][], solution: EdgeState[][][] } {
+function generatePuzzle(size: number, rng: () => number): { clues: number[][], solution: EdgeGrid } {
   const clues = Array(size).fill(null).map(() => Array(size).fill(-1))
 
   // Try multiple times to generate a valid loop
@@ -290,8 +292,8 @@ function generatePuzzle(size: number, rng: () => number): { clues: number[][], s
 
 export default function Slitherlink({ settings, onBack }: { settings: { darkMode: boolean; soundEnabled: boolean; language: 'en' | 'zh' }; onBack: () => void }) {
   const [clues, setClues] = useState<number[][]>([])
-  const [edges, setEdges] = useState<EdgeState[][][]>([])
-  const [solution, setSolution] = useState<EdgeState[][][]>([])
+  const [edges, setEdges] = useState<EdgeGrid>([])
+  const [solution, setSolution] = useState<EdgeGrid>([])
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [isComplete, setIsComplete] = useState(false)
   const [stats, setStats] = useState<Stats>(loadStats)
@@ -330,7 +332,7 @@ export default function Slitherlink({ settings, onBack }: { settings: { darkMode
     initializeGame()
   }, [])
 
-  const checkComplete = useCallback((currentEdges: EdgeState[][][]): boolean => {
+  const checkComplete = useCallback((currentEdges: EdgeGrid): boolean => {
     for (let r = 0; r <= size; r++) {
       for (let c = 0; c <= size; c++) {
         if (r < size && currentEdges[r][c].right !== solution[r][c].right) return false

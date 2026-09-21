@@ -97,6 +97,7 @@ export function recordGamePlay(gameId: string, score?: number, time?: number): v
   // Update overall stats
   const stats = getGameStats();
   saveGameStats({
+    ...stats,
     totalGamesPlayed: stats.totalGamesPlayed + 1,
     totalPlayTime: stats.totalPlayTime + (time || 0),
     favoriteGame: updateFavoriteGame(stats, gameId)
@@ -170,7 +171,7 @@ export function getLeaderboard(gameId: string, limit = 10): Array<{ name: string
 /**
  * Save a score to the leaderboard
  */
-export function saveToLeaderboard(gameId: string, name: string, score: number): void {
+export function saveToLeaderboard(gameId: string, name: string, score: number, limit = 10): void {
   if (typeof window === 'undefined') return;
 
   try {

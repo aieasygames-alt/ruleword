@@ -221,8 +221,8 @@ export async function getAllGames(): Promise<GameData[]> {
       const sanityGames = await getSanityGames()
       const cmsGames = sanityGames.map(sanityToGameData)
       // 合并：本地游戏优先（用于覆盖），然后添加 CMS 独有的游戏
-      const localSlugs = new Set(localGames.map(g => g.slug))
-      const uniqueCmsGames = cmsGames.filter(g => !localSlugs.has(g.slug))
+      const localSlugs = new Set(localGames.map((g: GameData) => g.slug))
+      const uniqueCmsGames = cmsGames.filter((g: GameData) => !localSlugs.has(g.slug))
       return [...localGames, ...uniqueCmsGames]
     } catch (error: any) {
       console.warn('Sanity fetch failed, falling back to local data:', error?.message || error)
@@ -236,7 +236,7 @@ export async function getAllGames(): Promise<GameData[]> {
       const entries = await getContentfulGames('en-US')
       const cmsGames = entries.map(contentfulToGameData)
       // 合并：本地游戏优先（用于覆盖），然后添加 CMS 独有的游戏
-      const localSlugs = new Set(localGames.map(g => g.slug))
+      const localSlugs = new Set(localGames.map((g: GameData) => g.slug))
       const uniqueCmsGames = cmsGames.filter(g => !localSlugs.has(g.slug))
       return [...localGames, ...uniqueCmsGames]
     } catch (error) {

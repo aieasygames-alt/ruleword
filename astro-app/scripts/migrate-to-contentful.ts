@@ -10,7 +10,7 @@
  * 3. 运行: pnpm cms:migrate
  */
 
-import contentfulManagement from 'contentful-management'
+import { createClient } from 'contentful-management'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -94,13 +94,8 @@ async function migrate() {
   console.log('🚀 开始迁移游戏数据到 Contentful...\n')
 
   // 创建 Contentful Management 客户端
-  const client = contentfulManagement.createClient(
-    {
-      accessToken: MANAGEMENT_TOKEN,
-    },
-    {
-      type: 'plain',
-    }
+  const client = createClient(
+    { accessToken: MANAGEMENT_TOKEN }
   )
 
   const space = await client.getSpace(SPACE_ID)
@@ -128,7 +123,8 @@ async function migrate() {
       const content = fs.readFileSync(filePath, 'utf-8')
       const gameData: GameData = JSON.parse(content)
 
-      console.log(`📝 处理: ${gameData.id} (${gameData.en?.name || 'Unknown'})`)
+      const english = gameData.en as GameLocaleData | undefined
+      console.log(`📝 处理: ${gameData.id} (${english?.name || 'Unknown'})`)
 
       // 检查是否已存在
       const existing = await environment.getEntries({

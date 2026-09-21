@@ -1,6 +1,8 @@
 // Cloudflare Pages Function - legacy SEO URL cleanup
 // Permanently consolidates retired language paths and ?lang= duplicates.
 
+import type { PagesFunction } from './types'
+
 const LEGACY_LANGS = new Set(['en', 'fr', 'de', 'es', 'ru', 'ja', 'zh-TW', 'zh-CN'])
 const LEGACY_GUIDE_SLUGS = new Map([
   ['slitherlink-guide', 'slitherlink'],

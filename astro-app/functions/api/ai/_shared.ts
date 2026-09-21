@@ -423,7 +423,7 @@ export function validateStoryResponse(raw: unknown): StoryNodeResponse | null {
   if (obj.nodeText.length > 500) obj.nodeText = obj.nodeText.slice(0, 500)
 
   return {
-    nodeText: obj.nodeText,
+    nodeText: obj.nodeText as string,
     speaker: typeof obj.speaker === 'string' ? obj.speaker : undefined,
     emotion: typeof obj.emotion === 'string' ? obj.emotion : undefined,
     choices: (obj.choices as Array<{ id: string; text: string }>).slice(0, 4),
