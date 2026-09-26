@@ -12,7 +12,17 @@ const allGuides = guideSlugs.map(slug => {
   const game = games.find(g => g.slug === slug)
   return { slug, guide, game }
 }).sort((a, b) => {
-  const priority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 3, slitherlink: 4, suguru: 5 }
+  const priority: Record<string, number> = {
+    boggle: 1,
+    '2048': 2,
+    sudoku: 3,
+    checkers: 4,
+    'reaction-time': 5,
+    'typing-test': 6,
+    heyawake: 7,
+    slitherlink: 8,
+    suguru: 9
+  }
   return (priority[a.slug] || 999) - (priority[b.slug] || 999)
 })
 
@@ -23,9 +33,9 @@ const breadcrumbItems = [
 ---
 
 <BaseLayout
-  title="Game Strategy Guides - Boggle, 2048, Heyawake & Puzzle Tips | Free Games Hub"
-  description="Free strategy guides for Boggle, 2048, Heyawake, Slitherlink, Suguru, Sudoku and more. Learn rules, tips, and solving techniques for online puzzle games."
-  keywords="game guides, boggle strategy, 2048 strategy guide, heyawake rules, slitherlink tips, suguru guide, sudoku strategy, puzzle game guides"
+  title="Game Strategy Guides - Boggle, 2048, Sudoku, Checkers & Puzzle Tips"
+  description="Free strategy guides for Boggle, 2048, Sudoku, Checkers, reaction time, typing tests, Heyawake, Slitherlink, Suguru and more online puzzle games."
+  keywords="game guides, boggle strategy, 2048 strategy guide, sudoku strategy, checkers strategy, reaction time test guide, typing test guide, heyawake rules, slitherlink tips, suguru guide, puzzle game guides"
   canonicalPath="/guides/"
   breadcrumbItems={breadcrumbItems}
 >
@@ -56,8 +66,7 @@ const breadcrumbItems = [
           Game Strategy Guides
         </h1>
         <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-          Master your favorite games with our comprehensive guides. Learn winning strategies,
-          discover tips and tricks, and improve your skills.
+          Learn rules, scoring, solving patterns, and practical strategies for high-intent games like Boggle, 2048, Sudoku, Checkers, reaction time tests, typing practice, and Japanese logic puzzles.
         </p>
       </div>
 
@@ -67,7 +76,7 @@ const breadcrumbItems = [
             <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-400/80">Top Guide Focus</p>
             <h2 class="mt-2 text-2xl font-bold text-white">Boggle Strategy Guide</h2>
             <p class="mt-3 text-sm leading-7 text-slate-300">
-              If you only open one guide from this page, start with Boggle. It now carries the strongest mix of search demand, replayable gameplay, rules coverage, scoring breakdown, and strategy content.
+              Start here for rules, scoring, 4x4 and 5x5 board tips, word-finding patterns, and a direct path into the playable Boggle page.
             </p>
           </div>
           <div class="flex flex-wrap gap-3">
@@ -145,12 +154,15 @@ const breadcrumbItems = [
           <a href="/guides/boggle/" class="px-3 py-1.5 text-sm rounded-full bg-emerald-900/40 text-emerald-300 hover:bg-emerald-900/60 transition-colors">boggle strategy</a>
           <a href="/guides/boggle/" class="px-3 py-1.5 text-sm rounded-full bg-emerald-900/40 text-emerald-300 hover:bg-emerald-900/60 transition-colors">boggle rules</a>
           <a href="/guides/boggle/" class="px-3 py-1.5 text-sm rounded-full bg-emerald-900/40 text-emerald-300 hover:bg-emerald-900/60 transition-colors">boggle scoring</a>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">wordle tips</span>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">sudoku strategy</span>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">how to beat 2048</span>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">tetris guide</span>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">chess for beginners</span>
-          <span class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300">minesweeper tricks</span>
+          <a href="/guides/wordle/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">wordle tips</a>
+          <a href="/guides/sudoku/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">sudoku strategy</a>
+          <a href="/guides/2048/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">how to beat 2048</a>
+          <a href="/guides/checkers/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">checkers strategy</a>
+          <a href="/guides/reaction-time/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">reaction time test</a>
+          <a href="/guides/typing-test/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">typing test guide</a>
+          <a href="/guides/tetris/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">tetris guide</a>
+          <a href="/guides/chess/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">chess for beginners</a>
+          <a href="/guides/minesweeper/" class="px-3 py-1.5 text-sm rounded-full bg-slate-800/50 text-slate-300 hover:bg-slate-800 transition-colors">minesweeper tricks</a>
         </div>
       </section>
     </main>

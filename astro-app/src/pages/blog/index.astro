@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { blogPosts, getAllBlogPostSlugs, getBlogPost, getRecentBlogPosts } from '../../data/blogPosts'
+import { blogPosts, getAllBlogPostSlugs, getRecentBlogPosts } from '../../data/blogPosts'
 
 const allPostSlugs = getAllBlogPostSlugs()
 const recentPosts = getRecentBlogPosts(10)
@@ -13,6 +13,45 @@ const categories = {
   'educational': allPostSlugs.filter(s => blogPosts[s].category === 'educational').map(s => blogPosts[s])
 }
 
+const topicPaths = [
+  {
+    title: 'Boggle Word Game',
+    description: 'Rules, scoring, 4x4 and 5x5 board strategy, plus instant play.',
+    links: [
+      { href: '/games/boggle/', label: 'Play Boggle' },
+      { href: '/guides/boggle/', label: 'Boggle guide' },
+      { href: '/hubs/word-games/', label: 'Word games' }
+    ]
+  },
+  {
+    title: 'Sudoku and 2048',
+    description: 'Number puzzle strategy, corner method, Sudoku solving, and daily practice.',
+    links: [
+      { href: '/games/sudoku/', label: 'Play Sudoku' },
+      { href: '/games/2048/', label: 'Play 2048' },
+      { href: '/hubs/number-puzzles/', label: 'Number puzzles' }
+    ]
+  },
+  {
+    title: 'Brain Training Tests',
+    description: 'Reaction time, typing speed, memory tests, and focus challenges.',
+    links: [
+      { href: '/games/reaction-time/', label: 'Reaction time' },
+      { href: '/games/typing-test/', label: 'Typing test' },
+      { href: '/hubs/brain-training/', label: 'Brain training' }
+    ]
+  },
+  {
+    title: 'AI Story Games',
+    description: 'Dating simulator, murder mystery, fantasy RPG, zombie survival, and escape room stories.',
+    links: [
+      { href: '/stories/', label: 'All AI stories' },
+      { href: '/hubs/ai-games/', label: 'AI games hub' },
+      { href: '/blog/what-are-ai-story-games/', label: 'AI story guide' }
+    ]
+  }
+]
+
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog/' }
@@ -20,9 +59,9 @@ const breadcrumbItems = [
 ---
 
 <BaseLayout
-  title="Puzzle Game Blog - Tips, Strategies & Guides | Free Games Hub"
-  description="Read our latest articles about puzzle games, brain training, and gaming strategies. Expert tips for Wordle, Sudoku, 2048 and more."
-  keywords="game blog, puzzle game tips, brain training articles, wordle news, sudoku strategies, gaming guides"
+  title="Puzzle Game Blog - Boggle, Sudoku, Brain Training & AI Stories"
+  description="Read game guides and strategy articles for Boggle, Sudoku, 2048, brain training tests, Japanese logic puzzles, word games, and AI story games."
+  keywords="game blog, puzzle game tips, boggle strategy, sudoku strategies, 2048 strategy, brain training articles, AI story games, wordle news, gaming guides"
   canonicalPath="/blog/"
   breadcrumbItems={breadcrumbItems}
 >
@@ -53,10 +92,32 @@ const breadcrumbItems = [
           Puzzle Game Blog
         </h1>
         <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-          Expert tips, strategies, and insights for puzzle game enthusiasts.
-          Learn how to improve your skills and discover new games to love.
+          Strategy articles and topic guides for Boggle, Sudoku, 2048, brain training tests, Japanese logic puzzles, word games, and AI story games.
         </p>
       </div>
+
+      <!-- Topic Paths -->
+      <section class="mb-12 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div class="mb-5">
+          <h2 class="text-xl font-bold">Browse by Topic</h2>
+          <p class="mt-1 text-sm text-slate-400">Jump from articles into the game, guide, or collection that matches your search intent.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-2">
+          {topicPaths.map(topic => (
+            <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <h3 class="font-semibold text-white">{topic.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{topic.description}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {topic.links.map(link => (
+                  <a href={link.href} class="rounded-full border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-green-500 hover:text-green-400">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <!-- Featured Posts -->
       <section class="mb-12">

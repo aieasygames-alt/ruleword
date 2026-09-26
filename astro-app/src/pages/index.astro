@@ -40,8 +40,8 @@ const gamesForClient = games.map(g => ({
 const featuredGames = games.filter(g => g.featured).slice(0, 8)
 const categoryList = categories.filter(c => c.id !== 'all')
 
-// Quick Play - 6 universally popular games
-const quickPlaySlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man']
+// Quick Play - align the first screen with current Webmaster opportunity pages.
+const quickPlaySlugs = ['boggle', 'sudoku', '2048', 'reaction-time', 'typing-test', 'checkers']
 const quickPlayGames = quickPlaySlugs.map(slug => games.find(g => g.slug === slug)).filter(Boolean)
 
 // Get all language codes for dropdown
@@ -65,7 +65,14 @@ const storyGames = storiesCollection.map(entry => ({
 }))
 
 const siteRating = getSiteAverageRating()
-const guidePriority: Record<string, number> = { boggle: 1, '2048': 2, heyawake: 3 }
+const guidePriority: Record<string, number> = {
+  boggle: 1,
+  '2048': 2,
+  sudoku: 3,
+  checkers: 4,
+  'reaction-time': 5,
+  'typing-test': 6,
+}
 const boggleSpotlight = games.find(g => g.slug === 'boggle')
 ---
 
@@ -159,10 +166,10 @@ const boggleSpotlight = games.find(g => g.slug === 'boggle')
 
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-10 text-center">
         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 tracking-tight text-gray-900 dark:text-white" data-i18n="title">
-          Free Online Puzzle Games
+          Free Online Games and Brain Tests
         </h1>
         <p class="text-lg sm:text-xl max-w-2xl mx-auto text-gray-600 dark:text-slate-400 mb-6" data-i18n="subtitle">
-          Classic puzzles, strategy games, arcade fun. No downloads, play instantly.
+          Play Boggle, Sudoku, 2048, reaction time tests, typing tests, and classic strategy games instantly in your browser.
         </p>
 
         <!-- Hero Game Mosaic -->
@@ -202,7 +209,7 @@ const boggleSpotlight = games.find(g => g.slug === 'boggle')
           <span class="text-2xl">🚀</span>
           <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="quickPlay">Quick Play</h2>
         </div>
-        <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="quickPlayDesc">Jump right into our most popular games</p>
+        <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="quickPlayDesc">Start with the games and tests players are searching for now</p>
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {quickPlayGames.map(game => {
             const popularity = getGamePopularity(game.slug)
@@ -426,6 +433,28 @@ const boggleSpotlight = games.find(g => g.slug === 'boggle')
         </div>
         <p class="text-sm text-gray-600 dark:text-slate-400 mb-4" data-i18n="brainTestsDesc">Test your memory, reaction speed, and cognitive control with these popular brain challenges!</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <a href="/games/reaction-time/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-sky-500 to-cyan-600">
+            <div class="relative z-10">
+              <div class="text-4xl mb-3">⚡</div>
+              <h3 class="font-bold text-white text-lg mb-1">Reaction Time Test</h3>
+              <p class="text-white/90 text-sm mb-3">Measure how fast you respond to a visual signal, then replay to improve your average speed.</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white">reaction time test</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white">speed benchmark</span>
+              </div>
+            </div>
+          </a>
+          <a href="/games/typing-test/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-emerald-500 to-teal-600">
+            <div class="relative z-10">
+              <div class="text-4xl mb-3">⌨️</div>
+              <h3 class="font-bold text-white text-lg mb-1">Typing Test</h3>
+              <p class="text-white/90 text-sm mb-3">Check WPM, accuracy, and consistency with a quick browser typing speed test.</p>
+              <div class="flex flex-wrap gap-1">
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white">typing speed test</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/20 text-white">WPM test</span>
+              </div>
+            </div>
+          </a>
           <a href="/games/chimp-test/" class="group relative overflow-hidden rounded-2xl p-5 text-left transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl bg-gradient-to-br from-amber-500 to-yellow-600">
             <div class="relative z-10">
               <div class="text-4xl mb-3">🐒</div>

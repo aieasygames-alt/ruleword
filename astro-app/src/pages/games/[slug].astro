@@ -171,7 +171,12 @@ const gameHubs = Object.values(hubPages).filter(hub =>
 
 const relatedPriorityByCategory: Record<string, string[]> = {
   word: ['boggle', 'crosswordle', 'wordle', 'connections', 'spelling-bee', 'word-search'],
-  logic: ['heyawake', 'suguru', 'skyscrapers', 'slitherlink', 'kakurasu', '2048', 'nonogram', 'sudoku']
+  logic: ['sudoku', '2048', 'killer-sudoku', 'kakuro', 'heyawake', 'suguru', 'skyscrapers', 'slitherlink', 'nonogram'],
+  strategy: ['chess', 'checkers', 'connect-four', 'gomoku', 'reversi', 'tic-tac-toe'],
+  memory: ['number-memory', 'pattern-memory', 'memory-grid', 'memory', 'simon-says'],
+  skill: ['reaction-time', 'typing-test', 'chimp-test', 'stroop-test', 'aim-trainer'],
+  arcade: ['tetris', 'snake', 'pac-man', 'space-invaders', 'frogger', 'pong'],
+  puzzle: ['mahjong-solitaire', 'flow-free', 'jigsaw', 'sokoban', 'match-three', 'water-sort']
 }
 const relatedPriority = relatedPriorityByCategory[game.category] || []
 const relatedGames = gamesList
