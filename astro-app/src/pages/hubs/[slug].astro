@@ -132,6 +132,62 @@ const faqSchema = hub.faq.length > 0 ? {
   }))
 } : null
 const isWordGamesHub = slug === 'word-games'
+const hubSpotlights: Record<string, {
+  eyebrow: string
+  title: string
+  body: string
+  primaryHref: string
+  primaryLabel: string
+  secondaryHref: string
+  secondaryLabel: string
+  sectionClass: string
+  eyebrowClass: string
+  primaryClass: string
+}> = {
+  'number-puzzles': {
+    eyebrow: 'Number Puzzle Spotlight',
+    title: 'Play Sudoku or 2048 Online Free',
+    body: 'Sudoku and 2048 are the fastest starting points for number puzzle traffic: one rewards careful deduction, the other teaches tile control, corner strategy, and pattern planning in quick replayable rounds.',
+    primaryHref: '/games/sudoku/',
+    primaryLabel: 'Play Sudoku',
+    secondaryHref: '/games/2048/',
+    secondaryLabel: 'Play 2048',
+    sectionClass: 'border-emerald-900/40 bg-gradient-to-br from-emerald-950/60 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-emerald-400/80',
+    primaryClass: 'bg-emerald-600 hover:bg-emerald-500'
+  },
+  'brain-training': {
+    eyebrow: 'Brain Training Spotlight',
+    title: 'Test Reaction Time, Memory, and Focus',
+    body: 'Start with the reaction time test for an instant benchmark, then rotate through Chimp Test, Stroop Test, Number Memory, and Typing Test to cover speed, attention, recall, and keyboard fluency.',
+    primaryHref: '/games/reaction-time/',
+    primaryLabel: 'Test reaction time',
+    secondaryHref: '/games/chimp-test/',
+    secondaryLabel: 'Play Chimp Test',
+    sectionClass: 'border-violet-900/40 bg-gradient-to-br from-violet-950/60 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-violet-400/80',
+    primaryClass: 'bg-violet-600 hover:bg-violet-500'
+  },
+  'strategy-games': {
+    eyebrow: 'Strategy Game Spotlight',
+    title: 'Play Chess and Checkers Online Free',
+    body: 'Chess and Checkers are the clearest entry points for classic strategy intent. Play against the computer, practice tactical patterns, then use the guides to build openings, captures, endgames, and board control.',
+    primaryHref: '/games/chess/',
+    primaryLabel: 'Play Chess',
+    secondaryHref: '/games/checkers/',
+    secondaryLabel: 'Play Checkers',
+    sectionClass: 'border-cyan-900/40 bg-gradient-to-br from-cyan-950/60 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-cyan-400/80',
+    primaryClass: 'bg-cyan-600 hover:bg-cyan-500'
+  }
+}
+const hubSpotlight = hubSpotlights[slug]
+const aiGenreLinks = [
+  { href: '/stories/genre/romance-relationships/', label: 'AI dating simulator', detail: 'Romance and relationship stories' },
+  { href: '/stories/genre/mystery-detective/', label: 'AI murder mystery', detail: 'Detective and persuasion games' },
+  { href: '/stories/genre/survival-horror/', label: 'Zombie survival', detail: 'Survival and horror stories' },
+  { href: '/stories/genre/fantasy-adventure/', label: 'AI fantasy RPG', detail: 'Quest and adventure stories' },
+]
 ---
 
 <BaseLayout title={hub.title} description={hub.description} keywords={hub.keywords} ogImage={`/og/hub-${slug}.png`} canonicalPath={`/hubs/${slug}/`}>
@@ -229,12 +285,28 @@ const isWordGamesHub = slug === 'word-games'
               <p class="text-xs uppercase tracking-[0.22em] text-emerald-400/80">Word Game Spotlight</p>
               <h2 class="mt-2 text-2xl font-bold text-white">Play Boggle Online Free</h2>
               <p class="mt-3 text-slate-300">
-                Boggle is one of the strongest entry points in this collection if you want quick practice rounds, active vocabulary recall, and a classic 4x4 word board you can replay instantly.
+                Boggle is one of the strongest entry points in this collection if you want quick practice rounds, active vocabulary recall, and classic 4x4 or 5x5 word boards you can replay instantly with no download.
               </p>
             </div>
             <div class="flex flex-wrap gap-3">
               <a href="/games/boggle/" class="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">Play Boggle</a>
               <a href="/guides/boggle/" class="rounded-lg border border-slate-700 bg-slate-900/70 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">Read Boggle guide</a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {hubSpotlight && (
+        <section class={`mb-10 rounded-2xl border p-6 ${hubSpotlight.sectionClass}`}>
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="max-w-2xl">
+              <p class={`text-xs uppercase tracking-[0.22em] ${hubSpotlight.eyebrowClass}`}>{hubSpotlight.eyebrow}</p>
+              <h2 class="mt-2 text-2xl font-bold text-white">{hubSpotlight.title}</h2>
+              <p class="mt-3 text-slate-300">{hubSpotlight.body}</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <a href={hubSpotlight.primaryHref} class={`rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-colors ${hubSpotlight.primaryClass}`}>{hubSpotlight.primaryLabel}</a>
+              <a href={hubSpotlight.secondaryHref} class="rounded-lg border border-slate-700 bg-slate-900/70 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">{hubSpotlight.secondaryLabel}</a>
             </div>
           </div>
         </section>
@@ -247,6 +319,17 @@ const isWordGamesHub = slug === 'word-games'
             <span>🎭</span>
             Play AI Interactive Stories
           </h2>
+          <div class="mb-5 grid gap-3 sm:grid-cols-2">
+            {aiGenreLinks.map(link => (
+              <a
+                href={link.href}
+                class="group rounded-xl border border-pink-900/40 bg-pink-950/20 p-4 transition-colors hover:border-pink-500/60"
+              >
+                <h3 class="text-sm font-semibold text-pink-200 group-hover:text-pink-100">{link.label}</h3>
+                <p class="mt-1 text-xs text-slate-400">{link.detail}</p>
+              </a>
+            ))}
+          </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {aiStories.map(story => (
               <a

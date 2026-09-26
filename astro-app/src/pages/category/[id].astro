@@ -45,6 +45,107 @@ const seoDescription = seoConfig?.description || `Play ${categoryGames.length}+ 
 const seoKeywords = seoConfig?.keywords || `${category.en.toLowerCase()}, free online games`
 const isWordCategory = category.id === 'word'
 const boggleGame = isWordCategory ? categoryGames.find(g => g.slug === 'boggle') : null
+const categorySpotlights: Record<string, {
+  eyebrow: string
+  title: string
+  body: string
+  primaryHref: string
+  primaryLabel: string
+  secondaryHref: string
+  secondaryLabel: string
+  gameSlug: string
+  badge: string
+  sectionClass: string
+  eyebrowClass: string
+  primaryClass: string
+}> = {
+  logic: {
+    eyebrow: 'Featured Number Puzzle',
+    title: 'Play Sudoku and 2048 Online Free',
+    body: 'Start with Sudoku for classic deduction or 2048 for quick number-merge strategy. Both games load instantly in your browser and connect to guides for rules, patterns, and better solving habits.',
+    primaryHref: '/games/sudoku/',
+    primaryLabel: 'Play Sudoku online free',
+    secondaryHref: '/games/2048/',
+    secondaryLabel: 'Play 2048 online free',
+    gameSlug: 'sudoku',
+    badge: 'Daily logic',
+    sectionClass: 'border-emerald-900/40 bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-emerald-400/80',
+    primaryClass: 'bg-emerald-600 hover:bg-emerald-500'
+  },
+  strategy: {
+    eyebrow: 'Featured Strategy Games',
+    title: 'Play Chess and Checkers Online Free',
+    body: 'Chess and Checkers are the strongest classic board-game entry points here. Play against the computer, practice tactical decisions, and use the guides to improve openings, captures, and endgames.',
+    primaryHref: '/games/chess/',
+    primaryLabel: 'Play Chess online free',
+    secondaryHref: '/games/checkers/',
+    secondaryLabel: 'Play Checkers online free',
+    gameSlug: 'chess',
+    badge: 'Vs computer',
+    sectionClass: 'border-cyan-900/40 bg-gradient-to-r from-cyan-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-cyan-400/80',
+    primaryClass: 'bg-cyan-600 hover:bg-cyan-500'
+  },
+  memory: {
+    eyebrow: 'Featured Memory Test',
+    title: 'Take the Number Memory and Pattern Memory Tests',
+    body: 'Use Number Memory for digit span, Pattern Memory for visual recall, and Audio Memory for sequence practice. These quick rounds work well as repeatable brain-training benchmarks.',
+    primaryHref: '/games/number-memory/',
+    primaryLabel: 'Try Number Memory',
+    secondaryHref: '/games/pattern-memory/',
+    secondaryLabel: 'Play Pattern Memory',
+    gameSlug: 'number-memory',
+    badge: 'Memory benchmark',
+    sectionClass: 'border-violet-900/40 bg-gradient-to-r from-violet-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-violet-400/80',
+    primaryClass: 'bg-violet-600 hover:bg-violet-500'
+  },
+  skill: {
+    eyebrow: 'Featured Skill Test',
+    title: 'Test Reaction Time, Typing Speed, and Aim',
+    body: 'Start with Reaction Time for a fast reflex score, then check typing speed or mouse accuracy with focused browser tests. Each game gives immediate feedback with no download.',
+    primaryHref: '/games/reaction-time/',
+    primaryLabel: 'Test reaction time',
+    secondaryHref: '/games/typing-test/',
+    secondaryLabel: 'Check typing speed',
+    gameSlug: 'reaction-time',
+    badge: 'Instant score',
+    sectionClass: 'border-rose-900/40 bg-gradient-to-r from-rose-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-rose-400/80',
+    primaryClass: 'bg-rose-600 hover:bg-rose-500'
+  },
+  puzzle: {
+    eyebrow: 'Featured Puzzle Games',
+    title: 'Play Mahjong Solitaire and Flow Free Online',
+    body: 'Puzzle games here cover relaxed tile matching, shape logic, and path planning. Mahjong Solitaire is a calm starting point, while Flow Free gives quick connect-the-dots logic rounds.',
+    primaryHref: '/games/mahjong-solitaire/',
+    primaryLabel: 'Play Mahjong Solitaire',
+    secondaryHref: '/games/flow-free/',
+    secondaryLabel: 'Play Flow Free',
+    gameSlug: 'mahjong-solitaire',
+    badge: 'Relaxed puzzle',
+    sectionClass: 'border-amber-900/40 bg-gradient-to-r from-amber-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-amber-400/80',
+    primaryClass: 'bg-amber-600 hover:bg-amber-500'
+  },
+  arcade: {
+    eyebrow: 'Featured Arcade Games',
+    title: 'Play Tetris, Snake, and Pac-Man Online Free',
+    body: 'Classic arcade games are best when they start immediately. Try Tetris for block stacking, Snake for quick score chasing, or Pac-Man for retro maze action in the browser.',
+    primaryHref: '/games/tetris/',
+    primaryLabel: 'Play Tetris online free',
+    secondaryHref: '/games/snake/',
+    secondaryLabel: 'Play Snake online free',
+    gameSlug: 'tetris',
+    badge: 'Classic arcade',
+    sectionClass: 'border-fuchsia-900/40 bg-gradient-to-r from-fuchsia-950/70 via-slate-900 to-slate-950',
+    eyebrowClass: 'text-fuchsia-400/80',
+    primaryClass: 'bg-fuchsia-600 hover:bg-fuchsia-500'
+  }
+}
+const categorySpotlight = categorySpotlights[category.id]
+const spotlightGame = categorySpotlight ? categoryGames.find(g => g.slug === categorySpotlight.gameSlug) : null
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -163,6 +264,35 @@ const breadcrumbItems = [
                 </div>
                 <h3 class="mt-10 text-2xl font-bold">{boggleGame.name}</h3>
                 <p class="mt-2 text-sm text-white/85">{boggleGame.desc}</p>
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {categorySpotlight && spotlightGame && (
+        <section class="mb-10">
+          <div class={`overflow-hidden rounded-3xl border p-6 ${categorySpotlight.sectionClass}`}>
+            <div class="grid gap-6 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
+              <div>
+                <p class={`text-xs font-semibold uppercase tracking-[0.24em] ${categorySpotlight.eyebrowClass}`}>{categorySpotlight.eyebrow}</p>
+                <h2 class="mt-2 text-2xl font-bold text-white">{categorySpotlight.title}</h2>
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-300">{categorySpotlight.body}</p>
+                <div class="mt-5 flex flex-wrap gap-3">
+                  <a href={categorySpotlight.primaryHref} class={`inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium text-white transition-colors ${categorySpotlight.primaryClass}`}>{categorySpotlight.primaryLabel}</a>
+                  <a href={categorySpotlight.secondaryHref} class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">{categorySpotlight.secondaryLabel}</a>
+                </div>
+              </div>
+              <a
+                href={`/games/${spotlightGame.slug}/`}
+                class={`group relative overflow-hidden rounded-3xl bg-gradient-to-br ${spotlightGame.color} p-6 text-white shadow-lg`}
+              >
+                <div class="flex items-start justify-between">
+                  <span class="text-5xl">{spotlightGame.icon}</span>
+                  <span class="rounded-full bg-black/20 px-3 py-1 text-xs font-semibold uppercase tracking-wider">{categorySpotlight.badge}</span>
+                </div>
+                <h3 class="mt-10 text-2xl font-bold">{spotlightGame.name}</h3>
+                <p class="mt-2 text-sm text-white/85">{spotlightGame.desc}</p>
               </a>
             </div>
           </div>

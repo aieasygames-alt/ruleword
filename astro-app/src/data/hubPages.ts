@@ -74,14 +74,20 @@ Classic word games like Crossword and Hangman have been popular for over a centu
 
   'number-puzzles': {
     slug: 'number-puzzles',
-    title: 'Number Puzzles Online Free - Sudoku, 2048, Math Games',
-    description: 'Play free number puzzles: Sudoku, 2048, Killer Sudoku, Kakuro, and more. Train your logical thinking and mathematical skills with daily challenges.',
-    heroDescription: 'Exercise your logical mind with our collection of number puzzles. From classic Sudoku to addictive 2048, these games train mathematical thinking and pattern recognition.',
-    keywords: ['number puzzles', 'sudoku online', '2048 game', 'math puzzles', 'logic puzzles', 'number games', 'sudoku free'],
+    title: 'Number Puzzles Online Free - Sudoku, 2048, Killer Sudoku',
+    description: 'Play free number puzzles online: Sudoku, 2048, Killer Sudoku, Kakuro, and math logic games. No download, instant browser play with helpful guides.',
+    heroDescription: 'Exercise your logical mind with free number puzzles. Start with Sudoku online or 2048, then move into Killer Sudoku, Kakuro, and math logic games when you want a deeper challenge.',
+    keywords: ['number puzzles', 'sudoku online', '2048 game', 'play 2048 online free', 'killer sudoku online', 'math puzzles', 'logic puzzles', 'number games', 'sudoku free'],
     categoryIds: ['logic'],
     featuredGames: ['sudoku', '2048', 'killer-sudoku', 'sudoku-x', 'kakuro', 'calcudoku', 'minesweeper', 'number-memory'],
     featuredGuides: ['sudoku', '2048', 'killer-sudoku', 'kakuro'],
-    priorityLinks: [{ href: '/games/threes/', label: 'Play Threes online' }],
+    priorityLinks: [
+      { href: '/games/sudoku/', label: 'Play Sudoku online free' },
+      { href: '/games/2048/', label: 'Play 2048 online free' },
+      { href: '/guides/2048/', label: 'Learn the 2048 corner strategy' },
+      { href: '/games/killer-sudoku/', label: 'Play Killer Sudoku online' },
+      { href: '/games/threes/', label: 'Play Threes online' }
+    ],
     content: {
       whatIsSection: `Number puzzles use mathematics, logic, and pattern recognition to create engaging challenges. Unlike word games, they transcend language barriers and appeal to logical thinkers worldwide.
 
@@ -171,13 +177,19 @@ What makes Japanese puzzles special is that they never require guessing. Every w
 
   'brain-training': {
     slug: 'brain-training',
-    title: 'Brain Training Games - Memory, Focus, Reaction Time Tests',
-    description: 'Train your brain with free cognitive tests and games: Memory tests, Reaction time, Chimp test, Stroop test, and more. Track your mental performance.',
-    heroDescription: 'Measure and improve your cognitive abilities with our brain training games. Test your memory, reaction time, and attention while tracking your progress over time.',
-    keywords: ['brain training games', 'cognitive training', 'memory test', 'reaction time test', 'chimp test', 'stroop test', 'brain games free', 'queens game logic'],
+    title: 'Brain Training Games Online Free - Memory, Reaction & Focus Tests',
+    description: 'Train your brain with free cognitive games: reaction time test, Chimp Test, Stroop Test, memory games, typing practice, and focus challenges. No download.',
+    heroDescription: 'Measure and improve cognitive skills with free brain training games. Test reaction time, memory, attention, typing speed, and focus while tracking your best scores over time.',
+    keywords: ['brain training games', 'cognitive training', 'memory test', 'reaction time test', 'chimp test', 'stroop test', 'typing test', 'brain games free', 'queens game logic'],
     categoryIds: ['memory', 'skill', 'logic'],
     featuredGames: ['queens', 'chimp-test', 'stroop-test', 'reaction-time', 'number-memory', 'memory-grid', 'pattern-memory', 'typing-test'],
     featuredGuides: ['queens', 'chimp-test', 'stroop-test', 'reaction-time-test', 'number-memory'],
+    priorityLinks: [
+      { href: '/games/reaction-time/', label: 'Take the Reaction Time Test' },
+      { href: '/games/chimp-test/', label: 'Play the Chimp Test' },
+      { href: '/games/stroop-test/', label: 'Try the Stroop Test' },
+      { href: '/games/typing-test/', label: 'Check typing speed' }
+    ],
     content: {
       whatIsSection: `Brain training games are designed to measure and improve specific cognitive abilities: memory, attention, processing speed, and executive function.
 
@@ -260,13 +272,19 @@ Working memory - your brain's "scratchpad" - is particularly important for probl
   'strategy-games': {
     slug: 'strategy-games',
     title: 'Strategy Games Online Free - Chess, Checkers, Connect Four',
-    description: 'Play free strategy games: Chess, Checkers, Connect Four, Tic Tac Toe, and more. Develop tactical thinking and outsmart your opponents.',
-    heroDescription: 'Test your strategic thinking with classic board games and modern strategy challenges. Plan ahead, anticipate your opponent, and develop winning tactics.',
-    keywords: ['strategy games online', 'free chess game', 'checkers online', 'connect four', 'tic tac toe', 'board games online', 'tactical games'],
+    description: 'Play free strategy games online: Chess, Checkers, Connect Four, Tic Tac Toe, Gomoku, Reversi, and more classic board games. No download required.',
+    heroDescription: 'Test your strategic thinking with classic board games and tactical challenges. Play Chess, Checkers, Connect Four, Gomoku, and Reversi instantly in your browser.',
+    keywords: ['strategy games online', 'free chess game', 'chess online free', 'checkers online', 'play checkers online free', 'connect four', 'tic tac toe', 'board games online', 'tactical games'],
     categoryIds: ['strategy'],
     featuredGames: ['chess', 'checkers', 'connect-four', 'tic-tac-toe', 'dots-and-boxes', 'gomoku', 'reversi', 'battleship'],
-    featuredGuides: ['chess', 'connect-four', 'tic-tac-toe'],
-    priorityLinks: [{ href: '/guides/sokoban/', label: 'Sokoban solutions' }],
+    featuredGuides: ['chess', 'checkers', 'connect-four', 'tic-tac-toe'],
+    priorityLinks: [
+      { href: '/games/chess/', label: 'Play Chess online free' },
+      { href: '/games/checkers/', label: 'Play Checkers online free' },
+      { href: '/guides/checkers/', label: 'Read Checkers strategy' },
+      { href: '/games/connect-four/', label: 'Play Connect Four online' },
+      { href: '/guides/sokoban/', label: 'Sokoban solutions' }
+    ],
     content: {
       whatIsSection: `Strategy games require planning, tactical thinking, and anticipating your opponent's moves. They range from simple games like Tic Tac Toe to the profound complexity of Chess.
 
@@ -304,15 +322,22 @@ These games have been played for centuries, with Chess alone having over 1,500 y
 
   'ai-games': {
     slug: 'ai-games',
-    title: 'AI Games & Interactive Stories - Play Free Online (No Download)',
-    description: 'Play 15+ free AI interactive story games online. Dating simulators, murder mysteries, escape rooms, zombie survival, and more. AI-powered, unique every time — no download!',
-    heroDescription: 'Experience the next generation of gaming with AI-powered interactive stories. Every choice shapes a unique narrative — no two playthroughs are the same.',
-    keywords: ['AI games', 'AI story games', 'interactive fiction', 'AI dating simulator', 'AI murder mystery', 'AI escape room', 'text adventure AI', 'AI games free', 'interactive story game', 'AI roleplay game'],
+    title: 'AI Story Games Online Free - Dating, Mystery, Escape Room & RPG',
+    description: 'Play 15+ free AI story games online. Try AI dating simulators, murder mysteries, escape rooms, zombie survival, fantasy RPG stories, and multiple endings.',
+    heroDescription: 'Play free AI story games where every choice shapes the next scene. Start with an AI dating simulator, mystery, escape room, zombie survival, or fantasy RPG story — no download required.',
+    keywords: ['AI story games', 'AI story game', 'free AI dating simulator', 'interactive fiction', 'AI dating simulator', 'AI murder mystery', 'AI escape room', 'AI fantasy RPG', 'text adventure AI', 'AI games free', 'interactive story game', 'AI roleplay game'],
     categoryIds: [],
     featuredGames: [],
     featuredGuides: [],
+    priorityLinks: [
+      { href: '/stories/', label: 'Play all AI story games' },
+      { href: '/stories/genre/romance-relationships/', label: 'Free AI dating simulator games' },
+      { href: '/stories/genre/mystery-detective/', label: 'AI murder mystery stories' },
+      { href: '/stories/genre/survival-horror/', label: 'AI zombie survival stories' },
+      { href: '/stories/genre/fantasy-adventure/', label: 'AI fantasy RPG stories' }
+    ],
     content: {
-      whatIsSection: `AI story games are a new genre of interactive fiction where artificial intelligence generates unique dialogue, scenarios, and plot twists in real time. Unlike traditional games with scripted storylines, every playthrough creates a completely different experience.
+      whatIsSection: `AI story games are interactive fiction experiences where artificial intelligence generates unique dialogue, scenarios, and plot turns in real time. Unlike traditional games with fixed scripts, each playthrough can feel different while still following a clear story structure.
 
 Each game features rich characters with distinct personalities, branching story paths, and multiple endings. Your choices genuinely matter — they affect character relationships, story outcomes, and which of several endings you reach.`,
       benefitsSection: `AI interactive stories offer a unique entertainment experience:

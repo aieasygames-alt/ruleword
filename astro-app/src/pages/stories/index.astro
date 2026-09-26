@@ -24,8 +24,8 @@ const trendingStories = storyData
 const genreGroups = storyGenres
 const genreMap = groupStoriesByGenre(storyData)
 
-const seoTitle = 'AI Story Games - 15+ Free Interactive Fiction Games Online'
-const seoDescription = 'Play 15+ AI-powered interactive story games free. Romance, mystery, survival, fantasy & more. Every choice shapes a unique story. No download required!'
+const seoTitle = 'AI Story Games Online Free - Interactive Fiction, Dating & Mystery'
+const seoDescription = 'Play free AI story games online with no download. Choose AI dating simulators, murder mysteries, zombie survival, fantasy RPG stories, and multiple endings.'
 
 const faqItems = [
   { q: 'Are AI story games free to play?', a: 'Yes! All 15+ AI interactive story games are completely free to play in your browser. No download, registration, or payment required. Just click and start your adventure.' },
@@ -47,7 +47,7 @@ const storyCollectionSchema = {
   "name": "AI Interactive Story Games",
   "description": seoDescription,
   "url": "https://ruleword.com/stories/",
-  "keywords": ["AI story games", "interactive fiction", "multiple endings", "AI dating simulator", "AI mystery game"],
+  "keywords": ["AI story games", "AI story game", "free AI dating simulator", "interactive fiction", "multiple endings", "AI murder mystery", "AI fantasy RPG"],
   "hasPart": genreGroups.map(group => ({
     "@type": "Collection",
     "name": group.label,
@@ -78,7 +78,7 @@ const storyCollectionSchema = {
 <BaseLayout
   title={seoTitle}
   description={seoDescription}
-  keywords="AI story games, interactive fiction, AI dating simulator, AI murder mystery, AI escape room, AI zombie survival, AI fantasy RPG, play online free, browser game"
+  keywords="AI story games, AI story game, free AI dating simulator, interactive fiction games, AI dating simulator, AI murder mystery, AI escape room, AI zombie survival, AI fantasy RPG, play online free, browser game"
   canonicalPath="/stories/"
   ogImage="/og/stories-index.png"
   breadcrumbItems={breadcrumbItems}
@@ -115,10 +115,10 @@ const storyCollectionSchema = {
       <div class="max-w-4xl mx-auto text-center space-y-4">
         <div class="text-5xl mb-4">🤖📖</div>
         <h2 class="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
-          AI Interactive Story Games
+          AI Story Games Online Free
         </h2>
         <p class="text-slate-400 text-lg max-w-2xl mx-auto">
-          Every story is unique. Our AI creates personalized narratives based on your choices. No two playthroughs are the same.
+          Play free interactive fiction in your browser. Choose romance, mystery, survival, fantasy, and simulator stories where your decisions unlock different endings.
         </p>
         <div class="flex flex-wrap justify-center gap-3 text-sm">
           {genreGroups.map(g => (

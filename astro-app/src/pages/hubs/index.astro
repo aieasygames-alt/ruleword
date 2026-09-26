@@ -11,7 +11,8 @@ const hubIcons: Record<string, string> = {
   'japanese-logic': '🇯🇵',
   'brain-training': '🧠',
   'memory-games': '🎴',
-  'strategy-games': '♟️'
+  'strategy-games': '♟️',
+  'ai-games': '🤖'
 }
 
 const hubColors: Record<string, string> = {
@@ -20,11 +21,12 @@ const hubColors: Record<string, string> = {
   'japanese-logic': 'from-red-500 to-pink-600',
   'brain-training': 'from-purple-500 to-violet-600',
   'memory-games': 'from-amber-500 to-orange-600',
-  'strategy-games': 'from-cyan-500 to-teal-600'
+  'strategy-games': 'from-cyan-500 to-teal-600',
+  'ai-games': 'from-pink-500 to-rose-600'
 }
 ---
 
-<BaseLayout title="Game Collections - Browse by Category | Free Games Hub" description="Explore curated collections of puzzle games by category. Word games, number puzzles, Japanese logic, brain training, memory games, and strategy games." canonicalPath="/hubs/" ogImage="/og/hubs-index.png">
+<BaseLayout title="Free Game Collections - Word, Sudoku, Brain Training & AI Stories" description="Browse curated free game collections: Boggle and word games, Sudoku and 2048 number puzzles, brain training tests, strategy games, and AI story games." canonicalPath="/hubs/" ogImage="/og/hubs-index.png">
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -47,11 +49,10 @@ const hubColors: Record<string, string> = {
     <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <div class="text-center mb-12">
         <h1 class="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-          Game Collections
+          Free Game Collections
         </h1>
         <p class="text-lg text-slate-300 max-w-2xl mx-auto">
-          Explore our curated collections of the best free online games.
-          Each collection features hand-picked games, guides, and tips.
+          Explore curated collections for Boggle and word games, Sudoku and 2048, brain training tests, classic strategy games, memory challenges, and AI story games.
         </p>
       </div>
 

@@ -126,10 +126,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   boggle: {
     primaryKeyword: 'boggle online free',
-    secondaryKeywords: ['boggle online', 'boggle game', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', 'boggle word finder'],
-    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', '4x4 word puzzle', 'boggle rules and scoring', 'boggle strategy tips', 'how to play boggle'],
-    titleTemplate: 'Play Boggle Online Free - Classic 4x4 Word Game, No Download | {brand}',
-    descriptionTemplate: 'Play classic Boggle online free with unlimited 4x4 rounds, a 2-minute timer, instant browser play, and built-in rules and scoring tips. No download or sign-up.',
+    secondaryKeywords: ['boggle online', 'boggle game', '5x5 boggle', 'play boggle online free', 'online boggle', 'boggle word game', '4x4 boggle', 'big boggle'],
+    longTailKeywords: ['boggle online free no download', 'play boggle word game', 'free boggle game online', 'play boggle free online', 'boggle free online game 5x5', 'boggle rules and scoring', 'boggle strategy tips', 'how to play boggle'],
+    titleTemplate: 'Boggle Online Free - Play 4x4 & 5x5 Word Game | {brand}',
+    descriptionTemplate: 'Play Boggle online free with classic 4x4, big 5x5, daily challenge, relaxed mode, hints, scoring review, and missed-word recap. No download or sign-up.',
     intent: 'play'
   },
   crosswordle: {
@@ -462,20 +462,20 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   },
   crossword: {
     primaryKeyword: 'crossword puzzle online',
-    secondaryKeywords: ['crossword game', 'daily crossword', 'word crossword'],
-    longTailKeywords: ['play crossword free online', 'crossword puzzle game', 'fill in crossword', 'word grid puzzle'],
-    titleTemplate: 'Crossword Puzzle Online Free - Play Daily Crossword | {brand}',
-    descriptionTemplate: 'Play Crossword puzzle online free! Fill in the grid using clues. Classic word puzzle game!',
+    secondaryKeywords: ['crossword game', 'daily crossword', 'word crossword', 'online crossword puzzle'],
+    longTailKeywords: ['play crossword free online', 'crossword puzzle game no download', 'fill in crossword clues online', 'classic word grid puzzle'],
+    titleTemplate: 'Crossword Puzzle Online Free - Play Clue Word Game | {brand}',
+    descriptionTemplate: 'Play Crossword online free in your browser. Fill the word grid from clues, practice vocabulary, and start instantly with no download or sign-up.',
     intent: 'play'
   },
 
   // Strategy Games - Additional
   checkers: {
     primaryKeyword: 'checkers game',
-    secondaryKeywords: ['checkers online', 'draughts game', 'checkerboard'],
-    longTailKeywords: ['play checkers online free', 'checkers vs computer', 'classic checkers', 'jump pieces game'],
-    titleTemplate: 'Checkers Game Online Free - Play Classic Board Game | {brand}',
-    descriptionTemplate: 'Play Checkers online free! Jump opponent pieces to win. Classic strategy board game vs AI!',
+    secondaryKeywords: ['checkers online', 'draughts game', 'checkerboard game', 'classic checkers'],
+    longTailKeywords: ['play checkers online free', 'checkers vs computer no download', 'classic checkers browser game', 'jump pieces strategy game'],
+    titleTemplate: 'Checkers Online Free - Play Classic Board Game | {brand}',
+    descriptionTemplate: 'Play Checkers online free against the computer. Move, jump, crown kings, and practice classic board strategy instantly with no download.',
     intent: 'play'
   },
   'connect-four': {
@@ -957,10 +957,10 @@ export const gameSEOConfig: Record<string, GameSEO> = {
   // Note: sudoku-x SEO is defined earlier (line 836) with more keywords
   threes: {
     primaryKeyword: 'threes game',
-    secondaryKeywords: ['threes online', 'number merge', 'sliding numbers'],
-    longTailKeywords: ['play threes online free', 'merge numbers game', '2048 predecessor', 'slide and merge'],
-    titleTemplate: 'Threes Online - Play the Original Merge Game | {brand}',
-    descriptionTemplate: 'Play Threes online free, the original number-merging puzzle before 2048. Combine 1 + 2, then match equal tiles. No download; play instantly.',
+    secondaryKeywords: ['threes online', 'number merge game', 'sliding numbers puzzle', '2048 style game'],
+    longTailKeywords: ['play threes online free', 'merge numbers game no download', '2048 predecessor puzzle', 'slide and merge number tiles'],
+    titleTemplate: 'Threes Game Online Free - Slide & Merge Numbers | {brand}',
+    descriptionTemplate: 'Play Threes online free in your browser. Combine 1 + 2, merge matching tiles, and build a high score in the original sliding number puzzle.',
     intent: 'play'
   },
   '2048-cupcakes': {

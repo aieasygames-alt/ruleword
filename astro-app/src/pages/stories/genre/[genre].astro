@@ -22,7 +22,14 @@ const genreStories = stories
 const otherGenres = storyGenres.filter(item => item.slug !== genre.slug)
 const canonicalPath = `/stories/genre/${genre.slug}/`
 const canonicalUrl = `https://ruleword.com${canonicalPath}`
-const seoTitle = `${genre.label} AI Story Games - Play Free Interactive Fiction Online`
+const genreTitleOverrides: Record<string, string> = {
+  'romance-relationships': 'Free AI Dating Simulator Games - Romance Stories Online',
+  'mystery-detective': 'AI Murder Mystery & Detective Story Games Online Free',
+  'survival-horror': 'AI Zombie Survival & Horror Story Games Online Free',
+  'fantasy-adventure': 'AI Fantasy RPG Story Games - Play Adventures Online Free',
+  'strategy-simulation': 'AI Simulation Games - Startup, Escape Room & Quiz Stories',
+}
+const seoTitle = genreTitleOverrides[genre.slug] ?? `${genre.label} AI Story Games - Play Free Interactive Fiction Online`
 const seoDescription = `${genre.description} Play free browser-based AI story games with auto-save, branching chapters, and multiple endings.`
 
 const faqItems = [

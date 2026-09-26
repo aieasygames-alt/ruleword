@@ -78,7 +78,7 @@ Common ending patterns include -IGHT (light, night, fight), -ATCH (catch, match,
       },
       {
         title: 'Hard Mode Strategies',
-        content: `In Hard Mode, you must use revealed hints in subsequent guesses. This requires more careful planning since you can't freely test letters.
+        content: `In Hard Mode, you must use revealed hints in subsequent guesses. This requires more careful planning since you can\'t freely test letters.
 
 The key to Hard Mode is choosing starting words that give you flexibility. Words with common letters in multiple positions work well because they keep your options open.`,
         tips: [
@@ -162,7 +162,7 @@ The key to Hard Mode is choosing starting words that give you flexibility. Words
     title: 'Sudoku Strategy: How to Solve Hard Puzzles (Expert Methods)',
     description: '🧩 Master Sudoku with expert techniques: X-Wing, Swordfish, XY-Wing. 92% success rate on hard puzzles. Step-by-step guide from beginner to advanced.',
     keywords: ['sudoku tips', 'sudoku strategy', 'how to solve sudoku', 'sudoku techniques', 'sudoku tricks', 'sudoku for beginners', 'sudoku rules', 'sudoku hard', 'sudoku expert', 'sudoku solving methods', 'sudoku patterns'],
-    introduction: `Sudoku is a logic-based number puzzle that has captivated millions since its rise to popularity in 2004. This guide covers everything from basic techniques for beginners to advanced strategies for expert-level puzzles. Whether you're just starting or looking to improve your solving speed, these techniques will help you master any Sudoku grid.
+    introduction: `Sudoku is a logic-based number puzzle that has captivated millions since its rise to popularity in 2004. This guide covers everything from basic techniques for beginners to advanced strategies for expert-level puzzles. Whether you\'re just starting or looking to improve your solving speed, these techniques will help you master any Sudoku grid.
 
 Based on analysis of 10,000+ Sudoku puzzles and expert solving methods, the strategies in this guide have a 92% success rate on hard and expert-level puzzles. Most dedicated solvers can complete even challenging puzzles in under 15 minutes with practice.`,
     sections: [
@@ -192,7 +192,7 @@ Start with the number that appears most frequently in the grid. Look at each box
       },
       {
         title: 'Pencil Marks and Candidates',
-        content: `Writing small numbers (pencil marks) in empty cells to track possible values is essential for harder puzzles. This technique helps you visualize options and spot patterns that aren't immediately obvious.
+        content: `Writing small numbers (pencil marks) in empty cells to track possible values is essential for harder puzzles. This technique helps you visualize options and spot patterns that aren\'t immediately obvious.
 
 The key is to keep your pencil marks updated. Every time you fill in a number, remove it as a candidate from all affected rows, columns, and boxes.`,
         tips: [
@@ -297,16 +297,16 @@ Swordfish extends this concept to three rows and three columns. These techniques
 
   '2048': {
     slug: '2048',
-    title: 'How to Win at 2048 Every Time — Best Strategy, Tips & Tricks',
-    description: 'Master 2048 with the corner technique — 97% win rate strategy explained step by step. Best tips, tricks, and patterns to reach 2048, 4096 and beyond. Free guide.',
-    keywords: ['2048 strategy', 'how to beat 2048', '2048 tips', '2048 tricks', '2048 game guide', '2048 high score', 'how to play 2048', '2048 winning strategy', 'best 2048 strategy', '2048 game algorithm'],
+    title: '2048 Strategy Guide: Best Corner Method, Tips, and Winning Pattern',
+    description: 'Learn the best 2048 strategy with the corner method, snake pattern, recovery moves, and practical tips for reaching 2048, 4096, and higher scores.',
+    keywords: ['2048 strategy', '2048 corner strategy', 'how to beat 2048', '2048 tips', '2048 tricks', '2048 game guide', '2048 high score', 'how to play 2048', '2048 winning pattern', 'best 2048 strategy', '2048 game algorithm'],
     introduction: `2048 is a deceptively simple yet addictive puzzle game created by Gabriele Cirulli in 2014. The goal is to slide numbered tiles to combine them, ultimately creating a tile with the number 2048. This guide reveals the strategies used by top players to consistently win and achieve scores over 100,000.
 
-Based on analysis of 50,000+ games and mathematical probability studies, the corner technique has a 97% success rate for reaching 2048. Whether you're a complete beginner or looking to reach 4096 and beyond, this comprehensive guide will transform your gameplay in just 7 days.`,
+Based on analysis of 50,000+ games and mathematical probability studies, the corner technique has a 97% success rate for reaching 2048. Whether you\'re a complete beginner or looking to reach 4096 and beyond, this comprehensive guide will transform your gameplay in just 7 days.`,
     sections: [
       {
         title: 'The Golden Rule: Pick a Corner',
-        content: `The most important strategy in 2048 is to keep your highest tile in a corner. This is not optional - it's the fundamental principle that separates consistent winners from frustrated players.
+        content: `The most important strategy in 2048 is to keep your highest tile in a corner. This is not optional - it\'s the fundamental principle that separates consistent winners from frustrated players.
 
 Choose one corner (typically bottom-right or bottom-left) and commit to keeping your highest tile there throughout the entire game. This creates a stable foundation for building your tile chain.`,
         tips: [
@@ -330,7 +330,7 @@ This pattern ensures that when you merge tiles, the resulting tile is adjacent t
       },
       {
         title: 'Recovery Strategies',
-        content: `Sometimes you'll be forced to move in a suboptimal direction. When this happens, stay calm and focus on rebuilding your corner position as quickly as possible.
+        content: `Sometimes you\'ll be forced to move in a suboptimal direction. When this happens, stay calm and focus on rebuilding your corner position as quickly as possible.
 
 The key is to minimize the damage. If you must swipe up, try to do it when the bottom row is full so no new tile appears under your high tile.`,
         tips: [
@@ -442,7 +442,7 @@ To reach these higher tiles, you need near-perfect play. Every move matters, and
     title: 'Tetris Strategy Guide: Master the Classic Block Puzzle',
     description: 'Learn Tetris strategies from basic stacking to advanced T-Spin techniques. Improve your gameplay with tips on piece placement, speed control, and scoring optimization.',
     keywords: ['tetris strategy', 'tetris tips', 'how to play tetris', 'tetris tricks', 'tetris t-spin', 'tetris for beginners', 'tetris guide'],
-    introduction: `Tetris is the ultimate block-stacking puzzle game created by Alexey Pajitnov in 1984. It has stood the test of time as one of the most recognizable and beloved video games ever made. Whether you're a casual player or aspiring competitor, this guide covers everything from fundamental techniques to advanced strategies.`,
+    introduction: `Tetris is the ultimate block-stacking puzzle game created by Alexey Pajitnov in 1984. It has stood the test of time as one of the most recognizable and beloved video games ever made. Whether you\'re a casual player or aspiring competitor, this guide covers everything from fundamental techniques to advanced strategies.`,
     sections: [
       {
         title: 'Basic Controls and Piece Movement',
@@ -460,7 +460,7 @@ Modern Tetris uses the Super Rotation System (SRS), which allows wall kicks - pi
         title: 'The Well Strategy',
         content: `Creating a "well" (an empty column) on one side of the board allows you to score Tetrises (4-line clears) with I-pieces. This is the highest-scoring single move in classic Tetris and the foundation of high-level play.
 
-Keep your well consistently one column wide. Build a flat surface on the rest of your board so you're ready for any piece.`,
+Keep your well consistently one column wide. Build a flat surface on the rest of your board so you\'re ready for any piece.`,
         tips: [
           'Keep a 1-column well on the right or left edge',
           'Build a flat, even surface on the rest of the board',
@@ -482,7 +482,7 @@ Avoid creating "overhangs" (blocks with empty space underneath) unless you have 
       },
       {
         title: 'Introduction to T-Spins',
-        content: `T-Spins are advanced techniques where you rotate a T-piece into tight spaces that it couldn't reach through normal sliding. They score bonus points and are essential for competitive play.
+        content: `T-Spins are advanced techniques where you rotate a T-piece into tight spaces that it couldn\'t reach through normal sliding. They score bonus points and are essential for competitive play.
 
 A T-Spin is detected when the T-piece's center is surrounded on 3 or 4 sides before clearing a line. The game rewards this with bonus points.`,
         tips: [
@@ -494,7 +494,7 @@ A T-Spin is detected when the T-piece's center is surrounded on 3 or 4 sides bef
       },
       {
         title: 'Speed and Survival Techniques',
-        content: `As the game speeds up, you need to develop "hard drop" instincts and reduce decision time. At high speeds, there's no time to think - you must react.
+        content: `As the game speeds up, you need to develop "hard drop" instincts and reduce decision time. At high speeds, there\'s no time to think - you must react.
 
 Practice looking at the "next piece" preview while placing your current piece. This "look-ahead" ability separates intermediate players from experts.`,
         tips: [
@@ -538,7 +538,7 @@ Practice looking at the "next piece" preview while placing your current piece. T
     sections: [
       {
         title: 'Opening Principles',
-        content: `The opening sets the stage for the entire game. While you don't need to memorize long sequences, following fundamental principles will consistently give you good positions.
+        content: `The opening sets the stage for the entire game. While you don\'t need to memorize long sequences, following fundamental principles will consistently give you good positions.
 
 The three golden rules: control the center, develop your pieces, and castle early. Nearly every strong opening follows these principles.`,
         tips: [
@@ -552,7 +552,7 @@ The three golden rules: control the center, develop your pieces, and castle earl
         title: 'Basic Tactical Patterns',
         content: `Tactics are short-term maneuvers that win material or deliver checkmate. Learning common patterns helps you spot opportunities in your games. At the beginner-intermediate level, most games are decided by tactics.
 
-The key is pattern recognition. Once you've seen a fork or pin hundreds of times, you'll automatically notice them in your games.`,
+The key is pattern recognition. Once you\'ve seen a fork or pin hundreds of times, you\'ll automatically notice them in your games.`,
         tips: [
           'Fork: One piece attacks two or more pieces simultaneously (knights are excellent forkers)',
           'Pin: A piece cannot move without exposing a more valuable piece behind it',
@@ -562,7 +562,7 @@ The key is pattern recognition. Once you've seen a fork or pin hundreds of times
       },
       {
         title: 'Checkmate Patterns',
-        content: `Knowing common checkmate patterns helps you finish games and convert winning positions. Many games are lost because players don't recognize mate-in-one or mate-in-two patterns.
+        content: `Knowing common checkmate patterns helps you finish games and convert winning positions. Many games are lost because players don\'t recognize mate-in-one or mate-in-two patterns.
 
 Study these patterns until they become automatic. You should be able to spot back-rank mate instantly.`,
         tips: [
@@ -588,7 +588,7 @@ The player with the better position will eventually get tactical chances. Good p
         title: 'Common Mistakes to Avoid',
         content: `Beginners make predictable mistakes that lose games. Being aware of these errors is the first step to avoiding them.
 
-The most common mistake is playing without a plan. Every move should have a purpose, even if it's just improving a piece's position slightly.`,
+The most common mistake is playing without a plan. Every move should have a purpose, even if it\'s just improving a piece's position slightly.`,
         tips: [
           'Don\'t bring your queen out too early - it can be chased by minor pieces',
           'Don\'t move pawns in front of your castled king unnecessarily',
@@ -666,7 +666,7 @@ Learning these patterns by heart will dramatically speed up your solving.`,
       },
       {
         title: 'Advanced Counting Techniques',
-        content: `When basic deduction isn't enough, count remaining mines and consider multiple scenarios. Sometimes you can deduce that a cell must be safe (or must be a mine) regardless of which scenario is true.
+        content: `When basic deduction isn\'t enough, count remaining mines and consider multiple scenarios. Sometimes you can deduce that a cell must be safe (or must be a mine) regardless of which scenario is true.
 
 This "reduction" thinking is key to expert-level play.`,
         tips: [
@@ -816,7 +816,7 @@ This ability is thought to be an evolutionary adaptation - chimps in the wild ne
     },
     {
       title: 'Training Your Working Memory',
-      content: `Working memory capacity is largely genetic, but you can improve your efficiency. Think of it like RAM in a computer - you can't add more chips, but you can optimize how programs use it.
+      content: `Working memory capacity is largely genetic, but you can improve your efficiency. Think of it like RAM in a computer - you can\'t add more chips, but you can optimize how programs use it.
 
 Regular practice with memory games, combined with good sleep and reduced stress, can significantly improve your test performance over time.`,
       tips: [
@@ -857,11 +857,11 @@ gameGuides['stroop-test'] = {
   title: 'Stroop Test Guide: Master the Psychology Test',
   description: 'Learn about the Stroop effect and improve your cognitive control. Discover why this famous psychology experiment is harder than it looks and what your score reveals about your brain.',
   keywords: ['stroop test', 'stroop effect', 'color word test', 'cognitive test', 'psychology test', 'brain test', 'reaction test', 'cognitive control'],
-  introduction: `The Stroop Test is one of psychology's most famous experiments, first published by J.R. Stroop in 1935. It demonstrates a phenomenon called "interference" - when your brain's automatic processes conflict with controlled processes. This guide explains the science and helps you improve your performance.`,
+  introduction: `The Stroop Test is one of psychology's most famous experiments, first published by J.R. Stroop in 1935. It demonstrates a phenomenon called "interference" - when your brain\'s automatic processes conflict with controlled processes. This guide explains the science and helps you improve your performance.`,
   sections: [
     {
       title: 'How the Stroop Test Works',
-      content: `You'll see color words (RED, BLUE, GREEN, YELLOW) displayed in various ink colors. Your task: determine if the ink color matches the word's meaning. The challenge comes when they don't match - for example, "RED" written in blue ink.
+      content: `You\'ll see color words (RED, BLUE, GREEN, YELLOW) displayed in various ink colors. Your task: determine if the ink color matches the word's meaning. The challenge comes when they don\'t match - for example, "RED" written in blue ink.
 
 When the word says one thing but the color shows another, your brain experiences interference. The automatic process of reading conflicts with the controlled process of color naming.`,
       tips: [
@@ -873,7 +873,7 @@ When the word says one thing but the color shows another, your brain experiences
     },
     {
       title: 'The Science of the Stroop Effect',
-      content: `Reading has become automatic for literate adults - you can't help but read words you see. This automaticity happens in a different brain pathway than color naming. When these pathways conflict, your brain must work harder to suppress the automatic response.
+      content: `Reading has become automatic for literate adults - you can\'t help but read words you see. This automaticity happens in a different brain pathway than color naming. When these pathways conflict, your brain must work harder to suppress the automatic response.
 
 The anterior cingulate cortex (ACC) is the brain region responsible for resolving this conflict. It detects when responses compete and helps you choose the correct one.`,
       tips: [
@@ -885,21 +885,21 @@ The anterior cingulate cortex (ACC) is the brain region responsible for resolvin
     },
     {
       title: 'Strategies to Improve Your Score',
-      content: `While you can't eliminate the Stroop effect entirely, you can improve your performance through specific strategies. The key is training your brain to prioritize color processing over word reading.
+      content: `While you can\'t eliminate the Stroop effect entirely, you can improve your performance through specific strategies. The key is training your brain to prioritize color processing over word reading.
 
 Focus strategies work better than speed strategies. Trying to go faster often increases errors - your accuracy rate matters as much as reaction time.`,
       tips: [
-        'Focus on the LETTERS\' COLOR, not the word meaning',
-        'Try looking at just the first letter\'s color as a visual anchor',
+        'Focus on the letter color, not the word meaning',
+        'Try looking at just the first letter color as a visual anchor',
         'Stay calm - anxiety increases interference effects',
         'Practice regularly - you can improve with training'
       ]
     },
     {
       title: 'What Your Score Means',
-      content: `Your Stroop Test performance reveals information about your cognitive control and processing speed. However, it's not a measure of overall intelligence - it specifically tests executive function and selective attention.
+      content: `Your Stroop Test performance reveals information about your cognitive control and processing speed. However, it\'s not a measure of overall intelligence - it specifically tests executive function and selective attention.
 
-Various factors affect your score: age, time of day, caffeine, sleep, and even mood. Don't read too much into a single test - look at trends over time.`,
+Various factors affect your score: age, time of day, caffeine, sleep, and even mood. Don\'t read too much into a single test - look at trends over time.`,
       tips: [
         'Fast and accurate = strong cognitive control',
         'Slow but accurate = careful processing (not bad!)',
@@ -911,7 +911,7 @@ Various factors affect your score: age, time of day, caffeine, sleep, and even m
       title: 'Clinical Applications',
       content: `The Stroop Test is widely used in clinical psychology and neuroscience. It helps diagnose and monitor conditions that affect executive function, including ADHD, depression, and cognitive decline.
 
-In research, it's used to study attention, cognitive control, and how different brain regions communicate. It remains one of the most replicated findings in psychology.`,
+In research, it\'s used to study attention, cognitive control, and how different brain regions communicate. It remains one of the most replicated findings in psychology.`,
       tips: [
         'Used clinically for: ADHD, depression, dementia screening',
         'Can detect subtle cognitive changes before symptoms appear',
@@ -954,7 +954,7 @@ gameGuides['aim-trainer'] = {
   sections: [
     {
       title: 'Types of Aim Explained',
-      content: `Aim is not a single skill - it's a combination of several abilities: tracking (following moving targets), flicking (quick movements to stationary targets), micro-adjustments (small corrections), and click timing (knowing when to shoot).
+      content: `Aim is not a single skill - it\'s a combination of several abilities: tracking (following moving targets), flicking (quick movements to stationary targets), micro-adjustments (small corrections), and click timing (knowing when to shoot).
 
 Different FPS games emphasize different aim types. Valorant and CS2 prioritize micro-adjustments and click timing, while Overwatch and Apex Legends require more tracking.`,
       tips: [
@@ -978,7 +978,7 @@ Most pro FPS players use 200-400 eDPI for tactical shooters and 400-800 for aren
     },
     {
       title: 'Effective Practice Routines',
-      content: `Deliberate practice means focusing on specific skills with clear goals. Just playing games won't improve aim efficiently - you need structured training. Aim for 15-30 minutes daily rather than occasional long sessions.
+      content: `Deliberate practice means focusing on specific skills with clear goals. Just playing games won\'t improve aim efficiently - you need structured training. Aim for 15-30 minutes daily rather than occasional long sessions.
 
 Start with warm-up exercises, then focus on your weakest area. Track your scores to measure progress. Improvement takes weeks, not days.`,
       tips: [
@@ -990,7 +990,7 @@ Start with warm-up exercises, then focus on your weakest area. Track your scores
     },
     {
       title: 'Common Mistakes to Avoid',
-      content: `Many players practice aim incorrectly and wonder why they don't improve. The most common mistake is tensing up - good aim requires a relaxed hand and arm. Another error is chasing high scores instead of consistent technique.
+      content: `Many players practice aim incorrectly and wonder why they don\'t improve. The most common mistake is tensing up - good aim requires a relaxed hand and arm. Another error is chasing high scores instead of consistent technique.
 
 Avoid "death gripping" your mouse. Use your arm for large movements and wrist for fine adjustments. Keep your grip consistent.`,
       tips: [
@@ -1002,7 +1002,7 @@ Avoid "death gripping" your mouse. Use your arm for large movements and wrist fo
     },
     {
       title: 'Hardware Considerations',
-      content: `While skill matters most, good hardware helps. A gaming mouse with a quality sensor, a large mousepad, and a consistent surface all contribute to aim. You don't need expensive gear, but avoid equipment that holds you back.
+      content: `While skill matters most, good hardware helps. A gaming mouse with a quality sensor, a large mousepad, and a consistent surface all contribute to aim. You don\'t need expensive gear, but avoid equipment that holds you back.
 
 Monitor refresh rate (144Hz+) helps you see targets earlier. Mouse polling rate (500Hz+) ensures smooth input. These matter more at higher skill levels.`,
       tips: [
@@ -1049,7 +1049,7 @@ gameGuides['nonogram'] = {
       title: 'Understanding the Numbers',
       content: `Each row and column has number clues that tell you which cells to fill. The numbers indicate consecutive groups of filled cells, separated by at least one empty cell. For example, "3 2" means a group of 3, a gap, then a group of 2.
 
-The key insight: you don't need to guess. Every nonogram can be solved through pure logic by systematically applying deduction rules.`,
+The key insight: you don\'t need to guess. Every nonogram can be solved through pure logic by systematically applying deduction rules.`,
       tips: [
         'Numbers = consecutive filled cells in that row/column',
         'Multiple numbers = gaps between groups',
@@ -1095,7 +1095,7 @@ The minimum space needed for clues C1, C2, C3... = C1 + C2 + C3 + ... + (number 
     },
     {
       title: 'Common Mistakes and How to Avoid Them',
-      content: `The biggest mistake is guessing when stuck. If you can't logically determine a cell, look at other rows and columns for more information. The puzzle will eventually provide the clues you need.
+      content: `The biggest mistake is guessing when stuck. If you can\'t logically determine a cell, look at other rows and columns for more information. The puzzle will eventually provide the clues you need.
 
 Another error is not marking empty cells. X marks are as important as filled cells - they help you see patterns and eliminate possibilities.`,
       tips: [
@@ -1302,7 +1302,7 @@ gameGuides['killer-sudoku'] = {
   sections: [
     {
       title: 'Understanding Killer Sudoku Rules',
-      content: `Killer Sudoku follows standard Sudoku rules (each row, column, and 3×3 box contains digits 1-9) with an added twist: the grid is divided into "cages" with sum targets. No digit can repeat within a cage, even if they're in different rows/columns.
+      content: `Killer Sudoku follows standard Sudoku rules (each row, column, and 3×3 box contains digits 1-9) with an added twist: the grid is divided into "cages" with sum targets. No digit can repeat within a cage, even if they\'re in different rows/columns.
 
 The challenge is using both Sudoku logic and arithmetic reasoning to fill the grid.`,
       tips: [
@@ -1493,7 +1493,7 @@ gameGuides['slitherlink'] = {
   title: 'Slitherlink Tips & Rules: How to Solve Loop Puzzles',
   description: 'Master Slitherlink with rules, beginner patterns, edge-counting tips, and solving techniques for Japanese loop puzzles. Practice online for free.',
   keywords: ['slitherlink tips', 'slitherlink rules', 'how to solve slitherlink', 'slitherlink puzzle', 'loop puzzle', 'fences puzzle', 'logic puzzle'],
-  introduction: `Slitherlink is a Japanese logic puzzle where you draw a single continuous loop through a grid of dots. The numbers indicate how many of that cell\'s four sides are part of the loop. It\'s deceptively simple but deeply satisfying!`,
+  introduction: `Slitherlink is a Japanese logic puzzle where you draw a single continuous loop through a grid of dots. The numbers indicate how many of that cell's four sides are part of the loop. It\'s deceptively simple but deeply satisfying!`,
   sections: [
     {
       title: 'Slitherlink Rules',
@@ -1863,7 +1863,7 @@ Based on analysis of 500+ NYT Connections puzzles, 89% of players who use system
   sections: [
     {
       title: 'Connections Rules',
-      content: `You\'re given 16 words. Your task is to find 4 groups of 4 words that share a common theme or category. Categories range from obvious (colors, animals) to tricky (wordplay, hidden meanings).
+      content: `You're given 16 words. Your task is to find 4 groups of 4 words that share a common theme or category. Categories range from obvious (colors, animals) to tricky (wordplay, hidden meanings).
 
 Incorrect guesses cost lives. After 4 mistakes, the game reveals the answers.`,
       tips: [
@@ -1988,7 +1988,7 @@ gameGuides['snake'] = {
   sections: [
     {
       title: 'Movement Strategies',
-      content: `The key to Snake is planning your path several moves ahead. Never make a move without knowing where you'll go next. Treat the board like a grid and think in terms of corridors and loops.
+      content: `The key to Snake is planning your path several moves ahead. Never make a move without knowing where you\'ll go next. Treat the board like a grid and think in terms of corridors and loops.
 
 A reliable strategy is to follow the edges of the board in a consistent pattern, like a spiral or zigzag. This keeps your movement predictable and reduces the chance of trapping yourself.
 
@@ -2016,7 +2016,7 @@ The danger increases as your snake grows. A longer snake means less room to mane
     },
     {
       title: 'Growing Efficiently',
-      content: `Every food item makes the snake longer and the game harder. Don't rush to eat every piece of food immediately. Sometimes it's better to position yourself first so that eating the food doesn't trap you.
+      content: `Every food item makes the snake longer and the game harder. Don\'t rush to eat every piece of food immediately. Sometimes it\'s better to position yourself first so that eating the food doesn\'t trap you.
 
 When food spawns in a corner or tight space, approach it from a direction that leaves you room to escape afterward. Think about what the board will look like after you eat the food.
 
@@ -2044,7 +2044,7 @@ Practice at the highest speed you can handle. This builds reflexes that will ser
     },
     {
       title: 'Advanced Survival Techniques',
-      content: `Expert Snake players use a technique called "hugging the tail." Since your tail is always moving, the space behind it is constantly freeing up. By following close behind your own tail, you create a safe zone that's always expanding.
+      content: `Expert Snake players use a technique called "hugging the tail." Since your tail is always moving, the space behind it is constantly freeing up. By following close behind your own tail, you create a safe zone that\'s always expanding.
 
 Another advanced technique is to create a "highway" - a consistent loop around the board perimeter that you follow every time. This guarantees you never trap yourself as long as you maintain the pattern.
 
@@ -2079,11 +2079,11 @@ gameGuides['pong'] = {
   title: 'Pong Game Strategy Guide: Master the Classic Arcade Game',
   description: 'Learn Pong strategies for paddle control, ball prediction, and angles. Master the first video game ever created with techniques to dominate every match.',
   keywords: ['pong game', 'pong strategy', 'how to play pong', 'pong tips', 'classic pong', 'pong tricks', 'retro arcade games'],
-  introduction: `Pong, released by Atari in 1972, is widely considered the first commercially successful video game. Despite its simplicity - two paddles and a ball - there's genuine skill involved in mastering it. This guide covers paddle technique, ball physics, and strategies to beat any opponent.`,
+  introduction: `Pong, released by Atari in 1972, is widely considered the first commercially successful video game. Despite its simplicity - two paddles and a ball - there\'s genuine skill involved in mastering it. This guide covers paddle technique, ball physics, and strategies to beat any opponent.`,
   sections: [
     {
       title: 'Paddle Control Fundamentals',
-      content: `Good paddle control is the foundation of Pong skill. Your paddle should move smoothly and deliberately, not erratically. React to the ball's trajectory early rather than making last-second adjustments.
+      content: `Good paddle control is the foundation of Pong skill. Your paddle should move smoothly and deliberately, not erratically. React to the ball\'s trajectory early rather than making last-second adjustments.
 
 Keep your paddle near the center of your side when the ball is far away. This gives you the best coverage for both high and low returns. Only commit to a position when the ball is approaching your side.
 
@@ -2097,11 +2097,11 @@ Avoid overcorrecting. Small, precise movements are better than large, sweeping m
     },
     {
       title: 'Ball Prediction and Tracking',
-      content: `The key to Pong is predicting where the ball will arrive on your side. Watch the ball's trajectory angle as soon as it leaves your opponent's paddle. A steep angle means the ball will arrive high or low; a shallow angle means it'll come near center.
+      content: `The key to Pong is predicting where the ball will arrive on your side. Watch the ball\'s trajectory angle as soon as it leaves your opponent\'s paddle. A steep angle means the ball will arrive high or low; a shallow angle means it'll come near center.
 
-In basic Pong physics, the ball's exit angle depends on where it hits your paddle. Hitting with the edge sends it at a steep angle, while the center produces a straight return.
+In basic Pong physics, the ball\'s exit angle depends on where it hits your paddle. Hitting with the edge sends it at a steep angle, while the center produces a straight return.
 
-Learn to read the opponent's paddle position. If they're positioned high, expect a high return. This gives you a fraction of a second head start on positioning.`,
+Learn to read the opponent\'s paddle position. If they\'re positioned high, expect a high return. This gives you a fraction of a second head start on positioning.`,
       tips: [
         'Read the ball angle immediately after each hit',
         'Edge hits produce steep angles, center hits are straight',
@@ -2115,7 +2115,7 @@ Learn to read the opponent's paddle position. If they're positioned high, expect
 
 Use angles strategically. A series of steep-angled shots can force your opponent out of position, creating openings. Mix up your angles to keep them guessing.
 
-The ideal position is slightly off-center toward the ball's expected arrival point. This gives you room to adjust while staying close enough to react.`,
+The ideal position is slightly off-center toward the ball\'s expected arrival point. This gives you room to adjust while staying close enough to react.`,
       tips: [
         'Edge hits create steep, hard-to-return angles',
         'Center hits are safe but predictable',
@@ -2180,7 +2180,7 @@ Focus on clearing one quadrant at a time rather than zigzagging across the maze.
       title: 'Ghost Behavior Patterns',
       content: `Each ghost in Pac-Man has a distinct personality and movement pattern. Understanding these patterns is the single most important skill for high-level play. The four ghosts - Blinky, Pinky, Inky, and Clyde - each target Pac-Man differently.
 
-Blinky (red) directly chases Pac-Man's current position. Pinky (pink) targets four tiles ahead of Pac-Man's facing direction. Inky (cyan) uses both Blinky's position and Pac-Man's position to calculate his target. Clyde (orange) chases when far away but retreats to his corner when close.
+Blinky (red) directly chases Pac-Man's current position. Pinky (pink) targets four tiles ahead of Pac-Man's facing direction. Inky (cyan) uses both Blinky\'s position and Pac-Man's position to calculate his target. Clyde (orange) chases when far away but retreats to his corner when close.
 
 During "scatter" mode, each ghost retreats to their assigned corner. These scatter periods happen at fixed intervals and give you safe windows to clear dots.`,
       tips: [
@@ -2196,7 +2196,7 @@ During "scatter" mode, each ghost retreats to their assigned corner. These scatt
 
 The ghost point values double with each ghost eaten during a single power pellet: 200, 400, 800, 1600. Eating all four ghosts in one power pellet activation earns you 3,100 points.
 
-Save power pellets for when multiple ghosts are nearby. Don't waste them on a single ghost. Wait until at least 2-3 ghosts are clustered together before activating.`,
+Save power pellets for when multiple ghosts are nearby. Don\'t waste them on a single ghost. Wait until at least 2-3 ghosts are clustered together before activating.`,
       tips: [
         'Ghost scores: 200, 400, 800, 1600 (doubles each time)',
         'All four ghosts = 3,100 total points',
@@ -2245,7 +2245,7 @@ gameGuides['space-invaders'] = {
   sections: [
     {
       title: 'Shooting Accuracy',
-      content: `Accuracy is everything in Space Invaders. You have limited shots on screen at once (typically one at a time in classic versions), so every shot must count. Don't fire randomly - aim carefully before each shot.
+      content: `Accuracy is everything in Space Invaders. You have limited shots on screen at once (typically one at a time in classic versions), so every shot must count. Don\'t fire randomly - aim carefully before each shot.
 
 Target the edges of the formation first. Narrowing the formation from the sides reduces the number of columns that can fire at you. This is more effective than clearing from the center.
 
@@ -2261,7 +2261,7 @@ Lead your targets when the formation is moving. Time your shots to where the inv
       title: 'Dodging Enemy Fire',
       content: `Enemy projectiles fall in somewhat random patterns, but there are strategies to minimize risk. Keep moving between shots rather than staying stationary. A moving target is harder to hit.
 
-Watch the gaps between invaders. Projectiles come from the bottom of each column, so if a column above you has been cleared, you're safe from that column's fire.
+Watch the gaps between invaders. Projectiles come from the bottom of each column, so if a column above you has been cleared, you\'re safe from that column\'s fire.
 
 Stay aware of the formation's movement pattern. When the formation drops a row, all firing angles change. This is the most dangerous moment and requires immediate repositioning.`,
       tips: [
@@ -2273,11 +2273,11 @@ Stay aware of the formation's movement pattern. When the formation drops a row, 
     },
     {
       title: 'Barrier Strategy',
-      content: `The four barriers at the bottom of the screen are your primary defensive tool, but they degrade from both enemy fire and your own shots. Use them wisely because they won't last forever.
+      content: `The four barriers at the bottom of the screen are your primary defensive tool, but they degrade from both enemy fire and your own shots. Use them wisely because they won\'t last forever.
 
 Hide behind barriers when the formation is low and firing frequently. Shoot through small gaps you create in the barrier rather than destroying it completely.
 
-Don't shoot your own barriers unnecessarily. Every shot that hits a barrier weakens your protection. Position yourself to fire around barriers, not through them, whenever possible.`,
+Don\'t shoot your own barriers unnecessarily. Every shot that hits a barrier weakens your protection. Position yourself to fire around barriers, not through them, whenever possible.`,
       tips: [
         'Barriers degrade from both sides - protect them',
         'Shoot through small gaps rather than destroying barriers',
@@ -2289,9 +2289,9 @@ Don't shoot your own barriers unnecessarily. Every shot that hits a barrier weak
       title: 'Speed Escalation and Late Game',
       content: `As you destroy invaders, the remaining ones move faster. The fewer invaders on screen, the quicker they move. The last few invaders are extremely fast and difficult to hit.
 
-When only a few invaders remain, switch to a reactive strategy. Track the last invader's movement pattern and time your shot to intercept it. Don't chase it - let it come to your crosshair.
+When only a few invaders remain, switch to a reactive strategy. Track the last invader's movement pattern and time your shot to intercept it. Don\'t chase it - let it come to your crosshair.
 
-The mystery ship that flies across the top of the screen is worth bonus points (50-300). Always try to shoot it when it appears, but don't risk your life to do so.`,
+The mystery ship that flies across the top of the screen is worth bonus points (50-300). Always try to shoot it when it appears, but don\'t risk your life to do so.`,
       tips: [
         'Fewer invaders = faster movement = more danger',
         'Switch to reactive shooting for the last few aliens',
@@ -2330,7 +2330,7 @@ gameGuides['frogger'] = {
 
 Watch the traffic patterns for a few seconds before making your move. Vehicles follow predictable lanes and speeds. Once you identify the rhythm, you can time your crossing to slip through safely.
 
-Use the median strips (safe zones between lanes) to break your crossing into stages. Don't try to cross all lanes at once. Stop on a median, reassess, then continue.`,
+Use the median strips (safe zones between lanes) to break your crossing into stages. Don\'t try to cross all lanes at once. Stop on a median, reassess, then continue.`,
       tips: [
         'Wait for clear gaps - patience prevents deaths',
         'Study traffic patterns before crossing',
@@ -2342,7 +2342,7 @@ Use the median strips (safe zones between lanes) to break your crossing into sta
       title: 'River Navigation',
       content: `The river section is trickier than the roads because you must ride moving objects (logs, turtles) instead of avoiding them. Falling in the water costs a life, so timing and positioning are critical.
 
-Jump onto logs and turtles as they pass, then ride them across. But don't ride too far - if a log carries you off the edge of the screen, you die. Always be ready to jump to the next object.
+Jump onto logs and turtles as they pass, then ride them across. But don\'t ride too far - if a log carries you off the edge of the screen, you die. Always be ready to jump to the next object.
 
 Turtles periodically dive underwater, taking you with them. Watch for the animation that signals an imminent dive and jump to a safe platform before it happens.`,
       tips: [
@@ -2354,9 +2354,9 @@ Turtles periodically dive underwater, taking you with them. Watch for the animat
     },
     {
       title: 'Timing Log Rides',
-      content: `Log rides require precise timing. You need to jump onto a log when it's within range, then either ride it to the other side or hop between logs to reach the home bases. The logs move at different speeds, so plan your jumps accordingly.
+      content: `Log rides require precise timing. You need to jump onto a log when it\'s within range, then either ride it to the other side or hop between logs to reach the home bases. The logs move at different speeds, so plan your jumps accordingly.
 
-When jumping between logs, time your leap for when the logs are closest together. Missing a jump means falling in the water. It's better to wait an extra moment for ideal positioning.
+When jumping between logs, time your leap for when the logs are closest together. Missing a jump means falling in the water. It\'s better to wait an extra moment for ideal positioning.
 
 Some levels have short logs that barely fit your frog. These require extra precision when landing. Aim for the center of each log to maximize your margin of safety.`,
       tips: [
@@ -2370,7 +2370,7 @@ Some levels have short logs that barely fit your frog. These require extra preci
       title: 'Avoiding Hazards and Reaching Home',
       content: `The final challenge is reaching one of the five home bays at the top of the screen. Each bay must be filled, and hazards like snakes and crocodiles can appear in the home area. A bay already occupied by a crocodile is deadly.
 
-Plan which home bay you're targeting before you start your river crossing. The center bays are usually easiest to reach, while the edge bays may have different hazard patterns.
+Plan which home bay you\'re targeting before you start your river crossing. The center bays are usually easiest to reach, while the edge bays may have different hazard patterns.
 
 Each time you fill all five bays, the level advances with faster traffic, shorter logs, and more hazards. The fundamentals remain the same, but your timing window shrinks with each level.`,
       tips: [
@@ -2411,7 +2411,7 @@ gameGuides['simon-game'] = {
 
 The game tests your sequential memory - your ability to remember items in exact order. Most people can hold 7±2 items in working memory, but Simon requires you to recall them perfectly under time pressure.
 
-Understanding this limitation is the first step to overcoming it. With the right techniques, you can far exceed the average player's typical run of 5-8 rounds.`,
+Understanding this limitation is the first step to overcoming it. With the right techniques, you can far exceed the average player\'s typical run of 5-8 rounds.`,
       tips: [
         'Each round adds one step to the growing sequence',
         'You must replay the entire sequence from the start each round',
@@ -2565,7 +2565,7 @@ gameGuides['reversi'] = {
   title: 'Reversi Strategy Guide: Master Othello with Proven Tactics',
   description: `Learn Reversi and Othello strategy with corner control, edge tactics, mobility management, and endgame techniques. Dominate every match with proven methods.`,
   keywords: ['reversi', 'othello', 'reversi strategy', 'othello tips', 'how to play reversi', 'othello strategy', 'reversi corners', 'board game strategy'],
-  introduction: `Reversi (also known as Othello) is a strategy board game where you flip your opponent's discs to your color by trapping them between your own. Simple rules hide deep strategic complexity. This guide covers the fundamental principles and advanced tactics that will transform your Reversi play from beginner to strong intermediate.`,
+  introduction: `Reversi (also known as Othello) is a strategy board game where you flip your opponent\'s discs to your color by trapping them between your own. Simple rules hide deep strategic complexity. This guide covers the fundamental principles and advanced tactics that will transform your Reversi play from beginner to strong intermediate.`,
   sections: [
     {
       title: 'Corner Strategy: The Golden Rule',
@@ -2583,7 +2583,7 @@ Be careful not to play in the squares directly adjacent to corners (called "X-sq
     },
     {
       title: 'Edge Control and Disc Management',
-      content: `Edges (the squares along the border) are the second most stable positions after corners. Discs on the edge can only be flipped along the edge itself, making them relatively safe. Controlling edges gives you a strategic advantage and limits your opponent's options.
+      content: `Edges (the squares along the border) are the second most stable positions after corners. Discs on the edge can only be flipped along the edge itself, making them relatively safe. Controlling edges gives you a strategic advantage and limits your opponent\'s options.
 
 However, not all edge positions are equal. A solid edge with your color from corner to corner is excellent. An edge with gaps can be exploited by your opponent to flip segments.
 
@@ -2599,7 +2599,7 @@ Disc minimization is a counterintuitive but powerful concept. In the early and m
       title: 'Mobility: The Key to Winning',
       content: `Mobility - the number of valid moves available to you - is the most important strategic concept in Reversi after corners. The player with more options controls the game. If your opponent runs out of moves, they must pass, giving you consecutive turns.
 
-To maintain high mobility, keep your discs flexible and avoid filling the board early. Play moves that maximize your future options while restricting your opponent's. Think of it as controlling the pace and direction of the game.
+To maintain high mobility, keep your discs flexible and avoid filling the board early. Play moves that maximize your future options while restricting your opponent\'s. Think of it as controlling the pace and direction of the game.
 
 A common beginner mistake is maximizing disc count early. Flipping many discs feels rewarding but often reduces your mobility in subsequent turns. Focus on move quality over quantity.`,
       tips: [
@@ -2631,7 +2631,7 @@ If you are behind in disc count entering the endgame, focus on swamping - making
     },
     {
       question: `What is the best first move in Reversi?`,
-      answer: `There are four possible opening moves, all symmetric. The most popular is to play diagonally adjacent to your own disc, which maximizes mobility. Avoid playing directly above or beside your opponent's disc in the opening, as this tends to limit your options in the following turns.`
+      answer: `There are four possible opening moves, all symmetric. The most popular is to play diagonally adjacent to your own disc, which maximizes mobility. Avoid playing directly above or beside your opponent\'s disc in the opening, as this tends to limit your options in the following turns.`
     },
     {
       question: `Can Reversi end in a tie?`,
@@ -2678,11 +2678,11 @@ Practice spotting potential four-in-a-row patterns early, before the third disc 
     },
     {
       title: 'Blocking and Defensive Play',
-      content: `Good defense is just as important as offense. Always check your opponent's position before making your move. Look for their potential three-in-a-row and four-in-a-row setups. Blocking at the right time can shut down their entire strategy.
+      content: `Good defense is just as important as offense. Always check your opponent\'s position before making your move. Look for their potential three-in-a-row and four-in-a-row setups. Blocking at the right time can shut down their entire strategy.
 
 Priority blocking: stop three-in-a-row threats immediately. If your opponent has three horizontal with an open end, you must block or lose on their next turn. Do not assume your own attack is more urgent.
 
-Advanced players use "preventive blocking" - placing discs that disrupt the opponent's future plans even before an immediate threat exists. This proactive defense keeps the opponent on the back foot.`,
+Advanced players use "preventive blocking" - placing discs that disrupt the opponent\'s future plans even before an immediate threat exists. This proactive defense keeps the opponent on the back foot.`,
       tips: [
         'Always check for opponent threats before making your move',
         'Block three-in-a-row threats immediately - no exceptions',
@@ -2694,7 +2694,7 @@ Advanced players use "preventive blocking" - placing discs that disrupt the oppo
       title: 'Forced Wins and Advanced Tactics',
       content: `Connect Four has been mathematically solved - the first player can force a win with perfect play. While memorizing the solution tree is impractical for humans, understanding the principles behind forced wins is valuable.
 
-A forced win works by creating a chain of threats where every response by the opponent leads to another threat. The most common forced win pattern is creating a "Zugzwang" position where the opponent's move to block one threat opens up another.
+A forced win works by creating a chain of threats where every response by the opponent leads to another threat. The most common forced win pattern is creating a "Zugzwang" position where the opponent\'s move to block one threat opens up another.
 
 The "odd-even" strategy is another advanced concept. Since Connect Four alternates turns, you can calculate which rows each player can access. Use this to place discs in positions where only you can complete the fourth connection.`,
       tips: [
@@ -2712,7 +2712,7 @@ The "odd-even" strategy is another advanced concept. Since Connect Four alternat
     },
     {
       question: `What is the most common beginner mistake in Connect Four?`,
-      answer: `Focusing only on your own offensive plays and ignoring your opponent's threats. Many beginners are so eager to build their own four in a row that they miss an obvious three-in-a-row by their opponent. Always scan the board defensively before committing to your move.`
+      answer: `Focusing only on your own offensive plays and ignoring your opponent\'s threats. Many beginners are so eager to build their own four in a row that they miss an obvious three-in-a-row by their opponent. Always scan the board defensively before committing to your move.`
     },
     {
       question: `How far ahead should I plan in Connect Four?`,
@@ -2749,7 +2749,7 @@ Understanding the first move advantage explains why tic-tac-toe is a draw with p
 
 Third, look for opportunities to create a "fork" - a move that gives you two ways to win simultaneously. Forks are the main offensive weapon in tic-tac-toe. If you can create one, your opponent can only block one winning line, leaving the other open.
 
-If no fork is available and no immediate threat exists, play in the square that maximizes your future fork potential while minimizing your opponent's. In practice, this usually means claiming corners and the center.`,
+If no fork is available and no immediate threat exists, play in the square that maximizes your future fork potential while minimizing your opponent\'s. In practice, this usually means claiming corners and the center.`,
       tips: [
         'Priority 1: Win immediately if possible',
         'Priority 2: Block opponent\'s winning move',
@@ -2830,7 +2830,7 @@ The key is consistency. Pick one scan direction and stick with it for the entire
 
 Practice by softening your gaze and looking at the center of a row without focusing on individual letters. With practice, your peripheral vision will pick up letter patterns that spell words. You are not reading each letter - you are recognizing shapes.
 
-This technique is similar to speed reading. Instead of fixating on each character, you absorb groups of characters and let your brain's pattern recognition do the work.`,
+This technique is similar to speed reading. Instead of fixating on each character, you absorb groups of characters and let your brain\'s pattern recognition do the work.`,
       tips: [
         'Soften your gaze to see 5-7 letters at once',
         'Focus on the center of a row and let peripheral vision work',
@@ -2888,7 +2888,7 @@ A useful trick for backward words: after scanning normally, scan the same area i
     },
     {
       question: 'Are word search puzzles good for your brain?',
-      answer: `Yes. Word search puzzles exercise visual scanning, pattern recognition, and sustained attention. They activate the brain's visual processing centers and can help maintain cognitive sharpness, especially in older adults. They are also used in speech therapy to help with word retrieval and vocabulary retention.`
+      answer: `Yes. Word search puzzles exercise visual scanning, pattern recognition, and sustained attention. They activate the brain\'s visual processing centers and can help maintain cognitive sharpness, especially in older adults. They are also used in speech therapy to help with word retrieval and vocabulary retention.`
     },
     {
       question: 'How can I get better at word search puzzles?',
@@ -3056,7 +3056,7 @@ gameGuides['crossword'] = {
   title: 'Crossword Puzzle Strategy Guide: Solving Tips for All Skill Levels',
   description: `Improve your crossword solving with clue analysis, fill-in strategies, and vocabulary building techniques. Learn to solve any crossword puzzle faster and more accurately.`,
   keywords: ['crossword puzzle', 'crossword strategy', 'crossword tips', 'how to solve crosswords', 'crossword help', 'crossword solving', 'crossword clues'],
-  introduction: `Crossword puzzles are the world's most popular word game, challenging solvers to fill a grid using intersecting across and down clues. Whether you are tackling a quick daily puzzle or a challenging Sunday grid, the right strategies can dramatically improve your solving speed and accuracy. This guide covers techniques for every skill level.`,
+  introduction: `Crossword puzzles are the world\'s most popular word game, challenging solvers to fill a grid using intersecting across and down clues. Whether you are tackling a quick daily puzzle or a challenging Sunday grid, the right strategies can dramatically improve your solving speed and accuracy. This guide covers techniques for every skill level.`,
   sections: [
     {
       title: 'Clue Analysis Techniques',
@@ -3764,7 +3764,7 @@ For each row, position the leftmost tile first, then the second, third, and four
     },
     {
       title: 'Tile Positioning Techniques',
-      content: `Moving a specific tile to a target position requires planning because tiles block each other. The basic maneuver is to create a "highway" - a clear path from the tile's current position to its target by moving obstructing tiles out of the way first.
+      content: `Moving a specific tile to a target position requires planning because tiles block each other. The basic maneuver is to create a "highway" - a clear path from the tile\'s current position to its target by moving obstructing tiles out of the way first.
 
 When two tiles need to swap positions, use the empty space as a pivot. Move one tile into the empty space, reposition the other tiles around it, then move the second tile into its correct spot. This circular rotation technique is the building block of all 15 puzzle solving.
 
@@ -3792,7 +3792,7 @@ This corner technique is the main stumbling block for beginners. Practice it rep
     },
     {
       title: 'Efficient Moves and Optimization',
-      content: `The 15 puzzle can always be solved, but only half of all random configurations are solvable from any given starting position. If the puzzle is solvable, the minimum number of moves required (the "God\'s number") is at most 80 moves for the standard 15 puzzle. Most configurations can be solved in 40-60 moves with good technique.
+      content: `The 15 puzzle can always be solved, but only half of all random configurations are solvable from any given starting position. If the puzzle is solvable, the minimum number of moves required (the "God's number") is at most 80 moves for the standard 15 puzzle. Most configurations can be solved in 40-60 moves with good technique.
 
 To reduce your move count, avoid unnecessary back-and-forth sliding. Every move should bring at least one tile closer to its target position. If you find yourself undoing a previous move, you have likely chosen an inefficient path.
 
@@ -3812,7 +3812,7 @@ Advanced solvers use "macro moves" - sequences of 5-10 slides that accomplish a 
     },
     {
       question: 'What is the fewest moves needed to solve the 15 puzzle?',
-      answer: `The maximum number of moves needed for the hardest solvable configuration (known as God\'s number for the 15 puzzle) is 80 moves. However, most randomly scrambled puzzles can be solved in 40-60 moves with optimal play. The easiest configurations may need only 10-20 moves.`
+      answer: `The maximum number of moves needed for the hardest solvable configuration (known as God's number for the 15 puzzle) is 80 moves. However, most randomly scrambled puzzles can be solved in 40-60 moves with optimal play. The easiest configurations may need only 10-20 moves.`
     },
     {
       question: 'How long does it take to learn the 15 puzzle?',
@@ -4229,9 +4229,9 @@ Time your upgrades between waves, not during them. Spending gold on an upgrade w
 // Checkers Guide
 gameGuides['checkers'] = {
   slug: 'checkers',
-  title: 'Checkers Strategy Guide: How to Win at Checkers Every Time',
-  description: `Master checkers with center control, king promotion strategy, and trading tactics. Learn opening theory and endgame techniques to dominate every match.`,
-  keywords: ['checkers', 'checkers strategy', 'how to win checkers', 'checkers tips', 'draughts strategy', 'checkers rules', 'checkers guide', 'board game strategy'],
+  title: 'Checkers Strategy Guide: Rules, Openings, Kings, and Endgames',
+  description: `Learn checkers strategy with center control, forced captures, king promotion, smart trades, and endgame tactics. Practical tips for online checkers.`,
+  keywords: ['checkers', 'checkers strategy', 'checkers rules', 'checkers openings', 'how to win checkers', 'checkers tips', 'draughts strategy', 'checkers guide', 'board game strategy'],
   introduction: `Checkers (also called Draughts) is a classic two-player strategy board game played on an 8x8 board. Despite its simple rules, checkers has deep strategic layers involving positional play, forced captures, and king promotion tactics. This guide covers the essential strategies that will dramatically improve your win rate.`,
   sections: [
     {
@@ -4250,7 +4250,7 @@ Avoid advancing pieces too far without support. A lone piece pushed deep into en
     },
     {
       title: 'King Promotion Strategy',
-      content: `Kings are the most powerful pieces in checkers because they can move both forward and backward. Reaching the king row (the opponent's back row) is a major strategic objective. Plan your moves to create paths for your pieces to reach the king row while blocking your opponent from doing the same.
+      content: `Kings are the most powerful pieces in checkers because they can move both forward and backward. Reaching the king row (the opponent\'s back row) is a major strategic objective. Plan your moves to create paths for your pieces to reach the king row while blocking your opponent from doing the same.
 
 Do not rush pieces toward the king row if it leaves your defense weakened. A well-timed king promotion is worth more than a reckless one that costs you two other pieces. Sometimes the best play is to trade pieces and then promote in the resulting open board.
 
@@ -4282,7 +4282,7 @@ In the endgame, trading pieces simplifies the board and highlights your position
 
 The "bridge" technique is essential for endgame play. Position two kings on the same diagonal with a gap between them. When an enemy king approaches, you can shuttle back and forth, maintaining the barrier and eventually forcing the opponent into a losing position.
 
-In a king-versus-one or king-versus-two endgame, the winning strategy is to herd the opponent's pieces toward the edge of the board. Once a regular piece is trapped on the edge with a king behind it, the capture is inevitable. Patience and systematic herding are key.`,
+In a king-versus-one or king-versus-two endgame, the winning strategy is to herd the opponent\'s pieces toward the edge of the board. Once a regular piece is trapped on the edge with a king behind it, the capture is inevitable. Patience and systematic herding are key.`,
       tips: [
         'More kings almost always wins the endgame',
         'Use the bridge technique to create impassable barriers',
@@ -4345,7 +4345,7 @@ Escalate your threats systematically. Start with open twos, upgrade to open thre
     },
     {
       title: 'Defensive Blocking',
-      content: `Defense in Gomoku is about recognizing your opponent's threats before they become unblockable. Scan the board after every opponent move to identify potential lines of three or four. Blocking early is far easier than dealing with a fully developed attack.
+      content: `Defense in Gomoku is about recognizing your opponent\'s threats before they become unblockable. Scan the board after every opponent move to identify potential lines of three or four. Blocking early is far easier than dealing with a fully developed attack.
 
 When blocking, choose the blocking position that also contributes to your own offense. A block that simultaneously extends one of your own lines serves double duty. This principle of "active defense" turns defensive moves into offensive opportunities.
 
@@ -4375,11 +4375,11 @@ Practice recognizing common winning patterns: the four-three combination, the do
   faq: [
     {
       question: 'What is the best first move in Gomoku?',
-      answer: `The center of the board is the strongest first move because it allows lines to develop in all four directions (horizontal, vertical, and both diagonals). In professional play, special rules often restrict the first player's opening moves to balance the significant first-move advantage. For casual play, always open in the center.`
+      answer: `The center of the board is the strongest first move because it allows lines to develop in all four directions (horizontal, vertical, and both diagonals). In professional play, special rules often restrict the first player\'s opening moves to balance the significant first-move advantage. For casual play, always open in the center.`
     },
     {
       question: 'Does the first player have an advantage in Gomoku?',
-      answer: `Yes, the first player has a significant advantage. Gomoku has been solved, and with perfect play, the first player can always win on a standard board. This is why tournament Gomoku uses special rules like "Renju" that restrict the first player's moves to level the playing field. In casual play, the advantage is less pronounced because neither player plays perfectly.`
+      answer: `Yes, the first player has a significant advantage. Gomoku has been solved, and with perfect play, the first player can always win on a standard board. This is why tournament Gomoku uses special rules like "Renju" that restrict the first player\'s moves to level the playing field. In casual play, the advantage is less pronounced because neither player plays perfectly.`
     },
     {
       question: 'How do I spot a winning combination in Gomoku?',
@@ -4511,7 +4511,7 @@ Avoid moving the same piece multiple times in the opening. Each move should deve
 
 Advance Soldiers across the river when you can support them. A Soldier that has crossed the river gains the ability to move sideways, making it a useful attacking piece. Two connected Soldiers across the river can be surprisingly difficult for your opponent to deal with.
 
-Use your Chariots and Cannons to project power across the river. A Chariot on the opponent's side of the board forces defensive responses and restricts their piece mobility. The Cannon is especially effective in the midgame when the board is still populated with pieces to jump over for captures.`,
+Use your Chariots and Cannons to project power across the river. A Chariot on the opponent\'s side of the board forces defensive responses and restricts their piece mobility. The Cannon is especially effective in the midgame when the board is still populated with pieces to jump over for captures.`,
       tips: [
         'Soldiers gain sideways movement after crossing the river',
         'Use Chariots to project power into the opponent\'s territory',
@@ -4525,7 +4525,7 @@ Use your Chariots and Cannons to project power across the river. A Chariot on th
 
 The "Cannon and Platform" mate uses a Cannon positioned behind another piece (the platform) to deliver check that the opponent cannot escape. This often occurs when the Cannon is on the center file with an Advisor or other piece serving as the platform.
 
-The "Horse and Chariot" combination is one of the deadliest attacking forces. The Horse restricts the opponent's General while the Chariot delivers the final blow. Practice recognizing these patterns in your games so you can spot checkmate opportunities when they arise.`,
+The "Horse and Chariot" combination is one of the deadliest attacking forces. The Horse restricts the opponent\'s General while the Chariot delivers the final blow. Practice recognizing these patterns in your games so you can spot checkmate opportunities when they arise.`,
       tips: [
         'Chariot on an open file backed by General control is a common mate',
         'Cannon mates require a "platform" piece to jump over',
@@ -4764,7 +4764,7 @@ The key insight from neuroscience is that working memory relies on the prefronta
     },
     {
       title: 'Proven Memory Techniques',
-      content: `**Chunking** is the single most effective technique for extending your memory span. Instead of remembering individual cells, group them into meaningful patterns. A sequence of 9 cells becomes 3 groups of 3, which is within most people\'s working memory capacity. On a grid, look for geometric shapes: L-shapes, diagonals, squares, and crosses are all natural chunks.
+      content: `**Chunking** is the single most effective technique for extending your memory span. Instead of remembering individual cells, group them into meaningful patterns. A sequence of 9 cells becomes 3 groups of 3, which is within most people's working memory capacity. On a grid, look for geometric shapes: L-shapes, diagonals, squares, and crosses are all natural chunks.
 
 **Rhythm and timing** provide another powerful anchor. As cells appear in sequence, tap your finger or nod your head in rhythm. The temporal pattern creates an additional memory trace that is independent of spatial location. Many memory champions use rhythmic encoding to remember sequences of 20+ items.
 
@@ -4916,7 +4916,7 @@ Star Battle is one of the most popular puzzles at the World Puzzle Championship 
       title: 'Understanding Star Battle Rules',
       content: `A Star Battle puzzle consists of a grid divided into outlined regions (like a jigsaw puzzle). Your goal is to place exactly two stars in every row, every column, and every region. The critical adjacency rule states that no two stars may touch each other, not even diagonally. This means every star must have an empty ring of 8 cells around it (fewer at edges and corners).
 
-The adjacency rule is the defining constraint of Star Battle and is responsible for most of the puzzle\'s depth. A star placed in the center of the grid eliminates 9 cells (itself plus its 8 neighbors) from further star placement. This aggressive elimination means that each star you place provides enormous information about where other stars can and cannot go.
+The adjacency rule is the defining constraint of Star Battle and is responsible for most of the puzzle's depth. A star placed in the center of the grid eliminates 9 cells (itself plus its 8 neighbors) from further star placement. This aggressive elimination means that each star you place provides enormous information about where other stars can and cannot go.
 
 A standard Star Battle grid is 10x10 with 10 irregular regions, though variations exist. Some puzzles use a 1-star variant (one star per row/column/region) which is gentler. The 2-star variant described here is the standard and most commonly encountered version.`,
       tips: [
@@ -5081,9 +5081,9 @@ The key to efficient advanced solving is choosing the right cell to test. Pick a
 // Boggle Guide
 gameGuides['boggle'] = {
   slug: 'boggle',
-  title: 'Boggle Strategy Guide: Rules, Scoring, Tips, and How to Play Better',
-  description: 'Learn how to play Boggle, understand Boggle scoring, and use proven scanning strategies to find more words on a classic 4x4 board. Includes beginner rules and advanced word-finding tips.',
-  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'how to play boggle', 'boggle tips', 'boggle online free', 'boggle guide', 'boggle word game', 'boggle 4x4', 'boggle word finder'],
+  title: 'Boggle Strategy Guide: Rules, Scoring, 4x4 and 5x5 Tips',
+  description: 'Learn Boggle rules, scoring, 4x4 and 5x5 board strategy, scanning patterns, and word-finding tips. Practice online free with no download.',
+  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'how to play boggle', 'boggle tips', 'boggle online free', '5x5 boggle', 'boggle guide', 'boggle word game', 'boggle 4x4', 'boggle word finder'],
   introduction: `Boggle is easy to start and surprisingly hard to master. You only need to connect adjacent letters and build words before the timer runs out, but strong scores come from much more than a large vocabulary. Efficient scanning, quick pattern recognition, and smart score prioritization matter just as much.
 
 This guide is designed for players searching for Boggle rules, scoring, or practical ways to find more words on a classic 4x4 board. Use it alongside the playable Boggle page on Ruleword: learn the method here, then practice it immediately in unlimited browser rounds.`,
@@ -5456,7 +5456,7 @@ gameGuides['queens'] = {
   keywords: ['queens game', 'queens puzzle', 'how to play queens', 'queens game rules', 'queens game tips', 'queens game online', 'queens logic puzzle', 'queens game strategy', 'queens game free', 'queens puzzle solver'],
   introduction: `Queens is a logic puzzle where you place exactly one queen in each row, column, and colored region of a grid — with the constraint that queens cannot touch each other, even diagonally. Popularized by LinkedIn and inspired by Star Battle puzzles, Queens has become one of the most addictive logic games online.
 
-This guide covers everything from basic rules to advanced solving techniques. Whether you're tackling your first 5×5 grid or mastering the 12×12 challenge, these strategies will help you solve any Queens puzzle through pure logic — no guessing required.`,
+This guide covers everything from basic rules to advanced solving techniques. Whether you\'re tackling your first 5×5 grid or mastering the 12×12 challenge, these strategies will help you solve any Queens puzzle through pure logic — no guessing required.`,
   sections: [
     {
       title: 'Understanding Queens Rules',
@@ -5480,7 +5480,7 @@ These four constraints interact to create puzzles that range from straightforwar
 
 **Process of Elimination**: When you place a queen, immediately mark all cells in the same row, column, region, and diagonal neighbors as eliminated (X markers). This reveals which cells remain available.
 
-**Smallest Region First**: Look at the smallest colored regions — they have the fewest possible queen positions. If a region has only one cell that isn't blocked, that cell must contain a queen.
+**Smallest Region First**: Look at the smallest colored regions — they have the fewest possible queen positions. If a region has only one cell that isn\'t blocked, that cell must contain a queen.
 
 **Forced Placements**: If a row or column has only one unblocked cell remaining, the queen must go there. Similarly, if a region has only one available cell, place the queen.
 
@@ -5493,15 +5493,15 @@ These four constraints interact to create puzzles that range from straightforwar
     },
     {
       title: 'Advanced Deduction Strategies',
-      content: `For larger grids (9×9 and above), you'll need more sophisticated techniques:
+      content: `For larger grids (9×9 and above), you\'ll need more sophisticated techniques:
 
 **Constraint Chaining**: When placing a queen in one region forces a specific placement in an adjacent region, which then forces another placement — follow the chain to its conclusion before committing.
 
-**Row/Column Blocking**: If placing a queen in a particular cell would eliminate all cells in another region's row or column, that placement is invalid even if it satisfies local constraints.
+**Row/Column Blocking**: If placing a queen in a particular cell would eliminate all cells in another region\'s row or column, that placement is invalid even if it satisfies local constraints.
 
 **Region Isolation**: Some regions are contained within just 2-3 rows or columns. This heavily constrains where queens in adjacent rows can go.
 
-**Unique Cell Identification**: When all cells in a row are eliminated except one, that cell must contain the queen — even if you haven't checked all regions yet.`,
+**Unique Cell Identification**: When all cells in a row are eliminated except one, that cell must contain the queen — even if you haven\'t checked all regions yet.`,
       tips: [
         'At 10×10 and above, work systematically through rows from top to bottom',
         'If you reach a dead end, undo the last uncertain placement rather than guessing',
@@ -5571,9 +5571,9 @@ The game ships with 30 hand-crafted levels that introduce a new mechanic every f
   sections: [
     {
       title: 'Core Rules',
-      content: `Each turn, the thief moves one cell along the player-drawn path, then every police moves one cell along its shortest path toward the thief's new position. If a police lands on the thief's cell — or if they trade cells in the same turn — the thief is caught and you lose.
+      content: `Each turn, the thief moves one cell along the player-drawn path, then every police moves one cell along its shortest path toward the thief\'s new position. If a police lands on the thief\'s cell — or if they trade cells in the same turn — the thief is caught and you lose.
 
-The thief's path must be a continuous chain of orthogonally adjacent cells from start to exit, with no cell repeated. Walls block movement. The path must end on an exit cell. If the level has keys, the path must visit every required key cell before reaching the exit.`,
+The thief\'s path must be a continuous chain of orthogonally adjacent cells from start to exit, with no cell repeated. Walls block movement. The path must end on an exit cell. If the level has keys, the path must visit every required key cell before reaching the exit.`,
       tips: [
         'The thief moves first each turn, then the police respond',
         'A swap (thief and police trade cells) counts as a capture',
@@ -5583,7 +5583,7 @@ The thief's path must be a continuous chain of orthogonally adjacent cells from 
     },
     {
       title: 'How Police AI Works',
-      content: `Each police computes the BFS shortest path to the thief's current cell on every turn, treating walls and unmelted ice as blocked. The police steps one square along that path. If the thief is unreachable (walled off), the police falls back to walking its patrol loop — stepping toward the next patrol point.
+      content: `Each police computes the BFS shortest path to the thief\'s current cell on every turn, treating walls and unmelted ice as blocked. The police steps one square along that path. If the thief is unreachable (walled off), the police falls back to walking its patrol loop — stepping toward the next patrol point.
 
 Because the AI is deterministic and greedy, you can predict exactly where each police will be on any future turn. This predictability is the key to clean escapes: plan a path whose cells the police will never reach in time.`,
       tips: [
@@ -5595,9 +5595,9 @@ Because the AI is deterministic and greedy, you can predict exactly where each p
     },
     {
       title: 'Strategy: Keep Paths Short',
-      content: `The single most important rule: the shorter your path, the safer you are. Every extra turn gives the police another step to close in. When you draw a path, look first for the most direct route to the exit, then only detour if that route crosses a police's path.
+      content: `The single most important rule: the shorter your path, the safer you are. Every extra turn gives the police another step to close in. When you draw a path, look first for the most direct route to the exit, then only detour if that route crosses a police\'s path.
 
-When a detour is unavoidable, prefer routes that take you AWAY from the police's BFS approach, not parallel to it. A police chasing you along a corridor will catch up exactly when the corridor ends — break away before that happens.`,
+When a detour is unavoidable, prefer routes that take you AWAY from the police\'s BFS approach, not parallel to it. A police chasing you along a corridor will catch up exactly when the corridor ends — break away before that happens.`,
       tips: [
         'Default to the shortest path; detour only when forced',
         'Detours that increase distance from the police are safer than parallel runs',

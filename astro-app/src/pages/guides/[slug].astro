@@ -81,6 +81,15 @@ const articleSchema = {
   "@type": "Article",
   "headline": guide.title,
   "description": guide.description,
+  "mainEntityOfPage": `https://ruleword.com/guides/${slug}/`,
+  ...(relatedGame ? {
+    "about": {
+      "@type": "VideoGame",
+      "name": relatedGame.name,
+      "url": `https://ruleword.com/games/${slug}/`
+    },
+    "relatedLink": [`https://ruleword.com/games/${slug}/`]
+  } : {}),
   "author": {
     "@type": "Organization",
     "name": "Free Games Hub"
@@ -181,6 +190,23 @@ const articleSchema = {
           <p class="text-base sm:text-lg text-slate-300 leading-relaxed mobile-text-readable">
             {guide.description}
           </p>
+          {relatedGame && (
+            <div class="mt-5 flex flex-wrap gap-3">
+              <a
+                href={`/games/${slug}/`}
+                class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-all hover:from-green-400 hover:to-emerald-500 mobile-touch-target mobile-no-zoom"
+              >
+                <span>🎮</span>
+                Play {relatedGame.name} Free
+              </a>
+              <a
+                href="#section-1"
+                class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-5 py-3 text-sm font-semibold text-slate-200 transition-colors hover:bg-slate-800 mobile-touch-target"
+              >
+                Start the Guide
+              </a>
+            </div>
+          )}
         </header>
 
         <!-- Introduction -->

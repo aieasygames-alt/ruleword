@@ -198,12 +198,8 @@ const defaultSeoTitle = gameSEO.titleTemplate
 const defaultSeoDescription = gameSEO.descriptionTemplate
   .replace('{game}', gameNameEn)
   .replace('{brand}', 'Free Games Hub')
-const seoTitle = gameSlug === 'boggle'
-  ? 'Play Boggle Online Free - 4x4, 5x5 & Daily Word Game | Free Games Hub'
-  : defaultSeoTitle
-const seoDescription = gameSlug === 'boggle'
-  ? 'Play Boggle online free with classic 4x4, big 5x5, daily challenge, relaxed practice, hints, scoring review, and missed-word recap. No download or sign-up.'
-  : defaultSeoDescription
+const seoTitle = defaultSeoTitle
+const seoDescription = defaultSeoDescription
 
 // Handle lang parameter for SEO
 const hasLangParam = Astro.url.searchParams.has('lang')
@@ -272,6 +268,7 @@ const boggleAnchorLinks = [
   { href: '#boggle-scoring-table', labelEn: 'Scoring table', labelZh: '计分表' },
   { href: '#guide-howtoplay-section', labelEn: 'How to play', labelZh: '玩法说明' },
   { href: '#boggle-rules-section', labelEn: 'Strategy notes', labelZh: '策略要点' },
+  { href: '#boggle-keyword-section', labelEn: '4x4, 5x5, daily', labelZh: '4x4、5x5、每日挑战' },
   { href: '#guide-faq-section', labelEn: 'FAQ', labelZh: '常见问题' }
 ]
 const boggleInternalLinks = [
@@ -316,7 +313,24 @@ const bogglePageSchema = isBogglePage ? {
     "@type": "Thing",
     "name": "Boggle"
   },
-  "keywords": ["boggle online free", "boggle game", "play boggle online", "boggle rules", "boggle scoring"],
+  "keywords": ["boggle online free", "boggle online", "boggle game", "5x5 boggle", "play boggle online free", "boggle rules", "boggle scoring"],
+  "mainEntity": {
+    "@type": "VideoGame",
+    "name": "Boggle Online Free",
+    "applicationCategory": "GameApplication",
+    "gamePlatform": ["Web Browser", "Mobile Web"],
+    "operatingSystem": "Any",
+    "playMode": "SinglePlayer",
+    "genre": ["Word game", "Puzzle game"],
+    "numberOfPlayers": 1,
+    "url": canonicalUrl,
+    "description": seoDescription,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  },
   "hasPart": boggleAnchorLinks
     .filter((link) => link.href.startsWith('#'))
     .map((link) => ({
@@ -431,8 +445,9 @@ const hreflangUrls = [
     <!-- Game Area -->
     <main class="flex-1">
       {isExternalGame && externalGameData?.gameUrl ? (
-        <!-- External Game iframe -->
-        <div class="w-full h-full flex flex-col">
+        <>
+          {/* External Game iframe */}
+          <div class="w-full h-full flex flex-col">
           <iframe
             src={externalGameData.gameUrl}
             width={externalGameData.iframeWidth || '100%'}
@@ -451,15 +466,18 @@ const hreflangUrls = [
               ) : externalGameData.sourceName}
             </div>
           )}
-        </div>
+          </div>
+        </>
       ) : (
-        <!-- Built-in Game -->
-        <GameWrapper
-          client:load
-          gameId={gameId}
-          gameName={getGameField('name', 'en') as string}
-          gameSlug={gameSlug}
-        />
+        <>
+          {/* Built-in Game */}
+          <GameWrapper
+            client:load
+            gameId={gameId}
+            gameName={getGameField('name', 'en') as string}
+            gameSlug={gameSlug}
+          />
+        </>
       )}
     </main>
 
