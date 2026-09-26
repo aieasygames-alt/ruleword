@@ -1,0 +1,1 @@
+function i(t,n={}){if(typeof window>"u")return;const e={event:t,...n};window.dispatchEvent(new CustomEvent("rulewordAnalytics",{detail:e})),typeof window.gtag=="function"&&window.gtag("event",t,n),Array.isArray(window.dataLayer)&&window.dataLayer.push(e)}export{i as t};
