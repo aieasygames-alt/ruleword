@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getAllGames } from '../../lib/games'
 import { languages, categoryI18n, categoryDescriptions, i18n, type Language } from '../../data/i18n'
 import { categorySEO } from '../../data/seo'
+import { categoryGrowthPlans } from '../../data/siteGrowth'
 
 // Generate static paths for all categories - inline data to avoid hoisting issues
 export function getStaticPaths() {
@@ -146,6 +147,10 @@ const categorySpotlights: Record<string, {
 }
 const categorySpotlight = categorySpotlights[category.id]
 const spotlightGame = categorySpotlight ? categoryGames.find(g => g.slug === categorySpotlight.gameSlug) : null
+const categoryGrowthPlan = categoryGrowthPlans[category.id]
+const categoryPriorityGames = categoryGrowthPlan
+  ? categoryGrowthPlan.priorityGames.map(slug => categoryGames.find(game => game.slug === slug)).filter(Boolean)
+  : []
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -336,6 +341,79 @@ const breadcrumbItems = [
         </div>
       )}
     </main>
+
+    {categoryGrowthPlan && (
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6">
+          <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">Category Growth Plan</p>
+              <h2 class="mt-2 text-2xl font-bold text-white">{categoryGrowthPlan.title}</h2>
+              <div class="mt-4 grid gap-4 md:grid-cols-3 lg:grid-cols-1">
+                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                  <h3 class="text-sm font-semibold text-white">Search intent</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-400">{categoryGrowthPlan.searchIntent}</p>
+                </div>
+                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                  <h3 class="text-sm font-semibold text-white">Playability focus</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-400">{categoryGrowthPlan.playabilityFocus}</p>
+                </div>
+                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                  <h3 class="text-sm font-semibold text-white">SEO content focus</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-400">{categoryGrowthPlan.contentFocus}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              {categoryPriorityGames.length > 0 && (
+                <div>
+                  <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Priority games</h3>
+                  <div class="mt-3 grid gap-3 sm:grid-cols-2">
+                    {categoryPriorityGames.map(game => (
+                      <a href={`/games/${game.slug}/`} class="group flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-emerald-700">
+                        <div class={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br ${game.color} text-xl`}>{game.icon}</div>
+                        <div class="min-w-0">
+                          <p class="truncate text-sm font-medium text-white group-hover:text-emerald-300">{game.name}</p>
+                          <p class="line-clamp-1 text-xs text-slate-500">{game.desc}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Content gaps to fill</h3>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {categoryGrowthPlan.contentGaps.map(item => (
+                    <span class="rounded-full border border-slate-700 bg-slate-950/60 px-3 py-1.5 text-sm text-slate-300">{item}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Same-type games to add</h3>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {categoryGrowthPlan.nextAdditions.map(item => (
+                    <span class="rounded-full bg-slate-800 px-3 py-1.5 text-sm text-slate-300">{item}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Useful paths</h3>
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {categoryGrowthPlan.links.map(link => (
+                    <a href={link.href} class="rounded-full border border-emerald-900/60 bg-emerald-950/30 px-3 py-1.5 text-sm text-emerald-300 transition-colors hover:bg-emerald-900/40">{link.label}</a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
 
     <!-- Category Description Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
