@@ -14,7 +14,11 @@ export async function getStaticPaths() {
 }
 
 const { slug, variant: variantName } = Astro.params
-const variant = getStoryVariant(slug!, variantName!)
+if (!slug || !variantName) {
+  return Astro.redirect('/404')
+}
+
+const variant = getStoryVariant(slug, variantName)
 
 if (!variant) {
   return Astro.redirect('/404')
@@ -29,13 +33,12 @@ if (!storyEntry) {
 
 const story = storyEntry.data
 const storyName = variant.h1 || story.en.name
-const storyDesc = variant.description
 const storyIcon = story.icon
-const characters = story.storySkeleton.characters
-const chapters = story.storySkeleton.chapters
 
 const seoTitle = `${variant.title} | Free Games Hub`
 const seoDescription = variant.description
+const canonicalUrl = `https://ruleword.com/stories/${slug}/${variantName}/`
+const baseStoryUrl = `https://ruleword.com/stories/${story.slug}/`
 
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
@@ -46,19 +49,34 @@ const breadcrumbItems = [
 
 const schema = {
   "@context": "https://schema.org",
-  "@type": "VideoGame",
+  "@type": ["Game", "WebApplication"],
   "name": variant.title,
   "description": variant.description,
+  "alternateName": variant.h1,
   "genre": "Interactive Fiction",
   "gamePlatform": "Web Browser",
-  "applicationCategory": "Game",
+  "applicationCategory": "GameApplication",
   "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "url": `https://ruleword.com/stories/${slug}/${variantName}/`,
+  "url": canonicalUrl,
+  "isBasedOn": {
+    "@type": "Game",
+    "name": story.en.name,
+    "url": baseStoryUrl,
+  },
+  "keywords": variant.keywords,
+  "numberOfPlayers": 1,
+  "playMode": "SinglePlayer",
+  "potentialAction": {
+    "@type": "PlayAction",
+    "target": canonicalUrl,
+  },
 }
 
 // Other variants for the same story
-const otherVariants = getVariantsForStory(slug!).filter(v => v.variant !== variantName)
+const otherVariants = getVariantsForStory(slug).filter(v => v.variant !== variantName)
 ---
 
 <BaseLayout
@@ -68,7 +86,6 @@ const otherVariants = getVariantsForStory(slug!).filter(v => v.variant !== varia
   canonicalPath={`/stories/${slug}/${variantName}/`}
   ogImage={`/og/story-${slug}.png`}
   breadcrumbItems={breadcrumbItems}
-  robots="noindex, follow"
 >
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
     <!-- Navigation Bar -->
