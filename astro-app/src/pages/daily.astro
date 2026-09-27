@@ -48,6 +48,70 @@ const dailyGameData = dailyGames.map(dg => {
     desc: isZh ? (game?.zh?.desc || game?.en?.desc || '') : (game?.en?.desc || ''),
   }
 })
+
+const dailyFaq = [
+  {
+    question: isZh ? '什么是每日挑战？' : 'What is the Daily Challenge?',
+    answer: isZh
+      ? '每日挑战是每天变化的特殊谜题变体。每个游戏根据当前日期生成独特的谜题，所以每个人都得到相同的挑战。'
+      : 'Daily Challenges are special puzzle variants that change every day. Each game generates a unique puzzle based on the current date, so everyone gets the same challenge.',
+  },
+  {
+    question: isZh ? '每日谜题什么时候重置？' : 'When does the daily puzzle reset?',
+    answer: isZh
+      ? '每日谜题每晚在你当地时区的午夜重置。午夜之后，每个游戏都会有全新的谜题。'
+      : 'Daily puzzles reset every night at midnight in your local timezone. After midnight, you get a brand new puzzle for each game.',
+  },
+  {
+    question: isZh ? '可以玩以前的每日谜题吗？' : 'Can I play old daily puzzles?',
+    answer: isZh
+      ? '目前只有今天的每日谜题可用。每天都会带来新的挑战，鼓励每日参与并保持新鲜感。'
+      : "Currently, only today's daily puzzle is available. Each day brings a new challenge, encouraging daily engagement and keeping the page fresh.",
+  },
+  {
+    question: isZh ? '每日挑战免费吗？' : 'Are daily challenges free?',
+    answer: isZh
+      ? '完全免费。所有每日挑战都无需注册、无需下载、无需付费。'
+      : 'Yes. All daily challenges are free, with no registration, download, or payment required.',
+  },
+]
+
+const dailyCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: isZh ? '每日谜题挑战' : 'Daily Puzzle Challenge',
+  description: seoDescription,
+  url: 'https://ruleword.com/daily/',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: dailyGameData.length,
+    itemListElement: dailyGameData.map((game, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'VideoGame',
+        name: game.name,
+        description: game.dailyDesc,
+        url: `https://ruleword.com/games/${game.slug}/?mode=daily`,
+        applicationCategory: 'GameApplication',
+        gamePlatform: ['Web Browser', 'Mobile Web'],
+      },
+    })),
+  },
+}
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: dailyFaq.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
 ---
 
 <BaseLayout
@@ -58,6 +122,11 @@ const dailyGameData = dailyGames.map(dg => {
   ogImage="/og/daily.png"
   breadcrumbItems={breadcrumbItems}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(dailyCollectionSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
+
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
@@ -179,6 +248,27 @@ const dailyGameData = dailyGames.map(dg => {
             </summary>
             <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">{isZh ? '完全免费！所有每日挑战都完全免费。无需注册、无需下载、无需付费。点击即玩！' : 'Absolutely! All daily challenges are completely free. No registration, no download, no payment required. Just click and play!'}</p>
           </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Discovery Paths -->
+    <section class="border-t border-gray-200 bg-white px-4 py-10 dark:border-slate-800 dark:bg-slate-900/50">
+      <div class="mx-auto max-w-4xl">
+        <h2 class="mb-5 text-center text-2xl font-bold">{isZh ? '继续探索' : 'Keep Exploring'}</h2>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <a href="/popular/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? '热门游戏' : 'Popular Games'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '从最受欢迎的免费游戏继续玩。' : 'Continue with the most played free games.'}</p>
+          </a>
+          <a href="/hubs/brain-training/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? '大脑训练' : 'Brain Training'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '练习反应、记忆、专注和打字速度。' : 'Practice reaction, memory, focus, and typing speed.'}</p>
+          </a>
+          <a href="/guides/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? '游戏指南' : 'Game Guides'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '阅读规则、技巧和解题策略。' : 'Read rules, tips, and solving strategies.'}</p>
+          </a>
         </div>
       </div>
     </section>
