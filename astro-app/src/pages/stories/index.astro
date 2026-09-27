@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content'
 import StoriesProgressShelf from '../../components/ai/StoriesProgressShelf'
 import { groupStoriesByGenre, storyGenres } from '../../data/storyGenres'
 import { storyGrowthPlans } from '../../data/siteGrowth'
+import { storyVariants } from '../../data/storyVariants'
 
 const stories = await getCollection('stories')
 const storyData = stories.map(entry => entry.data)
@@ -21,6 +22,7 @@ const featuredStories = storyData
 const trendingStories = storyData
   .filter(story => ['ai-zombie-survival', 'ai-fantasy-adventure', 'ai-escape-room', 'ai-crypto-trader'].includes(story.slug))
   .slice(0, 4)
+const featuredStoryVariants = storyVariants.slice(0, 6)
 
 const genreGroups = storyGenres
 const genreMap = groupStoriesByGenre(storyData)
@@ -57,7 +59,12 @@ const storyCollectionSchema = {
     "name": group.label,
     "url": `https://ruleword.com/stories/genre/${group.slug}/`,
     "numberOfItems": genreMap.get(group.slug)?.length ?? 0,
-  })),
+  })).concat(featuredStoryVariants.map(variant => ({
+    "@type": "WebPage",
+    "name": variant.h1,
+    "description": variant.description,
+    "url": `https://ruleword.com/stories/${variant.storySlug}/${variant.variant}/`,
+  }))),
   "mainEntity": {
     "@type": "ItemList",
     "numberOfItems": storyData.length,
@@ -207,6 +214,36 @@ const storyCollectionSchema = {
             </div>
           </a>
         ))}
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto px-4 py-10 border-t border-slate-800">
+      <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h2 class="text-xl font-bold">Seasonal and Themed Story Editions</h2>
+          <p class="text-sm text-slate-400">Replay familiar AI stories with a sharper setting, event hook, or scenario theme.</p>
+        </div>
+        <a href="/hubs/ai-games/" class="text-sm font-medium text-pink-300 hover:text-pink-200">AI games hub</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {featuredStoryVariants.map(variant => {
+          const story = storyData.find(item => item.slug === variant.storySlug)
+          return (
+            <a
+              href={`/stories/${variant.storySlug}/${variant.variant}/`}
+              class="group rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 transition-colors hover:border-pink-500/60"
+            >
+              <div class="mb-3 flex items-center gap-3">
+                <span class="text-2xl">{story?.icon || '📖'}</span>
+                <div>
+                  <h3 class="text-sm font-semibold text-white group-hover:text-pink-300">{variant.h1}</h3>
+                  <p class="text-xs uppercase tracking-wide text-slate-500">{variant.variantType} edition</p>
+                </div>
+              </div>
+              <p class="line-clamp-3 text-sm leading-6 text-slate-400">{variant.description}</p>
+            </a>
+          )
+        })}
       </div>
     </section>
 

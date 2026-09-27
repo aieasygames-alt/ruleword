@@ -4,6 +4,7 @@ import { getAllGames } from '../../lib/games'
 import { gameCategories } from '../../data/categories'
 import { getGamePopularity, THUMBNAIL_GAMES } from '../../data/gamePopularity'
 import { opportunityGameSlugs, plannedGameClusters } from '../../data/siteGrowth'
+import { getAllVariants } from '../../data/gameVariants'
 
 const games = await getAllGames()
 const gamesByCategory = gameCategories
@@ -24,6 +25,9 @@ const gamesByCategory = gameCategories
 const opportunityGames = opportunityGameSlugs
   .map(slug => games.find(game => game.slug === slug))
   .filter(Boolean)
+const featuredVariants = getAllVariants()
+  .filter(variant => ['sudoku', 'wordle', '2048', 'queens', 'minesweeper', 'typing-test'].includes(variant.gameId))
+  .slice(0, 8)
 
 const totalPlays = games.reduce((sum, game) => sum + getGamePopularity(game.slug).numericCount, 0)
 const totalPlayLabel = totalPlays >= 1000000 ? `${Math.round(totalPlays / 1000000)}M+` : `${Math.round(totalPlays / 1000)}K+`
@@ -34,6 +38,12 @@ const collectionSchema = {
   name: 'Free Online Games Directory',
   description: 'Browse all free online games on Ruleword by category, popularity, and search intent.',
   url: 'https://ruleword.com/games/',
+  hasPart: featuredVariants.map(variant => ({
+    '@type': 'WebPage',
+    name: variant.h1,
+    description: variant.description,
+    url: `https://ruleword.com/games/${variant.gameId}/${variant.variant}/`,
+  })),
   mainEntity: {
     '@type': 'ItemList',
     numberOfItems: games.length,
@@ -117,6 +127,28 @@ const collectionSchema = {
               </div>
               <h3 class="mt-4 font-semibold text-white group-hover:text-emerald-300">{game.name}</h3>
               <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">{game.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-10 rounded-2xl border border-emerald-900/40 bg-slate-900/50 p-6">
+        <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">Focused Modes</p>
+            <h2 class="mt-2 text-2xl font-bold">Popular Game Variants</h2>
+          </div>
+          <a href="/daily/" class="text-sm font-medium text-emerald-300 hover:text-emerald-200">Daily challenges</a>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {featuredVariants.map(variant => (
+            <a
+              href={`/games/${variant.gameId}/${variant.variant}/`}
+              class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-700"
+            >
+              <div class="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-300">{variant.variantType}</div>
+              <h3 class="text-sm font-semibold text-white">{variant.h1}</h3>
+              <p class="mt-2 line-clamp-3 text-xs leading-5 text-slate-400">{variant.description}</p>
             </a>
           ))}
         </div>
