@@ -3244,9 +3244,9 @@ Category knowledge also helps with pattern recognition. If the category is "frui
 gameGuides['boggle'] = {
   slug: 'boggle',
   title: 'Boggle Strategy Guide: Rules, Scoring, and Word-Finding Tips',
-  description: `Master Boggle online with rules, scoring, word-finding strategies, letter pattern recognition, and tips for finding more words under time pressure.`,
-  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle online free'],
-  introduction: `Boggle challenges you to find as many words as possible by connecting adjacent letters on a 4x4 grid within a time limit. Words are formed by chaining horizontally, vertically, or diagonally adjacent cubes, without reusing any cube. This guide covers strategies to find more words faster and maximize your score under pressure.`,
+  description: `Master Boggle online with rules, scoring, daily challenge tactics, 4x4 and 5x5 practice tips, letter pattern recognition, and word-finding strategy.`,
+  keywords: ['boggle strategy', 'boggle rules', 'boggle scoring', 'boggle tips', 'how to play boggle', 'boggle word finder', 'boggle online free', 'daily boggle', '5x5 boggle'],
+  introduction: `Boggle challenges you to find as many words as possible by connecting adjacent letters on a 4x4 or 5x5 grid within a time limit. Words are formed by chaining horizontally, vertically, or diagonally adjacent cubes, without reusing any cube. This guide covers classic scoring, daily challenge tactics, relaxed practice, and strategies to find more words faster under pressure.`,
   sections: [
     {
       title: 'Finding Words Quickly Under Pressure',
@@ -3317,6 +3317,20 @@ In the final 30 seconds, do a rapid scan of the entire grid for any obvious word
         'Keep moving - do not pause to analyze, write and go',
         'Final 30 seconds: quick full-grid scan for missed words'
       ]
+    },
+    {
+      title: 'Daily, Relaxed, and 5x5 Practice Plan',
+      content: `Use each Boggle mode for a different training goal. Daily Boggle gives you one shared board to benchmark against yourself: play once for instinct, review missed words, then replay to test whether your pattern recognition improved.
+
+Relaxed mode is best for learning new paths without timer pressure. Spend extra time on prefixes, suffixes, and vowel clusters, then switch back to classic mode once the patterns feel automatic.
+
+The 5x5 board has more word paths and more long-word potential than classic 4x4. On 5x5, avoid trying to inspect every connection. Start from high-value clusters, extend stems aggressively, and use the review screen to learn which long paths you missed.`,
+      tips: [
+        'Use Daily Boggle as a repeatable benchmark board',
+        'Use relaxed mode to study missed words without pressure',
+        'On 5x5 boards, prioritize clusters and extensions over full-grid scanning',
+        'Review missed words after each round to build pattern memory'
+      ]
     }
   ],
   faq: [
@@ -3331,6 +3345,10 @@ In the final 30 seconds, do a rapid scan of the entire grid for any obvious word
     {
       question: 'Can you use the same cube twice in one word?',
       answer: `No. Each cube in the grid can only be used once per word. However, if the same letter appears on different cubes (which is common since many Boggle cubes share letters), you can use each cube independently. You are reusing the physical cube position, not the letter itself, that is prohibited.`
+    },
+    {
+      question: 'What is the best way to practice Daily Boggle?',
+      answer: `Play the daily board once under normal pressure, review the missed words, then replay the same board to improve your scan route. Because everyone gets the same daily board, it is a useful benchmark for tracking streaks, best scores, and pattern recognition over time.`
     }
   ]
 }
