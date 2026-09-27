@@ -431,8 +431,8 @@ const homeDiscoverySchema = {
           <a href="/daily/" class="text-sm text-amber-600 dark:text-amber-400 hover:underline font-medium">View All Daily Challenges →</a>
         </div>
         <p class="text-sm text-gray-600 dark:text-slate-400 mb-4">A fresh puzzle every day — everyone gets the same challenge</p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-          {[{ slug: 'connect-four', label: 'AI Match', icon: '🔴' }, { slug: 'brick-breaker', label: 'Brick Break', icon: '🧱' }, { slug: '15-puzzle', label: 'Slide', icon: '🔢' }, { slug: 'lights-out', label: 'Lights', icon: '💡' }, { slug: 'simon-says', label: 'Sequence', icon: '🎵' }, { slug: 'tic-tac-toe', label: 'XO Match', icon: '❌' }, { slug: 'whack-a-mole', label: 'Whack', icon: '🔨' }].map(dg => {
+        <div class="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
+          {[{ slug: 'boggle', label: 'Boggle', icon: '🎲' }, { slug: 'connect-four', label: 'AI Match', icon: '🔴' }, { slug: 'brick-breaker', label: 'Brick Break', icon: '🧱' }, { slug: '15-puzzle', label: 'Slide', icon: '🔢' }, { slug: 'lights-out', label: 'Lights', icon: '💡' }, { slug: 'simon-says', label: 'Sequence', icon: '🎵' }, { slug: 'tic-tac-toe', label: 'XO Match', icon: '❌' }, { slug: 'whack-a-mole', label: 'Whack', icon: '🔨' }].map(dg => {
             const game = games.find(g => g.slug === dg.slug)
             return game ? (
               <a
