@@ -6,6 +6,7 @@ import { hubPages } from '../data/hubPages'
 import { blogPosts } from '../data/blogPosts'
 import { storyGenres } from '../data/storyGenres'
 import { storyVariants } from '../data/storyVariants'
+import { getAllVariants } from '../data/gameVariants'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -55,6 +56,7 @@ export const GET: APIRoute = async () => {
 
   // Blog posts
   const blogSlugs = Object.keys(blogPosts)
+  const gameVariants = getAllVariants()
   const stories = await getCollection('stories')
 
   const baseUrl = 'https://ruleword.com'
@@ -90,6 +92,12 @@ export const GET: APIRoute = async () => {
       lastmod,
       changefreq: featuredSlugs.includes(slug) ? 'weekly' as const : 'monthly' as const,
       priority: featuredSlugs.includes(slug) ? '0.9' : '0.7',
+    })),
+    ...gameVariants.map(variant => ({
+      loc: `${baseUrl}/games/${variant.gameId}/${variant.variant}/`,
+      lastmod,
+      changefreq: featuredSlugs.includes(variant.gameId) ? 'weekly' as const : 'monthly' as const,
+      priority: featuredSlugs.includes(variant.gameId) ? '0.78' : '0.68',
     })),
     ...guideSlugs.map(slug => ({
       loc: `${baseUrl}/guides/${slug}/`,

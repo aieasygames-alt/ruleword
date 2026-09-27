@@ -3,7 +3,6 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import { getAllVariants, getVariant } from '../../../data/gameVariants'
 import { getAllGames } from '../../../lib/games'
-import { t as i18n, lang } from '../../../data/i18n'
 
 export function getStaticPaths() {
   const variants = getAllVariants()
@@ -13,6 +12,10 @@ export function getStaticPaths() {
 }
 
 const { id, variant: variantName } = Astro.params
+if (!id || !variantName) {
+  return Astro.redirect('/404')
+}
+
 const variant = getVariant(id, variantName)
 const games = await getAllGames()
 const game = games.find(g => g.id === id)
@@ -23,22 +26,41 @@ if (!variant || !game) {
 
 // Get other variants for the same game
 const allVariants = getAllVariants().filter(v => v.gameId === id)
+const canonicalUrl = `https://ruleword.com/games/${game.id}/${variant.variant}/`
+const baseGameUrl = `https://ruleword.com/games/${game.slug}/`
+const variantLabel = variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1)
 
 // Schema for variant page
 const schema = {
   "@context": "https://schema.org",
-  "@type": "VideoGame",
+  "@type": ["Game", "WebApplication"],
   "name": variant.title,
   "description": variant.description,
-  "genre": "Puzzle",
+  "alternateName": variant.h1,
+  "genre": [game.category, "Puzzle"],
   "gamePlatform": "Web Browser",
-  "applicationCategory": "Game",
+  "applicationCategory": "GameApplication",
   "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
   "offers": {
     "@type": "Offer",
     "price": "0",
     "priceCurrency": "USD"
-  }
+  },
+  "url": canonicalUrl,
+  "isBasedOn": {
+    "@type": "Game",
+    "name": game.name,
+    "url": baseGameUrl,
+  },
+  "keywords": variant.keywords,
+  "numberOfPlayers": 1,
+  "playMode": "SinglePlayer",
+  "potentialAction": {
+    "@type": "PlayAction",
+    "target": `${baseGameUrl}?variant=${variant.variant}`,
+  },
 }
 
 const breadcrumbSchema = {
@@ -60,8 +82,8 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       "position": 3,
-      "name": variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1),
-      "item": `https://ruleword.com/games/${game.id}/${variant.variant}/`
+      "name": variantLabel,
+      "item": canonicalUrl
     }
   ]
 }
@@ -83,7 +105,6 @@ const howToSchema = {
   description={variant.description}
   keywords={variant.keywords}
   canonicalPath={`/games/${game.id}/${variant.variant}/`}
-  robots="noindex, follow"
 >
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Header -->
@@ -143,7 +164,7 @@ const howToSchema = {
         <div class="aspect-[4/3] sm:aspect-video flex items-center justify-center bg-slate-800">
           <div class="text-center p-8">
             <div class="text-6xl mb-4">{game.icon}</div>
-            <h2 class="text-xl font-semibold mb-2">{game.name} - {variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1)}</h2>
+            <h2 class="text-xl font-semibold mb-2">{game.name} - {variantLabel}</h2>
             <p class="text-slate-400 mb-4">Play the full game with {variant.variant} settings</p>
             <a
               href={`/games/${game.id}/?variant=${variant.variant}`}
@@ -161,7 +182,7 @@ const howToSchema = {
         <section class="mb-8">
           <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
             <span>💡</span>
-            Tips for {variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1)} Mode
+            Tips for {variantLabel} Mode
           </h2>
           <div class="bg-slate-900/50 border border-slate-800 rounded-xl p-6">
             <ul class="space-y-3">
