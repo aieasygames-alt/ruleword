@@ -33,6 +33,49 @@ const guideClusters = guideGrowthClusters.map(cluster => ({
   primaryGuideItems: cluster.primaryGuides.map(slug => guideBySlug.get(slug)).filter(Boolean),
   supportingGuideItems: cluster.supportingGuides.map(slug => guideBySlug.get(slug)).filter(Boolean),
 }))
+const guideIntentPaths = [
+  {
+    title: 'Learn a High-Demand Game',
+    description: 'Start with evergreen searches where players want rules, scoring, and a quick path into play.',
+    links: [
+      { href: '/guides/boggle/', label: 'Boggle strategy' },
+      { href: '/guides/sudoku/', label: 'Sudoku strategy' },
+      { href: '/guides/2048/', label: '2048 strategy' },
+    ],
+  },
+  {
+    title: 'Improve a Measurable Skill',
+    description: 'Use benchmark guides when players need score ranges, retry advice, and related tests.',
+    links: [
+      { href: '/guides/reaction-time/', label: 'Reaction time guide' },
+      { href: '/guides/typing-test/', label: 'Typing test guide' },
+      { href: '/guides/number-memory/', label: 'Number memory guide' },
+    ],
+  },
+  {
+    title: 'Choose a Puzzle Family',
+    description: 'Route broader discovery searches into hubs, categories, and deeper solving guides.',
+    links: [
+      { href: '/hubs/japanese-logic/', label: 'Japanese logic hub' },
+      { href: '/hubs/number-puzzles/', label: 'Number puzzles hub' },
+      { href: '/category/puzzle/', label: 'Puzzle category' },
+    ],
+  },
+]
+const faqItems = [
+  {
+    question: 'Which game guide should I read first?',
+    answer: 'Start with the guide for the game you already want to play. If you are browsing, Boggle, Sudoku, 2048, reaction time, typing test, and Checkers are strong starting points because they combine clear rules with repeatable practice.',
+  },
+  {
+    question: 'Do these guides include playable game links?',
+    answer: 'Yes. The guide pages connect rules and strategy to the playable browser games, related hubs, and similar games so players can move from learning to practice quickly.',
+  },
+  {
+    question: 'Are the guides useful for beginners?',
+    answer: 'Yes. The guides are written around rules, basic strategy, common mistakes, and practical next steps before moving into deeper tactics.',
+  },
+]
 
 const guideCollectionSchema = {
   "@context": "https://schema.org",
@@ -62,6 +105,19 @@ const guideCollectionSchema = {
   },
 }
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqItems.map(item => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+}
+
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'Game Guides', url: '/guides/' }
@@ -77,6 +133,7 @@ const breadcrumbItems = [
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(guideCollectionSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
   <div class="min-h-screen bg-slate-950 text-white">
@@ -180,6 +237,26 @@ const breadcrumbItems = [
         </div>
       </section>
 
+      <section class="mb-12">
+        <div class="mb-5">
+          <h2 class="text-xl font-bold">Find the Right Guide Faster</h2>
+          <p class="mt-1 text-sm text-slate-400">Match the guide path to the job: learn one game, improve a measurable skill, or choose a puzzle family.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          {guideIntentPaths.map(path => (
+            <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
+              <h3 class="text-base font-semibold text-white">{path.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{path.description}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {path.links.map(link => (
+                  <a href={link.href} class="rounded-lg border border-slate-700 bg-slate-950/60 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-emerald-500 hover:text-emerald-300">{link.label}</a>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <!-- Guide Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {allGuides.map(({ slug, guide, game }) => (
@@ -238,6 +315,18 @@ const breadcrumbItems = [
               Insider tips and tricks to take your gameplay to the next level.
             </p>
           </div>
+        </div>
+      </section>
+
+      <section class="mt-12 rounded-xl border border-slate-800 bg-slate-900/50 p-8">
+        <h2 class="text-2xl font-bold text-center">Guide FAQ</h2>
+        <div class="mt-6 space-y-4">
+          {faqItems.map(item => (
+            <article class="rounded-xl border border-slate-800 bg-slate-950/50 p-4">
+              <h3 class="font-semibold text-white">{item.question}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{item.answer}</p>
+            </article>
+          ))}
         </div>
       </section>
 
