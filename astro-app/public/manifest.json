@@ -2,9 +2,11 @@
   "name": "Free Games Hub - Play 100+ Free Online Games",
   "short_name": "Free Games",
   "description": "Play 100+ free online games: Wordle, Sudoku, 2048, Tetris, Chess, Mahjong and more. No download required.",
+  "id": "/",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
   "orientation": "any",
   "theme_color": "#0f172a",
   "background_color": "#0f172a",
@@ -55,15 +57,21 @@
   ],
   "shortcuts": [
     {
-      "name": "Wordle",
-      "short_name": "Wordle",
-      "url": "/games/wordle/",
+      "name": "Play Boggle",
+      "short_name": "Boggle",
+      "url": "/games/boggle/",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Sudoku",
-      "short_name": "Sudoku",
-      "url": "/games/sudoku/",
+      "name": "Daily Challenges",
+      "short_name": "Daily",
+      "url": "/daily/",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Brain Tests",
+      "short_name": "Brain Tests",
+      "url": "/hubs/brain-training/",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
