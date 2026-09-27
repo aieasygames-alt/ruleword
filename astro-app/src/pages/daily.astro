@@ -9,8 +9,8 @@ const isZh = lang === 'zh-CN'
 
 const seoTitle = isZh ? '每日谜题挑战 - 每天玩新游戏 | Free Games Hub' : 'Daily Puzzle Challenge - Play a New Game Every Day | Free Games Hub'
 const seoDescription = isZh
-  ? '每天玩新的谜题挑战！7+ 个游戏含每日模式，包括四子棋、打砖块、15 拼图、熄灯等。免费在线玩，无需下载。'
-  : 'Play a new puzzle challenge every day! 7+ games with daily modes including Connect Four, Brick Breaker, 15 Puzzle, Lights Out and more. Free online, no download.'
+  ? '每天玩新的谜题挑战！8+ 个游戏含每日模式，包括 Boggle、四子棋、打砖块、15 拼图、熄灯等。免费在线玩，无需下载。'
+  : 'Play a new puzzle challenge every day! 8+ games with daily modes including Boggle, Connect Four, Brick Breaker, 15 Puzzle, Lights Out and more. Free online, no download.'
 
 const breadcrumbItems = [
   { name: isZh ? '首页' : 'Home', url: '/' },
@@ -21,6 +21,7 @@ const gamesCollection = await getCollection('games')
 const allGames = gamesCollection.map(entry => entry.data)
 
 const dailyGames = isZh ? [
+  { slug: 'boggle', dailyLabel: '每日 Boggle', dailyDesc: '挑战今天的字母方阵，追踪连胜并冲击最佳分数' },
   { slug: 'connect-four', dailyLabel: '每日AI对战', dailyDesc: '挑战今天的AI棋盘布局' },
   { slug: 'brick-breaker', dailyLabel: '每日打砖块', dailyDesc: '打碎今天的特殊砖块阵型' },
   { slug: '15-puzzle', dailyLabel: '每日推盘', dailyDesc: '解开今天的15数字推盘' },
@@ -29,6 +30,7 @@ const dailyGames = isZh ? [
   { slug: 'tic-tac-toe', dailyLabel: '每日井字棋', dailyDesc: '在每日挑战中击败AI' },
   { slug: 'whack-a-mole', dailyLabel: '每日打地鼠', dailyDesc: '打今天的地鼠阵型' },
 ] : [
+  { slug: 'boggle', dailyLabel: 'Daily Boggle', dailyDesc: "Find words on today's shared letter board, keep your streak, and chase your best score" },
   { slug: 'connect-four', dailyLabel: 'Daily AI Match', dailyDesc: 'Challenge our AI in a new daily board setup' },
   { slug: 'brick-breaker', dailyLabel: 'Daily Brick Break', dailyDesc: "Break today's special brick pattern" },
   { slug: '15-puzzle', dailyLabel: 'Daily Slide', dailyDesc: "Solve today's shuffled 15-puzzle" },
@@ -117,7 +119,7 @@ const faqSchema = {
 <BaseLayout
   title={seoTitle}
   description={seoDescription}
-  keywords="daily puzzle, daily challenge, daily game, new puzzle every day, connect four daily, brick breaker daily, free daily games"
+  keywords="daily puzzle, daily challenge, daily game, daily boggle, boggle daily challenge, new puzzle every day, connect four daily, brick breaker daily, free daily games"
   canonicalPath="/daily/"
   ogImage="/og/daily.png"
   breadcrumbItems={breadcrumbItems}
@@ -155,11 +157,11 @@ const faqSchema = {
         <div class="text-5xl mb-4">📅</div>
         <h2 class="text-3xl sm:text-4xl font-bold mb-3">{isZh ? '每日谜题挑战' : 'Daily Puzzle Challenge'}</h2>
         <p class="text-lg text-gray-600 dark:text-slate-400 max-w-2xl mx-auto mb-4">
-          {isZh ? '每天一个全新挑战！7个不同的每日谜题——每个都在午夜重置为全新的谜题。' : 'A fresh challenge every day! Play 7 different daily puzzles — each one resets at midnight with a brand new puzzle to solve.'}
+          {isZh ? '每天一个全新挑战！8个不同的每日谜题——每个都在午夜重置为全新的谜题。' : 'A fresh challenge every day! Play 8 different daily puzzles — each one resets at midnight with a brand new puzzle to solve.'}
         </p>
         <div class="flex flex-wrap justify-center gap-3 text-sm">
           <span class="px-3 py-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full font-medium">🔄 {isZh ? '每日重置' : 'Resets Daily'}</span>
-          <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">🧠 7 {isZh ? '个游戏' : 'Games'}</span>
+          <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full font-medium">🧠 8 {isZh ? '个游戏' : 'Games'}</span>
           <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full font-medium">🆓 {isZh ? '永久免费' : 'Free Forever'}</span>
         </div>
       </div>
