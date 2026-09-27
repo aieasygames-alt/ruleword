@@ -25,7 +25,10 @@ const clusterSchema = {
   canonicalPath="/new/"
   ogImage="/og/home.png"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(clusterSchema)} />
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(clusterSchema)} />
+  </Fragment>
+
   <div class="min-h-screen bg-slate-950 text-white">
     <header class="border-b border-slate-800 bg-slate-950/90">
       <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
