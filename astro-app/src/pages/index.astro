@@ -74,6 +74,68 @@ const guidePriority: Record<string, number> = {
   'typing-test': 6,
 }
 const boggleSpotlight = games.find(g => g.slug === 'boggle')
+const discoveryPaths = [
+  {
+    title: 'Play a Game Now',
+    description: 'Open the full directory, popular games, or daily challenges when you want a fast session.',
+    links: [
+      { href: '/games/', label: 'All games' },
+      { href: '/popular/', label: 'Popular games' },
+      { href: '/daily/', label: 'Daily challenges' },
+    ],
+  },
+  {
+    title: 'Learn Rules and Strategy',
+    description: 'Use guides and articles when you want better scores, rules, or solving patterns.',
+    links: [
+      { href: '/guides/', label: 'Game guides' },
+      { href: '/blog/', label: 'Strategy articles' },
+      { href: '/guides/boggle/', label: 'Boggle guide' },
+    ],
+  },
+  {
+    title: 'Browse by Intent',
+    description: 'Move into curated hubs for word games, brain training, number puzzles, and AI stories.',
+    links: [
+      { href: '/hubs/', label: 'Collections' },
+      { href: '/hubs/brain-training/', label: 'Brain training' },
+      { href: '/stories/', label: 'AI stories' },
+    ],
+  },
+]
+const siteSearchSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Free Games Hub',
+  url: 'https://ruleword.com/',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://ruleword.com/?q={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+}
+const homeDiscoverySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Free Online Games and Brain Tests',
+  description: homepageSEO.description,
+  url: 'https://ruleword.com/',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: quickPlayGames.length,
+    itemListElement: quickPlayGames.map((game, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'Game',
+        name: game.name,
+        description: game.desc,
+        url: `https://ruleword.com/games/${game.slug}/`,
+        gamePlatform: 'Web browser',
+      },
+    })),
+  },
+}
 ---
 
 <BaseLayout
@@ -83,27 +145,31 @@ const boggleSpotlight = games.find(g => g.slug === 'boggle')
   isHomePage={true}
   ogImage="/og/home.png"
 >
-  <!-- Homepage Schema with AggregateRating -->
-  <script type="application/ld+json" set:html={JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Free Games Hub",
-    "description": homepageSEO.description,
-    "url": "https://ruleword.com",
-    "applicationCategory": "GameApplication",
-    "operatingSystem": "Any",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": siteRating.ratingValue,
-      "reviewCount": siteRating.reviewCount,
-      "bestRating": siteRating.bestRating
-    }
-  })} />
+  <Fragment slot="head">
+    <!-- Homepage Schema with AggregateRating -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Free Games Hub",
+      "description": homepageSEO.description,
+      "url": "https://ruleword.com",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": siteRating.ratingValue,
+        "reviewCount": siteRating.reviewCount,
+        "bestRating": siteRating.bestRating
+      }
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify(siteSearchSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(homeDiscoverySchema)} />
+  </Fragment>
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white" id="app">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
@@ -248,6 +314,31 @@ const boggleSpotlight = games.find(g => g.slug === 'boggle')
               </div>
             </a>
           )})}
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+          <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Find Your Path</p>
+              <h2 class="mt-2 text-xl font-bold text-gray-900 dark:text-white">Choose the Fastest Route</h2>
+            </div>
+            <a href="/hubs/" class="text-sm font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300">Browse collections →</a>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            {discoveryPaths.map(path => (
+              <article class="rounded-xl border border-gray-200 bg-gray-50 p-4 dark:border-slate-800 dark:bg-slate-950/60">
+                <h3 class="font-semibold text-gray-900 dark:text-white">{path.title}</h3>
+                <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-slate-400">{path.description}</p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                  {path.links.map(link => (
+                    <a href={link.href} class="rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs text-gray-700 transition-colors hover:border-emerald-500 hover:text-emerald-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:border-emerald-500 dark:hover:text-emerald-300">{link.label}</a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
