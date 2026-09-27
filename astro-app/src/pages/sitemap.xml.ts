@@ -42,7 +42,9 @@ export const GET: APIRoute = async () => {
   const gameSlugs = games.map(entry => entry.data.slug)
 
   // 分类
-  const categoryIds = categories.map(c => c.id)
+  const categoryIds = categories
+    .filter(c => c.id !== 'all' && c.id !== 'story')
+    .map(c => c.id)
 
   // 攻略页面
   const guideSlugs = Object.keys(gameGuides)
@@ -120,10 +122,14 @@ export const GET: APIRoute = async () => {
     })),
   ]
 
+  const dedupedEntries = entries.filter((entry, index, list) => (
+    list.findIndex(candidate => candidate.loc === entry.loc) === index
+  ))
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-${entries.map(renderUrl).join('\n')}
+${dedupedEntries.map(renderUrl).join('\n')}
 </urlset>`
 
   return new Response(sitemap, {
