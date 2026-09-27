@@ -63,9 +63,9 @@
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Daily Challenges",
-      "short_name": "Daily",
-      "url": "/daily/",
+      "name": "Play Daily Boggle",
+      "short_name": "Daily Boggle",
+      "url": "/games/boggle/?mode=daily",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     },
     {

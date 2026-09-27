@@ -236,7 +236,7 @@ const faqSchema = {
             <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
               {isZh ? '每日谜题什么时候重置？' : 'When does the daily puzzle reset?'}
             </summary>
-            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">{isZh ? '每日谜题每晚在你当地时区的午夜重置。午夜之后，每个游戏都会有全新的谜题。每天的谜题只能玩一次并记录分数。' : "Daily puzzles reset every night at midnight in your local timezone. After midnight, you'll get a brand new puzzle for each game. You can only play each day's puzzle once for a score."}</p>
+            <p class="px-4 pb-3 text-gray-600 dark:text-slate-400 text-sm">{isZh ? '每日谜题每晚在你当地时区的午夜重置。午夜之后，每个游戏都会有全新的谜题。你可以重玩今天的挑战，继续冲击更好的分数。' : "Daily puzzles reset every night at midnight in your local timezone. After midnight, you'll get a brand new puzzle for each game. You can replay today's challenge and keep chasing a better score."}</p>
           </details>
           <details class="group bg-white dark:bg-slate-900/50 rounded-lg border border-gray-200 dark:border-slate-800">
             <summary class="px-4 py-3 cursor-pointer font-medium hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
@@ -259,17 +259,17 @@ const faqSchema = {
       <div class="mx-auto max-w-4xl">
         <h2 class="mb-5 text-center text-2xl font-bold">{isZh ? '继续探索' : 'Keep Exploring'}</h2>
         <div class="grid gap-4 sm:grid-cols-3">
-          <a href="/popular/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
-            <h3 class="text-sm font-semibold">{isZh ? '热门游戏' : 'Popular Games'}</h3>
-            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '从最受欢迎的免费游戏继续玩。' : 'Continue with the most played free games.'}</p>
+          <a href="/hubs/word-games/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? '单词游戏' : 'Word Games'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '继续玩 Boggle、Wordle、Spelling Bee 和更多单词挑战。' : 'Keep playing Boggle, Wordle, Spelling Bee, and more word challenges.'}</p>
           </a>
-          <a href="/hubs/brain-training/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
-            <h3 class="text-sm font-semibold">{isZh ? '大脑训练' : 'Brain Training'}</h3>
-            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '练习反应、记忆、专注和打字速度。' : 'Practice reaction, memory, focus, and typing speed.'}</p>
+          <a href="/guides/boggle/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? 'Boggle 攻略' : 'Boggle Guide'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '学习规则、计分和更快找词的扫描方法。' : 'Learn the rules, scoring, and faster word-finding patterns.'}</p>
           </a>
-          <a href="/guides/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
-            <h3 class="text-sm font-semibold">{isZh ? '游戏指南' : 'Game Guides'}</h3>
-            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '阅读规则、技巧和解题策略。' : 'Read rules, tips, and solving strategies.'}</p>
+          <a href="/stories/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-amber-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-amber-500">
+            <h3 class="text-sm font-semibold">{isZh ? '互动故事' : 'AI Stories'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '换一种节奏，继续探索可重玩的互动剧情。' : 'Switch pace with replayable interactive story games.'}</p>
           </a>
         </div>
       </div>
