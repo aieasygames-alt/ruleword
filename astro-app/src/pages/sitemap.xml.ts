@@ -5,6 +5,7 @@ import { gameGuides } from '../data/gameGuidesSEO'
 import { hubPages } from '../data/hubPages'
 import { blogPosts } from '../data/blogPosts'
 import { storyGenres } from '../data/storyGenres'
+import { storyVariants } from '../data/storyVariants'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
@@ -119,6 +120,12 @@ export const GET: APIRoute = async () => {
       lastmod,
       changefreq: 'weekly' as const,
       priority: '0.8',
+    })),
+    ...storyVariants.map(variant => ({
+      loc: `${baseUrl}/stories/${variant.storySlug}/${variant.variant}/`,
+      lastmod,
+      changefreq: variant.variantType === 'seasonal' ? 'weekly' as const : 'monthly' as const,
+      priority: variant.variantType === 'seasonal' ? '0.72' : '0.7',
     })),
   ]
 
