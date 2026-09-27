@@ -3,11 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro'
 import { getAllGames } from '../lib/games'
 import { getGamePopularity } from '../data/gamePopularity'
 import { newAndUpdatedGameSlugs, plannedGameClusters } from '../data/siteGrowth'
+import { getAllVariants } from '../data/gameVariants'
+import { storyVariants } from '../data/storyVariants'
 
 const games = await getAllGames()
 const newGames = newAndUpdatedGameSlugs
   .map(slug => games.find(game => game.slug === slug))
   .filter(Boolean)
+const newGameVariants = getAllVariants()
+  .filter(variant => ['queens', 'typing-test', 'reaction-time', 'chess', 'killer-sudoku', 'slitherlink'].includes(variant.gameId))
+  .slice(0, 8)
+const newStoryEditions = storyVariants.slice(0, 6)
 
 const clusterSchema = {
   '@context': 'https://schema.org',
@@ -15,6 +21,20 @@ const clusterSchema = {
   name: 'New and Updated Free Online Games',
   description: 'Recently added and upgraded games on Ruleword, plus planned game clusters for word games, brain tests, strategy games, and AI stories.',
   url: 'https://ruleword.com/new/',
+  hasPart: [
+    ...newGameVariants.map(variant => ({
+      '@type': 'WebPage',
+      name: variant.h1,
+      description: variant.description,
+      url: `https://ruleword.com/games/${variant.gameId}/${variant.variant}/`,
+    })),
+    ...newStoryEditions.map(variant => ({
+      '@type': 'WebPage',
+      name: variant.h1,
+      description: variant.description,
+      url: `https://ruleword.com/stories/${variant.storySlug}/${variant.variant}/`,
+    })),
+  ],
 }
 ---
 
@@ -83,6 +103,52 @@ const clusterSchema = {
               </div>
             </a>
           ))}
+        </div>
+      </section>
+
+      <section class="mt-10 rounded-2xl border border-emerald-900/40 bg-slate-900/50 p-6">
+        <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">New Play Paths</p>
+            <h2 class="text-2xl font-bold">Fresh Variants and Story Editions</h2>
+            <p class="mt-1 max-w-3xl text-sm leading-6 text-slate-400">
+              New content should have direct discovery paths, especially when players search for a specific difficulty, grid size, timed mode, or themed story.
+            </p>
+          </div>
+          <a href="/stories/" class="text-sm font-medium text-emerald-300 hover:text-emerald-200">AI stories</a>
+        </div>
+        <div class="grid gap-5 lg:grid-cols-2">
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Game modes</h3>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              {newGameVariants.map(variant => {
+                const game = games.find(item => item.slug === variant.gameId || item.id === variant.gameId)
+                return (
+                  <a href={`/games/${variant.gameId}/${variant.variant}/`} class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-700">
+                    <div class="mb-2 flex items-center gap-2 text-xs text-slate-400">
+                      <span class="text-base">{game?.icon || '🎮'}</span>
+                      <span>{game?.name || variant.gameId}</span>
+                      <span class="capitalize text-emerald-300">{variant.variantType}</span>
+                    </div>
+                    <h4 class="text-sm font-semibold text-white">{variant.h1}</h4>
+                    <p class="mt-2 line-clamp-2 text-xs leading-5 text-slate-400">{variant.description}</p>
+                  </a>
+                )
+              })}
+            </div>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.16em] text-slate-400">Story editions</h3>
+            <div class="mt-3 grid gap-3 sm:grid-cols-2">
+              {newStoryEditions.map(variant => (
+                <a href={`/stories/${variant.storySlug}/${variant.variant}/`} class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-700">
+                  <div class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-emerald-300">{variant.variantType} edition</div>
+                  <h4 class="text-sm font-semibold text-white">{variant.h1}</h4>
+                  <p class="mt-2 line-clamp-2 text-xs leading-5 text-slate-400">{variant.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
