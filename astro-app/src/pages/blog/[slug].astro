@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { blogPosts, getBlogPost, getAllBlogPostSlugs, getRecentBlogPosts } from '../../data/blogPosts'
+import { getBlogPost, getAllBlogPostSlugs, getRecentBlogPosts } from '../../data/blogPosts'
+import { blogGrowthPaths } from '../../data/siteGrowth'
 import { getCollection } from 'astro:content'
 
 export function getStaticPaths() {
@@ -29,7 +30,13 @@ const allGames = gamesCollection.map(entry => ({
   icon: entry.data.icon,
   color: entry.data.color,
 }))
-const relatedGames = (post.relatedGames || []).map(slug => allGames.find(g => g.slug === slug)).filter(Boolean)
+const relatedGames = (post.relatedGames || [])
+  .map(slug => allGames.find(g => g.slug === slug))
+  .filter((game): game is typeof allGames[number] => Boolean(game))
+const growthPath = blogGrowthPaths[slug]
+const growthPathLinks = growthPath
+  ? [...growthPath.primaryLinks, ...growthPath.guideLinks, ...growthPath.gameLinks]
+  : []
 
 // Breadcrumb
 const breadcrumbItems = [
@@ -58,7 +65,10 @@ const articleSchema = {
     }
   },
   "datePublished": post.date,
-  "dateModified": post.date
+  "dateModified": post.date,
+  ...(growthPathLinks.length > 0 ? {
+    "relatedLink": growthPathLinks.map(link => `https://ruleword.com${link.href}`)
+  } : {})
 }
 
 // FAQ Schema
@@ -277,6 +287,45 @@ const faqSchema = post.faq.length > 0 ? {
         </div>
       </article>
 
+      <!-- Continue Topic Path -->
+      {growthPath && (
+        <section class="mt-12 pt-8 border-t border-slate-800">
+          <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5 sm:p-6">
+            <div class="mb-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-400/80">Continue This Topic</p>
+              <h2 class="mt-2 text-xl font-bold text-white">{growthPath.title}</h2>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{growthPath.description}</p>
+            </div>
+            <div class="grid gap-4 md:grid-cols-3">
+              <div>
+                <h3 class="mb-3 text-sm font-semibold text-white">Topic Hubs</h3>
+                <div class="space-y-2">
+                  {growthPath.primaryLinks.map(link => (
+                    <a href={link.href} class="block rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-slate-300 transition-colors hover:border-emerald-500/60 hover:text-emerald-300">{link.label}</a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 class="mb-3 text-sm font-semibold text-white">Related Guides</h3>
+                <div class="space-y-2">
+                  {growthPath.guideLinks.map(link => (
+                    <a href={link.href} class="block rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-slate-300 transition-colors hover:border-emerald-500/60 hover:text-emerald-300">{link.label}</a>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 class="mb-3 text-sm font-semibold text-white">Play Next</h3>
+                <div class="space-y-2">
+                  {growthPath.gameLinks.map(link => (
+                    <a href={link.href} class="block rounded-lg border border-slate-800 bg-slate-950/60 px-3 py-2 text-sm text-slate-300 transition-colors hover:border-emerald-500/60 hover:text-emerald-300">{link.label}</a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       <!-- Related Articles -->
       <section class="mt-12 pt-8 border-t border-slate-800">
         <h2 class="text-xl font-bold mb-4">Related Articles</h2>
@@ -308,11 +357,11 @@ const faqSchema = post.faq.length > 0 ? {
           <div class="flex flex-wrap justify-center gap-3 mb-6">
             {relatedGames.map(game => (
               <a
-                href={`/games/${game!.slug}/`}
+                href={`/games/${game.slug}/`}
                 class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-emerald-500 hover:bg-slate-800 transition-all"
               >
-                <span class={`w-8 h-8 rounded-lg bg-gradient-to-br ${game!.color} flex items-center justify-center text-base shadow`}>{game!.icon}</span>
-                <span class="text-sm font-medium">{game!.name}</span>
+                <span class={`w-8 h-8 rounded-lg bg-gradient-to-br ${game.color} flex items-center justify-center text-base shadow`}>{game.icon}</span>
+                <span class="text-sm font-medium">{game.name}</span>
               </a>
             ))}
           </div>

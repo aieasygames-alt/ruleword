@@ -249,6 +249,14 @@ export type GuideGrowthCluster = {
   links: Array<{ href: string; label: string }>
 }
 
+export type BlogGrowthPath = {
+  title: string
+  description: string
+  primaryLinks: Array<{ href: string; label: string }>
+  guideLinks: Array<{ href: string; label: string }>
+  gameLinks: Array<{ href: string; label: string }>
+}
+
 export const categoryGrowthPlans: Record<string, CategoryGrowthPlan> = {
   word: {
     title: 'Word Games Growth Plan',
@@ -502,3 +510,196 @@ export const guideGrowthClusters: GuideGrowthCluster[] = [
     ],
   },
 ]
+
+export const blogGrowthPaths: Record<string, BlogGrowthPath> = {
+  'best-brain-training-games-2026': {
+    title: 'Build a Brain Training Routine',
+    description: 'Move from the overview into measurable tests, memory games, and practical score guides.',
+    primaryLinks: [
+      { href: '/hubs/brain-training/', label: 'Brain Training Hub' },
+      { href: '/hubs/memory-games/', label: 'Memory Games Hub' },
+      { href: '/category/skill/', label: 'Skill Games' },
+    ],
+    guideLinks: [
+      { href: '/guides/reaction-time/', label: 'Reaction Time Guide' },
+      { href: '/guides/typing-test/', label: 'Typing Test Guide' },
+      { href: '/guides/number-memory/', label: 'Number Memory Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/reaction-time/', label: 'Reaction Time Test' },
+      { href: '/games/chimp-test/', label: 'Chimp Test' },
+      { href: '/games/memory-grid/', label: 'Sequence Memory' },
+    ],
+  },
+  'wordle-vs-connections-vs-spelling-bee': {
+    title: 'Explore More Word Game Paths',
+    description: 'Compare the daily word games, then jump into guides, Boggle, and the wider word games collection.',
+    primaryLinks: [
+      { href: '/hubs/word-games/', label: 'Word Games Hub' },
+      { href: '/category/word/', label: 'Word Games Category' },
+      { href: '/games/', label: 'All Games Directory' },
+    ],
+    guideLinks: [
+      { href: '/guides/wordle/', label: 'Wordle Guide' },
+      { href: '/guides/spelling-bee/', label: 'Spelling Bee Guide' },
+      { href: '/guides/boggle/', label: 'Boggle Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/wordle/', label: 'Play Wordle' },
+      { href: '/games/connections/', label: 'Play Connections' },
+      { href: '/games/spelling-bee/', label: 'Play Spelling Bee' },
+    ],
+  },
+  'japanese-logic-puzzles-guide': {
+    title: 'Start a Japanese Logic Puzzle Path',
+    description: 'Use the article as a chooser, then practice with playable puzzles and deeper solving guides.',
+    primaryLinks: [
+      { href: '/hubs/japanese-logic/', label: 'Japanese Logic Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+      { href: '/hubs/number-puzzles/', label: 'Number Puzzles Hub' },
+    ],
+    guideLinks: [
+      { href: '/guides/nonogram/', label: 'Nonogram Guide' },
+      { href: '/guides/slitherlink/', label: 'Slitherlink Guide' },
+      { href: '/guides/kakuro/', label: 'Kakuro Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/nonogram/', label: 'Play Nonogram' },
+      { href: '/games/slitherlink/', label: 'Play Slitherlink' },
+      { href: '/games/heyawake/', label: 'Play Heyawake' },
+    ],
+  },
+  'how-to-win-at-sudoku-every-time': {
+    title: 'Continue With Sudoku and Number Puzzles',
+    description: 'Turn Sudoku technique into practice, variants, and adjacent number puzzle skills.',
+    primaryLinks: [
+      { href: '/hubs/number-puzzles/', label: 'Number Puzzles Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+      { href: '/guides/', label: 'All Strategy Guides' },
+    ],
+    guideLinks: [
+      { href: '/guides/sudoku/', label: 'Sudoku Guide' },
+      { href: '/guides/killer-sudoku/', label: 'Killer Sudoku Guide' },
+      { href: '/guides/kakuro/', label: 'Kakuro Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/sudoku/', label: 'Play Sudoku' },
+      { href: '/games/killer-sudoku/', label: 'Play Killer Sudoku' },
+      { href: '/games/kakuro/', label: 'Play Kakuro' },
+    ],
+  },
+  '2048-strategy-guide': {
+    title: 'Practice 2048 and Number Merge Strategy',
+    description: 'Apply the corner strategy, then explore adjacent number puzzle games and variants.',
+    primaryLinks: [
+      { href: '/hubs/number-puzzles/', label: 'Number Puzzles Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+      { href: '/popular/', label: 'Popular Games' },
+    ],
+    guideLinks: [
+      { href: '/guides/2048/', label: '2048 Guide' },
+      { href: '/guides/sudoku/', label: 'Sudoku Guide' },
+      { href: '/guides/tetris/', label: 'Tetris Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/2048/', label: 'Play 2048' },
+      { href: '/games/2048-cupcakes/', label: '2048 Cupcakes' },
+      { href: '/games/threes/', label: 'Play Threes' },
+    ],
+  },
+  'best-number-puzzles-online': {
+    title: 'Browse Number Puzzle Collections',
+    description: 'Move from the list into number hubs, logic categories, and high-value guide pages.',
+    primaryLinks: [
+      { href: '/hubs/number-puzzles/', label: 'Number Puzzles Hub' },
+      { href: '/hubs/japanese-logic/', label: 'Japanese Logic Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+    ],
+    guideLinks: [
+      { href: '/guides/sudoku/', label: 'Sudoku Guide' },
+      { href: '/guides/2048/', label: '2048 Guide' },
+      { href: '/guides/kakuro/', label: 'Kakuro Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/sudoku/', label: 'Play Sudoku' },
+      { href: '/games/2048/', label: 'Play 2048' },
+      { href: '/games/killer-sudoku/', label: 'Play Killer Sudoku' },
+    ],
+  },
+  'how-to-solve-heyawake': {
+    title: 'Deepen Japanese Logic Solving',
+    description: 'Practice Heyawake, then compare adjacent shading and loop puzzles.',
+    primaryLinks: [
+      { href: '/hubs/japanese-logic/', label: 'Japanese Logic Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+      { href: '/blog/japanese-logic-puzzles-guide/', label: 'Japanese Logic Overview' },
+    ],
+    guideLinks: [
+      { href: '/guides/heyawake/', label: 'Heyawake Guide' },
+      { href: '/guides/slitherlink/', label: 'Slitherlink Guide' },
+      { href: '/guides/binary/', label: 'Binary Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/heyawake/', label: 'Play Heyawake' },
+      { href: '/games/aqre/', label: 'Play Aqre' },
+      { href: '/games/tapa/', label: 'Play Tapa' },
+    ],
+  },
+  'slitherlink-tips-techniques': {
+    title: 'Practice Loop Puzzle Logic',
+    description: 'Use Slitherlink techniques across loop, shading, and Japanese logic puzzles.',
+    primaryLinks: [
+      { href: '/hubs/japanese-logic/', label: 'Japanese Logic Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+      { href: '/guides/', label: 'All Strategy Guides' },
+    ],
+    guideLinks: [
+      { href: '/guides/slitherlink/', label: 'Slitherlink Guide' },
+      { href: '/guides/heyawake/', label: 'Heyawake Guide' },
+      { href: '/guides/nonogram/', label: 'Nonogram Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/slitherlink/', label: 'Play Slitherlink' },
+      { href: '/games/masyu/', label: 'Play Masyu' },
+      { href: '/games/yajilin/', label: 'Play Yajilin' },
+    ],
+  },
+  'boggle-strategy-guide': {
+    title: 'Continue With Word Hunt Games',
+    description: 'Apply Boggle patterns, then move into word guides, daily word games, and vocabulary practice.',
+    primaryLinks: [
+      { href: '/hubs/word-games/', label: 'Word Games Hub' },
+      { href: '/category/word/', label: 'Word Games Category' },
+      { href: '/guides/boggle/', label: 'Boggle Guide' },
+    ],
+    guideLinks: [
+      { href: '/guides/boggle/', label: 'Boggle Guide' },
+      { href: '/guides/word-search/', label: 'Word Search Guide' },
+      { href: '/guides/wordle/', label: 'Wordle Guide' },
+    ],
+    gameLinks: [
+      { href: '/games/boggle/', label: 'Play Boggle' },
+      { href: '/games/word-search/', label: 'Play Word Search' },
+      { href: '/games/crosswordle/', label: 'Play Crosswordle' },
+    ],
+  },
+  'what-are-ai-story-games': {
+    title: 'Start Playing AI Story Games',
+    description: 'Move from the explainer into AI story genres, variants, and replayable story experiences.',
+    primaryLinks: [
+      { href: '/stories/', label: 'All AI Stories' },
+      { href: '/hubs/ai-games/', label: 'AI Games Hub' },
+      { href: '/stories/genre/mystery-detective/', label: 'Mystery Stories' },
+    ],
+    guideLinks: [
+      { href: '/stories/genre/romance-relationships/', label: 'Dating Simulator Stories' },
+      { href: '/stories/genre/survival-horror/', label: 'Survival Stories' },
+      { href: '/stories/genre/fantasy-adventure/', label: 'Fantasy Stories' },
+    ],
+    gameLinks: [
+      { href: '/stories/ai-dating-simulator/', label: 'AI Dating Simulator' },
+      { href: '/stories/ai-murder-mystery/', label: 'AI Murder Mystery' },
+      { href: '/stories/ai-zombie-survival/', label: 'AI Zombie Survival' },
+    ],
+  },
+}
