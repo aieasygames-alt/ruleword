@@ -194,7 +194,7 @@ export const plannedGameClusters = [
   {
     title: 'Word Games',
     description: 'Build from Boggle into more grid, anagram, and daily word discovery games.',
-    games: ['Word Hunt', 'Word Ladder', 'Letter Boxed-style puzzle', 'Mini Daily Boggle'],
+    games: ['Word Hunt', 'Word Ladder', 'Letter Boxed-style puzzle', 'Daily Word Hunt'],
     href: '/hubs/word-games/',
   },
   {
@@ -265,9 +265,10 @@ export const categoryGrowthPlans: Record<string, CategoryGrowthPlan> = {
     contentFocus: 'Build rules, scoring, strategy, and comparison content around Boggle, Crosswordle, Wordle, Spelling Bee, and Word Search.',
     priorityGames: ['boggle', 'crosswordle', 'wordle', 'spelling-bee'],
     contentGaps: ['Boggle variants comparison', 'Word games for vocabulary practice', 'Daily word games hub'],
-    nextAdditions: ['Word Hunt', 'Word Ladder', 'Mini Daily Boggle'],
+    nextAdditions: ['Word Hunt', 'Word Ladder', 'Letter Boxed-style puzzle'],
     links: [
       { href: '/hubs/word-games/', label: 'Word Games Hub' },
+      { href: '/games/boggle/?mode=daily', label: 'Daily Boggle' },
       { href: '/guides/boggle/', label: 'Boggle Guide' },
       { href: '/blog/boggle-strategy-guide/', label: 'Boggle Strategy Article' },
     ],
