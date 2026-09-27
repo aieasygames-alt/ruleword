@@ -16,6 +16,24 @@ const breadcrumbItems = [
   { name: isZh ? '首页' : 'Home', url: '/' },
   { name: isZh ? '统计' : 'Stats', url: '/stats/' },
 ]
+
+const statsPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: isZh ? '你的游戏统计与成就' : 'Your Game Stats & Achievements',
+  description: seoDescription,
+  url: 'https://ruleword.com/stats/',
+  about: [
+    { '@type': 'Thing', name: isZh ? '游戏统计' : 'Game statistics' },
+    { '@type': 'Thing', name: isZh ? '成就' : 'Achievements' },
+    { '@type': 'Thing', name: isZh ? '最高分' : 'High scores' },
+  ],
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Free Games Hub',
+    url: 'https://ruleword.com/',
+  },
+}
 ---
 
 <BaseLayout
@@ -26,6 +44,10 @@ const breadcrumbItems = [
   ogImage="/og/stats.png"
   breadcrumbItems={breadcrumbItems}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(statsPageSchema)} />
+  </Fragment>
+
   <div class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 border-b border-gray-200 dark:border-slate-800 backdrop-blur-xl">
@@ -51,7 +73,49 @@ const breadcrumbItems = [
         <p class="text-gray-600 dark:text-slate-400">{isZh ? '追踪你在所有游戏中的进度、成就和最高分。' : 'Track your progress, achievements, and high scores across all games.'}</p>
       </div>
 
+      <section class="mb-8 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60">
+          <h3 class="text-sm font-semibold">{isZh ? '本地保存' : 'Saved Locally'}</h3>
+          <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">
+            {isZh ? '你的统计保存在当前浏览器，不需要账号。' : 'Your stats stay in this browser, with no account required.'}
+          </p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60">
+          <h3 class="text-sm font-semibold">{isZh ? '成就进度' : 'Achievement Progress'}</h3>
+          <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">
+            {isZh ? '完成更多游戏、刷新高分并解锁新的里程碑。' : 'Play more games, improve scores, and unlock new milestones.'}
+          </p>
+        </div>
+        <div class="rounded-xl border border-gray-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900/60">
+          <h3 class="text-sm font-semibold">{isZh ? '跨游戏概览' : 'Cross-Game View'}</h3>
+          <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">
+            {isZh ? '查看总游玩次数、时长、收藏和最高分。' : 'Review total plays, time, favorites, and best scores.'}
+          </p>
+        </div>
+      </section>
+
       <StatsDashboard client:load lang={lang} />
+
+      <section class="mt-10 rounded-2xl border border-gray-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/50">
+        <h2 class="text-xl font-bold">{isZh ? '下一步玩什么' : 'What to Play Next'}</h2>
+        <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-slate-400">
+          {isZh ? '如果你的统计还是空的，先玩几款容易记录成绩的游戏。' : 'If your dashboard is still empty, start with games that make progress easy to track.'}
+        </p>
+        <div class="mt-5 grid gap-3 sm:grid-cols-3">
+          <a href="/games/reaction-time/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-emerald-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-emerald-600">
+            <h3 class="text-sm font-semibold">{isZh ? '反应速度' : 'Reaction Time'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '快速获得毫秒级成绩。' : 'Get an instant millisecond benchmark.'}</p>
+          </a>
+          <a href="/games/typing-test/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-emerald-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-emerald-600">
+            <h3 class="text-sm font-semibold">{isZh ? '打字测试' : 'Typing Test'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '记录 WPM 与准确率。' : 'Track WPM and accuracy.'}</p>
+          </a>
+          <a href="/popular/" class="rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-emerald-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-emerald-600">
+            <h3 class="text-sm font-semibold">{isZh ? '热门游戏' : 'Popular Games'}</h3>
+            <p class="mt-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{isZh ? '从高需求游戏开始。' : 'Start with high-demand games.'}</p>
+          </a>
+        </div>
+      </section>
     </main>
 
     <!-- Footer -->
