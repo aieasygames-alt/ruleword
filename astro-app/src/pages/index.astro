@@ -74,6 +74,27 @@ const guidePriority: Record<string, number> = {
   'typing-test': 6,
 }
 const boggleSpotlight = games.find(g => g.slug === 'boggle')
+const recentPosts = getRecentBlogPosts(3)
+const labUpdates = [
+  {
+    eyebrow: 'New & Updated',
+    title: 'Latest Game Updates',
+    description: 'See the latest playable additions, upgraded games, variants, and story editions.',
+    href: '/new/',
+  },
+  {
+    eyebrow: 'Collections',
+    title: 'Curated Game Hubs',
+    description: 'Browse word games, number puzzles, brain tests, strategy games, and AI stories by intent.',
+    href: '/hubs/',
+  },
+  {
+    eyebrow: 'Guides',
+    title: 'Strategy and Rules',
+    description: 'Learn scoring, solving patterns, and practical tips before jumping back into play.',
+    href: '/guides/',
+  },
+]
 const discoveryPaths = [
   {
     title: 'Play a Game Now',
@@ -120,6 +141,18 @@ const homeDiscoverySchema = {
   name: 'Free Online Games and Brain Tests',
   description: homepageSEO.description,
   url: 'https://ruleword.com/',
+  hasPart: labUpdates.map(update => ({
+    '@type': 'WebPage',
+    name: update.title,
+    description: update.description,
+    url: `https://ruleword.com${update.href}`,
+  })).concat(recentPosts.map(post => ({
+    '@type': 'Article',
+    name: post.title,
+    description: post.description,
+    url: `https://ruleword.com/blog/${post.slug}/`,
+    datePublished: post.date,
+  }))),
   mainEntity: {
     '@type': 'ItemList',
     numberOfItems: quickPlayGames.length,
@@ -314,6 +347,48 @@ const homeDiscoverySchema = {
               </div>
             </a>
           )})}
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <div class="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Latest from the Lab</p>
+            <h2 class="mt-2 text-xl font-bold text-gray-900 dark:text-white">New Games, Guides, and Collections</h2>
+            <p class="mt-2 text-sm leading-6 text-gray-600 dark:text-slate-400">
+              Use this as the front-page shortcut into what changed recently, what to play next, and what to read when you want better scores.
+            </p>
+            <div class="mt-5 grid gap-3">
+              {labUpdates.map(update => (
+                <a href={update.href} class="group rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-emerald-400 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-emerald-700">
+                  <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-emerald-600 dark:text-emerald-400">{update.eyebrow}</div>
+                  <h3 class="mt-1 text-sm font-semibold text-gray-900 group-hover:text-emerald-600 dark:text-white dark:group-hover:text-emerald-300">{update.title}</h3>
+                  <p class="mt-1 text-xs leading-5 text-gray-600 dark:text-slate-400">{update.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+          <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">Fresh Reading</p>
+                <h2 class="mt-2 text-xl font-bold text-gray-900 dark:text-white">Latest Articles</h2>
+              </div>
+              <a href="/blog/" class="shrink-0 text-sm font-medium text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300">All articles →</a>
+            </div>
+            <div class="grid gap-3">
+              {recentPosts.map(post => (
+                <a href={`/blog/${post.slug}/`} class="group rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-blue-700">
+                  <div class="mb-2 flex flex-wrap items-center gap-2">
+                    <span class="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-medium uppercase text-blue-700 dark:bg-blue-900/50 dark:text-blue-300">{post.category}</span>
+                    <span class="text-[10px] text-gray-500 dark:text-slate-500">{post.readTime}</span>
+                  </div>
+                  <h3 class="text-sm font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-300">{post.title}</h3>
+                  <p class="mt-1 line-clamp-2 text-xs leading-5 text-gray-600 dark:text-slate-400">{post.description}</p>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
