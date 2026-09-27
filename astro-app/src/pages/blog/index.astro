@@ -52,6 +52,51 @@ const topicPaths = [
   }
 ]
 
+const editorialPaths = [
+  {
+    title: 'Start with a Strategy Article',
+    description: 'Use long-form articles when the query is broad, comparative, or research-oriented.',
+    links: [
+      { href: '/blog/boggle-strategy-guide/', label: 'Boggle strategy article' },
+      { href: '/blog/best-brain-training-games-2026/', label: 'Brain training games' },
+      { href: '/blog/japanese-logic-puzzles-guide/', label: 'Japanese logic guide' },
+    ],
+  },
+  {
+    title: 'Move into a Playable Game',
+    description: 'After the article answers the search intent, send players to the game that lets them practice.',
+    links: [
+      { href: '/games/boggle/', label: 'Play Boggle' },
+      { href: '/games/sudoku/', label: 'Play Sudoku' },
+      { href: '/games/reaction-time/', label: 'Reaction Time Test' },
+    ],
+  },
+  {
+    title: 'Continue with a Guide or Hub',
+    description: 'Keep readers moving through topic authority pages instead of ending the session at one post.',
+    links: [
+      { href: '/guides/', label: 'All game guides' },
+      { href: '/hubs/word-games/', label: 'Word games hub' },
+      { href: '/hubs/brain-training/', label: 'Brain training hub' },
+    ],
+  },
+]
+
+const faqItems = [
+  {
+    question: 'What should I read first on the game blog?',
+    answer: 'Start with the topic that matches your intent: Boggle and word games, Sudoku and 2048 number puzzles, brain training tests, Japanese logic puzzles, or AI story games.',
+  },
+  {
+    question: 'Do blog posts connect to playable games?',
+    answer: 'Yes. The blog is designed to move readers from strategy articles into playable games, guides, and curated hubs so they can practice immediately.',
+  },
+  {
+    question: 'How is the blog different from the guides section?',
+    answer: 'Blog posts cover broader comparisons, recommendations, and topic explainers, while guides focus on rules, scoring, tactics, and step-by-step improvement for a specific game.',
+  },
+]
+
 const blogCollectionSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
@@ -88,6 +133,19 @@ const blogCollectionSchema = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map(item => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+}
+
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'Blog', url: '/blog/' }
@@ -103,6 +161,7 @@ const breadcrumbItems = [
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(blogCollectionSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
 
   <div class="min-h-screen bg-slate-950 text-white">
@@ -155,6 +214,28 @@ const breadcrumbItems = [
                 ))}
               </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="mb-12">
+        <div class="mb-5">
+          <h2 class="text-xl font-bold">Use the Blog as a Learning Path</h2>
+          <p class="mt-1 text-sm text-slate-400">Each article should lead into a game, guide, or hub so readers can keep learning without guessing where to go next.</p>
+        </div>
+        <div class="grid gap-4 md:grid-cols-3">
+          {editorialPaths.map(path => (
+            <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
+              <h3 class="text-base font-semibold text-white">{path.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{path.description}</p>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {path.links.map(link => (
+                  <a href={link.href} class="rounded-lg border border-slate-700 bg-slate-950/60 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-green-500 hover:text-green-400">
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -234,6 +315,18 @@ const breadcrumbItems = [
           </section>
         )
       ))}
+
+      <section class="mt-12 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <h2 class="text-xl font-bold">Blog FAQ</h2>
+        <div class="mt-5 space-y-4">
+          {faqItems.map(item => (
+            <article class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <h3 class="font-semibold text-white">{item.question}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{item.answer}</p>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <!-- Newsletter CTA -->
       <section class="mt-12 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-2xl p-8 text-center">
