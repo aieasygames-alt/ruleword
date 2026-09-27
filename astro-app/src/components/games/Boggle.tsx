@@ -322,7 +322,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   const [gameOver, setGameOver] = useState(false)
   const [message, setMessage] = useState('')
   const [roundSummary, setRoundSummary] = useState<BoggleRoundSummary | null>(null)
-  const [bestScore, setBestScore] = useState(0)
+  const [, setLegacyBestScore] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [revealedHints, setRevealedHints] = useState<Set<string>>(new Set())
   const [hintText, setHintText] = useState('')
@@ -340,7 +340,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   useEffect(() => {
     loadDictionary()
     const stored = getBoggleStorage()?.getItem(BOGGLE_BEST_SCORE_KEY)
-    if (stored) setBestScore(Number(stored) || 0)
+    if (stored) setLegacyBestScore(Number(stored) || 0)
     setRecentRounds(readRecentBoggleRounds())
     setDailyStats(readBoggleDailyStats())
     setBestScores(readBoggleBestScores())
@@ -388,7 +388,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
         missed_word_count: summary.missedWords.length,
         daily_streak: nextDailyStats.streak,
       })
-      setBestScore(prev => {
+      setLegacyBestScore(prev => {
         const next = Math.max(prev, score)
         getBoggleStorage()?.setItem(BOGGLE_BEST_SCORE_KEY, String(next))
         return next
@@ -576,6 +576,16 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
   const sortedFoundWords = Array.from(foundWords).sort((a, b) => b.length - a.length || a.localeCompare(b))
   const groupedFoundWords = groupBoggleWordsByLength(sortedFoundWords)
   const selectedBestScore = bestScores[boggleBestScoreKey(mode, boardSize)] ?? 0
+  const targetScore = selectedBestScore > 0 ? selectedBestScore : boardSize === 5 ? 40 : 25
+  const scoreGap = Math.max(targetScore - score, 0)
+  const targetProgress = targetScore > 0 ? Math.min(100, Math.round((score / targetScore) * 100)) : 0
+  const targetLabel = selectedBestScore > 0 ? 'Personal best target' : 'Starter target'
+  const targetStatus =
+    scoreGap === 0
+      ? selectedBestScore > 0 && score > selectedBestScore
+        ? 'New personal best'
+        : 'Target cleared'
+      : `${scoreGap} pts to ${selectedBestScore > 0 ? 'tie best' : 'starter target'}`
   const hasBoard = board.length > 0
 
   return (
@@ -602,7 +612,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
             </div>
             <div className="hidden sm:block text-center">
               <div className="text-xs text-slate-400">Best</div>
-              <div className="text-lg font-bold text-emerald-400">{bestScore}</div>
+              <div className="text-lg font-bold text-emerald-400">{selectedBestScore}</div>
             </div>
           </div>
           <button data-testid="boggle-header-start" onClick={startGame} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
@@ -687,6 +697,23 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                   {message}
                 </div>
               )}
+            </div>
+
+            <div data-testid="boggle-target-progress" className="w-full max-w-lg rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+              <div className="mb-2 flex items-center justify-between gap-3 text-xs">
+                <span className="uppercase text-slate-500">{targetLabel}</span>
+                <span className={scoreGap === 0 ? 'text-emerald-300' : 'text-slate-400'}>{targetStatus}</span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-slate-800">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-yellow-400 transition-all"
+                  style={{ width: `${targetProgress}%` }}
+                />
+              </div>
+              <div className="mt-2 flex justify-between text-xs text-slate-500">
+                <span>{score} pts</span>
+                <span>{targetScore} pts</span>
+              </div>
             </div>
 
             <div
@@ -787,7 +814,15 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
                 </div>
                 <div className="rounded-xl bg-slate-900/60 p-3">
                   <div className="text-xs text-slate-400">Best</div>
-                  <div className="text-xl font-bold text-emerald-400">{bestScore}</div>
+                  <div className="text-xl font-bold text-emerald-400">{selectedBestScore}</div>
+                </div>
+              </div>
+
+              <div className="mb-4 rounded-xl border border-emerald-400/20 bg-emerald-400/10 p-3">
+                <div className="text-xs uppercase text-emerald-200/80">{targetLabel}</div>
+                <div className="mt-1 text-lg font-bold text-emerald-200">{scoreGap === 0 ? 'Cleared' : `${scoreGap} pts short`}</div>
+                <div className="text-xs text-emerald-100/70">
+                  {score} / {targetScore} pts
                 </div>
               </div>
 
