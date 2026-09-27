@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getCollection } from 'astro:content'
 import StoriesProgressShelf from '../../components/ai/StoriesProgressShelf'
 import { groupStoriesByGenre, storyGenres } from '../../data/storyGenres'
+import { storyGrowthPlans } from '../../data/siteGrowth'
 
 const stories = await getCollection('stories')
 const storyData = stories.map(entry => entry.data)
@@ -23,6 +24,9 @@ const trendingStories = storyData
 
 const genreGroups = storyGenres
 const genreMap = groupStoriesByGenre(storyData)
+const storyGrowthPlanEntries = genreGroups
+  .map(genre => ({ genre, plan: storyGrowthPlans[genre.slug] }))
+  .filter(entry => entry.plan)
 
 const seoTitle = 'AI Story Games Online Free - Interactive Fiction, Dating & Mystery'
 const seoDescription = 'Play free AI story games online with no download. Choose AI dating simulators, murder mysteries, zombie survival, fantasy RPG stories, and multiple endings.'
@@ -131,6 +135,39 @@ const storyCollectionSchema = {
     </section>
 
     <StoriesProgressShelf client:load stories={storySummaries} />
+
+    <!-- Growth Paths -->
+    <section class="max-w-5xl mx-auto px-4 py-10">
+      <div class="mb-5">
+        <h2 class="text-xl font-bold">Choose an AI Story Path</h2>
+        <p class="text-sm text-slate-400">Start from the intent that matches what you want: romance routes, detective cases, survival pressure, fantasy quests, or decision simulations.</p>
+      </div>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {storyGrowthPlanEntries.map(({ genre, plan }) => (
+          <a href={`/stories/genre/${genre.slug}/`} class="group rounded-xl border border-slate-700/60 bg-slate-800/50 p-5 transition-all hover:border-pink-500/60">
+            <div class="mb-3 flex items-center gap-3">
+              <span class="text-2xl">{genre.icon}</span>
+              <div>
+                <h3 class="font-semibold text-white group-hover:text-pink-300">{plan.intentLabel}</h3>
+                <p class="text-xs uppercase tracking-wide text-slate-500">{genre.label}</p>
+              </div>
+            </div>
+            <p class="line-clamp-3 text-sm leading-6 text-slate-400">{plan.searchIntent}</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {plan.priorityStories.slice(0, 2).map(slug => {
+                const story = storyData.find(item => item.slug === slug)
+                if (!story) return null
+                return (
+                  <span class="rounded-lg bg-slate-950/70 px-2.5 py-1 text-xs text-slate-300">
+                    {story.icon} {story.en.name}
+                  </span>
+                )
+              })}
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
 
     <!-- Featured Stories -->
     <section class="max-w-5xl mx-auto px-4 py-10">

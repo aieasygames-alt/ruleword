@@ -228,6 +228,18 @@ export type CategoryGrowthPlan = {
   links: Array<{ href: string; label: string }>
 }
 
+export type StoryGrowthPlan = {
+  title: string
+  intentLabel: string
+  searchIntent: string
+  playabilityFocus: string
+  contentFocus: string
+  priorityStories: string[]
+  contentGaps: string[]
+  nextAdditions: string[]
+  links: Array<{ href: string; label: string }>
+}
+
 export const categoryGrowthPlans: Record<string, CategoryGrowthPlan> = {
   word: {
     title: 'Word Games Growth Plan',
@@ -325,6 +337,84 @@ export const categoryGrowthPlans: Record<string, CategoryGrowthPlan> = {
       { href: '/games/mahjong-solitaire/', label: 'Mahjong Solitaire' },
       { href: '/games/flow-free/', label: 'Flow Free' },
       { href: '/new/', label: 'New Puzzle Updates' },
+    ],
+  },
+}
+
+export const storyGrowthPlans: Record<string, StoryGrowthPlan> = {
+  'romance-relationships': {
+    title: 'AI Dating Simulator Growth Plan',
+    intentLabel: 'Romance and relationship choices',
+    searchIntent: 'Players want free AI dating simulator games with character chemistry, relationship stats, replayable routes, and multiple endings.',
+    playabilityFocus: 'Prioritize visible relationship stats, route variety, date scenarios, replay prompts, and ending checklists.',
+    contentFocus: 'Build comparison and guide content around free AI dating simulators, romance story games, and interactive relationship choices.',
+    priorityStories: ['ai-dating-simulator'],
+    contentGaps: ['Best free AI dating simulator games', 'How romance routes work in AI story games', 'Dating sim endings checklist'],
+    nextAdditions: ['AI Roommate Romance', 'AI High School Reunion', 'AI Blind Date Challenge'],
+    links: [
+      { href: '/stories/ai-dating-simulator/', label: 'AI Dating Simulator' },
+      { href: '/stories/ai-dating-simulator/valentine/', label: 'Valentine Dating Story' },
+      { href: '/hubs/ai-games/', label: 'AI Games Hub' },
+    ],
+  },
+  'mystery-detective': {
+    title: 'AI Mystery Games Growth Plan',
+    intentLabel: 'Clues, suspects, and persuasion',
+    searchIntent: 'Players want AI murder mystery and detective games where clues, accusations, and conversation choices affect the reveal.',
+    playabilityFocus: 'Prioritize clue logs, suspect status, accusation moments, red herrings, and replayable case outcomes.',
+    contentFocus: 'Create pages for AI murder mystery, AI detective game, escape room story, and persuasion story searches.',
+    priorityStories: ['ai-murder-mystery', 'ai-escape-room', 'ai-convince'],
+    contentGaps: ['AI murder mystery games list', 'Detective story game tips', 'Escape room vs detective story comparison'],
+    nextAdditions: ['AI Courtroom Drama', 'AI Cold Case Files', 'AI Interrogation Room'],
+    links: [
+      { href: '/stories/ai-murder-mystery/', label: 'AI Murder Mystery' },
+      { href: '/stories/ai-escape-room/', label: 'AI Escape Room' },
+      { href: '/blog/what-are-ai-story-games/', label: 'AI Story Games Guide' },
+    ],
+  },
+  'survival-horror': {
+    title: 'AI Survival Story Growth Plan',
+    intentLabel: 'Risk, resources, and horror choices',
+    searchIntent: 'Players want zombie survival and horror story games with meaningful resource tradeoffs, tense choices, and dramatic endings.',
+    playabilityFocus: 'Prioritize health, supplies, trust stats, danger escalation, and clear survival vs sacrifice outcomes.',
+    contentFocus: 'Build content around AI zombie survival, interactive horror story games, survival choices, and no-download horror games.',
+    priorityStories: ['ai-zombie-survival'],
+    contentGaps: ['AI zombie survival games', 'Best interactive horror story games', 'Survival choice game endings'],
+    nextAdditions: ['AI Haunted Hotel', 'AI Outbreak Shelter', 'AI Arctic Survival'],
+    links: [
+      { href: '/stories/ai-zombie-survival/', label: 'AI Zombie Survival' },
+      { href: '/stories/ai-zombie-survival/halloween/', label: 'Halloween Zombie Story' },
+      { href: '/games/tower-defense/', label: 'Tower Defense' },
+    ],
+  },
+  'fantasy-adventure': {
+    title: 'AI Fantasy RPG Growth Plan',
+    intentLabel: 'Quests, companions, and branching adventures',
+    searchIntent: 'Players want AI fantasy RPG and adventure stories where choices shape quests, companions, powers, and endings.',
+    playabilityFocus: 'Prioritize quest goals, companion trust, inventory-like decisions, boss moments, and alternate adventure routes.',
+    contentFocus: 'Create support pages for AI fantasy RPG, AI adventure story, text adventure AI, and browser RPG story searches.',
+    priorityStories: ['ai-fantasy-adventure', 'time-traveler'],
+    contentGaps: ['AI fantasy RPG games list', 'Text adventure AI examples', 'Fantasy story endings guide'],
+    nextAdditions: ['AI Space Explorer', 'AI Pirate Adventure', 'AI Mythology Quest'],
+    links: [
+      { href: '/stories/ai-fantasy-adventure/', label: 'AI Fantasy Adventure' },
+      { href: '/stories/time-traveler/', label: 'Time Traveler' },
+      { href: '/hubs/ai-games/', label: 'AI Games Hub' },
+    ],
+  },
+  'strategy-simulation': {
+    title: 'AI Simulation Story Growth Plan',
+    intentLabel: 'Business, social, and decision simulations',
+    searchIntent: 'Players want AI simulation games where strategic choices change money, reputation, influence, and final outcomes.',
+    playabilityFocus: 'Prioritize visible stats, tradeoff-heavy choices, scenario variants, success/failure endings, and replay goals.',
+    contentFocus: 'Build pages for startup simulator, business sim, AI personality quiz, negotiation story, and AI tycoon searches.',
+    priorityStories: ['startup-simulator', 'ai-crypto-trader', 'ai-youtube-tycoon', 'ai-personality-quiz'],
+    contentGaps: ['Best AI simulation games', 'Startup simulator strategy', 'AI personality quiz games'],
+    nextAdditions: ['AI Courtroom Negotiation', 'AI City Mayor', 'AI Stock Market Crisis'],
+    links: [
+      { href: '/stories/startup-simulator/', label: 'Startup Simulator' },
+      { href: '/stories/ai-crypto-trader/', label: 'AI Crypto Trader' },
+      { href: '/stories/ai-personality-quiz/', label: 'AI Personality Quiz' },
     ],
   },
 }
