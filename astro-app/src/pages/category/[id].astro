@@ -151,6 +151,32 @@ const categoryGrowthPlan = categoryGrowthPlans[category.id]
 const categoryPriorityGames = categoryGrowthPlan
   ? categoryGrowthPlan.priorityGames.map(slug => categoryGames.find(game => game.slug === slug)).filter(Boolean)
   : []
+const relatedCategoryLinks = [
+  { href: '/games/', label: 'All Games', description: 'Browse the complete playable directory.' },
+  { href: '/popular/', label: 'Popular Games', description: 'Start with the highest-demand games.' },
+  { href: '/new/', label: 'New and Updated', description: 'See recent upgrades and planned clusters.' },
+]
+const categoryCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: seoTitle,
+  description: seoDescription,
+  url: `https://ruleword.com/category/${category.id}/`,
+  about: {
+    '@type': 'Thing',
+    name: category.en,
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: categoryGames.length,
+    itemListElement: categoryGames.slice(0, 24).map((game, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: game.name,
+      url: `https://ruleword.com/games/${game.slug}/`,
+    })),
+  },
+}
 
 // Breadcrumb for structured data
 const breadcrumbItems = [
@@ -167,6 +193,10 @@ const breadcrumbItems = [
   ogImage={`/og/category-${category.id}.png`}
   breadcrumbItems={breadcrumbItems}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(categoryCollectionSchema)} />
+  </Fragment>
+
   <!-- Prefetch homepage for faster navigation -->
   <link rel="prefetch" href="/" />
   <div class="min-h-screen bg-slate-950 text-white" id="app">
@@ -414,6 +444,26 @@ const breadcrumbItems = [
         </div>
       </section>
     )}
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+      <div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">Keep Browsing</p>
+            <h2 class="mt-2 text-2xl font-bold text-white">More Ways to Find the Right Game</h2>
+          </div>
+          <a href="/hubs/" class="text-sm font-medium text-emerald-300 hover:text-emerald-200">View game collections</a>
+        </div>
+        <div class="mt-5 grid gap-3 sm:grid-cols-3">
+          {relatedCategoryLinks.map(link => (
+            <a href={link.href} class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-700">
+              <h3 class="text-sm font-semibold text-white">{link.label}</h3>
+              <p class="mt-1 text-xs leading-5 text-slate-400">{link.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
 
     <!-- Category Description Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
