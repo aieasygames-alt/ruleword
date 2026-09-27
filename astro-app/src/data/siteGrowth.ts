@@ -240,6 +240,15 @@ export type StoryGrowthPlan = {
   links: Array<{ href: string; label: string }>
 }
 
+export type GuideGrowthCluster = {
+  title: string
+  description: string
+  primaryGuides: string[]
+  supportingGuides: string[]
+  searchIntents: string[]
+  links: Array<{ href: string; label: string }>
+}
+
 export const categoryGrowthPlans: Record<string, CategoryGrowthPlan> = {
   word: {
     title: 'Word Games Growth Plan',
@@ -418,3 +427,78 @@ export const storyGrowthPlans: Record<string, StoryGrowthPlan> = {
     ],
   },
 }
+
+export const guideGrowthClusters: GuideGrowthCluster[] = [
+  {
+    title: 'Word Game Strategy',
+    description: 'Rules, scoring, and pattern-finding guides for Boggle, Wordle, Spelling Bee, Crossword, and word search players.',
+    primaryGuides: ['boggle', 'wordle', 'spelling-bee'],
+    supportingGuides: ['word-search', 'crossword', 'hangman'],
+    searchIntents: ['boggle strategy', 'wordle tips', 'spelling bee rules'],
+    links: [
+      { href: '/hubs/word-games/', label: 'Word Games Hub' },
+      { href: '/games/boggle/', label: 'Play Boggle' },
+      { href: '/blog/boggle-strategy-guide/', label: 'Boggle Strategy Article' },
+    ],
+  },
+  {
+    title: 'Number and Logic Puzzle Guides',
+    description: 'Solving techniques for Sudoku, 2048, Killer Sudoku, Kakuro, Nonogram, Slitherlink, and Japanese logic puzzles.',
+    primaryGuides: ['sudoku', '2048', 'killer-sudoku', 'kakuro'],
+    supportingGuides: ['nonogram', 'slitherlink', 'heyawake', 'suguru'],
+    searchIntents: ['sudoku strategy', 'how to beat 2048', 'kakuro rules'],
+    links: [
+      { href: '/hubs/number-puzzles/', label: 'Number Puzzles Hub' },
+      { href: '/hubs/japanese-logic/', label: 'Japanese Logic Hub' },
+      { href: '/category/logic/', label: 'Logic Games Category' },
+    ],
+  },
+  {
+    title: 'Brain Training and Skill Tests',
+    description: 'Benchmark and improvement guides for reaction time, typing speed, memory, aim, focus, and cognitive-control tests.',
+    primaryGuides: ['reaction-time', 'typing-test', 'number-memory'],
+    supportingGuides: ['chimp-test', 'stroop-test', 'aim-trainer', 'memory'],
+    searchIntents: ['reaction time average', 'typing WPM benchmark', 'memory test score'],
+    links: [
+      { href: '/hubs/brain-training/', label: 'Brain Training Hub' },
+      { href: '/hubs/memory-games/', label: 'Memory Games Hub' },
+      { href: '/category/skill/', label: 'Skill Games Category' },
+    ],
+  },
+  {
+    title: 'Classic Strategy Guides',
+    description: 'Beginner tactics and decision guides for Chess, Checkers, Connect Four, Reversi, Gomoku, and board strategy games.',
+    primaryGuides: ['chess', 'checkers', 'connect-four'],
+    supportingGuides: ['reversi', 'gomoku', 'tic-tac-toe', 'dots-and-boxes'],
+    searchIntents: ['checkers strategy', 'chess for beginners', 'connect four tactics'],
+    links: [
+      { href: '/hubs/strategy-games/', label: 'Strategy Games Hub' },
+      { href: '/category/strategy/', label: 'Strategy Category' },
+      { href: '/games/checkers/', label: 'Play Checkers' },
+    ],
+  },
+  {
+    title: 'Classic Arcade Guides',
+    description: 'High-score tips and control basics for Tetris, Snake, Pac-Man, Pong, Space Invaders, and retro browser games.',
+    primaryGuides: ['tetris', 'snake', 'pac-man'],
+    supportingGuides: ['pong', 'space-invaders', 'frogger', 'whack-a-mole'],
+    searchIntents: ['tetris strategy', 'snake high score tips', 'pac-man ghost patterns'],
+    links: [
+      { href: '/category/arcade/', label: 'Arcade Category' },
+      { href: '/popular/', label: 'Popular Games' },
+      { href: '/games/tetris/', label: 'Play Tetris' },
+    ],
+  },
+  {
+    title: 'Relaxing Puzzle Guides',
+    description: 'Rules and solving paths for Mahjong Solitaire, Jigsaw, Sokoban, Match-3, Flow Free, and casual puzzle games.',
+    primaryGuides: ['mahjong-solitaire', 'jigsaw', 'sokoban'],
+    supportingGuides: ['match-three', 'flow-free', '15-puzzle', 'color-match'],
+    searchIntents: ['mahjong solitaire rules', 'sokoban tips', 'flow free strategy'],
+    links: [
+      { href: '/category/puzzle/', label: 'Puzzle Category' },
+      { href: '/games/mahjong-solitaire/', label: 'Play Mahjong Solitaire' },
+      { href: '/new/', label: 'New Puzzle Updates' },
+    ],
+  },
+]

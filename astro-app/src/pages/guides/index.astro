@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { gameGuides, getAllGuideSlugs, getGameGuide } from '../../data/gameGuidesSEO'
+import { getAllGuideSlugs, getGameGuide } from '../../data/gameGuidesSEO'
+import { guideGrowthClusters } from '../../data/siteGrowth'
 import { getAllGames } from '../../lib/games'
 
 const guideSlugs = getAllGuideSlugs()
@@ -26,6 +27,41 @@ const allGuides = guideSlugs.map(slug => {
   return (priority[a.slug] || 999) - (priority[b.slug] || 999)
 })
 
+const guideBySlug = new Map(allGuides.map(item => [item.slug, item]))
+const guideClusters = guideGrowthClusters.map(cluster => ({
+  ...cluster,
+  primaryGuideItems: cluster.primaryGuides.map(slug => guideBySlug.get(slug)).filter(Boolean),
+  supportingGuideItems: cluster.supportingGuides.map(slug => guideBySlug.get(slug)).filter(Boolean),
+}))
+
+const guideCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Game Strategy Guides",
+  "description": "Free strategy guides for Boggle, 2048, Sudoku, Checkers, reaction time, typing tests, Japanese logic puzzles, arcade games, and puzzle games.",
+  "url": "https://ruleword.com/guides/",
+  "hasPart": guideClusters.map(cluster => ({
+    "@type": "Collection",
+    "name": cluster.title,
+    "description": cluster.description,
+    "keywords": cluster.searchIntents,
+  })),
+  "mainEntity": {
+    "@type": "ItemList",
+    "numberOfItems": allGuides.length,
+    "itemListElement": allGuides.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "item": {
+        "@type": "Article",
+        "name": item.guide.title,
+        "description": item.guide.description,
+        "url": `https://ruleword.com/guides/${item.slug}/`,
+      },
+    })),
+  },
+}
+
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'Game Guides', url: '/guides/' }
@@ -39,6 +75,10 @@ const breadcrumbItems = [
   canonicalPath="/guides/"
   breadcrumbItems={breadcrumbItems}
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(guideCollectionSchema)} />
+  </Fragment>
+
   <div class="min-h-screen bg-slate-950 text-white">
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur-xl">
@@ -83,6 +123,60 @@ const breadcrumbItems = [
             <a href="/guides/boggle/" class="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">Read Boggle guide</a>
             <a href="/games/boggle/" class="rounded-lg border border-slate-700 bg-slate-900 px-5 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:bg-slate-800">Play Boggle online free</a>
           </div>
+        </div>
+      </section>
+
+      <!-- Guide Clusters -->
+      <section class="mb-12">
+        <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 class="text-xl font-bold">Browse Guides by Player Intent</h2>
+            <p class="mt-1 text-sm text-slate-400">Use these clusters to move from a search query into the right guide, playable game, and topic hub.</p>
+          </div>
+          <a href="/games/" class="text-sm font-medium text-emerald-300 hover:text-emerald-200">All games directory →</a>
+        </div>
+        <div class="grid gap-4">
+          {guideClusters.map(cluster => (
+            <article class="rounded-2xl border border-slate-800 bg-slate-900/50 p-5">
+              <div class="grid gap-5 lg:grid-cols-[1fr_260px]">
+                <div>
+                  <h3 class="text-lg font-semibold text-white">{cluster.title}</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-400">{cluster.description}</p>
+                  <div class="mt-4 flex flex-wrap gap-2">
+                    {cluster.searchIntents.map(intent => (
+                      <span class="rounded-full bg-slate-950/70 px-3 py-1.5 text-xs text-slate-300">{intent}</span>
+                    ))}
+                  </div>
+                </div>
+                <div class="flex flex-wrap content-start gap-2 lg:justify-end">
+                  {cluster.links.map(link => (
+                    <a href={link.href} class="rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-emerald-500 hover:text-emerald-300">{link.label}</a>
+                  ))}
+                </div>
+              </div>
+              <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {cluster.primaryGuideItems.map(item => (
+                  <a href={`/guides/${item.slug}/`} class="group rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-500/60">
+                    <div class="flex items-center gap-3">
+                      {item.game && <span class="text-2xl">{item.game.icon}</span>}
+                      <div>
+                        <h4 class="line-clamp-1 text-sm font-semibold text-white group-hover:text-emerald-300">{item.guide.title.split(':')[0]}</h4>
+                        <p class="mt-1 text-xs text-slate-500">Primary guide</p>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+              {cluster.supportingGuideItems.length > 0 && (
+                <div class="mt-4 flex flex-wrap gap-2">
+                  <span class="text-xs font-semibold uppercase tracking-wide text-slate-500">Also read</span>
+                  {cluster.supportingGuideItems.slice(0, 5).map(item => (
+                    <a href={`/guides/${item.slug}/`} class="text-xs text-slate-400 hover:text-emerald-300">{item.guide.title.split(':')[0]}</a>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
         </div>
       </section>
 
