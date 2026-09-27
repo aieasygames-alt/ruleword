@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { getAllGames } from '../../lib/games'
+import { gameCategories } from '../../data/categories'
+import { getGamePopularity, THUMBNAIL_GAMES } from '../../data/gamePopularity'
+import { opportunityGameSlugs, plannedGameClusters } from '../../data/siteGrowth'
+
+const games = await getAllGames()
+const gamesByCategory = gameCategories
+  .filter(category => category.id !== 'story')
+  .map(category => {
+    const categoryGames = games.filter(game => game.category === category.id)
+    return {
+      ...category,
+      games: categoryGames,
+      topGames: categoryGames
+        .slice()
+        .sort((a, b) => getGamePopularity(b.slug).numericCount - getGamePopularity(a.slug).numericCount)
+        .slice(0, 6),
+    }
+  })
+  .filter(category => category.games.length > 0)
+
+const opportunityGames = opportunityGameSlugs
+  .map(slug => games.find(game => game.slug === slug))
+  .filter(Boolean)
+
+const totalPlays = games.reduce((sum, game) => sum + getGamePopularity(game.slug).numericCount, 0)
+const totalPlayLabel = totalPlays >= 1000000 ? `${Math.round(totalPlays / 1000000)}M+` : `${Math.round(totalPlays / 1000)}K+`
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Free Online Games Directory',
+  description: 'Browse all free online games on Ruleword by category, popularity, and search intent.',
+  url: 'https://ruleword.com/games/',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: games.length,
+    itemListElement: opportunityGames.map((game, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: game?.name,
+      url: `https://ruleword.com/games/${game?.slug}/`,
+    })),
+  },
+}
+---
+
+<BaseLayout
+  title="Free Online Games Directory - Boggle, Sudoku, Brain Tests & Classics"
+  description={`Browse ${games.length}+ free online games by category: Boggle and word games, Sudoku and number puzzles, reaction time tests, typing tests, chess, checkers, arcade classics, and AI stories.`}
+  keywords="free online games, games directory, browser games, boggle online, sudoku online, reaction time test, typing test, checkers online"
+  canonicalPath="/games/"
+  ogImage="/og/home.png"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  <div class="min-h-screen bg-slate-950 text-white">
+    <header class="sticky top-0 z-50 border-b border-slate-800 bg-slate-950/90 backdrop-blur-xl">
+      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 text-sm font-bold text-white">R</div>
+          <span class="font-semibold">Free Games Hub</span>
+        </a>
+        <nav class="flex items-center gap-4 text-sm text-slate-400">
+          <a href="/popular/" class="hover:text-white">Popular</a>
+          <a href="/new/" class="hover:text-white">New</a>
+          <a href="/hubs/" class="hover:text-white">Collections</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <section class="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-400">Game Directory</p>
+          <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Free Online Games</h1>
+          <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+            Browse the full Ruleword game library by intent: word games, number puzzles, brain tests, classic strategy games, arcade favorites, memory games, and relaxing puzzles.
+          </p>
+        </div>
+        <div class="grid grid-cols-3 gap-3 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-white">{games.length}+</div>
+            <div class="mt-1 text-xs text-slate-400">Games</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-white">{totalPlayLabel}</div>
+            <div class="mt-1 text-xs text-slate-400">Plays</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-white">{gamesByCategory.length}</div>
+            <div class="mt-1 text-xs text-slate-400">Categories</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-10 rounded-2xl border border-emerald-900/40 bg-gradient-to-r from-emerald-950/70 via-slate-900 to-slate-950 p-6">
+        <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">Recommended Start</p>
+            <h2 class="mt-2 text-2xl font-bold">High-Intent Games to Play First</h2>
+          </div>
+          <a href="/popular/" class="text-sm font-medium text-emerald-300 hover:text-emerald-200">View popular games</a>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {opportunityGames.slice(0, 4).map(game => (
+            <a href={`/games/${game.slug}/`} class="group overflow-hidden rounded-xl border border-slate-800 bg-slate-950/70 p-4 transition-colors hover:border-emerald-600">
+              <div class="flex items-start justify-between gap-3">
+                <div class={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${game.color} text-2xl`}>
+                  {game.icon}
+                </div>
+                <span class="rounded-full bg-emerald-500/10 px-2 py-1 text-[11px] font-semibold text-emerald-300">{getGamePopularity(game.slug).playCount}</span>
+              </div>
+              <h3 class="mt-4 font-semibold text-white group-hover:text-emerald-300">{game.name}</h3>
+              <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">{game.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-10 grid gap-6 lg:grid-cols-2">
+        {gamesByCategory.map(category => (
+          <article class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-3">
+                  <span class="text-2xl">{category.icon}</span>
+                  <h2 class="text-xl font-bold">{category.name}</h2>
+                </div>
+                <p class="mt-2 text-sm text-slate-400">{category.desc}</p>
+              </div>
+              <a href={`/category/${category.id}/`} class="shrink-0 text-sm font-medium text-emerald-400 hover:text-emerald-300">All {category.games.length}</a>
+            </div>
+            <div class="mt-5 grid gap-3 sm:grid-cols-2">
+              {category.topGames.map(game => (
+                <a href={`/games/${game.slug}/`} class="group flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/60 p-3 hover:border-slate-600">
+                  {THUMBNAIL_GAMES.has(game.slug) ? (
+                    <img src={`/thumbnails/${game.slug}.png`} alt={game.name} class="h-11 w-11 rounded-lg object-cover" loading="lazy" />
+                  ) : (
+                    <div class={`flex h-11 w-11 items-center justify-center rounded-lg bg-gradient-to-br ${game.color} text-xl`}>{game.icon}</div>
+                  )}
+                  <div class="min-w-0">
+                    <h3 class="truncate text-sm font-semibold text-white group-hover:text-emerald-300">{game.name}</h3>
+                    <p class="text-xs text-slate-500">{getGamePopularity(game.slug).playCount} plays</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section class="mt-10 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <h2 class="text-2xl font-bold">What We Should Add Next</h2>
+        <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
+          These product clusters turn the current library into clearer SEO and retention paths: each cluster can support games, guides, hubs, and comparison articles.
+        </p>
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          {plannedGameClusters.map(cluster => (
+            <a href={cluster.href} class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-700">
+              <h3 class="font-semibold text-white">{cluster.title}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{cluster.description}</p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                {cluster.games.slice(0, 3).map(game => (
+                  <span class="rounded-full bg-slate-800 px-2.5 py-1 text-xs text-slate-300">{game}</span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

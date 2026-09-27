@@ -1,0 +1,112 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getAllGames } from '../lib/games'
+import { getGamePopularity } from '../data/gamePopularity'
+import { newAndUpdatedGameSlugs, plannedGameClusters } from '../data/siteGrowth'
+
+const games = await getAllGames()
+const newGames = newAndUpdatedGameSlugs
+  .map(slug => games.find(game => game.slug === slug))
+  .filter(Boolean)
+
+const clusterSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'New and Updated Free Online Games',
+  description: 'Recently added and upgraded games on Ruleword, plus planned game clusters for word games, brain tests, strategy games, and AI stories.',
+  url: 'https://ruleword.com/new/',
+}
+---
+
+<BaseLayout
+  title="New Free Online Games - Latest Boggle, Brain Tests & Puzzle Updates"
+  description="See new and recently upgraded Ruleword games, including Boggle, Crosswordle, Queens, Police Escape, reaction time test, typing test, Checkers, and logic puzzle updates."
+  keywords="new online games, latest browser games, new puzzle games, boggle update, brain test games, new word games"
+  canonicalPath="/new/"
+  ogImage="/og/home.png"
+>
+  <script type="application/ld+json" set:html={JSON.stringify(clusterSchema)} />
+  <div class="min-h-screen bg-slate-950 text-white">
+    <header class="border-b border-slate-800 bg-slate-950/90">
+      <div class="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <a href="/" class="flex items-center gap-2 hover:opacity-80">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 text-sm font-bold">R</div>
+          <span class="font-semibold">Free Games Hub</span>
+        </a>
+        <nav class="flex items-center gap-4 text-sm text-slate-400">
+          <a href="/games/" class="hover:text-white">All Games</a>
+          <a href="/popular/" class="hover:text-white">Popular</a>
+          <a href="/hubs/" class="hover:text-white">Collections</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+      <section class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-400">New and Updated</p>
+          <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Latest Free Online Game Updates</h1>
+          <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-300">
+            Track the games and collections that should drive the next growth loop: stronger word games, measurable brain tests, classic strategy games, and AI story experiences.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
+          <h2 class="font-semibold">Product Direction</h2>
+          <p class="mt-2 text-sm leading-6 text-slate-400">
+            New pages should not be isolated. Every useful game needs a playable page, guide content, category/hub links, and a clear path to related games.
+          </p>
+        </div>
+      </section>
+
+      <section class="mt-10">
+        <div class="mb-5">
+          <h2 class="text-2xl font-bold">Recently Added or Upgraded Games</h2>
+          <p class="mt-1 text-sm text-slate-400">These games are good candidates for more playability polish, stronger guide content, and internal links.</p>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {newGames.map(game => (
+            <a href={`/games/${game.slug}/`} class="group rounded-2xl border border-slate-800 bg-slate-900/70 p-5 transition-colors hover:border-emerald-700">
+              <div class="flex items-start gap-4">
+                <div class={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${game.color} text-2xl shadow-lg`}>
+                  {game.icon}
+                </div>
+                <div class="min-w-0">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="font-semibold text-white group-hover:text-emerald-300">{game.name}</h3>
+                    <span class="rounded-full bg-slate-800 px-2 py-0.5 text-[11px] text-slate-300">{getGamePopularity(game.slug).playCount}</span>
+                  </div>
+                  <p class="mt-2 line-clamp-2 text-sm leading-6 text-slate-400">{game.desc}</p>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="mt-10 rounded-2xl border border-slate-800 bg-slate-900/50 p-6">
+        <h2 class="text-2xl font-bold">Next Game Clusters</h2>
+        <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
+          These clusters are the recommended backlog for adding same-type games without making the site feel random.
+        </p>
+        <div class="mt-5 grid gap-4 md:grid-cols-2">
+          {plannedGameClusters.map(cluster => (
+            <article class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h3 class="font-semibold text-white">{cluster.title}</h3>
+                  <p class="mt-2 text-sm leading-6 text-slate-400">{cluster.description}</p>
+                </div>
+                <a href={cluster.href} class="shrink-0 text-sm font-medium text-emerald-400 hover:text-emerald-300">Hub</a>
+              </div>
+              <div class="mt-4 flex flex-wrap gap-2">
+                {cluster.games.map(game => (
+                  <span class="rounded-full border border-slate-700 px-2.5 py-1 text-xs text-slate-300">{game}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

@@ -10,6 +10,7 @@ import { getGameGuide, getAllGuideSlugs } from '../../data/gameGuidesSEO'
 import { hubPages } from '../../data/hubPages'
 import { getGameRating } from '../../data/gameRatings'
 import { getGamePopularity } from '../../data/gamePopularity'
+import { gameSeoUpgrades } from '../../data/siteGrowth'
 import FavoriteButton from '../../components/FavoriteButton'
 import type { GameRules, GameFAQ } from '../../types'
 
@@ -241,6 +242,7 @@ const howToSchema = gameGuideEn.howToPlay ? {
 const gameRating = getGameRating(game.slug)
 const gamePopularity = getGamePopularity(game.slug)
 const isBogglePage = gameSlug === 'boggle'
+const seoUpgrade = gameSeoUpgrades[gameSlug]
 const boggleQuickFacts = [
   { labelEn: 'Grid', labelZh: '棋盘', valueEn: 'Classic 4x4 and big 5x5 boards', valueZh: '经典 4x4 与大型 5x5 棋盘' },
   { labelEn: 'Modes', labelZh: '模式', valueEn: 'Classic, relaxed, and daily challenge', valueZh: '经典、放松与每日挑战' },
@@ -802,6 +804,60 @@ const hreflangUrls = [
                   </div>
                 </div>
               </>
+            )}
+
+            {seoUpgrade && !isBogglePage && (
+              <div id="seo-upgrade-section" class="rounded-2xl border border-emerald-900/40 bg-slate-900/60 p-6">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">{seoUpgrade.intentLabel}</p>
+                <h3 class="mt-2 text-xl font-semibold text-white">How to Get More From {gameNameEn}</h3>
+                <div class="mt-4 grid gap-4 md:grid-cols-3">
+                  <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                    <h4 class="text-sm font-semibold text-white">Search intent</h4>
+                    <p class="mt-2 text-sm leading-6 text-slate-400">{seoUpgrade.searchIntent}</p>
+                  </div>
+                  <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                    <h4 class="text-sm font-semibold text-white">Playability focus</h4>
+                    <p class="mt-2 text-sm leading-6 text-slate-400">{seoUpgrade.playabilityUpgrade}</p>
+                  </div>
+                  <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                    <h4 class="text-sm font-semibold text-white">Content focus</h4>
+                    <p class="mt-2 text-sm leading-6 text-slate-400">{seoUpgrade.contentUpgrade}</p>
+                  </div>
+                </div>
+
+                <div class="mt-5 grid gap-5 md:grid-cols-2">
+                  <div>
+                    <h4 class="text-sm font-semibold text-white">Related games to try next</h4>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      {seoUpgrade.internalLinks.map(link => (
+                        <a href={link.href} class="rounded-full border border-slate-700 bg-slate-950/60 px-3 py-1.5 text-sm text-slate-300 transition-colors hover:border-emerald-600 hover:text-emerald-300">
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-semibold text-white">Potential same-type games</h4>
+                    <div class="mt-3 flex flex-wrap gap-2">
+                      {seoUpgrade.nextGameIdeas.map(idea => (
+                        <span class="rounded-full bg-slate-800 px-3 py-1.5 text-sm text-slate-300">{idea}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-5 space-y-3">
+                  {seoUpgrade.faq.map(item => (
+                    <details class="group rounded-xl border border-slate-800 bg-slate-950/60">
+                      <summary class="flex cursor-pointer items-center justify-between gap-4 p-4 text-sm font-medium text-white">
+                        {item.question}
+                        <span class="text-slate-500 group-open:rotate-180">⌄</span>
+                      </summary>
+                      <p class="px-4 pb-4 text-sm leading-6 text-slate-400">{item.answer}</p>
+                    </details>
+                  ))}
+                </div>
+              </div>
             )}
 
             <!-- FAQ Section -->

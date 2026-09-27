@@ -45,6 +45,26 @@ export const GET: APIRoute = async () => {
     </image:image>
   </url>
 
+  <!-- Core Game Directory Pages -->
+  <url>
+    <loc>${baseUrl}/games/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/popular/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/new/</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Category Pages -->
 ${categoryIds.map(cat => `  <url>
     <loc>${baseUrl}/category/${cat}/</loc>
