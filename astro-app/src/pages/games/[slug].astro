@@ -285,6 +285,7 @@ const boggleAnchorLinks = [
   { href: '#guide-faq-section', labelEn: 'FAQ', labelZh: '常见问题' }
 ]
 const boggleInternalLinks = [
+  { href: '/daily/', labelEn: 'Daily Boggle challenge', labelZh: '每日 Boggle 挑战' },
   { href: '/guides/boggle/', labelEn: 'Boggle strategy guide', labelZh: 'Boggle 策略指南' },
   { href: '/hubs/word-games/', labelEn: 'More word games', labelZh: '更多文字游戏' },
   { href: '/games/word-search/', labelEn: 'Word Search', labelZh: '单词搜索' },
@@ -536,6 +537,9 @@ const hreflangUrls = [
             </nav>
 
             <div class="mt-6 flex flex-wrap gap-3">
+              <a href="/games/boggle/?mode=daily" id="boggle-cta-daily" data-en="Play Daily Boggle" data-zh="玩每日 Boggle" class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-5 py-2.5 text-sm font-medium text-slate-950 transition-colors hover:bg-amber-400">
+                Play Daily Boggle
+              </a>
               <a href="/guides/boggle/" id="boggle-cta-guide" data-en="Read Boggle strategy guide" data-zh="阅读 Boggle 策略指南" class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500">
                 Read Boggle strategy guide
               </a>
@@ -1117,7 +1121,7 @@ const hreflangUrls = [
         boggleHeroCopy.textContent = isZh ? boggleHeroCopy.getAttribute('data-zh') : boggleHeroCopy.getAttribute('data-en');
       }
       const boggleLocalizedIds = [
-        'boggle-jump-title', 'boggle-jump-desc', 'boggle-cta-guide', 'boggle-cta-hub',
+        'boggle-jump-title', 'boggle-jump-desc', 'boggle-cta-daily', 'boggle-cta-guide', 'boggle-cta-hub',
         'boggle-rules-summary-title', 'boggle-rule-col', 'boggle-summary-col',
         'boggle-scoring-title', 'boggle-length-col', 'boggle-points-col', 'boggle-note-col',
         'boggle-scoring-copy', 'boggle-glance-title', 'boggle-useful-title', 'boggle-practice-title'
