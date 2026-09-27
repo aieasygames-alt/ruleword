@@ -856,8 +856,8 @@ Practice these techniques by playing Boggle free online. Use classic rounds for 
   'what-are-ai-story-games': {
     slug: 'what-are-ai-story-games',
     title: 'What Are AI Story Games? How Interactive Fiction Went from Text to AI',
-    description: 'Discover AI story games — interactive fiction powered by AI where your choices shape the narrative. Learn how they work, why they are popular, and where to play free online.',
-    keywords: ['AI story games', 'interactive fiction', 'AI interactive stories', 'AI games online', 'text adventure AI', 'play AI story free', 'AI dating simulator', 'AI murder mystery'],
+    description: 'Discover AI story games — interactive fiction powered by AI where choices shape chapters, stats, saved progress, replay routes, and multiple endings.',
+    keywords: ['AI story games', 'interactive fiction', 'AI interactive stories', 'AI games online', 'text adventure AI', 'play AI story free', 'AI dating simulator', 'AI murder mystery', 'AI story games with multiple endings', 'free interactive fiction games'],
     author: 'Free Games Hub Team',
     date: '2026-06-06',
     readTime: '9 min read',
@@ -903,6 +903,21 @@ Key characteristics:
 **Multiple Endings**: The game tracks key decision points and routes you toward different endings based on your accumulated choices.`
       },
       {
+        title: 'Progress, Stats, and Ending Hunts',
+        content: `The best AI story games feel more like replayable systems than one-time short stories. A good story framework tracks your current chapter, important stats, and discovered endings so each run has a clear goal.
+
+On Free Games Hub, story pages show the number of chapters and endings before you start. Progress is saved in your browser, so you can close a tab and continue later. After finishing one route, you can replay with a different strategy to unlock alternate endings.
+
+That structure makes each genre easier to approach:
+
+- **Romance stories** track relationships, confidence, and emotional choices
+- **Mystery stories** track clues, suspects, evidence, and accusations
+- **Survival stories** track health, supplies, morale, and danger
+- **Simulation stories** track resources, reputation, growth, and risk
+
+If you want a fast replay loop, start with a short high-pressure story like Convince the AI or AI Escape Room. If you want character arcs and slower branching, try AI Dating Simulator, AI Murder Mystery, or AI Fantasy Adventure.`
+      },
+      {
         title: 'Why AI Story Games Are Different from Visual Novels',
         content: `Traditional visual novels and text adventures have fixed scripts — the same choices always lead to the same outcomes. AI story games break this limitation:
 
@@ -914,7 +929,7 @@ Key characteristics:
     ],
     conclusion: `AI story games represent the evolution of interactive fiction — from fixed text adventures to dynamic, AI-powered narratives that respond to every choice you make. Whether you want to solve a murder, survive a zombie apocalypse, or go on a virtual date, there's an AI story game for you.
 
-Play AI story games free online on Free Games Hub — no download required. New stories are added regularly.`,
+Play AI story games free online on Free Games Hub — no download required. Start from the AI Stories page, pick a genre, finish one route, then replay to collect alternate endings.`,
     faq: [
       {
         question: 'Are AI story games free to play?',
@@ -927,6 +942,14 @@ Play AI story games free online on Free Games Hub — no download required. New 
       {
         question: 'Can I play AI story games on my phone?',
         answer: 'Yes. AI story games work on any device with a web browser — phone, tablet, or desktop. The interface adapts to your screen size.'
+      },
+      {
+        question: 'Do AI story games save progress?',
+        answer: 'Yes. Story progress is saved in your browser, so you can return later and continue your current run. You can also replay stories after finishing them to discover different endings.'
+      },
+      {
+        question: 'Which AI story game should I play first?',
+        answer: 'Start with AI Dating Simulator for character relationships, AI Murder Mystery for detective choices, AI Escape Room for puzzles, AI Zombie Survival for tense survival decisions, or Convince the AI for a short negotiation challenge.'
       },
       {
         question: 'Are AI story games appropriate for kids?',

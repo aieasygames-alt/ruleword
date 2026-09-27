@@ -402,7 +402,7 @@ export const storyGrowthPlans: Record<string, StoryGrowthPlan> = {
     links: [
       { href: '/stories/ai-zombie-survival/', label: 'AI Zombie Survival' },
       { href: '/stories/ai-zombie-survival/halloween/', label: 'Halloween Zombie Story' },
-      { href: '/games/tower-defense/', label: 'Tower Defense' },
+      { href: '/blog/what-are-ai-story-games/', label: 'AI Story Games Guide' },
     ],
   },
   'fantasy-adventure': {
@@ -417,7 +417,7 @@ export const storyGrowthPlans: Record<string, StoryGrowthPlan> = {
     links: [
       { href: '/stories/ai-fantasy-adventure/', label: 'AI Fantasy Adventure' },
       { href: '/stories/time-traveler/', label: 'Time Traveler' },
-      { href: '/hubs/ai-games/', label: 'AI Games Hub' },
+      { href: '/blog/what-are-ai-story-games/', label: 'AI Story Games Guide' },
     ],
   },
   'strategy-simulation': {
@@ -432,7 +432,7 @@ export const storyGrowthPlans: Record<string, StoryGrowthPlan> = {
     links: [
       { href: '/stories/startup-simulator/', label: 'Startup Simulator' },
       { href: '/stories/ai-crypto-trader/', label: 'AI Crypto Trader' },
-      { href: '/stories/ai-personality-quiz/', label: 'AI Personality Quiz' },
+      { href: '/blog/what-are-ai-story-games/', label: 'AI Story Games Guide' },
     ],
   },
 }
