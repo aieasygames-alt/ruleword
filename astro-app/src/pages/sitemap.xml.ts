@@ -8,6 +8,33 @@ import { storyGenres } from '../data/storyGenres'
 
 // Featured games get higher priority
 const featuredSlugs = ['wordle', 'sudoku', '2048', 'tetris', 'chess', 'pac-man', 'minesweeper', 'snake', 'nonogram', 'spelling-bee', 'connections', 'word-search', 'boggle', 'mastermind', 'chimp-test', 'stroop-test', 'aim-trainer', 'typing-test']
+const growthGuideSlugs = ['boggle', 'wordle', 'spelling-bee', 'sudoku', '2048', 'reaction-time', 'typing-test', 'checkers', 'chess', 'kakuro', 'killer-sudoku', 'slitherlink', 'heyawake']
+const growthBlogSlugs = ['boggle-strategy-guide', 'what-are-ai-story-games', 'japanese-logic-puzzles-guide', 'best-brain-training-games-2026', 'wordle-vs-connections-vs-spelling-bee', '2048-strategy-guide', 'how-to-win-at-sudoku-every-time']
+const growthHubSlugs = ['word-games', 'number-puzzles', 'japanese-logic', 'brain-training', 'ai-games']
+
+type SitemapEntry = {
+  loc: string
+  lastmod: string
+  changefreq: 'daily' | 'weekly' | 'monthly'
+  priority: string
+  image?: {
+    loc: string
+    title: string
+  }
+}
+
+function renderUrl(entry: SitemapEntry) {
+  return `  <url>
+    <loc>${entry.loc}</loc>
+    <lastmod>${entry.lastmod}</lastmod>
+    <changefreq>${entry.changefreq}</changefreq>
+    <priority>${entry.priority}</priority>${entry.image ? `
+    <image:image>
+      <image:loc>${entry.image.loc}</image:loc>
+      <image:title>${entry.image.title}</image:title>
+    </image:image>` : ''}
+  </url>`
+}
 
 export const GET: APIRoute = async () => {
   // 获取所有游戏
@@ -25,151 +52,78 @@ export const GET: APIRoute = async () => {
 
   // Blog posts
   const blogSlugs = Object.keys(blogPosts)
+  const stories = await getCollection('stories')
 
   const baseUrl = 'https://ruleword.com'
   const lastmod = new Date().toISOString().split('T')[0]
+  const entries: SitemapEntry[] = [
+    {
+      loc: `${baseUrl}/`,
+      lastmod,
+      changefreq: 'daily',
+      priority: '1.0',
+      image: {
+        loc: `${baseUrl}/og/home.png`,
+        title: 'Free Games Hub - Play 100+ Free Online Games',
+      },
+    },
+    { loc: `${baseUrl}/games/`, lastmod, changefreq: 'daily', priority: '0.95' },
+    { loc: `${baseUrl}/popular/`, lastmod, changefreq: 'daily', priority: '0.9' },
+    { loc: `${baseUrl}/new/`, lastmod, changefreq: 'weekly', priority: '0.85' },
+    { loc: `${baseUrl}/guides/`, lastmod, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${baseUrl}/hubs/`, lastmod, changefreq: 'weekly', priority: '0.9' },
+    { loc: `${baseUrl}/blog/`, lastmod, changefreq: 'weekly', priority: '0.8' },
+    { loc: `${baseUrl}/stories/`, lastmod, changefreq: 'weekly', priority: '0.85' },
+    { loc: `${baseUrl}/daily/`, lastmod, changefreq: 'daily', priority: '0.8' },
+    { loc: `${baseUrl}/stats/`, lastmod, changefreq: 'weekly', priority: '0.5' },
+    ...categoryIds.map(cat => ({
+      loc: `${baseUrl}/category/${cat}/`,
+      lastmod,
+      changefreq: 'weekly' as const,
+      priority: cat === 'story' ? '0.75' : '0.85',
+    })),
+    ...gameSlugs.map(slug => ({
+      loc: `${baseUrl}/games/${slug}/`,
+      lastmod,
+      changefreq: featuredSlugs.includes(slug) ? 'weekly' as const : 'monthly' as const,
+      priority: featuredSlugs.includes(slug) ? '0.9' : '0.7',
+    })),
+    ...guideSlugs.map(slug => ({
+      loc: `${baseUrl}/guides/${slug}/`,
+      lastmod,
+      changefreq: growthGuideSlugs.includes(slug) ? 'weekly' as const : 'monthly' as const,
+      priority: growthGuideSlugs.includes(slug) ? '0.85' : featuredSlugs.includes(slug) ? '0.8' : '0.65',
+    })),
+    ...hubSlugs.map(slug => ({
+      loc: `${baseUrl}/hubs/${slug}/`,
+      lastmod,
+      changefreq: 'weekly' as const,
+      priority: growthHubSlugs.includes(slug) ? '0.85' : '0.8',
+    })),
+    ...blogSlugs.map(slug => ({
+      loc: `${baseUrl}/blog/${slug}/`,
+      lastmod: blogPosts[slug].date,
+      changefreq: growthBlogSlugs.includes(slug) ? 'weekly' as const : 'monthly' as const,
+      priority: growthBlogSlugs.includes(slug) ? '0.75' : '0.65',
+    })),
+    ...storyGenres.map(genre => ({
+      loc: `${baseUrl}/stories/genre/${genre.slug}/`,
+      lastmod,
+      changefreq: 'weekly' as const,
+      priority: '0.75',
+    })),
+    ...stories.map(entry => ({
+      loc: `${baseUrl}/stories/${entry.data.slug}/`,
+      lastmod,
+      changefreq: 'weekly' as const,
+      priority: '0.8',
+    })),
+  ]
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-
-  <!-- Homepage -->
-  <url>
-    <loc>${baseUrl}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>${baseUrl}/og/home.png</image:loc>
-      <image:title>Free Games Hub - Play 100+ Free Online Games</image:title>
-    </image:image>
-  </url>
-
-  <!-- Core Game Directory Pages -->
-  <url>
-    <loc>${baseUrl}/games/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/popular/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>${baseUrl}/new/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Category Pages -->
-${categoryIds.map(cat => `  <url>
-    <loc>${baseUrl}/category/${cat}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>`).join('\n')}
-
-  <!-- Game Pages (${gameSlugs.length} games) -->
-${gameSlugs.map(slug => {
-  const priority = featuredSlugs.includes(slug) ? '0.9' : '0.7'
-  return `  <url>
-    <loc>${baseUrl}/games/${slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>${priority}</priority>
-  </url>`
-}).join('\n')}
-
-  <!-- Game Guides Index -->
-  <url>
-    <loc>${baseUrl}/guides/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Game Guide Pages (${guideSlugs.length} guides) -->
-${guideSlugs.map(slug => {
-  const priority = featuredSlugs.includes(slug) ? '0.8' : '0.6'
-  return `  <url>
-    <loc>${baseUrl}/guides/${slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>${priority}</priority>
-  </url>`
-}).join('\n')}
-
-  <!-- Hub Pages Index -->
-  <url>
-    <loc>${baseUrl}/hubs/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Hub Pages (${hubSlugs.length} hubs) -->
-${hubSlugs.map(slug => `  <url>
-    <loc>${baseUrl}/hubs/${slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('\n')}
-
-  <!-- Blog Index -->
-  <url>
-    <loc>${baseUrl}/blog/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- Blog Posts (${blogSlugs.length} posts) -->
-${blogSlugs.map(slug => `  <url>
-    <loc>${baseUrl}/blog/${slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>`).join('\n')}
-
-  <!-- AI Story Pages -->
-  <url>
-    <loc>${baseUrl}/stories/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-${storyGenres.map(genre => `  <url>
-    <loc>${baseUrl}/stories/genre/${genre.slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>`).join('\n')}
-${(await getCollection('stories')).map(entry => `  <url>
-    <loc>${baseUrl}/stories/${entry.data.slug}/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`).join('\n')}
-  <!-- Daily Challenge Page -->
-  <url>
-    <loc>${baseUrl}/daily/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Stats Page -->
-  <url>
-    <loc>${baseUrl}/stats/</loc>
-    <lastmod>${lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-
+${entries.map(renderUrl).join('\n')}
 </urlset>`
 
   return new Response(sitemap, {
