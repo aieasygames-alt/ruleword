@@ -3,6 +3,7 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro'
 import StoryGameWithShare from '../../../components/ai/StoryGameWithShare'
 import { getAllStoryVariants, getStoryVariant, getVariantsForStory } from '../../../data/storyVariants'
+import { getStoryGenreForTemplateType } from '../../../data/storyGenres'
 import { getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
@@ -39,12 +40,25 @@ const seoTitle = `${variant.title} | Free Games Hub`
 const seoDescription = variant.description
 const canonicalUrl = `https://ruleword.com/stories/${slug}/${variantName}/`
 const baseStoryUrl = `https://ruleword.com/stories/${story.slug}/`
+const storyGenre = getStoryGenreForTemplateType(story.templateType)
+const variantLabel = variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1).replace(/-/g, ' ')
+const variantIntent = variant.variantType === 'seasonal'
+  ? {
+      label: 'Seasonal Edition',
+      summary: `${variant.h1} adds a timely setting and special choices to ${story.en.name}, making the story feel different from the original route.`,
+      focus: 'Play this edition when you want a familiar AI story with a stronger seasonal hook and fresh replay goals.',
+    }
+  : {
+      label: 'Themed Edition',
+      summary: `${variant.h1} reshapes ${story.en.name} around a focused theme, giving the same core story loop a more specific setting and mood.`,
+      focus: 'Play this edition when you want a sharper scenario, different roleplay cues, and a new reason to replay.',
+    }
 
 const breadcrumbItems = [
   { name: 'Home', url: '/' },
   { name: 'AI Stories', url: '/stories/' },
   { name: story.en.name, url: `/stories/${story.slug}/` },
-  { name: variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1).replace(/-/g, ' '), url: `/stories/${slug}/${variantName}/` },
+  { name: variantLabel, url: `/stories/${slug}/${variantName}/` },
 ]
 
 const schema = {
@@ -77,6 +91,22 @@ const schema = {
 
 // Other variants for the same story
 const otherVariants = getVariantsForStory(slug).filter(v => v.variant !== variantName)
+const relatedLinks = [
+  { href: `/stories/${story.slug}/`, label: `Play ${story.en.name}`, description: 'Return to the original story and compare the default route.' },
+  { href: `/stories/genre/${storyGenre.slug}/`, label: storyGenre.label, description: 'Browse more AI stories with a similar mood, genre, or choice structure.' },
+  { href: '/stories/', label: 'All AI Stories', description: 'Explore the full library of romance, mystery, survival, fantasy, and simulation stories.' },
+]
+const relatedLinksSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `Related pages for ${variant.title}`,
+  "itemListElement": relatedLinks.map((link, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": link.label,
+    "url": `https://ruleword.com${link.href}`,
+  }))
+}
 ---
 
 <BaseLayout
@@ -153,6 +183,32 @@ const otherVariants = getVariantsForStory(slug).filter(v => v.variant !== varian
             </div>
           )}
 
+          <div class="grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+            <div class="rounded-xl border border-slate-700/60 bg-slate-800/40 p-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-pink-300">{variantIntent.label}</p>
+              <h3 class="mt-2 text-xl font-semibold text-white">Why Play {variant.h1}?</h3>
+              <p class="mt-3 text-sm leading-6 text-slate-300">{variantIntent.summary}</p>
+              <p class="mt-3 text-sm leading-6 text-slate-400">{variantIntent.focus}</p>
+            </div>
+            <div class="rounded-xl border border-slate-700/60 bg-slate-800/40 p-5">
+              <h3 class="text-xl font-semibold text-white">Best For</h3>
+              <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+                <li class="flex gap-3">
+                  <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-pink-400"></span>
+                  Players searching for {variant.keywords[0] || variant.h1.toLowerCase()}.
+                </li>
+                <li class="flex gap-3">
+                  <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-pink-400"></span>
+                  Replay sessions where new choices and endings matter.
+                </li>
+                <li class="flex gap-3">
+                  <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-pink-400"></span>
+                  Fans of {storyGenre.label.toLowerCase()} stories.
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <!-- Other Variants -->
           {otherVariants.length > 0 && (
             <div>
@@ -173,14 +229,19 @@ const otherVariants = getVariantsForStory(slug).filter(v => v.variant !== varian
             </div>
           )}
 
-          <!-- Back to original -->
-          <div class="text-center pt-4">
-            <a
-              href={`/stories/${slug}/`}
-              class="inline-block px-6 py-2 bg-pink-500 hover:bg-pink-600 rounded-xl text-sm font-medium transition-colors"
-            >
-              Play Original Version →
-            </a>
+          <div>
+            <h3 class="text-xl font-semibold text-white mb-4">Continue Exploring</h3>
+            <div class="grid gap-3 md:grid-cols-3">
+              {relatedLinks.map(link => (
+                <a
+                  href={link.href}
+                  class="block rounded-xl border border-pink-800/40 bg-gradient-to-br from-pink-950/30 to-slate-800/60 p-4 transition-colors hover:border-pink-500/60"
+                >
+                  <h4 class="text-sm font-semibold text-white">{link.label}</h4>
+                  <p class="mt-2 text-xs leading-5 text-slate-400">{link.description}</p>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -188,6 +249,7 @@ const otherVariants = getVariantsForStory(slug).filter(v => v.variant !== varian
 
     <!-- JSON-LD Schema -->
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(relatedLinksSchema)} />
 
     <script>
       // Back navigation for AIStoryGame component
