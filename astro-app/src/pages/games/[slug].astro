@@ -11,6 +11,7 @@ import { hubPages } from '../../data/hubPages'
 import { getGameRating } from '../../data/gameRatings'
 import { getGamePopularity } from '../../data/gamePopularity'
 import { gameSeoUpgrades } from '../../data/siteGrowth'
+import { getVariantsForGame } from '../../data/gameVariants'
 import FavoriteButton from '../../components/FavoriteButton'
 import type { GameRules, GameFAQ } from '../../types'
 
@@ -157,6 +158,7 @@ const getGameDesc = () => getGameField('desc', lang === 'zh-CN' ? 'zh' : 'en') a
 const gameId = useCMS ? (game as CMSGameData).id : (game as LocalGameData).id
 const gameSlug = game.slug
 const gameIcon = game.icon
+const gameVariants = getVariantsForGame(gameId)
 
 // Check if external game
 const isExternalGame = useCMS && (game as CMSGameData).isExternal
@@ -353,6 +355,18 @@ const bogglePageSchema = isBogglePage ? {
       "url": `${canonicalUrl}${link.href}`
     }))
 } : undefined
+const gameVariantsSchema = gameVariants.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `${gameNameEn} modes and variants`,
+  "itemListElement": gameVariants.map((variant, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": variant.h1,
+    "description": variant.description,
+    "url": `https://ruleword.com/games/${gameId}/${variant.variant}/`,
+  })),
+} : undefined
 
 // Generate FAQPage schema from in-page FAQ content for richer SERP coverage.
 const faqSchema = combinedFaq.length > 0 ? {
@@ -399,6 +413,9 @@ const hreflangUrls = [
   )}
   {boggleScoringSchema && (
     <script type="application/ld+json" set:html={JSON.stringify(boggleScoringSchema)} />
+  )}
+  {gameVariantsSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(gameVariantsSchema)} />
   )}
   {faqSchema && (
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -814,6 +831,30 @@ const hreflangUrls = [
                   </div>
                 </div>
               </>
+            )}
+
+            {gameVariants.length > 0 && (
+              <div id="game-variants-section" class="rounded-2xl border border-emerald-900/40 bg-slate-900/60 p-6">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-400/80">Modes & Variants</p>
+                <h3 class="mt-2 text-xl font-semibold text-white">Choose a {gameNameEn} Version</h3>
+                <p class="mt-3 max-w-3xl text-sm leading-6 text-slate-400">
+                  Start with the main game above, or open a focused landing page for a specific difficulty, board size, or play mode.
+                </p>
+                <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                  {gameVariants.map(variant => (
+                    <a
+                      href={`/games/${gameId}/${variant.variant}/`}
+                      class="block rounded-xl border border-slate-800 bg-slate-950/60 p-4 transition-colors hover:border-emerald-600"
+                    >
+                      <div class="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-300">
+                        {variant.variantType}
+                      </div>
+                      <h4 class="text-sm font-semibold text-white">{variant.h1}</h4>
+                      <p class="mt-2 text-xs leading-5 text-slate-400">{variant.description}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
             )}
 
             {seoUpgrade && (

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import StoryGameWithShare from '../../components/ai/StoryGameWithShare'
 import { getCollection } from 'astro:content'
 import { getGameRating } from '../../data/gameRatings'
+import { getVariantsForStory } from '../../data/storyVariants'
 
 type StoryListItem = {
   slug: string
@@ -47,6 +48,7 @@ const characters = story.storySkeleton.characters
 const chapters = story.storySkeleton.chapters
 const endings = story.storySkeleton.endings
 const storyStats = story.uiConfig.stats || []
+const storyVariants = getVariantsForStory(story.slug)
 
 const seoTitle = `${storyName} - Play AI Interactive Story Game Online Free | Free Games Hub`
 const seoDescription = storyDesc
@@ -118,6 +120,18 @@ const storyGameSchema = {
     },
   ],
 }
+const storyVariantsSchema = storyVariants.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `${storyName} special editions`,
+  "itemListElement": storyVariants.map((variant, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": variant.h1,
+    "description": variant.description,
+    "url": `https://ruleword.com/stories/${story.slug}/${variant.variant}/`,
+  })),
+} : undefined
 const storyFaqSchema = storyFaq.length > 0 ? {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -144,6 +158,9 @@ const storyFaqSchema = storyFaq.length > 0 ? {
     <script type="application/ld+json" set:html={JSON.stringify(storyGameSchema)} />
     {storyFaqSchema && (
       <script type="application/ld+json" set:html={JSON.stringify(storyFaqSchema)} />
+    )}
+    {storyVariantsSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(storyVariantsSchema)} />
     )}
   </Fragment>
   <div class="min-h-screen bg-slate-950 text-white flex flex-col">
@@ -261,6 +278,28 @@ const storyFaqSchema = storyFaq.length > 0 ? {
               ))}
             </div>
           </div>
+
+          {storyVariants.length > 0 && (
+            <div>
+              <h3 class="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                <span class="text-2xl">✨</span> Special Editions
+              </h3>
+              <div class="grid gap-3 sm:grid-cols-2">
+                {storyVariants.map(variant => (
+                  <a
+                    href={`/stories/${story.slug}/${variant.variant}/`}
+                    class="block rounded-xl border border-pink-800/40 bg-gradient-to-br from-pink-950/30 to-slate-800/60 p-4 transition-colors hover:border-pink-500/60"
+                  >
+                    <div class="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-pink-300">
+                      {variant.variantType === 'seasonal' ? 'Seasonal' : 'Themed'} Edition
+                    </div>
+                    <h4 class="text-sm font-semibold text-white">{variant.h1}</h4>
+                    <p class="mt-2 text-xs leading-5 text-slate-400">{variant.description}</p>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
 
           <!-- Endings -->
           <div>
