@@ -29,6 +29,28 @@ const allVariants = getAllVariants().filter(v => v.gameId === id)
 const canonicalUrl = `https://ruleword.com/games/${game.id}/${variant.variant}/`
 const baseGameUrl = `https://ruleword.com/games/${game.slug}/`
 const variantLabel = variant.variant.charAt(0).toUpperCase() + variant.variant.slice(1)
+const variantIntent = {
+  difficulty: {
+    label: 'Difficulty',
+    summary: `${variantLabel} mode changes the challenge level so you can practice ${game.name} at the right pace.`,
+    focus: 'Use this page when you want a targeted session instead of jumping straight into the default mode.',
+  },
+  size: {
+    label: 'Board Size',
+    summary: `${variantLabel} changes the board shape or puzzle scale, which affects pacing, planning, and recovery options.`,
+    focus: 'Choose this version when you want a different puzzle rhythm from the standard board.',
+  },
+  mode: {
+    label: 'Game Mode',
+    summary: `${variantLabel} mode changes how the session is structured, giving the same core game a different goal.`,
+    focus: 'Use this version when you want a more specific play loop than the regular game.',
+  },
+}[variant.variantType]
+const relatedLinks = [
+  { href: `/games/${game.id}/`, label: `Play ${game.name}`, description: 'Open the main game page with the full rule set and default experience.' },
+  { href: `/guides/${game.slug}/`, label: `${game.name} Guide`, description: 'Read strategy notes, rules, and common mistakes before playing.' },
+  { href: `/category/${game.category}/`, label: `More ${game.category} games`, description: 'Browse adjacent games in the same category.' },
+]
 
 // Schema for variant page
 const schema = {
@@ -98,6 +120,18 @@ const howToSchema = {
     "text": tip
   })) || []
 }
+
+const relatedLinksSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": `Related pages for ${variant.title}`,
+  "itemListElement": relatedLinks.map((link, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": link.label,
+    "url": `https://ruleword.com${link.href}`,
+  }))
+}
 ---
 
 <BaseLayout
@@ -133,6 +167,7 @@ const howToSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(relatedLinksSchema)} />
 
     <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
       <!-- Breadcrumb -->
@@ -199,6 +234,32 @@ const howToSchema = {
         </section>
       )}
 
+      <section class="mb-8 grid gap-4 md:grid-cols-[1.1fr_0.9fr]">
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-400">{variantIntent.label}</p>
+          <h2 class="mt-2 text-xl font-bold">Why Play {variant.h1}?</h2>
+          <p class="mt-3 text-sm leading-6 text-slate-300">{variantIntent.summary}</p>
+          <p class="mt-3 text-sm leading-6 text-slate-400">{variantIntent.focus}</p>
+        </div>
+        <div class="rounded-xl border border-slate-800 bg-slate-900/50 p-6">
+          <h2 class="text-xl font-bold">Best For</h2>
+          <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+            <li class="flex gap-3">
+              <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-green-400"></span>
+              Players searching for {variant.keywords[0] || variant.h1.toLowerCase()}.
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-green-400"></span>
+              Short practice sessions before trying the full {game.name} experience.
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-1 h-2 w-2 shrink-0 rounded-full bg-green-400"></span>
+              Comparing modes and choosing the right challenge level.
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <!-- Other Variants -->
       {allVariants.length > 1 && (
         <section class="mb-8">
@@ -229,22 +290,18 @@ const howToSchema = {
 
       <!-- Back to main game -->
       <section class="mb-8">
-        <a
-          href={`/games/${game.id}/`}
-          class="group flex items-center justify-between bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-700/50 rounded-xl p-5 hover:border-green-500 transition-all"
-        >
-          <div>
-            <h3 class="font-semibold group-hover:text-green-400 transition-colors">
-              Play Full {game.name}
-            </h3>
-            <p class="text-sm text-slate-400">
-              Access all features and game modes
-            </p>
-          </div>
-          <svg class="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-          </svg>
-        </a>
+        <h2 class="mb-4 text-xl font-bold">Continue Exploring</h2>
+        <div class="grid gap-3 md:grid-cols-3">
+          {relatedLinks.map(link => (
+            <a
+              href={link.href}
+              class="group rounded-xl border border-green-800/50 bg-gradient-to-br from-green-950/40 to-slate-900/70 p-5 transition-all hover:border-green-500"
+            >
+              <h3 class="font-semibold group-hover:text-green-400">{link.label}</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">{link.description}</p>
+            </a>
+          ))}
+        </div>
       </section>
 
       <!-- Related Games -->
