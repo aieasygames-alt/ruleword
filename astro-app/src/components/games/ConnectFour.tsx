@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type ConnectFourProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'pvp' | 'ai' | 'daily'; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed' | 'failed'; score: number; moves: number; mode: 'pvp' | 'ai' | 'daily'; difficulty: string; challengeId?: string }) => void
 }
 
 const ROWS = 6
@@ -223,7 +228,7 @@ const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): 
   return validMoves[Math.floor(Math.random() * validMoves.length)]
 }
 
-export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
+export default function ConnectFour({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: ConnectFourProps) {
   const [board, setBoard] = useState<Board>(createEmptyBoard)
   const [currentPlayer, setCurrentPlayer] = useState<'red' | 'yellow'>('red')
   const [winner, setWinner] = useState<Cell>(null)
@@ -297,6 +302,7 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
     if (!newBoard) return false
 
     setBoard(newBoard)
+    if (currentTurn === 'red') onGameMove?.()
 
     const result = checkWinner(newBoard)
     if (result) {
@@ -309,18 +315,36 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
           saveStats({ ...currentStats, losses: currentStats.losses + 1 })
         }
       }
+      if (currentTurn === 'red') {
+        onGameFinish?.({
+          outcome: result.winner === 'red' ? 'completed' : 'failed',
+          score: result.winner === 'red' ? 100 : 0,
+          moves: newBoard.flat().filter(Boolean).length,
+          mode: currentGameMode === 'pvc' ? 'ai' : currentGameMode === 'daily' ? 'daily' : 'pvp',
+          difficulty: difficultyRef.current,
+          challengeId: currentGameMode === 'daily' ? getDailyChallengeId('connectfour') : undefined,
+        })
+      }
       return true
     }
 
     if (isBoardFull(newBoard)) {
       setIsDraw(true)
       saveStats({ ...currentStats, draws: currentStats.draws + 1 })
+      onGameFinish?.({
+        outcome: 'completed',
+        score: 50,
+        moves: newBoard.flat().filter(Boolean).length,
+        mode: currentGameMode === 'pvc' ? 'ai' : currentGameMode === 'daily' ? 'daily' : 'pvp',
+        difficulty: difficultyRef.current,
+        challengeId: currentGameMode === 'daily' ? getDailyChallengeId('connectfour') : undefined,
+      })
       return true
     }
 
     setCurrentPlayer(currentTurn === 'red' ? 'yellow' : 'red')
     return true
-  }, [saveStats])
+  }, [saveStats, onGameMove, onGameFinish])
 
   const handleColumnClick = useCallback((col: number) => {
     if (isAiThinkingRef.current) return
@@ -371,9 +395,17 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
 
     if (mode === 'daily') {
       const random = seededRandom(getDailySeed())
-      setDifficulty(random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard')
+      const dailyDifficulty = random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard'
+      setDifficulty(dailyDifficulty)
+      onGameStart?.({ mode: 'daily', difficulty: dailyDifficulty, challengeId: getDailyChallengeId('connectfour') })
+    } else {
+      onGameStart?.({ mode: mode === 'pvc' ? 'ai' : 'pvp', difficulty })
     }
   }
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode])
 
   const resetGame = () => {
     setBoard(createEmptyBoard())
@@ -543,6 +575,7 @@ export default function ConnectFour({ settings, onBack }: ConnectFourProps) {
 
         {/* Board */}
         <div
+          data-testid="connect-four-board"
           className="bg-blue-700 rounded-2xl p-3 shadow-xl relative border-4 border-blue-800"
           style={{ maxWidth: 'fit-content', margin: '0 auto' }}
         >

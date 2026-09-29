@@ -26,6 +26,10 @@ type GameWrapperProps = {
   gameSlug: string
 }
 
+type GameLaunchOptions = {
+  mode?: string
+}
+
 // 动态导入所有游戏组件 — 使用 import.meta.glob 自动发现
 const gameModules = import.meta.glob<{ default: ComponentType<any> }>('./games/*.tsx')
 
@@ -69,6 +73,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   const [isLoading, setIsLoading] = useState(true)
   const [shareData, setShareData] = useState<ShareData | null>(null)
   const [showShareModal, setShowShareModal] = useState(false)
+  const [launchOptions, setLaunchOptions] = useState<GameLaunchOptions>({})
   const gameStartTime = useRef<number>(Date.now())
   const currentScore = useRef<number>(0)
   const gameSession = useRef(createGameSession(gameId))
@@ -94,6 +99,12 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     if (lang === 'zh' || lang === 'en') {
       setSettings(s => ({ ...s, language: lang }))
     }
+  }, [])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const mode = params.get('mode')
+    setLaunchOptions(mode ? { mode } : {})
   }, [])
 
   // 动态加载游戏组件
@@ -290,6 +301,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
         onGameStart={onGameStart}
         onGameMove={onGameMove}
         onGameFinish={onGameFinish}
+        launchOptions={launchOptions}
       />
       {shareData && (
         <ShareModal

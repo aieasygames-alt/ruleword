@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type SimonSaysProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'practice' | 'daily'; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'failed'; score: number; moves: number; mode: 'practice' | 'daily'; challengeId?: string }) => void
 }
 
 type Color = 'red' | 'green' | 'blue' | 'yellow'
@@ -94,7 +99,7 @@ const generateSequence = (length: number, seed?: number): Color[] => {
   return Array(length).fill(null).map(() => COLORS[Math.floor(random() * 4)])
 }
 
-export default function SimonSays({ settings, onBack }: SimonSaysProps) {
+export default function SimonSays({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: SimonSaysProps) {
   const [sequence, setSequence] = useState<Color[]>([])
   const [playerIndex, setPlayerIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -183,10 +188,15 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
     }
 
     setSequence(newSequence)
+    onGameStart?.({ mode, challengeId: mode === 'daily' ? getDailyChallengeId('simonsays') : undefined })
 
     // Show initial sequence
     setTimeout(() => showSequence(newSequence), 500)
   }
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode])
 
   const showSequence = useCallback((seq: Color[]) => {
     setIsShowingSequence(true)
@@ -222,6 +232,7 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
     setTimeout(() => setActiveColor(null), 150)
 
     if (color === sequence[playerIndex]) {
+      onGameMove?.()
       const newIndex = playerIndex + 1
       setPlayerIndex(newIndex)
 
@@ -262,8 +273,17 @@ export default function SimonSays({ settings, onBack }: SimonSaysProps) {
         localStorage.setItem('simonsays-daily-date', today)
         setDailyPlayed(true)
       }
+      if (gameMode !== 'menu') {
+        onGameFinish?.({
+          outcome: 'failed',
+          score,
+          moves: playerIndex,
+          mode: gameMode,
+          challengeId: gameMode === 'daily' ? getDailyChallengeId('simonsays') : undefined,
+        })
+      }
     }
-  }, [isPlaying, isShowingSequence, gameOver, sequence, playerIndex, playTone, score, highScore, dailyHighScore, gameMode, showSequence])
+  }, [isPlaying, isShowingSequence, gameOver, sequence, playerIndex, playTone, score, highScore, dailyHighScore, gameMode, showSequence, onGameMove, onGameFinish])
 
   const goToMenu = () => {
     setGameMode('menu')

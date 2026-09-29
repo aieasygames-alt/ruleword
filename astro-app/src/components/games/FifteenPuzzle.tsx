@@ -8,6 +8,7 @@ import {
   shuffleFifteenBoard,
   type FifteenBoard as Board,
 } from '../../games/fifteen-puzzle/logic'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -18,9 +19,13 @@ type Settings = {
 type FifteenPuzzleProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'practice' | 'daily'; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; moves: number; durationSeconds: number; mode: 'practice' | 'daily'; challengeId?: string }) => void
 }
 
-export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) {
+export default function FifteenPuzzle({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: FifteenPuzzleProps) {
   const [board, setBoard] = useState<Board>(createSolvedFifteenBoard)
   const [moves, setMoves] = useState(0)
   const [time, setTime] = useState(0)
@@ -62,7 +67,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
     return () => clearInterval(interval)
   }, [isPlaying, isWon])
 
-  const startGame = (mode: 'practice' | 'daily') => {
+  const startGame = useCallback((mode: 'practice' | 'daily') => {
     setGameMode(mode)
     setMoves(0)
     setTime(0)
@@ -75,7 +80,12 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
       : shuffleFifteenBoard(seed)
     setBoard(shuffled)
     setIsPlaying(true)
-  }
+    onGameStart?.({ mode, challengeId: mode === 'daily' ? getDailyChallengeId('fifteenpuzzle') : undefined })
+  }, [onGameStart])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode, startGame])
 
   const handleTileClick = useCallback((row: number, col: number) => {
     if (!isPlaying || isWon) return
@@ -83,6 +93,7 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
     if (!newBoard) return
     setBoard(newBoard)
     setMoves(m => m + 1)
+    onGameMove?.()
 
     if (isFifteenSolved(newBoard)) {
       setIsWon(true)
@@ -106,8 +117,18 @@ export default function FifteenPuzzle({ settings, onBack }: FifteenPuzzleProps) 
         localStorage.setItem('fifteenpuzzle-daily-date', today)
         setDailyPlayed(true)
       }
+      if (gameMode !== 'menu') {
+        onGameFinish?.({
+          outcome: 'completed',
+          score: Math.max(0, 10_000 - finalMoves * 20 - finalTime),
+          moves: finalMoves,
+          durationSeconds: finalTime,
+          mode: gameMode,
+          challengeId: gameMode === 'daily' ? getDailyChallengeId('fifteenpuzzle') : undefined,
+        })
+      }
     }
-  }, [board, isPlaying, isWon, moves, time, bestMoves, bestTime, gameMode, dailyBest])
+  }, [board, isPlaying, isWon, moves, time, bestMoves, bestTime, gameMode, dailyBest, onGameMove, onGameFinish])
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60)

@@ -162,6 +162,19 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('fifteen-moves')).toHaveText('0')
   })
 
+  test('daily links launch supported games directly into their daily mode', async ({ page }) => {
+    await page.goto('/games/15-puzzle/?mode=daily')
+    await expect(page.getByTestId('fifteen-board')).toBeVisible()
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+
+    await page.goto('/games/connect-four/?mode=daily')
+    await expect(page.getByTestId('connect-four-board')).toBeVisible()
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+
+    await page.goto('/games/simon-says/?mode=daily')
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+  })
+
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {
     await page.goto('/games/minesweeper/')
     const firstCell = page.getByTestId('minesweeper-cell-4-4')
