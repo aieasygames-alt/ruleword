@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, type ComponentType } from 'react'
-import { getGameProgress, recordGamePlay } from '../utils/gameProgress'
+import { getGameProgress } from '../utils/gameProgress'
 import { addRecentlyPlayed } from '../utils/recentlyPlayed'
+import { createGameSession, type GameSessionResult } from '../utils/gameSession'
 import ShareModal from './ShareModal'
 
 type Settings = {
@@ -70,6 +71,11 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   const [showShareModal, setShowShareModal] = useState(false)
   const gameStartTime = useRef<number>(Date.now())
   const currentScore = useRef<number>(0)
+  const gameSession = useRef(createGameSession(gameId))
+
+  useEffect(() => {
+    gameSession.current = createGameSession(gameId)
+  }, [gameId])
 
   // 加载设置
   useEffect(() => {
@@ -123,19 +129,34 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     if (!GameComponent) return
 
     gameStartTime.current = Date.now()
+    gameSession.current.start()
 
     return () => {
-      // Record game play when leaving the game
       const playTime = Math.floor((Date.now() - gameStartTime.current) / 1000)
-      if (playTime > 0) {
-        recordGamePlay(gameId, currentScore.current, playTime)
-      }
+      gameSession.current.finish({
+        outcome: 'abandoned',
+        score: currentScore.current,
+        durationSeconds: playTime,
+      })
     }
   }, [GameComponent, gameId])
 
   // Score tracking function that games can call
   const updateScore = (score: number) => {
     currentScore.current = score
+  }
+
+  const onGameStart = (context?: Omit<GameSessionResult, 'outcome' | 'score' | 'durationSeconds' | 'moves'>) => {
+    gameSession.current.start(context)
+  }
+
+  const onGameMove = (count?: number) => {
+    gameSession.current.move(count)
+  }
+
+  const onGameFinish = (result: GameSessionResult) => {
+    if (typeof result.score === 'number') currentScore.current = result.score
+    gameSession.current.finish(result)
   }
 
   // Get previous high score
@@ -266,6 +287,9 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
         gameId={gameId}
         gameSlug={gameSlug}
         gameName={gameName}
+        onGameStart={onGameStart}
+        onGameMove={onGameMove}
+        onGameFinish={onGameFinish}
       />
       {shareData && (
         <ShareModal

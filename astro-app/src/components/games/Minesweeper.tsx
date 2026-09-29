@@ -7,6 +7,7 @@ import {
   toggleMinesweeperFlag,
   type MinesweeperCell as Cell,
 } from '../../games/minesweeper/logic'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Difficulty = 'easy' | 'medium' | 'hard'
 type GameMode = 'daily' | 'practice'
@@ -47,9 +48,12 @@ interface MinesweeperProps {
     darkMode: boolean
   }
   onBack: () => void
+  onGameStart?: (context?: { mode?: GameMode; difficulty?: Difficulty; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed' | 'failed'; score?: number; durationSeconds?: number; mode: GameMode; difficulty: Difficulty; challengeId?: string }) => void
 }
 
-const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
+const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack, onGameStart, onGameMove, onGameFinish }) => {
   const [board, setBoard] = useState<Cell[][]>([])
   const [difficulty, setDifficulty] = useState<Difficulty>('easy')
   const [gameMode, setGameMode] = useState<GameMode>('practice')
@@ -106,7 +110,12 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     setIsRunning(false)
     setFlagCount(0)
     setFirstClick(fixture !== 'mine')
-  }, [gameMode, difficulty])
+    onGameStart?.({
+      mode: newMode,
+      difficulty: newDiff,
+      challengeId: newMode === 'daily' ? getDailyChallengeId('minesweeper') : undefined,
+    })
+  }, [gameMode, difficulty, onGameStart])
 
   useEffect(() => {
     initializeGame()
@@ -141,6 +150,7 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
 
     const result = revealMinesweeperCell(currentBoard, r, c)
     setBoard(result.board)
+    onGameMove?.()
     if (result.hitMine) {
         setGameOver(true)
         setWon(false)
@@ -148,8 +158,15 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
         const newStats = { ...stats, played: stats.played + 1 }
         setStats(newStats)
         saveStats(newStats)
+        onGameFinish?.({
+          outcome: 'failed',
+          durationSeconds: timer,
+          mode: gameMode,
+          difficulty,
+          challengeId: gameMode === 'daily' ? getDailyChallengeId('minesweeper') : undefined,
+        })
     }
-  }, [gameOver, board, firstClick, config, stats, boardSeed])
+  }, [gameOver, board, firstClick, config, stats, boardSeed, onGameMove, onGameFinish, timer, gameMode, difficulty])
 
   // 切换旗帜
   const toggleFlag = useCallback((r: number, c: number, e?: { preventDefault(): void }) => {
@@ -159,9 +176,10 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
     setBoard(prev => {
       const result = toggleMinesweeperFlag(prev, r, c, config.mines)
       if (result.changed) setFlagCount(result.flagCount)
+      if (result.changed) onGameMove?.()
       return result.board
     })
-  }, [gameOver, board, flagCount, config.mines])
+  }, [gameOver, board, flagCount, config.mines, onGameMove])
 
   const startLongPress = useCallback((r: number, c: number) => {
     suppressClick.current = false
@@ -204,8 +222,16 @@ const Minesweeper: React.FC<MinesweeperProps> = ({ settings, onBack }) => {
       }
       setStats(newStats)
       saveStats(newStats)
+      onGameFinish?.({
+        outcome: 'completed',
+        score: Math.max(0, 10_000 - timer * 10),
+        durationSeconds: timer,
+        mode: gameMode,
+        difficulty,
+        challengeId: gameMode === 'daily' ? getDailyChallengeId('minesweeper') : undefined,
+      })
     }
-  }, [board, gameOver, config, stats, difficulty, timer])
+  }, [board, gameOver, config, stats, difficulty, timer, onGameFinish, gameMode])
 
   // 获取格子颜色
   const getCellStyle = (cell: Cell, isDark: boolean): React.CSSProperties => {

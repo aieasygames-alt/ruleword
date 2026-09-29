@@ -22,11 +22,19 @@ export interface GameStats {
 const PROGRESS_KEY = 'ruleword_game_progress';
 const STATS_KEY = 'ruleword_game_stats';
 
+function hasStorage(): boolean {
+  try {
+    return typeof globalThis.localStorage !== 'undefined';
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Get all game progress
  */
 export function getAllProgress(): Record<string, GameProgress> {
-  if (typeof window === 'undefined') return {};
+  if (!hasStorage()) return {};
 
   try {
     const data = localStorage.getItem(PROGRESS_KEY);
@@ -49,7 +57,7 @@ export function getGameProgress(gameId: string): GameProgress | null {
  * Save or update game progress
  */
 export function saveGameProgress(gameId: string, progress: Partial<GameProgress>): void {
-  if (typeof window === 'undefined') return;
+  if (!hasStorage()) return;
 
   try {
     const allProgress = getAllProgress();
@@ -126,7 +134,7 @@ function updateFavoriteGame(stats: GameStats, gameId: string): string {
  * Get overall game statistics
  */
 export function getGameStats(): GameStats {
-  if (typeof window === 'undefined') {
+  if (!hasStorage()) {
     return { totalGamesPlayed: 0, totalPlayTime: 0, achievements: [] };
   }
 
@@ -143,7 +151,7 @@ export function getGameStats(): GameStats {
  * Save overall game statistics
  */
 export function saveGameStats(stats: GameStats): void {
-  if (typeof window === 'undefined') return;
+  if (!hasStorage()) return;
 
   try {
     localStorage.setItem(STATS_KEY, JSON.stringify(stats));
@@ -156,7 +164,7 @@ export function saveGameStats(stats: GameStats): void {
  * Get leaderboard (top scores for a game)
  */
 export function getLeaderboard(gameId: string, limit = 10): Array<{ name: string; score: number; date: string }> {
-  if (typeof window === 'undefined') return [];
+  if (!hasStorage()) return [];
 
   try {
     const key = `ruleword_leaderboard_${gameId}`;
@@ -172,7 +180,7 @@ export function getLeaderboard(gameId: string, limit = 10): Array<{ name: string
  * Save a score to the leaderboard
  */
 export function saveToLeaderboard(gameId: string, name: string, score: number, limit = 10): void {
-  if (typeof window === 'undefined') return;
+  if (!hasStorage()) return;
 
   try {
     const key = `ruleword_leaderboard_${gameId}`;

@@ -20,6 +20,9 @@ type FlowFreeProps = {
   onBack: () => void
   updateScore?: (score: number) => void
   getHighScore?: () => number
+  onGameStart?: (context?: { mode?: 'practice'; difficulty?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; moves: number; difficulty: string; mode: 'practice' }) => void
 }
 
 const CELL_SIZE = 50
@@ -466,6 +469,9 @@ export default function FlowFree({
   onBack,
   updateScore,
   getHighScore,
+  onGameStart,
+  onGameMove,
+  onGameFinish,
 }: FlowFreeProps) {
   const [level, setLevel] = useState(0)
   const [paths, setPaths] = useState<Path[]>([])
@@ -522,7 +528,8 @@ export default function FlowFree({
     setCurrentPath(null)
     setLevelComplete(false)
     setLevel(levelIndex)
-  }, [])
+    onGameStart?.({ mode: 'practice', difficulty: `level-${levelIndex + 1}` })
+  }, [onGameStart])
 
   useEffect(() => {
     initLevel(0)
@@ -590,7 +597,6 @@ export default function FlowFree({
     const cell = getCellFromEvent(e)
     if (!cell) return
 
-    const lastCell = currentPath.cells[currentPath.cells.length - 1]
     if (!canExtendFlowPath(currentPath, cell, paths, currentLevel.dots)) return
 
     // Check if cell is already in current path (backtracking)
@@ -618,6 +624,7 @@ export default function FlowFree({
     // Check if path connects two dots of same color
     if (isFlowPathConnected(currentPath, currentLevel.dots)) {
       setPaths(prev => [...prev, currentPath])
+      onGameMove?.()
     }
 
     setCurrentPath(null)
@@ -637,8 +644,15 @@ export default function FlowFree({
         setHighScore(score)
         localStorage.setItem('flowfree-highscore', score.toString())
       }
+      onGameFinish?.({
+        outcome: 'completed',
+        score,
+        moves: paths.length,
+        difficulty: `level-${level + 1}`,
+        mode: 'practice',
+      })
     }
-  }, [paths, currentLevel, levelComplete, level, playSound, updateScore, highScore])
+  }, [paths, currentLevel, levelComplete, level, playSound, updateScore, highScore, onGameFinish])
 
   // Render
   useEffect(() => {

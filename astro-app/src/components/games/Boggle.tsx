@@ -33,6 +33,7 @@ import {
   type BoggleRecentRound,
 } from '../../games/boggle/retention'
 import { trackRulewordEvent } from '../../utils/analytics'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -47,6 +48,9 @@ type BoggleProps = {
   toggleLanguage: () => void
   toggleTheme: () => void
   toggleSound: () => void
+  onGameStart?: (context?: { mode?: BoggleMode; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; moves: number; mode: BoggleMode; difficulty: string; challengeId?: string }) => void
 }
 
 // Fallback common words used until the full dictionary (~76k words from /data/words-en.txt) loads.
@@ -309,7 +313,7 @@ function wordListLabel(words: string[]) {
   return `${words.length} word${words.length === 1 ? '' : 's'}`
 }
 
-export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
+export default function Boggle({ settings, onBack, onShare, onGameStart, onGameMove, onGameFinish }: BoggleProps) {
   const [board, setBoard] = useState<BoggleBoard>([])
   const [selectedCells, setSelectedCells] = useState<BoggleCell[]>([])
   const [currentWord, setCurrentWord] = useState('')
@@ -394,10 +398,18 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
         return next
       })
       setBestScores(updateBoggleBestScores(mode, boardSize, score))
+      onGameFinish?.({
+        outcome: 'completed',
+        score,
+        moves: foundWords.size,
+        mode,
+        difficulty: `${boardSize}x${boardSize}`,
+        challengeId: mode === 'daily' ? getDailyChallengeId('boggle') : undefined,
+      })
     } catch {
       setRoundSummary(null)
     }
-  }, [board, boardSize, clearSelection, dailyStats, foundWords, mode, score])
+  }, [board, boardSize, clearSelection, dailyStats, foundWords, mode, score, onGameFinish])
 
   const startGame = useCallback(() => {
     setBoard(mode === 'daily' ? generateDailyBoggleBoard(new Date(), boardSize) : generateBoggleBoard(Math.random, boardSize))
@@ -418,7 +430,12 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
       mode,
       board_size: boardSize,
     })
-  }, [boardSize, mode])
+    onGameStart?.({
+      mode,
+      difficulty: `${boardSize}x${boardSize}`,
+      challengeId: mode === 'daily' ? getDailyChallengeId('boggle') : undefined,
+    })
+  }, [boardSize, mode, onGameStart])
 
   useEffect(() => {
     if (gameActive && mode === 'classic' && timeLeft > 0) {
@@ -469,6 +486,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
       const points = scoreBoggleWord(word)
       setScore(prev => prev + points)
       setFoundWords(prev => new Set([...prev, word]))
+      onGameMove?.()
       setMessage(`+${points} points`)
     } else {
       setMessage('Not a valid word')
@@ -476,7 +494,7 @@ export default function Boggle({ settings, onBack, onShare }: BoggleProps) {
 
     window.setTimeout(() => setMessage(''), 1400)
     clearSelection()
-  }, [clearSelection, currentWord, foundWords, gameActive])
+  }, [clearSelection, currentWord, foundWords, gameActive, onGameMove])
 
   const handleHint = useCallback(() => {
     const summary = summarizeBoggleRound(board, foundWords, getDictionary())

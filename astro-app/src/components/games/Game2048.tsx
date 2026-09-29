@@ -6,6 +6,7 @@ import {
   move2048Grid,
   type Direction2048,
 } from '../../games/game-2048/logic'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type GameMode = 'daily' | 'practice'
 
@@ -86,9 +87,12 @@ interface Game2048Props {
     darkMode: boolean
   }
   onBack: () => void
+  onGameStart?: (context?: { mode?: GameMode; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed' | 'failed'; score: number; mode: GameMode; challengeId?: string }) => void
 }
 
-const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
+const Game2048: React.FC<Game2048Props> = ({ settings, onBack, onGameStart, onGameMove, onGameFinish }) => {
   const [grid, setGrid] = useState<number[][]>([])
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(0)
@@ -148,7 +152,8 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     setWon(false)
     setContinueAfterWin(false)
     setBestScore(stats.bestScore)
-  }, [gameMode, stats])
+    onGameStart?.({ mode: newMode, challengeId: newMode === 'daily' ? getDailyChallengeId('game2048') : undefined })
+  }, [gameMode, stats, onGameStart])
 
   useEffect(() => {
     initializeGame()
@@ -165,6 +170,7 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
     const finalGrid = addRandomTile(result.grid)
 
     setGrid(finalGrid)
+    onGameMove?.()
     const newScore = score + result.score
     setScore(newScore)
 
@@ -173,6 +179,12 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
       const newStats = { ...stats, bestScore: newScore }
       setStats(newStats)
       saveStats(newStats)
+      onGameFinish?.({
+        outcome: 'completed',
+        score: newScore,
+        mode: gameMode,
+        challengeId: gameMode === 'daily' ? getDailyChallengeId('game2048') : undefined,
+      })
     }
 
     // 检查胜利
@@ -191,9 +203,15 @@ const Game2048: React.FC<Game2048Props> = ({ settings, onBack }) => {
         const newStats = { ...stats, played: stats.played + 1 }
         setStats(newStats)
         saveStats(newStats)
+        onGameFinish?.({
+          outcome: 'failed',
+          score: newScore,
+          mode: gameMode,
+          challengeId: gameMode === 'daily' ? getDailyChallengeId('game2048') : undefined,
+        })
       }
     }
-  }, [grid, gameOver, won, continueAfterWin, score, bestScore, stats])
+  }, [grid, gameOver, won, continueAfterWin, score, bestScore, stats, onGameMove, onGameFinish, gameMode])
 
   // 键盘控制
   useEffect(() => {

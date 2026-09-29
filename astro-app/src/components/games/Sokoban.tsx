@@ -18,10 +18,13 @@ type Props = {
   settings: Settings
   onBack: () => void
   toggleLanguage: () => void
+  onGameStart?: (context?: { mode?: 'practice'; difficulty?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; moves: number; difficulty: string; mode: 'practice' }) => void
 }
 
 // 关卡数据 (# = 墙, $ = 箱子, . = 目标, @ = 玩家, + = 玩家在目标上, * = 箱子在目标上)
-export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
+export default function Sokoban({ settings, onBack, toggleLanguage, onGameStart, onGameMove, onGameFinish }: Props) {
   const [currentLevel, setCurrentLevel] = useState(1)
   const [board, setBoard] = useState<Cell[][]>([])
   const [player, setPlayer] = useState<Position>({ row: 0, col: 0 })
@@ -45,7 +48,8 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
     setPushes(0)
     setHistory([])
     setGameWon(false)
-  }, [])
+    onGameStart?.({ mode: 'practice', difficulty: `level-${level}` })
+  }, [onGameStart])
 
   useEffect(() => {
     initLevel(currentLevel)
@@ -67,12 +71,20 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
     setPlayer(result.state.player)
     setMoves(moves + 1)
     setPushes(pushes + (result.pushed ? 1 : 0))
+    onGameMove?.()
 
     // 检查获胜
     if (isSokobanWon(result.state.board)) {
       setGameWon(true)
+      onGameFinish?.({
+        outcome: 'completed',
+        score: Math.max(0, 10_000 - (moves + 1) * 10 - (pushes + (result.pushed ? 1 : 0)) * 5),
+        moves: moves + 1,
+        difficulty: `level-${currentLevel}`,
+        mode: 'practice',
+      })
     }
-  }, [board, player, gameWon, moves, pushes])
+  }, [board, player, gameWon, moves, pushes, onGameMove, onGameFinish, currentLevel])
 
   // 撤销
   const undo = useCallback(() => {
@@ -84,7 +96,8 @@ export default function Sokoban({ settings, onBack, toggleLanguage }: Props) {
     setMoves(last.moves)
     setPushes(last.pushes)
     setGameWon(false)
-  }, [history])
+    onGameMove?.()
+  }, [history, onGameMove])
 
   // 重置关卡
   const resetLevel = () => {

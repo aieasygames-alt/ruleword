@@ -19,6 +19,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug"
+    ,"audit:games": "tsx scripts/audit-game-catalog.mts"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
