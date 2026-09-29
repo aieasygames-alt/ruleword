@@ -271,9 +271,6 @@ export default function SimonSays({ settings, onBack, launchOptions, onGameStart
           setDailyHighScore(score)
           localStorage.setItem('simonsays-daily-score', score.toString())
         }
-        const today = getDailySeed().toString()
-        localStorage.setItem('simonsays-daily-date', today)
-        setDailyPlayed(true)
       }
       if (gameMode !== 'menu') {
         onGameFinish?.({
@@ -474,15 +471,15 @@ export default function SimonSays({ settings, onBack, launchOptions, onGameStart
                 <p className="text-yellow-500 font-bold mb-2">🏆 {settings.language === 'zh' ? '新纪录!' : 'New High Score!'}</p>
               )}
               <div className="flex gap-4 mt-4">
-                {gameMode !== 'daily' && <button
-                  onClick={() => startGame('practice')}
+                <button
+                  onClick={() => startGame(gameMode === 'daily' ? 'daily' : 'practice')}
                   className="flex-1 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700"
                 >
-                  {settings.language === 'zh' ? '再玩一次' : 'Play Again'}
-                </button>}
+                  {settings.language === 'zh' ? (gameMode === 'daily' ? '再挑战' : '再玩一次') : (gameMode === 'daily' ? 'Try Again' : 'Play Again')}
+                </button>
                 <button
                   onClick={goToMenu}
-                  className={`${gameMode === 'daily' ? 'w-full' : 'flex-1'} py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+                  className={`flex-1 py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
                 >
                   {settings.language === 'zh' ? '返回菜单' : 'Menu'}
                 </button>
