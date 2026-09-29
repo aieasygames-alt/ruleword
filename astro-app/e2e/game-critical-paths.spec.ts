@@ -233,6 +233,16 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByTestId('connect-four-board')).toBeVisible()
   })
 
+  test('Connect Four daily challenge responds with a computer move', async ({ page }) => {
+    await page.goto('/games/connect-four/?mode=daily')
+    await page.evaluate(() => localStorage.removeItem('connectfour-daily-date'))
+    await page.reload()
+
+    await page.getByTestId('connect-four-cell-5-3').click()
+    await expect(page.getByText(/Yellow's Turn|黄色回合/)).toBeVisible()
+    await expect.poll(async () => page.getByText(/Red's Turn|红色回合/).count()).toBe(1)
+  })
+
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {
     await page.goto('/games/minesweeper/')
     const firstCell = page.getByTestId('minesweeper-cell-4-4')

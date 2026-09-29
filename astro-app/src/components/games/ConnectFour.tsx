@@ -172,14 +172,14 @@ const minimax = (
   }
 }
 
-const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): number => {
+const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard', random = Math.random): number => {
   const validMoves = getValidMoves(board)
 
   if (validMoves.length === 0) return -1
 
   // Easy: Random
   if (difficulty === 'easy') {
-    return validMoves[Math.floor(Math.random() * validMoves.length)]
+    return validMoves[Math.floor(random() * validMoves.length)]
   }
 
   // Check for winning move
@@ -199,8 +199,8 @@ const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): 
   }
 
   // Medium: Sometimes random
-  if (difficulty === 'medium' && Math.random() < 0.3) {
-    return validMoves[Math.floor(Math.random() * validMoves.length)]
+  if (difficulty === 'medium' && random() < 0.3) {
+    return validMoves[Math.floor(random() * validMoves.length)]
   }
 
   // Hard: Use minimax
@@ -225,7 +225,7 @@ const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): 
   const center = Math.floor(COLS / 2)
   if (validMoves.includes(center)) return center
 
-  return validMoves[Math.floor(Math.random() * validMoves.length)]
+  return validMoves[Math.floor(random() * validMoves.length)]
 }
 
 export default function ConnectFour({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: ConnectFourProps) {
@@ -253,6 +253,8 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const statsRef = useRef(stats)
   const isAiThinkingRef = useRef(isAiThinking)
   const dailyLaunchHandledRef = useRef(false)
+
+  const usesComputerOpponent = (mode: typeof gameMode) => mode === 'pvc' || mode === 'daily'
 
   // 更新 refs
   useEffect(() => { boardRef.current = board }, [board])
@@ -287,7 +289,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }, [])
 
   // 使用 ref 的移动函数，避免闭包问题
-  const makeMove = useCallback((col: number) => {
+  const makeMove = useCallback((col: number, fromComputer = false) => {
     const currentBoard = boardRef.current
     const currentTurn = currentPlayerRef.current
     const currentWinner = winnerRef.current
@@ -296,7 +298,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     const currentStats = statsRef.current
 
     if (currentWinner || currentIsDraw || currentBoard[0][col] !== null) return false
-    if (currentGameMode === 'pvc' && currentTurn === 'yellow') return false
+    if (usesComputerOpponent(currentGameMode) && currentTurn === 'yellow' && !fromComputer) return false
 
     setAnimatingCol(col)
     setTimeout(() => setAnimatingCol(null), 300)
@@ -311,7 +313,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     if (result) {
       setWinner(result.winner)
       setWinningCells(result.cells)
-      if (currentGameMode === 'pvc') {
+      if (usesComputerOpponent(currentGameMode)) {
         if (result.winner === 'red') {
           saveStats({ ...currentStats, wins: currentStats.wins + 1 })
         } else {
@@ -364,34 +366,21 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
 
   // AI 移动
   const aiMove = useCallback(() => {
-    if (isAiThinkingRef.current) return
-    if (gameModeRef.current !== 'pvc' || currentPlayerRef.current !== 'yellow' || winnerRef.current || isDrawRef.current) return
-
     setIsAiThinking(true)
-
-    setTimeout(() => {
-      // 再次检查状态
-      if (gameModeRef.current !== 'pvc' || currentPlayerRef.current !== 'yellow' || winnerRef.current || isDrawRef.current) {
-        setIsAiThinking(false)
-        return
-      }
-
-      const col = getComputerMove(boardRef.current, difficultyRef.current)
-      if (col !== -1) {
-        makeMove(col)
-      }
-      setIsAiThinking(false)
-    }, 400)
-  }, [makeMove])
+    const random = gameMode === 'daily'
+      ? seededRandom(getDailySeed() + board.flat().filter(Boolean).length)
+      : undefined
+    const col = getComputerMove(board, difficulty, random)
+    if (col !== -1) {
+      makeMove(col, true)
+    }
+    setIsAiThinking(false)
+  }, [board, difficulty, gameMode, makeMove])
 
   // AI 回合触发
   useEffect(() => {
-    if (gameMode === 'pvc' && currentPlayer === 'yellow' && !winner && !isDraw && !isAiThinking) {
-      const timer = setTimeout(() => {
-        if (!isAiThinkingRef.current) {
-          aiMove()
-        }
-      }, 100)
+    if (usesComputerOpponent(gameMode) && currentPlayer === 'yellow' && !winner && !isDraw && !isAiThinking) {
+      const timer = setTimeout(aiMove, 400)
       return () => clearTimeout(timer)
     }
   }, [gameMode, currentPlayer, winner, isDraw, isAiThinking, aiMove])
