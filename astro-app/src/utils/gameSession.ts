@@ -17,6 +17,7 @@ export type GameSession = {
   start: (context?: Omit<GameSessionResult, 'outcome' | 'score' | 'durationSeconds' | 'moves'>) => void
   move: (count?: number) => void
   finish: (result: GameSessionResult) => void
+  isActive: () => boolean
 }
 
 const DAY_MS = 86_400_000
@@ -57,7 +58,7 @@ export function createGameSession(gameId: string): GameSession {
       moves += count
     },
     finish(result) {
-      if (completed) return
+      if (startedAt === null || completed) return
       completed = true
       const durationSeconds = result.durationSeconds ?? (startedAt === null ? 0 : Math.max(0, Math.floor((Date.now() - startedAt) / 1000)))
       const totalMoves = result.moves ?? moves
@@ -83,6 +84,9 @@ export function createGameSession(gameId: string): GameSession {
           lastChallengeId: result.challengeId,
         },
       })
+    },
+    isActive() {
+      return startedAt !== null && !completed
     },
   }
 }

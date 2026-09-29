@@ -32,4 +32,31 @@ describe('game sessions', () => {
     expect(window.dataLayer).toContainEqual(expect.objectContaining({ event: 'game_session_finish', game_id: 'sokoban', moves: 3 }))
     expect(window.gtag).toHaveBeenCalledTimes(2)
   })
+
+  it('does not record a run that never started', () => {
+    const session = createGameSession('sokoban')
+
+    expect(session.isActive()).toBe(false)
+    session.move()
+    session.finish({ outcome: 'abandoned' })
+
+    expect(window.dataLayer).toEqual([])
+    expect(window.gtag).not.toHaveBeenCalled()
+  })
+
+  it('tracks the active lifecycle of a started run', () => {
+    const session = createGameSession('sokoban')
+    session.start({ mode: 'daily', challengeId: 'sokoban:1' })
+
+    expect(session.isActive()).toBe(true)
+    session.finish({ outcome: 'abandoned', mode: 'daily', challengeId: 'sokoban:1' })
+
+    expect(session.isActive()).toBe(false)
+    expect(window.dataLayer).toContainEqual(expect.objectContaining({
+      event: 'game_session_finish',
+      game_id: 'sokoban',
+      outcome: 'abandoned',
+      mode: 'daily',
+    }))
+  })
 })

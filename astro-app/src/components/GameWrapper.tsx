@@ -133,14 +133,12 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     }
   }, [gameSlug])
 
-  // Record game session when component unmounts
+  // Only started rounds should create a session. Browsing a game's menu is not gameplay.
   useEffect(() => {
     if (!GameComponent) return
 
-    gameStartTime.current = Date.now()
-    gameSession.current.start()
-
     return () => {
+      if (!gameSession.current.isActive()) return
       const playTime = Math.floor((Date.now() - gameStartTime.current) / 1000)
       gameSession.current.finish({
         outcome: 'abandoned',
@@ -156,6 +154,7 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   }
 
   const onGameStart = (context?: Omit<GameSessionResult, 'outcome' | 'score' | 'durationSeconds' | 'moves'>) => {
+    gameStartTime.current = Date.now()
     gameSession.current.start(context)
   }
 
