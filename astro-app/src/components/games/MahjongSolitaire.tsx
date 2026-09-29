@@ -118,7 +118,7 @@ const canSelect = (tile: Tile, allTiles: Tile[]): boolean => {
 // 生成更大的可解麻将布局 - 经典乌龟形
 const generateLayout = (): Tile[] => {
   const tiles: Tile[] = []
-  // eslint-disable-next-line prefer-const -- incremented while assigning persistent tile IDs.
+
   let id = 0
 
   // Layer 0 (底): 8列 x 5行 = 40 tiles
