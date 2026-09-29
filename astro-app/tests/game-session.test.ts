@@ -1,9 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createGameSession, getDailyChallengeId, getDailyChallengeSeed } from '../src/utils/gameSession'
+import { getAchievements, getAllProgress, getGameProgress, getGameStats, recordGamePlay, saveGameProgress } from '../src/utils/gameProgress'
 
 describe('game sessions', () => {
   beforeEach(() => {
-    localStorage.clear()
+    const storage = new Map<string, string>()
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: (key: string) => storage.get(key) ?? null,
+        setItem: (key: string, value: string) => storage.set(key, String(value)),
+        removeItem: (key: string) => storage.delete(key),
+        clear: () => storage.clear(),
+        key: (index: number) => [...storage.keys()][index] ?? null,
+        get length() { return storage.size },
+      },
+    })
     window.dataLayer = []
     window.gtag = vi.fn()
   })
@@ -91,5 +103,23 @@ describe('game sessions', () => {
       mode: 'practice',
       difficulty: 'level-2',
     }))
+  })
+
+  it('records session duration without treating it as a best time', () => {
+    const session = createGameSession('sokoban')
+    session.start({ mode: 'practice' })
+    session.finish({ outcome: 'abandoned', durationSeconds: 5 })
+
+    expect(getGameProgress('sokoban')).toMatchObject({ gamesPlayed: 1 })
+    expect(getGameProgress('sokoban')?.bestTime).toBeUndefined()
+    expect(getAchievements(getGameStats(), getAllProgress()).find(achievement => achievement.id === 'speed-demon')?.unlocked).toBe(false)
+  })
+
+  it('only records an explicit best time as a speed record', () => {
+    recordGamePlay('sokoban', 100, 5)
+    saveGameProgress('sokoban', { bestTime: 25 })
+
+    expect(getGameProgress('sokoban')?.bestTime).toBe(25)
+    expect(getAchievements(getGameStats(), getAllProgress()).find(achievement => achievement.id === 'speed-demon')?.unlocked).toBe(true)
   })
 })

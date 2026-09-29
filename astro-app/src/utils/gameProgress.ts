@@ -99,7 +99,6 @@ export function recordGamePlay(gameId: string, score?: number, time?: number): v
   saveGameProgress(gameId, {
     gamesPlayed: (existing?.gamesPlayed || 0) + 1,
     highScore: score,
-    bestTime: time
   });
 
   // Update overall stats
