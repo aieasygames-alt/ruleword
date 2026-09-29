@@ -19,4 +19,11 @@ describe('Connect Four daily settlement', () => {
     const source = fs.readFileSync(componentPath, 'utf8')
     expect(source).toContain('lastPlayed === getLegacyDailyKey()')
   })
+
+  it('updates turn refs synchronously and disables player input for AI turns', () => {
+    const source = fs.readFileSync(componentPath, 'utf8')
+    expect(source).toContain('boardRef.current = newBoard')
+    expect(source).toContain('currentPlayerRef.current = nextPlayer')
+    expect(source).toContain("usesComputerOpponent(gameMode) && currentPlayer === 'yellow'")
+  })
 })

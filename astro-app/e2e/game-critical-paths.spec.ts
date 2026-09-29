@@ -240,7 +240,9 @@ test.describe('GSC priority game critical paths', () => {
 
     await page.getByTestId('connect-four-cell-5-3').click()
     await expect(page.getByText(/Yellow's Turn|黄色回合/)).toBeVisible()
+    await expect(page.getByTestId('connect-four-cell-5-0')).toBeDisabled()
     await expect.poll(async () => page.getByText(/Red's Turn|红色回合/).count()).toBe(1)
+    await expect(page.getByTestId('connect-four-cell-5-0')).toBeEnabled()
   })
 
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {

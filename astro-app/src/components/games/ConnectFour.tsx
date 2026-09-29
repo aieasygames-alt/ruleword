@@ -297,6 +297,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     const newBoard = dropPiece(currentBoard, col, currentTurn)
     if (!newBoard) return false
 
+    boardRef.current = newBoard
     setBoard(newBoard)
     if (currentTurn === 'red') onGameMove?.()
 
@@ -344,7 +345,9 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
       return true
     }
 
-    setCurrentPlayer(currentTurn === 'red' ? 'yellow' : 'red')
+    const nextPlayer = currentTurn === 'red' ? 'yellow' : 'red'
+    currentPlayerRef.current = nextPlayer
+    setCurrentPlayer(nextPlayer)
     return true
   }, [saveStats, onGameMove, onGameFinish])
 
@@ -590,7 +593,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
                   onClick={() => handleColumnClick(colIndex)}
                   onMouseEnter={() => setHoveredCol(colIndex)}
                   onMouseLeave={() => setHoveredCol(null)}
-                  disabled={!!winner || isDraw}
+                  disabled={!!winner || isDraw || (usesComputerOpponent(gameMode) && currentPlayer === 'yellow')}
                   className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all shadow-lg
                     ${cell === null ? (settings.darkMode ? 'bg-slate-800 shadow-inner' : 'bg-gray-300 shadow-inner') : ''}
                     ${cell === 'red' ? 'bg-gradient-to-br from-red-400 to-red-600 shadow-red-500/50' : ''}
