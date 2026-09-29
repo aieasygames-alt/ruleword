@@ -244,6 +244,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const statsRef = useRef(stats)
   const isAiThinkingRef = useRef(isAiThinking)
   const dailyLaunchHandledRef = useRef(false)
+  const gameGenerationRef = useRef(0)
 
   const usesComputerOpponent = (mode: typeof gameMode) => mode === 'pvc' || mode === 'daily'
 
@@ -357,7 +358,8 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }, [makeMove])
 
   // AI 移动
-  const aiMove = useCallback(() => {
+  const aiMove = useCallback((generation: number) => {
+    if (generation !== gameGenerationRef.current || currentPlayerRef.current !== 'yellow') return
     setIsAiThinking(true)
     const random = gameMode === 'daily'
       ? getDailyConnectFourRandom(board.flat().filter(Boolean).length)
@@ -372,13 +374,20 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   // AI 回合触发
   useEffect(() => {
     if (usesComputerOpponent(gameMode) && currentPlayer === 'yellow' && !winner && !isDraw && !isAiThinking) {
-      const timer = setTimeout(aiMove, 400)
+      const generation = gameGenerationRef.current
+      const timer = setTimeout(() => aiMove(generation), 400)
       return () => clearTimeout(timer)
     }
   }, [gameMode, currentPlayer, winner, isDraw, isAiThinking, aiMove])
 
   const startGame = (mode: 'pvp' | 'pvc' | 'daily') => {
-    setBoard(createEmptyBoard())
+    gameGenerationRef.current++
+    const emptyBoard = createEmptyBoard()
+    boardRef.current = emptyBoard
+    currentPlayerRef.current = 'red'
+    winnerRef.current = null
+    isDrawRef.current = false
+    setBoard(emptyBoard)
     setCurrentPlayer('red')
     setWinner(null)
     setWinningCells([])
@@ -401,7 +410,13 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode])
 
   const resetGame = () => {
-    setBoard(createEmptyBoard())
+    gameGenerationRef.current++
+    const emptyBoard = createEmptyBoard()
+    boardRef.current = emptyBoard
+    currentPlayerRef.current = 'red'
+    winnerRef.current = null
+    isDrawRef.current = false
+    setBoard(emptyBoard)
     setCurrentPlayer('red')
     setWinner(null)
     setWinningCells([])
@@ -409,8 +424,14 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }
 
   const goToMenu = () => {
+    gameGenerationRef.current++
+    const emptyBoard = createEmptyBoard()
+    boardRef.current = emptyBoard
+    currentPlayerRef.current = 'red'
+    winnerRef.current = null
+    isDrawRef.current = false
     setGameMode('menu')
-    setBoard(createEmptyBoard())
+    setBoard(emptyBoard)
     setWinner(null)
     setWinningCells([])
     setIsDraw(false)

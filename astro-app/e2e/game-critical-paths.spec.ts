@@ -229,6 +229,9 @@ test.describe('GSC priority game critical paths', () => {
     await page.getByRole('button', { name: /reset game|重置游戏/i }).click()
 
     expect(await page.evaluate(() => localStorage.getItem('connectfour-daily-date'))).toBeNull()
+    await page.waitForTimeout(600)
+    await expect(page.getByText(/Red's Turn|红色回合/)).toBeVisible()
+    await expect(page.locator('[data-testid^="connect-four-cell-"] span')).toHaveCount(0)
     await page.goto('/games/connect-four/?mode=daily')
     await expect(page.getByTestId('connect-four-board')).toBeVisible()
   })

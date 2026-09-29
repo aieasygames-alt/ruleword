@@ -26,4 +26,11 @@ describe('Connect Four daily settlement', () => {
     expect(source).toContain('currentPlayerRef.current = nextPlayer')
     expect(source).toContain("usesComputerOpponent(gameMode) && currentPlayer === 'yellow'")
   })
+
+  it('invalidates queued AI moves when a game is reset or exited', () => {
+    const source = fs.readFileSync(componentPath, 'utf8')
+    expect(source).toContain('const gameGenerationRef = useRef(0)')
+    expect(source).toContain('if (generation !== gameGenerationRef.current')
+    expect(source.match(/gameGenerationRef\.current\+\+/g)).toHaveLength(3)
+  })
 })
