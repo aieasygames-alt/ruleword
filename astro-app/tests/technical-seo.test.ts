@@ -13,19 +13,22 @@ describe('Technical SEO safeguards', () => {
     expect(source).toContain('Disallow: /api/')
   })
 
-  it('keeps non-indexable programmatic variants out of the sitemap', () => {
+  it('includes canonical programmatic variants in the sitemap', () => {
     const source = fs.readFileSync(path.join(projectRoot, 'src/pages/sitemap.xml.ts'), 'utf8')
 
-    expect(source).not.toContain('difficultyVariants')
-    expect(source).not.toContain('storyVariants')
+    expect(source).toContain('getAllVariants')
+    expect(source).toContain('gameVariants.map')
+    expect(source).toContain('storyVariants.map')
   })
 
-  it('marks programmatic variant pages noindex until gameplay is unique', () => {
+  it('gives programmatic variant pages their own canonical URL for indexing', () => {
     const gameVariant = fs.readFileSync(path.join(projectRoot, 'src/pages/games/[id]/[variant].astro'), 'utf8')
     const storyVariant = fs.readFileSync(path.join(projectRoot, 'src/pages/stories/[slug]/[variant].astro'), 'utf8')
 
-    expect(gameVariant).toContain('robots="noindex, follow"')
-    expect(storyVariant).toContain('robots="noindex, follow"')
+    expect(gameVariant).toContain('canonicalPath={`/games/${game.id}/${variant.variant}/`}')
+    expect(storyVariant).toContain('canonicalPath={`/stories/${slug}/${variantName}/`}')
+    expect(gameVariant).toContain('"@type": ["Game", "WebApplication"]')
+    expect(storyVariant).toContain('"@type": ["Game", "WebApplication"]')
   })
 
   it('provides static redirect fallbacks for legacy URLs', () => {
