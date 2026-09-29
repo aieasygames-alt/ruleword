@@ -720,15 +720,15 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
                 <p className="text-yellow-500 font-bold mb-2">🏆 {settings.language === 'zh' ? '新纪录!' : 'New High Score!'}</p>
               )}
               <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => startGame(gameMode === 'daily' ? 'daily' : 'practice')}
+                {gameMode !== 'daily' && <button
+                  onClick={() => startGame('practice')}
                   className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-bold hover:from-green-500 hover:to-green-400 shadow-lg shadow-green-500/30"
                 >
                   {settings.language === 'zh' ? '再玩一次' : 'Play Again'}
-                </button>
+                </button>}
                 <button
                   onClick={goToMenu}
-                  className={`flex-1 py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+                  className={`${gameMode === 'daily' ? 'w-full' : 'flex-1'} py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
                 >
                   {settings.language === 'zh' ? '返回菜单' : 'Menu'}
                 </button>

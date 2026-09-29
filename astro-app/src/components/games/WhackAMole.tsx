@@ -463,15 +463,15 @@ export default function WhackAMole({ settings, onBack, launchOptions, onGameStar
                 <p className="text-yellow-500 font-bold mb-2">🏆 {settings.language === 'zh' ? '新纪录!' : 'New High Score!'}</p>
               )}
               <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => startGame(gameMode === 'daily' ? 'daily' : 'practice')}
+                {gameMode !== 'daily' && <button
+                  onClick={() => startGame('practice')}
                   className="flex-1 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700"
                 >
                   {settings.language === 'zh' ? '再玩一次' : 'Play Again'}
-                </button>
+                </button>}
                 <button
                   onClick={goToMenu}
-                  className={`flex-1 py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+                  className={`${gameMode === 'daily' ? 'w-full' : 'flex-1'} py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
                 >
                   {settings.language === 'zh' ? '返回菜单' : 'Menu'}
                 </button>
