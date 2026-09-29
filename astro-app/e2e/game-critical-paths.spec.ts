@@ -222,6 +222,17 @@ test.describe('GSC priority game critical paths', () => {
     await expect.poll(() => page.evaluate(() => localStorage.getItem('tictactoe-daily-date'))).not.toBeNull()
   })
 
+  test('Connect Four keeps a daily challenge available after an in-progress reset', async ({ page }) => {
+    await page.goto('/games/connect-four/?mode=daily')
+    await page.evaluate(() => localStorage.removeItem('connectfour-daily-date'))
+    await page.getByTestId('connect-four-cell-5-0').click()
+    await page.getByRole('button', { name: /reset game|重置游戏/i }).click()
+
+    expect(await page.evaluate(() => localStorage.getItem('connectfour-daily-date'))).toBeNull()
+    await page.goto('/games/connect-four/?mode=daily')
+    await expect(page.getByTestId('connect-four-board')).toBeVisible()
+  })
+
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {
     await page.goto('/games/minesweeper/')
     const firstCell = page.getByTestId('minesweeper-cell-4-4')

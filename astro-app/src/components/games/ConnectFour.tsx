@@ -252,6 +252,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const difficultyRef = useRef(difficulty)
   const statsRef = useRef(stats)
   const isAiThinkingRef = useRef(isAiThinking)
+  const dailyLaunchHandledRef = useRef(false)
 
   // 更新 refs
   useEffect(() => { boardRef.current = board }, [board])
@@ -318,6 +319,10 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
         }
       }
       if (currentTurn === 'red') {
+        if (currentGameMode === 'daily') {
+          localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
+          setDailyPlayed(true)
+        }
         onGameFinish?.({
           outcome: result.winner === 'red' ? 'completed' : 'failed',
           score: result.winner === 'red' ? 100 : 0,
@@ -333,6 +338,10 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     if (isBoardFull(newBoard)) {
       setIsDraw(true)
       saveStats({ ...currentStats, draws: currentStats.draws + 1 })
+      if (currentGameMode === 'daily') {
+        localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
+        setDailyPlayed(true)
+      }
       onGameFinish?.({
         outcome: 'completed',
         score: 50,
@@ -406,7 +415,9 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+    if (dailyLaunchHandledRef.current || launchOptions?.mode !== 'daily' || !dailyStatusLoaded) return
+    dailyLaunchHandledRef.current = true
+    if (!dailyPlayed) startGame('daily')
   }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode])
 
   const resetGame = () => {
@@ -415,12 +426,6 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     setWinner(null)
     setWinningCells([])
     setIsDraw(false)
-
-    if (gameMode === 'daily') {
-      const today = getDailySeed().toString()
-      localStorage.setItem('connectfour-daily-date', today)
-      setDailyPlayed(true)
-    }
   }
 
   const goToMenu = () => {
@@ -523,7 +528,11 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     <div className={`min-h-screen flex flex-col items-center py-4 px-2 ${bgClass} ${textClass}`}>
       <div className="w-full max-w-md">
         <div className={`flex items-center justify-between border-b ${borderClass} pb-3 mb-4`}>
-          <button onClick={goToMenu} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
+          <button
+            onClick={goToMenu}
+            aria-label={settings.language === 'zh' ? '返回菜单' : 'Back to menu'}
+            className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded"
+          >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
@@ -533,7 +542,11 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
              gameMode === 'pvp' ? (settings.language === 'zh' ? '双人对战' : 'PvP') :
              (settings.language === 'zh' ? '人机对战' : 'PvC')}
           </h1>
-          <button onClick={resetGame} className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded">
+          <button
+            onClick={resetGame}
+            aria-label={settings.language === 'zh' ? '重置游戏' : 'Reset game'}
+            className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/30 rounded"
+          >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
@@ -596,6 +609,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
               row.map((cell, colIndex) => (
                 <button
                   key={`${rowIndex}-${colIndex}`}
+                  data-testid={`connect-four-cell-${rowIndex}-${colIndex}`}
                   onClick={() => handleColumnClick(colIndex)}
                   onMouseEnter={() => setHoveredCol(colIndex)}
                   onMouseLeave={() => setHoveredCol(null)}
