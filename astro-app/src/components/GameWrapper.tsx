@@ -41,6 +41,23 @@ const GAME_ID_OVERRIDES: Record<string, string> = {
   'Two048Cupcakes': '2048cupcakes',
 }
 
+// These games present a menu or mode selector before a playable round begins.
+// They report their own lifecycle through onGameStart/onGameFinish.
+const GAMES_WITH_EXPLICIT_SESSIONS = new Set([
+  'boggle',
+  'brickbreaker',
+  'connectfour',
+  'fifteenpuzzle',
+  'flowfree',
+  'game2048',
+  'lightsout',
+  'minesweeper',
+  'simonsays',
+  'sokoban',
+  'tictactoe',
+  'whackamole',
+])
+
 // 自动构建 gameId → 动态加载器映射
 const gameComponents: Record<string, () => Promise<{ default: ComponentType<any> }>> = {}
 
@@ -136,6 +153,13 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   // Only started rounds should create a session. Browsing a game's menu is not gameplay.
   useEffect(() => {
     if (!GameComponent) return
+
+    // Most legacy games render an immediately playable board and do not yet emit
+    // lifecycle callbacks. Keep their existing analytics until they are migrated.
+    if (!GAMES_WITH_EXPLICIT_SESSIONS.has(gameId)) {
+      gameStartTime.current = Date.now()
+      gameSession.current.start({ mode: 'practice' })
+    }
 
     return () => {
       if (!gameSession.current.isActive()) return

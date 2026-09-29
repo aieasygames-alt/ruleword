@@ -59,4 +59,14 @@ describe('game sessions', () => {
       mode: 'daily',
     }))
   })
+
+  it('does not allow a finished session to reopen from later moves', () => {
+    const session = createGameSession('sokoban')
+    session.start({ mode: 'practice' })
+    session.finish({ outcome: 'completed', mode: 'practice' })
+    session.move(3)
+
+    expect(session.isActive()).toBe(false)
+    expect(window.dataLayer).toHaveLength(2)
+  })
 })
