@@ -65,7 +65,7 @@ const Snake: React.FC<SnakeProps> = ({ settings, onBack }) => {
   const [showGameGuide, setShowGameGuide] = useState(false)
 
   const directionRef = useRef(direction)
-  const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
+  const gameLoopRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const scoreRef = useRef(score)
   scoreRef.current = score
   const foodRef = useRef(food)

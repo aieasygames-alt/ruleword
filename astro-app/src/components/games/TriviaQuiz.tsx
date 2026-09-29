@@ -125,7 +125,7 @@ export default function TriviaQuiz({
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [answered, setAnswered] = useState(false)
 
-  const timerRef = useRef<ReturnType<typeof setInterval>>()
+  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'

@@ -48,7 +48,7 @@ export default function AgarIo({
   const [highScore, setHighScore] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
   const cellsRef = useRef<Cell[]>([])
   const playerRef = useRef<Cell | null>(null)

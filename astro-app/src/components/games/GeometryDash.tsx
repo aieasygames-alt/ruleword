@@ -50,7 +50,7 @@ export default function GeometryDash({
   const [displayScore, setDisplayScore] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
 
   // Use ref for game state to avoid re-renders during gameplay

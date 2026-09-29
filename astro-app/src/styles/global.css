@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss/index.css";
 @import "./mobile.css";
 
 /* Tailwind v4 Dark Mode Configuration */

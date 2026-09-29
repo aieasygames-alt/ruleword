@@ -69,7 +69,7 @@ export default function DoodleJump({
   const [animFrame, setAnimFrame] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
   const cameraY = useRef(0)
   const highestY = useRef(0)

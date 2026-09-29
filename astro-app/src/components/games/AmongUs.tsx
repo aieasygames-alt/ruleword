@@ -188,7 +188,7 @@ function MiniGame({
   const gameRef = useRef<HTMLDivElement>(null)
   const joystickRef = useRef({ startX: 0, startY: 0, active: false })
   const keysPressed = useRef<Set<string>>(new Set())
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | undefined>(undefined)
 
   // Enemy colors
   const enemyColors = CHARACTER_COLORS.filter(c => c.id !== selectedColor.id)

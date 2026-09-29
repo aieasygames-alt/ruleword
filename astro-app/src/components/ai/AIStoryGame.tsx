@@ -176,7 +176,7 @@ export default function AIStoryGame({ template: templateJson, settings: rawSetti
   const [chapterTransition, setChapterTransition] = useState<ChapterTransition | null>(null)
   const [progress, setProgress] = useState<StoryProgress>(() => loadStoryProgress(template.id))
   const [fallbackNotice, setFallbackNotice] = useState('')
-  const chapterTimerRef = useRef<ReturnType<typeof setTimeout>>()
+  const chapterTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   // Progress calculation
   const totalChapters = template.storySkeleton.chapters.length

@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content'
+import { glob } from 'astro/loaders'
 
 // 游戏规则结构
 const GameRulesSchema = z.object({
@@ -15,7 +16,7 @@ const GameFAQSchema = z.array(z.object({
 
 // 游戏内容集合
 const gamesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ base: './src/content/games', pattern: '**/*.json' }),
   schema: z.object({
     id: z.string(),
     slug: z.string(),
@@ -52,7 +53,7 @@ const gamesCollection = defineCollection({
 
 // AI 故事模板内容集合
 const storiesCollection = defineCollection({
-  type: 'data',
+  loader: glob({ base: './src/content/stories', pattern: '**/*.json' }),
   schema: z.object({
     id: z.string(),
     slug: z.string(),

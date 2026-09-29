@@ -128,7 +128,7 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
   })
   const bricksRef = useRef<Brick[]>(createBricks())
   const particlesRef = useRef<Particle[]>([])
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | undefined>(undefined)
   const moveCountRef = useRef(0)
   const finishedRef = useRef(false)
 

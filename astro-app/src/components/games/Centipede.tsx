@@ -39,7 +39,7 @@ export default function Centipede() {
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [darkMode] = useState(true);
-  const gameLoopRef = useRef<number>();
+  const gameLoopRef = useRef<number | undefined>(undefined);
   const keysRef = useRef<Set<string>>(new Set());
   const playerRef = useRef(player);
   playerRef.current = player;

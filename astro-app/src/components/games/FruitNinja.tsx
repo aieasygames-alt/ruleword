@@ -70,8 +70,8 @@ export default function FruitNinja({
   const [particles, setParticles] = useState<JuiceParticle[]>([])
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
-  const spawnTimerRef = useRef<ReturnType<typeof setInterval>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
+  const spawnTimerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
   const fruitIdRef = useRef(0)
 

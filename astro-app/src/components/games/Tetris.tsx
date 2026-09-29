@@ -150,7 +150,7 @@ export default function Tetris({ settings, onBack }: TetrisProps) {
   const [isPaused, setIsPaused] = useState(false)
   const [gameStarted, setGameStarted] = useState(false)
 
-  const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
+  const gameLoopRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'

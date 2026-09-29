@@ -57,8 +57,8 @@ export default function WhackAMole({ settings, onBack, launchOptions, onGameStar
   const [lastHitTime, setLastHitTime] = useState(0)
   const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
 
-  const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
-  const moleTimerRef = useRef<ReturnType<typeof setInterval>>()
+  const gameLoopRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
+  const moleTimerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const lastMoleRef = useRef<number | null>(null)
   const scoreRef = useRef(score)
   const dailyRandomRef = useRef<(() => number) | null>(null)

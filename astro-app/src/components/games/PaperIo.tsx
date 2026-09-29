@@ -45,7 +45,7 @@ export default function PaperIo({
   const [highScore, setHighScore] = useState(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
+  const gameLoopRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
   const playersRef = useRef<Player[]>([])
   const gridRef = useRef<Map<string, string>>(new Map())

@@ -78,7 +78,7 @@ export default function RubiksCube({
   const [bestTime, setBestTime] = useState(Infinity)
   const [bestMoves, setBestMoves] = useState(Infinity)
 
-  const timerRef = useRef<ReturnType<typeof setInterval>>()
+  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'

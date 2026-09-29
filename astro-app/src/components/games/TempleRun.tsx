@@ -53,7 +53,7 @@ export default function TempleRun({
   const [speed, setSpeed] = useState(5)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
   const lastObstacleRef = useRef(0)
   const lastCoinRef = useRef(0)

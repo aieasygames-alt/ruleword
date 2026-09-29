@@ -49,7 +49,7 @@ export default function FlappyBird({
   const frameCountRef = useRef(0)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame>>()
+  const gameLoopRef = useRef<ReturnType<typeof requestAnimationFrame> | undefined>(undefined)
   const audioContext = useRef<AudioContext | null>(null)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
