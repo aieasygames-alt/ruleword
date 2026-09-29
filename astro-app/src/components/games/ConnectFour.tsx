@@ -320,20 +320,18 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
           saveStats({ ...currentStats, losses: currentStats.losses + 1 })
         }
       }
-      if (currentTurn === 'red') {
-        if (currentGameMode === 'daily') {
-          localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
-          setDailyPlayed(true)
-        }
-        onGameFinish?.({
-          outcome: result.winner === 'red' ? 'completed' : 'failed',
-          score: result.winner === 'red' ? 100 : 0,
-          moves: newBoard.flat().filter(Boolean).length,
-          mode: currentGameMode === 'pvc' ? 'ai' : currentGameMode === 'daily' ? 'daily' : 'pvp',
-          difficulty: difficultyRef.current,
-          challengeId: currentGameMode === 'daily' ? getDailyChallengeId('connectfour') : undefined,
-        })
+      if (currentGameMode === 'daily') {
+        localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
+        setDailyPlayed(true)
       }
+      onGameFinish?.({
+        outcome: result.winner === 'red' ? 'completed' : 'failed',
+        score: result.winner === 'red' ? 100 : 0,
+        moves: newBoard.flat().filter(Boolean).length,
+        mode: currentGameMode === 'pvc' ? 'ai' : currentGameMode === 'daily' ? 'daily' : 'pvp',
+        difficulty: difficultyRef.current,
+        challengeId: currentGameMode === 'daily' ? getDailyChallengeId('connectfour') : undefined,
+      })
       return true
     }
 

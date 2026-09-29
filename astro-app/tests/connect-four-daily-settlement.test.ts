@@ -1,0 +1,17 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { describe, expect, it } from 'vitest'
+
+const componentPath = path.resolve(__dirname, '../src/components/games/ConnectFour.tsx')
+
+describe('Connect Four daily settlement', () => {
+  it('records and finishes daily games regardless of which color wins', () => {
+    const source = fs.readFileSync(componentPath, 'utf8')
+    const winnerBlock = source.slice(source.indexOf('if (result) {'), source.indexOf('if (isBoardFull(newBoard))'))
+
+    expect(winnerBlock).toContain("if (currentGameMode === 'daily')")
+    expect(winnerBlock).toContain("localStorage.setItem('connectfour-daily-date'")
+    expect(winnerBlock).toContain('onGameFinish?.({')
+    expect(winnerBlock).not.toContain("if (currentTurn === 'red') {")
+  })
+})
