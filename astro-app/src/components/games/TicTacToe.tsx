@@ -128,9 +128,13 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
     localStorage.setItem('tictactoe-stats', JSON.stringify(newStats))
   }
 
-  const finishGame = useCallback((outcome: 'completed' | 'failed', finalBoard: Board) => {
+  const finishGame = useCallback((outcome: 'completed' | 'failed') => {
     if (finishedRef.current || gameMode === 'menu') return
     finishedRef.current = true
+    if (gameMode === 'daily') {
+      localStorage.setItem('tictactoe-daily-date', getDailySeed().toString())
+      setDailyPlayed(true)
+    }
     onGameFinish?.({
       outcome,
       score: outcome === 'completed' ? 1 : 0,
@@ -160,14 +164,14 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
       if (gameMode === 'pvp') {
         saveStats({ ...stats, wins: stats.wins + 1 })
       }
-      finishGame('completed', newBoard)
+      finishGame('completed')
       return
     }
 
     if (checkDraw(newBoard)) {
       setIsDraw(true)
       saveStats({ ...stats, draws: stats.draws + 1 })
-      finishGame('failed', newBoard)
+      finishGame('failed')
     }
   }
 
@@ -190,14 +194,14 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
             newBoard[a] && newBoard[a] === newBoard[b] && newBoard[a] === newBoard[c]
           ) || [])
           saveStats({ ...stats, losses: stats.losses + 1 })
-          finishGame('failed', newBoard)
+          finishGame('failed')
           return
         }
 
         if (checkDraw(newBoard)) {
           setIsDraw(true)
           saveStats({ ...stats, draws: stats.draws + 1 })
-          finishGame('failed', newBoard)
+          finishGame('failed')
         }
       }
     }, 500)
@@ -377,6 +381,7 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
             {board.map((cell, index) => (
               <button
                 key={index}
+                data-testid={`tic-tac-toe-cell-${index}`}
                 onClick={() => handleCellClick(index)}
                 disabled={!!cell || !!winner || isDraw || !isPlayerTurn}
                 className={`aspect-square text-4xl font-bold rounded-xl flex items-center justify-center transition-all shadow-lg

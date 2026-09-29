@@ -195,6 +195,22 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByText('Daily', { exact: true })).toBeVisible()
   })
 
+  test('Tic-Tac-Toe marks the daily challenge complete only after a finished game', async ({ page }) => {
+    await page.goto('/games/tic-tac-toe/?mode=daily')
+    await page.evaluate(() => localStorage.removeItem('tictactoe-daily-date'))
+    await page.getByTestId('tic-tac-toe-cell-0').click()
+    await expect(page.getByTestId('tic-tac-toe-cell-0')).toBeDisabled()
+    expect(await page.evaluate(() => localStorage.getItem('tictactoe-daily-date'))).toBeNull()
+
+    for (let move = 0; move < 5; move++) {
+      const emptyCell = page.locator('[data-testid^="tic-tac-toe-cell-"]:not([disabled])').first()
+      await emptyCell.click()
+      await page.waitForTimeout(550)
+      if (await page.getByText(/Wins!|Draw!/).count()) break
+    }
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('tictactoe-daily-date'))).not.toBeNull()
+  })
+
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {
     await page.goto('/games/minesweeper/')
     const firstCell = page.getByTestId('minesweeper-cell-4-4')
