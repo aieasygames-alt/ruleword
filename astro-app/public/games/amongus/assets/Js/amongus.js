@@ -24,17 +24,10 @@ function getAudio(){
 function getKeyAndMove(e){
 	
 
-	if(leftl.style.transform ="rotate(0deg)"){
-		           
-					leftl.style.transform ="rotate(20deg)";
-					setTimeout(function(){ leftl.style.transform ="rotate(0deg)"; }, 450);
-
-				}
-		
-	if(rightl.style.transform ="rotate(0deg)"){
-					rightl.style.transform ="rotate(-20deg)";
-					setTimeout(function(){ rightl.style.transform ="rotate(0deg)"; }, 450);
-				}
+	leftl.style.transform ="rotate(20deg)";
+	setTimeout(function(){ leftl.style.transform ="rotate(0deg)"; }, 450);
+	rightl.style.transform ="rotate(-20deg)";
+	setTimeout(function(){ rightl.style.transform ="rotate(0deg)"; }, 450);
     		
 // Fetching the key code value	
 	var key_code=e.which||e.keyCode;

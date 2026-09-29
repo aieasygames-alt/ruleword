@@ -271,7 +271,7 @@ export default function DoodleJump({
 
     const gameLoop = () => {
       setPlayer(prev => {
-        let newPlayer = { ...prev }
+        const newPlayer = { ...prev }
 
         // Horizontal movement
         if (keys.left) {
@@ -320,7 +320,7 @@ export default function DoodleJump({
       // Update moving platforms
       newPlatforms = newPlatforms.map(p => {
         if (p.type === 'moving' && p.vx !== undefined) {
-          let newX = p.x + p.vx
+          const newX = p.x + p.vx
           if (newX <= 0 || newX + p.width >= CANVAS_WIDTH) {
             return { ...p, x: newX, vx: -p.vx }
           }

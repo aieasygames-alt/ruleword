@@ -271,13 +271,11 @@ function MiniGame({
 
           let newVx = enemy.vx
           let newVy = enemy.vy
-          let newState = enemy.state
           let newAlertTimer = enemy.alertTimer
 
           // State machine
           if (distance < DETECTION_RADIUS) {
             // Player detected - flee!
-            newState = 'flee'
             newAlertTimer = 3
 
             // Run away from player
@@ -287,10 +285,8 @@ function MiniGame({
           } else if (enemy.alertTimer > 0) {
             // Still alert, slow down
             newAlertTimer = enemy.alertTimer - 0.016
-            newState = 'alert'
           } else {
             // Patrol randomly
-            newState = 'patrol'
 
             // Random direction change
             if (Math.random() < 0.02) {
@@ -327,7 +323,7 @@ function MiniGame({
             y: newY,
             vx: newVx,
             vy: newVy,
-            state: newState,
+            state: distance < DETECTION_RADIUS ? 'flee' : enemy.alertTimer > 0 ? 'alert' : 'patrol',
             alertTimer: newAlertTimer
           }
         })

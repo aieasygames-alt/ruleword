@@ -179,10 +179,7 @@ export default function Nonogram({ settings, onBack }: { settings: { darkMode: b
     e.preventDefault()
     setIsDragging(true)
     const current = grid[row][col]
-    let newType: CellState = 'filled'
-    if (current === 'empty') newType = 'filled'
-    else if (current === 'filled') newType = 'crossed'
-    else newType = 'empty'
+    const newType: CellState = current === 'empty' ? 'filled' : current === 'filled' ? 'crossed' : 'empty'
     setDragType(newType)
     handleCellAction(row, col, 'toggle')
   }

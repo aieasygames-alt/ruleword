@@ -33,11 +33,10 @@ export function nextPoliceStep(
 
   // Find the patrol target: the next point in the patrol sequence after the current position,
   // or the closest patrol point if not currently on any.
-  let target: Coord | null = null
   const onPatrolIdx = policePatrol.findIndex(p => p.r === policePos.r && p.c === policePos.c)
-  if (onPatrolIdx >= 0) {
-    target = policePatrol[(onPatrolIdx + 1) % policePatrol.length]
-  } else {
+  const target: Coord | null = onPatrolIdx >= 0
+    ? policePatrol[(onPatrolIdx + 1) % policePatrol.length]
+    : (() => {
     // closest by BFS
     let best: Coord | null = null
     let bestLen = Infinity
@@ -48,8 +47,8 @@ export function nextPoliceStep(
         best = p
       }
     }
-    target = best
-  }
+      return best
+    })()
   if (!target) return policePos
   if (target.r === policePos.r && target.c === policePos.c) return policePos
 

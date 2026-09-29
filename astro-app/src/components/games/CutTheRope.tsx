@@ -238,7 +238,7 @@ export default function CutTheRope({
       setCandy(prev => {
         if (!prev) return null
 
-        let newCandy = { ...prev }
+        const newCandy = { ...prev }
 
         // Apply gravity
         newCandy.vy += GRAVITY

@@ -123,7 +123,6 @@ function generateCages(size: number, solution: number[][], rng: () => number): C
 
       if (cells.length === 1) {
         target = values[0]
-        operation = '+'
       } else {
         const possibleOps = operations.filter(op => {
           if (op === '-' && values.length === 2) return true

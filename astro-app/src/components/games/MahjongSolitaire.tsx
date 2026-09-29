@@ -118,6 +118,7 @@ const canSelect = (tile: Tile, allTiles: Tile[]): boolean => {
 // 生成更大的可解麻将布局 - 经典乌龟形
 const generateLayout = (): Tile[] => {
   const tiles: Tile[] = []
+  // eslint-disable-next-line prefer-const -- incremented while assigning persistent tile IDs.
   let id = 0
 
   // Layer 0 (底): 8列 x 5行 = 40 tiles
@@ -137,8 +138,8 @@ const generateLayout = (): Tile[] => {
     tiles.push({ id: id++, tileType: ALL_TILE_TYPES[0], layer: 2, row: 2, col: col + 2, isRemoved: false })
   }
   // Layer 3: 顶冠 2 tiles
-  tiles.push({ id: id++, tileType: ALL_TILE_TYPES[0], layer: 3, row: 2, col: 3, isRemoved: false })
-  tiles.push({ id: id++, tileType: ALL_TILE_TYPES[0], layer: 3, row: 2, col: 4, isRemoved: false })
+  tiles.push({ id, tileType: ALL_TILE_TYPES[0], layer: 3, row: 2, col: 3, isRemoved: false })
+  tiles.push({ id: id + 1, tileType: ALL_TILE_TYPES[0], layer: 3, row: 2, col: 4, isRemoved: false })
 
   const totalTiles = tiles.length // 64 tiles = 32 pairs
   const sortedTiles = [...tiles].sort((a, b) => {

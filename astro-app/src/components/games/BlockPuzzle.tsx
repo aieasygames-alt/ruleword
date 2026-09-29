@@ -100,7 +100,6 @@ export default function BlockPuzzle() {
       }
     }
 
-    let linesCleared = 0;
     const rowsToClear: number[] = [];
     const colsToClear: number[] = [];
 
@@ -114,7 +113,7 @@ export default function BlockPuzzle() {
     rowsToClear.forEach(y => { for (let x = 0; x < 10; x++) newGrid[y][x] = null; });
     colsToClear.forEach(x => { for (let y = 0; y < 10; y++) newGrid[y][x] = null; });
 
-    linesCleared = rowsToClear.length + colsToClear.length;
+    const linesCleared = rowsToClear.length + colsToClear.length;
     const points = linesCleared > 1 ? linesCleared * 15 * linesCleared : linesCleared * 10;
     setScore(s => s + points);
     setGrid(newGrid);

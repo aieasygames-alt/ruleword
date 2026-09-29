@@ -31,17 +31,10 @@ function getAudio(){
     }
 // Function for leg movement
 function legmove(){
-	if(leftl.style.transform ="rotate(0deg)"){
-		           
-					leftl.style.transform ="rotate(20deg)";
-					setTimeout(function(){ leftl.style.transform ="rotate(0deg)"; }, 450);
-
-				}
-		
-	if(rightl.style.transform ="rotate(0deg)"){
-					rightl.style.transform ="rotate(-20deg)";
-					setTimeout(function(){ rightl.style.transform ="rotate(0deg)"; }, 450);
-				}
+	leftl.style.transform ="rotate(20deg)";
+	setTimeout(function(){ leftl.style.transform ="rotate(0deg)"; }, 450);
+	rightl.style.transform ="rotate(-20deg)";
+	setTimeout(function(){ rightl.style.transform ="rotate(0deg)"; }, 450);
 
 }
 

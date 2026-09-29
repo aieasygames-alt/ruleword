@@ -61,12 +61,9 @@ function checkWin(board: Cell[][], row: number, col: number, player: Cell): { wo
 // AI logic for Gomoku
 function evaluatePosition(board: Cell[][], row: number, col: number, player: Cell): number {
   let score = 0
-  const opponent = player === 1 ? 2 : 1
-
   for (const [dr, dc] of DIRECTIONS) {
     let count = 1
     let openEnds = 0
-    let blocked = 0
 
     // Positive direction
     let r = row + dr, c = col + dc
@@ -77,9 +74,6 @@ function evaluatePosition(board: Cell[][], row: number, col: number, player: Cel
     }
     if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
       if (board[r][c] === 0) openEnds++
-      else blocked++
-    } else {
-      blocked++
     }
 
     // Negative direction
@@ -90,12 +84,7 @@ function evaluatePosition(board: Cell[][], row: number, col: number, player: Cel
       r -= dr
       c -= dc
     }
-    if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE) {
-      if (board[r][c] === 0) openEnds++
-      else blocked++
-    } else {
-      blocked++
-    }
+    if (r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE && board[r][c] === 0) openEnds++
 
     // Score based on count and open ends
     if (count >= 5) score += 100000

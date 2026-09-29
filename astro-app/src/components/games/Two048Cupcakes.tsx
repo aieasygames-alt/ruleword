@@ -47,8 +47,8 @@ const addRandomTile = (grid: Grid): Grid => {
 };
 
 const slideRow = (row: (number | null)[]): (number | null)[] => {
-  let filtered = row.filter(x => x !== null);
-  let merged: (number | null)[] = [];
+  const filtered = row.filter(x => x !== null);
+  const merged: (number | null)[] = [];
   let skip = false;
 
   for (let i = 0; i < filtered.length; i++) {

@@ -410,8 +410,8 @@ export default function ArrowPuzzle({ settings, onBack }: ArrowPuzzleProps) {
       // Draw hint circle on head segment
       if (isHinted && arrow.segments.length > 0) {
         const head = arrow.segments[0]
-        let hx = head.col * cellSize + cellSize / 2 + offsetX
-        let hy = head.row * cellSize + cellSize / 2 + offsetY
+        const hx = head.col * cellSize + cellSize / 2 + offsetX
+        const hy = head.row * cellSize + cellSize / 2 + offsetY
         ctx.strokeStyle = '#fbbf24'
         ctx.lineWidth = 3
         ctx.beginPath()

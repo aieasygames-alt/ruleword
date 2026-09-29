@@ -157,7 +157,7 @@ export default function ChineseChess({ settings }: Props) {
         for (let c = col + 1; c < 9; c++) { addMove(row, c); if (boardState[row][c]) break }
         break
 
-      case 'C':
+      case 'C': {
         const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
         directions.forEach(([dr, dc]) => {
           let foundPlatform = false
@@ -176,8 +176,9 @@ export default function ChineseChess({ settings }: Props) {
           }
         })
         break
+      }
 
-      case 'P':
+      case 'P': {
         const dir = piece.color === 'red' ? -1 : 1
         const hasCrossedRiver = piece.color === 'red' ? row <= 4 : row >= 5
         addMove(row + dir, col)
@@ -186,6 +187,7 @@ export default function ChineseChess({ settings }: Props) {
           addMove(row, col + 1)
         }
         break
+      }
     }
 
     return moves

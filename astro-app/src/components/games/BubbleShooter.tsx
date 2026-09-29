@@ -290,11 +290,11 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     }
 
     // Animate the bubble flying
-    let curX = SHOOTER_X
-    let curY = SHOOTER_Y
+    const curX = SHOOTER_X
+    const curY = SHOOTER_Y
     const speed = 14
-    let vx = Math.cos(aimAngle) * speed
-    let vy = -Math.sin(aimAngle) * speed
+    const vx = Math.cos(aimAngle) * speed
+    const vy = -Math.sin(aimAngle) * speed
 
     flyingBubbleRef.current = { x: curX, y: curY, vx, vy, color: shooterColor }
 
@@ -469,7 +469,7 @@ export default function BubbleShooter({ settings, onBack, toggleLanguage }: Prop
     let aimX = SHOOTER_X
     let aimY = SHOOTER_Y
     let aimVx = Math.cos(aimAngle)
-    let aimVy = -Math.sin(aimAngle)
+    const aimVy = -Math.sin(aimAngle)
     const aimSteps = 600
     const aimStepSize = 2
 

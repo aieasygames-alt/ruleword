@@ -85,8 +85,21 @@ export default [
         '@typescript-eslint/no-require-imports': 'off',
 
         // General rules
+        'no-empty': ['error', { allowEmptyCatch: true }],
+        'no-useless-escape': 'warn',
         'no-unused-vars': 'off',
         'no-undef': 'off',
+      },
+    },
+
+    // Node script served as a static build helper.
+    {
+      files: ['public/build-static.mjs'],
+      languageOptions: {
+        globals: {
+          process: 'readonly',
+          console: 'readonly',
+        },
       },
     },
 
