@@ -14,4 +14,9 @@ describe('Connect Four daily settlement', () => {
     expect(winnerBlock).toContain('onGameFinish?.({')
     expect(winnerBlock).not.toContain("if (currentTurn === 'red') {")
   })
+
+  it('accepts the legacy daily completion key during the storage migration', () => {
+    const source = fs.readFileSync(componentPath, 'utf8')
+    expect(source).toContain('lastPlayed === getLegacyDailyKey()')
+  })
 })

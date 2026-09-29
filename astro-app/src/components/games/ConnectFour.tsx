@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { getDailyChallengeId } from '../../utils/gameSession'
+import { getDailyConnectFourDifficulty, getDailyConnectFourRandom, type ConnectFourDifficulty } from '../../utils/connectFourDaily'
 
 type Settings = {
   darkMode: boolean
@@ -25,18 +26,8 @@ type Board = Cell[][]
 const createEmptyBoard = (): Board =>
   Array(ROWS).fill(null).map(() => Array(COLS).fill(null))
 
-const getDailySeed = (): number => {
-  const today = new Date()
-  return today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate()
-}
-
-const seededRandom = (seed: number): () => number => {
-  let s = seed
-  return () => {
-    s = (s * 9301 + 49297) % 233280
-    return s / 233280
-  }
-}
+const getLegacyDailyKey = (date = new Date()) =>
+  String(date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate())
 
 const checkWinner = (board: Board): { winner: Cell; cells: [number, number][] } | null => {
   // Check horizontal
@@ -172,7 +163,7 @@ const minimax = (
   }
 }
 
-const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard', random = Math.random): number => {
+const getComputerMove = (board: Board, difficulty: ConnectFourDifficulty, random = Math.random): number => {
   const validMoves = getValidMoves(board)
 
   if (validMoves.length === 0) return -1
@@ -236,7 +227,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const [isDraw, setIsDraw] = useState(false)
   const [hoveredCol, setHoveredCol] = useState<number | null>(null)
   const [stats, setStats] = useState({ wins: 0, losses: 0, draws: 0 })
-  const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
+  const [difficulty, setDifficulty] = useState<ConnectFourDifficulty>('medium')
   const [gameMode, setGameMode] = useState<'menu' | 'pvp' | 'pvc' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
@@ -277,9 +268,9 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
       setStats(JSON.parse(savedStats))
     }
 
-    const today = getDailySeed().toString()
+    const today = getDailyChallengeId('connectfour')
     const lastPlayed = localStorage.getItem('connectfour-daily-date')
-    setDailyPlayed(lastPlayed === today)
+    setDailyPlayed(lastPlayed === today || lastPlayed === getLegacyDailyKey())
     setDailyStatusLoaded(true)
   }, [])
 
@@ -321,7 +312,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
         }
       }
       if (currentGameMode === 'daily') {
-        localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
+        localStorage.setItem('connectfour-daily-date', getDailyChallengeId('connectfour'))
         setDailyPlayed(true)
       }
       onGameFinish?.({
@@ -339,7 +330,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
       setIsDraw(true)
       saveStats({ ...currentStats, draws: currentStats.draws + 1 })
       if (currentGameMode === 'daily') {
-        localStorage.setItem('connectfour-daily-date', getDailySeed().toString())
+        localStorage.setItem('connectfour-daily-date', getDailyChallengeId('connectfour'))
         setDailyPlayed(true)
       }
       onGameFinish?.({
@@ -366,7 +357,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const aiMove = useCallback(() => {
     setIsAiThinking(true)
     const random = gameMode === 'daily'
-      ? seededRandom(getDailySeed() + board.flat().filter(Boolean).length)
+      ? getDailyConnectFourRandom(board.flat().filter(Boolean).length)
       : undefined
     const col = getComputerMove(board, difficulty, random)
     if (col !== -1) {
@@ -392,8 +383,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     setGameMode(mode)
 
     if (mode === 'daily') {
-      const random = seededRandom(getDailySeed())
-      const dailyDifficulty = random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard'
+      const dailyDifficulty = getDailyConnectFourDifficulty()
       setDifficulty(dailyDifficulty)
       onGameStart?.({ mode: 'daily', difficulty: dailyDifficulty, challengeId: getDailyChallengeId('connectfour') })
     } else {
