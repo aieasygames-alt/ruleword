@@ -112,6 +112,7 @@ export default function SimonSays({ settings, onBack, launchOptions, onGameStart
   const [dailyHighScore, setDailyHighScore] = useState(0)
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [speed, setSpeed] = useState<'slow' | 'normal' | 'fast'>('normal')
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
   const [round, setRound] = useState(1)
 
   const audioContextRef = useRef<AudioContext | null>(null)
@@ -138,6 +139,7 @@ export default function SimonSays({ settings, onBack, launchOptions, onGameStart
     const dailyScore = localStorage.getItem('simonsays-daily-score')
     if (dailyScore) setDailyHighScore(parseInt(dailyScore))
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const playTone = useCallback((color: Color) => {
@@ -195,8 +197,8 @@ export default function SimonSays({ settings, onBack, launchOptions, onGameStart
   }
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode])
 
   const showSequence = useCallback((seq: Color[]) => {
     setIsShowingSequence(true)

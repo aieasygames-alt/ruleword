@@ -55,6 +55,7 @@ export default function WhackAMole({ settings, onBack, launchOptions, onGameStar
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [combo, setCombo] = useState(0)
   const [lastHitTime, setLastHitTime] = useState(0)
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
 
   const gameLoopRef = useRef<ReturnType<typeof setInterval>>()
   const moleTimerRef = useRef<ReturnType<typeof setInterval>>()
@@ -85,6 +86,7 @@ export default function WhackAMole({ settings, onBack, launchOptions, onGameStar
     const dailyScore = localStorage.getItem('whackamole-daily-score')
     if (dailyScore) setDailyHighScore(parseInt(dailyScore))
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const startGame = useCallback((mode: 'practice' | 'daily') => {
@@ -109,8 +111,8 @@ export default function WhackAMole({ settings, onBack, launchOptions, onGameStar
   }, [difficulty, onGameStart])
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode, startGame])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode, startGame])
 
   const endGame = useCallback(() => {
     setIsPlaying(false)

@@ -113,6 +113,7 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
   const [dailyHighScore, setDailyHighScore] = useState(0)
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
 
   const ballRef = useRef<Ball>({
     x: CANVAS_WIDTH / 2,
@@ -153,6 +154,7 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
     const dailyScore = localStorage.getItem('brickbreaker-daily-score')
     if (dailyScore) setDailyHighScore(parseInt(dailyScore))
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const addParticles = (x: number, y: number, color: string, count: number) => {
@@ -214,8 +216,8 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
   }, [resetBall, onGameStart, difficulty])
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode, startGame])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode, startGame])
 
   const nextLevel = useCallback(() => {
     const seed = gameMode === 'daily' ? getDailySeed() + level : undefined

@@ -195,6 +195,17 @@ test.describe('GSC priority game critical paths', () => {
     await expect(page.getByText('Daily', { exact: true })).toBeVisible()
   })
 
+  test('completed daily challenges do not reopen through a direct daily URL', async ({ page }) => {
+    await page.goto('/games/15-puzzle/')
+    await page.evaluate(() => {
+      const now = new Date()
+      localStorage.setItem('fifteenpuzzle-daily-date', String(now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate()))
+    })
+    await page.goto('/games/15-puzzle/?mode=daily')
+    await expect(page.getByTestId('fifteen-daily')).toBeDisabled()
+    await expect(page.getByTestId('fifteen-board')).toHaveCount(0)
+  })
+
   test('Tic-Tac-Toe marks the daily challenge complete only after a finished game', async ({ page }) => {
     await page.goto('/games/tic-tac-toe/?mode=daily')
     await page.evaluate(() => localStorage.removeItem('tictactoe-daily-date'))

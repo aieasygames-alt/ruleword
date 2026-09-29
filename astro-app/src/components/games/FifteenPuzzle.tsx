@@ -36,6 +36,7 @@ export default function FifteenPuzzle({ settings, onBack, launchOptions, onGameS
   const [gameMode, setGameMode] = useState<'menu' | 'practice' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [dailyBest, setDailyBest] = useState<null | { moves: number; time: number }>(null)
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -55,6 +56,7 @@ export default function FifteenPuzzle({ settings, onBack, launchOptions, onGameS
     const dailyScore = localStorage.getItem('fifteenpuzzle-daily-score')
     if (dailyScore) setDailyBest(JSON.parse(dailyScore))
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   useEffect(() => {
@@ -84,8 +86,8 @@ export default function FifteenPuzzle({ settings, onBack, launchOptions, onGameS
   }, [onGameStart])
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode, startGame])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode, startGame])
 
   const handleTileClick = useCallback((row: number, col: number) => {
     if (!isPlaying || isWon) return

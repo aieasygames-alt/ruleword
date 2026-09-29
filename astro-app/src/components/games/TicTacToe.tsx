@@ -103,6 +103,7 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [gameMode, setGameMode] = useState<'menu' | 'pvp' | 'pvc' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
   const moveCountRef = useRef(0)
   const dailyRandomRef = useRef<(() => number) | null>(null)
   const finishedRef = useRef(false)
@@ -121,6 +122,7 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
     const today = getDailySeed().toString()
     const lastPlayed = localStorage.getItem('tictactoe-daily-date')
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const saveStats = (newStats: typeof stats) => {
@@ -232,8 +234,8 @@ export default function TicTacToe({ settings, onBack, launchOptions, onGameStart
   }, [difficulty, onGameStart])
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode, startGame])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode, startGame])
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))

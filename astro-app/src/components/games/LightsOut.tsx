@@ -104,6 +104,7 @@ export default function LightsOut({ settings, onBack, launchOptions, onGameStart
   const [dailyPlayed, setDailyPlayed] = useState(false)
   const [dailyStats, setDailyStats] = useState<null | { moves: number; difficulty: string }>(null)
   const [history, setHistory] = useState<Board[]>([])
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
 
   const gridSize = GRID_SIZES[difficulty]
 
@@ -121,6 +122,7 @@ export default function LightsOut({ settings, onBack, launchOptions, onGameStart
     const dailyScore = localStorage.getItem('lightsout-daily-score')
     if (dailyScore) setDailyStats(JSON.parse(dailyScore))
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const saveStats = (newStats: typeof stats) => {
@@ -154,8 +156,8 @@ export default function LightsOut({ settings, onBack, launchOptions, onGameStart
   }, [difficulty, onGameStart])
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode, startGame])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode, startGame])
 
   const handleCellClick = useCallback((row: number, col: number) => {
     if (isWon) return

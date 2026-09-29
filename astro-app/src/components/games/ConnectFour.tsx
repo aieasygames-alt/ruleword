@@ -239,6 +239,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [gameMode, setGameMode] = useState<'menu' | 'pvp' | 'pvc' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
+  const [dailyStatusLoaded, setDailyStatusLoaded] = useState(false)
   const [animatingCol, setAnimatingCol] = useState<number | null>(null)
   const [isAiThinking, setIsAiThinking] = useState(false)
 
@@ -276,6 +277,7 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
     const today = getDailySeed().toString()
     const lastPlayed = localStorage.getItem('connectfour-daily-date')
     setDailyPlayed(lastPlayed === today)
+    setDailyStatusLoaded(true)
   }, [])
 
   const saveStats = useCallback((newStats: typeof stats) => {
@@ -404,8 +406,8 @@ export default function ConnectFour({ settings, onBack, launchOptions, onGameSta
   }
 
   useEffect(() => {
-    if (launchOptions?.mode === 'daily') startGame('daily')
-  }, [launchOptions?.mode])
+    if (launchOptions?.mode === 'daily' && dailyStatusLoaded && !dailyPlayed) startGame('daily')
+  }, [dailyPlayed, dailyStatusLoaded, launchOptions?.mode])
 
   const resetGame = () => {
     setBoard(createEmptyBoard())
