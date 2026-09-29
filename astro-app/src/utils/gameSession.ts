@@ -20,14 +20,14 @@ export type GameSession = {
 }
 
 const DAY_MS = 86_400_000
-const EPOCH_UTC = Date.UTC(2024, 0, 1)
+const EPOCH_LOCAL = new Date(2024, 0, 1).getTime()
 
-function todayUtc(date = new Date()) {
-  return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+function todayLocal(date = new Date()) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
 }
 
 export function getDailyChallengeId(gameId: string, date = new Date()) {
-  return `${gameId}:${Math.floor((todayUtc(date) - EPOCH_UTC) / DAY_MS)}`
+  return `${gameId}:${Math.floor((todayLocal(date) - EPOCH_LOCAL) / DAY_MS)}`
 }
 
 export function getDailyChallengeSeed(gameId: string, date = new Date()) {
