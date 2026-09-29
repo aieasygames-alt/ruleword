@@ -73,7 +73,11 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
   const [isLoading, setIsLoading] = useState(true)
   const [shareData, setShareData] = useState<ShareData | null>(null)
   const [showShareModal, setShowShareModal] = useState(false)
-  const [launchOptions, setLaunchOptions] = useState<GameLaunchOptions>({})
+  const [launchOptions] = useState<GameLaunchOptions>(() => {
+    if (typeof window === 'undefined') return {}
+    const mode = new URLSearchParams(window.location.search).get('mode')
+    return mode ? { mode } : {}
+  })
   const gameStartTime = useRef<number>(Date.now())
   const currentScore = useRef<number>(0)
   const gameSession = useRef(createGameSession(gameId))
@@ -99,12 +103,6 @@ export default function GameWrapper({ gameId, gameName, gameSlug }: GameWrapperP
     if (lang === 'zh' || lang === 'en') {
       setSettings(s => ({ ...s, language: lang }))
     }
-  }, [])
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const mode = params.get('mode')
-    setLaunchOptions(mode ? { mode } : {})
   }, [])
 
   // 动态加载游戏组件

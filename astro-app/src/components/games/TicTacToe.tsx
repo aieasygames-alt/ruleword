@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type TicTacToeProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'pvp' | 'ai' | 'daily'; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed' | 'failed'; score: number; moves: number; mode: 'pvp' | 'ai' | 'daily'; difficulty: string; challengeId?: string }) => void
 }
 
 type Player = 'X' | 'O' | null
@@ -33,14 +38,14 @@ const seededRandom = (seed: number): () => number => {
   }
 }
 
-const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): number => {
+const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard', random = Math.random): number => {
   const availableMoves = board.map((cell, i) => cell === null ? i : -1).filter(i => i !== -1)
 
   if (availableMoves.length === 0) return -1
 
   // Easy: Random move
   if (difficulty === 'easy') {
-    return availableMoves[Math.floor(Math.random() * availableMoves.length)]
+    return availableMoves[Math.floor(random() * availableMoves.length)]
   }
 
   // Check for winning move
@@ -58,8 +63,8 @@ const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): 
   }
 
   // Medium: Sometimes random, sometimes smart
-  if (difficulty === 'medium' && Math.random() < 0.4) {
-    return availableMoves[Math.floor(Math.random() * availableMoves.length)]
+  if (difficulty === 'medium' && random() < 0.4) {
+    return availableMoves[Math.floor(random() * availableMoves.length)]
   }
 
   // Take center if available
@@ -68,11 +73,11 @@ const getComputerMove = (board: Board, difficulty: 'easy' | 'medium' | 'hard'): 
   // Take corners
   const corners = [0, 2, 6, 8].filter(i => board[i] === null)
   if (corners.length > 0) {
-    return corners[Math.floor(Math.random() * corners.length)]
+    return corners[Math.floor(random() * corners.length)]
   }
 
   // Take any available move
-  return availableMoves[Math.floor(Math.random() * availableMoves.length)]
+  return availableMoves[Math.floor(random() * availableMoves.length)]
 }
 
 const checkWinner = (board: Board): Player => {
@@ -88,7 +93,7 @@ const checkDraw = (board: Board): boolean => {
   return board.every(cell => cell !== null)
 }
 
-export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
+export default function TicTacToe({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: TicTacToeProps) {
   const [board, setBoard] = useState<Board>(Array(9).fill(null))
   const [isPlayerTurn, setIsPlayerTurn] = useState(true)
   const [winner, setWinner] = useState<Player>(null)
@@ -98,6 +103,9 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
   const [difficulty, setDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium')
   const [gameMode, setGameMode] = useState<'menu' | 'pvp' | 'pvc' | 'daily'>('menu')
   const [dailyPlayed, setDailyPlayed] = useState(false)
+  const moveCountRef = useRef(0)
+  const dailyRandomRef = useRef<(() => number) | null>(null)
+  const finishedRef = useRef(false)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -120,6 +128,19 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
     localStorage.setItem('tictactoe-stats', JSON.stringify(newStats))
   }
 
+  const finishGame = useCallback((outcome: 'completed' | 'failed', finalBoard: Board) => {
+    if (finishedRef.current || gameMode === 'menu') return
+    finishedRef.current = true
+    onGameFinish?.({
+      outcome,
+      score: outcome === 'completed' ? 1 : 0,
+      moves: moveCountRef.current,
+      mode: gameMode === 'pvc' ? 'ai' : gameMode,
+      difficulty,
+      challengeId: gameMode === 'daily' ? getDailyChallengeId('tictactoe') : undefined,
+    })
+  }, [difficulty, gameMode, onGameFinish])
+
   const handleCellClick = (index: number) => {
     if (board[index] || winner || isDraw || !isPlayerTurn) return
 
@@ -127,6 +148,8 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
     newBoard[index] = 'X'
     setBoard(newBoard)
     setIsPlayerTurn(false)
+    moveCountRef.current += 1
+    onGameMove?.()
 
     const gameWinner = checkWinner(newBoard)
     if (gameWinner) {
@@ -137,12 +160,14 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
       if (gameMode === 'pvp') {
         saveStats({ ...stats, wins: stats.wins + 1 })
       }
+      finishGame('completed', newBoard)
       return
     }
 
     if (checkDraw(newBoard)) {
       setIsDraw(true)
       saveStats({ ...stats, draws: stats.draws + 1 })
+      finishGame('failed', newBoard)
     }
   }
 
@@ -150,12 +175,13 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
     if (gameMode === 'pvp' || winner || isDraw || isPlayerTurn) return
 
     const timeout = setTimeout(() => {
-      const computerMove = getComputerMove(board, difficulty)
+      const computerMove = getComputerMove(board, difficulty, gameMode === 'daily' ? dailyRandomRef.current || Math.random : Math.random)
       if (computerMove !== -1) {
         const newBoard = [...board]
         newBoard[computerMove] = 'O'
         setBoard(newBoard)
         setIsPlayerTurn(true)
+        moveCountRef.current += 1
 
         const gameWinner = checkWinner(newBoard)
         if (gameWinner) {
@@ -164,32 +190,46 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
             newBoard[a] && newBoard[a] === newBoard[b] && newBoard[a] === newBoard[c]
           ) || [])
           saveStats({ ...stats, losses: stats.losses + 1 })
+          finishGame('failed', newBoard)
           return
         }
 
         if (checkDraw(newBoard)) {
           setIsDraw(true)
           saveStats({ ...stats, draws: stats.draws + 1 })
+          finishGame('failed', newBoard)
         }
       }
     }, 500)
 
     return () => clearTimeout(timeout)
-  }, [board, isPlayerTurn, winner, isDraw, gameMode, difficulty])
+  }, [board, isPlayerTurn, winner, isDraw, gameMode, difficulty, finishGame])
 
-  const startGame = (mode: 'pvp' | 'pvc' | 'daily') => {
+  const startGame = useCallback((mode: 'pvp' | 'pvc' | 'daily') => {
     setBoard(Array(9).fill(null))
     setIsPlayerTurn(true)
     setWinner(null)
     setIsDraw(false)
     setWinningLine([])
     setGameMode(mode)
+    moveCountRef.current = 0
+    finishedRef.current = false
 
     if (mode === 'daily') {
       const random = seededRandom(getDailySeed())
-      setDifficulty(random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard')
+      const dailyDifficulty = random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard'
+      setDifficulty(dailyDifficulty)
+      dailyRandomRef.current = random
+      onGameStart?.({ mode: 'daily', difficulty: dailyDifficulty, challengeId: getDailyChallengeId('tictactoe') })
+    } else {
+      dailyRandomRef.current = null
+      onGameStart?.({ mode: mode === 'pvc' ? 'ai' : 'pvp', difficulty })
     }
-  }
+  }, [difficulty, onGameStart])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode, startGame])
 
   const resetGame = () => {
     setBoard(Array(9).fill(null))
@@ -198,11 +238,6 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
     setIsDraw(false)
     setWinningLine([])
 
-    if (gameMode === 'daily') {
-      const today = getDailySeed().toString()
-      localStorage.setItem('tictactoe-daily-date', today)
-      setDailyPlayed(true)
-    }
   }
 
   const goToMenu = () => {
@@ -338,7 +373,7 @@ export default function TicTacToe({ settings, onBack }: TicTacToeProps) {
 
         {/* Board */}
         <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
-          <div className="grid grid-cols-3 gap-2 aspect-square max-w-xs mx-auto">
+          <div data-testid="tic-tac-toe-board" className="grid grid-cols-3 gap-2 aspect-square max-w-xs mx-auto">
             {board.map((cell, index) => (
               <button
                 key={index}

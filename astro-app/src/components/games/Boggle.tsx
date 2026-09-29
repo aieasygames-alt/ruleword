@@ -44,6 +44,7 @@ type Settings = {
 type BoggleProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
   onShare?: (data: { score?: number; result?: string }) => void
   toggleLanguage: () => void
   toggleTheme: () => void
@@ -313,7 +314,7 @@ function wordListLabel(words: string[]) {
   return `${words.length} word${words.length === 1 ? '' : 's'}`
 }
 
-export default function Boggle({ settings, onBack, onShare, onGameStart, onGameMove, onGameFinish }: BoggleProps) {
+export default function Boggle({ settings, onBack, launchOptions, onShare, onGameStart, onGameMove, onGameFinish }: BoggleProps) {
   const [board, setBoard] = useState<BoggleBoard>([])
   const [selectedCells, setSelectedCells] = useState<BoggleCell[]>([])
   const [currentWord, setCurrentWord] = useState('')
@@ -358,6 +359,13 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
     if (!settingsLoaded) return
     saveBoggleSettings({ mode, boardSize })
   }, [boardSize, mode, settingsLoaded])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily' && settingsLoaded && !gameActive && !gameOver) {
+      setMode('daily')
+      setBoardSize(4)
+    }
+  }, [gameActive, gameOver, launchOptions?.mode, settingsLoaded])
 
   const clearSelection = useCallback(() => {
     setSelectedCells([])
@@ -411,8 +419,10 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
     }
   }, [board, boardSize, clearSelection, dailyStats, foundWords, mode, score, onGameFinish])
 
-  const startGame = useCallback(() => {
-    setBoard(mode === 'daily' ? generateDailyBoggleBoard(new Date(), boardSize) : generateBoggleBoard(Math.random, boardSize))
+  const startGame = useCallback((nextMode = mode, nextBoardSize = boardSize) => {
+    setMode(nextMode)
+    setBoardSize(nextBoardSize)
+    setBoard(nextMode === 'daily' ? generateDailyBoggleBoard(new Date(), nextBoardSize) : generateBoggleBoard(Math.random, nextBoardSize))
     setSelectedCells([])
     setCurrentWord('')
     setFoundWords(new Set())
@@ -427,15 +437,21 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
     setHintText('')
     setShareStatus('')
     trackRulewordEvent('boggle_start', {
-      mode,
-      board_size: boardSize,
+      mode: nextMode,
+      board_size: nextBoardSize,
     })
     onGameStart?.({
-      mode,
-      difficulty: `${boardSize}x${boardSize}`,
-      challengeId: mode === 'daily' ? getDailyChallengeId('boggle') : undefined,
+      mode: nextMode,
+      difficulty: `${nextBoardSize}x${nextBoardSize}`,
+      challengeId: nextMode === 'daily' ? getDailyChallengeId('boggle') : undefined,
     })
   }, [boardSize, mode, onGameStart])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily' && settingsLoaded && mode === 'daily' && !gameActive && !gameOver) {
+      startGame('daily', 4)
+    }
+  }, [gameActive, gameOver, launchOptions?.mode, mode, settingsLoaded, startGame])
 
   useEffect(() => {
     if (gameActive && mode === 'classic' && timeLeft > 0) {
@@ -614,7 +630,7 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
             Back
           </button>
           <div className="flex items-center gap-4">
-            <div className="text-center">
+            <div data-testid={`boggle-active-mode-${mode}`} className="text-center">
               <div className="text-xs text-slate-400">Time</div>
               <div data-testid="boggle-time" className={`text-lg font-bold ${mode === 'classic' && timeLeft <= 30 ? 'text-red-400' : 'text-green-400'}`}>
                 {mode === 'classic' ? formatTime(timeLeft) : 'Relax'}
@@ -633,7 +649,7 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
               <div className="text-lg font-bold text-emerald-400">{selectedBestScore}</div>
             </div>
           </div>
-          <button data-testid="boggle-header-start" onClick={startGame} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
+          <button data-testid="boggle-header-start" onClick={() => startGame()} className="px-3 py-1.5 rounded-lg bg-green-600 hover:bg-green-500 transition-colors text-sm font-medium">
             {gameActive ? 'New' : gameOver ? 'Play Again' : hasBoard ? 'New' : 'Start'}
           </button>
         </div>
@@ -702,7 +718,7 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
                 </div>
               </div>
             </div>
-            <button data-testid="boggle-start" onClick={startGame} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
+            <button data-testid="boggle-start" onClick={() => startGame()} className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 transition-colors font-bold text-lg">
               Start Game
             </button>
           </div>
@@ -889,7 +905,7 @@ export default function Boggle({ settings, onBack, onShare, onGameStart, onGameM
               )}
 
               <div className="flex justify-center gap-2">
-                <button data-testid="boggle-play-again" onClick={startGame} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium">
+                <button data-testid="boggle-play-again" onClick={() => startGame()} className="px-6 py-2 rounded-lg bg-green-600 hover:bg-green-500 transition-colors font-medium">
                   Play Again
                 </button>
                 <button data-testid="boggle-share" onClick={handleShare} className="px-6 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 transition-colors font-medium">

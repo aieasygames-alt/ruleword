@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type LightsOutProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'practice' | 'daily'; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; moves: number; mode: 'practice' | 'daily'; difficulty: string; challengeId?: string }) => void
 }
 
 type Board = boolean[][]
@@ -89,7 +94,7 @@ const countLightsOn = (board: Board): number => {
   return board.reduce((acc, row) => acc + row.filter(cell => cell).length, 0)
 }
 
-export default function LightsOut({ settings, onBack }: LightsOutProps) {
+export default function LightsOut({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: LightsOutProps) {
   const [board, setBoard] = useState<Board>(createEmptyBoard(5))
   const [moves, setMoves] = useState(0)
   const [isWon, setIsWon] = useState(false)
@@ -123,7 +128,7 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
     localStorage.setItem('lightsout-stats', JSON.stringify(newStats))
   }
 
-  const startGame = (mode: 'practice' | 'daily') => {
+  const startGame = useCallback((mode: 'practice' | 'daily') => {
     setGameMode(mode)
     setMoves(0)
     setIsWon(false)
@@ -141,7 +146,16 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
     const seed = mode === 'daily' ? getDailySeed() : undefined
     const { board: newBoard } = createPuzzle(size, diff, seed)
     setBoard(newBoard)
-  }
+    onGameStart?.({
+      mode,
+      difficulty: diff,
+      challengeId: mode === 'daily' ? getDailyChallengeId('lightsout') : undefined,
+    })
+  }, [difficulty, onGameStart])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode, startGame])
 
   const handleCellClick = useCallback((row: number, col: number) => {
     if (isWon) return
@@ -150,6 +164,7 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
     setHistory(prev => [...prev, board])
     setBoard(newBoard)
     setMoves(m => m + 1)
+    onGameMove?.()
 
     if (isSolved(newBoard)) {
       setIsWon(true)
@@ -172,8 +187,16 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
         localStorage.setItem('lightsout-daily-date', today)
         setDailyPlayed(true)
       }
+      onGameFinish?.({
+        outcome: 'completed',
+        score: moves + 1,
+        moves: moves + 1,
+        mode: gameMode === 'daily' ? 'daily' : 'practice',
+        difficulty,
+        challengeId: gameMode === 'daily' ? getDailyChallengeId('lightsout') : undefined,
+      })
     }
-  }, [board, isWon, moves, difficulty, gameMode, stats])
+  }, [board, isWon, moves, difficulty, gameMode, stats, onGameMove, onGameFinish])
 
   const undo = useCallback(() => {
     if (history.length === 0 || isWon) return
@@ -320,6 +343,7 @@ export default function LightsOut({ settings, onBack }: LightsOutProps) {
         {/* Board */}
         <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}>
           <div
+            data-testid="lights-out-board"
             className="grid gap-2 max-w-sm mx-auto"
             style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr)` }}
           >
