@@ -69,4 +69,27 @@ describe('game sessions', () => {
     expect(session.isActive()).toBe(false)
     expect(window.dataLayer).toHaveLength(2)
   })
+
+  it('abandons an active round before starting another', () => {
+    const session = createGameSession('sokoban')
+    session.start({ mode: 'daily', difficulty: 'level-1', challengeId: 'sokoban:1' })
+    session.move(4)
+    session.start({ mode: 'practice', difficulty: 'level-2' })
+
+    expect(window.dataLayer).toContainEqual(expect.objectContaining({
+      event: 'game_session_finish',
+      game_id: 'sokoban',
+      outcome: 'abandoned',
+      moves: 4,
+      mode: 'daily',
+      difficulty: 'level-1',
+      challenge_id: 'sokoban:1',
+    }))
+    expect(window.dataLayer).toContainEqual(expect.objectContaining({
+      event: 'game_session_start',
+      game_id: 'sokoban',
+      mode: 'practice',
+      difficulty: 'level-2',
+    }))
+  })
 })

@@ -45,45 +45,52 @@ export function createGameSession(gameId: string): GameSession {
   let startedAt: number | null = null
   let moves = 0
   let completed = false
+  let sessionContext: Omit<GameSessionResult, 'outcome' | 'score' | 'durationSeconds' | 'moves'> = {}
+
+  const finishActiveSession = (result: GameSessionResult) => {
+    if (startedAt === null || completed) return
+    completed = true
+    const durationSeconds = result.durationSeconds ?? Math.max(0, Math.floor((Date.now() - startedAt) / 1000))
+    const totalMoves = result.moves ?? moves
+    const payload = {
+      game_id: gameId,
+      outcome: result.outcome,
+      score: result.score,
+      duration_seconds: durationSeconds,
+      moves: totalMoves,
+      difficulty: result.difficulty,
+      mode: result.mode,
+      challenge_id: result.challengeId,
+    }
+
+    trackRulewordEvent('game_session_finish', payload)
+    recordGamePlay(gameId, result.score, durationSeconds)
+    saveGameProgress(gameId, {
+      customData: {
+        lastOutcome: result.outcome,
+        lastMoves: totalMoves,
+        lastMode: result.mode,
+        lastDifficulty: result.difficulty,
+        lastChallengeId: result.challengeId,
+      },
+    })
+  }
 
   return {
-    start(context = {}) {
+    start(nextContext = {}) {
+      finishActiveSession({ outcome: 'abandoned', ...sessionContext })
       startedAt = Date.now()
       moves = 0
       completed = false
-      trackRulewordEvent('game_session_start', { game_id: gameId, ...context })
+      sessionContext = nextContext
+      trackRulewordEvent('game_session_start', { game_id: gameId, ...nextContext })
     },
     move(count = 1) {
       if (startedAt === null || completed) return
       moves += count
     },
     finish(result) {
-      if (startedAt === null || completed) return
-      completed = true
-      const durationSeconds = result.durationSeconds ?? (startedAt === null ? 0 : Math.max(0, Math.floor((Date.now() - startedAt) / 1000)))
-      const totalMoves = result.moves ?? moves
-      const payload = {
-        game_id: gameId,
-        outcome: result.outcome,
-        score: result.score,
-        duration_seconds: durationSeconds,
-        moves: totalMoves,
-        difficulty: result.difficulty,
-        mode: result.mode,
-        challenge_id: result.challengeId,
-      }
-
-      trackRulewordEvent('game_session_finish', payload)
-      recordGamePlay(gameId, result.score, durationSeconds)
-      saveGameProgress(gameId, {
-        customData: {
-          lastOutcome: result.outcome,
-          lastMoves: totalMoves,
-          lastMode: result.mode,
-          lastDifficulty: result.difficulty,
-          lastChallengeId: result.challengeId,
-        },
-      })
+      finishActiveSession({ ...sessionContext, ...result })
     },
     isActive() {
       return startedAt !== null && !completed
