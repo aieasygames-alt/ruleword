@@ -430,9 +430,6 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
               setDailyHighScore(score)
               localStorage.setItem('brickbreaker-daily-score', score.toString())
             }
-            const today = getDailySeed().toString()
-            localStorage.setItem('brickbreaker-daily-date', today)
-            setDailyPlayed(true)
           }
           if (!finishedRef.current && gameMode !== 'menu') {
             finishedRef.current = true
@@ -722,15 +719,17 @@ export default function BrickBreaker({ settings, onBack, launchOptions, onGameSt
                 <p className="text-yellow-500 font-bold mb-2">🏆 {settings.language === 'zh' ? '新纪录!' : 'New High Score!'}</p>
               )}
               <div className="flex gap-4 mt-4">
-                {gameMode !== 'daily' && <button
-                  onClick={() => startGame('practice')}
+                <button
+                  onClick={() => startGame(gameMode === 'daily' ? 'daily' : 'practice')}
                   className="flex-1 py-3 bg-gradient-to-r from-green-600 to-green-500 text-white rounded-xl font-bold hover:from-green-500 hover:to-green-400 shadow-lg shadow-green-500/30"
                 >
-                  {settings.language === 'zh' ? '再玩一次' : 'Play Again'}
-                </button>}
+                  {gameMode === 'daily'
+                    ? (settings.language === 'zh' ? '再挑战' : 'Try Again')
+                    : (settings.language === 'zh' ? '再玩一次' : 'Play Again')}
+                </button>
                 <button
                   onClick={goToMenu}
-                  className={`${gameMode === 'daily' ? 'w-full' : 'flex-1'} py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
+                  className={`flex-1 py-3 rounded-xl font-bold ${settings.darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-200 hover:bg-gray-300'}`}
                 >
                   {settings.language === 'zh' ? '返回菜单' : 'Menu'}
                 </button>
