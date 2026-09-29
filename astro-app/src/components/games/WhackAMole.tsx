@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type WhackAMoleProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'practice' | 'daily'; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'completed'; score: number; mode: 'practice' | 'daily'; difficulty: string; challengeId?: string }) => void
 }
 
 const GRID_SIZE = 9 // 3x3 grid
@@ -33,7 +38,7 @@ const seededRandom = (seed: number): () => number => {
   }
 }
 
-export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
+export default function WhackAMole({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: WhackAMoleProps) {
   const [moles, setMoles] = useState<MoleState[]>(Array(GRID_SIZE).fill(null).map(() => ({
     isVisible: false,
     isHit: false,
@@ -55,6 +60,7 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
   const moleTimerRef = useRef<ReturnType<typeof setInterval>>()
   const lastMoleRef = useRef<number | null>(null)
   const scoreRef = useRef(score)
+  const dailyRandomRef = useRef<(() => number) | null>(null)
   scoreRef.current = score
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
@@ -81,7 +87,7 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
     setDailyPlayed(lastPlayed === today)
   }, [])
 
-  const startGame = (mode: 'practice' | 'daily') => {
+  const startGame = useCallback((mode: 'practice' | 'daily') => {
     setGameMode(mode)
     setScore(0)
     setTimeLeft(GAME_DURATION)
@@ -94,8 +100,17 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
       const random = seededRandom(getDailySeed())
       const diff = random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard'
       setDifficulty(diff)
+      dailyRandomRef.current = random
+      onGameStart?.({ mode, difficulty: diff, challengeId: getDailyChallengeId('whackamole') })
+    } else {
+      dailyRandomRef.current = null
+      onGameStart?.({ mode, difficulty })
     }
-  }
+  }, [difficulty, onGameStart])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode, startGame])
 
   const endGame = useCallback(() => {
     setIsPlaying(false)
@@ -117,7 +132,16 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
       localStorage.setItem('whackamole-daily-date', today)
       setDailyPlayed(true)
     }
-  }, [highScore, dailyHighScore, gameMode])
+    if (gameMode !== 'menu') {
+      onGameFinish?.({
+        outcome: 'completed',
+        score: finalScore,
+        mode: gameMode,
+        difficulty,
+        challengeId: gameMode === 'daily' ? getDailyChallengeId('whackamole') : undefined,
+      })
+    }
+  }, [highScore, dailyHighScore, gameMode, difficulty, onGameFinish])
 
   // Game timer
   useEffect(() => {
@@ -144,11 +168,12 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
       setMoles(prev => {
         const newMoles = prev.map(mole => ({ ...mole, isVisible: false, isHit: false }))
         const availableHoles = newMoles.map((_, i) => i).filter(i => i !== lastMoleRef.current)
-        const randomIndex = availableHoles[Math.floor(Math.random() * availableHoles.length)]
+        const random = gameMode === 'daily' ? dailyRandomRef.current || Math.random : Math.random
+        const randomIndex = availableHoles[Math.floor(random() * availableHoles.length)]
         lastMoleRef.current = randomIndex
 
         // Determine mole type
-        const rand = Math.random()
+        const rand = random()
         const moleType: 'normal' | 'golden' | 'bomb' =
           rand < 0.1 ? 'golden' :
           rand < 0.2 ? 'bomb' : 'normal'
@@ -162,7 +187,7 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
     moleTimerRef.current = setInterval(spawnMole, getSpeed())
 
     return () => clearInterval(moleTimerRef.current)
-  }, [isPlaying, getSpeed])
+  }, [isPlaying, getSpeed, gameMode])
 
   const handleWhack = (index: number) => {
     if (!isPlaying || !moles[index].isVisible || moles[index].isHit) return
@@ -203,6 +228,7 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
     }
 
     setScore(prev => Math.max(0, prev + points))
+    onGameMove?.()
 
     // Hide mole after hit
     setTimeout(() => {
@@ -377,7 +403,7 @@ export default function WhackAMole({ settings, onBack }: WhackAMoleProps) {
         )}
 
         {/* Game Grid */}
-        <div className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}
+        <div data-testid="whack-a-mole-board" className={`${cardBgClass} border ${borderClass} rounded-xl p-4`}
           style={{
             background: settings.darkMode
               ? 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'

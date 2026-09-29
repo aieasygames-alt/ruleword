@@ -173,6 +173,14 @@ test.describe('GSC priority game critical paths', () => {
 
     await page.goto('/games/simon-says/?mode=daily')
     await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+
+    await page.goto('/games/brick-breaker/?mode=daily')
+    await expect(page.getByTestId('brick-breaker-board')).toBeVisible()
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
+
+    await page.goto('/games/whack-a-mole/?mode=daily')
+    await expect(page.getByTestId('whack-a-mole-board')).toBeVisible()
+    await expect(page.getByText('Daily', { exact: true })).toBeVisible()
   })
 
   test('Minesweeper keeps the first click safe, toggles flags, and changes board size', async ({ page }) => {

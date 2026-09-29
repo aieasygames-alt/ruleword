@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { getDailyChallengeId } from '../../utils/gameSession'
 
 type Settings = {
   darkMode: boolean
@@ -9,6 +10,10 @@ type Settings = {
 type BrickBreakerProps = {
   settings: Settings
   onBack: () => void
+  launchOptions?: { mode?: string }
+  onGameStart?: (context?: { mode?: 'practice' | 'daily'; difficulty?: string; challengeId?: string }) => void
+  onGameMove?: (count?: number) => void
+  onGameFinish?: (result: { outcome: 'failed'; score: number; moves: number; mode: 'practice' | 'daily'; difficulty: string; challengeId?: string }) => void
 }
 
 const CANVAS_WIDTH = 320
@@ -94,7 +99,7 @@ const createBricks = (seed?: number): Brick[] => {
   return bricks
 }
 
-export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
+export default function BrickBreaker({ settings, onBack, launchOptions, onGameStart, onGameMove, onGameFinish }: BrickBreakerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [score, setScore] = useState(0)
   const [lives, setLives] = useState(3)
@@ -123,6 +128,8 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
   const bricksRef = useRef<Brick[]>(createBricks())
   const particlesRef = useRef<Particle[]>([])
   const animationRef = useRef<number>()
+  const moveCountRef = useRef(0)
+  const finishedRef = useRef(false)
 
   const bgClass = settings.darkMode ? 'bg-slate-900' : 'bg-gray-100'
   const textClass = settings.darkMode ? 'text-white' : 'text-gray-900'
@@ -184,11 +191,16 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
     setIsWon(false)
     setIsPaused(false)
     particlesRef.current = []
+    moveCountRef.current = 0
+    finishedRef.current = false
 
     if (mode === 'daily') {
       const random = seededRandom(getDailySeed())
       const diff = random() < 0.33 ? 'easy' : random() < 0.66 ? 'medium' : 'hard'
       setDifficulty(diff)
+      onGameStart?.({ mode, difficulty: diff, challengeId: getDailyChallengeId('brickbreaker') })
+    } else {
+      onGameStart?.({ mode, difficulty })
     }
 
     const seed = mode === 'daily' ? getDailySeed() : undefined
@@ -199,7 +211,11 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
     }
     resetBall()
     setIsPlaying(true)
-  }, [resetBall])
+  }, [resetBall, onGameStart, difficulty])
+
+  useEffect(() => {
+    if (launchOptions?.mode === 'daily') startGame('daily')
+  }, [launchOptions?.mode, startGame])
 
   const nextLevel = useCallback(() => {
     const seed = gameMode === 'daily' ? getDailySeed() + level : undefined
@@ -416,6 +432,17 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
             localStorage.setItem('brickbreaker-daily-date', today)
             setDailyPlayed(true)
           }
+          if (!finishedRef.current && gameMode !== 'menu') {
+            finishedRef.current = true
+            onGameFinish?.({
+              outcome: 'failed',
+              score,
+              moves: moveCountRef.current,
+              mode: gameMode,
+              difficulty,
+              challengeId: gameMode === 'daily' ? getDailyChallengeId('brickbreaker') : undefined,
+            })
+          }
         } else {
           resetBall()
         }
@@ -436,6 +463,8 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
             brick.alive = false
             ball.dy = -ball.dy
             setScore(prev => prev + 10 * level)
+            moveCountRef.current += 1
+            onGameMove?.()
 
             // Add particles
             const colorSet = BRICK_COLORS[index % BRICK_COLORS.length]
@@ -467,7 +496,7 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [isPlaying, isPaused, gameOver, lives, score, level, highScore, dailyHighScore, gameMode, settings.darkMode, resetBall, nextLevel])
+  }, [isPlaying, isPaused, gameOver, lives, score, level, highScore, dailyHighScore, gameMode, settings.darkMode, resetBall, nextLevel, difficulty, onGameMove, onGameFinish])
 
   // Mouse/touch controls
   useEffect(() => {
@@ -656,6 +685,7 @@ export default function BrickBreaker({ settings, onBack }: BrickBreakerProps) {
         {/* Canvas */}
         <div className={`${cardBgClass} border-2 border-blue-500/50 rounded-xl p-2 flex justify-center shadow-lg shadow-blue-500/20`}>
           <canvas
+            data-testid="brick-breaker-board"
             ref={canvasRef}
             width={CANVAS_WIDTH}
             height={CANVAS_HEIGHT}
